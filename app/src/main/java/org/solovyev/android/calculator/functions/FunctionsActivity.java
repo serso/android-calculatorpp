@@ -52,7 +52,7 @@ public class FunctionsActivity extends BaseActivity {
         if (savedInstanceState == null) {
             final Bundle extras = getIntent().getExtras();
             final CppFunction function = extras != null ? (CppFunction) extras.getParcelable(EXTRA_FUNCTION) : null;
-            EditFunctionFragment.showDialog(function, getSupportFragmentManager());
+            EditFunctionFragment.showDialog(function, this);
         }
     }
 

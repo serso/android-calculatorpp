@@ -1,8 +1,10 @@
 package org.solovyev.android.calculator.variables;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
+import jscl.math.function.IConstant;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
@@ -13,11 +15,9 @@ import org.solovyev.common.JBuilder;
 
 import javax.annotation.Nonnull;
 
-import jscl.math.function.IConstant;
-
 import static com.google.common.base.Strings.nullToEmpty;
 
-public class CppVariable implements Jsonable {
+public class CppVariable implements Jsonable, Parcelable {
 
     public static final Json.Creator<CppVariable> JSON_CREATOR = new Json.Creator<CppVariable>() {
         @NonNull
@@ -26,11 +26,20 @@ public class CppVariable implements Jsonable {
             return new CppVariable(json);
         }
     };
+    public static final Creator<CppVariable> CREATOR = new Creator<CppVariable>() {
+        @Override
+        public CppVariable createFromParcel(Parcel in) {
+            return new CppVariable(in);
+        }
 
+        @Override
+        public CppVariable[] newArray(int size) {
+            return new CppVariable[size];
+        }
+    };
     private static final String JSON_NAME = "n";
     private static final String JSON_VALUE = "v";
     private static final String JSON_DESCRIPTION = "d";
-
     protected int id = CppFunction.NO_ID;
     @Nonnull
     protected String name;
@@ -64,6 +73,14 @@ public class CppVariable implements Jsonable {
         this.name = json.getString(JSON_NAME);
         this.value = json.optString(JSON_DESCRIPTION);
         this.description = json.optString(JSON_DESCRIPTION);
+    }
+
+    protected CppVariable(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        value = in.readString();
+        description = in.readString();
+        system = in.readByte() != 0;
     }
 
     @NonNull
@@ -119,6 +136,20 @@ public class CppVariable implements Jsonable {
         int result = id;
         result = 31 * result + name.hashCode();
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(value);
+        dest.writeString(description);
+        dest.writeByte((byte) (system ? 1 : 0));
     }
 
     public static class Builder {

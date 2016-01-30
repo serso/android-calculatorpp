@@ -47,8 +47,6 @@ import java.util.List;
 
 public class VariablesFragment extends BaseEntitiesFragment<IConstant> implements CalculatorEventListener {
 
-    public static final String ARG_VARIABLE = "variable";
-    public static final String CREATE_VAR_EXTRA_STRING = "create_var";
     @Inject
     VariablesRegistry registry;
     @Inject
@@ -73,25 +71,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // FIXME: 2016-01-29 continue
-        final Bundle bundle = getArguments();
-        if (bundle != null) {
-            final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
-            if (!Strings.isEmpty(varValue)) {
-                EditVariableFragment.showDialog(EditVariableFragment.Input.newFromValue(varValue), getFragmentManager());
-
-                // in order to stop intent for other tabs
-                bundle.remove(CREATE_VAR_EXTRA_STRING);
-            }
-        }
-
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     protected void inject(@Nonnull AppComponent component) {
         super.inject(component);
         component.inject(this);
@@ -106,7 +85,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditVariableFragment.showDialog(EditVariableFragment.Input.newInstance(), getFragmentManager());
+                EditVariableFragment.showDialog(null, getFragmentManager());
             }
         });
     }
@@ -114,11 +93,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
     @Override
     protected void onClick(@NonNull IConstant constant) {
         Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, constant);
-    }
-
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void addVarButtonClickHandler(@Nonnull View v) {
-        EditVariableFragment.showDialog(EditVariableFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
     }
 
     @Nonnull
@@ -179,7 +153,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
                 Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, constant);
                 return true;
             case R.string.c_edit:
-                EditVariableFragment.showDialog(EditVariableFragment.Input.newFromConstant(constant), activity.getSupportFragmentManager());
+                EditVariableFragment.showDialog(CppVariable.builder(constant).build(), activity);
                 return true;
             case R.string.c_remove:
                 MathEntityRemover.newConstantRemover(constant, null, activity, activity).showConfirmationDialog();

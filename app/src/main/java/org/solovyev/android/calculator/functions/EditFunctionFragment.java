@@ -33,7 +33,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.*;
@@ -43,8 +42,10 @@ import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.math.function.Function;
+import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
@@ -66,7 +67,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     @NonNull
     private final VariablesRegistry constantsRegistry = Locator.getInstance().getEngine().getVariablesRegistry();
     @NonNull
-    private final KeyboardWindow keyboardWindow = new KeyboardWindow();
+    private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow();
     @NonNull
     private final KeyboardUser keyboardUser = new KeyboardUser();
     @Bind(R.id.function_params)
@@ -103,14 +104,14 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
         EditFunctionFragment.showDialog(null, activity.getSupportFragmentManager());
     }
 
-    public static void showDialog(@Nonnull CppFunction function, @Nonnull Context context) {
+    public static void showDialog(@Nullable CppFunction function, @Nonnull Context context) {
         if (!(context instanceof FunctionsActivity)) {
             final Intent intent = new Intent(context, FunctionsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Activities.addIntentFlags(intent, false, context);
             intent.putExtra(FunctionsActivity.EXTRA_FUNCTION, function);
             context.startActivity(intent);
         } else {
-            EditFunctionFragment.showDialog(function, ((AppCompatActivity) context).getSupportFragmentManager());
+            EditFunctionFragment.showDialog(function, ((FunctionsActivity) context).getSupportFragmentManager());
         }
     }
 
@@ -228,7 +229,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     private void showKeyboard() {
-        keyboardWindow.show(keyboardUser, getDialog(), collectParameters());
+        keyboardWindow.show(new FloatingCalculatorKeyboard(keyboardUser, collectParameters()), getDialog());
     }
 
     @Nonnull
@@ -379,7 +380,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
         return view;
     }
 
-    private class KeyboardUser implements KeyboardUi.User, MenuItem.OnMenuItemClickListener {
+    private class KeyboardUser implements FloatingCalculatorKeyboard.User, MenuItem.OnMenuItemClickListener {
         @NonNull
         @Override
         public Context getContext() {

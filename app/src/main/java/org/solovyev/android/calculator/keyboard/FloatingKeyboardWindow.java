@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.keyboard;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,10 +15,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import org.solovyev.android.calculator.R;
 
-import java.util.List;
-
-public class KeyboardWindow {
+public class FloatingKeyboardWindow {
 
     @Nullable
     private PopupWindow window;
@@ -43,8 +42,8 @@ public class KeyboardWindow {
         dialog = null;
     }
 
-    public void show(@NonNull KeyboardUi.User user, @Nullable Dialog dialog, @NonNull List<String> parameterNames) {
-        final EditText editor = user.getEditor();
+    public void show(@NonNull FloatingKeyboard keyboard, @Nullable Dialog dialog) {
+        final EditText editor = keyboard.getUser().getEditor();
         if (isShown()) {
             hideIme(editor);
             return;
@@ -58,10 +57,9 @@ public class KeyboardWindow {
 
         final Resources resources = context.getResources();
         final int buttonSize = resources.getDimensionPixelSize(R.dimen.cpp_clickable_area_size);
-        final KeyboardUi keyboardUi = new KeyboardUi(user, parameterNames);
         final boolean landscape = resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        final int keyboardWidth = keyboardUi.getColumnsCount(landscape) * buttonSize;
-        final int keyboardHeight = keyboardUi.getRowsCount(landscape) * buttonSize;
+        final int keyboardWidth = keyboard.getColumnsCount(landscape) * buttonSize;
+        final int keyboardHeight = keyboard.getRowsCount(landscape) * buttonSize;
 
         window = new PopupWindow(view, keyboardWidth, keyboardHeight);
         window.setClippingEnabled(false);
@@ -89,7 +87,7 @@ public class KeyboardWindow {
                 }
             }
         });
-        keyboardUi.makeView(landscape);
+        keyboard.makeView(landscape);
     }
 
     public boolean isShown() {

@@ -73,5 +73,6 @@
     <item name="cpp_kb_button_functions_constants" type="id" />
     <item name="cpp_kb_button_constants" type="id" />
     <item name="cpp_kb_button_close" type="id" />
+    <item name="cpp_kb_button_change_case" type="id" />
 
 </resources>

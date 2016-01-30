@@ -22,64 +22,180 @@
 
 package org.solovyev.android.calculator.variables;
 
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import jscl.math.function.IConstant;
-import org.solovyev.android.Views;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import org.solovyev.android.Activities;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.math.edit.MathEntityRemover;
-import org.solovyev.android.calculator.math.edit.VarEditorSaver;
+import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
+import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
+import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
-import static android.graphics.Paint.UNDERLINE_TEXT_FLAG;
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
-import static android.widget.LinearLayout.HORIZONTAL;
+import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
 
-public class EditVariableFragment extends DialogFragment implements CalculatorEventListener {
+public class EditVariableFragment extends BaseDialogFragment implements CalculatorEventListener, View.OnFocusChangeListener, View.OnKeyListener, View.OnClickListener {
 
+    private static final String ARG_VARIABLE = "variable";
     private final static String greekAlphabet = "αβγδεζηθικλμνξοπρστυφχψω";
     private final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + greekAlphabet).toCharArray()));
-
-    private Input input;
+    @NonNull
+    private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow();
+    @NonNull
+    private final KeyboardUser keyboardUser = new KeyboardUser();
+    @Bind(R.id.variable_name_label)
+    TextInputLayout nameLabel;
+    @Bind(R.id.variable_name)
+    EditTextCompat nameView;
+    @Bind(R.id.variable_keyboard_button)
+    Button keyboardButton;
+    @Bind(R.id.variable_value_label)
+    TextInputLayout valueLabel;
+    @Bind(R.id.variable_value)
+    EditText valueView;
+    @Bind(R.id.variable_description)
+    EditText descriptionView;
+    @Nullable
+    private CppVariable variable;
 
     public EditVariableFragment() {
-        input = Input.newInstance();
     }
 
     @Nonnull
-    public static EditVariableFragment create(@Nonnull Input input) {
+    public static EditVariableFragment create(@Nullable CppVariable variable) {
         final EditVariableFragment fragment = new EditVariableFragment();
-        fragment.input = input;
+        if (variable != null) {
+            final Bundle args = new Bundle();
+            args.putParcelable(ARG_VARIABLE, variable);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
-    public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
-        App.showDialog(create(input), "constant-editor", fm);
+    public static void showDialog(@Nonnull FragmentActivity activity) {
+        EditVariableFragment.showDialog(null, activity.getSupportFragmentManager());
+    }
+
+    public static void showDialog(@Nullable CppVariable variable, @Nonnull Context context) {
+        if (!(context instanceof VariablesActivity)) {
+            final Intent intent = new Intent(context, VariablesActivity.class);
+            Activities.addIntentFlags(intent, false, context);
+            intent.putExtra(VariablesActivity.EXTRA_VARIABLE, variable);
+            context.startActivity(intent);
+        } else {
+            EditVariableFragment.showDialog(variable, ((VariablesActivity) context).getSupportFragmentManager());
+        }
+    }
+
+    public static void showDialog(@Nullable CppVariable variable, @Nonnull FragmentManager fm) {
+        App.showDialog(create(variable), "variable-editor", fm);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.var_edit, container, false);
+    public void onCreate(@android.support.annotation.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            variable = arguments.getParcelable(ARG_VARIABLE);
+        }
     }
+
+    @Override
+    protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
+        builder.setNegativeButton(R.string.c_cancel, null);
+        builder.setPositiveButton(R.string.ok, null);
+        builder.setTitle(isNewVariable() ? R.string.c_var_create_var : R.string.c_var_edit_var);
+        if (!isNewVariable()) {
+            builder.setNeutralButton(R.string.c_remove, null);
+        }
+    }
+
+    private boolean isNewVariable() {
+        return variable == null || variable.id == NO_ID;
+    }
+
+    @NonNull
+    @Override
+    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
+        final AlertDialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
+    }
+
+
+    @Override
+    protected void onShowDialog(@NonNull AlertDialog dialog) {
+        super.onShowDialog(dialog);
+
+        nameView.selectAll();
+        showIme(nameView);
+
+        final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tryClose();
+            }
+        });
+        if (!isNewVariable()) {
+            Check.isNotNull(variable);
+            final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            neutral.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // FIXME: 2016-01-30 removal dialog
+                    // showRemovalDialog(function);
+                }
+            });
+        }
+    }
+
+    private void tryClose() {
+        if (validate() && applyData()) {
+            dismiss();
+        }
+    }
+
+    private boolean applyData() {
+        return false;
+    }
+
+    private boolean validate() {
+        return validateName() & validateValue();
+    }
+
+    private boolean validateValue() {
+        return false;
+    }
+
+    private boolean validateName() {
+        return false;
+    }
+
 
     @Override
     public void onResume() {
@@ -96,157 +212,6 @@ public class EditVariableFragment extends DialogFragment implements CalculatorEv
     }
 
     @Override
-    public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-
-        final String errorMsg = this.getString(R.string.c_char_is_not_accepted);
-
-        final EditText editName = (EditText) root.findViewById(R.id.var_edit_name);
-        editName.setText(input.getName());
-        editName.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                for (int i = 0; i < s.length(); i++) {
-                    char c = s.charAt(i);
-                    if (!acceptableChars.contains(Character.toLowerCase(c))) {
-                        s.delete(i, i + 1);
-                        Toast.makeText(getActivity(), String.format(errorMsg, c), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-        fillGreekKeyboard(root, editName);
-
-        // show soft keyboard automatically
-        editName.requestFocus();
-        getDialog().getWindow().setSoftInputMode(SOFT_INPUT_STATE_VISIBLE);
-
-        final EditText editValue = (EditText) root.findViewById(R.id.var_edit_value);
-        editValue.setText(input.getValue());
-
-        final EditText editDescription = (EditText) root.findViewById(R.id.var_edit_description);
-        editDescription.setText(input.getDescription());
-
-        final OldVar.Builder varBuilder;
-        final IConstant constant = input.getConstant();
-        if (constant != null) {
-            varBuilder = new OldVar.Builder(constant);
-        } else {
-            varBuilder = new OldVar.Builder();
-        }
-
-        root.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
-        root.findViewById(R.id.save_button).setOnClickListener(new VarEditorSaver<IConstant>(varBuilder, constant, root, Locator.getInstance().getEngine().getVariablesRegistry(), this));
-
-        if (constant == null) {
-            // CREATE MODE
-            getDialog().setTitle(R.string.c_var_create_var);
-
-            root.findViewById(R.id.remove_button).setVisibility(View.GONE);
-        } else {
-            // EDIT MODE
-            getDialog().setTitle(R.string.c_var_edit_var);
-
-            root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newConstantRemover(constant, null, getActivity(), EditVariableFragment.this));
-        }
-    }
-
-    private void fillGreekKeyboard(View root, final EditText editName) {
-        final TextView greekKeyboardToggle = (TextView) root.findViewById(R.id.var_toggle_greek_keyboard);
-        final ViewGroup greekKeyboard = (ViewGroup) root.findViewById(R.id.var_greek_keyboard);
-        greekKeyboardToggle.setPaintFlags(greekKeyboardToggle.getPaintFlags() | UNDERLINE_TEXT_FLAG);
-        greekKeyboardToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (greekKeyboard.getVisibility() == VISIBLE) {
-                    greekKeyboard.setVisibility(GONE);
-                    greekKeyboardToggle.setText(R.string.cpp_var_show_greek_keyboard);
-                } else {
-                    greekKeyboard.setVisibility(VISIBLE);
-                    greekKeyboardToggle.setText(R.string.cpp_var_hide_greek_keyboard);
-                }
-            }
-        });
-        LinearLayout keyboardRow = null;
-        final View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!(view instanceof Button)) throw new AssertionError();
-                editName.append(((Button) view).getText());
-            }
-        };
-        for (int i = 0; i < greekAlphabet.length(); i++) {
-            if (i % 5 == 0) {
-                keyboardRow = new LinearLayout(getActivity());
-                keyboardRow.setOrientation(HORIZONTAL);
-                greekKeyboard.addView(keyboardRow, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-            }
-            final Button button = new Button(getActivity());
-            button.setText(String.valueOf(greekAlphabet.charAt(i)));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                fixCapitalization(button);
-            }
-            button.setOnClickListener(buttonOnClickListener);
-            assert keyboardRow != null;
-            keyboardRow.addView(button, new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1F));
-        }
-        final Button button = new Button(getActivity());
-        button.setText("↑");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final boolean upperCase = button.getText().equals("↑");
-                Views.processViewsOfType(greekKeyboard, Button.class, new Views.ViewProcessor<Button>() {
-                    @Override
-                    public void process(@Nonnull Button key) {
-                        final String letter = key.getText().toString();
-                        if (upperCase) {
-                            key.setText(letter.toUpperCase(Locale.US));
-                        } else {
-                            key.setText(letter.toLowerCase(Locale.US));
-                        }
-                    }
-                });
-                if (upperCase) {
-                    button.setText("↓");
-                } else {
-                    button.setText("↑");
-                }
-            }
-        });
-        keyboardRow.addView(button, new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1F));
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void fixCapitalization(Button button) {
-        button.setAllCaps(false);
-    }
-
-	/*
-    **********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
-
-    @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
             case constant_removed:
@@ -260,70 +225,137 @@ public class EditVariableFragment extends DialogFragment implements CalculatorEv
         }
     }
 
-    public static class Input {
+    @NonNull
+    @Override
+    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @android.support.annotation.Nullable Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_variable_edit, null);
+        ButterKnife.bind(this, view);
 
-        @Nullable
-        private IConstant constant;
+        if (savedInstanceState == null && variable != null) {
+            nameView.setText(variable.name);
+            valueView.setText(variable.value);
+            descriptionView.setText(variable.description);
+        }
+        nameView.setOnFocusChangeListener(this);
+        nameView.setOnKeyListener(this);
+        valueView.setOnFocusChangeListener(this);
+        descriptionView.setOnFocusChangeListener(this);
+        keyboardButton.setOnClickListener(this);
 
-        @Nullable
-        private String name;
+        return view;
+    }
 
-        @Nullable
-        private String value;
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        switch (v.getId()) {
+            case R.id.variable_name:
+                if (hasFocus) {
+                    clearError(nameLabel);
+                } else {
+                    keyboardUser.done();
+                }
+                break;
+            case R.id.variable_value:
+                if (hasFocus) {
+                    clearError(valueLabel);
+                } else {
+                    validateValue();
+                }
+                break;
+        }
+    }
 
-        @Nullable
-        private String description;
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (v.getId() == R.id.variable_name) {
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK && keyboardWindow.isShown()) {
+                keyboardUser.done();
+                return true;
+            }
+        }
+        return false;
+    }
 
-        private Input() {
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.variable_keyboard_button:
+                if (keyboardWindow.isShown()) {
+                    keyboardUser.showIme();
+                } else {
+                    showKeyboard();
+                }
+                break;
+        }
+    }
+
+    private void showKeyboard() {
+        nameView.dontShowSoftInputOnFocusCompat();
+        keyboardWindow.show(new GreekFloatingKeyboard(keyboardUser), getDialog());
+    }
+
+    private class NameWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
-        @Nonnull
-        public static Input newInstance() {
-            return new Input();
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
 
-        @Nonnull
-        public static Input newFromConstant(@Nonnull IConstant constant) {
-            final Input result = new Input();
-            result.constant = constant;
-            return result;
+        @Override
+        public void afterTextChanged(Editable s) {
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (!acceptableChars.contains(Character.toLowerCase(c))) {
+                    s.delete(i, i + 1);
+                    Toast.makeText(getActivity(), String.format(getString(R.string.c_char_is_not_accepted), c), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class KeyboardUser implements FloatingKeyboard.User {
+        @NonNull
+        @Override
+        public Context getContext() {
+            return getActivity();
         }
 
-        @Nonnull
-        public static Input newFromValue(@Nullable String value) {
-            final Input result = new Input();
-            result.value = value;
-            return result;
+        @NonNull
+        @Override
+        public Resources getResources() {
+            return EditVariableFragment.this.getResources();
         }
 
-        @Nonnull
-        public static Input newInstance(@Nullable IConstant constant, @Nullable String name, @Nullable String value, @Nullable String description) {
-            final Input result = new Input();
-            result.constant = constant;
-            result.name = name;
-            result.value = value;
-            result.description = description;
-            return result;
+        @NonNull
+        @Override
+        public EditText getEditor() {
+            return nameView;
         }
 
-        @Nullable
-        public IConstant getConstant() {
-            return constant;
+        @NonNull
+        @Override
+        public ViewGroup getKeyboard() {
+            return keyboardWindow.getContentView();
         }
 
-        @Nullable
-        public String getName() {
-            return name == null ? (constant == null ? null : constant.getName()) : name;
+        @Override
+        public void done() {
+            if (keyboardWindow.isShown()) {
+                keyboardWindow.hide();
+            }
+            validateName();
         }
 
-        @Nullable
-        public String getValue() {
-            return value == null ? (constant == null ? null : constant.getValue()) : value;
-        }
-
-        @Nullable
-        public String getDescription() {
-            return description == null ? (constant == null ? null : constant.getDescription()) : description;
+        @Override
+        public void showIme() {
+            final InputMethodManager keyboard = (InputMethodManager)
+                    getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(getEditor(), InputMethodManager.SHOW_FORCED);
+            keyboardWindow.hide();
         }
     }
 }

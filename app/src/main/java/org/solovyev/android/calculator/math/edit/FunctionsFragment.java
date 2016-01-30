@@ -44,7 +44,6 @@ import java.util.List;
 
 public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
-    public static final String ARG_FUNCTION = "function";
     @Inject
     FunctionsRegistry registry;
     @Inject
@@ -56,21 +55,6 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
     public FunctionsFragment() {
         super(CalculatorFragmentType.functions);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        final Bundle bundle = getArguments();
-        if (bundle != null) {
-            final CppFunction function = bundle.getParcelable(ARG_FUNCTION);
-            if (function != null) {
-                EditFunctionFragment.showDialog(function, getFragmentManager());
-                // don't want to show it again
-                bundle.remove(ARG_FUNCTION);
-            }
-        }
     }
 
     @Override
