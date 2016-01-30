@@ -232,7 +232,7 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
         spinner.setAdapter(adapter);
     }
 
-    public static interface CustomButtonOnClickListener {
+    public interface CustomButtonOnClickListener {
         void onClick(@Nonnull Unit<String> fromUnits, @Nonnull Unit<String> toUnits);
     }
 

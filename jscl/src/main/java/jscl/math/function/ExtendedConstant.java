@@ -108,9 +108,8 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
 
         ExtendedConstant that = (ExtendedConstant) o;
 
-        if (!constant.equals(that.constant)) return false;
+        return constant.equals(that.constant);
 
-        return true;
     }
 
     @Override

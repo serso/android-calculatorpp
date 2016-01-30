@@ -33,6 +33,6 @@ public enum PlotLineStyle {
     solid,
     dashed,
     dotted,
-    dash_dotted;
+    dash_dotted
 
 }

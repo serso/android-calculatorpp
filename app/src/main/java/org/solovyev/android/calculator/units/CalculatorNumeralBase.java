@@ -54,7 +54,7 @@ public enum CalculatorNumeralBase implements UnitType<String> {
     @Nonnull
     private final NumeralBase numeralBase;
 
-    private CalculatorNumeralBase(@Nonnull NumeralBase numeralBase) {
+    CalculatorNumeralBase(@Nonnull NumeralBase numeralBase) {
         this.numeralBase = numeralBase;
     }
 

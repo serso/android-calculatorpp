@@ -131,7 +131,7 @@ public class DragButtonWizardStep extends WizardFragment {
         }
     }
 
-    private static enum DragButtonAction {
+    private enum DragButtonAction {
         center(R.string.cpp_wizard_dragbutton_action_center, null),
         up(R.string.cpp_wizard_dragbutton_action_up, DragDirection.up),
         down(R.string.cpp_wizard_dragbutton_action_down, DragDirection.down),

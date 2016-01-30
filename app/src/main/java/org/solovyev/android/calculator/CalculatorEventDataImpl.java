@@ -75,10 +75,7 @@ class CalculatorEventDataImpl implements CalculatorEventData {
         if (this.sequenceId == NO_SEQUENCE) {
             return false;
         }
-        if (this.sequenceId == that.getSequenceId()) {
-            return true;
-        }
-        return false;
+        return this.sequenceId == that.getSequenceId();
     }
 
     @Override
@@ -86,10 +83,7 @@ class CalculatorEventDataImpl implements CalculatorEventData {
         if (this.sequenceId == NO_SEQUENCE) {
             return false;
         }
-        if (this.sequenceId > that.getSequenceId()) {
-            return true;
-        }
-        return false;
+        return this.sequenceId > that.getSequenceId();
     }
 
     @Override
@@ -100,9 +94,8 @@ class CalculatorEventDataImpl implements CalculatorEventData {
         CalculatorEventDataImpl that = (CalculatorEventDataImpl) o;
 
         if (eventId != that.eventId) return false;
-        if (sequenceId != that.sequenceId) return false;
+        return sequenceId == that.sequenceId;
 
-        return true;
     }
 
     @Override

@@ -22,13 +22,12 @@
 
 package org.solovyev.android.calculator.plot;
 
+import jscl.math.Generic;
+import jscl.math.function.Constant;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.Generic;
-import jscl.math.function.Constant;
 
 public class XyFunction implements FunctionEvaluator {
 
@@ -156,9 +155,8 @@ public class XyFunction implements FunctionEvaluator {
 
         final XyFunction that = (XyFunction) o;
 
-        if (!id.equals(that.id)) return false;
+        return id.equals(that.id);
 
-        return true;
     }
 
     @Override

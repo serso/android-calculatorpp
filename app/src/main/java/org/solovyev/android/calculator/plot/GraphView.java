@@ -31,21 +31,21 @@ import javax.annotation.Nonnull;
 
 public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHandler.TouchHandlerListener {
 
-    public void init(@Nonnull PlotViewDef plotViewDef);
+    void init(@Nonnull PlotViewDef plotViewDef);
 
     @Nonnull
-    public List<PlotFunction> getPlotFunctions();
+    List<PlotFunction> getPlotFunctions();
 
-    public void setPlotFunctions(@Nonnull List<PlotFunction> plotFunctions);
+    void setPlotFunctions(@Nonnull List<PlotFunction> plotFunctions);
 
-    public void onDestroy();
+    void onDestroy();
 
-    public void onPause();
+    void onPause();
 
-    public void onResume();
+    void onResume();
 
     @Nonnull
-    public Bitmap captureScreenshot();
+    Bitmap captureScreenshot();
 
     void setXRange(float xMin, float xMax);
 

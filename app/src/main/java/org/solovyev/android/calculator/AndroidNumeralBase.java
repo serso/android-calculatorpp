@@ -23,18 +23,15 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-
+import jscl.NumeralBase;
+import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
-import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import jscl.NumeralBase;
 
 /**
  * User: serso
@@ -95,7 +92,7 @@ public enum AndroidNumeralBase {
     @Nonnull
     private final CalculatorNumeralBase calculatorNumeralBase;
 
-    private AndroidNumeralBase(@Nonnull CalculatorNumeralBase calculatorNumeralBase) {
+    AndroidNumeralBase(@Nonnull CalculatorNumeralBase calculatorNumeralBase) {
         this.calculatorNumeralBase = calculatorNumeralBase;
     }
 

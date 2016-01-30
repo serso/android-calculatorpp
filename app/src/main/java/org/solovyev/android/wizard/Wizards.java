@@ -12,8 +12,8 @@ public interface Wizards {
     Class<? extends Activity> getActivityClassName();
 
     @Nonnull
-    public Wizard getWizard(@Nullable String name, @Nullable Bundle arguments) throws IllegalArgumentException;
+    Wizard getWizard(@Nullable String name, @Nullable Bundle arguments) throws IllegalArgumentException;
 
     @Nonnull
-    public Wizard getWizard(@Nullable String name) throws IllegalArgumentException;
+    Wizard getWizard(@Nullable String name) throws IllegalArgumentException;
 }

@@ -42,7 +42,7 @@ public interface CalculatorEventContainer {
 
     void fireCalculatorEvents(@Nonnull List<CalculatorEvent> calculatorEvents);
 
-    public static class CalculatorEvent {
+    class CalculatorEvent {
 
         @Nonnull
         private CalculatorEventData calculatorEventData;

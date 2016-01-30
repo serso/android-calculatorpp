@@ -196,7 +196,7 @@ public class Pow extends Algebraic {
     }
 
     public Generic selfNumeric() {
-        return ((NumericWrapper) parameters[0]).pow((NumericWrapper) parameters[1]);
+        return ((NumericWrapper) parameters[0]).pow(parameters[1]);
     }
 
     public String toString() {

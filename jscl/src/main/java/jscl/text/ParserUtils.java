@@ -130,7 +130,7 @@ public class ParserUtils {
     }
 
     public static <T, U> T[] copyOf(U[] array, int newLength, Class<? extends T[]> newType) {
-        T[] copy = ((Object) newType == (Object) Object[].class)
+        T[] copy = (newType == Object[].class)
                 ? (T[]) new Object[newLength]
                 : (T[]) Array.newInstance(newType.getComponentType(), newLength);
 

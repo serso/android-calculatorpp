@@ -407,7 +407,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         return super.onOptionsItemSelected(item) || fragmentMenu.onOptionsItemSelected(this.getActivity(), item);
     }
 
-    private static enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
+    private enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
 
         functions(R.id.menu_plot_functions) {
             @Override
@@ -425,7 +425,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
         private final int itemId;
 
-        private PlotMenu(int itemId) {
+        PlotMenu(int itemId) {
             this.itemId = itemId;
         }
 
