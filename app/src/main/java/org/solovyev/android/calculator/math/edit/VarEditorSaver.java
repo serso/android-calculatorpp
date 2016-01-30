@@ -87,13 +87,13 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
     public void onClick(View v) {
         final Integer error;
 
-        final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
+        final EditText editName = (EditText) editView.findViewById(R.id.variable_name);
         String name = editName.getText().toString();
 
-        final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
+        final EditText editValue = (EditText) editView.findViewById(R.id.variable_value);
         String value = editValue.getText().toString();
 
-        final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
+        final EditText editDescription = (EditText) editView.findViewById(R.id.variable_description);
         String description = editDescription.getText().toString();
 
         if (isValidName(name)) {

@@ -29,37 +29,34 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
+import jscl.math.Generic;
+import jscl.math.function.Constant;
 import org.solovyev.android.Activities;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
-import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
+import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.math.edit.OperatorsActivity;
-import org.solovyev.android.calculator.variables.VariablesActivity;
-import org.solovyev.android.calculator.variables.EditVariableFragment;
-import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
+import org.solovyev.android.calculator.variables.CppVariable;
+import org.solovyev.android.calculator.variables.EditVariableFragment;
+import org.solovyev.android.calculator.variables.VariablesActivity;
+import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
-import java.util.List;
-import java.util.Set;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.Generic;
-import jscl.math.function.Constant;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User: serso
@@ -140,19 +137,12 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void tryCreateVar(@Nonnull final Context context) {
         final Display display = App.getDisplay();
-        final DisplayState viewState = display.getState();
-        if (viewState.valid) {
-            final String varValue = viewState.text;
-            if (!Strings.isEmpty(varValue)) {
-                if (VariablesFragment.isValidValue(varValue)) {
-                    if (context instanceof AppCompatActivity) {
-                        EditVariableFragment.showDialog(EditVariableFragment.Input.newFromValue(varValue), ((AppCompatActivity) context).getSupportFragmentManager());
-                    } else {
-                        final Intent intent = new Intent(context, VariablesActivity.class);
-                        intent.putExtra(VariablesFragment.CREATE_VAR_EXTRA_STRING, varValue);
-                        Activities.addIntentFlags(intent, false, context);
-                        context.startActivity(intent);
-                    }
+        final DisplayState state = display.getState();
+        if (state.valid) {
+            final String value = state.text;
+            if (!Strings.isEmpty(value)) {
+                if (VariablesFragment.isValidValue(value)) {
+                    EditVariableFragment.showDialog(CppVariable.builder("").withValue(value).build(), context);
                 } else {
                     getNotifier().showMessage(R.string.c_value_is_not_a_number, MessageType.error);
                 }

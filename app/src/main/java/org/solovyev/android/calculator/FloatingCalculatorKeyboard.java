@@ -1,26 +1,16 @@
 package org.solovyev.android.calculator;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.PointF;
-import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+import org.solovyev.android.calculator.keyboard.BaseFloatingKeyboard;
+import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.view.EditTextLongClickEraser;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
@@ -33,35 +23,20 @@ import static org.solovyev.android.views.dragbutton.DirectionDragButton.Directio
 import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.up;
 
 
-public class KeyboardUi {
+public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
     @NonNull
     private final ButtonHandler buttonHandler = new ButtonHandler();
-    @NonNull
-    private final User user;
     @NonNull
     private final List<String> parameterNames;
     @NonNull
     private final SimpleDragListener dragListener;
-    @ColorInt
-    private final int textColor;
-    @ColorInt
-    private final int textColorSecondary;
-    private final int sidePadding;
-    @DrawableRes
-    private final int buttonBackground;
     @NonNull
     private final String multiplicationSign = Locator.getInstance().getEngine().getMultiplicationSign();
 
-    @SuppressWarnings("deprecation")
-    public KeyboardUi(@NonNull User user, @NonNull List<String> parameterNames) {
-        this.user = user;
+    public FloatingCalculatorKeyboard(@NonNull User user, @NonNull List<String> parameterNames) {
+        super(user);
         this.parameterNames = parameterNames;
         this.dragListener = new SimpleDragListener(buttonHandler, user.getContext());
-        final Resources resources = user.getResources();
-        textColor = resources.getColor(R.color.cpp_kb_button_text);
-        textColorSecondary = resources.getColor(R.color.cpp_kb_button_text);
-        sidePadding = resources.getDimensionPixelSize(R.dimen.cpp_button_padding);
-        buttonBackground = App.getTheme().light ? R.drawable.material_button_light : R.drawable.material_button_dark;
     }
 
     public void makeView(boolean landscape) {
@@ -70,6 +45,26 @@ public class KeyboardUi {
         } else {
             makeViewPort();
         }
+    }
+
+    @NonNull
+    @Override
+    public User getUser() {
+        return (User) super.getUser();
+    }
+
+    @Override
+    protected void fillButton(@NonNull View button, @IdRes int id) {
+        super.fillButton(button, id);
+        button.setOnClickListener(buttonHandler);
+    }
+
+    @NonNull
+    @Override
+    protected DirectionDragButton makeButton(@IdRes int id, @NonNull String text) {
+        final DirectionDragButton button = super.makeButton(id, text);
+        button.setOnDragListener(dragListener);
+        return button;
     }
 
     private void makeViewLand() {
@@ -146,74 +141,6 @@ public class KeyboardUi {
         addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
     }
 
-    @NonNull
-    private View addImageButton(@NonNull LinearLayout row, @IdRes int id, @DrawableRes int icon) {
-        final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        lp.weight = 1f;
-        final View view = makeImageButton(id, icon);
-        row.addView(view, lp);
-        return view;
-    }
-
-    @NonNull
-    private DirectionDragButton addOperationButton(@NonNull LinearLayout row, @IdRes int id, @NonNull String text) {
-        final DirectionDragButton button = addButton(row, id, text);
-        button.setBackgroundResource(R.drawable.material_button_light_primary);
-        button.setTextColor(Color.WHITE);
-        button.setDirectionTextColor(Color.WHITE);
-        return button;
-    }
-
-    @NonNull
-    private DirectionDragButton addButton(@NonNull LinearLayout row, @IdRes int id, @NonNull String text) {
-        final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        lp.weight = 1f;
-        final DirectionDragButton view = makeButton(id, text);
-        row.addView(view, lp);
-        return view;
-    }
-
-    @NonNull
-    private LinearLayout makeRow() {
-        final LinearLayout row = new LinearLayout(user.getContext());
-        row.setOrientation(LinearLayout.HORIZONTAL);
-        final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
-        lp.weight = 1f;
-        user.getKeyboard().addView(row, lp);
-        return row;
-    }
-
-    @NonNull
-    private DirectionDragButton makeButton(@IdRes int id, @NonNull String text) {
-        final DirectionDragButton button = new DirectionDragButton(user.getContext());
-        fillButton(button, id);
-        button.setText(text);
-        button.setTextColor(textColor);
-        button.setDirectionTextColor(textColorSecondary);
-        button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
-        button.setOnDragListener(dragListener);
-        return button;
-    }
-
-    private void fillButton(@NonNull View button, @IdRes int id) {
-        button.setOnClickListener(buttonHandler);
-        button.setId(id);
-        button.setBackgroundResource(buttonBackground);
-        button.setPadding(sidePadding, 1, sidePadding, 1);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            button.setStateListAnimator(null);
-        }
-    }
-
-    @NonNull
-    private View makeImageButton(@IdRes int id, @DrawableRes int icon) {
-        final ImageButton button = new ImageButton(user.getContext());
-        fillButton(button, id);
-        button.setImageResource(icon);
-        button.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        return button;
-    }
-
     public int getRowsCount(boolean landscape) {
         return landscape ? 3 : 5;
     }
@@ -222,18 +149,7 @@ public class KeyboardUi {
         return landscape ? 8 : 5;
     }
 
-    public interface User {
-        @NonNull
-        Context getContext();
-
-        @NonNull
-        Resources getResources();
-
-        @NonNull
-        EditText getEditor();
-
-        @NonNull
-        ViewGroup getKeyboard();
+    public interface User extends FloatingKeyboard.User {
 
         void insertOperator(char operator);
 
@@ -243,16 +159,17 @@ public class KeyboardUi {
 
         void showConstants(@NonNull View v);
 
+        void showFunctionsConstants(@NonNull View v);
+
         void insertText(@NonNull CharSequence text, int offset);
 
-        void done();
-
-        void showIme();
-
-        void showFunctionsConstants(@NonNull View v);
     }
 
     private class ButtonHandler implements View.OnClickListener, SimpleDragListener.DragProcessor {
+
+        @NonNull
+        private final User user = getUser();
+
         @Override
         public void onClick(@NonNull View v) {
             switch (v.getId()) {
