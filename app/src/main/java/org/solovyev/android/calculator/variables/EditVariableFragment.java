@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.math.edit;
+package org.solovyev.android.calculator.variables;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -32,30 +32,19 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
+import jscl.math.function.IConstant;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.variables.OldVar;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.math.edit.MathEntityRemover;
+import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.common.text.Strings;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.function.IConstant;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import static android.graphics.Paint.UNDERLINE_TEXT_FLAG;
 import static android.view.View.GONE;
@@ -65,20 +54,20 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
 import static android.widget.LinearLayout.HORIZONTAL;
 
-public class VarEditDialogFragment extends DialogFragment implements CalculatorEventListener {
+public class EditVariableFragment extends DialogFragment implements CalculatorEventListener {
 
     private final static String greekAlphabet = "αβγδεζηθικλμνξοπρστυφχψω";
     private final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + greekAlphabet).toCharArray()));
 
     private Input input;
 
-    public VarEditDialogFragment() {
+    public EditVariableFragment() {
         input = Input.newInstance();
     }
 
     @Nonnull
-    public static VarEditDialogFragment create(@Nonnull Input input) {
-        final VarEditDialogFragment fragment = new VarEditDialogFragment();
+    public static EditVariableFragment create(@Nonnull Input input) {
+        final EditVariableFragment fragment = new EditVariableFragment();
         fragment.input = input;
         return fragment;
     }
@@ -174,7 +163,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
             // EDIT MODE
             getDialog().setTitle(R.string.c_var_edit_var);
 
-            root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newConstantRemover(constant, null, getActivity(), VarEditDialogFragment.this));
+            root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newConstantRemover(constant, null, getActivity(), EditVariableFragment.this));
         }
     }
 
