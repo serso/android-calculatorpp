@@ -45,8 +45,8 @@ import jscl.math.function.Function;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
-import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
 
@@ -185,7 +185,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     private void showRemovalDialog(@NonNull final CppFunction function) {
-        FunctionRemovalDialog.show(getActivity(), function.name, new DialogInterface.OnClickListener() {
+        EntityRemovalDialog.showForFunction(getActivity(), function.name, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
@@ -292,7 +292,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
 
     private boolean validateName() {
         final String name = nameView.getText().toString();
-        if (!VarEditorSaver.isValidName(name)) {
+        if (!Engine.isValidName(name)) {
             setError(nameLabel, getString(R.string.function_name_is_not_valid));
             return false;
         }
@@ -344,7 +344,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             final TextInputLayout paramLabel = paramsView.getParamLabel(i);
             if (TextUtils.isEmpty(parameter)) {
                 clearError(paramLabel);
-            } else if (!VarEditorSaver.isValidName(parameter)) {
+            } else if (!Engine.isValidName(parameter)) {
                 valid = false;
                 setError(paramLabel, getString(R.string.invalid_name));
             } else if (usedParameters.contains(parameter)) {

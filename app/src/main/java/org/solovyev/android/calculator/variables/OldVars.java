@@ -23,14 +23,12 @@
 package org.solovyev.android.calculator.variables;
 
 import android.text.TextUtils;
-
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
@@ -49,13 +47,13 @@ public class OldVars {
     public static List<CppVariable> toCppVariables(@Nonnull OldVars oldVariables) {
         final List<CppVariable> variables = new ArrayList<>();
         for (OldVar oldVar : oldVariables.list) {
-            final String name = oldVar.getName();
+            final String name = oldVar.name;
             if (TextUtils.isEmpty(name)) {
                 continue;
             }
             variables.add(CppVariable.builder(name)
-                    .withValue(nullToEmpty(oldVar.getValue()))
-                    .withDescription(nullToEmpty(oldVar.getDescription())).build());
+                    .withValue(nullToEmpty(oldVar.value))
+                    .withDescription(nullToEmpty(oldVar.description)).build());
         }
         return variables;
     }

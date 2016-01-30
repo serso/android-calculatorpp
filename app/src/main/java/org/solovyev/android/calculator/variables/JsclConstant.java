@@ -9,20 +9,22 @@ import org.solovyev.common.math.MathEntity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-class JsclConstant extends CppVariable implements IConstant {
+class JsclConstant implements IConstant {
 
+    @Nonnull
+    private final CppVariable variable;
     private Double doubleValue;
     private Constant constant;
 
     JsclConstant(@Nonnull CppVariable variable) {
-        super(variable);
+        this.variable = variable;
     }
 
     @Nonnull
     @Override
     public Constant getConstant() {
         if (constant == null) {
-            constant = new Constant(name);
+            constant = new Constant(variable.name);
         }
         return constant;
     }
@@ -30,18 +32,18 @@ class JsclConstant extends CppVariable implements IConstant {
     @Nullable
     @Override
     public String getDescription() {
-        return description;
+        return variable.description;
     }
 
     @Override
     public boolean isDefined() {
-        return !Strings.isNullOrEmpty(value);
+        return !Strings.isNullOrEmpty(variable.value);
     }
 
     @Nullable
     @Override
     public String getValue() {
-        return value;
+        return variable.value;
     }
 
     @Nullable
@@ -50,9 +52,9 @@ class JsclConstant extends CppVariable implements IConstant {
         if (doubleValue != null) {
             return doubleValue;
         }
-        if (!Strings.isNullOrEmpty(value)) {
+        if (!Strings.isNullOrEmpty(variable.value)) {
             try {
-                doubleValue = Double.valueOf(value);
+                doubleValue = Double.valueOf(variable.value);
             } catch (NumberFormatException e) {
                 // do nothing - string is not a double
             }
@@ -63,34 +65,34 @@ class JsclConstant extends CppVariable implements IConstant {
     @Nonnull
     @Override
     public String toJava() {
-        return Strings.nullToEmpty(value);
+        return Strings.nullToEmpty(variable.value);
     }
 
     @Nonnull
     @Override
     public String getName() {
-        return name;
+        return variable.name;
     }
 
     @Override
     public boolean isSystem() {
-        return system;
+        return variable.system;
     }
 
     @Nonnull
     @Override
     public Integer getId() {
-        return id == CppFunction.NO_ID ? null : id;
+        return variable.id == CppVariable.NO_ID ? null : variable.id;
     }
 
     @Override
     public void setId(@Nonnull Integer id) {
-        this.id = id;
+        variable.id = id;
     }
 
     @Override
     public boolean isIdDefined() {
-        return id != CppFunction.NO_ID;
+        return variable.id != CppVariable.NO_ID;
     }
 
     @Override
@@ -99,14 +101,14 @@ class JsclConstant extends CppVariable implements IConstant {
             throw new IllegalArgumentException("Trying to make a copy of unsupported type: " + o.getClass());
         }
         final IConstant that = ((IConstant) o);
-        this.name = that.getName();
-        this.value = that.getValue();
-        this.description = that.getDescription();
-        this.system = that.isSystem();
+        variable.name = that.getName();
+        variable.value = Strings.nullToEmpty(that.getValue());
+        variable.description = Strings.nullToEmpty(that.getDescription());
+        variable.system = that.isSystem();
         if (that.isIdDefined()) {
-            this.id = that.getId();
+            variable.id = that.getId();
         } else {
-            this.id = CppFunction.NO_ID;
+            variable.id = CppVariable.NO_ID;
         }
         this.doubleValue = null;
         this.constant = null;

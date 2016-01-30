@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.R;
 
 public class FloatingKeyboardWindow {
@@ -43,8 +44,13 @@ public class FloatingKeyboardWindow {
         if (!isShown()) {
             return;
         }
-        moveDialog(Gravity.CENTER);
+        Check.isNotNull(window);
         window.dismiss();
+        onDismissed();
+    }
+
+    private void onDismissed() {
+        moveDialog(Gravity.CENTER);
         window = null;
         dialog = null;
     }
@@ -73,7 +79,7 @@ public class FloatingKeyboardWindow {
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                window = null;
+                onDismissed();
                 if (dismissListener != null) {
                     dismissListener.onDismiss();
                 }
@@ -109,7 +115,7 @@ public class FloatingKeyboardWindow {
         return (V) window.getContentView();
     }
 
-    public void moveDialog(int gravity) {
+    private void moveDialog(int gravity) {
         if (dialog == null) {
             return;
         }

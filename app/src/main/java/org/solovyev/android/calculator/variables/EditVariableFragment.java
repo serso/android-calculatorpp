@@ -22,7 +22,9 @@
 
 package org.solovyev.android.calculator.variables;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -45,11 +47,11 @@ import jscl.math.function.IConstant;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.text.Strings;
 
@@ -59,12 +61,18 @@ import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
+import static org.solovyev.android.calculator.variables.CppVariable.NO_ID;
 
-public class EditVariableFragment extends BaseDialogFragment implements CalculatorEventListener, View.OnFocusChangeListener, View.OnKeyListener, View.OnClickListener {
+public class EditVariableFragment extends BaseDialogFragment implements View.OnFocusChangeListener, View.OnKeyListener, View.OnClickListener {
 
     private static final String ARG_VARIABLE = "variable";
     private final static List<Character> ACCEPTABLE_CHARACTERS = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + GreekFloatingKeyboard.ALPHABET).toCharArray()));
+    @NonNull
+    private final KeyboardUser keyboardUser = new KeyboardUser();
+    @Bind(R.id.variable_name_label)
+    TextInputLayout nameLabel;
+    @Bind(R.id.variable_name)
+    EditTextCompat nameView;
     @NonNull
     private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(new PopupWindow.OnDismissListener() {
         @Override
@@ -72,12 +80,6 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
             nameView.setShowSoftInputOnFocusCompat(true);
         }
     });
-    @NonNull
-    private final KeyboardUser keyboardUser = new KeyboardUser();
-    @Bind(R.id.variable_name_label)
-    TextInputLayout nameLabel;
-    @Bind(R.id.variable_name)
-    EditTextCompat nameView;
     @Bind(R.id.variable_keyboard_button)
     Button keyboardButton;
     @Bind(R.id.variable_value_label)
@@ -188,11 +190,21 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
             neutral.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // FIXME: 2016-01-30 removal dialog
-                    // showRemovalDialog(function);
+                    showRemovalDialog(variable);
                 }
             });
         }
+    }
+
+    private void showRemovalDialog(@NonNull final CppVariable variable) {
+        EntityRemovalDialog.showForVariable(getActivity(), variable.name, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                variablesRegistry.remove(variable.toJsclBuilder().create());
+                dismiss();
+            }
+        });
     }
 
     private void tryClose() {
@@ -202,6 +214,17 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
     }
 
     private boolean applyData() {
+        try {
+            final CppVariable newVariable = CppVariable.builder(nameView.getText().toString())
+                    .withId(isNewVariable() ? NO_ID : variable.id)
+                    .withValue(valueView.getText().toString())
+                    .withDescription(descriptionView.getText().toString()).build();
+            final IConstant oldVariable = isNewVariable() ? null : variablesRegistry.getById(variable.id);
+            variablesRegistry.add(newVariable.toJsclBuilder(), oldVariable);
+            return true;
+        } catch (RuntimeException e) {
+            setError(valueLabel, e.getLocalizedMessage());
+        }
         return false;
     }
 
@@ -225,7 +248,7 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
 
     private boolean validateName() {
         final String name = nameView.getText().toString();
-        if (!VarEditorSaver.isValidName(name)) {
+        if (!Engine.isValidName(name)) {
             setError(nameLabel, getString(R.string.c_name_is_not_valid));
             return false;
         }
@@ -266,34 +289,7 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
         return true;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        Locator.getInstance().getCalculator().addCalculatorEventListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        Locator.getInstance().getCalculator().removeCalculatorEventListener(this);
-
-        super.onPause();
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case constant_removed:
-            case constant_added:
-            case constant_changed:
-                if (calculatorEventData.getSource() == this) {
-                    dismiss();
-                }
-                break;
-
-        }
-    }
-
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @android.support.annotation.Nullable Bundle savedInstanceState) {

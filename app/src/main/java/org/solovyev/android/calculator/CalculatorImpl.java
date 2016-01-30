@@ -478,50 +478,53 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     }
 
     private void updateAnsVariable(@NonNull String value) {
-        final EntitiesRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVariablesRegistry();
-        final IConstant variable = varsRegistry.get(VariablesRegistry.ANS);
+        final VariablesRegistry variablesRegistry = Locator.getInstance().getEngine().getVariablesRegistry();
+        final IConstant variable = variablesRegistry.get(VariablesRegistry.ANS);
 
         final CppVariable.Builder b = variable != null ? CppVariable.builder(variable) : CppVariable.builder(VariablesRegistry.ANS);
         b.withValue(value);
         b.withSystem(true);
         b.withDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
 
-        VariablesRegistry.add(varsRegistry, b.build().toJsclBuilder(), variable, this);
+        variablesRegistry.add(b.build().toJsclBuilder(), variable);
     }
 
     @Subscribe
     public void onFunctionAdded(@Nonnull FunctionsRegistry.AddedEvent event) {
         evaluate();
     }
+
     @Subscribe
     public void onFunctionsChanged(@Nonnull FunctionsRegistry.ChangedEvent event) {
         evaluate();
     }
+
     @Subscribe
     public void onFunctionsRemoved(@Nonnull FunctionsRegistry.RemovedEvent event) {
         evaluate();
+    }
+
+    @Subscribe
+    public void onVariableRemoved(@NonNull VariablesRegistry.RemovedEvent e) {
+        evaluate();
+    }
+
+    @Subscribe
+    public void onVariableAdded(@NonNull VariablesRegistry.AddedEvent e) {
+        evaluate();
+    }
+
+    @Subscribe
+    public void onVariableChanged(@NonNull VariablesRegistry.ChangedEvent e) {
+        if (!e.newVariable.getName().equals(VariablesRegistry.ANS)) {
+            evaluate();
+        }
     }
 
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 
         switch (calculatorEventType) {
-            case constant_changed:
-                final IConstant newConstant = ((Change<IConstant>) data).getNewValue();
-                if (!newConstant.getName().equals(VariablesRegistry.ANS)) {
-                    evaluate();
-                }
-                break;
-
-            case constant_added:
-            case constant_removed:
-                evaluate();
-                break;
-            case use_constant:
-                final IConstant constant = (IConstant) data;
-                Locator.getInstance().getKeyboard().buttonPressed(constant.getName());
-                break;
-
             case use_operator:
                 final Operator operator = (Operator) data;
                 Locator.getInstance().getKeyboard().buttonPressed(operator.getName());
@@ -535,8 +538,4 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         return App.getEditor();
     }
 
-    @Nonnull
-    private Display getDisplay() {
-        return App.getDisplay();
-    }
 }

@@ -37,10 +37,11 @@ public class CppVariable implements Jsonable, Parcelable {
             return new CppVariable[size];
         }
     };
+    public static final int NO_ID = CppFunction.NO_ID;
     private static final String JSON_NAME = "n";
     private static final String JSON_VALUE = "v";
     private static final String JSON_DESCRIPTION = "d";
-    protected int id = CppFunction.NO_ID;
+    protected int id = NO_ID;
     @Nonnull
     protected String name;
     @Nonnull
@@ -62,7 +63,7 @@ public class CppVariable implements Jsonable, Parcelable {
     }
 
     protected CppVariable(@NonNull IConstant that) {
-        id = that.isIdDefined() ? that.getId() : CppFunction.NO_ID;
+        id = that.isIdDefined() ? that.getId() : NO_ID;
         name = that.getName();
         value = nullToEmpty(that.getValue());
         description = nullToEmpty(that.getDescription());
@@ -71,7 +72,7 @@ public class CppVariable implements Jsonable, Parcelable {
 
     private CppVariable(@NonNull JSONObject json) throws JSONException {
         this.name = json.getString(JSON_NAME);
-        this.value = json.optString(JSON_DESCRIPTION);
+        this.value = json.optString(JSON_VALUE);
         this.description = json.optString(JSON_DESCRIPTION);
     }
 
@@ -86,6 +87,11 @@ public class CppVariable implements Jsonable, Parcelable {
     @NonNull
     public static CppVariable.Builder builder(@NonNull String name) {
         return new Builder(name);
+    }
+
+    @NonNull
+    public static CppVariable.Builder builder(@NonNull String name, double value) {
+        return new Builder(name).withValue(value);
     }
 
     @NonNull
@@ -152,6 +158,15 @@ public class CppVariable implements Jsonable, Parcelable {
         dest.writeByte((byte) (system ? 1 : 0));
     }
 
+    @Override
+    public String toString() {
+        if (id == NO_ID) {
+            return name + "=" + value;
+        } else {
+            return name + "[#" + id + "]=" + value;
+        }
+    }
+
     public static class Builder {
         @NonNull
         private final CppVariable variable;
@@ -177,6 +192,12 @@ public class CppVariable implements Jsonable, Parcelable {
             Check.isTrue(!built);
             variable.value = value;
             return this;
+        }
+
+        @Nonnull
+        public Builder withValue(double value) {
+            Check.isTrue(!built);
+            return withValue(Double.toString(value));
         }
 
         @Nonnull

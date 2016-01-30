@@ -22,20 +22,19 @@
 
 package org.solovyev.android.calculator.model;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorTestUtils;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.variables.OldVar;
-
 import jscl.AngleUnit;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.solovyev.android.calculator.AbstractCalculatorTest;
+import org.solovyev.android.calculator.CalculatorTestUtils;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.variables.CppVariable;
 
 
 /**
@@ -117,7 +116,7 @@ public class EvaluateTest extends AbstractCalculatorTest {
         CalculatorTestUtils.assertError("(-1)i!");
         CalculatorTestUtils.assertEval("24i", "4!i");
 
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("si", 5d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("si", 5d).build().toJsclBuilder());
 
         try {
             cm.setAngleUnits(AngleUnit.rad);
@@ -131,14 +130,14 @@ public class EvaluateTest extends AbstractCalculatorTest {
             cm.setAngleUnits(defaultAngleUnit);
         }
 
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("s", 1d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("s", 1d).build().toJsclBuilder());
         CalculatorTestUtils.assertEval("5", cm.evaluate("si"));
 
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("k", 3.5d));
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("k1", 4d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("k", 3.5d).build().toJsclBuilder());
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("k1", 4d).build().toJsclBuilder());
         CalculatorTestUtils.assertEval("4", "k11");
 
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("t", (String) null));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("t").build().toJsclBuilder());
         CalculatorTestUtils.assertEval("11t", "t11");
         CalculatorTestUtils.assertEval("11et", "t11e");
         CalculatorTestUtils.assertEval("∞", "∞");
@@ -184,10 +183,10 @@ public class EvaluateTest extends AbstractCalculatorTest {
 			cm.setTimeout(3000);
 		}*/
 
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("t", (String) null));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("t").build().toJsclBuilder());
         CalculatorTestUtils.assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
         CalculatorTestUtils.assertEval("2t", "∂(t^2,t)");
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("t", "2"));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("t", 2d).build().toJsclBuilder());
         CalculatorTestUtils.assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
         CalculatorTestUtils.assertEval("4", "∂(t^2,t)");
 

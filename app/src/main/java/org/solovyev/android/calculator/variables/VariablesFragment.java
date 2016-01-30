@@ -22,19 +22,20 @@
 
 package org.solovyev.android.calculator.variables;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.view.ContextMenu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import jscl.math.function.IConstant;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.Category;
+import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.math.edit.BaseEntitiesFragment;
-import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
@@ -45,7 +46,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VariablesFragment extends BaseEntitiesFragment<IConstant> implements CalculatorEventListener {
+public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
 
     @Inject
     VariablesRegistry registry;
@@ -77,9 +78,9 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
     }
 
     @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
+        bus.register(this);
         fab.setVisibility(View.VISIBLE);
         fab.attachToRecyclerView(recyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -88,11 +89,22 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
                 EditVariableFragment.showDialog(null, getFragmentManager());
             }
         });
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        bus.unregister(this);
+        super.onDestroyView();
     }
 
     @Override
     protected void onClick(@NonNull IConstant constant) {
-        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, constant);
+        keyboard.buttonPressed(constant.getName());
+        final FragmentActivity activity = getActivity();
+        if (activity instanceof VariablesActivity) {
+            activity.finish();
+        }
     }
 
     @Nonnull
@@ -116,23 +128,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
     }
 
     @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case constant_added:
-                processConstantAdded((IConstant) data);
-                break;
-
-            case constant_changed:
-                processConstantChanged((Change<IConstant>) data);
-                break;
-
-            case constant_removed:
-                processConstantRemoved((IConstant) data);
-                break;
-        }
-    }
-
-    @Override
     protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull IConstant constant, @Nonnull MenuItem.OnMenuItemClickListener listener) {
         addMenu(menu, R.string.c_use, listener);
         if (!constant.isSystem()) {
@@ -146,17 +141,23 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
     }
 
     @Override
-    protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull IConstant constant) {
+    protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull final IConstant constant) {
         FragmentActivity activity = getActivity();
         switch (item.getItemId()) {
             case R.string.c_use:
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, constant);
+                onClick(constant);
                 return true;
             case R.string.c_edit:
                 EditVariableFragment.showDialog(CppVariable.builder(constant).build(), activity);
                 return true;
             case R.string.c_remove:
-                MathEntityRemover.newConstantRemover(constant, null, activity, activity).showConfirmationDialog();
+                EntityRemovalDialog.showForVariable(getActivity(), constant.getName(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                        registry.remove(constant);
+                    }
+                });
                 return true;
             case R.string.c_copy_value:
                 final String value = constant.getValue();
@@ -168,45 +169,19 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
         return false;
     }
 
-    private void processConstantRemoved(@Nonnull final IConstant constant) {
-        if (this.isInCategory(constant)) {
-            getUiHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    final EntitiesAdapter adapter = getAdapter();
-                    adapter.remove(constant);
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        }
+    @Subscribe
+    public void onVariableRemoved(@NonNull VariablesRegistry.RemovedEvent e) {
+        onEntityRemoved(e.variable);
     }
 
-    private void processConstantChanged(@Nonnull final Change<IConstant> change) {
-        final IConstant newConstant = change.getNewValue();
-        if (this.isInCategory(newConstant)) {
-            getUiHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    final EntitiesAdapter adapter = getAdapter();
-                    adapter.remove(change.getOldValue());
-                    adapter.add(newConstant);
-                    adapter.sort();
-                }
-            });
-        }
+    @Subscribe
+    public void onVariableAdded(@NonNull VariablesRegistry.AddedEvent e) {
+        onEntityAdded(e.variable);
     }
 
-    private void processConstantAdded(@Nonnull final IConstant constant) {
-        if (this.isInCategory(constant)) {
-            getUiHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    final EntitiesAdapter adapter = getAdapter();
-                    adapter.add(constant);
-                    adapter.sort();
-                }
-            });
-        }
+    @Subscribe
+    public void onVariableChanged(@NonNull VariablesRegistry.ChangedEvent e) {
+        onEntityChanged(e.newVariable);
     }
 
     @Nullable
