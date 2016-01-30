@@ -23,7 +23,6 @@
 package org.solovyev.android.calculator.functions;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
@@ -52,10 +51,8 @@ public class FunctionsActivity extends BaseActivity {
 
         if (savedInstanceState == null) {
             final Bundle extras = getIntent().getExtras();
-            final Parcelable function = extras != null ? extras.getParcelable(EXTRA_FUNCTION) : null;
-            if (function instanceof CppFunction) {
-                EditFunctionFragment.showDialog((CppFunction) function, getSupportFragmentManager());
-            }
+            final CppFunction function = extras != null ? (CppFunction) extras.getParcelable(EXTRA_FUNCTION) : null;
+            EditFunctionFragment.showDialog(function, getSupportFragmentManager());
         }
     }
 
