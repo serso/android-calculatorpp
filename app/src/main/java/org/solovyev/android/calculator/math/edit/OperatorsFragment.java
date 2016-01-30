@@ -27,6 +27,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import jscl.math.operator.Operator;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.common.text.Strings;
 

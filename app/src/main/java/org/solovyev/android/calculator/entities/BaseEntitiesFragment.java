@@ -20,12 +20,11 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.math.edit;
+package org.solovyev.android.calculator.entities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +39,6 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.views.llm.DividerItemDecoration;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
@@ -63,8 +61,6 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         }
     };
 
-    @Nonnull
-    private final Handler uiHandler = new Handler();
     @Bind(R.id.entities_fab)
     public FloatingActionButton fab;
     @Bind(R.id.entities_recyclerview)
@@ -150,18 +146,13 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         return adapter;
     }
 
-    @Nonnull
-    protected Handler getUiHandler() {
-        return uiHandler;
-    }
-
     @SuppressWarnings("deprecation")
-    protected final void copyDescription(@Nonnull E entity) {
-        final String description = getDescription(entity);
-        if (!Strings.isEmpty(description)) {
-            final ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
-            clipboard.setText(description);
+    protected final void copyText(@Nullable String text) {
+        if (!Strings.isEmpty(text)) {
+            return;
         }
+        final ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
+        clipboard.setText(text);
     }
 
     protected void onEntityAdded(@NonNull E entity) {
@@ -286,11 +277,6 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
 
         public void set(int position, @Nonnull E entity) {
             list.set(position, entity);
-        }
-
-        public void sort() {
-            Collections.sort(list, COMPARATOR);
-            notifyDataSetChanged();
         }
 
         public void add(@Nonnull E entity) {

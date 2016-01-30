@@ -35,7 +35,7 @@ import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.math.edit.BaseEntitiesFragment;
+import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
@@ -160,10 +160,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
                 });
                 return true;
             case R.string.c_copy_value:
-                final String value = constant.getValue();
-                if (!Strings.isEmpty(value)) {
-                    Locator.getInstance().getClipboard().setText(value);
-                }
+                copyText(constant.getValue());
                 return true;
         }
         return false;

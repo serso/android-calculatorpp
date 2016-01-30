@@ -23,19 +23,16 @@
 package org.solovyev.android.calculator.functions;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.math.edit.FunctionsFragment;
+import org.solovyev.android.calculator.operators.OperatorCategory;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class FunctionsActivity extends BaseActivity {
 
     public static final String EXTRA_FUNCTION = "function";
-    private static final CalculatorFragmentType FRAGMENT_TYPE = CalculatorFragmentType.functions;
 
     public FunctionsActivity() {
         super(R.layout.main_empty, FunctionsActivity.class.getSimpleName());
@@ -46,7 +43,11 @@ public class FunctionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         for (FunctionCategory category : FunctionCategory.values()) {
-            addTab(category);
+            addTab(category, CalculatorFragmentType.functions);
+        }
+
+        for (OperatorCategory category : OperatorCategory.values()) {
+            addTab(category, CalculatorFragmentType.operators, getString(R.string.c_operators) + ": " + getString(category.title()));
         }
 
         if (savedInstanceState == null) {
@@ -56,13 +57,5 @@ public class FunctionsActivity extends BaseActivity {
                 EditFunctionFragment.showDialog(function, this);
             }
         }
-    }
-
-    private void addTab(@Nonnull FunctionCategory category) {
-        final Bundle arguments = new Bundle(1);
-        arguments.putString(FunctionsFragment.ARG_CATEGORY, category.name());
-        final String fragmentTag = FRAGMENT_TYPE.createSubFragmentTag(category.name());
-        final Class<? extends Fragment> fragmentClass = FRAGMENT_TYPE.getFragmentClass();
-        ui.addTab(this, fragmentTag, fragmentClass, arguments, category.title, R.id.main_layout);
     }
 }
