@@ -1,13 +1,12 @@
 package jscl.text;
 
-import java.lang.reflect.Array;
-import java.util.Collections;
+import jscl.math.Generic;
+import jscl.text.msg.Messages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.Generic;
-import jscl.text.msg.Messages;
+import java.lang.reflect.Array;
+import java.util.Collections;
 
 /**
  * User: serso
@@ -130,7 +129,7 @@ public class ParserUtils {
     }
 
     public static <T, U> T[] copyOf(U[] array, int newLength, Class<? extends T[]> newType) {
-        T[] copy = (newType == Object[].class)
+        T[] copy = ((Object) newType == (Object) Object[].class)
                 ? (T[]) new Object[newLength]
                 : (T[]) Array.newInstance(newType.getComponentType(), newLength);
 

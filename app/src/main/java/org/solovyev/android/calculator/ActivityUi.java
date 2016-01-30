@@ -223,14 +223,23 @@ public class ActivityUi extends BaseUi {
                        @Nonnull String tag,
                        @Nonnull Class<? extends Fragment> fragmentClass,
                        @Nullable Bundle fragmentArgs,
-                       int captionResId,
+                       int title,
+                       int parentViewId) {
+        addTab(activity, tag, fragmentClass, fragmentArgs, activity.getString(title), parentViewId);
+    }
+
+    public void addTab(@Nonnull AppCompatActivity activity,
+                       @Nonnull String tag,
+                       @Nonnull Class<? extends Fragment> fragmentClass,
+                       @Nullable Bundle fragmentArgs,
+                       @Nullable CharSequence title,
                        int parentViewId) {
         final ActionBar actionBar = activity.getSupportActionBar();
         Check.isNotNull(actionBar);
 
         final ActionBar.Tab tab = actionBar.newTab();
         tab.setTag(tag);
-        tab.setText(captionResId);
+        tab.setText(title);
 
         final ActionBarFragmentTabListener listener = new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, parentViewId);
         tab.setTabListener(listener);

@@ -23,27 +23,13 @@
 package org.solovyev.android.calculator.operators;
 
 import android.support.annotation.StringRes;
-
+import jscl.math.operator.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.Category;
 
 import javax.annotation.Nonnull;
 
-import jscl.math.operator.Derivative;
-import jscl.math.operator.IndefiniteIntegral;
-import jscl.math.operator.Integral;
-import jscl.math.operator.Operator;
-import jscl.math.operator.Product;
-import jscl.math.operator.Sum;
-
 public enum OperatorCategory implements Category<Operator> {
-
-    my(R.string.c_fun_category_my) {
-        @Override
-        public boolean isInCategory(@Nonnull Operator operator) {
-            return !operator.isSystem();
-        }
-    },
 
     common(R.string.c_fun_category_common) {
         @Override
