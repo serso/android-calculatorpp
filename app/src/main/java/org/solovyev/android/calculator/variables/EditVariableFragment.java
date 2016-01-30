@@ -31,8 +31,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,19 +38,24 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.PopupWindow;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jscl.math.function.IConstant;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
+import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,10 +64,14 @@ import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
 public class EditVariableFragment extends BaseDialogFragment implements CalculatorEventListener, View.OnFocusChangeListener, View.OnKeyListener, View.OnClickListener {
 
     private static final String ARG_VARIABLE = "variable";
-    private final static String greekAlphabet = "αβγδεζηθικλμνξοπρστυφχψω";
-    private final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + greekAlphabet).toCharArray()));
+    private final static List<Character> ACCEPTABLE_CHARACTERS = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + GreekFloatingKeyboard.ALPHABET).toCharArray()));
     @NonNull
-    private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow();
+    private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(new PopupWindow.OnDismissListener() {
+        @Override
+        public void onDismiss() {
+            nameView.setShowSoftInputOnFocusCompat(true);
+        }
+    });
     @NonNull
     private final KeyboardUser keyboardUser = new KeyboardUser();
     @Bind(R.id.variable_name_label)
@@ -79,6 +86,12 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
     EditText valueView;
     @Bind(R.id.variable_description)
     EditText descriptionView;
+    @Inject
+    Calculator calculator;
+    @Inject
+    FunctionsRegistry functionsRegistry;
+    @Inject
+    VariablesRegistry variablesRegistry;
     @Nullable
     private CppVariable variable;
 
@@ -122,6 +135,12 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
         if (arguments != null) {
             variable = arguments.getParcelable(ARG_VARIABLE);
         }
+    }
+
+    @Override
+    protected void inject(@NonNull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     @Override
@@ -189,13 +208,61 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
     }
 
     private boolean validateValue() {
-        return false;
+        final String value = valueView.getText().toString();
+        if (!Strings.isEmpty(value)) {
+            // value is not empty => must be a number
+            if (!VariablesFragment.isValidValue(value)) {
+                setError(valueLabel, R.string.c_value_is_not_a_number);
+                return false;
+            }
+        }
+
+        clearError(valueLabel);
+        return true;
     }
 
     private boolean validateName() {
-        return false;
-    }
+        final String name = nameView.getText().toString();
+        if (!VarEditorSaver.isValidName(name)) {
+            setError(nameLabel, getString(R.string.c_name_is_not_valid));
+            return false;
+        }
+        for (int i = 0; i < name.length(); i++) {
+            final char c = name.charAt(i);
+            if (!ACCEPTABLE_CHARACTERS.contains(Character.toLowerCase(c))) {
+                setError(nameLabel, getString(R.string.c_char_is_not_accepted, c));
+                return false;
+            }
+        }
+        final IConstant existingVariable = variablesRegistry.get(name);
+        if (existingVariable != null) {
+            if (!existingVariable.isIdDefined()) {
+                Check.shouldNotHappen();
+                setError(nameLabel, getString(R.string.c_var_already_exists));
+                return false;
+            }
+            if (isNewVariable()) {
+                // trying to create a new variable with existing name
+                setError(nameLabel, getString(R.string.c_var_already_exists));
+                return false;
+            }
+            Check.isNotNull(variable);
+            if (!existingVariable.getId().equals(variable.id)) {
+                // trying to change the name of existing variable to some other variable's name
+                setError(nameLabel, getString(R.string.c_var_already_exists));
+                return false;
+            }
+        }
 
+        final MathType.Result type = MathType.getType(name, 0, false);
+        if (type.type != MathType.text && type.type != MathType.constant) {
+            setError(nameLabel, getString(R.string.c_var_name_clashes));
+            return false;
+        }
+
+        clearError(nameLabel);
+        return true;
+    }
 
     @Override
     public void onResume() {
@@ -293,28 +360,6 @@ public class EditVariableFragment extends BaseDialogFragment implements Calculat
     private void showKeyboard() {
         nameView.dontShowSoftInputOnFocusCompat();
         keyboardWindow.show(new GreekFloatingKeyboard(keyboardUser), getDialog());
-    }
-
-    private class NameWatcher implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            for (int i = 0; i < s.length(); i++) {
-                char c = s.charAt(i);
-                if (!acceptableChars.contains(Character.toLowerCase(c))) {
-                    s.delete(i, i + 1);
-                    Toast.makeText(getActivity(), String.format(getString(R.string.c_char_is_not_accepted), c), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
     }
 
     private class KeyboardUser implements FloatingKeyboard.User {

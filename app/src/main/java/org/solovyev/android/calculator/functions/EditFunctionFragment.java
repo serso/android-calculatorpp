@@ -65,9 +65,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     private static final int MENU_CATEGORY = Menu.FIRST + 2;
 
     @NonNull
-    private final VariablesRegistry constantsRegistry = Locator.getInstance().getEngine().getVariablesRegistry();
-    @NonNull
-    private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow();
+    private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(null);
     @NonNull
     private final KeyboardUser keyboardUser = new KeyboardUser();
     @Bind(R.id.function_params)
@@ -86,6 +84,8 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     Calculator calculator;
     @Inject
     FunctionsRegistry functionsRegistry;
+    @Inject
+    VariablesRegistry variablesRegistry;
     @Nullable
     private CppFunction function;
 
@@ -453,7 +453,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                     final int id = v.getId();
                     if (id == R.id.function_body) {
                         menu.clear();
-                        addEntities(menu, getNamesSorted(constantsRegistry), MENU_CONSTANT);
+                        addEntities(menu, getNamesSorted(variablesRegistry), MENU_CONSTANT);
                         unregisterForContextMenu(bodyView);
                     }
                 }

@@ -55,12 +55,12 @@
                 a:id="@+id/variable_keyboard_button"
                 a:layout_width="wrap_content"
                 a:layout_height="wrap_content"
-                a:layout_gravity="end|center_vertical"
+                a:layout_gravity="end|top"
                 a:background="?attr/selectableItemBackgroundBorderless"
+                a:minWidth="0dp"
+                a:padding="@dimen/cpp_image_button_padding"
                 a:text="@string/cpp_show_greek_keyboard"
                 a:textAllCaps="false"
-                a:padding="@dimen/cpp_image_button_padding"
-                a:minWidth="0dp"
                 a:textAppearance="?android:attr/textAppearanceSmall"
                 tools:ignore="UnusedAttribute" />
         </FrameLayout>
@@ -87,7 +87,8 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:hint="@string/c_var_description"
-                a:inputType="text" />
+                a:inputType="textMultiLine"
+                a:maxLines="4" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 

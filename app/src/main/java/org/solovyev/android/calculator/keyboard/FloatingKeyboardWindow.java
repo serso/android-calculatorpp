@@ -19,10 +19,17 @@ import org.solovyev.android.calculator.R;
 
 public class FloatingKeyboardWindow {
 
+    @javax.annotation.Nullable
+    private final PopupWindow.OnDismissListener dismissListener;
+
     @Nullable
     private PopupWindow window;
     @Nullable
     private Dialog dialog;
+
+    public FloatingKeyboardWindow(@javax.annotation.Nullable PopupWindow.OnDismissListener dismissListener) {
+        this.dismissListener = dismissListener;
+    }
 
     private static void hideIme(@NonNull View view) {
         final IBinder token = view.getWindowToken();
@@ -67,6 +74,9 @@ public class FloatingKeyboardWindow {
             @Override
             public void onDismiss() {
                 window = null;
+                if (dismissListener != null) {
+                    dismissListener.onDismiss();
+                }
             }
         });
         // see http://stackoverflow.com/a/4713487/720489

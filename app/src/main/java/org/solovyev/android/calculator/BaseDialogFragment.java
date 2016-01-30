@@ -6,14 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import javax.inject.Inject;
@@ -62,12 +61,15 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @NonNull
     protected abstract View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState);
 
-    protected static void setError(@NonNull TextInputLayout textInput, @NonNull String error) {
+    protected void setError(@NonNull TextInputLayout textInput, @StringRes int error, Object... errorArgs) {
+        setError(textInput, getString(error, errorArgs));
+    }
+    protected void setError(@NonNull TextInputLayout textInput, @NonNull String error) {
         textInput.setError(error);
         textInput.setErrorEnabled(true);
     }
 
-    protected static void clearError(@NonNull TextInputLayout textInput) {
+    protected void clearError(@NonNull TextInputLayout textInput) {
         textInput.setError(null);
         textInput.setErrorEnabled(false);
     }

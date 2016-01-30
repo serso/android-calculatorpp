@@ -1,15 +1,15 @@
 package org.solovyev.android.calculator;
 
+import dagger.Component;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.history.BaseHistoryFragment;
 import org.solovyev.android.calculator.history.EditHistoryFragment;
 import org.solovyev.android.calculator.math.edit.FunctionsFragment;
-import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
+import org.solovyev.android.calculator.variables.EditVariableFragment;
+import org.solovyev.android.calculator.variables.VariablesFragment;
 
 import javax.inject.Singleton;
-
-import dagger.Component;
 
 @Singleton
 @Component(modules = AppModule.class)
@@ -21,6 +21,7 @@ public interface AppComponent {
     void inject(BaseHistoryFragment fragment);
     void inject(BaseDialogFragment fragment);
     void inject(EditFunctionFragment fragment);
+    void inject(EditVariableFragment fragment);
     void inject(EditHistoryFragment fragment);
     void inject(FunctionsFragment fragment);
     void inject(VariablesFragment fragment);

@@ -7,12 +7,10 @@ import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
-
 import org.solovyev.android.Check;
 
-import java.lang.reflect.Method;
-
 import javax.annotation.Nullable;
+import java.lang.reflect.Method;
 
 public class EditTextCompat extends EditText {
 
@@ -38,23 +36,27 @@ public class EditTextCompat extends EditText {
     }
 
     public void dontShowSoftInputOnFocusCompat() {
+        setShowSoftInputOnFocusCompat(false);
+    }
+
+    public void setShowSoftInputOnFocusCompat(boolean show) {
         Check.isMainThread();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setShowSoftInputOnFocus(false);
+            setShowSoftInputOnFocus(show);
         } else {
-            dontShowSoftInputOnFocusPreLollipop();
+            dontShowSoftInputOnFocusPreLollipop(show);
         }
     }
 
-    private void dontShowSoftInputOnFocusPreLollipop() {
+    private void dontShowSoftInputOnFocusPreLollipop(boolean show) {
         final Method method = getSetShowSoftInputOnFocusMethod();
         if (method == null) {
             disableSoftInputFromAppearing();
             return;
         }
         try {
-            method.invoke(this, false);
+            method.invoke(this, show);
         } catch (Exception e) {
             Log.w("EditTextCompat", e.getMessage(), e);
         }
