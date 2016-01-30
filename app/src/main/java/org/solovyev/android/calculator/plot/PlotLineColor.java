@@ -47,7 +47,7 @@ public enum PlotLineColor {
 
     private final int color;
 
-    private PlotLineColor(int color) {
+    PlotLineColor(int color) {
         this.color = color;
     }
 

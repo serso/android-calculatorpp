@@ -325,11 +325,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             maxArity = Math.max(maxArity, xyFunction.getArity());
         }
 
-        if (maxArity > 1) {
-            plot3d = true;
-        } else {
-            plot3d = false;
-        }
+        plot3d = maxArity > 1;
 
         if (functions.isEmpty()) {
             // no functions => new plot => default boundaries

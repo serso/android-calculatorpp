@@ -104,7 +104,7 @@ class TouchHandler {
         return velocityTracker.getYVelocity();
     }
 
-    static interface TouchHandlerListener {
+    interface TouchHandlerListener {
         void onTouchDown(float x, float y);
 
         void onTouchMove(float x, float y);

@@ -132,9 +132,8 @@ public class CppVariable implements Jsonable, Parcelable {
         CppVariable that = (CppVariable) o;
 
         if (id != that.id) return false;
-        if (!name.equals(that.name)) return false;
+        return name.equals(that.name);
 
-        return true;
     }
 
     @Override

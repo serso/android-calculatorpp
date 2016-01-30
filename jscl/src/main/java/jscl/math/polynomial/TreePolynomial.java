@@ -144,7 +144,7 @@ final class TreePolynomial extends Polynomial {
             Iterator it = content.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry e = (Map.Entry) it.next();
-                p.content.put(((Monomial) e.getKey()).multiply(monomial), (Generic) e.getValue());
+                p.content.put(((Monomial) e.getKey()).multiply(monomial), e.getValue());
             }
             p.degree = degree + monomial.degree();
             p.sugar = sugar + monomial.degree();
@@ -171,7 +171,7 @@ final class TreePolynomial extends Polynomial {
         Iterator it = content.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry e = (Map.Entry) it.next();
-            p.content.put(((Monomial) e.getKey()).divide(monomial), (Generic) e.getValue());
+            p.content.put(((Monomial) e.getKey()).divide(monomial), e.getValue());
         }
         p.degree = degree + monomial.degree();
         p.sugar = sugar + monomial.degree();

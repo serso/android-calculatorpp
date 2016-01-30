@@ -171,9 +171,8 @@ public class PlotLineDef {
         if (lineColor != that.lineColor) return false;
         if (Float.compare(that.lineWidth, lineWidth) != 0) return false;
         if (lineColorType != that.lineColorType) return false;
-        if (lineStyle != that.lineStyle) return false;
+        return lineStyle == that.lineStyle;
 
-        return true;
     }
 
     @Override

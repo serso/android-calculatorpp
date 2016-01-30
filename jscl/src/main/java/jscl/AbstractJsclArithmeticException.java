@@ -55,9 +55,8 @@ public abstract class AbstractJsclArithmeticException extends ArithmeticExceptio
 
         AbstractJsclArithmeticException that = (AbstractJsclArithmeticException) o;
 
-        if (!message.equals(that.message)) return false;
+        return message.equals(that.message);
 
-        return true;
     }
 
     @Override

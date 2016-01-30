@@ -87,7 +87,7 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
 
     private final int captionResId;
 
-    private CalculatorMenu(int captionResId) {
+    CalculatorMenu(int captionResId) {
         this.captionResId = captionResId;
     }
 

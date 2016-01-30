@@ -36,11 +36,11 @@ import javax.annotation.Nullable;
 public interface MathEntityBuilder<T extends MathEntity> extends JBuilder<T> {
 
     @Nonnull
-    public MathEntityBuilder<T> setName(@Nonnull String name);
+    MathEntityBuilder<T> setName(@Nonnull String name);
 
     @Nonnull
-    public MathEntityBuilder<T> setDescription(@Nullable String description);
+    MathEntityBuilder<T> setDescription(@Nullable String description);
 
     @Nonnull
-    public MathEntityBuilder<T> setValue(@Nullable String value);
+    MathEntityBuilder<T> setValue(@Nullable String value);
 }

@@ -109,9 +109,8 @@ public final class PlotBoundaries implements Serializable {
         if (Float.compare(that.xMax, xMax) != 0) return false;
         if (Float.compare(that.xMin, xMin) != 0) return false;
         if (Float.compare(that.yMax, yMax) != 0) return false;
-        if (Float.compare(that.yMin, yMin) != 0) return false;
+        return Float.compare(that.yMin, yMin) == 0;
 
-        return true;
     }
 
     @Override

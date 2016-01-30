@@ -124,9 +124,8 @@ public class PlotFunction {
 
         PlotFunction that = (PlotFunction) o;
 
-        if (!xyFunction.equals(that.xyFunction)) return false;
+        return xyFunction.equals(that.xyFunction);
 
-        return true;
     }
 
     @Override

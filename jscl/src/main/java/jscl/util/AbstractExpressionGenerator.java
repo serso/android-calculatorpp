@@ -48,7 +48,7 @@ public abstract class AbstractExpressionGenerator<T> {
         return Math.random() * MAX_VALUE;
     }
 
-    protected static enum Operation {
+    protected enum Operation {
         addition(0, "+"),
         subtraction(1, "-"),
         multiplication(2, "*"),
@@ -79,7 +79,7 @@ public abstract class AbstractExpressionGenerator<T> {
         }
     }
 
-    protected static enum Function {
+    protected enum Function {
         sin(0, "sin"),
         cos(1, "cos"),
         sqrt(2, "√"),

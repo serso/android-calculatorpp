@@ -75,9 +75,9 @@ public enum CalculatorFragmentType {
     private Class<? extends Fragment> fragmentClass;
     private int defaultTitleResId;
 
-    private CalculatorFragmentType(@Nonnull Class<? extends Fragment> fragmentClass,
-                                   int defaultLayoutId,
-                                   int defaultTitleResId) {
+    CalculatorFragmentType(@Nonnull Class<? extends Fragment> fragmentClass,
+                           int defaultLayoutId,
+                           int defaultTitleResId) {
         this.fragmentClass = fragmentClass;
         this.defaultLayoutId = defaultLayoutId;
         this.defaultTitleResId = defaultTitleResId;
