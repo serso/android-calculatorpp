@@ -23,9 +23,12 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
-
 import com.squareup.otto.Bus;
-
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.operator.Operator;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.prefs.BooleanPreference;
@@ -36,20 +39,13 @@ import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.operator.Operator;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -82,7 +78,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     @Inject
-    public Engine(@Nonnull SharedPreferences preferences, @Nonnull JsclMathEngine mathEngine) {
+    public Engine(@Nonnull JsclMathEngine mathEngine) {
         this.mathEngine = mathEngine;
 
         this.mathEngine.setRoundResult(true);

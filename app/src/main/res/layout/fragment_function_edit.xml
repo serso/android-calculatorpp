@@ -73,7 +73,8 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:hint="@string/c_function_description"
-                a:inputType="text" />
+                a:inputType="textMultiLine"
+                a:maxLines="4" />
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>

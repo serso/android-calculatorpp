@@ -19,7 +19,7 @@ import java.util.Locale;
 
 
 public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.OnClickListener {
-    private final static String GREEK_ALPHABET = "αβγδεζηθικλμνξοπρστυφχψω";
+    final static String ALPHABET = "αβγδεζηθικλμνξοπρστυφχψω";
 
     public GreekFloatingKeyboard(@NonNull User user) {
         super(user);
@@ -41,8 +41,8 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
                 } else {
                     makeLastColumnLand(rowView, row);
                 }
-            } else if (letter < GREEK_ALPHABET.length()) {
-                final Button button = addButton(rowView, View.NO_ID, String.valueOf(GREEK_ALPHABET.charAt(letter)));
+            } else if (letter < ALPHABET.length()) {
+                final Button button = addButton(rowView, View.NO_ID, String.valueOf(ALPHABET.charAt(letter)));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                     fixCapitalization(button);
                 }
@@ -146,7 +146,7 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
             @Override
             public void process(@Nonnull Button key) {
                 final String letter = key.getText().toString();
-                if (!GREEK_ALPHABET.contains(letter.toLowerCase(Locale.US))) {
+                if (!ALPHABET.contains(letter.toLowerCase(Locale.US))) {
                     return;
                 }
                 if (upperCase) {

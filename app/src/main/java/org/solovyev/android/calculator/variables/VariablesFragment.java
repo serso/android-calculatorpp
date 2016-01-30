@@ -66,7 +66,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
             final List<IConstant> constants = expression.getUndefinedVars();
             return constants.isEmpty();
         } catch (RuntimeException e) {
-            return true;
+            return false;
         }
     }
 
