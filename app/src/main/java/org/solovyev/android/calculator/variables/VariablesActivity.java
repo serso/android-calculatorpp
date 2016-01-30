@@ -24,12 +24,14 @@ package org.solovyev.android.calculator.variables;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class VariablesActivity extends BaseActivity implements CalculatorEventListener {
+public class VariablesActivity extends BaseActivity {
 
     public static final String EXTRA_VARIABLE = "variable";
     private static final CalculatorFragmentType FRAGMENT_TYPE = CalculatorFragmentType.variables;
@@ -61,14 +63,5 @@ public class VariablesActivity extends BaseActivity implements CalculatorEventLi
         final String fragmentTag = FRAGMENT_TYPE.createSubFragmentTag(category.name());
         final Class<? extends Fragment> fragmentClass = FRAGMENT_TYPE.getFragmentClass();
         ui.addTab(this, fragmentTag, fragmentClass, arguments, category.title(), R.id.main_layout);
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case use_constant:
-                this.finish();
-                break;
-        }
     }
 }

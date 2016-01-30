@@ -280,6 +280,19 @@ public enum MathType {
             }
 
             if (s.length() > 1) {
+                if (mathType == function) {
+                    final int nextToken = i + s.length();
+                    if (nextToken < text.length()) {
+                        // function must have an open group symbol after its name
+                        if (MathType.open_group_symbol.getTokens().contains(text.substring(nextToken, nextToken + 1))) {
+                            return result.set(function, s);
+                        }
+                    } else if (nextToken == text.length()) {
+                        // or its name should finish the expression
+                        return result.set(function, s);
+                    }
+                    continue;
+                }
                 return result.set(mathType, s);
             }
 

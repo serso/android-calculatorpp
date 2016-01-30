@@ -39,7 +39,6 @@ import org.solovyev.android.calculator.variables.OldVars;
 import org.solovyev.android.calculator.variables.VariableCategory;
 import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
-import org.solovyev.common.math.MathEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -72,17 +71,19 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
         super(mathEngine.getConstantsRegistry(), "c_var_description_");
     }
 
-    public static <T extends MathEntity> void add(@Nonnull EntitiesRegistry<T> registry,
-                                                  @Nonnull JBuilder<? extends T> builder,
-                                                  @Nullable T editedInstance,
-                                                  @Nonnull Object source) {
-        final T addedVar = registry.add(builder);
-
-        if (editedInstance == null) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
+    public void add(@NonNull JBuilder<? extends IConstant> builder, @Nullable IConstant oldVariable) {
+        final IConstant variable = add(builder);
+        if (oldVariable == null) {
+            bus.post(new AddedEvent(variable));
         } else {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_changed, ChangeImpl.newInstance(editedInstance, addedVar), source);
+            bus.post(new ChangedEvent(oldVariable, variable));
         }
+    }
+
+    @Override
+    public void remove(@Nonnull IConstant variable) {
+        super.remove(variable);
+        bus.post(new RemovedEvent(variable));
     }
 
     @Nonnull
@@ -97,14 +98,14 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
         try {
             migrateOldVariables();
 
+            for (CppVariable variable : loadEntities(CppVariable.JSON_CREATOR)) {
+                addSafely(variable.toJsclBuilder());
+            }
+
             addSafely("x");
             addSafely("y");
             addSafely("t");
             addSafely("j");
-
-            for (CppVariable variable : loadEntities(CppVariable.JSON_CREATOR)) {
-                addSafely(variable.toJsclBuilder());
-            }
         } finally {
             setInitialized();
         }
@@ -148,9 +149,9 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
 
     @Override
     public String getDescription(@Nonnull String name) {
-        final IConstant var = get(name);
-        if (var != null && !var.isSystem()) {
-            return var.getDescription();
+        final IConstant variable = get(name);
+        if (variable != null && !variable.isSystem()) {
+            return variable.getDescription();
         } else {
             return super.getDescription(name);
         }
@@ -159,5 +160,35 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
     @Override
     public Category getCategory(@Nonnull IConstant variable) {
         return Entities.getCategory(variable, VariableCategory.values());
+    }
+
+    public static final class AddedEvent {
+        @NonNull
+        public final IConstant variable;
+
+        public AddedEvent(@NonNull IConstant variable) {
+            this.variable = variable;
+        }
+    }
+
+    public static final class ChangedEvent {
+        @NonNull
+        public final IConstant oldVariable;
+        @NonNull
+        public final IConstant newVariable;
+
+        public ChangedEvent(@NonNull IConstant oldVariable, @NonNull IConstant newVariable) {
+            this.oldVariable = oldVariable;
+            this.newVariable = newVariable;
+        }
+    }
+
+    public static final class RemovedEvent {
+        @NonNull
+        public final IConstant variable;
+
+        public RemovedEvent(@NonNull IConstant variable) {
+            this.variable = variable;
+        }
     }
 }

@@ -25,8 +25,8 @@ package org.solovyev.android.calculator;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.variables.OldVar;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
+import org.solovyev.android.calculator.variables.CppVariable;
 
 import java.text.DecimalFormatSymbols;
 
@@ -57,15 +57,15 @@ public class FromJsclSimplifyTextProcessorTest extends AbstractCalculatorTest {
         //Assert.assertEquals("e", tp.process("2.718281828459045"));
         //Assert.assertEquals("tee", tp.process("t2.718281828459045*2.718281828459045"));
 
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("t2.718281828459045", "2"));
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("t", (String) null));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("t2.718281828459045", 2).build().toJsclBuilder());
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("t").build().toJsclBuilder());
         //Assert.assertEquals("t2.718281828459045e", tp.process("t2.718281828459045*2.718281828459045"));
         //Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
         Assert.assertEquals("t×", tp.process("t*"));
         Assert.assertEquals("×t", tp.process("*t"));
         Assert.assertEquals("t2", tp.process("t*2"));
         Assert.assertEquals("2t", tp.process("2*t"));
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("t", (String) null));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("t").build().toJsclBuilder());
         Assert.assertEquals("t×", tp.process("t*"));
         Assert.assertEquals("×t", tp.process("*t"));
 
@@ -78,7 +78,7 @@ public class FromJsclSimplifyTextProcessorTest extends AbstractCalculatorTest {
         Assert.assertEquals("t^[2×2t]", tp.process("t^[2*2*t]"));
         Assert.assertEquals("2t^2[2t]", tp.process("2*t^2[2*t]"));
 
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("k", (String) null));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("k").build().toJsclBuilder());
         Assert.assertEquals("(t+2k)[k+2t]", tp.process("(t+2*k)*[k+2*t]"));
         Assert.assertEquals("(te+2k)e[k+2te]", tp.process("(t*e+2*k)*e*[k+2*t*e]"));
 

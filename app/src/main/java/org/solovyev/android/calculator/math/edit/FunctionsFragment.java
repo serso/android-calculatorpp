@@ -34,6 +34,7 @@ import jscl.math.function.IFunction;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.Category;
+import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.functions.*;
 
 import javax.annotation.Nonnull;
@@ -67,13 +68,6 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
         bus.register(this);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-
         fab.setVisibility(View.VISIBLE);
         fab.attachToRecyclerView(recyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +76,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
                 EditFunctionFragment.showDialog(getActivity());
             }
         });
+        return view;
     }
 
     @Override
@@ -115,7 +110,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
                 }
                 return true;
             case R.string.c_remove:
-                FunctionRemovalDialog.show(getActivity(), function.getName(), new DialogInterface.OnClickListener() {
+                EntityRemovalDialog.showForFunction(getActivity(), function.getName(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);

@@ -22,20 +22,6 @@
 
 package org.solovyev.android.calculator.model;
 
-import junit.framework.Assert;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorEvalException;
-import org.solovyev.android.calculator.CalculatorTestUtils;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.variables.OldVar;
-
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -43,6 +29,18 @@ import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.function.CustomFunction;
 import jscl.text.ParseException;
+import junit.framework.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.solovyev.android.calculator.AbstractCalculatorTest;
+import org.solovyev.android.calculator.CalculatorEvalException;
+import org.solovyev.android.calculator.CalculatorTestUtils;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.variables.CppVariable;
+
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import static org.junit.Assert.fail;
 
@@ -140,7 +138,7 @@ public class AndroidEngineTest extends AbstractCalculatorTest {
             cm.setAngleUnits(defaultAngleUnit);
         }
 
-        Locator.getInstance().getEngine().getVariablesRegistry().add(new OldVar.Builder("si", 5d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(CppVariable.builder("si").withValue(5d).build().toJsclBuilder());
         CalculatorTestUtils.assertEval("5", cm.evaluate("si"));
 
         CalculatorTestUtils.assertError("sin");

@@ -29,6 +29,7 @@ import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.math.operator.Operator;
+import jscl.text.*;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.prefs.BooleanPreference;
@@ -40,6 +41,7 @@ import org.solovyev.common.text.NumberMapper;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -100,6 +102,19 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             return;
         }
         editor.putString(preference.getKey(), preferences.getString(oldKey, null));
+    }
+
+    public static boolean isValidName(@Nullable String name) {
+        if (!Strings.isEmpty(name)) {
+            try {
+                Identifier.parser.parse(Parser.Parameters.get(name), null);
+                return true;
+            } catch (jscl.text.ParseException e) {
+                // not valid name;
+            }
+        }
+
+        return false;
     }
 
     @Nonnull
