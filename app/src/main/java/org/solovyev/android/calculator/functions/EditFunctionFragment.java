@@ -157,11 +157,13 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     @Override
-    protected void onShowDialog(@NonNull AlertDialog dialog) {
-        super.onShowDialog(dialog);
+    protected void onShowDialog(@NonNull AlertDialog dialog, boolean firstTime) {
+        super.onShowDialog(dialog, firstTime);
 
-        nameView.selectAll();
-        showIme(nameView);
+        if (firstTime) {
+            nameView.selectAll();
+            showIme(nameView);
+        }
 
         final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         ok.setOnClickListener(new View.OnClickListener() {
