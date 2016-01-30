@@ -34,7 +34,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
-    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog onCreateDialog(@Nullable final Bundle savedInstanceState) {
         final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
         final Context context = getActivity();
         final LayoutInflater inflater = LayoutInflater.from(context);
@@ -47,13 +47,13 @@ public abstract class BaseDialogFragment extends DialogFragment {
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface d) {
-                onShowDialog(dialog);
+                onShowDialog(dialog, savedInstanceState == null);
             }
         });
         return dialog;
     }
 
-    protected void onShowDialog(@NonNull AlertDialog dialog) {
+    protected void onShowDialog(@NonNull AlertDialog dialog, boolean firstTime) {
     }
 
     protected abstract void onPrepareDialog(@NonNull AlertDialog.Builder builder);
