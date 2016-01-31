@@ -78,7 +78,6 @@ public class CalculatorImpl implements Calculator {
 
     private volatile long lastPreferenceCheck = 0L;
 
-
     public CalculatorImpl(@Nonnull Bus bus, @Nonnull Executor eventExecutor) {
         this.eventExecutor = eventExecutor;
         bus.register(this);
@@ -287,7 +286,7 @@ public class CalculatorImpl implements Calculator {
 
         if (currentTime - lastPreferenceCheck > PREFERENCE_CHECK_INTERVAL) {
             lastPreferenceCheck = currentTime;
-            Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
+            Locator.getInstance().getPreferenceService().check(false);
         }
     }
 

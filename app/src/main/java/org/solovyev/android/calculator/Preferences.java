@@ -60,6 +60,9 @@ public final class Preferences {
     }
 
     static void setDefaultValues(@Nonnull SharedPreferences preferences) {
+        // renew value after each application start
+        Gui.showFixableErrorDialog.putDefault(preferences);
+        Gui.lastPreferredPreferencesCheck.putDefault(preferences);
 
         if (!Engine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
@@ -116,10 +119,6 @@ public final class Preferences {
         applyDefaultPreference(preferences, Onscreen.theme);
 
         applyDefaultPreference(preferences, Widget.theme);
-
-        // renew value after each application start
-        Calculations.showCalculationMessagesDialog.putDefault(preferences);
-        Calculations.lastPreferredPreferencesCheck.putDefault(preferences);
     }
 
     private static void applyDefaultPreference(@Nonnull SharedPreferences preferences, @Nonnull Preference<?> preference) {
@@ -236,11 +235,9 @@ public final class Preferences {
     public static class Calculations {
 
         public static final Preference<Boolean> calculateOnFly = BooleanPreference.of("calculations_calculate_on_fly", true);
-        public static final Preference<Boolean> showCalculationMessagesDialog = BooleanPreference.of("show_calculation_messages_dialog", true);
 
         public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.ofEnum("preferred_numeral_base", Engine.Preferences.numeralBase.getDefaultValue(), NumeralBase.class);
         public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.ofEnum("preferred_angle_units", Engine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
-        public static final Preference<Long> lastPreferredPreferencesCheck = LongPreference.of("preferred_preferences_check_time", 0L);
 
     }
 
@@ -258,6 +255,8 @@ public final class Preferences {
         public static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
         public static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
         public static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
+        public static final Preference<Boolean> showFixableErrorDialog = BooleanPreference.of("gui.showFixableErrorDialog", true);
+        public static final Preference<Long> lastPreferredPreferencesCheck = LongPreference.of("gui.lastPreferredPreferencesCheck", 0L);
 
         @Nonnull
         public static Theme getTheme(@Nonnull SharedPreferences preferences) {
@@ -332,36 +331,22 @@ public final class Preferences {
         }
 
         public enum Layout {
-            main_calculator(R.layout.main_calculator, R.string.p_layout_calculator, true),
-            main_calculator_mobile(R.layout.main_calculator_mobile, R.string.p_layout_calculator_mobile, false),
+            main_calculator(R.layout.main_calculator, true),
+            main_calculator_mobile(R.layout.main_calculator_mobile, false),
 
             // not used anymore
             @Deprecated
-            main_cellphone(R.layout.main_calculator, 0, true),
+            main_cellphone(R.layout.main_calculator, true),
 
-            simple(R.layout.main_calculator, R.string.p_layout_simple, true),
-            simple_mobile(R.layout.main_calculator_mobile, R.string.p_layout_simple_mobile, false);
+            simple(R.layout.main_calculator, true),
+            simple_mobile(R.layout.main_calculator_mobile, false);
 
-            private final int layoutId;
-            private final int nameResId;
-            private final boolean optimized;
+            public final int layoutId;
+            public final boolean optimized;
 
-            Layout(int layoutId, int nameResId, boolean optimized) {
+            Layout(int layoutId, boolean optimized) {
                 this.layoutId = layoutId;
-                this.nameResId = nameResId;
                 this.optimized = optimized;
-            }
-
-            public int getLayoutId() {
-                return layoutId;
-            }
-
-            public int getNameResId() {
-                return nameResId;
-            }
-
-            public boolean isOptimized() {
-                return optimized;
             }
         }
 

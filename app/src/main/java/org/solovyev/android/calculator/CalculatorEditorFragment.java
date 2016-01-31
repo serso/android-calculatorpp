@@ -80,7 +80,7 @@ public class CalculatorEditorFragment extends Fragment {
         ((CalculatorApplication) getActivity().getApplication()).getComponent().inject(this);
 
         final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
-        if (!layout.isOptimized()) {
+        if (!layout.optimized) {
             fragmentUi = new FragmentUi(R.layout.cpp_app_editor_mobile, R.string.editor);
         } else {
             fragmentUi = new FragmentUi(R.layout.cpp_app_editor, R.string.editor);

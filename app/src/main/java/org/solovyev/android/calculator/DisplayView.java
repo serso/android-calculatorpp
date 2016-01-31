@@ -67,7 +67,7 @@ public class DisplayView extends AutoResizeTextView {
             return;
         }
         final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(App.getPreferences());
-        if (!layout.isOptimized()) {
+        if (!layout.optimized) {
             setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
         }
         setOnClickListener(new CalculatorDisplayOnClickListener((FragmentActivity) context));

@@ -66,7 +66,7 @@ enum CalculatorLayout {
 
     @Nonnull
     static CalculatorLayout fromGuiLayout(@Nonnull Preferences.Gui.Layout layout) {
-        if (layout.isOptimized()) {
+        if (layout.optimized) {
             return optimized;
         } else {
             return big_buttons;

@@ -71,17 +71,6 @@
         a:title="@string/c_show_equals_button_title" />
 
     <android.preference.CheckBoxPreference
-        a:defaultValue="true"
-        a:key="hideNumeralBaseDigits"
-        a:summary="@string/c_hide_numeral_base_digits_summary"
-        a:title="@string/c_hide_numeral_base_digits_title" />
-
-    <android.preference.CheckBoxPreference
-        a:key="history_show_intermediate_calculations"
-        a:summary="@string/prefs_history_show_intermediate_calculations_summary"
-        a:title="@string/prefs_history_show_intermediate_calculations_title" />
-
-    <android.preference.CheckBoxPreference
         a:key="preventScreenFromFading"
         a:summary="@string/prefs_prevent_screen_from_fading_summary"
         a:title="@string/prefs_prevent_screen_from_fading_title" />

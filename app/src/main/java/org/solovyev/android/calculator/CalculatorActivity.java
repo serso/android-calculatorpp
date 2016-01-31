@@ -70,6 +70,11 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     public static final String TAG = CalculatorActivity.class.getSimpleName();
 
     private boolean useBackAsPrev;
+    
+    @Inject
+    PreferredPreferences preferredPreferences;
+    @Inject
+    Keyboard keyboard;
 
     public CalculatorActivity() {
         super(0, TAG);
@@ -154,7 +159,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     public void onCreate(@Nullable Bundle savedInstanceState) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
-        ui.setLayoutId(layout.getLayoutId());
+        ui.setLayoutId(layout.layoutId);
 
         super.onCreate(savedInstanceState);
 
@@ -188,13 +193,19 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 
-        Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
+        preferredPreferences.check(this, false);
 
         if (App.isMonkeyRunner(this)) {
-            Locator.getInstance().getKeyboard().buttonPressed("123");
-            Locator.getInstance().getKeyboard().buttonPressed("+");
-            Locator.getInstance().getKeyboard().buttonPressed("321");
+            keyboard.buttonPressed("123");
+            keyboard.buttonPressed("+");
+            keyboard.buttonPressed("321");
         }
+    }
+
+    @Override
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -204,11 +215,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     private boolean isMultiPane() {
         return findViewById(R.id.main_second_pane) != null;
-    }
-
-    @Nonnull
-    private AndroidCalculator getCalculator() {
-        return ((AndroidCalculator) Locator.getInstance().getCalculator());
     }
 
     @Override

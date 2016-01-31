@@ -46,7 +46,7 @@ enum CalculatorMode {
         @Override
         protected void apply(@Nonnull SharedPreferences preferences) {
             final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
-            if (layout.isOptimized()) {
+            if (layout.optimized) {
                 Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple);
             } else {
                 Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple_mobile);
@@ -62,7 +62,7 @@ enum CalculatorMode {
         @Override
         protected void apply(@Nonnull SharedPreferences preferences) {
             final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
-            if (layout.isOptimized()) {
+            if (layout.optimized) {
                 Preferences.Gui.layout.putPreference(preferences, main_calculator);
             } else {
                 Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);

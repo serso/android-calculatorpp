@@ -71,7 +71,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditFunctionFragment.showDialog(getActivity());
+                EditFunctionFragment.show(getActivity());
             }
         });
         return view;
@@ -95,7 +95,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
                 return true;
             case R.string.c_edit:
                 if (function instanceof IFunction) {
-                    EditFunctionFragment.showDialog(CppFunction.builder((IFunction) function).build(), activity.getSupportFragmentManager());
+                    EditFunctionFragment.show(CppFunction.builder((IFunction) function).build(), activity.getSupportFragmentManager());
                 }
                 return true;
             case R.string.c_remove:

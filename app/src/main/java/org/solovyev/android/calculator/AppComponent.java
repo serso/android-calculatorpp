@@ -1,6 +1,8 @@
 package org.solovyev.android.calculator;
 
 import dagger.Component;
+import org.solovyev.android.calculator.errors.FixableErrorFragment;
+import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.history.BaseHistoryFragment;
@@ -21,10 +23,13 @@ public interface AppComponent {
     void inject(CalculatorOnscreenService service);
     void inject(BaseHistoryFragment fragment);
     void inject(BaseDialogFragment fragment);
+    void inject(FixableErrorFragment fragment);
     void inject(EditFunctionFragment fragment);
     void inject(EditVariableFragment fragment);
     void inject(EditHistoryFragment fragment);
     void inject(FunctionsFragment fragment);
     void inject(VariablesFragment fragment);
     void inject(OperatorsFragment fragment);
+    void inject(CalculatorActivity activity);
+    void inject(FixableErrorsActivity activity);
 }

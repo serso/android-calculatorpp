@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
+import org.solovyev.android.calculator.entities.Category;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,7 +38,11 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ui.onPreCreate(this);
         super.onCreate(savedInstanceState);
+        inject(((CalculatorApplication) getApplication()).getComponent());
         ui.onCreate(this);
+    }
+
+    protected void inject(@Nonnull AppComponent component) {
     }
 
     @Override
@@ -79,7 +83,6 @@ public class BaseActivity extends AppCompatActivity {
         this.ui.onPause(this);
         super.onPause();
     }
-
 
     @Override
     protected void onDestroy() {
