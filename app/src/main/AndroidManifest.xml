@@ -125,10 +125,6 @@
             android:label="@string/cpp_purchase_title"
             android:theme="@style/Cpp.Theme.Material.Dialog" />
 
-        <activity
-            android:name=".CalculatorDialogActivity"
-            android:theme="@style/Cpp.Theme.Material.Dialog" />
-
         <!-- todo serso: strings-->
         <activity
             android:name=".matrix.CalculatorMatrixActivity"

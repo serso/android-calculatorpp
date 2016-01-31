@@ -23,9 +23,8 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
-
 import com.squareup.otto.Bus;
-
+import jscl.JsclMathEngine;
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.robolectric.fakes.RoboSharedPreferences;
@@ -36,23 +35,15 @@ import org.solovyev.android.calculator.operators.OperatorsRegistry;
 import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.*;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.JsclMathEngine;
 
 /**
  * User: serso
@@ -105,8 +96,8 @@ public class CalculatorTestUtils {
 
         final VariablesRegistry variablesRegistry = new VariablesRegistry(jsclEngine);
         final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine);
-        final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry());
-        final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry());
+        final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine);
+        final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine);
 
         return new Engine(jsclEngine, variablesRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry);
     }
