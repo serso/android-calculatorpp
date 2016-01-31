@@ -32,6 +32,8 @@ import jscl.math.operator.Operator;
 import jscl.text.*;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
+import org.solovyev.android.calculator.operators.OperatorsRegistry;
+import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
@@ -54,10 +56,6 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
 
     @Nonnull
     private final MathEngine mathEngine;
-    @Nonnull
-    private final EntitiesRegistry<Operator> operatorsRegistry;
-    @Nonnull
-    private final EntitiesRegistry<Operator> postfixFunctionsRegistry;
     @Inject
     SharedPreferences preferences;
     @Inject
@@ -68,10 +66,14 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     FunctionsRegistry functionsRegistry;
     @Inject
     VariablesRegistry variablesRegistry;
+    @Inject
+    OperatorsRegistry operatorsRegistry;
+    @Inject
+    PostfixFunctionsRegistry postfixFunctionsRegistry;
     @Nonnull
     private String multiplicationSign = Preferences.multiplicationSign.getDefaultValue();
 
-    public Engine(@Nonnull MathEngine mathEngine, @Nonnull VariablesRegistry variablesRegistry, @Nonnull FunctionsRegistry functionsRegistry, @Nonnull EntitiesRegistry<Operator> operatorsRegistry, @Nonnull EntitiesRegistry<Operator> postfixFunctionsRegistry) {
+    public Engine(@Nonnull MathEngine mathEngine, @Nonnull VariablesRegistry variablesRegistry, @Nonnull FunctionsRegistry functionsRegistry, @Nonnull OperatorsRegistry operatorsRegistry, @Nonnull PostfixFunctionsRegistry postfixFunctionsRegistry) {
         this.mathEngine = mathEngine;
         this.variablesRegistry = variablesRegistry;
         this.functionsRegistry = functionsRegistry;
@@ -85,9 +87,6 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
 
         this.mathEngine.setRoundResult(true);
         this.mathEngine.setUseGroupingSeparator(true);
-
-        this.operatorsRegistry = new OperatorsRegistry(mathEngine.getOperatorsRegistry());
-        this.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine.getPostfixFunctionsRegistry());
     }
 
     private static void migratePreference(@Nonnull SharedPreferences preferences, @Nonnull BooleanPreference preference, @Nonnull String oldKey, @Nonnull SharedPreferences.Editor editor) {

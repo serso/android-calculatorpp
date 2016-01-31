@@ -20,26 +20,25 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.operators;
 
 import android.support.annotation.NonNull;
-
+import jscl.JsclMathEngine;
+import jscl.math.operator.Operator;
 import org.solovyev.android.calculator.entities.BaseEntitiesRegistry;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.Entities;
 import org.solovyev.android.calculator.json.Jsonable;
-import org.solovyev.android.calculator.operators.OperatorCategory;
-import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.math.operator.Operator;
-
+@Singleton
 public class OperatorsRegistry extends BaseEntitiesRegistry<Operator> {
 
     @Nonnull
@@ -54,8 +53,9 @@ public class OperatorsRegistry extends BaseEntitiesRegistry<Operator> {
         substitutes.put("Σ", "sum");
     }
 
-    public OperatorsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry) {
-        super(functionsRegistry, "c_op_description_");
+    @Inject
+    public OperatorsRegistry(@Nonnull JsclMathEngine mathEngine) {
+        super(mathEngine.getOperatorsRegistry(), "c_op_description_");
     }
 
     @Nonnull

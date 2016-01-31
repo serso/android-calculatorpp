@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
@@ -36,15 +37,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.melnykov.fab.FloatingActionButton;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.BaseFragment;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.views.llm.DividerItemDecoration;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -65,23 +65,14 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     public FloatingActionButton fab;
     @Bind(R.id.entities_recyclerview)
     public RecyclerView recyclerView;
+    @Inject
+    Keyboard keyboard;
     private EntitiesAdapter adapter;
     @Nullable
     private String category;
 
     protected BaseEntitiesFragment(@Nonnull CalculatorFragmentType type) {
         super(type);
-    }
-
-    @Nonnull
-    public static Bundle createBundleFor(@Nonnull String categoryId) {
-        final Bundle result = new Bundle(1);
-        putCategory(result, categoryId);
-        return result;
-    }
-
-    public static void putCategory(@Nonnull Bundle bundle, @Nonnull String categoryId) {
-        bundle.putString(ARG_CATEGORY, categoryId);
     }
 
     @Override
@@ -106,7 +97,13 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         return view;
     }
 
-    protected abstract void onClick(@Nonnull E entity);
+    protected final void onClick(@Nonnull E entity) {
+        keyboard.buttonPressed(entity.getName());
+        final FragmentActivity activity = getActivity();
+        if (!(activity instanceof CalculatorActivity)) {
+            activity.finish();
+        }
+    }
 
     @Nonnull
     private List<E> getEntities(@NonNull String category) {

@@ -53,8 +53,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     @Inject
     Calculator calculator;
     @Inject
-    Keyboard keyboard;
-    @Inject
     Bus bus;
 
     public VariablesFragment() {
@@ -98,19 +96,10 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
         super.onDestroyView();
     }
 
-    @Override
-    protected void onClick(@NonNull IConstant constant) {
-        keyboard.buttonPressed(constant.getName());
-        final FragmentActivity activity = getActivity();
-        if (activity instanceof VariablesActivity) {
-            activity.finish();
-        }
-    }
-
     @Nonnull
     @Override
     protected List<IConstant> getEntities() {
-        final List<IConstant> result = new ArrayList<IConstant>(registry.getEntities());
+        final List<IConstant> result = new ArrayList<>(registry.getEntities());
 
         Collections.removeAll(result, new JPredicate<IConstant>() {
             @Override

@@ -33,23 +33,25 @@ import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
 
-    @NonNull
-    private final EntitiesRegistry<Operator> operatorsRegistry = Locator.getInstance().getEngine().getOperatorsRegistry();
-    @NonNull
-    private final EntitiesRegistry<Operator> postfixFunctionsRegistry = Locator.getInstance().getEngine().getPostfixFunctionsRegistry();
+    @Inject
+    OperatorsRegistry operatorsRegistry;
+    @Inject
+    PostfixFunctionsRegistry postfixFunctionsRegistry;
 
     public OperatorsFragment() {
         super(CalculatorFragmentType.operators);
     }
 
     @Override
-    protected void onClick(@NonNull Operator operator) {
-        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, operator);
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     @Nonnull
@@ -81,7 +83,7 @@ public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
     protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull Operator operator) {
         switch (item.getItemId()) {
             case R.string.c_use:
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, operator);
+                onClick(operator);
                 return true;
         }
 

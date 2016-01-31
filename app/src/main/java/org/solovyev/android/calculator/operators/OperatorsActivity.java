@@ -23,12 +23,13 @@
 package org.solovyev.android.calculator.operators;
 
 import android.os.Bundle;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.R;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class OperatorsActivity extends BaseActivity implements CalculatorEventListener {
+public class OperatorsActivity extends BaseActivity {
 
     public OperatorsActivity() {
         super(R.layout.main_empty, OperatorsActivity.class.getSimpleName());
@@ -40,15 +41,6 @@ public class OperatorsActivity extends BaseActivity implements CalculatorEventLi
 
         for (OperatorCategory category : OperatorCategory.values()) {
             addTab(category, CalculatorFragmentType.operators);
-        }
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case use_operator:
-                this.finish();
-                break;
         }
     }
 }

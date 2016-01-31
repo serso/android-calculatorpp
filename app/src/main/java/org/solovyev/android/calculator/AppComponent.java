@@ -2,10 +2,11 @@ package org.solovyev.android.calculator;
 
 import dagger.Component;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
+import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.history.BaseHistoryFragment;
 import org.solovyev.android.calculator.history.EditHistoryFragment;
-import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
+import org.solovyev.android.calculator.operators.OperatorsFragment;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
 
@@ -25,4 +26,5 @@ public interface AppComponent {
     void inject(EditHistoryFragment fragment);
     void inject(FunctionsFragment fragment);
     void inject(VariablesFragment fragment);
+    void inject(OperatorsFragment fragment);
 }
