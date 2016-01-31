@@ -47,7 +47,13 @@ public class FunctionsActivity extends BaseActivity {
         }
 
         for (OperatorCategory category : OperatorCategory.values()) {
-            addTab(category, CalculatorFragmentType.operators, getString(R.string.c_operators) + ": " + getString(category.title()));
+            final String title;
+            if (category == OperatorCategory.common || category == OperatorCategory.other) {
+                title = getString(R.string.c_operators) + ": " + getString(category.title());
+            } else {
+                title = getString(category.title());
+            }
+            addTab(category, CalculatorFragmentType.operators, title);
         }
 
         if (savedInstanceState == null) {
