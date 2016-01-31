@@ -25,7 +25,8 @@ package org.solovyev.android.calculator;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
-
+import android.view.ContextMenu;
+import jscl.math.Generic;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -33,9 +34,7 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import jscl.math.Generic;
-
-public class DisplayState implements Parcelable {
+public class DisplayState implements Parcelable, ContextMenu.ContextMenuInfo {
 
     public static final Creator<DisplayState> CREATOR = new Creator<DisplayState>() {
         @Override
