@@ -41,8 +41,6 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     private ErrorReporter errorReporter = new SystemErrorReporter();
     @Nonnull
-    private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
-    @Nonnull
     private CalculatorPreferenceService calculatorPreferenceService;
 
     @Nonnull
@@ -59,7 +57,6 @@ public class Locator implements CalculatorLocator {
     @Override
     public void init(@Nonnull Calculator calculator,
                      @Nonnull Engine engine,
-                     @Nonnull CalculatorClipboard clipboard,
                      @Nonnull CalculatorNotifier notifier,
                      @Nonnull ErrorReporter errorReporter,
                      @Nonnull CalculatorPreferenceService preferenceService,
@@ -68,7 +65,6 @@ public class Locator implements CalculatorLocator {
 
         this.calculator = calculator;
         this.engine = engine;
-        this.calculatorClipboard = clipboard;
         this.calculatorNotifier = notifier;
         this.errorReporter = errorReporter;
         this.calculatorPreferenceService = preferenceService;
@@ -97,12 +93,6 @@ public class Locator implements CalculatorLocator {
 
     public static void setKeyboard(@Nonnull Keyboard keyboard) {
         instance.keyboard = keyboard;
-    }
-
-    @Override
-    @Nonnull
-    public CalculatorClipboard getClipboard() {
-        return calculatorClipboard;
     }
 
     @Override

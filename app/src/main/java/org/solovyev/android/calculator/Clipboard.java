@@ -22,25 +22,41 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Application;
+import android.content.Context;
+import android.text.ClipboardManager;
+
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-/**
- * User: serso
- * Date: 9/22/12
- * Time: 2:00 PM
- */
-public class DummyCalculatorClipboard implements CalculatorClipboard {
+@Singleton
+public class Clipboard {
+    @SuppressWarnings("deprecation")
+    @Nonnull
+    private final ClipboardManager clipboard;
 
-    @Override
+    @SuppressWarnings("deprecation")
+    @Inject
+    public Clipboard(@Nonnull Application application) {
+        clipboard = (ClipboardManager) application.getSystemService(Context.CLIPBOARD_SERVICE);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Nonnull
     public String getText() {
-        return null;
+        if (clipboard.hasText()) {
+            return String.valueOf(clipboard.getText());
+        }
+
+        return "";
     }
 
-    @Override
     public void setText(@Nonnull CharSequence text) {
+        clipboard.setText(text);
     }
 
-    @Override
     public void setText(@Nonnull String text) {
+        clipboard.setText(text);
     }
 }
