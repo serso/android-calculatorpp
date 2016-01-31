@@ -33,7 +33,6 @@ import jscl.NumeralBase;
 import jscl.NumeralBaseException;
 import jscl.math.Generic;
 import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -55,7 +54,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class CalculatorImpl implements Calculator, CalculatorEventListener {
+public class CalculatorImpl implements Calculator {
 
     // one minute
     private static final long PREFERENCE_CHECK_INTERVAL = 1000L * 60L;
@@ -83,7 +82,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public CalculatorImpl(@Nonnull Bus bus, @Nonnull Executor eventExecutor) {
         this.eventExecutor = eventExecutor;
         bus.register(this);
-        this.addCalculatorEventListener(this);
     }
 
 
@@ -518,18 +516,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public void onVariableChanged(@NonNull VariablesRegistry.ChangedEvent e) {
         if (!e.newVariable.getName().equals(VariablesRegistry.ANS)) {
             evaluate();
-        }
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-
-        switch (calculatorEventType) {
-            case use_operator:
-                final Operator operator = (Operator) data;
-                Locator.getInstance().getKeyboard().buttonPressed(operator.getName());
-                break;
-
         }
     }
 

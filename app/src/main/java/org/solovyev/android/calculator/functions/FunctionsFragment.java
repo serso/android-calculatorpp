@@ -50,8 +50,6 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     @Inject
     Calculator calculator;
     @Inject
-    Keyboard keyboard;
-    @Inject
     Bus bus;
 
     public FunctionsFragment() {
@@ -77,15 +75,6 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
             }
         });
         return view;
-    }
-
-    @Override
-    protected void onClick(@Nonnull Function function) {
-        keyboard.buttonPressed(function.getName());
-        final FragmentActivity activity = getActivity();
-        if (activity instanceof FunctionsActivity) {
-            activity.finish();
-        }
     }
 
     @Override
