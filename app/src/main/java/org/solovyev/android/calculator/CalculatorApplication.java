@@ -94,6 +94,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
     @Inject
     ErrorReporter errorReporter;
 
+    @Inject
+    PreferredPreferences preferredPreferences;
+
     @Override
     public void onCreate() {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -123,7 +126,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 engine,
                 new AndroidCalculatorNotifier(this),
                 errorReporter,
-                new AndroidCalculatorPreferenceService(this),
+                preferredPreferences,
                 keyboard,
                 new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator))
         );

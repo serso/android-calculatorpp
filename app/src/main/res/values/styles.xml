@@ -175,7 +175,7 @@
 
     <style name="WizardButtons" parent="BaseWizardButtons" />
 
-    <style name="PrimaryButton" parent="MaterialButton"></style>
+    <style name="PrimaryButton" parent="MaterialButton"/>
 
     <style name="WizardFragment">
         <item name="android:layout_width">match_parent</item>
@@ -328,18 +328,14 @@
         <item name="background">@color/cpp_material_actionbar</item>
         <item name="android:background">@color/cpp_material_actionbar</item>
         <item name="backgroundStacked">@color/cpp_material_actionbar</item>
-        <item name="android:backgroundStacked">@color/cpp_material_actionbar</item>
         <item name="backgroundSplit">@color/cpp_material_actionbar</item>
-        <item name="android:backgroundSplit">@color/cpp_material_actionbar</item>
     </style>
 
     <style name="CppActionBar.Light" parent="CppActionBar">
         <item name="background">@color/cpp_material_actionbar_light</item>
         <item name="android:background">@color/cpp_material_actionbar_light</item>
         <item name="backgroundStacked">@color/cpp_material_actionbar_light</item>
-        <item name="android:backgroundStacked">@color/cpp_material_actionbar_light</item>
         <item name="backgroundSplit">@color/cpp_material_actionbar_light</item>
-        <item name="android:backgroundSplit">@color/cpp_material_actionbar_light</item>
     </style>
 
     <dimen name="list_item_text_size">16sp</dimen>

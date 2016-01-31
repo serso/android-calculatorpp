@@ -55,7 +55,7 @@ public final class CalculatorButtons {
     public static void fixButtonsTextSize(@Nonnull Preferences.Gui.Theme theme,
                                           @Nonnull Preferences.Gui.Layout layout,
                                           @Nonnull View root) {
-        if (!layout.isOptimized()) {
+        if (!layout.optimized) {
 
             final ScreenMetrics metrics = App.getScreenMetrics();
             final boolean portrait = metrics.isInPortraitMode();
@@ -85,7 +85,7 @@ public final class CalculatorButtons {
                                           @Nonnull Activity activity) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
-        final boolean large = App.isLargeScreen() && Preferences.Gui.getLayout(preferences).isOptimized();
+        final boolean large = App.isLargeScreen() && Preferences.Gui.getLayout(preferences).optimized;
 
         if (!large) {
             if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT

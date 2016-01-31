@@ -36,12 +36,14 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.solovyev.android.Activities;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
+import org.solovyev.android.calculator.errors.FixableError;
+import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
+import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
@@ -55,6 +57,7 @@ import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -169,7 +172,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                         builder.withParameter(constant.getName());
                     }
                 }
-                EditFunctionFragment.showDialog(builder.build(), context);
+                EditFunctionFragment.show(builder.build(), context);
             } else {
                 getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
             }
@@ -215,14 +218,6 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.cpp_share_link)));
         Activities.addIntentFlags(intent, false, context);
         context.startActivity(intent);
-    }
-
-    public static void showCalculationMessagesDialog(@Nonnull Context context, @Nonnull List<Message> messages) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        if (Preferences.Calculations.showCalculationMessagesDialog.getPreference(prefs)) {
-            FixableMessagesDialog.showDialogForMessages(messages, context, true);
-        }
     }
 
     public static void showEvaluationError(@Nonnull Context context, @Nonnull final String errorMessage) {

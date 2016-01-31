@@ -100,23 +100,23 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
         return fragment;
     }
 
-    public static void showDialog(@Nonnull FragmentActivity activity) {
-        EditFunctionFragment.showDialog(null, activity.getSupportFragmentManager());
+    public static void show(@Nonnull FragmentActivity activity) {
+        EditFunctionFragment.show(null, activity.getSupportFragmentManager());
     }
 
-    public static void showDialog(@Nullable CppFunction function, @Nonnull Context context) {
+    public static void show(@Nullable CppFunction function, @Nonnull Context context) {
         if (!(context instanceof FunctionsActivity)) {
             final Intent intent = new Intent(context, FunctionsActivity.class);
             Activities.addIntentFlags(intent, false, context);
             intent.putExtra(FunctionsActivity.EXTRA_FUNCTION, function);
             context.startActivity(intent);
         } else {
-            EditFunctionFragment.showDialog(function, ((FunctionsActivity) context).getSupportFragmentManager());
+            EditFunctionFragment.show(function, ((FunctionsActivity) context).getSupportFragmentManager());
         }
     }
 
-    public static void showDialog(@Nullable CppFunction input, @Nonnull FragmentManager fm) {
-        App.showDialog(create(input), "function-editor", fm);
+    public static void show(@Nullable CppFunction function, @Nonnull FragmentManager fm) {
+        App.showDialog(create(function), "function-editor", fm);
     }
 
     @Override

@@ -25,20 +25,17 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import com.squareup.otto.Bus;
-
+import jscl.NumeralBase;
+import jscl.math.Generic;
+import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.msg.Message;
 
-import java.util.List;
-import java.util.concurrent.Executor;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.NumeralBase;
-import jscl.math.Generic;
+import java.util.List;
+import java.util.concurrent.Executor;
 
 public class AndroidCalculator implements Calculator, CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -160,7 +157,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
             case calculation_messages:
-                CalculatorActivityLauncher.showCalculationMessagesDialog(App.getApplication(), (List<Message>) data);
+                FixableErrorsActivity.show(App.getApplication(), (List<Message>) data);
                 break;
             case show_history:
                 CalculatorActivityLauncher.showHistory(App.getApplication());

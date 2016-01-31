@@ -20,7 +20,7 @@ import javax.inject.Inject;
 public abstract class BaseDialogFragment extends DialogFragment {
 
     @Inject
-    SharedPreferences preferences;
+    protected SharedPreferences preferences;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,10 +38,12 @@ public abstract class BaseDialogFragment extends DialogFragment {
         final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
         final Context context = getActivity();
         final LayoutInflater inflater = LayoutInflater.from(context);
-        final View view = onCreateDialogView(context, inflater, savedInstanceState);
-        final int spacing = context.getResources().getDimensionPixelSize(R.dimen.cpp_dialog_spacing);
         final AlertDialog.Builder b = new AlertDialog.Builder(context, theme.alertDialogTheme);
-        b.setView(view, spacing, spacing, spacing, spacing);
+        final View view = onCreateDialogView(context, inflater, savedInstanceState);
+        if (view != null) {
+            final int spacing = context.getResources().getDimensionPixelSize(R.dimen.cpp_dialog_spacing);
+            b.setView(view, spacing, spacing, spacing, spacing);
+        }
         onPrepareDialog(b);
         final AlertDialog dialog = b.create();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -58,7 +60,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     protected abstract void onPrepareDialog(@NonNull AlertDialog.Builder builder);
 
-    @NonNull
+    @Nullable
     protected abstract View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState);
 
     protected void setError(@NonNull TextInputLayout textInput, @StringRes int error, Object... errorArgs) {

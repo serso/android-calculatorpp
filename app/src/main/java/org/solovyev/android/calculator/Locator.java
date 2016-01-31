@@ -41,7 +41,7 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     private ErrorReporter errorReporter = new SystemErrorReporter();
     @Nonnull
-    private CalculatorPreferenceService calculatorPreferenceService;
+    private PreferredPreferences preferredPreferences;
 
     @Nonnull
     private CalculatorPlotter calculatorPlotter;
@@ -59,7 +59,7 @@ public class Locator implements CalculatorLocator {
                      @Nonnull Engine engine,
                      @Nonnull CalculatorNotifier notifier,
                      @Nonnull ErrorReporter errorReporter,
-                     @Nonnull CalculatorPreferenceService preferenceService,
+                     @Nonnull PreferredPreferences preferenceService,
                      @Nonnull Keyboard keyboard,
                      @Nonnull CalculatorPlotter plotter) {
 
@@ -67,7 +67,7 @@ public class Locator implements CalculatorLocator {
         this.engine = engine;
         this.calculatorNotifier = notifier;
         this.errorReporter = errorReporter;
-        this.calculatorPreferenceService = preferenceService;
+        this.preferredPreferences = preferenceService;
         this.calculatorPlotter = plotter;
 
         this.keyboard = keyboard;
@@ -115,7 +115,7 @@ public class Locator implements CalculatorLocator {
 
     @Nonnull
     @Override
-    public CalculatorPreferenceService getPreferenceService() {
-        return this.calculatorPreferenceService;
+    public PreferredPreferences getPreferenceService() {
+        return this.preferredPreferences;
     }
 }

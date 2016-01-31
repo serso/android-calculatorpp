@@ -71,12 +71,11 @@
             android:label="@string/c_history" />
 
         <activity
-            android:name=".FixableMessagesDialog"
+            android:name=".errors.FixableErrorsActivity"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
-            android:label="@string/calculation_messages_dialog_title"
             android:launchMode="singleTask"
-            android:theme="@style/Cpp.Theme.Material.Dialog" />
+            android:theme="@style/Cpp.Theme.Translucent" />
 
         <activity
             android:name=".about.CalculatorAboutActivity"

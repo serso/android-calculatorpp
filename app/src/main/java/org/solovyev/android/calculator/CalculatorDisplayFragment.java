@@ -50,7 +50,7 @@ public class CalculatorDisplayFragment extends Fragment {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(prefs);
-        if (!layout.isOptimized()) {
+        if (!layout.optimized) {
             fragmentUi = new FragmentUi(R.layout.cpp_app_display_mobile, R.string.result);
         } else {
             fragmentUi = new FragmentUi(R.layout.cpp_app_display, R.string.result);

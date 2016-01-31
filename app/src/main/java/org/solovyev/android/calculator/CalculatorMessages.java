@@ -84,7 +84,7 @@ public final class CalculatorMessages {
     }
 
     @Nonnull
-    static MessageType toMessageType(int messageLevel) {
+    public static MessageType toMessageType(int messageLevel) {
         if (messageLevel < info.getMessageLevel()) {
             return info;
         } else if (messageLevel < warning.getMessageLevel()) {
