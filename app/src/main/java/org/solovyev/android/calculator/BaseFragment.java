@@ -64,7 +64,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Nonnull
-    protected static MenuItem addMenu(@Nonnull ContextMenu menu, @StringRes int label, @Nonnull MenuItem.OnMenuItemClickListener listener) {
+    public static MenuItem addMenu(@Nonnull ContextMenu menu, @StringRes int label, @Nonnull MenuItem.OnMenuItemClickListener listener) {
         return menu.add(NONE, label, NONE, label).setOnMenuItemClickListener(listener);
     }
 }

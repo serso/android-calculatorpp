@@ -23,6 +23,8 @@
 package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
+import com.squareup.otto.Bus;
+import dagger.Lazy;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.text.Strings;
 
@@ -40,9 +42,9 @@ public class Keyboard {
     @Inject
     Editor editor;
     @Inject
-    Display display;
+    Lazy<Clipboard> clipboard;
     @Inject
-    Clipboard clipboard;
+    Lazy<Bus> bus;
 
     @Inject
     public Keyboard() {
@@ -112,7 +114,7 @@ public class Keyboard {
     }
 
     public void roundBracketsButtonPressed() {
-         EditorState viewState = editor.getState();
+        EditorState viewState = editor.getState();
 
         final int cursorPosition = viewState.selection;
         final CharSequence oldText = viewState.text;
@@ -121,7 +123,7 @@ public class Keyboard {
     }
 
     public void pasteButtonPressed() {
-        final String text = clipboard.getText();
+        final String text = clipboard.get().getText();
         if (!TextUtils.isEmpty(text)) {
             editor.insert(text);
         }
@@ -132,12 +134,7 @@ public class Keyboard {
     }
 
     public void copyButtonPressed() {
-        final DisplayState displayState = display.getState();
-        if (!displayState.valid) {
-            return;
-        }
-        clipboard.setText(displayState.text);
-        Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
+        bus.get().post(new Display.CopyOperation());
     }
 
     public void moveCursorLeft() {

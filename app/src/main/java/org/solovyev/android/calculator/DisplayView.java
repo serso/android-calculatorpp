@@ -25,7 +25,6 @@ package org.solovyev.android.calculator;
 import android.app.Service;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -70,7 +69,6 @@ public class DisplayView extends AutoResizeTextView {
         if (!layout.optimized) {
             setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
         }
-        setOnClickListener(new CalculatorDisplayOnClickListener((FragmentActivity) context));
     }
 
     @Nonnull
