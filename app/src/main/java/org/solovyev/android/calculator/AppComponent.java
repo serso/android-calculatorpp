@@ -4,7 +4,7 @@ import dagger.Component;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.history.BaseHistoryFragment;
 import org.solovyev.android.calculator.history.EditHistoryFragment;
-import org.solovyev.android.calculator.math.edit.FunctionsFragment;
+import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;

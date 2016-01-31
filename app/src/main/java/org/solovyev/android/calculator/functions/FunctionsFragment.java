@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.math.edit;
+package org.solovyev.android.calculator.functions;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -36,7 +36,6 @@ import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
-import org.solovyev.android.calculator.functions.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

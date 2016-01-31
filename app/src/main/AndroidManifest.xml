@@ -87,7 +87,7 @@
             android:label="@string/c_functions" />
 
         <activity
-            android:name=".math.edit.OperatorsActivity"
+            android:name=".operators.OperatorsActivity"
             android:label="@string/c_operators" />
 
         <activity

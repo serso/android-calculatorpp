@@ -20,18 +20,10 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.math.edit;
+package org.solovyev.android.calculator.operators;
 
 import android.os.Bundle;
-
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
-import org.solovyev.android.calculator.operators.OperatorCategory;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,10 +38,8 @@ public class OperatorsActivity extends BaseActivity implements CalculatorEventLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final CalculatorFragmentType fragmentType = CalculatorFragmentType.operators;
-
         for (OperatorCategory category : OperatorCategory.values()) {
-            ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), BaseEntitiesFragment.createBundleFor(category.name()), category.title(), R.id.main_layout);
+            addTab(category, CalculatorFragmentType.operators);
         }
     }
 
