@@ -15,25 +15,7 @@ abstract class PostfixFunction extends Operator {
     }
 
     public String toString() {
-        final StringBuilder result = new StringBuilder();
-
-        /*try {*/
-        result.append(formatParameter(0));
-        /*} catch (NotIntegerException e) {
-              try {
-                  final Variable v = parameters[0].variableValue();
-                  if (v instanceof Frac || v instanceof Pow) {
-                      result.append(GenericVariable.valueOf(parameters[0]));
-                  } else {
-                      result.append(v);
-                  }
-              } catch (NotVariableException e2) {
-                  result.append(GenericVariable.valueOf(parameters[0]));
-              }
-          }*/
-        result.append(getName());
-
-        return result.toString();
+        return formatParameter(0) + getName();
     }
 
     public final Generic numeric() {

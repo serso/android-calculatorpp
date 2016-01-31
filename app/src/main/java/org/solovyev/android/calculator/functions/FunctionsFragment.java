@@ -148,4 +148,10 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     protected String getDescription(@NonNull Function function) {
         return registry.getDescription(function.getName());
     }
+
+    @NonNull
+    @Override
+    protected String getName(@Nonnull Function function) {
+        return function.toString();
+    }
 }

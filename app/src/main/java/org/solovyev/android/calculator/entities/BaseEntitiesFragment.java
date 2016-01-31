@@ -188,6 +188,9 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     @Nullable
     protected abstract String getDescription(@NonNull E entity);
 
+    @NonNull
+    protected abstract String getName(@Nonnull E entity);
+
     protected abstract void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull E entity, @Nonnull MenuItem.OnMenuItemClickListener listener);
 
     protected abstract boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull E entity);
@@ -209,7 +212,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
 
         public void bind(@Nonnull E entity) {
             this.entity = entity;
-            textView.setText(entity.getName());
+            textView.setText(getName(entity));
 
             final String description = getDescription(entity);
             if (!Strings.isEmpty(description)) {

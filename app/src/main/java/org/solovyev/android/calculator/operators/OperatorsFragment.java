@@ -100,5 +100,11 @@ public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
         }
         return postfixFunctionsRegistry.getDescription(name);
     }
+
+    @NonNull
+    @Override
+    protected String getName(@Nonnull Operator operator) {
+        return operator.toString();
+    }
 }
 

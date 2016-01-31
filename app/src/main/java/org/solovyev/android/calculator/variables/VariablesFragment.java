@@ -62,8 +62,8 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     public static boolean isValidValue(@Nonnull String value) {
         try {
             final PreparedExpression expression = ToJsclTextProcessor.getInstance().process(value);
-            final List<IConstant> constants = expression.getUndefinedVars();
-            return constants.isEmpty();
+            final List<IConstant> variables = expression.getUndefinedVars();
+            return variables.isEmpty();
         } catch (RuntimeException e) {
             return false;
         }
@@ -112,44 +112,44 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     }
 
     @Override
-    protected Category getCategory(@Nonnull IConstant var) {
-        return registry.getCategory(var);
+    protected Category getCategory(@Nonnull IConstant variable) {
+        return registry.getCategory(variable);
     }
 
     @Override
-    protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull IConstant constant, @Nonnull MenuItem.OnMenuItemClickListener listener) {
+    protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull IConstant variable, @Nonnull MenuItem.OnMenuItemClickListener listener) {
         addMenu(menu, R.string.c_use, listener);
-        if (!constant.isSystem()) {
+        if (!variable.isSystem()) {
             addMenu(menu, R.string.c_edit, listener);
             addMenu(menu, R.string.c_remove, listener);
         }
 
-        if (!Strings.isEmpty(constant.getValue())) {
+        if (!Strings.isEmpty(variable.getValue())) {
             addMenu(menu, R.string.c_copy_value, listener);
         }
     }
 
     @Override
-    protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull final IConstant constant) {
+    protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull final IConstant variable) {
         FragmentActivity activity = getActivity();
         switch (item.getItemId()) {
             case R.string.c_use:
-                onClick(constant);
+                onClick(variable);
                 return true;
             case R.string.c_edit:
-                EditVariableFragment.showDialog(CppVariable.builder(constant).build(), activity);
+                EditVariableFragment.showDialog(CppVariable.builder(variable).build(), activity);
                 return true;
             case R.string.c_remove:
-                EntityRemovalDialog.showForVariable(getActivity(), constant.getName(), new DialogInterface.OnClickListener() {
+                EntityRemovalDialog.showForVariable(getActivity(), variable.getName(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
-                        registry.remove(constant);
+                        registry.remove(variable);
                     }
                 });
                 return true;
             case R.string.c_copy_value:
-                copyText(constant.getValue());
+                copyText(variable.getValue());
                 return true;
         }
         return false;
@@ -172,8 +172,13 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
 
     @Nullable
     @Override
-    protected String getDescription(@NonNull IConstant constant) {
-        return registry.getDescription(constant.getName());
+    protected String getDescription(@NonNull IConstant variable) {
+        return registry.getDescription(variable.getName());
     }
 
+    @NonNull
+    @Override
+    protected String getName(@Nonnull IConstant variable) {
+        return variable.getName();
+    }
 }
