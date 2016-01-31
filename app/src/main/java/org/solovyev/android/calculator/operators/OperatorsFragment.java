@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.math.edit;
+package org.solovyev.android.calculator.operators;
 
 import android.support.annotation.NonNull;
 import android.view.ContextMenu;

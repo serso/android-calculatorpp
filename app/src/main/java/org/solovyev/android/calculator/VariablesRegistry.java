@@ -56,7 +56,7 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
     public static final String ANS = "ans";
 
     @Nonnull
-    private static final Map<String, String> substitutes = new HashMap<String, String>();
+    private static final Map<String, String> substitutes = new HashMap<>();
 
     static {
         substitutes.put("π", "pi");

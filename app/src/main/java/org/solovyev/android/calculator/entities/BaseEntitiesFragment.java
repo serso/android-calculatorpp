@@ -242,7 +242,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         }
     }
 
-    public class EntitiesAdapter extends RecyclerView.Adapter<EntityViewHolder> {
+    private class EntitiesAdapter extends RecyclerView.Adapter<EntityViewHolder> {
         @Nonnull
         private final LayoutInflater inflater;
         @Nonnull
