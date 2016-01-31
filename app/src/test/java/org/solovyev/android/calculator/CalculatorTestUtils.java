@@ -66,7 +66,7 @@ public class CalculatorTestUtils {
 
     public static void staticSetUp() throws Exception {
         App.init(new CalculatorApplication(), new Languages(new RoboSharedPreferences(new HashMap<String, Map<String, Object>>(), "test", 0)));
-        Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
+        Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), newCalculatorEngine(), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
         Locator.getInstance().getEngine().init(new Executor() {
             @Override
             public void execute(Runnable command) {
@@ -81,7 +81,7 @@ public class CalculatorTestUtils {
     }
 
     public static void staticSetUp(@Nullable Context context) throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
+        Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), newCalculatorEngine(), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
         Locator.getInstance().getEngine().init(new Executor() {
             @Override
             public void execute(Runnable command) {

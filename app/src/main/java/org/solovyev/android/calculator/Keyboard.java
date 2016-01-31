@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import android.text.TextUtils;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.text.Strings;
 
@@ -38,9 +39,10 @@ public class Keyboard {
 
     @Inject
     Editor editor;
-
     @Inject
     Display display;
+    @Inject
+    Clipboard clipboard;
 
     @Inject
     public Keyboard() {
@@ -119,8 +121,8 @@ public class Keyboard {
     }
 
     public void pasteButtonPressed() {
-        final String text = Locator.getInstance().getClipboard().getText();
-        if (text != null) {
+        final String text = clipboard.getText();
+        if (!TextUtils.isEmpty(text)) {
             editor.insert(text);
         }
     }
@@ -134,7 +136,7 @@ public class Keyboard {
         if (!displayState.valid) {
             return;
         }
-        Locator.getInstance().getClipboard().setText(displayState.text);
+        clipboard.setText(displayState.text);
         Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
     }
 

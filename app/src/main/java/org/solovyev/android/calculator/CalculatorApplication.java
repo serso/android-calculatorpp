@@ -121,7 +121,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
         Locator.getInstance().init(calculator,
                 engine,
-                new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
                 errorReporter,
                 new AndroidCalculatorPreferenceService(this),

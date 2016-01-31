@@ -30,7 +30,6 @@ public interface CalculatorLocator {
 
     void init(@Nonnull Calculator calculator,
               @Nonnull Engine engine,
-              @Nonnull CalculatorClipboard clipboard,
               @Nonnull CalculatorNotifier notifier,
               @Nonnull ErrorReporter errorReporter,
               @Nonnull CalculatorPreferenceService preferenceService,
@@ -45,9 +44,6 @@ public interface CalculatorLocator {
 
     @Nonnull
     Keyboard getKeyboard();
-
-    @Nonnull
-    CalculatorClipboard getClipboard();
 
     @Nonnull
     CalculatorNotifier getNotifier();
