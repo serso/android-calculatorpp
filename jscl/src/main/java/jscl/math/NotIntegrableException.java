@@ -1,11 +1,11 @@
 package jscl.math;
 
-import jscl.AbstractJsclArithmeticException;
+import jscl.JsclArithmeticException;
 import jscl.text.msg.Messages;
 
 import javax.annotation.Nonnull;
 
-public class NotIntegrableException extends AbstractJsclArithmeticException {
+public class NotIntegrableException extends JsclArithmeticException {
 
     public NotIntegrableException(@Nonnull String messageCode, Object... parameters) {
         super(messageCode, parameters);

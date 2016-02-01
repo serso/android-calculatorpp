@@ -28,13 +28,16 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import jscl.AbstractJsclArithmeticException;
+import jscl.JsclArithmeticException;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.NumeralBaseException;
 import jscl.math.Generic;
 import jscl.math.function.IConstant;
 import jscl.text.ParseInterruptedException;
+import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
+import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
+import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -56,46 +59,46 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Singleton
 public class Calculator implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    // one minute
-    private static final long PREFERENCE_CHECK_INTERVAL = 1000L * 60L;
+    private static final long PREFERENCE_CHECK_INTERVAL = TimeUnit.MINUTES.toMillis(15);
 
     @Nonnull
     private final CalculatorEventContainer calculatorEventContainer = new ListCalculatorEventContainer();
-
     @Nonnull
     private final AtomicLong counter = new AtomicLong(CalculatorUtils.FIRST_ID);
-
     @Nonnull
     private final ToJsclTextProcessor preprocessor = ToJsclTextProcessor.getInstance();
-
-    @Nonnull
-    private final Executor calculationsExecutor = Executors.newFixedThreadPool(10);
-
     @Nonnull
     private final SharedPreferences preferences;
     @Nonnull
-    private final Executor eventExecutor;
+    private final Bus bus;
+    @Nonnull
+    private final Executor ui;
+    @Nonnull
+    private final Executor background;
 
     private volatile boolean calculateOnFly = true;
 
-    private volatile long lastPreferenceCheck = 0L;
+    private long lastPreferredPreferenceCheck = 0L;
 
     @Inject
     PreferredPreferences preferredPreferences;
+    @Inject
+    Editor editor;
 
     @Inject
-    public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Named(AppModule.THREAD_UI) @Nonnull Executor eventExecutor) {
+    public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Named(AppModule.THREAD_UI) @Nonnull Executor ui, @Named(AppModule.THREAD_BACKGROUND) @Nonnull Executor background) {
         this.preferences = preferences;
-        this.eventExecutor = eventExecutor;
+        this.bus = bus;
+        this.ui = ui;
+        this.background = background;
         bus.register(this);
         addCalculatorEventListener(this);
-
         preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -144,15 +147,15 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
     }
 
     public void evaluate() {
-        final  EditorState viewState = getEditor().getState();
-        final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
-        this.evaluate(JsclOperation.numeric, viewState.getTextString(), eventData.getSequenceId());
+        final EditorState state = editor.getState();
+        final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, state);
+        evaluate(JsclOperation.numeric, state.getTextString(), eventData.getSequenceId());
     }
 
     public void simplify() {
-        final  EditorState viewState = getEditor().getState();
-        final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
-        this.evaluate(JsclOperation.simplify, viewState.getTextString(), eventData.getSequenceId());
+        final EditorState state = editor.getState();
+        final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, state);
+        evaluate(JsclOperation.simplify, state.getTextString(), eventData.getSequenceId());
     }
 
     @Nonnull
@@ -161,10 +164,10 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
 
         final CalculatorEventData eventDataId = nextEventData();
 
-        calculationsExecutor.execute(new Runnable() {
+        background.execute(new Runnable() {
             @Override
             public void run() {
-                Calculator.this.evaluate(eventDataId.getSequenceId(), operation, expression, null);
+                Calculator.this.evaluateAsync(eventDataId.getSequenceId(), operation, expression, null);
             }
         });
 
@@ -175,18 +178,18 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
     public CalculatorEventData evaluate(@Nonnull final JsclOperation operation, @Nonnull final String expression, long sequenceId) {
         final CalculatorEventData eventDataId = nextEventData(sequenceId);
 
-        calculationsExecutor.execute(new Runnable() {
+        background.execute(new Runnable() {
             @Override
             public void run() {
-                Calculator.this.evaluate(eventDataId.getSequenceId(), operation, expression, null);
+                evaluateAsync(eventDataId.getSequenceId(), operation, expression, null);
             }
         });
 
         return eventDataId;
     }
 
-    public void init(@Nonnull Executor initThread) {
-        Locator.getInstance().getEngine().init(initThread);
+    public void init(@Nonnull Executor init) {
+        Locator.getInstance().getEngine().init(init);
         setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(preferences));
     }
 
@@ -212,84 +215,86 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
         return CalculatorConversionEventDataImpl.newInstance(nextEventData(sequenceId), value, from, to, displayViewState);
     }
 
-    private void evaluate(@Nonnull Long sequenceId,
-                          @Nonnull JsclOperation operation,
-                          @Nonnull String expression,
-                          @Nullable MessageRegistry mr) {
-
+    private void evaluateAsync(long sequence,
+                               @Nonnull JsclOperation operation,
+                               @Nonnull String expression,
+                               @Nullable MessageRegistry mr) {
         checkPreferredPreferences();
+        expression = expression.trim();
 
         PreparedExpression preparedExpression = null;
-
         try {
-
-            expression = expression.trim();
-
             if (Strings.isEmpty(expression)) {
-                fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, CalculatorOutputImpl.newEmptyOutput(operation));
-            } else {
-                preparedExpression = prepareExpression(expression);
+                bus.post(new CalculationFinishedEvent(operation, expression, sequence));
+                return;
+            }
+            preparedExpression = prepareExpression(expression);
 
-                final String jsclExpression = preparedExpression.toString();
+            final String jsclExpression = preparedExpression.toString();
 
-                try {
+            try {
+                final MathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
 
-                    final MathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
+                final MessageRegistry messageRegistry = new ListMessageRegistry();
+                Locator.getInstance().getEngine().getMathEngine().setMessageRegistry(messageRegistry);
 
-                    final MessageRegistry messageRegistry = new ListMessageRegistry();
-                    Locator.getInstance().getEngine().getMathEngine().setMessageRegistry(messageRegistry);
+                final Generic result = operation.evaluateGeneric(jsclExpression, mathEngine);
 
-                    final Generic result = operation.evaluateGeneric(jsclExpression, mathEngine);
+                // NOTE: toString() method must be called here as ArithmeticOperationException may occur in it (just to avoid later check!)
+                result.toString();
 
-                    // NOTE: toString() method must be called here as ArithmeticOperationException may occur in it (just to avoid later check!)
-                    result.toString();
-
-                    if (messageRegistry.hasMessage()) {
-                        try {
-                            final List<Message> messages = new ArrayList<Message>();
-                            while (messageRegistry.hasMessage()) {
-                                messages.add(messageRegistry.getMessage());
-                            }
-                            if (!messages.isEmpty()) {
-                                fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_messages, messages);
-                            }
-                        } catch (Throwable e) {
-                            // todo serso: not good but we need proper synchronization
-                            Log.e("Calculator", e.getMessage(), e);
+                if (messageRegistry.hasMessage()) {
+                    try {
+                        final List<Message> messages = new ArrayList<>();
+                        while (messageRegistry.hasMessage()) {
+                            messages.add(messageRegistry.getMessage());
                         }
+                        if (!messages.isEmpty()) {
+                            fireCalculatorEvent(newCalculationEventData(operation, expression, sequence), CalculatorEventType.calculation_messages, messages);
+                        }
+                    } catch (Throwable e) {
+                        // todo serso: not good but we need proper synchronization
+                        Log.e("Calculator", e.getMessage(), e);
                     }
+                }
 
-                    final CalculatorOutput data = CalculatorOutputImpl.newOutput(operation.getFromProcessor().process(result), operation, result);
-                    fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, data);
+                final String stringResult = operation.getFromProcessor().process(result);
+                bus.post(new CalculationFinishedEvent(operation, expression, sequence, result, stringResult));
 
-                } catch (AbstractJsclArithmeticException e) {
-                    handleException(sequenceId, operation, expression, mr, new CalculatorEvalException(e, e, jsclExpression));
+            } catch (JsclArithmeticException e) {
+                if (operation == JsclOperation.numeric && e.getCause() instanceof NumeralBaseException) {
+                    evaluateAsync(sequence, JsclOperation.simplify, expression, mr);
+                } else {
+                    bus.post(new CalculationFailedEvent(operation, expression, sequence, e));
                 }
             }
-
         } catch (ArithmeticException e) {
-            handleException(sequenceId, operation, expression, mr, preparedExpression, new ParseException(expression, new CalculatorMessage(CalculatorMessages.msg_001, MessageType.error, e.getMessage())));
+            handleException(sequence, operation, expression, mr, preparedExpression, new ParseException(expression, new CalculatorMessage(CalculatorMessages.msg_001, MessageType.error, e.getMessage())));
         } catch (StackOverflowError e) {
-            handleException(sequenceId, operation, expression, mr, preparedExpression, new ParseException(expression, new CalculatorMessage(CalculatorMessages.msg_002, MessageType.error)));
+            handleException(sequence, operation, expression, mr, preparedExpression, new ParseException(expression, new CalculatorMessage(CalculatorMessages.msg_002, MessageType.error)));
         } catch (jscl.text.ParseException e) {
-            handleException(sequenceId, operation, expression, mr, preparedExpression, new ParseException(e));
+            handleException(sequence, operation, expression, mr, preparedExpression, new ParseException(e));
         } catch (ParseInterruptedException e) {
-
-            // do nothing - we ourselves interrupt the calculations
-            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_cancelled, null);
-
+            bus.post(new CalculationCancelledEvent(operation, expression, sequence));
         } catch (ParseException e) {
-            handleException(sequenceId, operation, expression, mr, preparedExpression, e);
+            handleException(sequence, operation, expression, mr, preparedExpression, e);
         }
     }
 
     private void checkPreferredPreferences() {
-        final long currentTime = System.currentTimeMillis();
-
-        if (currentTime - lastPreferenceCheck > PREFERENCE_CHECK_INTERVAL) {
-            lastPreferenceCheck = currentTime;
+        if (shouldCheckPreferredPreferences()) {
             preferredPreferences.check(false);
         }
+    }
+
+    private synchronized boolean shouldCheckPreferredPreferences() {
+        final long now = System.currentTimeMillis();
+
+        if (now - lastPreferredPreferenceCheck > PREFERENCE_CHECK_INTERVAL) {
+            lastPreferredPreferenceCheck = now;
+            return true;
+        }
+        return false;
     }
 
     @Nonnull
@@ -304,34 +309,18 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
         return new CalculatorEvaluationEventDataImpl(nextEventData(calculationId), operation, expression);
     }
 
-    private void handleException(@Nonnull Long sequenceId,
+    private void handleException(long sequence,
                                  @Nonnull JsclOperation operation,
                                  @Nonnull String expression,
                                  @Nullable MessageRegistry mr,
                                  @Nullable PreparedExpression preparedExpression,
                                  @Nonnull ParseException parseException) {
-
         if (operation == JsclOperation.numeric
                 && preparedExpression != null
                 && preparedExpression.isExistsUndefinedVar()) {
-
-            evaluate(sequenceId, JsclOperation.simplify, expression, mr);
+            evaluateAsync(sequence, JsclOperation.simplify, expression, mr);
         } else {
-
-            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_failed, new CalculatorFailureImpl(parseException));
-        }
-    }
-
-    private void handleException(@Nonnull Long calculationId,
-                                 @Nonnull JsclOperation operation,
-                                 @Nonnull String expression,
-                                 @Nullable MessageRegistry mr,
-                                 @Nonnull CalculatorEvalException evalException) {
-
-        if (operation == JsclOperation.numeric && evalException.getCause() instanceof NumeralBaseException) {
-            evaluate(calculationId, JsclOperation.simplify, expression, mr);
-        } else {
-            fireCalculatorEvent(newCalculationEventData(operation, expression, calculationId), CalculatorEventType.calculation_failed, new CalculatorFailureImpl(evalException));
+            bus.post(new CalculationFailedEvent(operation, expression, sequence, parseException));
         }
     }
 
@@ -343,7 +332,7 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
         final DisplayState displayViewState = App.getDisplay().getState();
         final NumeralBase from = Locator.getInstance().getEngine().getMathEngine().getNumeralBase();
 
-        calculationsExecutor.execute(new Runnable() {
+        background.execute(new Runnable() {
             @Override
             public void run() {
                 final Long sequenceId = eventDataId.getSequenceId();
@@ -382,7 +371,7 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
     }
 
     public void fireCalculatorEvent(@Nonnull final CalculatorEventData calculatorEventData, @Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
-        eventExecutor.execute(new Runnable() {
+        ui.execute(new Runnable() {
             @Override
             public void run() {
                 calculatorEventContainer.fireCalculatorEvent(calculatorEventData, calculatorEventType, data);
@@ -476,11 +465,6 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
         }
     }
 
-    @Nonnull
-    private Editor getEditor() {
-        return App.getEditor();
-    }
-
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
@@ -535,4 +519,5 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
             setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(prefs));
         }
     }
+
 }

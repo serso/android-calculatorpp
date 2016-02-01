@@ -30,6 +30,9 @@ import com.squareup.otto.Subscribe;
 import dagger.Lazy;
 import jscl.math.Generic;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
+import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
+import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 
@@ -39,7 +42,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import static org.solovyev.android.calculator.BaseFragment.addMenu;
-import static org.solovyev.android.calculator.CalculatorEventType.*;
+import static org.solovyev.android.calculator.CalculatorEventType.conversion_failed;
+import static org.solovyev.android.calculator.CalculatorEventType.conversion_result;
 
 @Singleton
 public class Display implements CalculatorEventListener, View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
@@ -74,6 +78,31 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
         }
         clipboard.get().setText(state.text);
         notifier.get().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
+    }
+
+    @Subscribe
+    public void onCalculationFinished(@Nonnull CalculationFinishedEvent e) {
+        if (e.sequence < state.sequence) return;
+        setState(DisplayState.createValid(e.operation, e.result, e.stringResult, e.sequence));
+    }
+
+    @Subscribe
+    public void onCalculationCancelled(@Nonnull CalculationCancelledEvent e) {
+        if (e.sequence < state.sequence) return;
+        final String error = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
+        setState(DisplayState.createError(e.operation, error, e.sequence));
+    }
+
+    @Subscribe
+    public void onCalculationFailed(@Nonnull CalculationFailedEvent e) {
+        if (e.sequence < state.sequence) return;
+        final String error;
+        if (e.exception instanceof ParseException) {
+            error = e.exception.getLocalizedMessage();
+        } else {
+            error = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
+        }
+        setState(DisplayState.createError(e.operation, error, e.sequence));
     }
 
     public void clearView(@Nonnull DisplayView view) {
@@ -112,65 +141,26 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData,
                                   @Nonnull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        if (calculatorEventType.isOfType(calculation_result, calculation_failed, calculation_cancelled, conversion_result, conversion_failed)) {
+        if (calculatorEventType.isOfType(conversion_result, conversion_failed)) {
 
             final CalculatorEventHolder.Result result = lastEvent.apply(calculatorEventData);
 
             if (result.isNewAfter()) {
                 switch (calculatorEventType) {
                     case conversion_failed:
-                        processConversationFailed((CalculatorConversionEventData) calculatorEventData, (ConversionFailure) data);
+                        processConversationFailed((CalculatorConversionEventData) calculatorEventData);
                         break;
                     case conversion_result:
                         processConversationResult((CalculatorConversionEventData) calculatorEventData, (String) data);
-                        break;
-                    case calculation_result:
-                        processCalculationResult((CalculatorEvaluationEventData) calculatorEventData, (CalculatorOutput) data);
-                        break;
-                    case calculation_cancelled:
-                        processCalculationCancelled((CalculatorEvaluationEventData) calculatorEventData);
-                        break;
-                    case calculation_failed:
-                        processCalculationFailed((CalculatorEvaluationEventData) calculatorEventData, (CalculatorFailure) data);
                         break;
                 }
             }
         }
     }
 
-    private void processConversationFailed(@Nonnull CalculatorConversionEventData calculatorEventData,
-                                           @Nonnull ConversionFailure data) {
+    private void processConversationFailed(@Nonnull CalculatorConversionEventData calculatorEventData) {
         setState(DisplayState.createError(calculatorEventData.getDisplayState().getOperation(), CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error), calculatorEventData.getSequenceId()));
 
-    }
-
-    private void processCalculationFailed(@Nonnull CalculatorEvaluationEventData calculatorEventData, @Nonnull CalculatorFailure data) {
-
-        final CalculatorEvalException calculatorEvalException = data.getCalculationEvalException();
-
-        final String errorMessage;
-        if (calculatorEvalException != null) {
-            errorMessage = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
-        } else {
-            final ParseException calculationParseException = data.getCalculationParseException();
-            if (calculationParseException != null) {
-                errorMessage = calculationParseException.getLocalizedMessage();
-            } else {
-                errorMessage = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
-            }
-        }
-
-        setState(DisplayState.createError(calculatorEventData.getOperation(), errorMessage, calculatorEventData.getSequenceId()));
-    }
-
-    private void processCalculationCancelled(@Nonnull CalculatorEvaluationEventData calculatorEventData) {
-        final String errorMessage = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
-        setState(DisplayState.createError(calculatorEventData.getOperation(), errorMessage, calculatorEventData.getSequenceId()));
-    }
-
-    private void processCalculationResult(@Nonnull CalculatorEvaluationEventData calculatorEventData, @Nonnull CalculatorOutput data) {
-        final String stringResult = data.getStringResult();
-        setState(DisplayState.createValid(calculatorEventData.getOperation(), data.getResult(), stringResult, calculatorEventData.getSequenceId()));
     }
 
     private void processConversationResult(@Nonnull CalculatorConversionEventData calculatorEventData, @Nonnull String result) {

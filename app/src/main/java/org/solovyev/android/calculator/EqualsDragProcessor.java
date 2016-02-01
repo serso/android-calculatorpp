@@ -34,6 +34,13 @@ import javax.annotation.Nonnull;
 
 public class EqualsDragProcessor implements SimpleDragListener.DragProcessor {
 
+    @Nonnull
+    private final Calculator calculator;
+
+    public EqualsDragProcessor(@Nonnull Calculator calculator) {
+        this.calculator = calculator;
+    }
+
     @Override
     public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
         if (direction == DragDirection.down) {
@@ -42,7 +49,7 @@ public class EqualsDragProcessor implements SimpleDragListener.DragProcessor {
         } else if (button instanceof DirectionDragButton) {
             final String text = ((DirectionDragButton) button).getText(direction);
             if ("≡".equals(text)) {
-                Locator.getInstance().getCalculator().simplify();
+                calculator.simplify();
                 return true;
             }
         }

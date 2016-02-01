@@ -6,7 +6,7 @@ import org.solovyev.common.msg.Message;
 
 import javax.annotation.Nonnull;
 
-public class CustomFunctionCalculationException extends AbstractJsclArithmeticException {
+public class CustomFunctionCalculationException extends JsclArithmeticException {
 
     public CustomFunctionCalculationException(@Nonnull CustomFunction function, @Nonnull Message message) {
         super(Messages.msg_19, function.getName(), message);
