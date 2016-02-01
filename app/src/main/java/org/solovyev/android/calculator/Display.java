@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Application;
+import android.content.Context;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +35,7 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
+import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 
@@ -52,6 +55,8 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
     private final CalculatorEventHolder lastEvent;
     @Nonnull
     private final Bus bus;
+    @Inject
+    Application application;
     @Inject
     Lazy<Keyboard> keyboard;
     @Inject
@@ -84,6 +89,10 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
     public void onCalculationFinished(@Nonnull CalculationFinishedEvent e) {
         if (e.sequence < state.sequence) return;
         setState(DisplayState.createValid(e.operation, e.result, e.stringResult, e.sequence));
+        if (!e.messages.isEmpty()) {
+            final Context context = view != null ? view.getContext() : application;
+            FixableErrorsActivity.show(context, e.messages);
+        }
     }
 
     @Subscribe

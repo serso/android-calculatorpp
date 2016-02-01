@@ -25,18 +25,14 @@ package org.solovyev.android.calculator;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class EditorState implements Parcelable {
 
-    public static final long NO_SEQUENCE = -1;
     public static final Creator<EditorState> CREATOR = new Creator<EditorState>() {
         @Override
         public EditorState createFromParcel(Parcel in) {
@@ -50,7 +46,6 @@ public class EditorState implements Parcelable {
     };
     private static final String JSON_TEXT = "t";
     private static final String JSON_SELECTION = "s";
-    private static AtomicLong counter = new AtomicLong(NO_SEQUENCE + 1);
     public final long sequence;
     @Nonnull
     public final CharSequence text;
@@ -63,7 +58,7 @@ public class EditorState implements Parcelable {
     }
 
     private EditorState(@Nonnull CharSequence text, int selection) {
-        this.sequence = counter.getAndIncrement();
+        this.sequence = Calculator.nextSequence();
         this.text = text;
         this.selection = selection;
     }
@@ -73,7 +68,7 @@ public class EditorState implements Parcelable {
     }
 
     private EditorState(Parcel in) {
-        sequence = NO_SEQUENCE;
+        sequence = Calculator.NO_SEQUENCE;
         selection = in.readInt();
         textString = in.readString();
         text = textString;

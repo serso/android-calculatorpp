@@ -90,7 +90,7 @@ public class AndroidEngineTest extends AbstractCalculatorTest {
     }
 
     @Test
-    public void testI() throws ParseException, EvalException {
+    public void testI() throws ParseException {
         final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
 
         CalculatorTestUtils.assertEval("-i", cm.evaluate("i^3"));

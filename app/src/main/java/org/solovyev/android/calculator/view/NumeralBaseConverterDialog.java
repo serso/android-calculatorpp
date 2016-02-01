@@ -57,7 +57,7 @@ public class NumeralBaseConverterDialog {
         if (!Strings.isEmpty(initialFromValue)) {
             String value = initialFromValue;
             try {
-                value = ToJsclTextProcessor.getInstance().process(value).getExpression();
+                value = ToJsclTextProcessor.getInstance().process(value).getValue();
                 b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getMathEngine().getNumeralBase())));
             } catch (ParseException e) {
                 b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getMathEngine().getNumeralBase())));

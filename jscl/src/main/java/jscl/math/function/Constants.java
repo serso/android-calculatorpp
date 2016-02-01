@@ -2,6 +2,8 @@ package jscl.math.function;
 
 import jscl.math.JsclInteger;
 
+import javax.annotation.Nonnull;
+
 /**
  * User: serso
  * Date: 1/7/12
@@ -14,6 +16,8 @@ public final class Constants {
     public static final Constant I = new Constant("i");
     public static final Constant INF = new Constant("∞");
     public static final Constant INF_2 = new Constant("Infinity");
+    @Nonnull
+    public static final String ANS = "ans";
 
     // not intended for instantiation
     private Constants() {

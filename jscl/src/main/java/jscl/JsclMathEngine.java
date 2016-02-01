@@ -16,7 +16,6 @@ import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.Messages;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -168,19 +167,16 @@ public class JsclMathEngine implements MathEngine {
 
                     // detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
                     final Double localValue = value;
-                    IConstant constant = Collections.find(this.getConstantsRegistry().getSystemEntities(), new JPredicate<IConstant>() {
-                        public boolean apply(@Nullable IConstant constant) {
-                            if (constant != null) {
-                                if (localValue.equals(constant.getDoubleValue())) {
-                                    if (!constant.getName().equals(Constants.PI_INV.getName())) {
-                                        if (!constant.getName().equals(Constants.PI.getName()) || JsclMathEngine.getInstance().getAngleUnits() == AngleUnit.rad) {
-                                            return true;
-                                        }
-                                    }
-                                }
+                    IConstant constant = Collections.find(getConstantsRegistry().getSystemEntities(), new JPredicate<IConstant>() {
+                        public boolean apply(@Nonnull IConstant constant) {
+                            if (!localValue.equals(constant.getDoubleValue())) {
+                                return false;
                             }
-
-                            return false;
+                            final String name = constant.getName();
+                            if (name.equals(Constants.PI_INV.getName()) || name.equals(Constants.ANS)) {
+                                return false;
+                            }
+                            return !name.equals(Constants.PI.getName()) || JsclMathEngine.getInstance().getAngleUnits() == AngleUnit.rad;
                         }
                     });
 

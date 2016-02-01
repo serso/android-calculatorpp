@@ -31,48 +31,43 @@ import java.util.List;
 public class PreparedExpression implements CharSequence {
 
     @Nonnull
-    private String expression;
+    public final String value;
 
     @Nonnull
-    private List<IConstant> undefinedVars;
+    public final List<IConstant> undefinedVariables;
 
-    public PreparedExpression(@Nonnull String expression, @Nonnull List<IConstant> undefinedVars) {
-        this.expression = expression;
-        this.undefinedVars = undefinedVars;
+    public PreparedExpression(@Nonnull String value, @Nonnull List<IConstant> undefinedVariables) {
+        this.value = value;
+        this.undefinedVariables = undefinedVariables;
     }
 
     @Nonnull
-    public String getExpression() {
-        return expression;
+    public String getValue() {
+        return value;
     }
 
-    public boolean isExistsUndefinedVar() {
-        return !this.undefinedVars.isEmpty();
-    }
-
-    @Nonnull
-    public List<IConstant> getUndefinedVars() {
-        return undefinedVars;
+    public boolean hasUndefinedVariables() {
+        return !undefinedVariables.isEmpty();
     }
 
     @Override
     public int length() {
-        return expression.length();
+        return value.length();
     }
 
     @Override
     public char charAt(int i) {
-        return expression.charAt(i);
+        return value.charAt(i);
     }
 
     @Override
     public CharSequence subSequence(int i, int i1) {
-        return expression.subSequence(i, i1);
+        return value.subSequence(i, i1);
     }
 
     @NonNull
     @Override
     public String toString() {
-        return this.expression;
+        return this.value;
     }
 }

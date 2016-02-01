@@ -100,7 +100,7 @@ public class History {
             final OldDisplayHistoryState oldDisplay = state.getDisplayState();
             final String editorText = oldEditor.getText();
             final EditorState editor = EditorState.create(Strings.nullToEmpty(editorText), oldEditor.getCursorPosition());
-            final DisplayState display = DisplayState.createValid(oldDisplay.getJsclOperation(), null, Strings.nullToEmpty(oldDisplay.getEditorState().getText()), EditorState.NO_SEQUENCE);
+            final DisplayState display = DisplayState.createValid(oldDisplay.getJsclOperation(), null, Strings.nullToEmpty(oldDisplay.getEditorState().getText()), Calculator.NO_SEQUENCE);
             states.add(HistoryState.builder(editor, display).withTime(state.getTime()).withComment(state.getComment()).build());
         }
         return states;
