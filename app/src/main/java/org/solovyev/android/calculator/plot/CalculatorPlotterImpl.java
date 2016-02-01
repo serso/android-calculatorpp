@@ -25,26 +25,18 @@ package org.solovyev.android.calculator.plot;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-
+import jscl.math.Generic;
+import jscl.math.function.Constant;
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-
-/**
- * User: serso
- * Date: 1/12/13
- * Time: 8:42 PM
- */
 public class CalculatorPlotterImpl implements CalculatorPlotter {
 
     @Nonnull

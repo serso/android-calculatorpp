@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import android.content.SharedPreferences;
 import com.squareup.otto.Bus;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -36,7 +37,7 @@ import java.util.concurrent.Executor;
 public class AbstractCalculatorTest {
 
     protected void setUp() throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(PreferredPreferences.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
+        Locator.getInstance().init(new Calculator(Mockito.mock(SharedPreferences.class), Mockito.mock(Bus.class), Mockito.mock(Executor.class)), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(PreferredPreferences.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
         Locator.getInstance().getEngine().init(new Executor() {
             @Override
             public void execute(Runnable command) {
