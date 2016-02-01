@@ -26,9 +26,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -36,39 +34,28 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.solovyev.android.Activities;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
-import org.solovyev.android.calculator.errors.FixableError;
-import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.operators.OperatorsActivity;
-import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.CppVariable;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.variables.VariablesFragment;
-import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-/**
- * User: serso
- * Date: 11/2/11
- * Time: 2:18 PM
- */
-public final class CalculatorActivityLauncher implements CalculatorEventListener {
+public final class ActivityLauncher implements CalculatorEventListener {
 
-    public CalculatorActivityLauncher() {
+    public ActivityLauncher() {
     }
 
     public static void showHistory(@Nonnull final Context context) {
@@ -131,13 +118,6 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         context.startActivity(intent);
     }
 
-    public static void plotGraph(@Nonnull final Context context) {
-        final Intent intent = new Intent();
-        intent.setClass(context, CalculatorPlotActivity.class);
-        Activities.addIntentFlags(intent, false, context);
-        context.startActivity(intent);
-    }
-
     public static void tryCreateVar(@Nonnull final Context context) {
         final Display display = App.getDisplay();
         final DisplayState state = display.getState();
@@ -182,8 +162,8 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     }
 
     @Nonnull
-    private static CalculatorNotifier getNotifier() {
-        return Locator.getInstance().getNotifier();
+    private static Notifier getNotifier() {
+        return ((CalculatorApplication) App.getApplication()).notifier;
     }
 
     public static void tryPlot() {
@@ -259,7 +239,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        CalculatorActivityLauncher.tryCreateVar(context);
+                        ActivityLauncher.tryCreateVar(context);
                     }
                 });
                 break;
@@ -267,7 +247,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        CalculatorActivityLauncher.tryCreateFunction(context);
+                        ActivityLauncher.tryCreateFunction(context);
                     }
                 });
                 break;

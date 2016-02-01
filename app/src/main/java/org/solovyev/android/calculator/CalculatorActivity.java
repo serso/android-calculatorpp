@@ -32,18 +32,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.text.method.LinkMovementMethod;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.Window;
+import android.view.*;
 import android.widget.TextView;
-
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
-import org.solovyev.android.Threads;
 import org.solovyev.android.calculator.history.History;
-import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
@@ -60,11 +53,9 @@ import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
 import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.continueWizard;
-import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
+import static org.solovyev.android.wizard.WizardUi.*;
 
-public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
+public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Nonnull
     public static final String TAG = CalculatorActivity.class.getSimpleName();
@@ -169,7 +160,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
             ui.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
             ui.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
             ui.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
-            ui.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
         } else {
             final ActionBar actionBar = getSupportActionBar();
             if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
@@ -270,31 +260,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case plot_graph:
-                Threads.tryRunOnUiThread(this, new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isMultiPane()) {
-                            final ActionBar.Tab selectedTab = getSupportActionBar().getSelectedTab();
-                            if (selectedTab != null && CalculatorFragmentType.plotter.getFragmentTag().equals(selectedTab.getTag())) {
-                                // do nothing - fragment shown and already registered for plot updates
-                            } else {
-                                // otherwise - open fragment
-                                ui.selectTab(CalculatorActivity.this, CalculatorFragmentType.plotter);
-                            }
-                        } else {
-                            // start new activity
-                            CalculatorActivityLauncher.plotGraph(CalculatorActivity.this);
-                        }
-                    }
-                });
-                break;
         }
     }
 }

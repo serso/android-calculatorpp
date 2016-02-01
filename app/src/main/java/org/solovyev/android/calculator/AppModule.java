@@ -64,12 +64,6 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Calculator provideCalculator(SharedPreferences preferences, Bus bus, @Named(THREAD_UI) Executor executor) {
-        return new Calculator(preferences, bus, executor);
-    }
-
-    @Provides
-    @Singleton
     @Named(THREAD_INIT)
     Executor provideInitThread() {
         return Executors.newSingleThreadExecutor(new ThreadFactory() {

@@ -103,20 +103,22 @@ public final class CalculatorButtons {
         }
     }
 
-    @Nonnull
-    private static Keyboard getKeyboard() {
-        return Locator.getInstance().getKeyboard();
-    }
-
     static class RoundBracketsDragProcessor implements SimpleDragListener.DragProcessor {
 
         @Nonnull
-        private final DigitButtonDragProcessor upDownProcessor = new DigitButtonDragProcessor(getKeyboard());
+        private final Keyboard keyboard;
+        @Nonnull
+        private final DigitButtonDragProcessor upDownProcessor;
+
+        RoundBracketsDragProcessor(@Nonnull Keyboard keyboard) {
+            this.keyboard = keyboard;
+            this.upDownProcessor = new DigitButtonDragProcessor(keyboard);
+        }
 
         @Override
         public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
             if (direction == DragDirection.left) {
-                getKeyboard().roundBracketsButtonPressed();
+                keyboard.roundBracketsButtonPressed();
                 return true;
             }
 
@@ -154,10 +156,13 @@ public final class CalculatorButtons {
 
         @Nonnull
         private final Context context;
+        @Nonnull
+        private final PreferredPreferences preferredPreferences;
 
-        AngleUnitsChanger(@Nonnull Context context) {
+        AngleUnitsChanger(@Nonnull Context context, @Nonnull Keyboard keyboard, @Nonnull PreferredPreferences preferredPreferences) {
             this.context = context;
-            this.processor = new DigitButtonDragProcessor(Locator.getInstance().getKeyboard());
+            this.preferredPreferences = preferredPreferences;
+            this.processor = new DigitButtonDragProcessor(keyboard);
         }
 
         @Override
@@ -177,7 +182,7 @@ public final class CalculatorButtons {
 
                             final AngleUnit oldAngleUnits = Engine.Preferences.angleUnit.getPreference(preferences);
                             if (oldAngleUnits != angleUnits) {
-                                Locator.getInstance().getPreferenceService().setAngleUnits(angleUnits);
+                                preferredPreferences.setAngleUnits(angleUnits);
                             }
                         } catch (IllegalArgumentException e) {
                             Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
@@ -197,9 +202,12 @@ public final class CalculatorButtons {
 
         @Nonnull
         private final Context context;
+        @Nonnull
+        private final PreferredPreferences preferredPreferences;
 
-        NumeralBasesChanger(@Nonnull Context context) {
+        NumeralBasesChanger(@Nonnull Context context, @Nonnull PreferredPreferences preferredPreferences) {
             this.context = context;
+            this.preferredPreferences = preferredPreferences;
         }
 
         @Override
@@ -217,7 +225,7 @@ public final class CalculatorButtons {
 
                         final NumeralBase oldNumeralBase = Engine.Preferences.numeralBase.getPreference(preferences);
                         if (oldNumeralBase != numeralBase) {
-                            Locator.getInstance().getPreferenceService().setNumeralBase(numeralBase);
+                            preferredPreferences.setNumeralBase(numeralBase);
                         }
                     } catch (IllegalArgumentException e) {
                         Log.d(this.getClass().getName(), "Unsupported numeral base: " + directionText);

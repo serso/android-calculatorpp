@@ -50,6 +50,8 @@ public class PreferredPreferences {
     Application application;
     @Inject
     SharedPreferences preferences;
+    @Inject
+    Notifier notifier;
 
     @Inject
     public PreferredPreferences() {
@@ -103,7 +105,7 @@ public class PreferredPreferences {
 
     public void setAngleUnits(@Nonnull AngleUnit angleUnit) {
         Engine.Preferences.angleUnit.putPreference(preferences, angleUnit);
-        Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application, angleUnit.name()));
+        notifier.showMessage(new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application, angleUnit.name()));
     }
 
     public void setPreferredNumeralBase() {
@@ -112,6 +114,6 @@ public class PreferredPreferences {
 
     public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
         Engine.Preferences.numeralBase.putPreference(preferences, numeralBase);
-        Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info, application, numeralBase.name()));
+        notifier.showMessage(new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info, application, numeralBase.name()));
     }
 }

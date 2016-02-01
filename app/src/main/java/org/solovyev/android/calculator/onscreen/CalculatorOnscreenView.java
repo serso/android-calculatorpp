@@ -39,76 +39,30 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-/**
- * User: serso
- * Date: 11/21/12
- * Time: 9:03 PM
- */
 public class CalculatorOnscreenView {
-    /*
-	**********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
-
     private static final String TAG = CalculatorOnscreenView.class.getSimpleName();
-
-	/*
-	**********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
 
     private static final Preference<CalculatorOnscreenViewState> viewStatePreference = new CalculatorOnscreenViewState.Preference("onscreen_view_state", CalculatorOnscreenViewState.createDefault());
 
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
-
     @Nonnull
     private View root;
-
     @Nonnull
     private View content;
-
     @Nonnull
     private View header;
-
     @Nonnull
     private ImageView headerTitle;
-
     private Drawable headerTitleDrawable;
-
     @Nonnull
     private EditorView editorView;
-
     @Nonnull
     private DisplayView displayView;
-
     @Nonnull
     private Context context;
-
     @Nonnull
     private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.createDefault();
-
     @Nullable
     private OnscreenViewListener viewListener;
-
-	/*
-	**********************************************************************
-	*
-	*                           STATES
-	*
-	**********************************************************************
-	*/
 
     private boolean minimized;
     private boolean attached;

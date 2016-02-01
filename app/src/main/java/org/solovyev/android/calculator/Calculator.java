@@ -50,12 +50,16 @@ import org.solovyev.common.units.Conversions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Singleton
 public class Calculator implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     // one minute
@@ -82,7 +86,11 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
 
     private volatile long lastPreferenceCheck = 0L;
 
-    public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Nonnull Executor eventExecutor) {
+    @Inject
+    PreferredPreferences preferredPreferences;
+
+    @Inject
+    public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Named(AppModule.THREAD_UI) @Nonnull Executor eventExecutor) {
         this.preferences = preferences;
         this.eventExecutor = eventExecutor;
         bus.register(this);
@@ -237,7 +245,6 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
                     result.toString();
 
                     if (messageRegistry.hasMessage()) {
-                        final ErrorReporter errorReporter = Locator.getInstance().getErrorReporter();
                         try {
                             final List<Message> messages = new ArrayList<Message>();
                             while (messageRegistry.hasMessage()) {
@@ -281,7 +288,7 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
 
         if (currentTime - lastPreferenceCheck > PREFERENCE_CHECK_INTERVAL) {
             lastPreferenceCheck = currentTime;
-            Locator.getInstance().getPreferenceService().check(false);
+            preferredPreferences.check(false);
         }
     }
 
@@ -481,43 +488,43 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
                 FixableErrorsActivity.show(App.getApplication(), (List<Message>) data);
                 break;
             case show_history:
-                CalculatorActivityLauncher.showHistory(App.getApplication());
+                ActivityLauncher.showHistory(App.getApplication());
                 break;
             case show_history_detached:
-                CalculatorActivityLauncher.showHistory(App.getApplication(), true);
+                ActivityLauncher.showHistory(App.getApplication(), true);
                 break;
             case show_functions:
-                CalculatorActivityLauncher.showFunctions(App.getApplication());
+                ActivityLauncher.showFunctions(App.getApplication());
                 break;
             case show_functions_detached:
-                CalculatorActivityLauncher.showFunctions(App.getApplication(), true);
+                ActivityLauncher.showFunctions(App.getApplication(), true);
                 break;
             case show_operators:
-                CalculatorActivityLauncher.showOperators(App.getApplication());
+                ActivityLauncher.showOperators(App.getApplication());
                 break;
             case show_operators_detached:
-                CalculatorActivityLauncher.showOperators(App.getApplication(), true);
+                ActivityLauncher.showOperators(App.getApplication(), true);
                 break;
             case show_vars:
-                CalculatorActivityLauncher.showVars(App.getApplication());
+                ActivityLauncher.showVars(App.getApplication());
                 break;
             case show_vars_detached:
-                CalculatorActivityLauncher.showVars(App.getApplication(), true);
+                ActivityLauncher.showVars(App.getApplication(), true);
                 break;
             case show_settings:
-                CalculatorActivityLauncher.showSettings(App.getApplication());
+                ActivityLauncher.showSettings(App.getApplication());
                 break;
             case show_settings_detached:
-                CalculatorActivityLauncher.showSettings(App.getApplication(), true);
+                ActivityLauncher.showSettings(App.getApplication(), true);
                 break;
             case show_settings_widget:
-                CalculatorActivityLauncher.showWidgetSettings(App.getApplication(), true);
+                ActivityLauncher.showWidgetSettings(App.getApplication(), true);
                 break;
             case show_like_dialog:
-                CalculatorActivityLauncher.likeButtonPressed(App.getApplication());
+                ActivityLauncher.likeButtonPressed(App.getApplication());
                 break;
             case open_app:
-                CalculatorActivityLauncher.openApp(App.getApplication());
+                ActivityLauncher.openApp(App.getApplication());
                 break;
         }
     }

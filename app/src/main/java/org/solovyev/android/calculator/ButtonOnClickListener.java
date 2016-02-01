@@ -11,6 +11,13 @@ import javax.annotation.Nonnull;
 
 final class ButtonOnClickListener implements View.OnClickListener {
 
+    @Nonnull
+    private final Keyboard keyboard;
+
+    ButtonOnClickListener(@Nonnull Keyboard keyboard) {
+        this.keyboard = keyboard;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -72,7 +79,7 @@ final class ButtonOnClickListener implements View.OnClickListener {
     }
 
     private void onClick(@Nonnull View v, @Nonnull String s) {
-        if (Locator.getInstance().getKeyboard().buttonPressed(s)) {
+        if (keyboard.buttonPressed(s)) {
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         }
     }

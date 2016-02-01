@@ -37,13 +37,6 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     private Keyboard keyboard;
     @Nonnull
-    private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
-    @Nonnull
-    private ErrorReporter errorReporter = new SystemErrorReporter();
-    @Nonnull
-    private PreferredPreferences preferredPreferences;
-
-    @Nonnull
     private CalculatorPlotter calculatorPlotter;
 
     public Locator() {
@@ -57,17 +50,11 @@ public class Locator implements CalculatorLocator {
     @Override
     public void init(@Nonnull Calculator calculator,
                      @Nonnull Engine engine,
-                     @Nonnull CalculatorNotifier notifier,
-                     @Nonnull ErrorReporter errorReporter,
-                     @Nonnull PreferredPreferences preferenceService,
                      @Nonnull Keyboard keyboard,
                      @Nonnull CalculatorPlotter plotter) {
 
         this.calculator = calculator;
         this.engine = engine;
-        this.calculatorNotifier = notifier;
-        this.errorReporter = errorReporter;
-        this.preferredPreferences = preferenceService;
         this.calculatorPlotter = plotter;
 
         this.keyboard = keyboard;
@@ -91,31 +78,9 @@ public class Locator implements CalculatorLocator {
         return keyboard;
     }
 
-    public static void setKeyboard(@Nonnull Keyboard keyboard) {
-        instance.keyboard = keyboard;
-    }
-
-    @Override
-    @Nonnull
-    public CalculatorNotifier getNotifier() {
-        return calculatorNotifier;
-    }
-
-    @Override
-    @Nonnull
-    public ErrorReporter getErrorReporter() {
-        return errorReporter;
-    }
-
     @Nonnull
     @Override
     public CalculatorPlotter getPlotter() {
         return calculatorPlotter;
-    }
-
-    @Nonnull
-    @Override
-    public PreferredPreferences getPreferenceService() {
-        return this.preferredPreferences;
     }
 }

@@ -37,7 +37,7 @@ public class EqualsDragProcessor implements SimpleDragListener.DragProcessor {
     @Override
     public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
         if (direction == DragDirection.down) {
-            CalculatorActivityLauncher.tryPlot();
+            ActivityLauncher.tryPlot();
             return true;
         } else if (button instanceof DirectionDragButton) {
             final String text = ((DirectionDragButton) button).getText(direction);
