@@ -53,9 +53,6 @@ import java.util.Map;
 public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
 
     @Nonnull
-    public static final String ANS = "ans";
-
-    @Nonnull
     private static final Map<String, String> substitutes = new HashMap<>();
 
     static {

@@ -149,7 +149,7 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
             Assert.assertEquals("101", JsclMathEngine.getInstance().evaluate("10+11"));
 
             JsclMathEngine.getInstance().setNumeralBase(NumeralBase.hex);
-            Assert.assertEquals("56CE+CAD", processor.process("56CE+CAD").getExpression());
+            Assert.assertEquals("56CE+CAD", processor.process("56CE+CAD").getValue());
         } finally {
             JsclMathEngine.getInstance().setNumeralBase(defaultNumeralBase);
         }

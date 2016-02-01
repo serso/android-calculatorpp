@@ -22,26 +22,24 @@
 
 package org.solovyev.android.calculator.model;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.ParseException;
-import org.solovyev.android.calculator.CalculatorTestUtils;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.common.Converter;
-
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import au.com.bytecode.opencsv.CSVReader;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.math.Expression;
 import jscl.util.ExpressionGeneratorWithInput;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.solovyev.android.calculator.AbstractCalculatorTest;
+import org.solovyev.android.calculator.CalculatorTestUtils;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.ParseException;
+import org.solovyev.common.Converter;
+
+import javax.annotation.Nonnull;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: serso
@@ -56,7 +54,7 @@ public class NumeralBaseTest extends AbstractCalculatorTest {
         Locator.getInstance().getEngine().getMathEngine().setPrecision(3);
     }
 
-    public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws jscl.text.ParseException, EvalException, ParseException {
+    public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws jscl.text.ParseException, ParseException {
         final String dec = line[0].toUpperCase();
         final String hex = "0x:" + line[1].toUpperCase();
         final String bin = "0b:" + line[2].toUpperCase();

@@ -22,14 +22,13 @@
 
 package org.solovyev.android.calculator;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
+
+import javax.annotation.Nonnull;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * User: serso
@@ -38,15 +37,13 @@ import jscl.math.function.IConstant;
  */
 public final class CalculatorUtils {
 
-    static final long FIRST_ID = 0;
-
     private CalculatorUtils() {
         throw new AssertionError();
     }
 
     @Nonnull
     public static CalculatorEventData createFirstEventDataId() {
-        return CalculatorEventDataImpl.newInstance(FIRST_ID, FIRST_ID);
+        return CalculatorEventDataImpl.newInstance(Calculator.NO_SEQUENCE, Calculator.NO_SEQUENCE);
     }
 
     @Nonnull

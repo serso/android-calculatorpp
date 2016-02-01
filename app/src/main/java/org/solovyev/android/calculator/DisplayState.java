@@ -64,18 +64,18 @@ public class DisplayState implements Parcelable, ContextMenu.ContextMenuInfo {
     }
 
     DisplayState(@Nonnull JSONObject json) {
-        this(json.optString(JSON_TEXT), true, EditorState.NO_SEQUENCE);
+        this(json.optString(JSON_TEXT), true, Calculator.NO_SEQUENCE);
     }
 
     private DisplayState(Parcel in) {
         text = in.readString();
         valid = in.readByte() != 0;
-        sequence = EditorState.NO_SEQUENCE;
+        sequence = Calculator.NO_SEQUENCE;
     }
 
     @Nonnull
     public static DisplayState empty() {
-        return new DisplayState("", true, EditorState.NO_SEQUENCE);
+        return new DisplayState("", true, Calculator.NO_SEQUENCE);
     }
 
     @Nonnull

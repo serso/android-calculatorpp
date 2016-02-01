@@ -271,7 +271,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
 
     private boolean applyData() {
         try {
-            final String body = calculator.prepareExpression(bodyView.getText().toString()).getExpression();
+            final String body = calculator.prepare(bodyView.getText().toString()).getValue();
 
             final CppFunction newFunction = CppFunction.builder(nameView.getText().toString(), body)
                     .withId(isNewFunction() ? NO_ID : function.id)
@@ -326,7 +326,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             return false;
         }
         try {
-            calculator.prepareExpression(body);
+            calculator.prepare(body);
             clearError(bodyLabel);
             return true;
         } catch (ParseException e) {

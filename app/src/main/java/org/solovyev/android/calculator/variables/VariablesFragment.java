@@ -61,9 +61,8 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
 
     public static boolean isValidValue(@Nonnull String value) {
         try {
-            final PreparedExpression expression = ToJsclTextProcessor.getInstance().process(value);
-            final List<IConstant> variables = expression.getUndefinedVars();
-            return variables.isEmpty();
+            final PreparedExpression pe = ToJsclTextProcessor.getInstance().process(value);
+            return !pe.hasUndefinedVariables();
         } catch (RuntimeException e) {
             return false;
         }
