@@ -26,22 +26,15 @@ import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.prefs.AbstractPreference;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-/**
- * User: serso
- * Date: 11/21/12
- * Time: 10:55 PM
- */
 public class CalculatorOnscreenViewState implements Parcelable {
 
     private static final String TAG = CalculatorOnscreenViewState.class.getSimpleName();

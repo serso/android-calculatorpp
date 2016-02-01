@@ -42,14 +42,14 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
     settings(R.string.c_settings) {
         @Override
         public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-            CalculatorActivityLauncher.showSettings(context);
+            ActivityLauncher.showSettings(context);
         }
     },
 
     history(R.string.c_history) {
         @Override
         public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-            CalculatorActivityLauncher.showHistory(context);
+            ActivityLauncher.showHistory(context);
         }
     },
 
@@ -81,7 +81,7 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
     about(R.string.c_about) {
         @Override
         public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-            CalculatorActivityLauncher.showAbout(context);
+            ActivityLauncher.showAbout(context);
         }
     };
 

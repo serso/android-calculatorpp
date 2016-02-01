@@ -52,6 +52,8 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
     Lazy<Keyboard> keyboard;
     @Inject
     Lazy<Clipboard> clipboard;
+    @Inject
+    Lazy<Notifier> notifier;
     @Nullable
     private DisplayView view;
     @Nonnull
@@ -71,7 +73,7 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
             return;
         }
         clipboard.get().setText(state.text);
-        Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
+        notifier.get().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
     }
 
     public void clearView(@Nonnull DisplayView view) {

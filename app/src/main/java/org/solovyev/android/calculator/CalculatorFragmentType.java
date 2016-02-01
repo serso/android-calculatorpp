@@ -32,10 +32,6 @@ import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.operators.OperatorsFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixEditFragment;
-import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
-import org.solovyev.android.calculator.plot.CalculatorPlotFunctionSettingsActivity;
-import org.solovyev.android.calculator.plot.CalculatorPlotFunctionsActivity;
-import org.solovyev.android.calculator.plot.CalculatorPlotRangeActivity;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 
 import javax.annotation.Nonnull;
@@ -55,10 +51,6 @@ public enum CalculatorFragmentType {
     variables(VariablesFragment.class, R.layout.fragment_entities, R.string.c_vars),
     functions(FunctionsFragment.class, R.layout.fragment_entities, R.string.c_functions),
     operators(OperatorsFragment.class, R.layout.fragment_entities, R.string.c_operators),
-    plotter(CalculatorPlotFragment.class, R.layout.cpp_plotter_fragment, R.string.c_graph),
-    plotter_functions(CalculatorPlotFunctionsActivity.CalculatorPlotFunctionsFragment.class, R.layout.cpp_plot_functions_fragment, R.string.cpp_plot_functions),
-    plotter_function_settings(CalculatorPlotFunctionSettingsActivity.CalculatorPlotFunctionSettingsFragment.class, R.layout.cpp_plot_function_settings_fragment, R.string.cpp_plot_function_settings),
-    plotter_range(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_plot_range_fragment, R.string.cpp_plot_range),
 
     purchase_dialog(PurchaseDialogActivity.PurchaseDialogFragment.class, R.layout.cpp_purchase_dialog_fragment, R.string.cpp_purchase_title),
 

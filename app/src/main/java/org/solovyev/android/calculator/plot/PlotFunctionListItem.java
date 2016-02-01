@@ -145,7 +145,7 @@ public class PlotFunctionListItem implements ListItem {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CalculatorPlotFunctionSettingsActivity.startActivity(context, plotFunction);
+                // FIXME: 2016-02-01 
             }
         });
     }

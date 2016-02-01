@@ -22,34 +22,53 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Application;
+import android.os.Handler;
+import android.widget.Toast;
+import org.solovyev.android.Threads;
+import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.List;
 
-/**
- * User: serso
- * Date: 9/22/12
- * Time: 2:00 PM
- */
-public class DummyCalculatorNotifier implements CalculatorNotifier {
+@Singleton
+public class Notifier {
+    @Inject
+    Application application;
+    @Inject
+    Handler handler;
 
-    @Override
+    @Inject
+    public Notifier() {
+    }
+
     public void showMessage(@Nonnull Message message) {
+        showMessageInUiThread(message.getLocalizedMessage());
     }
 
-    @Override
     public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nonnull List<Object> parameters) {
+        showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
     }
 
-    @Override
     public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nullable Object... parameters) {
+        showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
     }
 
-    @Override
-    public void showDebugMessage(@Nullable String tag, @Nonnull String message) {
+    private void showMessageInUiThread(@Nonnull final String message) {
+        if (Threads.isUiThread()) {
+            Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
+        } else {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

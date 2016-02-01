@@ -40,11 +40,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
-/**
- * User: serso
- * Date: 4/22/12
- * Time: 12:20 AM
- */
 public class NumeralBaseConverterDialog {
 
     @Nullable

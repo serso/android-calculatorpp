@@ -117,12 +117,14 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
     @Inject
     SharedPreferences preferences;
-
     @Inject
     Editor editor;
-
     @Inject
     History history;
+    @Inject
+    Keyboard keyboard;
+    @Inject
+    PreferredPreferences preferredPreferences;
 
     protected void onCreate(@Nonnull Activity activity) {
         ((CalculatorApplication) activity.getApplication()).getComponent().inject(this);
@@ -208,7 +210,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
         angleUnitsButton = getButton(views, R.id.cpp_button_6);
         if (angleUnitsButton != null) {
-            angleUnitsButton.setOnDragListener(newDragListener(new CalculatorButtons.AngleUnitsChanger(activity), activity));
+            angleUnitsButton.setOnDragListener(newDragListener(new CalculatorButtons.AngleUnitsChanger(activity, keyboard, preferredPreferences), activity));
         }
 
         final View eraseButton = getButton(views, R.id.cpp_button_erase);
@@ -218,7 +220,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
         clearButton = getButton(views, R.id.cpp_button_clear);
         if (clearButton != null) {
-            clearButton.setOnDragListener(newDragListener(new CalculatorButtons.NumeralBasesChanger(activity), activity));
+            clearButton.setOnDragListener(newDragListener(new CalculatorButtons.NumeralBasesChanger(activity, preferredPreferences), activity));
         }
 
         final DragButton varsButton = getButton(views, R.id.cpp_button_vars);
@@ -233,7 +235,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
         final DragButton roundBracketsButton = getButton(views, R.id.cpp_button_round_brackets);
         if (roundBracketsButton != null) {
-            roundBracketsButton.setOnDragListener(newDragListener(new CalculatorButtons.RoundBracketsDragProcessor(), activity));
+            roundBracketsButton.setOnDragListener(newDragListener(new CalculatorButtons.RoundBracketsDragProcessor(keyboard), activity));
         }
 
         if (layout == simple || layout == simple_mobile) {
@@ -261,11 +263,11 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         CalculatorButtons.initMultiplicationButton(root);
         NumeralBaseButtons.toggleNumericDigits(activity, preferences);
 
-        new ButtonOnClickListener().attachToViews(views);
+        new ButtonOnClickListener(keyboard).attachToViews(views);
     }
 
     private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull Context context) {
-        final DragListener dragListener = newDragListener(new DigitButtonDragProcessor(getKeyboard()), context);
+        final DragListener dragListener = newDragListener(new DigitButtonDragProcessor(keyboard), context);
 
         final List<Integer> viewIds = getViewIds();
         for (Integer viewId : viewIds) {
@@ -289,16 +291,6 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
                 button.showDirectionText(showDirectionText, dragDirection);
             }
         }
-    }
-
-    @Nonnull
-    private Calculator getCalculator() {
-        return Locator.getInstance().getCalculator();
-    }
-
-    @Nonnull
-    private Keyboard getKeyboard() {
-        return Locator.getInstance().getKeyboard();
     }
 
     @Nullable

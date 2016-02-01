@@ -95,6 +95,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
     ErrorReporter errorReporter;
 
     @Inject
+    Notifier notifier;
+
+    @Inject
     PreferredPreferences preferredPreferences;
 
     @Override
@@ -124,14 +127,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
         Locator.getInstance().init(calculator,
                 engine,
-                new AndroidCalculatorNotifier(this),
-                errorReporter,
-                preferredPreferences,
                 keyboard,
                 new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator))
         );
 
-        listeners.add(new CalculatorActivityLauncher());
+        listeners.add(new ActivityLauncher());
         for (CalculatorEventListener listener : listeners) {
             calculator.addCalculatorEventListener(listener);
         }
@@ -189,7 +189,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         if (Preferences.Onscreen.showAppIcon.getKey().equals(key)) {
             boolean showAppIcon = Preferences.Onscreen.showAppIcon.getPreference(prefs);
             Android.enableComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
-            Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
+            notifier.showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
     }
 
