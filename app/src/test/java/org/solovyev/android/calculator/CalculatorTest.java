@@ -30,7 +30,7 @@ import org.junit.Test;
  * Date: 15.10.12
  * Time: 12:30
  */
-public class CalculatorImplTest extends AbstractCalculatorTest {
+public class CalculatorTest extends AbstractCalculatorTest {
 
     @Before
     public void setUp() throws Exception {

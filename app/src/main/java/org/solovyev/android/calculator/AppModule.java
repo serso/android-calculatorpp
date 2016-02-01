@@ -64,8 +64,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Calculator provideCalculator(Bus bus, @Named(THREAD_UI) Executor executor) {
-        return new AndroidCalculator(application, bus, executor);
+    Calculator provideCalculator(SharedPreferences preferences, Bus bus, @Named(THREAD_UI) Executor executor) {
+        return new Calculator(preferences, bus, executor);
     }
 
     @Provides

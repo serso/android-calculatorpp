@@ -23,10 +23,10 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import com.squareup.otto.Bus;
 import jscl.JsclMathEngine;
 import org.junit.Assert;
-import org.mockito.Mockito;
 import org.robolectric.fakes.RoboSharedPreferences;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -45,6 +45,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
+import static org.mockito.Mockito.mock;
+
 /**
  * User: serso
  * Date: 10/7/12
@@ -57,7 +59,7 @@ public class CalculatorTestUtils {
 
     public static void staticSetUp() throws Exception {
         App.init(new CalculatorApplication(), new Languages(new RoboSharedPreferences(new HashMap<String, Map<String, Object>>(), "test", 0)));
-        Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), newCalculatorEngine(), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(PreferredPreferences.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
+        Locator.getInstance().init(new Calculator(mock(SharedPreferences.class), mock(Bus.class), mock(Executor.class)), newCalculatorEngine(), mock(CalculatorNotifier.class), new SystemErrorReporter(), mock(PreferredPreferences.class), mock(Keyboard.class), mock(CalculatorPlotter.class));
         Locator.getInstance().getEngine().init(new Executor() {
             @Override
             public void execute(Runnable command) {
@@ -72,7 +74,7 @@ public class CalculatorTestUtils {
     }
 
     public static void staticSetUp(@Nullable Context context) throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), newCalculatorEngine(), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(PreferredPreferences.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
+        Locator.getInstance().init(new Calculator(mock(SharedPreferences.class), mock(Bus.class), mock(Executor.class)), newCalculatorEngine(), mock(CalculatorNotifier.class), new SystemErrorReporter(), mock(PreferredPreferences.class), mock(Keyboard.class), mock(CalculatorPlotter.class));
         Locator.getInstance().getEngine().init(new Executor() {
             @Override
             public void execute(Runnable command) {
