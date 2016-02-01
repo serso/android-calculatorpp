@@ -9,17 +9,13 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Locale;
 
-public abstract class AbstractJsclArithmeticException extends ArithmeticException implements Message {
+public abstract class JsclArithmeticException extends ArithmeticException implements Message {
 
     @Nonnull
     private final Message message;
 
-    public AbstractJsclArithmeticException(@Nonnull String messageCode, Object... parameters) {
+    public JsclArithmeticException(@Nonnull String messageCode, Object... parameters) {
         this.message = new JsclMessage(messageCode, MessageType.error, parameters);
-    }
-
-    public AbstractJsclArithmeticException(@Nonnull Message message) {
-        this.message = message;
     }
 
     @Nonnull
@@ -53,10 +49,9 @@ public abstract class AbstractJsclArithmeticException extends ArithmeticExceptio
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AbstractJsclArithmeticException that = (AbstractJsclArithmeticException) o;
+        JsclArithmeticException that = (JsclArithmeticException) o;
 
         return message.equals(that.message);
-
     }
 
     @Override

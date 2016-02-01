@@ -124,6 +124,8 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
     @Inject
     Keyboard keyboard;
     @Inject
+    Calculator calculator;
+    @Inject
     PreferredPreferences preferredPreferences;
 
     protected void onCreate(@Nonnull Activity activity) {
@@ -205,7 +207,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
         final DragButton equalsButton = getButton(views, R.id.cpp_button_equals);
         if (equalsButton != null) {
-            equalsButton.setOnDragListener(newDragListener(new EqualsDragProcessor(), activity));
+            equalsButton.setOnDragListener(newDragListener(new EqualsDragProcessor(calculator), activity));
         }
 
         angleUnitsButton = getButton(views, R.id.cpp_button_6);

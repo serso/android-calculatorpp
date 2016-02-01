@@ -26,7 +26,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorEvalException;
 import org.solovyev.android.calculator.ParseException;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.Locator;
@@ -57,7 +56,7 @@ public class NumeralBaseTest extends AbstractCalculatorTest {
         Locator.getInstance().getEngine().getMathEngine().setPrecision(3);
     }
 
-    public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws jscl.text.ParseException, CalculatorEvalException, ParseException {
+    public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws jscl.text.ParseException, EvalException, ParseException {
         final String dec = line[0].toUpperCase();
         final String hex = "0x:" + line[1].toUpperCase();
         final String bin = "0b:" + line[2].toUpperCase();

@@ -33,7 +33,6 @@ import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorEvalException;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -91,7 +90,7 @@ public class AndroidEngineTest extends AbstractCalculatorTest {
     }
 
     @Test
-    public void testI() throws ParseException, CalculatorEvalException {
+    public void testI() throws ParseException, EvalException {
         final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
 
         CalculatorTestUtils.assertEval("-i", cm.evaluate("i^3"));
