@@ -58,10 +58,7 @@ public class Keyboard {
             return false;
         }
         App.getGa().onButtonPressed(text);
-        // process special buttons
-        boolean processed = processSpecialButtons(text);
-
-        if (!processed) {
+        if (!processSpecialAction(text)) {
             processText(prepareText(text));
         }
         return true;
@@ -104,16 +101,13 @@ public class Keyboard {
         }
     }
 
-    private boolean processSpecialButtons(@Nonnull String text) {
-        boolean result = false;
-
-        final CppSpecialButton button = CppSpecialButton.getByActionCode(text);
-        if (button != null) {
-            button.onClick(this);
-            result = true;
+    private boolean processSpecialAction(@Nonnull String action) {
+        final CppSpecialButton button = CppSpecialButton.getByAction(action);
+        if (button == null) {
+            return false;
         }
-
-        return result;
+        button.onClick(this);
+        return true;
     }
 
     public void roundBracketsButtonPressed() {

@@ -94,8 +94,8 @@ public enum CppButton {
     @Nullable
     public final String actionLong;
 
-    CppButton(int id, @Nonnull CppSpecialButton onClickButton, @Nullable CppSpecialButton onLongClickButton) {
-        this(id, onClickButton.getActionCode(), onLongClickButton == null ? null : onLongClickButton.getActionCode());
+    CppButton(int id, @Nonnull CppSpecialButton button, @Nullable CppSpecialButton buttonLong) {
+        this(id, button.action, buttonLong == null ? null : buttonLong.getAction());
     }
 
     CppButton(int id, @Nonnull CppSpecialButton onClickButton) {
@@ -121,10 +121,11 @@ public enum CppButton {
 
     private static void initButtonsByIdsMap() {
         Check.isMainThread();
-        if (buttonsByIds.size() == 0) {
-            for (CppButton button : values()) {
-                buttonsByIds.append(button.id, button);
-            }
+        if (buttonsByIds.size() != 0) {
+            return;
+        }
+        for (CppButton button : values()) {
+            buttonsByIds.append(button.id, button);
         }
     }
 }
