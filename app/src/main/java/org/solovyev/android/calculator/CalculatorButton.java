@@ -24,6 +24,8 @@ package org.solovyev.android.calculator;
 
 import android.util.SparseArray;
 
+import org.solovyev.android.Check;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -83,57 +85,45 @@ public enum CalculatorButton {
     /*equals*/
     equals(R.id.cpp_button_equals, CalculatorSpecialButton.equals);
 
-
     @Nonnull
     private static SparseArray<CalculatorButton> buttonsByIds = new SparseArray<>();
-    private final int buttonId;
+    public final int id;
     @Nonnull
     public final String action;
     @Nullable
     public final String actionLong;
 
-    CalculatorButton(int buttonId, @Nonnull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
-        this(buttonId, onClickButton.getActionCode(), onLongClickButton == null ? null : onLongClickButton.getActionCode());
+    CalculatorButton(int id, @Nonnull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
+        this(id, onClickButton.getActionCode(), onLongClickButton == null ? null : onLongClickButton.getActionCode());
     }
 
-    CalculatorButton(int buttonId, @Nonnull CalculatorSpecialButton onClickButton) {
-        this(buttonId, onClickButton, null);
+    CalculatorButton(int id, @Nonnull CalculatorSpecialButton onClickButton) {
+        this(id, onClickButton, null);
     }
 
-    CalculatorButton(int buttonId, @Nonnull String action, @Nullable String actionLong) {
-        this.buttonId = buttonId;
+    CalculatorButton(int id, @Nonnull String action, @Nullable String actionLong) {
+        this.id = id;
         this.action = action;
         this.actionLong = actionLong;
 
     }
 
-    CalculatorButton(int buttonId, @Nonnull String action) {
-        this(buttonId, action, null);
+    CalculatorButton(int id, @Nonnull String action) {
+        this(id, action, null);
     }
 
     @Nullable
     public static CalculatorButton getById(int buttonId) {
         initButtonsByIdsMap();
-
         return buttonsByIds.get(buttonId);
     }
 
     private static void initButtonsByIdsMap() {
+        Check.isMainThread();
         if (buttonsByIds.size() == 0) {
-            // if not initialized
-
-            final CalculatorButton[] calculatorButtons = values();
-
-            final SparseArray<CalculatorButton> localButtonsByIds = new SparseArray<>();
-            for (CalculatorButton calculatorButton : calculatorButtons) {
-                localButtonsByIds.append(calculatorButton.getButtonId(), calculatorButton);
+            for (CalculatorButton button : values()) {
+                buttonsByIds.append(button.id, button);
             }
-
-            buttonsByIds = localButtonsByIds;
         }
-    }
-
-    public int getButtonId() {
-        return buttonId;
     }
 }

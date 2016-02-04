@@ -153,7 +153,7 @@ public class CalculatorOnscreenView {
         }
 
         for (final CalculatorButton widgetButton : CalculatorButton.values()) {
-            final View button = root.findViewById(widgetButton.getButtonId());
+            final View button = root.findViewById(widgetButton.id);
             if (button == null) {
                 continue;
             }

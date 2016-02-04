@@ -40,19 +40,29 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.Preferences.SimpleTheme;
+import org.solovyev.android.calculator.R;
+
+import java.util.EnumMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.EnumMap;
 
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static org.solovyev.android.calculator.Broadcaster.*;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_DISPLAY_STATE_CHANGED;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_EDITOR_STATE_CHANGED;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_INIT;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_THEME_CHANGED;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
 public class CalculatorWidget extends AppWidgetProvider {
@@ -125,9 +135,9 @@ public class CalculatorWidget extends AppWidgetProvider {
                         final int buttonId;
                         if (button == CalculatorButton.settings_widget) {
                             // overriding default settings button behavior
-                            buttonId = CalculatorButton.settings.getButtonId();
+                            buttonId = CalculatorButton.settings.id;
                         } else {
-                            buttonId = button.getButtonId();
+                            buttonId = button.id;
                         }
                         views.setOnClickPendingIntent(buttonId, intent);
                     }
@@ -254,7 +264,7 @@ public class CalculatorWidget extends AppWidgetProvider {
             if (intent != null) {
                 return intent;
             }
-            intent = PendingIntent.getBroadcast(context, button.getButtonId(), newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
+            intent = PendingIntent.getBroadcast(context, button.id, newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
             if (intent == null) {
                 return null;
             }

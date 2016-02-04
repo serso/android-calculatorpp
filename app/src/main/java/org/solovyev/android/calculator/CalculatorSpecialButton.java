@@ -28,11 +28,6 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 10/20/12
- * Time: 2:05 PM
- */
 public enum CalculatorSpecialButton {
 
     history("history") {
@@ -65,14 +60,12 @@ public enum CalculatorSpecialButton {
             Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings, null);
         }
     },
-
     settings_detached("settings_detached") {
         @Override
         public void onClick(@Nonnull Keyboard keyboard) {
             Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
         }
     },
-
     settings_widget("settings_widget") {
         @Override
         public void onClick(@Nonnull Keyboard keyboard) {
@@ -163,7 +156,6 @@ public enum CalculatorSpecialButton {
             Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
         }
     },
-
     operators_detached("operators_detached") {
         @Override
         public void onClick(@Nonnull Keyboard keyboard) {
