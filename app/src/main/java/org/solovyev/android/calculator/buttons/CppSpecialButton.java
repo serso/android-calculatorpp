@@ -23,12 +23,6 @@
 package org.solovyev.android.calculator.buttons;
 
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.Locator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,137 +32,26 @@ import javax.annotation.Nullable;
 
 public enum CppSpecialButton {
 
-    history("history") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history, null);
-        }
-    },
-    history_detached("history_detached") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history_detached, null);
-        }
-    },
-    cursor_right("▷") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            keyboard.moveCursorRight();
-        }
-    },
-    cursor_left("◁") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            keyboard.moveCursorLeft();
-        }
-    },
-    settings("settings") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings, null);
-        }
-    },
-    settings_detached("settings_detached") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
-        }
-    },
-    settings_widget("settings_widget") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_widget, null);
-        }
-    },
-    like("like") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_like_dialog, null);
-        }
-    },
-    erase("erase") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            App.getEditor().erase();
-        }
-    },
-    paste("paste") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            keyboard.pasteButtonPressed();
-        }
-    },
-    copy("copy") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            keyboard.copyButtonPressed();
-        }
-    },
-    equals("=") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            final Calculator calculator = Locator.getInstance().getCalculator();
-            if (!calculator.isCalculateOnFly()) {
-                // no automatic calculations are => equals button must be used to calculate
-                calculator.evaluate();
-                return;
-            }
-
-            final DisplayState displayState = App.getDisplay().getState();
-            if (!displayState.valid) {
-                return;
-            }
-            App.getEditor().setText(displayState.text);
-        }
-    },
-    clear("clear") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            keyboard.clearButtonPressed();
-        }
-    },
-    functions("functions") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions, null);
-        }
-    },
-    functions_detached("functions_detached") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions_detached, null);
-        }
-    },
-    open_app("open_app") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.open_app, null);
-        }
-    },
-    vars("vars") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars, null);
-        }
-    },
-    vars_detached("vars_detached") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars_detached, null);
-        }
-    },
-    operators("operators") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
-        }
-    },
-    operators_detached("operators_detached") {
-        @Override
-        public void onClick(@Nonnull Keyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators_detached, null);
-        }
-    };
+    history("history"),
+    history_detached("history_detached"),
+    cursor_right("▷"),
+    cursor_left("◁"),
+    settings("settings"),
+    settings_detached("settings_detached"),
+    settings_widget("settings_widget"),
+    like("like"),
+    erase("erase"),
+    paste("paste"),
+    copy("copy"),
+    equals("="),
+    clear("clear"),
+    functions("functions"),
+    functions_detached("functions_detached"),
+    open_app("open_app"),
+    vars("vars"),
+    vars_detached("vars_detached"),
+    operators("operators"),
+    operators_detached("operators_detached");
 
     @Nonnull
     private static Map<String, CppSpecialButton> buttonsByActions = new HashMap<>();
@@ -200,6 +83,4 @@ public enum CppSpecialButton {
     public String getAction() {
         return action;
     }
-
-    public abstract void onClick(@Nonnull Keyboard keyboard);
 }
