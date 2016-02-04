@@ -23,21 +23,19 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
+import android.support.annotation.NonNull;
+
 import org.solovyev.android.Activities;
-import org.solovyev.android.calculator.about.CalculatorAboutActivity;
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
-import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
+import org.solovyev.android.calculator.history.HistoryActivity;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -49,73 +47,77 @@ import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import jscl.math.Generic;
+import jscl.math.function.Constant;
+
+@Singleton
 public final class ActivityLauncher implements CalculatorEventListener {
 
+    @Inject
+    Application application;
+    @Nullable
+    private CalculatorActivity activity;
+
+    @Inject
     public ActivityLauncher() {
     }
 
-    public static void showHistory(@Nonnull final Context context) {
-        showHistory(context, false);
+    private static void showActivity(@Nonnull final Context context, @NonNull Class<? extends Activity> activity) {
+        showActivity(context, new Intent(context, activity));
     }
 
-    public static void showHistory(@Nonnull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
+    private static void showActivity(@Nonnull Context context, @NonNull Intent intent) {
+        final boolean detached = !(context instanceof Activity);
         Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
+    }
+
+    public void showHistory() {
+        showHistory(getContext());
+    }
+
+    public void showSettings() {
+        showSettings(getContext());
+    }
+
+    public void showWidgetSettings() {
+        final Context context = getContext();
+        showActivity(context, PreferencesActivity.makeIntent(context, R.xml.preferences_widget, R.string.prefs_widget_title));
+    }
+
+    public static void showHistory(@Nonnull final Context context) {
+        show(context, HistoryActivity.class);
+    }
+
+    private static void show(@Nonnull Context context, Class<HistoryActivity> activity) {
+        showActivity(context, activity);
+    }
+
+    public void showOperators() {
+        showActivity(getContext(), OperatorsActivity.class);
     }
 
     public static void showSettings(@Nonnull final Context context) {
-        showSettings(context, false);
-    }
-
-    public static void showWidgetSettings(@Nonnull final Context context, boolean detached) {
-        final Intent intent = PreferencesActivity.makeIntent(context, R.xml.preferences_widget, R.string.prefs_widget_title);
-        Activities.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
-    }
-
-    public static void showSettings(@Nonnull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, PreferencesActivity.class);
-        Activities.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
+        showActivity(context, PreferencesActivity.class);
     }
 
     public static void showAbout(@Nonnull final Context context) {
-        context.startActivity(new Intent(context, CalculatorAboutActivity.class));
+        context.startActivity(new Intent(context, AboutActivity.class));
     }
 
     public static void showFunctions(@Nonnull final Context context) {
-        showFunctions(context, false);
+        showActivity(context, FunctionsActivity.class);
     }
 
-    public static void showFunctions(@Nonnull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, FunctionsActivity.class);
-        Activities.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
-    }
-
-    public static void showOperators(@Nonnull final Context context) {
-        showOperators(context, false);
-    }
-
-    public static void showOperators(@Nonnull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, OperatorsActivity.class);
-        Activities.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
-    }
-
-    public static void showVars(@Nonnull final Context context) {
-        showVars(context, false);
-    }
-
-    public static void showVars(@Nonnull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, VariablesActivity.class);
-        Activities.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
+    public static void showVariables(@Nonnull final Context context) {
+        showActivity(context, VariablesActivity.class);
     }
 
     public static void tryCreateVar(@Nonnull final Context context) {
@@ -188,29 +190,31 @@ public final class ActivityLauncher implements CalculatorEventListener {
         }
     }
 
-    public static void openApp(@Nonnull Context context) {
-        final Intent intent = new Intent(context, CalculatorActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
+    public void openFacebook() {
+        final Uri uri = Uri.parse(application.getString(R.string.cpp_share_link));
+        final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        application.startActivity(intent);
     }
 
-    public static void likeButtonPressed(@Nonnull final Context context) {
-        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.cpp_share_link)));
-        Activities.addIntentFlags(intent, false, context);
-        context.startActivity(intent);
+    public void setActivity(@Nullable CalculatorActivity activity) {
+        Check.isNull(this.activity);
+        this.activity = activity;
     }
 
-    public static void showEvaluationError(@Nonnull Context context, @Nonnull final String errorMessage) {
-        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+    public void clearActivity(@Nullable CalculatorActivity activity) {
+        Check.isNotNull(this.activity);
+        Check.equals(this.activity, activity);
+        this.activity = null;
+    }
 
-        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
-        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
+    public void show(@NonNull Class<HistoryActivity> activity) {
+        showActivity(getContext(), activity);
+    }
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setPositiveButton(R.string.c_cancel, null)
-                .setView(errorMessageView);
-
-        builder.create().show();
+    @NonNull
+    private Context getContext() {
+        return activity == null ? application : activity;
     }
 
     @Override
@@ -251,17 +255,21 @@ public final class ActivityLauncher implements CalculatorEventListener {
                     }
                 });
                 break;
-            case show_evaluation_error:
-                final String errorMessage = (String) data;
-                if (errorMessage != null) {
-                    App.getUiThreadExecutor().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            showEvaluationError(context, errorMessage);
-                        }
-                    });
-                }
-                break;
         }
+    }
+
+    public void showFunctions() {
+        showFunctions(getContext());
+    }
+
+    public void showVariables() {
+        showVariables(getContext());
+    }
+
+    public void openApp() {
+        final Context context = getContext();
+        final Intent intent = new Intent(context, CalculatorActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
 }

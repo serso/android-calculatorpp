@@ -22,11 +22,15 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -64,6 +68,8 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
     Lazy<Clipboard> clipboard;
     @Inject
     Lazy<Notifier> notifier;
+    @Inject
+    ActivityLauncher launcher;
     @Nullable
     private DisplayView view;
     @Nonnull
@@ -194,9 +200,23 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
             v.showContextMenu();
             v.setOnCreateContextMenuListener(null);
         } else {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_evaluation_error, state.text);
+            showEvaluationError(v.getContext(), state.text);
         }
     }
+
+    public static void showEvaluationError(@Nonnull Context context, @Nonnull final String errorMessage) {
+        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
+        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setPositiveButton(R.string.c_cancel, null)
+                .setView(errorMessageView);
+
+        builder.create().show();
+    }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

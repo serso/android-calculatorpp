@@ -143,6 +143,9 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     @Inject
     History history;
 
+    @Inject
+    ActivityLauncher launcher;
+
     /**
      * Called when the activity is first created.
      */
@@ -221,6 +224,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     @Override
     protected void onResume() {
         super.onResume();
+        launcher.setActivity(this);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
@@ -234,6 +238,12 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         } else {
             window.clearFlags(FLAG_KEEP_SCREEN_ON);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        launcher.clearActivity(this);
+        super.onPause();
     }
 
     @Override

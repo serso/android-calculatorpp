@@ -32,12 +32,7 @@ import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.buttons.CppSpecialButton.cursor_left;
 import static org.solovyev.android.calculator.buttons.CppSpecialButton.cursor_right;
-import static org.solovyev.android.calculator.buttons.CppSpecialButton.functions_detached;
-import static org.solovyev.android.calculator.buttons.CppSpecialButton.history_detached;
 import static org.solovyev.android.calculator.buttons.CppSpecialButton.open_app;
-import static org.solovyev.android.calculator.buttons.CppSpecialButton.operators_detached;
-import static org.solovyev.android.calculator.buttons.CppSpecialButton.settings_detached;
-import static org.solovyev.android.calculator.buttons.CppSpecialButton.vars_detached;
 
 public enum CppButton {
 
@@ -56,18 +51,18 @@ public enum CppButton {
     period(R.id.cpp_button_period, "."),
     brackets(R.id.cpp_button_round_brackets, "()"),
 
-    settings(R.id.cpp_button_settings, settings_detached),
+    settings(R.id.cpp_button_settings, CppSpecialButton.settings),
     settings_widget(R.id.cpp_button_settings_widget, CppSpecialButton.settings_widget),
     like(R.id.cpp_button_like, CppSpecialButton.like),
 
     /*last row*/
     left(R.id.cpp_button_left, cursor_left),
     right(R.id.cpp_button_right, cursor_right),
-    vars(R.id.cpp_button_vars, vars_detached),
-    functions(R.id.cpp_button_functions, functions_detached),
-    operators(R.id.cpp_button_operators, operators_detached),
+    vars(R.id.cpp_button_vars, CppSpecialButton.vars),
+    functions(R.id.cpp_button_functions, CppSpecialButton.functions),
+    operators(R.id.cpp_button_operators, CppSpecialButton.operators),
     app(R.id.cpp_button_app, open_app),
-    history(R.id.cpp_button_history, history_detached),
+    history(R.id.cpp_button_history, CppSpecialButton.history),
 
     /*operations*/
     multiplication(R.id.cpp_button_multiplication, "*"),
@@ -98,8 +93,8 @@ public enum CppButton {
         this(id, button.action, buttonLong == null ? null : buttonLong.getAction());
     }
 
-    CppButton(int id, @Nonnull CppSpecialButton onClickButton) {
-        this(id, onClickButton, null);
+    CppButton(int id, @Nonnull CppSpecialButton button) {
+        this(id, button, null);
     }
 
     CppButton(int id, @Nonnull String action, @Nullable String actionLong) {

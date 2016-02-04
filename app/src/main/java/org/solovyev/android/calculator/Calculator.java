@@ -26,13 +26,10 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import jscl.*;
-import jscl.math.Generic;
-import jscl.math.function.Constants;
-import jscl.math.function.IConstant;
-import jscl.text.ParseInterruptedException;
+
 import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
@@ -48,11 +45,6 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,8 +52,23 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import jscl.JsclArithmeticException;
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Constants;
+import jscl.math.function.IConstant;
+import jscl.text.ParseInterruptedException;
+
 @Singleton
-public class Calculator implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class Calculator implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final long NO_SEQUENCE = -1;
     private static final long PREFERENCE_CHECK_INTERVAL = TimeUnit.MINUTES.toMillis(15);
@@ -99,7 +106,6 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
         this.ui = ui;
         this.background = background;
         bus.register(this);
-        addCalculatorEventListener(this);
         preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -149,14 +155,12 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
 
     public void evaluate() {
         final EditorState state = editor.getState();
-        final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, state);
-        evaluate(JsclOperation.numeric, state.getTextString(), eventData.getSequenceId());
+        evaluate(JsclOperation.numeric, state.getTextString());
     }
 
     public void simplify() {
         final EditorState state = editor.getState();
-        final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, state);
-        evaluate(JsclOperation.simplify, state.getTextString(), eventData.getSequenceId());
+        evaluate(JsclOperation.simplify, state.getTextString());
     }
 
     @Nonnull
@@ -459,51 +463,6 @@ public class Calculator implements CalculatorEventListener, SharedPreferences.On
     public void onVariableChanged(@NonNull VariablesRegistry.ChangedEvent e) {
         if (!e.newVariable.getName().equals(Constants.ANS)) {
             evaluate();
-        }
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case show_history:
-                ActivityLauncher.showHistory(App.getApplication());
-                break;
-            case show_history_detached:
-                ActivityLauncher.showHistory(App.getApplication(), true);
-                break;
-            case show_functions:
-                ActivityLauncher.showFunctions(App.getApplication());
-                break;
-            case show_functions_detached:
-                ActivityLauncher.showFunctions(App.getApplication(), true);
-                break;
-            case show_operators:
-                ActivityLauncher.showOperators(App.getApplication());
-                break;
-            case show_operators_detached:
-                ActivityLauncher.showOperators(App.getApplication(), true);
-                break;
-            case show_vars:
-                ActivityLauncher.showVars(App.getApplication());
-                break;
-            case show_vars_detached:
-                ActivityLauncher.showVars(App.getApplication(), true);
-                break;
-            case show_settings:
-                ActivityLauncher.showSettings(App.getApplication());
-                break;
-            case show_settings_detached:
-                ActivityLauncher.showSettings(App.getApplication(), true);
-                break;
-            case show_settings_widget:
-                ActivityLauncher.showWidgetSettings(App.getApplication(), true);
-                break;
-            case show_like_dialog:
-                ActivityLauncher.likeButtonPressed(App.getApplication());
-                break;
-            case open_app:
-                ActivityLauncher.openApp(App.getApplication());
-                break;
         }
     }
 

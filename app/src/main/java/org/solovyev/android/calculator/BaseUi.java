@@ -128,6 +128,8 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
     Calculator calculator;
     @Inject
     PreferredPreferences preferredPreferences;
+    @Inject
+    ActivityLauncher launcher;
 
     protected void onCreate(@Nonnull Activity activity) {
         cast(activity.getApplication()).getComponent().inject(this);
@@ -315,11 +317,11 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         }
     }
 
-    private static class OperatorsDragProcessor implements SimpleDragListener.DragProcessor {
+    private class OperatorsDragProcessor implements SimpleDragListener.DragProcessor {
         @Override
         public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
             if (dragDirection == DragDirection.down) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
+                launcher.showOperators();
                 return true;
             }
             return false;

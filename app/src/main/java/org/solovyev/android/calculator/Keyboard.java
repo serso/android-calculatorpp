@@ -54,6 +54,8 @@ public class Keyboard {
     Lazy<Clipboard> clipboard;
     @Inject
     Lazy<Bus> bus;
+    @Inject
+    ActivityLauncher launcher;
 
     @Inject
     public Keyboard() {
@@ -119,10 +121,7 @@ public class Keyboard {
     private void onSpecialButtonPressed(@NonNull CppSpecialButton button) {
         switch (button) {
             case history:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_history, null);
-                break;
-            case history_detached:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_history_detached, null);
+                launcher.showHistory();
                 break;
             case cursor_right:
                 moveCursorRight();
@@ -131,16 +130,13 @@ public class Keyboard {
                 moveCursorLeft();
                 break;
             case settings:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_settings, null);
-                break;
-            case settings_detached:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
+                launcher.showSettings();
                 break;
             case settings_widget:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_settings_widget, null);
+                launcher.showWidgetSettings();
                 break;
             case like:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_like_dialog, null);
+                launcher.openFacebook();
                 break;
             case erase:
                 editor.erase();
@@ -158,25 +154,16 @@ public class Keyboard {
                 clearButtonPressed();
                 break;
             case functions:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_functions, null);
-                break;
-            case functions_detached:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_functions_detached, null);
+                launcher.showFunctions();
                 break;
             case open_app:
-                calculator.fireCalculatorEvent(CalculatorEventType.open_app, null);
+                launcher.openApp();
                 break;
             case vars:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_vars, null);
-                break;
-            case vars_detached:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_vars_detached, null);
+                launcher.showVariables();
                 break;
             case operators:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_operators, null);
-                break;
-            case operators_detached:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_operators_detached, null);
+                launcher.showOperators();
                 break;
             default:
                 Check.shouldNotHappen();
