@@ -22,7 +22,7 @@ public final class CalculatorReceiver extends BroadcastReceiver {
     public static Intent newButtonClickedIntent(@Nonnull Context context, @Nonnull CalculatorButton button) {
         final Intent intent = new Intent(context, CalculatorReceiver.class);
         intent.setAction(ACTION_BUTTON_PRESSED);
-        intent.putExtra(ACTION_BUTTON_ID_EXTRA, button.getButtonId());
+        intent.putExtra(ACTION_BUTTON_ID_EXTRA, button.id);
         return intent;
     }
 
