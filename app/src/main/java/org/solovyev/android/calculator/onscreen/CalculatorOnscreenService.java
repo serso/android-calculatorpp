@@ -39,7 +39,6 @@ import com.squareup.otto.Subscribe;
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.Preferences;
@@ -48,6 +47,8 @@ import org.solovyev.android.calculator.R;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+
+import static org.solovyev.android.calculator.App.cast;
 
 public class CalculatorOnscreenService extends Service implements OnscreenViewListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -126,7 +127,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     @Override
     public void onCreate() {
         super.onCreate();
-        ((CalculatorApplication) getApplication()).getComponent().inject(this);
+        cast(getApplication()).getComponent().inject(this);
     }
 
     @Override

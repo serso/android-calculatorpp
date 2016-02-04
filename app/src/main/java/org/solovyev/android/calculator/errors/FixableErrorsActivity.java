@@ -29,15 +29,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+
 import org.solovyev.android.Activities;
-import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.common.msg.Message;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+
+import static org.solovyev.android.calculator.App.cast;
 
 public class FixableErrorsActivity extends AppCompatActivity {
 
@@ -81,7 +84,7 @@ public class FixableErrorsActivity extends AppCompatActivity {
             finish();
             return;
         }
-        ((CalculatorApplication) getApplication()).getComponent().inject(this);
+        cast(getApplication()).getComponent().inject(this);
         if (state == null) {
             showNextError();
         }

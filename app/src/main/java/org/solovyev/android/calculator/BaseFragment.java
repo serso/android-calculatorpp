@@ -8,6 +8,7 @@ import android.view.*;
 import javax.annotation.Nonnull;
 
 import static android.view.Menu.NONE;
+import static org.solovyev.android.calculator.App.cast;
 
 public abstract class BaseFragment extends Fragment {
 
@@ -21,7 +22,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inject(((CalculatorApplication) getActivity().getApplication()).getComponent());
+        inject(cast(getActivity().getApplication()).getComponent());
         ui.onCreate(this);
     }
 

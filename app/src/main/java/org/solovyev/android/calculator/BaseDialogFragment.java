@@ -17,6 +17,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import javax.inject.Inject;
 
+import static org.solovyev.android.calculator.App.cast;
+
 public abstract class BaseDialogFragment extends DialogFragment {
 
     @Inject
@@ -25,7 +27,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inject(((CalculatorApplication) getActivity().getApplication()).getComponent());
+        inject(cast(getActivity().getApplication()).getComponent());
     }
 
     protected void inject(@NonNull AppComponent component) {

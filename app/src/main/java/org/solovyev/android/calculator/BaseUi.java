@@ -51,6 +51,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
+import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
 import static org.solovyev.android.calculator.Engine.Preferences.angleUnit;
@@ -129,7 +130,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
     PreferredPreferences preferredPreferences;
 
     protected void onCreate(@Nonnull Activity activity) {
-        ((CalculatorApplication) activity.getApplication()).getComponent().inject(this);
+        cast(activity.getApplication()).getComponent().inject(this);
 
         layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
         theme = Preferences.Gui.theme.getPreferenceNoError(preferences);
