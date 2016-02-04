@@ -33,41 +33,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.AndroidMenuHelper;
-import org.solovyev.android.menu.ListActivityMenu;
+import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 
-import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import static org.solovyev.android.calculator.App.cast;
 
-public class CalculatorEditorFragment extends Fragment {
+public class EditorFragment extends Fragment {
 
-    private FragmentUi fragmentUi;
-
-    @Nonnull
-    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, AndroidMenuHelper.getInstance());
+    private FragmentUi ui;
 
     private EditorView editorView;
 
     @Inject
     Editor editor;
-
     @Inject
     SharedPreferences preferences;
+    @Inject
+    ActivityLauncher launcher;
 
-    public CalculatorEditorFragment() {
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        fragmentUi.onViewCreated(this, view);
-
-        editorView = (EditorView) view.findViewById(R.id.calculator_editor);
-        editor.setView(editorView);
+    public EditorFragment() {
     }
 
     @Override
@@ -83,42 +68,52 @@ public class CalculatorEditorFragment extends Fragment {
 
         final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
         if (!layout.optimized) {
-            fragmentUi = new FragmentUi(R.layout.cpp_app_editor_mobile, R.string.editor);
+            ui = new FragmentUi(R.layout.cpp_app_editor_mobile, R.string.editor);
         } else {
-            fragmentUi = new FragmentUi(R.layout.cpp_app_editor, R.string.editor);
+            ui = new FragmentUi(R.layout.cpp_app_editor, R.string.editor);
         }
 
-        fragmentUi.onCreate(this);
+        ui.onCreate(this);
         setHasOptionsMenu(true);
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ui.onViewCreated(this, view);
+
+        editorView = (EditorView) view.findViewById(R.id.calculator_editor);
+        editor.setView(editorView);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return fragmentUi.onCreateView(this, inflater, container);
+        return ui.onCreateView(this, inflater, container);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        this.fragmentUi.onResume(this);
+        this.ui.onResume(this);
     }
 
     @Override
     public void onPause() {
-        this.fragmentUi.onPause(this);
+        this.ui.onPause(this);
         super.onPause();
     }
 
     @Override
     public void onDestroyView() {
         editor.clearView(editorView);
-        fragmentUi.onDestroyView(this);
+        ui.onDestroyView(this);
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        fragmentUi.onDestroy(this);
+        ui.onDestroy(this);
         super.onDestroy();
     }
 
@@ -127,26 +122,30 @@ public class CalculatorEditorFragment extends Fragment {
         super.onDetach();
     }
 
-	/*
-    **********************************************************************
-	*
-	*                           MENU
-	*
-	**********************************************************************
-	*/
-
-    @Override
+	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        this.menu.onCreateOptionsMenu(this.getActivity(), menu);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        this.menu.onPrepareOptionsMenu(this.getActivity(), menu);
+        inflater.inflate(R.menu.main, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return this.menu.onOptionsItemSelected(this.getActivity(), item);
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                launcher.showSettings();
+                return true;
+            case R.id.menu_history:
+                launcher.showHistory();
+                return true;
+            case R.id.menu_plotter:
+                Locator.getInstance().getPlotter().plot();
+                return true;
+            case R.id.menu_conversion_tool:
+                new NumeralBaseConverterDialog(null).show(getActivity());
+                return true;
+            case R.id.menu_about:
+                launcher.showAbout();
+                return true;
+        }
+        return false;
     }
 }

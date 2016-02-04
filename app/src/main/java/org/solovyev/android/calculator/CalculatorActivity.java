@@ -173,7 +173,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
             }
         }
 
-        FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
+        FragmentUtils.createFragment(this, EditorFragment.class, R.id.editorContainer, "editor");
         FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
         FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
