@@ -36,11 +36,6 @@ import static org.solovyev.android.calculator.CalculatorSpecialButton.operators_
 import static org.solovyev.android.calculator.CalculatorSpecialButton.settings_detached;
 import static org.solovyev.android.calculator.CalculatorSpecialButton.vars_detached;
 
-/**
- * User: serso
- * Date: 10/20/12
- * Time: 12:05 AM
- */
 public enum CalculatorButton {
 
     /*digits*/
@@ -93,9 +88,9 @@ public enum CalculatorButton {
     private static SparseArray<CalculatorButton> buttonsByIds = new SparseArray<>();
     private final int buttonId;
     @Nonnull
-    private final String onClickText;
+    public final String action;
     @Nullable
-    private final String onLongClickText;
+    public final String actionLong;
 
     CalculatorButton(int buttonId, @Nonnull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
         this(buttonId, onClickButton.getActionCode(), onLongClickButton == null ? null : onLongClickButton.getActionCode());
@@ -105,15 +100,15 @@ public enum CalculatorButton {
         this(buttonId, onClickButton, null);
     }
 
-    CalculatorButton(int buttonId, @Nonnull String onClickText, @Nullable String onLongClickText) {
+    CalculatorButton(int buttonId, @Nonnull String action, @Nullable String actionLong) {
         this.buttonId = buttonId;
-        this.onClickText = onClickText;
-        this.onLongClickText = onLongClickText;
+        this.action = action;
+        this.actionLong = actionLong;
 
     }
 
-    CalculatorButton(int buttonId, @Nonnull String onClickText) {
-        this(buttonId, onClickText, null);
+    CalculatorButton(int buttonId, @Nonnull String action) {
+        this(buttonId, action, null);
     }
 
     @Nullable
@@ -136,17 +131,6 @@ public enum CalculatorButton {
 
             buttonsByIds = localButtonsByIds;
         }
-    }
-
-    public boolean onLongClick() {
-        if (onLongClickText != null) {
-            return Locator.getInstance().getKeyboard().buttonPressed(onLongClickText);
-        }
-        return false;
-    }
-
-    public boolean onClick() {
-        return Locator.getInstance().getKeyboard().buttonPressed(onClickText);
     }
 
     public int getButtonId() {

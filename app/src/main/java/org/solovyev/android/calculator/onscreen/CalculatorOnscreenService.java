@@ -41,6 +41,7 @@ import org.solovyev.android.Views;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.Keyboard;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
@@ -61,6 +62,14 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 
     @Inject
     Bus bus;
+    @Inject
+    Editor editor;
+    @Inject
+    Display display;
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    Keyboard keyboard;
 
     @Nonnull
     private static Class<?> getIntentListenerClass() {
@@ -111,13 +120,13 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
         final int width = Math.min(width0, height0);
         final int height = Math.max(width0, height0);
 
-        view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this);
+        view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this, preferences, keyboard);
         view.show();
-        view.updateEditorState(App.getEditor().getState());
-        view.updateDisplayState(App.getDisplay().getState());
+        view.updateEditorState(editor.getState());
+        view.updateDisplayState(display.getState());
 
         bus.register(this);
-        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private int getHeight(int width) {
@@ -133,7 +142,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     @Override
     public void onDestroy() {
         if (view != null) {
-            App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+            preferences.unregisterOnSharedPreferenceChangeListener(this);
             bus.unregister(this);
             view.hide();
             view = null;

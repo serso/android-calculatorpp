@@ -33,4 +33,5 @@ public interface AppComponent {
     void inject(OperatorsFragment fragment);
     void inject(CalculatorActivity activity);
     void inject(FixableErrorsActivity activity);
+    void inject(CalculatorReceiver receiver);
 }

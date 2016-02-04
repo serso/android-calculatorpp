@@ -23,15 +23,17 @@
 package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
+
 import com.squareup.otto.Bus;
-import dagger.Lazy;
+
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import dagger.Lazy;
 
 @Singleton
 public class Keyboard {
@@ -51,17 +53,17 @@ public class Keyboard {
     }
 
     public boolean buttonPressed(@Nullable final String text) {
-        App.getGa().onButtonPressed(text);
-        if (!Strings.isEmpty(text)) {
-            // process special buttons
-            boolean processed = processSpecialButtons(text);
-
-            if (!processed) {
-                processText(prepareText(text));
-            }
-            return true;
+        if (TextUtils.isEmpty(text)) {
+            return false;
         }
-        return false;
+        App.getGa().onButtonPressed(text);
+        // process special buttons
+        boolean processed = processSpecialButtons(text);
+
+        if (!processed) {
+            processText(prepareText(text));
+        }
+        return true;
     }
 
     private void processText(@Nonnull String text) {
