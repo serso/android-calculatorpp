@@ -144,7 +144,7 @@ public class FragmentUi extends BaseUi {
         adView = (AdView) root.findViewById(R.id.ad);
         final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
 
-        if (fragment instanceof CalculatorDisplayFragment || fragment instanceof CalculatorEditorFragment || fragment instanceof CalculatorKeyboardFragment) {
+        if (fragment instanceof CalculatorDisplayFragment || fragment instanceof EditorFragment || fragment instanceof CalculatorKeyboardFragment) {
             // no ads in those fragments
         } else {
             if (adView != null) {

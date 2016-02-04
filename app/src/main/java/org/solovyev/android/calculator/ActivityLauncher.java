@@ -69,55 +69,14 @@ public final class ActivityLauncher implements CalculatorEventListener {
     public ActivityLauncher() {
     }
 
-    private static void showActivity(@Nonnull final Context context, @NonNull Class<? extends Activity> activity) {
-        showActivity(context, new Intent(context, activity));
+    private static void show(@Nonnull final Context context, @NonNull Class<? extends Activity> activity) {
+        show(context, new Intent(context, activity));
     }
 
-    private static void showActivity(@Nonnull Context context, @NonNull Intent intent) {
+    private static void show(@Nonnull Context context, @NonNull Intent intent) {
         final boolean detached = !(context instanceof Activity);
         Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
-    }
-
-    public void showHistory() {
-        showHistory(getContext());
-    }
-
-    public void showSettings() {
-        showSettings(getContext());
-    }
-
-    public void showWidgetSettings() {
-        final Context context = getContext();
-        showActivity(context, PreferencesActivity.makeIntent(context, R.xml.preferences_widget, R.string.prefs_widget_title));
-    }
-
-    public static void showHistory(@Nonnull final Context context) {
-        show(context, HistoryActivity.class);
-    }
-
-    private static void show(@Nonnull Context context, Class<HistoryActivity> activity) {
-        showActivity(context, activity);
-    }
-
-    public void showOperators() {
-        showActivity(getContext(), OperatorsActivity.class);
-    }
-
-    public static void showSettings(@Nonnull final Context context) {
-        showActivity(context, PreferencesActivity.class);
-    }
-
-    public static void showAbout(@Nonnull final Context context) {
-        context.startActivity(new Intent(context, AboutActivity.class));
-    }
-
-    public static void showFunctions(@Nonnull final Context context) {
-        showActivity(context, FunctionsActivity.class);
-    }
-
-    public static void showVariables(@Nonnull final Context context) {
-        showActivity(context, VariablesActivity.class);
     }
 
     public static void tryCreateVar(@Nonnull final Context context) {
@@ -190,6 +149,27 @@ public final class ActivityLauncher implements CalculatorEventListener {
         }
     }
 
+    public void showHistory() {
+        show(getContext(), HistoryActivity.class);
+    }
+
+    public void showSettings() {
+        show(getContext(), PreferencesActivity.class);
+    }
+
+    public void showWidgetSettings() {
+        final Context context = getContext();
+        show(context, PreferencesActivity.makeIntent(context, R.xml.preferences_widget, R.string.prefs_widget_title));
+    }
+
+    public void showOperators() {
+        show(getContext(), OperatorsActivity.class);
+    }
+
+    public void showAbout() {
+        show(getContext(), AboutActivity.class);
+    }
+
     public void openFacebook() {
         final Uri uri = Uri.parse(application.getString(R.string.cpp_share_link));
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -209,7 +189,7 @@ public final class ActivityLauncher implements CalculatorEventListener {
     }
 
     public void show(@NonNull Class<HistoryActivity> activity) {
-        showActivity(getContext(), activity);
+        show(getContext(), activity);
     }
 
     @NonNull
@@ -259,11 +239,11 @@ public final class ActivityLauncher implements CalculatorEventListener {
     }
 
     public void showFunctions() {
-        showFunctions(getContext());
+        show(getContext(), FunctionsActivity.class);
     }
 
     public void showVariables() {
-        showVariables(getContext());
+        show(getContext(), VariablesActivity.class);
     }
 
     public void openApp() {

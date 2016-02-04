@@ -19,7 +19,7 @@ import dagger.Component;
 @Component(modules = AppModule.class)
 public interface AppComponent {
     void inject(CalculatorApplication application);
-    void inject(CalculatorEditorFragment fragment);
+    void inject(EditorFragment fragment);
     void inject(BaseUi ui);
     void inject(CalculatorOnscreenService service);
     void inject(BaseHistoryFragment fragment);
