@@ -28,16 +28,30 @@ import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.DisplayView;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.EditorView;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.prefs.Preference;
+
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Locale;
 
 public class CalculatorOnscreenView {
     private static final String TAG = CalculatorOnscreenView.class.getSimpleName();
@@ -63,6 +77,8 @@ public class CalculatorOnscreenView {
     private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.createDefault();
     @Nullable
     private OnscreenViewListener viewListener;
+    @Nonnull
+    private Keyboard keyboard;
 
     private boolean minimized;
     private boolean attached;
@@ -76,24 +92,26 @@ public class CalculatorOnscreenView {
 
     public static CalculatorOnscreenView create(@Nonnull Context context,
                                                 @Nonnull CalculatorOnscreenViewState state,
-                                                @Nullable OnscreenViewListener viewListener) {
-        final CalculatorOnscreenView result = new CalculatorOnscreenView();
+                                                @Nullable OnscreenViewListener viewListener,
+                                                @NonNull SharedPreferences preferences,
+                                                @NonNull Keyboard keyboard) {
+        final CalculatorOnscreenView view = new CalculatorOnscreenView();
 
-        final SharedPreferences p = App.getPreferences();
-        final Preferences.SimpleTheme theme = Preferences.Onscreen.theme.getPreferenceNoError(p);
-        final Preferences.Gui.Theme appTheme = Preferences.Gui.theme.getPreferenceNoError(p);
-        result.root = View.inflate(context, theme.getOnscreenLayout(appTheme), null);
-        result.context = context;
-        result.viewListener = viewListener;
+        final Preferences.SimpleTheme theme = Preferences.Onscreen.theme.getPreferenceNoError(preferences);
+        final Preferences.Gui.Theme appTheme = Preferences.Gui.theme.getPreferenceNoError(preferences);
+        view.root = View.inflate(context, theme.getOnscreenLayout(appTheme), null);
+        view.context = context;
+        view.viewListener = viewListener;
+        view.keyboard = keyboard;
 
         final CalculatorOnscreenViewState persistedState = readState(context);
         if (persistedState != null) {
-            result.state = persistedState;
+            view.state = persistedState;
         } else {
-            result.state = state;
+            view.state = state;
         }
 
-        return result;
+        return view;
     }
 
     public static void persistState(@Nonnull Context context, @Nonnull CalculatorOnscreenViewState state) {
@@ -142,7 +160,7 @@ public class CalculatorOnscreenView {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (widgetButton.onClick()) {
+                    if (keyboard.buttonPressed(widgetButton.action)) {
                         v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                     }
                     if (widgetButton == CalculatorButton.app) {
@@ -153,7 +171,7 @@ public class CalculatorOnscreenView {
             button.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (widgetButton.onLongClick()) {
+                    if (keyboard.buttonPressed(widgetButton.actionLong)) {
                         v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     }
                     return true;
