@@ -27,10 +27,10 @@ import android.content.Context;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import dagger.Lazy;
-import jscl.math.Generic;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
@@ -43,6 +43,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import dagger.Lazy;
+import jscl.math.Generic;
 
 import static org.solovyev.android.calculator.BaseFragment.addMenu;
 import static org.solovyev.android.calculator.CalculatorEventType.conversion_failed;
@@ -57,8 +60,6 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
     private final Bus bus;
     @Inject
     Application application;
-    @Inject
-    Lazy<Keyboard> keyboard;
     @Inject
     Lazy<Clipboard> clipboard;
     @Inject
@@ -78,6 +79,10 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
 
     @Subscribe
     public void onCopy(@Nonnull CopyOperation o) {
+        copy();
+    }
+
+    private void copy() {
         if (!state.valid) {
             return;
         }
@@ -226,7 +231,7 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
         final Generic result = state.getResult();
         switch (item.getItemId()) {
             case R.string.c_copy:
-                keyboard.get().copyButtonPressed();
+                copy();
                 return true;
             case R.string.convert_to_bin:
                 ConversionMenuItem.convert_to_bin.onClick(state, App.getApplication());

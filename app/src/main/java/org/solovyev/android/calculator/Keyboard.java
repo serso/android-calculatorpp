@@ -22,10 +22,12 @@
 
 package org.solovyev.android.calculator;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.squareup.otto.Bus;
 
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.math.MathType;
 
@@ -44,6 +46,10 @@ public class Keyboard {
 
     @Inject
     Editor editor;
+    @Inject
+    Display display;
+    @Inject
+    Calculator calculator;
     @Inject
     Lazy<Clipboard> clipboard;
     @Inject
@@ -106,8 +112,89 @@ public class Keyboard {
         if (button == null) {
             return false;
         }
-        button.onClick(this);
+        onSpecialButtonPressed(button);
         return true;
+    }
+
+    private void onSpecialButtonPressed(@NonNull CppSpecialButton button) {
+        switch (button) {
+            case history:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_history, null);
+                break;
+            case history_detached:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_history_detached, null);
+                break;
+            case cursor_right:
+                moveCursorRight();
+                break;
+            case cursor_left:
+                moveCursorLeft();
+                break;
+            case settings:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_settings, null);
+                break;
+            case settings_detached:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
+                break;
+            case settings_widget:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_settings_widget, null);
+                break;
+            case like:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_like_dialog, null);
+                break;
+            case erase:
+                editor.erase();
+                break;
+            case paste:
+                pasteButtonPressed();
+                break;
+            case copy:
+                copyButtonPressed();
+                break;
+            case equals:
+                equalsButtonPressed();
+                break;
+            case clear:
+                clearButtonPressed();
+                break;
+            case functions:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_functions, null);
+                break;
+            case functions_detached:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_functions_detached, null);
+                break;
+            case open_app:
+                calculator.fireCalculatorEvent(CalculatorEventType.open_app, null);
+                break;
+            case vars:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_vars, null);
+                break;
+            case vars_detached:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_vars_detached, null);
+                break;
+            case operators:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_operators, null);
+                break;
+            case operators_detached:
+                calculator.fireCalculatorEvent(CalculatorEventType.show_operators_detached, null);
+                break;
+            default:
+                Check.shouldNotHappen();
+        }
+    }
+
+    private void equalsButtonPressed() {
+        if (!calculator.isCalculateOnFly()) {
+            // no automatic calculations are => equals button must be used to calculate
+            calculator.evaluate();
+            return;
+        }
+
+        final DisplayState state = display.getState();
+        if (!state.valid) {
+            return;
+        }
+        editor.setText(state.text);
     }
 
     public void roundBracketsButtonPressed() {
