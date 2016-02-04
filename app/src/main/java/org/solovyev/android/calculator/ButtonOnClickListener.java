@@ -76,7 +76,7 @@ final class ButtonOnClickListener implements View.OnClickListener {
     }
 
     private void onClick(@Nonnull View v, @Nonnull CppSpecialButton b) {
-        onClick(v, b.getActionCode());
+        onClick(v, b.action);
     }
 
     private void onClick(@Nonnull View v, @Nonnull String s) {

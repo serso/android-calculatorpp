@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.buttons;
 
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorEventType;
@@ -170,39 +171,34 @@ public enum CppSpecialButton {
     };
 
     @Nonnull
-    private static Map<String, CppSpecialButton> buttonsByActionCodes = new HashMap<>();
+    private static Map<String, CppSpecialButton> buttonsByActions = new HashMap<>();
 
     @Nonnull
-    private final String actionCode;
+    public final String action;
 
-    CppSpecialButton(@Nonnull String actionCode) {
-        this.actionCode = actionCode;
+    CppSpecialButton(@Nonnull String action) {
+        this.action = action;
     }
 
     @Nullable
-    public static CppSpecialButton getByActionCode(@Nonnull String actionCode) {
-        initButtonsByActionCodesMap();
-        return buttonsByActionCodes.get(actionCode);
+    public static CppSpecialButton getByAction(@Nonnull String action) {
+        initButtonsByActionsMap();
+        return buttonsByActions.get(action);
     }
 
-    private static void initButtonsByActionCodesMap() {
-        if (buttonsByActionCodes.isEmpty()) {
-            // if not initialized
-
-            final CppSpecialButton[] specialButtons = values();
-
-            final Map<String, CppSpecialButton> localButtonsByActionCodes = new HashMap<String, CppSpecialButton>(specialButtons.length);
-            for (CppSpecialButton specialButton : specialButtons) {
-                localButtonsByActionCodes.put(specialButton.getActionCode(), specialButton);
-            }
-
-            buttonsByActionCodes = localButtonsByActionCodes;
+    private static void initButtonsByActionsMap() {
+        Check.isMainThread();
+        if (!buttonsByActions.isEmpty()) {
+            return;
+        }
+        for (CppSpecialButton specialButton : values()) {
+            buttonsByActions.put(specialButton.action, specialButton);
         }
     }
 
     @Nonnull
-    public String getActionCode() {
-        return actionCode;
+    public String getAction() {
+        return action;
     }
 
     public abstract void onClick(@Nonnull Keyboard keyboard);
