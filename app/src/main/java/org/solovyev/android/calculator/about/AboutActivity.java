@@ -20,28 +20,28 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.history;
+package org.solovyev.android.calculator.about;
 
 import android.os.Bundle;
-import org.solovyev.android.calculator.BaseActivity;
+
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.history;
-import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
-
-public class CalculatorHistoryActivity extends BaseActivity {
-
-    public CalculatorHistoryActivity() {
-        super(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
-    }
+/**
+ * User: serso
+ * Date: 9/16/11
+ * Time: 11:52 PM
+ */
+public class AboutActivity extends EmptyActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ui.addTab(this, history, null, R.id.main_layout);
-        ui.addTab(this, saved_history, null, R.id.main_layout);
+        getUi().addTab(this, CalculatorFragmentType.about, null, R.id.main_layout);
+        getUi().addTab(this, CalculatorFragmentType.release_notes, null, R.id.main_layout);
     }
 }

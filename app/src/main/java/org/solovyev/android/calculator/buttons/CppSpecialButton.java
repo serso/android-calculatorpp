@@ -33,11 +33,9 @@ import javax.annotation.Nullable;
 public enum CppSpecialButton {
 
     history("history"),
-    history_detached("history_detached"),
     cursor_right("▷"),
     cursor_left("◁"),
     settings("settings"),
-    settings_detached("settings_detached"),
     settings_widget("settings_widget"),
     like("like"),
     erase("erase"),
@@ -46,12 +44,9 @@ public enum CppSpecialButton {
     equals("="),
     clear("clear"),
     functions("functions"),
-    functions_detached("functions_detached"),
     open_app("open_app"),
     vars("vars"),
-    vars_detached("vars_detached"),
-    operators("operators"),
-    operators_detached("operators_detached");
+    operators("operators");
 
     @Nonnull
     private static Map<String, CppSpecialButton> buttonsByActions = new HashMap<>();

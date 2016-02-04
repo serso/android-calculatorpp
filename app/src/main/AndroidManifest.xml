@@ -67,7 +67,7 @@
             android:label="@string/c_app_settings" />
 
         <activity
-            android:name=".history.CalculatorHistoryActivity"
+            android:name=".history.HistoryActivity"
             android:label="@string/c_history" />
 
         <activity
@@ -78,7 +78,7 @@
             android:theme="@style/Cpp.Theme.Translucent" />
 
         <activity
-            android:name=".about.CalculatorAboutActivity"
+            android:name=".about.AboutActivity"
             android:label="@string/c_about" />
 
         <activity

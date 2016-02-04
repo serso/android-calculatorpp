@@ -31,22 +31,6 @@ import javax.annotation.Nonnull;
  */
 public enum CalculatorEventType {
 
-	/*
-    **********************************************************************
-	*
-	*                           CALCULATION
-	*                           org.solovyev.android.calculator.CalculatorEvaluationEventData
-	*
-	**********************************************************************
-	*/
-
-
-    // @Nonnull CalculatorEditorViewState
-    manual_calculation_requested,
-
-    // @Nonnull org.solovyev.android.calculator.CalculatorFailure
-    calculation_failed,
-
     /*
     **********************************************************************
     *
@@ -76,26 +60,6 @@ public enum CalculatorEventType {
     // List<Message>
     calculation_messages,
 
-    show_history,
-    show_history_detached,
-
-    show_functions,
-    show_functions_detached,
-
-    show_vars,
-    show_vars_detached,
-
-    open_app,
-
-    show_operators,
-    show_operators_detached,
-
-    show_settings,
-    show_settings_detached,
-    show_settings_widget,
-
-    show_like_dialog,
-
     show_create_var_dialog,
     show_create_matrix_dialog,
     show_create_function_dialog,
@@ -105,10 +69,7 @@ public enum CalculatorEventType {
     /**
      * {@link org.solovyev.android.calculator.plot.PlotData}
      */
-    plot_data_changed,
-
-    //String
-    show_evaluation_error;
+    plot_data_changed;
 
     public boolean isOfType(@Nonnull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {
