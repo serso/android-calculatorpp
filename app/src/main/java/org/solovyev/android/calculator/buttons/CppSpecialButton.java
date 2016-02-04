@@ -20,7 +20,14 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.buttons;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Locator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +35,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public enum CalculatorSpecialButton {
+public enum CppSpecialButton {
 
     history("history") {
         @Override
@@ -72,7 +79,6 @@ public enum CalculatorSpecialButton {
             Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_widget, null);
         }
     },
-
     like("like") {
         @Override
         public void onClick(@Nonnull Keyboard keyboard) {
@@ -164,17 +170,17 @@ public enum CalculatorSpecialButton {
     };
 
     @Nonnull
-    private static Map<String, CalculatorSpecialButton> buttonsByActionCodes = new HashMap<>();
+    private static Map<String, CppSpecialButton> buttonsByActionCodes = new HashMap<>();
 
     @Nonnull
     private final String actionCode;
 
-    CalculatorSpecialButton(@Nonnull String actionCode) {
+    CppSpecialButton(@Nonnull String actionCode) {
         this.actionCode = actionCode;
     }
 
     @Nullable
-    public static CalculatorSpecialButton getByActionCode(@Nonnull String actionCode) {
+    public static CppSpecialButton getByActionCode(@Nonnull String actionCode) {
         initButtonsByActionCodesMap();
         return buttonsByActionCodes.get(actionCode);
     }
@@ -183,10 +189,10 @@ public enum CalculatorSpecialButton {
         if (buttonsByActionCodes.isEmpty()) {
             // if not initialized
 
-            final CalculatorSpecialButton[] specialButtons = values();
+            final CppSpecialButton[] specialButtons = values();
 
-            final Map<String, CalculatorSpecialButton> localButtonsByActionCodes = new HashMap<String, CalculatorSpecialButton>(specialButtons.length);
-            for (CalculatorSpecialButton specialButton : specialButtons) {
+            final Map<String, CppSpecialButton> localButtonsByActionCodes = new HashMap<String, CppSpecialButton>(specialButtons.length);
+            for (CppSpecialButton specialButton : specialButtons) {
                 localButtonsByActionCodes.put(specialButton.getActionCode(), specialButton);
             }
 

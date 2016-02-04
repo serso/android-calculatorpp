@@ -38,7 +38,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.buttons.CppButton;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.DisplayView;
 import org.solovyev.android.calculator.EditorState;
@@ -152,7 +152,7 @@ public class CalculatorOnscreenView {
             return;
         }
 
-        for (final CalculatorButton widgetButton : CalculatorButton.values()) {
+        for (final CppButton widgetButton : CppButton.values()) {
             final View button = root.findViewById(widgetButton.id);
             if (button == null) {
                 continue;
@@ -163,7 +163,7 @@ public class CalculatorOnscreenView {
                     if (keyboard.buttonPressed(widgetButton.action)) {
                         v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                     }
-                    if (widgetButton == CalculatorButton.app) {
+                    if (widgetButton == CppButton.app) {
                         minimize();
                     }
                 }
