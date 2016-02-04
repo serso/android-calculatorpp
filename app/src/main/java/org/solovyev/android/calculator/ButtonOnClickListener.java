@@ -5,6 +5,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Button;
 
+import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.ViewsCache;
 
 import javax.annotation.Nonnull;
@@ -42,39 +43,39 @@ final class ButtonOnClickListener implements View.OnClickListener {
                 onClick(v, ((Button) v).getText().toString());
                 break;
             case R.id.cpp_button_clear:
-                onClick(v, CalculatorSpecialButton.clear);
+                onClick(v, CppSpecialButton.clear);
                 break;
             case R.id.cpp_button_functions:
-                onClick(v, CalculatorSpecialButton.functions);
+                onClick(v, CppSpecialButton.functions);
                 break;
             case R.id.cpp_button_history:
-                onClick(v, CalculatorSpecialButton.history);
+                onClick(v, CppSpecialButton.history);
                 break;
             case R.id.cpp_button_erase:
-                onClick(v, CalculatorSpecialButton.erase);
+                onClick(v, CppSpecialButton.erase);
                 break;
             case R.id.cpp_button_paste:
-                onClick(v, CalculatorSpecialButton.paste);
+                onClick(v, CppSpecialButton.paste);
                 break;
             case R.id.cpp_button_copy:
-                onClick(v, CalculatorSpecialButton.copy);
+                onClick(v, CppSpecialButton.copy);
                 break;
             case R.id.cpp_button_like:
-                onClick(v, CalculatorSpecialButton.like);
+                onClick(v, CppSpecialButton.like);
                 break;
             case R.id.cpp_button_operators:
-                onClick(v, CalculatorSpecialButton.operators);
+                onClick(v, CppSpecialButton.operators);
                 break;
             case R.id.cpp_button_vars:
-                onClick(v, CalculatorSpecialButton.vars);
+                onClick(v, CppSpecialButton.vars);
                 break;
             case R.id.cpp_button_equals:
-                onClick(v, CalculatorSpecialButton.equals);
+                onClick(v, CppSpecialButton.equals);
                 break;
         }
     }
 
-    private void onClick(@Nonnull View v, @Nonnull CalculatorSpecialButton b) {
+    private void onClick(@Nonnull View v, @Nonnull CppSpecialButton b) {
         onClick(v, b.getActionCode());
     }
 

@@ -44,7 +44,7 @@ import android.widget.RemoteViews;
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.buttons.CppButton;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.Locator;
@@ -129,13 +129,13 @@ public class CalculatorWidget extends AppWidgetProvider {
             final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(manager, widgetId, resources, theme));
 
             if (!partially || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-                for (CalculatorButton button : CalculatorButton.values()) {
+                for (CppButton button : CppButton.values()) {
                     final PendingIntent intent = intents.get(context, button);
                     if (intent != null) {
                         final int buttonId;
-                        if (button == CalculatorButton.settings_widget) {
+                        if (button == CppButton.settings_widget) {
                             // overriding default settings button behavior
-                            buttonId = CalculatorButton.settings.id;
+                            buttonId = CppButton.settings.id;
                         } else {
                             buttonId = button.id;
                         }
@@ -254,10 +254,10 @@ public class CalculatorWidget extends AppWidgetProvider {
 
     private static class Intents {
         @Nonnull
-        private final EnumMap<CalculatorButton, PendingIntent> map = new EnumMap<>(CalculatorButton.class);
+        private final EnumMap<CppButton, PendingIntent> map = new EnumMap<>(CppButton.class);
 
         @Nullable
-        PendingIntent get(@Nonnull Context context, @Nonnull CalculatorButton button) {
+        PendingIntent get(@Nonnull Context context, @Nonnull CppButton button) {
             Check.isMainThread();
 
             PendingIntent intent = map.get(button);

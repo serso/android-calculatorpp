@@ -26,6 +26,7 @@ import android.text.TextUtils;
 
 import com.squareup.otto.Bus;
 
+import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.math.MathType;
 
 import javax.annotation.Nonnull;
@@ -106,7 +107,7 @@ public class Keyboard {
     private boolean processSpecialButtons(@Nonnull String text) {
         boolean result = false;
 
-        final CalculatorSpecialButton button = CalculatorSpecialButton.getByActionCode(text);
+        final CppSpecialButton button = CppSpecialButton.getByActionCode(text);
         if (button != null) {
             button.onClick(this);
             result = true;

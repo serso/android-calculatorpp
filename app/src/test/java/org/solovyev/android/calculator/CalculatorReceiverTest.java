@@ -11,7 +11,7 @@ import org.robolectric.annotation.Config;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
-import static org.solovyev.android.calculator.CalculatorButton.four;
+import static org.solovyev.android.calculator.buttons.CppButton.four;
 import static org.solovyev.android.calculator.CalculatorReceiver.*;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
