@@ -40,6 +40,8 @@ import org.solovyev.android.menu.ListActivityMenu;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
+import static org.solovyev.android.calculator.App.cast;
+
 public class CalculatorEditorFragment extends Fragment {
 
     private FragmentUi fragmentUi;
@@ -77,7 +79,7 @@ public class CalculatorEditorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((CalculatorApplication) getActivity().getApplication()).getComponent().inject(this);
+        cast(getActivity().getApplication()).getComponent().inject(this);
 
         final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
         if (!layout.optimized) {

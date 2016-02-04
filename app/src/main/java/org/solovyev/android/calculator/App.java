@@ -363,4 +363,17 @@ public final class App {
         }
         return null;
     }
+
+    @NonNull
+    public static CalculatorApplication cast(@NonNull Context context) {
+        if (context instanceof CalculatorApplication) {
+            return (CalculatorApplication) context;
+        }
+        final Context appContext = context.getApplicationContext();
+        if (appContext instanceof CalculatorApplication) {
+            return (CalculatorApplication) appContext;
+        }
+        Check.shouldNotHappen();
+        return (CalculatorApplication) application;
+    }
 }

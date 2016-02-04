@@ -12,6 +12,8 @@ import org.solovyev.android.calculator.entities.Category;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static org.solovyev.android.calculator.App.cast;
+
 public class BaseActivity extends AppCompatActivity {
 
     @Nonnull
@@ -38,7 +40,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ui.onPreCreate(this);
         super.onCreate(savedInstanceState);
-        inject(((CalculatorApplication) getApplication()).getComponent());
+        inject(cast(getApplication()).getComponent());
         ui.onCreate(this);
     }
 
