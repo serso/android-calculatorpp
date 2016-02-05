@@ -32,11 +32,6 @@ import static jscl.NumeralBase.hex;
 import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
 
-/**
- * User: serso
- * Date: 4/20/12
- * Time: 5:03 PM
- */
 public class NumeralBaseButtons {
 
     public static void toggleNumericDigits(@Nonnull Activity activity, @Nonnull NumeralBase currentNumeralBase) {

@@ -24,14 +24,14 @@ package org.solovyev.android.calculator;
 
 import android.support.v4.app.Fragment;
 
-import org.solovyev.android.calculator.about.CalculatorAboutFragment;
-import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
+import org.solovyev.android.calculator.about.AboutFragment;
+import org.solovyev.android.calculator.about.ReleaseNotesFragment;
 import org.solovyev.android.calculator.history.RecentHistoryFragment;
 import org.solovyev.android.calculator.history.SavedHistoryFragment;
 import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.operators.OperatorsFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
-import org.solovyev.android.calculator.matrix.CalculatorMatrixEditFragment;
+import org.solovyev.android.calculator.matrix.EditMatrixFragment;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 
 import javax.annotation.Nonnull;
@@ -54,11 +54,11 @@ public enum CalculatorFragmentType {
 
     purchase_dialog(PurchaseDialogActivity.PurchaseDialogFragment.class, R.layout.cpp_purchase_dialog_fragment, R.string.cpp_purchase_title),
 
-    about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
+    about(AboutFragment.class, R.layout.about_fragment, R.string.c_about),
 
     // todo serso: strings
-    matrix_edit(CalculatorMatrixEditFragment.class, R.layout.matrix_edit_fragment, R.string.c_release_notes),
-    release_notes(CalculatorReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
+    matrix_edit(EditMatrixFragment.class, R.layout.matrix_edit_fragment, R.string.c_release_notes),
+    release_notes(ReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
 
     private final int defaultLayoutId;
     @Nonnull

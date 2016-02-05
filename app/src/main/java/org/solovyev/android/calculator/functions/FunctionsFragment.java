@@ -43,6 +43,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.solovyev.android.calculator.CalculatorFragmentType.functions;
+
 public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
     @Inject
@@ -52,8 +54,10 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     @Inject
     Bus bus;
 
-    public FunctionsFragment() {
-        super(CalculatorFragmentType.functions);
+    @Nonnull
+    @Override
+    protected FragmentUi createUi() {
+        return createUi(functions);
     }
 
     @Override

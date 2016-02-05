@@ -25,32 +25,38 @@ package org.solovyev.android.calculator.about;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.solovyev.android.calculator.CalculatorFragment;
-import org.solovyev.android.calculator.CalculatorFragmentType;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import org.solovyev.android.calculator.BaseFragment;
+import org.solovyev.android.calculator.FragmentUi;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.release.ReleaseNotes;
 
-/**
- * User: serso
- * Date: 12/25/11
- * Time: 12:00 AM
- */
-public class CalculatorReleaseNotesFragment extends CalculatorFragment {
+import javax.annotation.Nonnull;
 
-    public CalculatorReleaseNotesFragment() {
-        super(CalculatorFragmentType.release_notes);
+import static org.solovyev.android.calculator.CalculatorFragmentType.release_notes;
+
+public class ReleaseNotesFragment extends BaseFragment {
+
+    @Bind(R.id.releasenotes_text)
+    TextView text;
+
+    @Nonnull
+    @Override
+    protected FragmentUi createUi() {
+        return createUi(release_notes);
     }
 
     @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-
-        final TextView releaseNotes = (TextView) root.findViewById(R.id.releaseNotesTextView);
-        releaseNotes.setMovementMethod(LinkMovementMethod.getInstance());
-
-        releaseNotes.setText(Html.fromHtml(ReleaseNotes.getReleaseNotes(this.getActivity())));
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, view);
+        text.setMovementMethod(LinkMovementMethod.getInstance());
+        text.setText(Html.fromHtml(ReleaseNotes.getReleaseNotes(getActivity())));
+        return view;
     }
 }

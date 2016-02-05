@@ -46,6 +46,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.solovyev.android.calculator.CalculatorFragmentType.variables;
+
 public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
 
     @Inject
@@ -55,8 +57,10 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     @Inject
     Bus bus;
 
-    public VariablesFragment() {
-        super(CalculatorFragmentType.variables);
+    @Nonnull
+    @Override
+    protected FragmentUi createUi() {
+        return createUi(variables);
     }
 
     public static boolean isValidValue(@Nonnull String value) {

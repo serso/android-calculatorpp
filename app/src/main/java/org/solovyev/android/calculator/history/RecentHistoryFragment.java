@@ -22,19 +22,20 @@
 
 package org.solovyev.android.calculator.history;
 
-import android.view.ContextMenu;
-import android.view.MenuItem;
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.FragmentUi;
 
 import javax.annotation.Nonnull;
-import java.util.List;
-
-import static android.view.Menu.NONE;
 
 public class RecentHistoryFragment extends BaseHistoryFragment {
 
     public RecentHistoryFragment() {
         super(CalculatorFragmentType.history);
+    }
+
+    @Nonnull
+    @Override
+    protected FragmentUi createUi() {
+        return createUi(CalculatorFragmentType.history);
     }
 }

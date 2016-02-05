@@ -71,10 +71,6 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     @Nullable
     private String category;
 
-    protected BaseEntitiesFragment(@Nonnull CalculatorFragmentType type) {
-        super(type);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
