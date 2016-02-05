@@ -25,30 +25,16 @@ package org.solovyev.android.calculator.matrix;
 import android.os.Bundle;
 import android.view.View;
 
-import org.solovyev.android.calculator.CalculatorFragment;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.view.IntegerRange;
 import org.solovyev.android.view.Picker;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: Solovyev_S
- * Date: 12.10.12
- * Time: 10:41
- */
-public class CalculatorMatrixEditFragment extends CalculatorFragment implements Picker.OnChangedListener<Integer> {
+import static org.solovyev.android.calculator.CalculatorFragmentType.matrix_edit;
 
-	/*
-    **********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
-
+public class EditMatrixFragment extends BaseFragment implements Picker.OnChangedListener<Integer> {
     private static final int MAX_COUNT = 10;
     private static final int MIN_COUNT = 2;
     private static final int DEFAULT_ROWS = 2;
@@ -56,29 +42,15 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 
     private static final String MATRIX = "matrix";
 
-
-	/*
-	**********************************************************************
-	*
-	*                           CONSTRUCTORS
-	*
-	**********************************************************************
-	*/
-
-    public CalculatorMatrixEditFragment() {
-        super(CalculatorFragmentType.matrix_edit);
-
+    public EditMatrixFragment() {
         setRetainInstance(true);
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           METHODS
-	*
-	**********************************************************************
-	*/
-
+    @Nonnull
+    @Override
+    protected FragmentUi createUi() {
+        return createUi(matrix_edit);
+    }
 
     @Override
     public void onViewCreated(View root, @Nullable Bundle in) {
@@ -143,5 +115,4 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
     private void onRowsCountChange(@Nonnull Integer newRows) {
         getMatrixView(getView()).setMatrixRows(newRows);
     }
-
 }

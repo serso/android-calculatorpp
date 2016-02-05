@@ -23,21 +23,15 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="fill_parent"
-    a:layout_height="fill_parent"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
     a:orientation="vertical">
 
     <TextView
-        a:id="@+id/releaseNotesTextView"
+        a:id="@+id/releasenotes_text"
         style="@style/CppText.About"
-        a:layout_width="fill_parent"
-        a:layout_height="fill_parent"
-        a:layout_weight="1"
-        a:gravity="top|left"
+        a:layout_width="match_parent"
+        a:layout_height="match_parent"
         a:scrollbars="vertical" />
-
-    <!--
-            a:scrollbarFadeDuration="0" is not support in  android_1.6_compatibility
-            -->
 
 </LinearLayout>

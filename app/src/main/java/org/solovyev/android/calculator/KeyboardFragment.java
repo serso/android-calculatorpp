@@ -24,89 +24,68 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.buttons.CppButtons;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
 
+import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 import static org.solovyev.android.calculator.NumeralBaseButtons.toggleNumericDigits;
 import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
 import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
-import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 
-/**
- * User: Solovyev_S
- * Date: 25.09.12
- * Time: 12:25
- */
-public class CalculatorKeyboardFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class KeyboardFragment extends BaseFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Nonnull
-    private FragmentUi ui;
+    @Inject
+    SharedPreferences preferences;
+    @Bind(R.id.cpp_button_multiplication)
+    Button multiplicationButton;
+    @Nullable
+    @Bind(R.id.cpp_button_equals)
+    Button equalsButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        final SharedPreferences preferences = App.getPreferences();
-
-        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
-        if (!layout.optimized) {
-            ui = new FragmentUi(R.layout.cpp_app_keyboard_mobile);
-        } else {
-            ui = new FragmentUi(R.layout.cpp_app_keyboard);
-        }
-
-        ui.onCreate(this);
-
         preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return ui.onCreateView(this, inflater, container);
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
+    @Nonnull
     @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-        ui.onViewCreated(this, root);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        this.ui.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        this.ui.onPause(this);
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        ui.onDestroyView(this);
-        super.onDestroyView();
+    protected FragmentUi createUi() {
+        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
+        if (!layout.optimized) {
+            return new FragmentUi(R.layout.cpp_app_keyboard_mobile);
+        } else {
+            return new FragmentUi(R.layout.cpp_app_keyboard);
+        }
     }
 
     @Override
     public void onDestroy() {
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
-        ui.onDestroy(this);
-        App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -115,12 +94,12 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
             toggleNumericDigits(this.getActivity(), preferences);
         }
 
-        if (showEqualsButton.isSameKey(key)) {
-            CppButtons.toggleEqualsButton(preferences, this.getActivity());
+        if (equalsButton != null && showEqualsButton.isSameKey(key)) {
+            CppButtons.toggleEqualsButton(preferences, getActivity(), equalsButton);
         }
 
         if (multiplicationSign.isSameKey(key)) {
-            CppButtons.initMultiplicationButton(getView());
+            multiplicationButton.setText(Engine.Preferences.multiplicationSign.getPreference(preferences));
         }
     }
 }

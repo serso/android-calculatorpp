@@ -24,30 +24,23 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-public class EditorFragment extends BaseFragment {
+public class DisplayFragment extends BaseFragment {
 
-    @Inject
-    Editor editor;
+    @Bind(R.id.calculator_display)
+    DisplayView displayView;
     @Inject
     SharedPreferences preferences;
     @Inject
-    ActivityLauncher launcher;
-    @Bind(R.id.calculator_editor)
-    EditorView editorView;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+    Display display;
 
     @Override
     protected void inject(@Nonnull AppComponent component) {
@@ -60,9 +53,9 @@ public class EditorFragment extends BaseFragment {
     protected FragmentUi createUi() {
         final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
         if (!layout.optimized) {
-            return new FragmentUi(R.layout.cpp_app_editor_mobile, R.string.editor);
+            return new FragmentUi(R.layout.cpp_app_display_mobile, R.string.result);
         } else {
-            return new FragmentUi(R.layout.cpp_app_editor, R.string.editor);
+            return new FragmentUi(R.layout.cpp_app_display, R.string.result);
         }
     }
 
@@ -70,41 +63,13 @@ public class EditorFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
-        editor.setView(editorView);
+        display.setView(displayView);
         return view;
     }
 
     @Override
     public void onDestroyView() {
-        editor.clearView(editorView);
-        ui.onDestroyView(this);
+        display.clearView(displayView);
         super.onDestroyView();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_settings:
-                launcher.showSettings();
-                return true;
-            case R.id.menu_history:
-                launcher.showHistory();
-                return true;
-            case R.id.menu_plotter:
-                Locator.getInstance().getPlotter().plot();
-                return true;
-            case R.id.menu_conversion_tool:
-                new NumeralBaseConverterDialog(null).show(getActivity());
-                return true;
-            case R.id.menu_about:
-                launcher.showAbout();
-                return true;
-        }
-        return false;
     }
 }

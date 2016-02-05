@@ -37,6 +37,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.solovyev.android.calculator.CalculatorFragmentType.operators;
+
 public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
 
     @Inject
@@ -44,8 +46,10 @@ public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
     @Inject
     PostfixFunctionsRegistry postfixFunctionsRegistry;
 
-    public OperatorsFragment() {
-        super(CalculatorFragmentType.operators);
+    @Nonnull
+    @Override
+    protected FragmentUi createUi() {
+        return createUi(operators);
     }
 
     @Override

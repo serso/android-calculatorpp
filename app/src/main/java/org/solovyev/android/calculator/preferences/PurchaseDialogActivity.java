@@ -26,15 +26,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.solovyev.android.calculator.ActivityUi;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorFragment;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.BillingRequests;
 import org.solovyev.android.checkout.Checkout;
@@ -46,11 +45,8 @@ import org.solovyev.android.fragments.FragmentUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 1/20/13
- * Time: 2:36 PM
- */
+import static org.solovyev.android.calculator.CalculatorFragmentType.purchase_dialog;
+
 public class PurchaseDialogActivity extends BaseActivity {
 
     @Nonnull
@@ -117,18 +113,25 @@ public class PurchaseDialogActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    public static class PurchaseDialogFragment extends CalculatorFragment {
+    public static class PurchaseDialogFragment extends BaseFragment {
 
-        public PurchaseDialogFragment() {
-            super(CalculatorFragmentType.purchase_dialog);
+        @Bind(R.id.cpp_purchase_text)
+        TextView purchaseText;
+        @Bind(R.id.cpp_continue_button)
+        View continueButton;
+
+        @Nonnull
+        @Override
+        protected FragmentUi createUi() {
+            return createUi(purchase_dialog);
         }
 
         @Override
-        public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
-            super.onViewCreated(root, savedInstanceState);
-
-            ((TextView) root.findViewById(R.id.cpp_purchase_text)).setMovementMethod(ScrollingMovementMethod.getInstance());
-            root.findViewById(R.id.cpp_continue_button).setOnClickListener(new View.OnClickListener() {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            final View view = super.onCreateView(inflater, container, savedInstanceState);
+            ButterKnife.bind(this, view);
+            purchaseText.setMovementMethod(ScrollingMovementMethod.getInstance());
+            continueButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final Activity activity = getActivity();
@@ -137,6 +140,7 @@ public class PurchaseDialogActivity extends BaseActivity {
                     }
                 }
             });
+            return view;
         }
     }
 }

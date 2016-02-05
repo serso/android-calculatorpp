@@ -69,7 +69,6 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     private HistoryAdapter adapter;
 
     protected BaseHistoryFragment(@Nonnull CalculatorFragmentType type) {
-        super(type);
         recentHistory = type == CalculatorFragmentType.history;
     }
 

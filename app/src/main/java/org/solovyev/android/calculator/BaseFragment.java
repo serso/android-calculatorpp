@@ -12,18 +12,22 @@ import static org.solovyev.android.calculator.App.cast;
 
 public abstract class BaseFragment extends Fragment {
 
-    @Nonnull
-    protected final FragmentUi ui;
-
-    public BaseFragment(@Nonnull CalculatorFragmentType type) {
-        ui = new FragmentUi(type.getDefaultLayoutId(), type.getDefaultTitleResId(), false);
-    }
+    protected FragmentUi ui;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         inject(cast(getActivity().getApplication()).getComponent());
+        ui = createUi();
         ui.onCreate(this);
+    }
+
+    @Nonnull
+    protected abstract FragmentUi createUi();
+
+    @Nonnull
+    protected final FragmentUi createUi(@Nonnull CalculatorFragmentType type) {
+        return new FragmentUi(type.getDefaultLayoutId(), type.getDefaultTitleResId(), false);
     }
 
     protected void inject(@Nonnull AppComponent component) {

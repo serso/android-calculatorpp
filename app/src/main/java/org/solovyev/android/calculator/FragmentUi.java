@@ -144,7 +144,7 @@ public class FragmentUi extends BaseUi {
         adView = (AdView) root.findViewById(R.id.ad);
         final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
 
-        if (fragment instanceof CalculatorDisplayFragment || fragment instanceof EditorFragment || fragment instanceof CalculatorKeyboardFragment) {
+        if (fragment instanceof DisplayFragment || fragment instanceof EditorFragment || fragment instanceof KeyboardFragment) {
             // no ads in those fragments
         } else {
             if (adView != null) {
@@ -153,7 +153,7 @@ public class FragmentUi extends BaseUi {
             }
         }
 
-        if (fragment instanceof CalculatorKeyboardFragment) {
+        if (fragment instanceof KeyboardFragment) {
             processButtons(fragment.getActivity(), root);
         }
         fixFonts(root);

@@ -33,17 +33,10 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.DigitButtonDragProcessor;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.PreferredPreferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.ScreenMetrics;
@@ -53,9 +46,6 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 
 public final class CppButtons {
 
@@ -95,22 +85,27 @@ public final class CppButtons {
     public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
                                           @Nonnull Activity activity) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
+        final DragButton equalsButton = (DragButton) activity.findViewById(R.id.cpp_button_equals);
+        if(equalsButton == null) {
+            return;
+        }
 
+        toggleEqualsButton(preferences, activity, equalsButton);
+    }
+
+    public static void toggleEqualsButton(@Nonnull SharedPreferences preferences, @Nonnull Activity activity, @Nonnull Button button) {
         final boolean large = App.isLargeScreen() && Preferences.Gui.getLayout(preferences).optimized;
+        if (large) {
+            return;
+        }
+        if (Views.getScreenOrientation(activity) != Configuration.ORIENTATION_PORTRAIT && Preferences.Gui.autoOrientation.getPreference(preferences)) {
+            return;
+        }
 
-        if (!large) {
-            if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
-                    || !Preferences.Gui.autoOrientation.getPreference(preferences)) {
-
-                final DragButton equalsButton = (DragButton) activity.findViewById(R.id.cpp_button_equals);
-                if (equalsButton != null) {
-                    if (Preferences.Gui.showEqualsButton.getPreference(preferences)) {
-                        equalsButton.setVisibility(View.VISIBLE);
-                    } else {
-                        equalsButton.setVisibility(View.GONE);
-                    }
-                }
-            }
+        if (Preferences.Gui.showEqualsButton.getPreference(preferences)) {
+            button.setVisibility(View.VISIBLE);
+        } else {
+            button.setVisibility(View.GONE);
         }
     }
 
