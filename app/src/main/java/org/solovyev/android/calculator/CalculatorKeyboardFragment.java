@@ -29,6 +29,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.solovyev.android.calculator.buttons.CppButtons;
+
 import javax.annotation.Nonnull;
 
 import static org.solovyev.android.calculator.NumeralBaseButtons.toggleNumericDigits;
@@ -114,11 +116,11 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
         }
 
         if (showEqualsButton.isSameKey(key)) {
-            CalculatorButtons.toggleEqualsButton(preferences, this.getActivity());
+            CppButtons.toggleEqualsButton(preferences, this.getActivity());
         }
 
         if (multiplicationSign.isSameKey(key)) {
-            CalculatorButtons.initMultiplicationButton(getView());
+            CppButtons.initMultiplicationButton(getView());
         }
     }
 }

@@ -35,6 +35,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.solovyev.android.Views;
+import org.solovyev.android.calculator.buttons.CppButtons;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.history.HistoryDragProcessor;
 import org.solovyev.android.calculator.view.*;
@@ -215,7 +216,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
         angleUnitsButton = getButton(views, R.id.cpp_button_6);
         if (angleUnitsButton != null) {
-            angleUnitsButton.setOnDragListener(newDragListener(new CalculatorButtons.AngleUnitsChanger(activity, keyboard, preferredPreferences), activity));
+            angleUnitsButton.setOnDragListener(newDragListener(new CppButtons.AngleUnitsChanger(activity, keyboard, preferredPreferences), activity));
         }
 
         final View eraseButton = getButton(views, R.id.cpp_button_erase);
@@ -225,22 +226,22 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
         clearButton = getButton(views, R.id.cpp_button_clear);
         if (clearButton != null) {
-            clearButton.setOnDragListener(newDragListener(new CalculatorButtons.NumeralBasesChanger(activity, preferredPreferences), activity));
+            clearButton.setOnDragListener(newDragListener(new CppButtons.NumeralBasesChanger(activity, preferredPreferences), activity));
         }
 
         final DragButton varsButton = getButton(views, R.id.cpp_button_vars);
         if (varsButton != null) {
-            varsButton.setOnDragListener(newDragListener(new CalculatorButtons.VarsDragProcessor(activity), activity));
+            varsButton.setOnDragListener(newDragListener(new CppButtons.VarsDragProcessor(activity), activity));
         }
 
         final DragButton functionsButton = getButton(views, R.id.cpp_button_functions);
         if (functionsButton != null) {
-            functionsButton.setOnDragListener(newDragListener(new CalculatorButtons.FunctionsDragProcessor(activity), activity));
+            functionsButton.setOnDragListener(newDragListener(new CppButtons.FunctionsDragProcessor(activity), activity));
         }
 
         final DragButton roundBracketsButton = getButton(views, R.id.cpp_button_round_brackets);
         if (roundBracketsButton != null) {
-            roundBracketsButton.setOnDragListener(newDragListener(new CalculatorButtons.RoundBracketsDragProcessor(keyboard), activity));
+            roundBracketsButton.setOnDragListener(newDragListener(new CppButtons.RoundBracketsDragProcessor(keyboard), activity));
         }
 
         if (layout == simple || layout == simple_mobile) {
@@ -263,9 +264,9 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
             toggleButtonDirectionText(views, R.id.cpp_button_plus, false, DragDirection.down, DragDirection.up);
         }
 
-        CalculatorButtons.fixButtonsTextSize(theme, layout, root);
-        CalculatorButtons.toggleEqualsButton(preferences, activity);
-        CalculatorButtons.initMultiplicationButton(root);
+        CppButtons.fixButtonsTextSize(theme, layout, root);
+        CppButtons.toggleEqualsButton(preferences, activity);
+        CppButtons.initMultiplicationButton(root);
         NumeralBaseButtons.toggleNumericDigits(activity, preferences);
 
         new ButtonOnClickListener(keyboard).attachToViews(views);

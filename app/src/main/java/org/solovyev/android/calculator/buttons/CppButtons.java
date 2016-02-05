@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.buttons;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,9 +33,17 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Views;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.DigitButtonDragProcessor;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.PreferredPreferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.ScreenMetrics;
@@ -46,9 +54,12 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public final class CalculatorButtons {
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
-    private CalculatorButtons() {
+public final class CppButtons {
+
+    private CppButtons() {
     }
 
 
@@ -73,7 +84,7 @@ public final class CalculatorButtons {
         }
     }
 
-    static void initMultiplicationButton(@Nonnull View root) {
+    public static void initMultiplicationButton(@Nonnull View root) {
         final View multiplicationButton = root.findViewById(R.id.cpp_button_multiplication);
         if (multiplicationButton instanceof Button) {
             ((Button) multiplicationButton).setText(Locator.getInstance().getEngine().getMultiplicationSign());
@@ -103,14 +114,14 @@ public final class CalculatorButtons {
         }
     }
 
-    static class RoundBracketsDragProcessor implements SimpleDragListener.DragProcessor {
+    public static class RoundBracketsDragProcessor implements SimpleDragListener.DragProcessor {
 
         @Nonnull
         private final Keyboard keyboard;
         @Nonnull
         private final DigitButtonDragProcessor upDownProcessor;
 
-        RoundBracketsDragProcessor(@Nonnull Keyboard keyboard) {
+        public RoundBracketsDragProcessor(@Nonnull Keyboard keyboard) {
             this.keyboard = keyboard;
             this.upDownProcessor = new DigitButtonDragProcessor(keyboard);
         }
@@ -126,12 +137,12 @@ public final class CalculatorButtons {
         }
     }
 
-    static class VarsDragProcessor implements SimpleDragListener.DragProcessor {
+    public static class VarsDragProcessor implements SimpleDragListener.DragProcessor {
 
         @Nonnull
         private Context context;
 
-        VarsDragProcessor(@Nonnull Context context) {
+        public VarsDragProcessor(@Nonnull Context context) {
             this.context = context;
         }
 
@@ -149,7 +160,7 @@ public final class CalculatorButtons {
         }
     }
 
-    static class AngleUnitsChanger implements SimpleDragListener.DragProcessor {
+    public static class AngleUnitsChanger implements SimpleDragListener.DragProcessor {
 
         @Nonnull
         private final DigitButtonDragProcessor processor;
@@ -159,7 +170,7 @@ public final class CalculatorButtons {
         @Nonnull
         private final PreferredPreferences preferredPreferences;
 
-        AngleUnitsChanger(@Nonnull Context context, @Nonnull Keyboard keyboard, @Nonnull PreferredPreferences preferredPreferences) {
+        public AngleUnitsChanger(@Nonnull Context context, @Nonnull Keyboard keyboard, @Nonnull PreferredPreferences preferredPreferences) {
             this.context = context;
             this.preferredPreferences = preferredPreferences;
             this.processor = new DigitButtonDragProcessor(keyboard);
@@ -198,14 +209,14 @@ public final class CalculatorButtons {
         }
     }
 
-    static class NumeralBasesChanger implements SimpleDragListener.DragProcessor {
+    public static class NumeralBasesChanger implements SimpleDragListener.DragProcessor {
 
         @Nonnull
         private final Context context;
         @Nonnull
         private final PreferredPreferences preferredPreferences;
 
-        NumeralBasesChanger(@Nonnull Context context, @Nonnull PreferredPreferences preferredPreferences) {
+        public NumeralBasesChanger(@Nonnull Context context, @Nonnull PreferredPreferences preferredPreferences) {
             this.context = context;
             this.preferredPreferences = preferredPreferences;
         }
@@ -238,12 +249,12 @@ public final class CalculatorButtons {
         }
     }
 
-    static class FunctionsDragProcessor implements SimpleDragListener.DragProcessor {
+    public static class FunctionsDragProcessor implements SimpleDragListener.DragProcessor {
 
         @Nonnull
         private Context context;
 
-        FunctionsDragProcessor(@Nonnull Context context) {
+        public FunctionsDragProcessor(@Nonnull Context context) {
             this.context = context;
         }
 
