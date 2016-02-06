@@ -21,6 +21,10 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
+import hugo.weaving.DebugLog;
+
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
+import static android.util.TypedValue.applyDimension;
 
 /**
  * Text view that auto adjusts text size to fit within the view.
@@ -30,6 +34,7 @@ import android.widget.TextView;
  * @author Chase Colburn
  * @since Apr 4, 2011
  */
+@DebugLog
 @SuppressWarnings("unused")
 public class AutoResizeTextView extends TextView {
 
@@ -54,6 +59,7 @@ public class AutoResizeTextView extends TextView {
     // Add ellipsis to text that overflows at the smallest text size
     private boolean mAddEllipsis = true;
     private final TextPaint tmpPaint = new TextPaint();
+    private final float mStep;
 
     // Default constructor override
     public AutoResizeTextView(Context context) {
@@ -69,6 +75,8 @@ public class AutoResizeTextView extends TextView {
     public AutoResizeTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mTextSize = getTextSize();
+        mStep = Math.max(2, applyDimension(COMPLEX_UNIT_SP, 1, getResources().getDisplayMetrics()));
+
     }
 
     /**
@@ -230,10 +238,24 @@ public class AutoResizeTextView extends TextView {
         // Get the required text height
         int textHeight = getTextHeight(text, textPaint, width, targetTextSize);
 
-        // Until we either fit within our text view or we had reached our min text size, incrementally try smaller sizes
-        while (textHeight > height && targetTextSize > mMinTextSize) {
-            targetTextSize = Math.max(targetTextSize - 2, mMinTextSize);
-            textHeight = getTextHeight(text, textPaint, width, targetTextSize);
+        if (textHeight > height && targetTextSize > mMinTextSize) {
+            // Until we either fit within our text view or we had reached our min text size, incrementally try smaller sizes
+            while (textHeight > height && targetTextSize > mMinTextSize) {
+                targetTextSize = Math.max(targetTextSize - mStep, mMinTextSize);
+                textHeight = getTextHeight(text, textPaint, width, targetTextSize);
+            }
+        } else if (textHeight < height) {
+            // Try bigger sizes until we fill the view
+            float newTargetTextSize = targetTextSize;
+            int newTextHeight = textHeight;
+            while (newTextHeight < height) {
+                // use last values which don't exceed view dimensions
+                targetTextSize = newTargetTextSize;
+                textHeight = newTextHeight;
+
+                newTargetTextSize += mStep;
+                newTextHeight = getTextHeight(text, textPaint, width, newTargetTextSize);
+            }
         }
 
         // If we had reached our minimum text size and still don't fit, append an ellipsis
