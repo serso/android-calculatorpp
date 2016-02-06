@@ -24,18 +24,23 @@ package org.solovyev.android.calculator;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
+import hugo.weaving.DebugLog;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.TextHighlighter;
-import org.solovyev.android.view.AutoResizeTextView;
+import org.solovyev.android.views.AutoResizeTextView;
 
 import javax.annotation.Nonnull;
 
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
+import static android.util.TypedValue.applyDimension;
+
+@DebugLog
 public class DisplayView extends AutoResizeTextView {
 
     @Nonnull
@@ -59,15 +64,15 @@ public class DisplayView extends AutoResizeTextView {
     }
 
     private void init(@Nonnull Context context) {
+        final Resources resources = getResources();
         setAddEllipsis(false);
-        setMinTextSize(10);
-
+        setMinTextSize(applyDimension(COMPLEX_UNIT_SP, 10, resources.getDisplayMetrics()));
         if (context instanceof Service) {
             return;
         }
         final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(App.getPreferences());
         if (!layout.optimized) {
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
+            setTextSize(resources.getDimensionPixelSize(R.dimen.cpp_display_text_size_mobile));
         }
     }
 
