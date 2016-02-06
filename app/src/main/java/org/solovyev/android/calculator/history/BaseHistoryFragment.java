@@ -68,8 +68,8 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     FloatingActionButton fab;
     private HistoryAdapter adapter;
 
-    protected BaseHistoryFragment(@Nonnull CalculatorFragmentType type) {
-        recentHistory = type == CalculatorFragmentType.history;
+    protected BaseHistoryFragment(boolean recentHistory) {
+        this.recentHistory = recentHistory;
     }
 
     @Override

@@ -38,7 +38,7 @@ import org.solovyev.android.calculator.R;
 import javax.annotation.Nonnull;
 
 import static android.view.View.GONE;
-import static org.solovyev.android.calculator.CalculatorFragmentType.about;
+import static org.solovyev.android.calculator.FragmentTab.about;
 import static org.solovyev.common.text.Strings.isEmpty;
 
 public class AboutFragment extends BaseFragment {

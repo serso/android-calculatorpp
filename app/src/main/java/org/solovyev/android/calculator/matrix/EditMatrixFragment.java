@@ -32,7 +32,7 @@ import org.solovyev.android.view.Picker;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.matrix_edit;
+import static org.solovyev.android.calculator.FragmentTab.matrix_edit;
 
 public class EditMatrixFragment extends BaseFragment implements Picker.OnChangedListener<Integer> {
     private static final int MAX_COUNT = 10;

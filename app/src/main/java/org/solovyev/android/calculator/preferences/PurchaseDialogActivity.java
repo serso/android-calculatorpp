@@ -45,7 +45,7 @@ import org.solovyev.android.fragments.FragmentUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.purchase_dialog;
+import static org.solovyev.android.calculator.FragmentTab.purchase_dialog;
 
 public class PurchaseDialogActivity extends BaseActivity {
 

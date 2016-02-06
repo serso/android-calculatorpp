@@ -158,11 +158,11 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         super.onCreate(savedInstanceState);
 
         if (isMultiPane()) {
-            ui.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
-            ui.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
-            ui.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
-            ui.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
-            ui.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
+            ui.addTab(this, FragmentTab.history, null, R.id.main_second_pane);
+            ui.addTab(this, FragmentTab.saved_history, null, R.id.main_second_pane);
+            ui.addTab(this, FragmentTab.variables, null, R.id.main_second_pane);
+            ui.addTab(this, FragmentTab.functions, null, R.id.main_second_pane);
+            ui.addTab(this, FragmentTab.operators, null, R.id.main_second_pane);
         } else {
             final ActionBar actionBar = getSupportActionBar();
             if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {

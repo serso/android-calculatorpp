@@ -46,7 +46,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.variables;
+import static org.solovyev.android.calculator.FragmentTab.variables;
 
 public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
 

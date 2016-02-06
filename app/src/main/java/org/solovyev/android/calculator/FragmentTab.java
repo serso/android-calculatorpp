@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
 import org.solovyev.android.calculator.about.AboutFragment;
@@ -36,12 +38,7 @@ import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: Solovyev_S
- * Date: 03.10.12
- * Time: 11:30
- */
-public enum CalculatorFragmentType {
+public enum FragmentTab {
 
     editor(EditorFragment.class, R.layout.cpp_app_editor, R.string.editor),
     //display(CalculatorHistoryFragment.class, "history", R.layout.fragment_history, R.string.c_history),
@@ -60,39 +57,24 @@ public enum CalculatorFragmentType {
     matrix_edit(EditMatrixFragment.class, R.layout.matrix_edit_fragment, R.string.c_release_notes),
     release_notes(ReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
 
-    private final int defaultLayoutId;
+    @LayoutRes
+    public final int layout;
     @Nonnull
-    private Class<? extends Fragment> fragmentClass;
-    private int defaultTitleResId;
-
-    CalculatorFragmentType(@Nonnull Class<? extends Fragment> fragmentClass,
-                           int defaultLayoutId,
-                           int defaultTitleResId) {
-        this.fragmentClass = fragmentClass;
-        this.defaultLayoutId = defaultLayoutId;
-        this.defaultTitleResId = defaultTitleResId;
-    }
-
+    public final Class<? extends Fragment> type;
+    @StringRes
+    public final int title;
     @Nonnull
-    public String getFragmentTag() {
-        return this.name();
-    }
+    public final String tag;
 
-    public int getDefaultTitleResId() {
-        return defaultTitleResId;
+    FragmentTab(@Nonnull Class<? extends Fragment> type, int layout, int title) {
+        this.type = type;
+        this.layout = layout;
+        this.title = title;
+        this.tag = name();
     }
 
     @Nonnull
-    public Class<? extends Fragment> getFragmentClass() {
-        return fragmentClass;
-    }
-
-    public int getDefaultLayoutId() {
-        return defaultLayoutId;
-    }
-
-    @Nonnull
-    public String createSubFragmentTag(@Nonnull String subFragmentTag) {
-        return this.getFragmentTag() + "_" + subFragmentTag;
+    public String subTag(@Nonnull String subTag) {
+        return tag + "_" + subTag;
     }
 }

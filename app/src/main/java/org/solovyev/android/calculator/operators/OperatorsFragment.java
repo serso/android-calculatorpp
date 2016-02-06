@@ -37,7 +37,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.operators;
+import static org.solovyev.android.calculator.FragmentTab.operators;
 
 public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
 

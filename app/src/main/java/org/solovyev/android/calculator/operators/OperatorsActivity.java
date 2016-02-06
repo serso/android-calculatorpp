@@ -24,7 +24,7 @@ package org.solovyev.android.calculator.operators;
 
 import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
@@ -40,7 +40,7 @@ public class OperatorsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         for (OperatorCategory category : OperatorCategory.values()) {
-            addTab(category, CalculatorFragmentType.operators);
+            addTab(category, FragmentTab.operators);
         }
     }
 }
