@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.*;
+import hugo.weaving.DebugLog;
 
 import javax.annotation.Nonnull;
 
@@ -14,6 +15,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected FragmentUi ui;
 
+    @DebugLog
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,7 @@ public abstract class BaseFragment extends Fragment {
     protected void inject(@Nonnull AppComponent component) {
     }
 
+    @DebugLog
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = ui.onCreateView(inflater, container);

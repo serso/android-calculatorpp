@@ -26,10 +26,10 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Bus;
-
+import hugo.weaving.DebugLog;
+import jscl.MathEngine;
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
@@ -42,14 +42,11 @@ import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.common.msg.MessageType;
 
-import java.util.Locale;
-import java.util.concurrent.Executor;
-
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import jscl.MathEngine;
+import java.util.Locale;
+import java.util.concurrent.Executor;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -102,6 +99,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     @Inject
     ActivityLauncher launcher;
 
+    @DebugLog
     @Override
     public void onCreate() {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -110,16 +108,21 @@ public class CalculatorApplication extends android.app.Application implements Sh
         onPreCreate(preferences, languages);
         super.onCreate();
 
+        initDagger();
+        onPostCreate(preferences, languages);
+    }
+
+    @DebugLog
+    private void initDagger() {
         component = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
         component.inject(this);
         editor.init();
         history.init(initThread);
-
-        onPostCreate(preferences, languages);
     }
 
+    @DebugLog
     private void onPostCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
         App.init(this, languages);
 
@@ -154,6 +157,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         }
     }
 
+    @DebugLog
     private void onPreCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
         // first we need to setup crash handler and memory leak analyzer
         if (AcraErrorReporter.ENABLED) {
