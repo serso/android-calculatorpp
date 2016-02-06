@@ -133,7 +133,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
     ActivityLauncher launcher;
 
     protected void onCreate(@Nonnull Activity activity) {
-        cast(activity.getApplication()).getComponent().inject(this);
+        inject(cast(activity.getApplication()).getComponent());
 
         layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
         theme = Preferences.Gui.theme.getPreferenceNoError(preferences);
@@ -146,6 +146,10 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
             //noinspection deprecation
             km.newKeyguardLock(activity.getClass().getName()).disableKeyguard();
         }
+    }
+
+    protected void inject(@Nonnull AppComponent component) {
+        component.inject(this);
     }
 
     @Nonnull

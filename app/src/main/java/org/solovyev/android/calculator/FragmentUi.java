@@ -28,18 +28,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import org.solovyev.android.checkout.ActivityCheckout;
-import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.CppCheckout;
 import org.solovyev.android.checkout.Inventory;
 import org.solovyev.android.checkout.ProductTypes;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import java.util.Locale;
 
 public class FragmentUi extends BaseUi {
-
-    private ActivityCheckout checkout;
 
     @Nullable
     private AdView adView;
@@ -52,6 +50,9 @@ public class FragmentUi extends BaseUi {
 
     @Nullable
     private Boolean adFree = null;
+
+    @Inject
+    CppCheckout checkout;
 
     public FragmentUi(int layoutId) {
         this.layoutId = layoutId;
@@ -86,7 +87,6 @@ public class FragmentUi extends BaseUi {
     public void onCreate(@Nonnull Fragment fragment) {
         final FragmentActivity activity = fragment.getActivity();
         super.onCreate(activity);
-        checkout = Checkout.forActivity(activity, App.getBilling(), App.getProducts());
 
         if (listenersOnCreate) {
             if (fragment instanceof CalculatorEventListener) {
@@ -95,6 +95,12 @@ public class FragmentUi extends BaseUi {
         }
 
         checkout.start();
+    }
+
+    @Override
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     public void onResume(@Nonnull Fragment fragment) {
