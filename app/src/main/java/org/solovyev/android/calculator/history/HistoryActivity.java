@@ -29,8 +29,8 @@ import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.history;
-import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
+import static org.solovyev.android.calculator.FragmentTab.history;
+import static org.solovyev.android.calculator.FragmentTab.saved_history;
 
 public class HistoryActivity extends BaseActivity {
 

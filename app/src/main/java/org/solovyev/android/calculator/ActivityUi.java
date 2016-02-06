@@ -195,14 +195,14 @@ public class ActivityUi extends BaseUi {
             if (selectedNavigationIndex >= 0) {
                 final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 final SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt(getSavedTabPreferenceName(activity), selectedNavigationIndex);
+                editor.putInt(makeLastTabKey(activity), selectedNavigationIndex);
                 editor.apply();
             }
         }
     }
 
     @Nonnull
-    private String getSavedTabPreferenceName(@Nonnull Activity activity) {
+    private static String makeLastTabKey(@Nonnull Activity activity) {
         return "tab_" + activity.getClass().getSimpleName();
     }
 
@@ -246,18 +246,18 @@ public class ActivityUi extends BaseUi {
         actionBar.addTab(tab);
     }
 
-    public void addTab(@Nonnull AppCompatActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
-        addTab(activity, fragmentType.getFragmentTag(), fragmentType.getFragmentClass(), fragmentArgs, fragmentType.getDefaultTitleResId(), parentViewId);
+    public void addTab(@Nonnull AppCompatActivity activity, @Nonnull FragmentTab tab, @Nullable Bundle fragmentArgs, int parentViewId) {
+        addTab(activity, tab.tag, tab.type, fragmentArgs, tab.title, parentViewId);
     }
 
-    public void setFragment(@Nonnull AppCompatActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+    public void setFragment(@Nonnull AppCompatActivity activity, @Nonnull FragmentTab tab, @Nullable Bundle fragmentArgs, int parentViewId) {
         final FragmentManager fm = activity.getSupportFragmentManager();
 
-        Fragment fragment = fm.findFragmentByTag(fragmentType.getFragmentTag());
+        Fragment fragment = fm.findFragmentByTag(tab.tag);
         if (fragment == null) {
-            fragment = Fragment.instantiate(activity, fragmentType.getFragmentClass().getName(), fragmentArgs);
+            fragment = Fragment.instantiate(activity, tab.type.getName(), fragmentArgs);
             final FragmentTransaction ft = fm.beginTransaction();
-            ft.add(parentViewId, fragment, fragmentType.getFragmentTag());
+            ft.add(parentViewId, fragment, tab.tag);
             ft.commit();
         } else {
             if (fragment.isDetached()) {
@@ -265,23 +265,7 @@ public class ActivityUi extends BaseUi {
                 ft.attach(fragment);
                 ft.commit();
             }
-
         }
-    }
-
-    public void selectTab(@Nonnull AppCompatActivity activity, @Nonnull CalculatorFragmentType fragmentType) {
-        final ActionBar actionBar = activity.getSupportActionBar();
-        for (int i = 0; i < actionBar.getTabCount(); i++) {
-            final ActionBar.Tab tab = actionBar.getTabAt(i);
-            if (tab != null && fragmentType.getFragmentTag().equals(tab.getTag())) {
-                actionBar.setSelectedNavigationItem(i);
-                break;
-            }
-        }
-    }
-
-    public int getLayoutId() {
-        return layoutId;
     }
 
     public void setLayoutId(int layoutId) {
@@ -302,7 +286,7 @@ public class ActivityUi extends BaseUi {
         onResume((Activity) activity);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        selectedNavigationIndex = preferences.getInt(getSavedTabPreferenceName(activity), -1);
+        selectedNavigationIndex = preferences.getInt(makeLastTabKey(activity), -1);
         restoreSavedTab(activity);
     }
 

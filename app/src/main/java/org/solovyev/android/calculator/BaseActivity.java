@@ -2,7 +2,6 @@ package org.solovyev.android.calculator;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -102,16 +101,15 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected final void addTab(@Nonnull Category category, @Nonnull CalculatorFragmentType type) {
+    protected final void addTab(@Nonnull Category category, @Nonnull FragmentTab tab) {
         final CharSequence title = getString(category.title());
-        addTab(category, type, title);
+        addTab(category, tab, title);
     }
 
-    protected final void addTab(@Nonnull Category category, @Nonnull CalculatorFragmentType type, @Nullable CharSequence title) {
+    protected final void addTab(@Nonnull Category category, @Nonnull FragmentTab tab, @Nullable CharSequence title) {
         final Bundle arguments = new Bundle(1);
         arguments.putString(BaseEntitiesFragment.ARG_CATEGORY, category.name());
-        final String fragmentTag = type.createSubFragmentTag(category.name());
-        final Class<? extends Fragment> fragmentClass = type.getFragmentClass();
-        ui.addTab(this, fragmentTag, fragmentClass, arguments, title, R.id.main_layout);
+        final String fragmentTag = tab.subTag(category.name());
+        ui.addTab(this, fragmentTag, tab.type, arguments, title, R.id.main_layout);
     }
 }

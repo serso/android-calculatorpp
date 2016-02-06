@@ -24,7 +24,7 @@ package org.solovyev.android.calculator.variables;
 
 import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
@@ -42,7 +42,7 @@ public class VariablesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         for (VariableCategory category : VariableCategory.values()) {
-            addTab(category, CalculatorFragmentType.variables);
+            addTab(category, FragmentTab.variables);
         }
 
         if (savedInstanceState == null) {

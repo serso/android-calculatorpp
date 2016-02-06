@@ -26,12 +26,12 @@ import org.solovyev.android.calculator.FragmentUi;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
+import static org.solovyev.android.calculator.FragmentTab.saved_history;
 
 public class SavedHistoryFragment extends BaseHistoryFragment {
 
     public SavedHistoryFragment() {
-        super(saved_history);
+        super(false);
     }
 
     @Nonnull

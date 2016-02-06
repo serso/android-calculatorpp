@@ -38,7 +38,7 @@ import org.solovyev.android.calculator.release.ReleaseNotes;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.release_notes;
+import static org.solovyev.android.calculator.FragmentTab.release_notes;
 
 public class ReleaseNotesFragment extends BaseFragment {
 

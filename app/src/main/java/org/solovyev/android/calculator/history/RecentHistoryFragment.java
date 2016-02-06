@@ -22,7 +22,7 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.FragmentUi;
 
 import javax.annotation.Nonnull;
@@ -30,12 +30,12 @@ import javax.annotation.Nonnull;
 public class RecentHistoryFragment extends BaseHistoryFragment {
 
     public RecentHistoryFragment() {
-        super(CalculatorFragmentType.history);
+        super(true);
     }
 
     @Nonnull
     @Override
     protected FragmentUi createUi() {
-        return createUi(CalculatorFragmentType.history);
+        return createUi(FragmentTab.history);
     }
 }

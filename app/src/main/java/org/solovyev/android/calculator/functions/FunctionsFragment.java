@@ -43,7 +43,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.solovyev.android.calculator.CalculatorFragmentType.functions;
+import static org.solovyev.android.calculator.FragmentTab.functions;
 
 public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 

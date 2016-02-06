@@ -26,8 +26,8 @@ public abstract class BaseFragment extends Fragment {
     protected abstract FragmentUi createUi();
 
     @Nonnull
-    protected final FragmentUi createUi(@Nonnull CalculatorFragmentType type) {
-        return new FragmentUi(type.getDefaultLayoutId(), type.getDefaultTitleResId(), false);
+    protected final FragmentUi createUi(@Nonnull FragmentTab tab) {
+        return new FragmentUi(tab.layout, tab.title, false);
     }
 
     protected void inject(@Nonnull AppComponent component) {

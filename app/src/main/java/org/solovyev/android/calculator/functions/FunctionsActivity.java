@@ -24,7 +24,7 @@ package org.solovyev.android.calculator.functions;
 
 import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.operators.OperatorCategory;
 
@@ -43,7 +43,7 @@ public class FunctionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         for (FunctionCategory category : FunctionCategory.values()) {
-            addTab(category, CalculatorFragmentType.functions);
+            addTab(category, FragmentTab.functions);
         }
 
         for (OperatorCategory category : OperatorCategory.values()) {
@@ -53,7 +53,7 @@ public class FunctionsActivity extends BaseActivity {
             } else {
                 title = getString(category.title());
             }
-            addTab(category, CalculatorFragmentType.operators, title);
+            addTab(category, FragmentTab.operators, title);
         }
 
         if (savedInstanceState == null) {
