@@ -87,6 +87,12 @@ public class AutoResizeTextView extends TextView {
         mNeedsResize = true;
         // Since this view may be reused, it is good to reset the text size
         resetTextSize();
+
+        final int height = getHeight();
+        final int width = getWidth();
+        if (height > 0 && width > 0) {
+            resizeText();
+        }
     }
 
     /**
