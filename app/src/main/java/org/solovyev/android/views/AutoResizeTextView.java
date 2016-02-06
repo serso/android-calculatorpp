@@ -1,17 +1,17 @@
 package org.solovyev.android.views; /**
- *               DO WHAT YOU WANT TO PUBLIC LICENSE
- *                    Version 2, December 2004
- *
+ * DO WHAT YOU WANT TO PUBLIC LICENSE
+ * Version 2, December 2004
+ * <p/>
  * Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
- *
+ * <p/>
  * Everyone is permitted to copy and distribute verbatim or modified
  * copies of this license document, and changing it is allowed as long
  * as the name is changed.
- *
- *            DO WHAT YOU WANT TO PUBLIC LICENSE
- *   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *  0. You just DO WHAT YOU WANT TO.
+ * <p/>
+ * DO WHAT YOU WANT TO PUBLIC LICENSE
+ * TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * <p/>
+ * 0. You just DO WHAT YOU WANT TO.
  */
 
 import android.content.Context;
@@ -34,36 +34,22 @@ public class AutoResizeTextView extends TextView {
 
     // Minimum text size for this text view
     public static final float MIN_TEXT_SIZE = 20;
-
-    // Interface for resize notifications
-    public interface OnTextResizeListener {
-        public void onTextResize(TextView textView, float oldSize, float newSize);
-    }
-
     // Our ellipse string
     private static final String mEllipsis = "...";
-
     // Registered resize listener
     private OnTextResizeListener mTextResizeListener;
-
     // Flag for text and/or size changes to force a resize
     private boolean mNeedsResize = false;
-
     // Text size that is set from code. This acts as a starting point for resizing
     private float mTextSize;
-
     // Temporary upper bounds on the starting text size
     private float mMaxTextSize = 0;
-
     // Lower bounds for text size
     private float mMinTextSize = MIN_TEXT_SIZE;
-
     // Text view line spacing multiplier
     private float mSpacingMult = 1.0f;
-
     // Text view additional line spacing
     private float mSpacingAdd = 0.0f;
-
     // Add ellipsis to text that overflows at the smallest text size
     private boolean mAddEllipsis = true;
 
@@ -140,16 +126,6 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * Set the upper text size limit and invalidate the view
-     * @param maxTextSize
-     */
-    public void setMaxTextSize(float maxTextSize) {
-        mMaxTextSize = maxTextSize;
-        requestLayout();
-        invalidate();
-    }
-
-    /**
      * Return upper text size limit
      * @return
      */
@@ -158,11 +134,11 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * Set the lower text size limit and invalidate the view
-     * @param minTextSize
+     * Set the upper text size limit and invalidate the view
+     * @param maxTextSize
      */
-    public void setMinTextSize(float minTextSize) {
-        mMinTextSize = minTextSize;
+    public void setMaxTextSize(float maxTextSize) {
+        mMaxTextSize = maxTextSize;
         requestLayout();
         invalidate();
     }
@@ -176,11 +152,13 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * Set flag to add ellipsis to text that overflows at the smallest text size
-     * @param addEllipsis
+     * Set the lower text size limit and invalidate the view
+     * @param minTextSize
      */
-    public void setAddEllipsis(boolean addEllipsis) {
-        mAddEllipsis = addEllipsis;
+    public void setMinTextSize(float minTextSize) {
+        mMinTextSize = minTextSize;
+        requestLayout();
+        invalidate();
     }
 
     /**
@@ -189,6 +167,14 @@ public class AutoResizeTextView extends TextView {
      */
     public boolean getAddEllipsis() {
         return mAddEllipsis;
+    }
+
+    /**
+     * Set flag to add ellipsis to text that overflows at the smallest text size
+     * @param addEllipsis
+     */
+    public void setAddEllipsis(boolean addEllipsis) {
+        mAddEllipsis = addEllipsis;
     }
 
     /**
@@ -314,6 +300,11 @@ public class AutoResizeTextView extends TextView {
         // Measure using a static layout
         StaticLayout layout = new StaticLayout(source, paintCopy, width, Alignment.ALIGN_NORMAL, mSpacingMult, mSpacingAdd, true);
         return layout.getHeight();
+    }
+
+    // Interface for resize notifications
+    public interface OnTextResizeListener {
+        public void onTextResize(TextView textView, float oldSize, float newSize);
     }
 
 }
