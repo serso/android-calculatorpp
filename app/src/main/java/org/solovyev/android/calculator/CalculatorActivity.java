@@ -34,9 +34,12 @@ import android.support.v7.app.ActionBar;
 import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.history.History;
+import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
@@ -59,13 +62,22 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Nonnull
     public static final String TAG = CalculatorActivity.class.getSimpleName();
-
-    private boolean useBackAsPrev;
-    
     @Inject
     PreferredPreferences preferredPreferences;
     @Inject
+    SharedPreferences preferences;
+    @Inject
     Keyboard keyboard;
+    @Inject
+    PartialKeyboardUi partialKeyboardUi;
+    @Inject
+    History history;
+    @Inject
+    ActivityLauncher launcher;
+    @Nullable
+    @Bind(R.id.partial_keyboard)
+    View partialKeyboard;
+    private boolean useBackAsPrev;
 
     public CalculatorActivity() {
         super(0, TAG);
@@ -140,15 +152,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         return result;
     }
 
-    @Inject
-    History history;
-
-    @Inject
-    ActivityLauncher launcher;
-
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -172,10 +175,15 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
                 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             }
         }
+        ButterKnife.bind(this);
 
-        FragmentUtils.createFragment(this, EditorFragment.class, R.id.editorContainer, "editor");
-        FragmentUtils.createFragment(this, DisplayFragment.class, R.id.displayContainer, "display");
-        FragmentUtils.createFragment(this, KeyboardFragment.class, R.id.keyboardContainer, "keyboard");
+        FragmentUtils.createFragment(this, EditorFragment.class, R.id.editor, "editor");
+        FragmentUtils.createFragment(this, DisplayFragment.class, R.id.display, "display");
+        FragmentUtils.createFragment(this, KeyboardFragment.class, R.id.keyboard, "keyboard");
+
+        if (partialKeyboard != null) {
+            partialKeyboardUi.onCreateView(this, partialKeyboard);
+        }
 
         this.useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
         if (savedInstanceState == null) {
@@ -226,7 +234,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         super.onResume();
         launcher.setActivity(this);
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
         if (newLayout != ui.getLayout()) {
             Activities.restartActivity(this);
@@ -248,8 +255,10 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Override
     protected void onDestroy() {
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
+        if (partialKeyboard != null) {
+            partialKeyboardUi.onDestroyView();
+        }
         super.onDestroy();
     }
 

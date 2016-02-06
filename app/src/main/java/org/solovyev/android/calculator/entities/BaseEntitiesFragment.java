@@ -83,7 +83,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = ui.onCreateView(this, inflater, container);
+        final View view = ui.onCreateView(inflater, container);
         ButterKnife.bind(this, view);
         final Context context = inflater.getContext();
         adapter = new EntitiesAdapter(context, TextUtils.isEmpty(category) ? getEntities() : getEntities(category));

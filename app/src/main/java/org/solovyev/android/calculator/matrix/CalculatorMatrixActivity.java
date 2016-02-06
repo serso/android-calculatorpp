@@ -42,6 +42,6 @@ public class CalculatorMatrixActivity extends EmptyActivity {
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
-        getUi().setFragment(this, FragmentTab.matrix_edit, null, R.id.main_layout);
+        getUi().setFragment(this, FragmentTab.matrix_edit, null, R.id.main);
     }
 }

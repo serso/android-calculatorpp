@@ -24,22 +24,16 @@ package org.solovyev.android.calculator.view;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-
+import jscl.NumeralBase;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
 import javax.annotation.Nonnull;
 
-import jscl.NumeralBase;
-
-/**
- * User: serso
- * Date: 12/8/11
- * Time: 2:22 AM
- */
 public class NumeralBasesButton extends DirectionDragButton {
 
     @Nonnull
@@ -65,13 +59,10 @@ public class NumeralBasesButton extends DirectionDragButton {
     }
 
     int getDirectionTextColor(@Nonnull String directionText) {
-        final int color;
         if (isCurrentNumberBase(directionText)) {
-            color = getResources().getColor(R.color.cpp_selected_angle_unit_text);
-        } else {
-            color = getResources().getColor(R.color.cpp_text);
+            return ContextCompat.getColor(getContext(), R.color.cpp_selected_angle_unit_text);
         }
-        return color;
+        return ContextCompat.getColor(getContext(), R.color.cpp_text);
     }
 
     boolean isCurrentNumberBase(@Nonnull String directionText) {

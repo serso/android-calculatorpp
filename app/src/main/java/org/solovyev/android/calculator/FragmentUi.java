@@ -23,11 +23,12 @@
 package org.solovyev.android.calculator;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.checkout.CppCheckout;
 import org.solovyev.android.checkout.Inventory;
 import org.solovyev.android.checkout.ProductTypes;
@@ -37,92 +38,56 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.Locale;
 
-public class FragmentUi extends BaseUi {
+import static org.solovyev.android.calculator.App.cast;
 
-    @Nullable
-    private AdView adView;
-
-    private int layoutId;
-
-    private int titleResId = -1;
-
-    private boolean listenersOnCreate = true;
+public class FragmentUi {
+    private final int layoutId;
+    private final int titleId;
 
     @Nullable
     private Boolean adFree = null;
 
     @Inject
     CppCheckout checkout;
+    @Nullable
+    @Bind(R.id.fragment_title)
+    TextView fragmentTitle;
+    @Nullable
+    @Bind(R.id.admob)
+    AdView adView;
 
     public FragmentUi(int layoutId) {
-        this.layoutId = layoutId;
+        this(layoutId, View.NO_ID);
     }
 
-    public FragmentUi(int layoutId, int titleResId) {
+    public FragmentUi(int layoutId, int titleId) {
         this.layoutId = layoutId;
-        this.titleResId = titleResId;
-    }
-
-    public FragmentUi(int layoutId, int titleResId, boolean listenersOnCreate) {
-        this.layoutId = layoutId;
-        this.titleResId = titleResId;
-        this.listenersOnCreate = listenersOnCreate;
+        this.titleId = titleId;
     }
 
     public boolean isPane(@Nonnull Fragment fragment) {
         return fragment.getActivity() instanceof CalculatorActivity;
     }
 
-    public void setPaneTitle(@Nonnull Fragment fragment, int titleResId) {
-        final TextView fragmentTitle = (TextView) fragment.getView().findViewById(R.id.fragment_title);
-        if (fragmentTitle != null) {
-            if (!isPane(fragment)) {
-                fragmentTitle.setVisibility(View.GONE);
-            } else {
-                fragmentTitle.setText(fragment.getString(titleResId).toUpperCase(Locale.getDefault()));
-            }
-        }
-    }
-
     public void onCreate(@Nonnull Fragment fragment) {
-        final FragmentActivity activity = fragment.getActivity();
-        super.onCreate(activity);
-
-        if (listenersOnCreate) {
-            if (fragment instanceof CalculatorEventListener) {
-                Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
-            }
-        }
-
+        cast(fragment).getComponent().inject(this);
         checkout.start();
     }
 
-    @Override
-    protected void inject(@Nonnull AppComponent component) {
-        super.inject(component);
-        component.inject(this);
-    }
-
-    public void onResume(@Nonnull Fragment fragment) {
+    public void onResume() {
         if (adView != null) {
             adView.resume();
         }
-        if (!listenersOnCreate) {
-            if (fragment instanceof CalculatorEventListener) {
-                Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
-            }
-        }
-
         checkout.loadInventory().whenLoaded(new Inventory.Listener() {
             @Override
             public void onLoaded(@Nonnull Inventory.Products products) {
                 adFree = products.get(ProductTypes.IN_APP).isPurchased("ad_free");
-                updateAdViewState();
+                updateAdView();
             }
         });
     }
 
-    private void updateAdViewState() {
+    private void updateAdView() {
         if (adFree == null || adView == null) {
             return;
         }
@@ -134,62 +99,44 @@ public class FragmentUi extends BaseUi {
         }
     }
 
-    public void onPause(@Nonnull Fragment fragment) {
+    public void onPause() {
         adFree = null;
         if (adView != null) {
             adView.pause();
         }
-        if (!listenersOnCreate) {
-            if (fragment instanceof CalculatorEventListener) {
-                Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
-            }
-        }
     }
 
-    public void onViewCreated(@Nonnull Fragment fragment, @Nonnull View root) {
-        adView = (AdView) root.findViewById(R.id.ad);
-        final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
-
+    public void onCreateView(@Nonnull Fragment fragment, @Nonnull View root) {
+        ButterKnife.bind(this, root);
         if (fragment instanceof DisplayFragment || fragment instanceof EditorFragment || fragment instanceof KeyboardFragment) {
             // no ads in those fragments
-        } else {
-            if (adView != null) {
-                updateAdViewState();
-            } else if (mainFragmentLayout != null) {
+        } else if (adView != null) {
+            updateAdView();
+        }
+
+        if (titleId != View.NO_ID && fragmentTitle != null) {
+            if (isPane(fragment)) {
+                fragmentTitle.setText(fragment.getString(titleId).toUpperCase(Locale.getDefault()));
+            } else {
+                fragmentTitle.setVisibility(View.GONE);
             }
-        }
-
-        if (fragment instanceof KeyboardFragment) {
-            processButtons(fragment.getActivity(), root);
-        }
-        fixFonts(root);
-
-        if (titleResId >= 0) {
-            this.setPaneTitle(fragment, titleResId);
         }
     }
 
-    public void onDestroy(@Nonnull Fragment fragment) {
-        if (listenersOnCreate) {
-            if (fragment instanceof CalculatorEventListener) {
-                Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
-            }
-        }
-
+    public void onDestroy() {
         checkout.stop();
-
-        super.onDestroy(fragment.getActivity());
     }
 
     @Nonnull
-    public View onCreateView(@Nonnull Fragment fragment, @Nonnull LayoutInflater inflater, @Nullable ViewGroup container) {
+    public View onCreateView(@Nonnull LayoutInflater inflater, @Nullable ViewGroup container) {
         return inflater.inflate(layoutId, container, false);
     }
 
-    public void onDestroyView(@Nonnull Fragment fragment) {
-        if (adView != null) {
-            adView.destroy();
-            adView = null;
+    public void onDestroyView() {
+        if (adView == null) {
+            return;
         }
+        adView.destroy();
+        adView = null;
     }
 }

@@ -117,7 +117,7 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     }
 
     private void showClearHistoryDialog() {
-        new AlertDialog.Builder(getActivity(), ui.getTheme().alertDialogTheme)
+        new AlertDialog.Builder(getActivity(), App.getTheme().alertDialogTheme)
                 .setTitle(R.string.cpp_clear_history_title)
                 .setMessage(R.string.cpp_clear_history_message)
                 .setPositiveButton(R.string.cpp_clear_history, new DialogInterface.OnClickListener() {

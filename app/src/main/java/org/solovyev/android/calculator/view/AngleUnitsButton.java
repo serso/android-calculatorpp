@@ -23,24 +23,17 @@
 package org.solovyev.android.calculator.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-
+import jscl.AngleUnit;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
 import javax.annotation.Nonnull;
 
-import jscl.AngleUnit;
-
-/**
- * User: serso
- * Date: 11/22/11
- * Time: 2:42 PM
- */
 public class AngleUnitsButton extends DirectionDragButton {
 
     @Nonnull
@@ -66,14 +59,10 @@ public class AngleUnitsButton extends DirectionDragButton {
     }
 
     int getDirectionTextColor(@Nonnull String directionText) {
-        final int color;
-        final Resources resources = getResources();
         if (isCurrentAngleUnits(directionText)) {
-            color = resources.getColor(R.color.cpp_selected_angle_unit_text);
-        } else {
-            color = resources.getColor(R.color.cpp_text);
+            return ContextCompat.getColor(getContext(), R.color.cpp_selected_angle_unit_text);
         }
-        return color;
+        return ContextCompat.getColor(getContext(), R.color.cpp_text);
     }
 
     boolean isCurrentAngleUnits(@Nonnull String directionText) {

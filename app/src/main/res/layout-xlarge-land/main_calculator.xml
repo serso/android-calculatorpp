@@ -23,7 +23,7 @@
   -->
 <LinearLayout
     xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/main_layout"
+    a:id="@+id/main"
     style="@style/CppMain.Multipane"
     a:orientation="vertical">
 
@@ -43,7 +43,7 @@
             a:orientation="vertical">
 
             <LinearLayout
-                a:id="@+id/editorContainer"
+                a:id="@+id/editor"
                 style="@style/CppPane.Multipane.Left"
                 a:layout_width="match_parent"
                 a:layout_height="0dp"
@@ -51,7 +51,7 @@
                 a:orientation="horizontal" />
 
             <FrameLayout
-                a:id="@+id/displayContainer"
+                a:id="@+id/display"
                 style="@style/CppPane.Multipane.Left"
                 a:layout_width="match_parent"
                 a:layout_height="0dp"
@@ -70,7 +70,7 @@
     </LinearLayout>
 
     <LinearLayout
-        a:id="@+id/keyboardContainer"
+        a:id="@+id/keyboard"
         style="@style/CppPane.Transparent.Bottom"
         a:layout_width="match_parent"
         a:layout_height="0dp"

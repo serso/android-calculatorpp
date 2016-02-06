@@ -77,7 +77,7 @@ public class EditorFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         editor.clearView(editorView);
-        ui.onDestroyView(this);
+        ui.onDestroyView();
         super.onDestroyView();
     }
 

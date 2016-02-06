@@ -22,70 +22,61 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
 import jscl.NumeralBase;
+import org.solovyev.android.calculator.keyboard.KeyboardUi;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-/**
- * User: serso
- * Date: 4/21/12
- * Time: 8:00 PM
- */
 public enum AndroidNumeralBase {
 
     bin(CalculatorNumeralBase.bin) {
-        @Nonnull
         @Override
-        public List<Integer> getButtonIds() {
-            return Arrays.asList(R.id.cpp_button_0, R.id.cpp_button_1);
+        public void toggleButtons(boolean show, @Nonnull KeyboardUi ui) {
+            toggleButton(show, ui.button0);
+            toggleButton(show, ui.button1);
         }
     },
 
     oct(CalculatorNumeralBase.oct) {
-        @Nonnull
         @Override
-        public List<Integer> getButtonIds() {
-            final List<Integer> result = new ArrayList<Integer>(bin.getButtonIds());
-            result.addAll(Arrays.asList(R.id.cpp_button_2, R.id.cpp_button_3, R.id.cpp_button_4, R.id.cpp_button_5, R.id.cpp_button_6, R.id.cpp_button_7));
-            return result;
+        public void toggleButtons(boolean show, @Nonnull KeyboardUi ui) {
+            bin.toggleButtons(show, ui);
+            toggleButton(show, ui.button2);
+            toggleButton(show, ui.button3);
+            toggleButton(show, ui.button4);
+            toggleButton(show, ui.button5);
+            toggleButton(show, ui.button6);
+            toggleButton(show, ui.button7);
         }
     },
 
     dec(CalculatorNumeralBase.dec) {
-        @Nonnull
         @Override
-        public List<Integer> getButtonIds() {
-            final List<Integer> result = new ArrayList<Integer>(oct.getButtonIds());
-            result.addAll(Arrays.asList(R.id.cpp_button_8, R.id.cpp_button_9));
-            return result;
+        public void toggleButtons(boolean show, @Nonnull KeyboardUi ui) {
+            oct.toggleButtons(show, ui);
+            toggleButton(show, ui.button8);
+            toggleButton(show, ui.button9);
         }
     },
 
     hex(CalculatorNumeralBase.hex) {
-
-        @Nonnull
-        private List<Integer> specialHexButtonIds = Arrays.asList(R.id.cpp_button_1, R.id.cpp_button_2, R.id.cpp_button_3, R.id.cpp_button_4, R.id.cpp_button_5, R.id.cpp_button_6);
-
-        @Nonnull
         @Override
-        public List<Integer> getButtonIds() {
-            return dec.getButtonIds();
+        public void toggleButtons(boolean show, @Nonnull KeyboardUi ui) {
+            dec.toggleButtons(show, ui);
+            toggleLeftButton(show, ui.button1);
+            toggleLeftButton(show, ui.button2);
+            toggleLeftButton(show, ui.button3);
+            toggleLeftButton(show, ui.button4);
+            toggleLeftButton(show, ui.button5);
+            toggleLeftButton(show, ui.button6);
         }
 
-        @Override
-        protected void toggleButton(boolean show, @Nonnull DirectionDragButton button) {
-            super.toggleButton(show, button);
-            if (specialHexButtonIds.contains(button.getId())) {
-                button.showDirectionText(show, DragDirection.left);
-                button.invalidate();
-            }
+        protected final void toggleLeftButton(boolean show, @Nonnull DirectionDragButton button) {
+            button.showDirectionText(show, DragDirection.left);
+            button.invalidate();
         }
     };
 
@@ -107,19 +98,9 @@ public enum AndroidNumeralBase {
         throw new IllegalArgumentException(nb + " is not supported numeral base!");
     }
 
-    @Nonnull
-    public abstract List<Integer> getButtonIds();
+    public abstract void toggleButtons(boolean show, @Nonnull KeyboardUi ui);
 
-    public void toggleButtons(boolean show, @Nonnull Activity activity) {
-        for (Integer buttonId : getButtonIds()) {
-            final DirectionDragButton button = (DirectionDragButton) activity.findViewById(buttonId);
-            if (button != null) {
-                toggleButton(show, button);
-            }
-        }
-    }
-
-    protected void toggleButton(boolean show, @Nonnull DirectionDragButton button) {
+    protected final void toggleButton(boolean show, @Nonnull DirectionDragButton button) {
         button.setShowText(show);
         button.invalidate();
     }
