@@ -57,8 +57,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -82,8 +80,6 @@ public final class App {
     }
 
     @Nonnull
-    private static final Products products = Products.create().add(ProductTypes.IN_APP, Arrays.asList("ad_free"));
-    @Nonnull
     private static Languages languages;
     @Nonnull
     private static volatile Application application;
@@ -93,8 +89,6 @@ public final class App {
     private static SharedPreferences preferences;
     @Nonnull
     private static volatile Ga ga;
-    @Nonnull
-    private static volatile Billing billing;
     @Nullable
     private static Boolean lg = null;
     @Nullable
@@ -109,15 +103,6 @@ public final class App {
     private static Bus bus;
     @Nonnull
     private static Display display;
-    @Nonnull
-    private static final Executor background = Executors.newFixedThreadPool(5, new ThreadFactory() {
-        @NonNull
-        private final AtomicInteger counter = new AtomicInteger();
-        @Override
-        public Thread newThread(@Nonnull Runnable r) {
-            return new Thread(r, "Background #" + counter.getAndIncrement());
-        }
-    });
 
     private App() {
         throw new AssertionError();
@@ -129,23 +114,6 @@ public final class App {
         App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
         App.uiThreadExecutor = application.uiThread;
         App.ga = new Ga(application, preferences);
-        App.billing = new Billing(application, new Billing.DefaultConfiguration() {
-            @Nonnull
-            @Override
-            public String getPublicKey() {
-                return CalculatorSecurity.getPK();
-            }
-
-            @Nullable
-            @Override
-            public Inventory getFallbackInventory(@Nonnull Checkout checkout, @Nonnull Executor onLoadExecutor) {
-                if (RobotmediaDatabase.exists(billing.getContext())) {
-                    return new RobotmediaInventory(checkout, onLoadExecutor);
-                } else {
-                    return null;
-                }
-            }
-        });
         App.screenMetrics = new ScreenMetrics(application);
         App.languages = languages;
         App.languages.init();
@@ -183,16 +151,6 @@ public final class App {
     @Nonnull
     public static Ga getGa() {
         return ga;
-    }
-
-    @Nonnull
-    public static Billing getBilling() {
-        return billing;
-    }
-
-    @Nonnull
-    public static Products getProducts() {
-        return products;
     }
 
     public static boolean isLargeScreen() {

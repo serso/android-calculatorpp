@@ -9,6 +9,8 @@ import org.solovyev.android.calculator.history.BaseHistoryFragment;
 import org.solovyev.android.calculator.history.EditHistoryFragment;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.operators.OperatorsFragment;
+import org.solovyev.android.calculator.preferences.PreferencesActivity;
+import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
 
@@ -20,6 +22,7 @@ public interface AppComponent {
     void inject(CalculatorApplication application);
     void inject(EditorFragment fragment);
     void inject(BaseUi ui);
+    void inject(FragmentUi ui);
     void inject(CalculatorOnscreenService service);
     void inject(BaseHistoryFragment fragment);
     void inject(BaseDialogFragment fragment);
@@ -35,4 +38,6 @@ public interface AppComponent {
     void inject(CalculatorReceiver receiver);
     void inject(DisplayFragment fragment);
     void inject(KeyboardFragment fragment);
+    void inject(PurchaseDialogActivity activity);
+    void inject(PreferencesActivity activity);
 }

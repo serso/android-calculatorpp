@@ -30,27 +30,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.checkout.ActivityCheckout;
-import org.solovyev.android.checkout.BillingRequests;
-import org.solovyev.android.checkout.Checkout;
-import org.solovyev.android.checkout.ProductTypes;
-import org.solovyev.android.checkout.Purchase;
-import org.solovyev.android.checkout.RequestListener;
+import org.solovyev.android.checkout.*;
 import org.solovyev.android.fragments.FragmentUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 import static org.solovyev.android.calculator.FragmentTab.purchase_dialog;
 
 public class PurchaseDialogActivity extends BaseActivity {
-
-    @Nonnull
-    private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 
     @Nonnull
     private final RequestListener<Purchase> purchaseListener = new RequestListener<Purchase>() {
@@ -65,6 +57,12 @@ public class PurchaseDialogActivity extends BaseActivity {
         }
     };
 
+    @Inject
+    Billing billing;
+    @Inject
+    Products products;
+    ActivityCheckout checkout;
+
     public PurchaseDialogActivity() {
         super(R.layout.cpp_dialog);
     }
@@ -75,8 +73,15 @@ public class PurchaseDialogActivity extends BaseActivity {
 
         FragmentUtils.createFragment(this, PurchaseDialogFragment.class, R.id.dialog_layout, "purchase-dialog");
 
+        checkout = Checkout.forActivity(this, billing, products);
         checkout.start();
         checkout.createPurchaseFlow(purchaseListener);
+    }
+
+    @Override
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     @Override

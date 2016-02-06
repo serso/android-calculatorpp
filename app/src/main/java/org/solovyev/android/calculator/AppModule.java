@@ -12,10 +12,13 @@ import dagger.Module;
 import dagger.Provides;
 import jscl.JsclMathEngine;
 import org.solovyev.android.UiThreadExecutor;
+import org.solovyev.android.checkout.*;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.Collections;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -106,6 +109,34 @@ public class AppModule {
     @Singleton
     JsclMathEngine provideJsclMathEngine() {
         return JsclMathEngine.getInstance();
+    }
+
+    @Provides
+    @Singleton
+    Billing provideBilling() {
+        return new Billing(application, new Billing.DefaultConfiguration() {
+            @Nonnull
+            @Override
+            public String getPublicKey() {
+                return CalculatorSecurity.getPK();
+            }
+
+            @Nullable
+            @Override
+            public Inventory getFallbackInventory(@Nonnull Checkout checkout, @Nonnull Executor onLoadExecutor) {
+                if (RobotmediaDatabase.exists(application)) {
+                    return new RobotmediaInventory(checkout, onLoadExecutor);
+                } else {
+                    return null;
+                }
+            }
+        });
+    }
+
+    @Singleton
+    @Provides
+    Products provideProducts() {
+        return Products.create().add(ProductTypes.IN_APP, Collections.singletonList("ad_free"));
     }
 
     private static class AppBus extends Bus {
