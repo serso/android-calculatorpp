@@ -35,7 +35,7 @@ public class AutoResizeTextView extends TextView {
     // Minimum text size for this text view
     public static final float MIN_TEXT_SIZE = 20;
     // Our ellipse string
-    private static final String mEllipsis = "...";
+    private static final String mEllipsis = "…";
     // Registered resize listener
     private OnTextResizeListener mTextResizeListener;
     // Flag for text and/or size changes to force a resize
