@@ -53,6 +53,7 @@ public class AutoResizeTextView extends TextView {
     private float mSpacingAdd = 0.0f;
     // Add ellipsis to text that overflows at the smallest text size
     private boolean mAddEllipsis = true;
+    private final TextPaint tmpPaint = new TextPaint();
 
     // Default constructor override
     public AutoResizeTextView(Context context) {
@@ -286,11 +287,11 @@ public class AutoResizeTextView extends TextView {
         // modified: make a copy of the original TextPaint object for measuring
         // (apparently the object gets modified while measuring, see also the
         // docs for TextView.getPaint() (which states to access it read-only)
-        TextPaint paintCopy = new TextPaint(paint);
+        tmpPaint.set(paint);
         // Update the text paint object
-        paintCopy.setTextSize(textSize);
+        tmpPaint.setTextSize(textSize);
         // Measure using a static layout
-        StaticLayout layout = new StaticLayout(source, paintCopy, width, Alignment.ALIGN_NORMAL, mSpacingMult, mSpacingAdd, true);
+        StaticLayout layout = new StaticLayout(source, tmpPaint, width, Alignment.ALIGN_NORMAL, mSpacingMult, mSpacingAdd, true);
         return layout.getHeight();
     }
 
