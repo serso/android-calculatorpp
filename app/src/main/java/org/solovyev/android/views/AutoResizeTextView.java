@@ -92,7 +92,6 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Register listener to receive resize notifications
-     * @param listener
      */
     public void setOnResizeListener(OnTextResizeListener listener) {
         mTextResizeListener = listener;
@@ -128,7 +127,6 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Return upper text size limit
-     * @return
      */
     public float getMaxTextSize() {
         return mMaxTextSize;
@@ -136,7 +134,6 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Set the upper text size limit and invalidate the view
-     * @param maxTextSize
      */
     public void setMaxTextSize(float maxTextSize) {
         mMaxTextSize = maxTextSize;
@@ -146,7 +143,6 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Return lower text size limit
-     * @return
      */
     public float getMinTextSize() {
         return mMinTextSize;
@@ -154,7 +150,6 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Set the lower text size limit and invalidate the view
-     * @param minTextSize
      */
     public void setMinTextSize(float minTextSize) {
         mMinTextSize = minTextSize;
@@ -164,7 +159,6 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Return flag to add ellipsis to text that overflows at the smallest text size
-     * @return
      */
     public boolean getAddEllipsis() {
         return mAddEllipsis;
@@ -172,7 +166,6 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Set flag to add ellipsis to text that overflows at the smallest text size
-     * @param addEllipsis
      */
     public void setAddEllipsis(boolean addEllipsis) {
         mAddEllipsis = addEllipsis;
@@ -213,8 +206,6 @@ public class AutoResizeTextView extends TextView {
 
     /**
      * Resize the text size with specified width and height
-     * @param width
-     * @param height
      */
     public void resizeText(int width, int height) {
         CharSequence text = getText();
