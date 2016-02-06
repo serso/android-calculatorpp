@@ -42,7 +42,7 @@ public class HistoryActivity extends BaseActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ui.addTab(this, history, null, R.id.main_layout);
-        ui.addTab(this, saved_history, null, R.id.main_layout);
+        ui.addTab(this, history, null, R.id.main);
+        ui.addTab(this, saved_history, null, R.id.main);
     }
 }

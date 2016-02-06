@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -137,6 +138,12 @@ public class AppModule {
     @Provides
     Products provideProducts() {
         return Products.create().add(ProductTypes.IN_APP, Collections.singletonList("ad_free"));
+    }
+
+    @Singleton
+    @Provides
+    Typeface provideTypeface() {
+        return Typeface.createFromAsset(application.getAssets(), "fonts/Roboto-Regular.ttf");
     }
 
     private static class AppBus extends Bus {

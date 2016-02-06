@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -47,13 +46,11 @@ import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
-import org.solovyev.android.checkout.*;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.JPredicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -91,8 +88,6 @@ public final class App {
     private static volatile Ga ga;
     @Nullable
     private static Boolean lg = null;
-    @Nullable
-    private static Typeface typeFace;
     @Nonnull
     private static volatile ScreenMetrics screenMetrics;
     @Nonnull
@@ -228,15 +223,6 @@ public final class App {
         return spannable;
     }
 
-    @Nonnull
-    public static Typeface getTypeFace() {
-        Check.isMainThread();
-        if (typeFace == null) {
-            typeFace = Typeface.createFromAsset(application.getAssets(), "fonts/Roboto-Regular.ttf");
-        }
-        return typeFace;
-    }
-
     public static boolean isMonkeyRunner(@Nonnull Context context) {
         // NOTE: this code is only for monkeyrunner
         return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
@@ -320,6 +306,11 @@ public final class App {
             }
         }
         return null;
+    }
+
+    @NonNull
+    public static CalculatorApplication cast(@NonNull Fragment fragment) {
+        return cast(fragment.getActivity());
     }
 
     @NonNull

@@ -41,7 +41,7 @@ public class AboutActivity extends EmptyActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getUi().addTab(this, FragmentTab.about, null, R.id.main_layout);
-        getUi().addTab(this, FragmentTab.release_notes, null, R.id.main_layout);
+        getUi().addTab(this, FragmentTab.about, null, R.id.main);
+        getUi().addTab(this, FragmentTab.release_notes, null, R.id.main);
     }
 }

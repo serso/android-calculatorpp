@@ -26,42 +26,18 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.PointF;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.buttons.CppButtons;
 import org.solovyev.android.calculator.history.History;
-import org.solovyev.android.calculator.history.HistoryDragProcessor;
-import org.solovyev.android.calculator.view.*;
-import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DragButton;
-import org.solovyev.android.views.dragbutton.DragDirection;
-import org.solovyev.android.views.dragbutton.DragListener;
-import org.solovyev.android.views.dragbutton.SimpleDragListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import static org.solovyev.android.calculator.App.cast;
-import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
-import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
-import static org.solovyev.android.calculator.Engine.Preferences.angleUnit;
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 
-public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    @Nonnull
-    private static final List<Integer> viewIds = new ArrayList<>(200);
+public abstract class BaseUi {
 
     @Nonnull
     protected Preferences.Gui.Layout layout;
@@ -69,52 +45,10 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
     @Nonnull
     protected Preferences.Gui.Theme theme;
 
-    @Nonnull
-    private String logTag = "CalculatorActivity";
-
-    @Nullable
-    private AngleUnitsButton angleUnitsButton;
-
-    @Nullable
-    private NumeralBasesButton clearButton;
-
     protected BaseUi() {
     }
 
     protected BaseUi(@Nonnull String logTag) {
-        this.logTag = logTag;
-    }
-
-    @Nonnull
-    private static List<Integer> getViewIds() {
-        if (viewIds.isEmpty()) {
-            viewIds.add(R.id.wizard_dragbutton);
-            viewIds.add(R.id.cpp_button_vars);
-            viewIds.add(R.id.cpp_button_round_brackets);
-            viewIds.add(R.id.cpp_button_right);
-            viewIds.add(R.id.cpp_button_plus);
-            viewIds.add(R.id.cpp_button_operators);
-            viewIds.add(R.id.cpp_button_multiplication);
-            viewIds.add(R.id.cpp_button_subtraction);
-            viewIds.add(R.id.cpp_button_left);
-            viewIds.add(R.id.cpp_button_history);
-            viewIds.add(R.id.cpp_button_functions);
-            viewIds.add(R.id.cpp_button_equals);
-            viewIds.add(R.id.cpp_button_period);
-            viewIds.add(R.id.cpp_button_division);
-            viewIds.add(R.id.cpp_button_9);
-            viewIds.add(R.id.cpp_button_8);
-            viewIds.add(R.id.cpp_button_7);
-            viewIds.add(R.id.cpp_button_6);
-            viewIds.add(R.id.cpp_button_5);
-            viewIds.add(R.id.cpp_button_4);
-            viewIds.add(R.id.cpp_button_3);
-            viewIds.add(R.id.cpp_button_2);
-            viewIds.add(R.id.cpp_button_1);
-            viewIds.add(R.id.cpp_button_0);
-            viewIds.add(R.id.cpp_button_clear);
-        }
-        return viewIds;
     }
 
     @Inject
@@ -131,14 +65,14 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
     PreferredPreferences preferredPreferences;
     @Inject
     ActivityLauncher launcher;
+    @Inject
+    Typeface typeface;
 
     protected void onCreate(@Nonnull Activity activity) {
         inject(cast(activity.getApplication()).getComponent());
 
         layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
         theme = Preferences.Gui.theme.getPreferenceNoError(preferences);
-
-        preferences.registerOnSharedPreferenceChangeListener(this);
 
         // let's disable locking of screen for monkeyrunner
         if (App.isMonkeyRunner(activity)) {
@@ -157,179 +91,25 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         return theme;
     }
 
-    public void logError(@Nonnull String message) {
-        Log.e(logTag, message);
-    }
-
     public void onDestroy(@Nonnull Activity activity) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-
-        preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     protected void fixFonts(@Nonnull View root) {
         // some devices ship own fonts which causes issues with rendering. Let's use our own font for all text views
-        final Typeface typeFace = App.getTypeFace();
         Views.processViewsOfType(root, TextView.class, new Views.ViewProcessor<TextView>() {
             @Override
             public void process(@Nonnull TextView view) {
-                int style = Typeface.NORMAL;
-                final Typeface oldTypeface = view.getTypeface();
-                if (oldTypeface != null) {
-                    style = oldTypeface.getStyle();
-                }
-                view.setTypeface(typeFace, style);
+                setFont(view, typeface);
             }
         });
     }
 
-    public void processButtons(@Nonnull final Activity activity, @Nonnull View root) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-
-        final ViewsCache views = ViewsCache.forView(root);
-        setOnDragListeners(views, activity);
-
-        HistoryDragProcessor historyDragProcessor = new HistoryDragProcessor(history);
-        final DragListener historyDragListener = newDragListener(historyDragProcessor, activity);
-        final DragButton historyButton = getButton(views, R.id.cpp_button_history);
-        if (historyButton != null) {
-            historyButton.setOnDragListener(historyDragListener);
+    public static void setFont(@Nonnull TextView view, @Nonnull Typeface newTypeface) {
+        final Typeface oldTypeface = view.getTypeface();
+        if (oldTypeface == newTypeface) {
+            return;
         }
-
-        final DragButton minusButton = getButton(views, R.id.cpp_button_subtraction);
-        if (minusButton != null) {
-            minusButton.setOnDragListener(newDragListener(new OperatorsDragProcessor(), activity));
-        }
-
-        final DragListener toPositionDragListener = new SimpleDragListener(new CursorDragProcessor(editor), activity);
-
-        final DragButton rightButton = getButton(views, R.id.cpp_button_right);
-        if (rightButton != null) {
-            rightButton.setOnDragListener(toPositionDragListener);
-        }
-
-        final DragButton leftButton = getButton(views, R.id.cpp_button_left);
-        if (leftButton != null) {
-            leftButton.setOnDragListener(toPositionDragListener);
-        }
-
-        final DragButton equalsButton = getButton(views, R.id.cpp_button_equals);
-        if (equalsButton != null) {
-            equalsButton.setOnDragListener(newDragListener(new EqualsDragProcessor(calculator), activity));
-        }
-
-        angleUnitsButton = getButton(views, R.id.cpp_button_6);
-        if (angleUnitsButton != null) {
-            angleUnitsButton.setOnDragListener(newDragListener(new CppButtons.AngleUnitsChanger(activity, keyboard, preferredPreferences), activity));
-        }
-
-        final View eraseButton = getButton(views, R.id.cpp_button_erase);
-        if (eraseButton != null) {
-            EditorLongClickEraser.attachTo(eraseButton);
-        }
-
-        clearButton = getButton(views, R.id.cpp_button_clear);
-        if (clearButton != null) {
-            clearButton.setOnDragListener(newDragListener(new CppButtons.NumeralBasesChanger(activity, preferredPreferences), activity));
-        }
-
-        final DragButton varsButton = getButton(views, R.id.cpp_button_vars);
-        if (varsButton != null) {
-            varsButton.setOnDragListener(newDragListener(new CppButtons.VarsDragProcessor(activity), activity));
-        }
-
-        final DragButton functionsButton = getButton(views, R.id.cpp_button_functions);
-        if (functionsButton != null) {
-            functionsButton.setOnDragListener(newDragListener(new CppButtons.FunctionsDragProcessor(activity), activity));
-        }
-
-        final DragButton roundBracketsButton = getButton(views, R.id.cpp_button_round_brackets);
-        if (roundBracketsButton != null) {
-            roundBracketsButton.setOnDragListener(newDragListener(new CppButtons.RoundBracketsDragProcessor(keyboard), activity));
-        }
-
-        if (layout == simple || layout == simple_mobile) {
-            toggleButtonDirectionText(views, R.id.cpp_button_1, false, DragDirection.up, DragDirection.down);
-            toggleButtonDirectionText(views, R.id.cpp_button_2, false, DragDirection.up, DragDirection.down);
-            toggleButtonDirectionText(views, R.id.cpp_button_3, false, DragDirection.up, DragDirection.down);
-
-            toggleButtonDirectionText(views, R.id.cpp_button_6, false, DragDirection.up, DragDirection.down);
-            toggleButtonDirectionText(views, R.id.cpp_button_7, false, DragDirection.left, DragDirection.up, DragDirection.down);
-            toggleButtonDirectionText(views, R.id.cpp_button_8, false, DragDirection.left, DragDirection.up, DragDirection.down);
-
-            toggleButtonDirectionText(views, R.id.cpp_button_clear, false, DragDirection.left, DragDirection.up, DragDirection.down);
-
-            toggleButtonDirectionText(views, R.id.cpp_button_4, false, DragDirection.down);
-            toggleButtonDirectionText(views, R.id.cpp_button_5, false, DragDirection.down);
-
-            toggleButtonDirectionText(views, R.id.cpp_button_9, false, DragDirection.left);
-
-            toggleButtonDirectionText(views, R.id.cpp_button_multiplication, false, DragDirection.left);
-            toggleButtonDirectionText(views, R.id.cpp_button_plus, false, DragDirection.down, DragDirection.up);
-        }
-
-        CppButtons.fixButtonsTextSize(theme, layout, root);
-        CppButtons.toggleEqualsButton(preferences, activity);
-        CppButtons.initMultiplicationButton(root);
-        NumeralBaseButtons.toggleNumericDigits(activity, preferences);
-
-        new ButtonOnClickListener(keyboard).attachToViews(views);
-    }
-
-    private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull Context context) {
-        final DragListener dragListener = newDragListener(new DigitButtonDragProcessor(keyboard), context);
-
-        final List<Integer> viewIds = getViewIds();
-        for (Integer viewId : viewIds) {
-            final View view = views.findViewById(viewId);
-            if (view instanceof DragButton) {
-                ((DragButton) view).setOnDragListener(dragListener);
-            }
-        }
-    }
-
-    @Nonnull
-    private SimpleDragListener newDragListener(@Nonnull SimpleDragListener.DragProcessor dragProcessor, @Nonnull Context context) {
-        return new SimpleDragListener(dragProcessor, context);
-    }
-
-    private void toggleButtonDirectionText(@Nonnull ViewsCache views, int id, boolean showDirectionText, @Nonnull DragDirection... dragDirections) {
-        final View v = getButton(views, id);
-        if (v instanceof DirectionDragButton) {
-            final DirectionDragButton button = (DirectionDragButton) v;
-            for (DragDirection dragDirection : dragDirections) {
-                button.showDirectionText(showDirectionText, dragDirection);
-            }
-        }
-    }
-
-    @Nullable
-    private <V extends View> V getButton(@Nonnull ViewsCache views, int buttonId) {
-        //noinspection unchecked
-        return (V) views.findViewById(buttonId);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (angleUnit.isSameKey(key) || numeralBase.isSameKey(key)) {
-            if (angleUnitsButton != null) {
-                angleUnitsButton.setAngleUnit(angleUnit.getPreference(preferences));
-            }
-
-            if (clearButton != null) {
-                clearButton.setNumeralBase(numeralBase.getPreference(preferences));
-            }
-        }
-    }
-
-    private class OperatorsDragProcessor implements SimpleDragListener.DragProcessor {
-        @Override
-        public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
-            if (dragDirection == DragDirection.down) {
-                launcher.showOperators();
-                return true;
-            }
-            return false;
-        }
+        final int style = oldTypeface != null ? oldTypeface.getStyle() : Typeface.NORMAL;
+        view.setTypeface(newTypeface, style);
     }
 }

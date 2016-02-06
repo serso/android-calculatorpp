@@ -27,7 +27,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Nonnull
     protected final FragmentUi createUi(@Nonnull FragmentTab tab) {
-        return new FragmentUi(tab.layout, tab.title, false);
+        return new FragmentUi(tab.layout, tab.title);
     }
 
     protected void inject(@Nonnull AppComponent component) {
@@ -35,36 +35,32 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return ui.onCreateView(this, inflater, container);
-    }
-
-    @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-        ui.onViewCreated(this, root);
+        final View view = ui.onCreateView(inflater, container);
+        ui.onCreateView(this, view);
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ui.onResume(this);
+        ui.onResume();
     }
 
     @Override
     public void onPause() {
-        ui.onPause(this);
+        ui.onPause();
         super.onPause();
     }
 
     @Override
     public void onDestroyView() {
-        ui.onDestroyView(this);
+        ui.onDestroyView();
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        ui.onDestroy(this);
+        ui.onDestroy();
         super.onDestroy();
     }
 

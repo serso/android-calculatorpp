@@ -110,6 +110,6 @@ public class BaseActivity extends AppCompatActivity {
         final Bundle arguments = new Bundle(1);
         arguments.putString(BaseEntitiesFragment.ARG_CATEGORY, category.name());
         final String fragmentTag = tab.subTag(category.name());
-        ui.addTab(this, fragmentTag, tab.type, arguments, title, R.id.main_layout);
+        ui.addTab(this, fragmentTag, tab.type, arguments, title, R.id.main);
     }
 }

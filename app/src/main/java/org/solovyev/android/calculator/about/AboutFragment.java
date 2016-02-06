@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.FragmentUi;
 import org.solovyev.android.calculator.R;
@@ -62,7 +63,7 @@ public class AboutFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
-        if (ui.getTheme().light) {
+        if (App.getTheme().light) {
             imageView.setImageResource(R.drawable.logo_wizard_light);
         }
         textView.setMovementMethod(LinkMovementMethod.getInstance());

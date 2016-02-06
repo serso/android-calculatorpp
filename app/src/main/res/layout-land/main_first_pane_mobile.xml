@@ -28,13 +28,14 @@
     a:orientation="vertical">
 
     <LinearLayout
-        a:id="@+id/editorContainer"
+        a:id="@+id/editor"
         a:layout_width="match_parent"
         a:layout_height="0dp"
         a:layout_weight="2"
         a:orientation="horizontal" />
 
     <LinearLayout
+        a:id="@+id/partial_keyboard"
         a:layout_width="match_parent"
         a:layout_height="0dp"
         a:layout_weight="1"
@@ -53,7 +54,7 @@
             a:layout_weight="1" />
 
         <FrameLayout
-            a:id="@+id/displayContainer"
+            a:id="@+id/display"
             a:layout_width="0dp"
             a:layout_height="match_parent"
             a:layout_weight="4" />
@@ -73,7 +74,7 @@
     </LinearLayout>
 
     <LinearLayout
-        a:id="@+id/keyboardContainer"
+        a:id="@+id/keyboard"
         a:layout_width="match_parent"
         a:layout_height="0dp"
         a:layout_weight="3"

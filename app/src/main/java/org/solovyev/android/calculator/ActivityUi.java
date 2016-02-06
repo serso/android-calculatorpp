@@ -117,9 +117,8 @@ public class ActivityUi extends BaseUi {
 
         activity.setContentView(layoutId);
 
-        final View root = activity.findViewById(R.id.main_layout);
+        final View root = activity.findViewById(R.id.main);
         if (root != null) {
-            processButtons(activity, root);
             fixFonts(root);
             addHelpInfo(activity, root);
         }
@@ -291,60 +290,62 @@ public class ActivityUi extends BaseUi {
     }
 
     private void addHelpInfo(@Nonnull Activity activity, @Nonnull View root) {
-        if (App.isMonkeyRunner(activity)) {
-            if (root instanceof ViewGroup) {
-                final TextView helperTextView = new TextView(activity);
-
-                final DisplayMetrics dm = new DisplayMetrics();
-                activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-                helperTextView.setTextSize(15);
-                helperTextView.setTextColor(Color.WHITE);
-
-                final Configuration c = activity.getResources().getConfiguration();
-
-                final StringBuilder helpText = new StringBuilder();
-                helpText.append("Size: ");
-                if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
-                    helpText.append("xlarge");
-                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
-                    helpText.append("large");
-                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
-                    helpText.append("normal");
-                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
-                    helpText.append("small");
-                } else {
-                    helpText.append("unknown");
-                }
-
-                helpText.append(" (").append(dm.widthPixels).append("x").append(dm.heightPixels).append(")");
-
-                helpText.append(" Density: ");
-                switch (dm.densityDpi) {
-                    case DisplayMetrics.DENSITY_LOW:
-                        helpText.append("ldpi");
-                        break;
-                    case DisplayMetrics.DENSITY_MEDIUM:
-                        helpText.append("mdpi");
-                        break;
-                    case DisplayMetrics.DENSITY_HIGH:
-                        helpText.append("hdpi");
-                        break;
-                    case DisplayMetrics.DENSITY_XHIGH:
-                        helpText.append("xhdpi");
-                        break;
-                    case DisplayMetrics.DENSITY_TV:
-                        helpText.append("tv");
-                        break;
-                }
-
-                helpText.append(" (").append(dm.densityDpi).append(")");
-
-                helperTextView.setText(helpText);
-
-                ((ViewGroup) root).addView(helperTextView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
+        if (!App.isMonkeyRunner(activity)) {
+            return;
         }
+        if (!(root instanceof ViewGroup)) {
+            return;
+        }
+        final TextView helperTextView = new TextView(activity);
+
+        final DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        helperTextView.setTextSize(15);
+        helperTextView.setTextColor(Color.WHITE);
+
+        final Configuration c = activity.getResources().getConfiguration();
+
+        final StringBuilder helpText = new StringBuilder();
+        helpText.append("Size: ");
+        if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
+            helpText.append("xlarge");
+        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
+            helpText.append("large");
+        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
+            helpText.append("normal");
+        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
+            helpText.append("small");
+        } else {
+            helpText.append("unknown");
+        }
+
+        helpText.append(" (").append(dm.widthPixels).append("x").append(dm.heightPixels).append(")");
+
+        helpText.append(" Density: ");
+        switch (dm.densityDpi) {
+            case DisplayMetrics.DENSITY_LOW:
+                helpText.append("ldpi");
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                helpText.append("mdpi");
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                helpText.append("hdpi");
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                helpText.append("xhdpi");
+                break;
+            case DisplayMetrics.DENSITY_TV:
+                helpText.append("tv");
+                break;
+        }
+
+        helpText.append(" (").append(dm.densityDpi).append(")");
+
+        helperTextView.setText(helpText);
+
+        ((ViewGroup) root).addView(helperTextView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     public void onStop(@Nonnull Activity activity) {

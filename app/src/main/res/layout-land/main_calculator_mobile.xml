@@ -22,7 +22,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/main_layout"
+    a:id="@+id/main"
     style="@style/CppMain"
     a:orientation="vertical">
 

@@ -86,7 +86,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
         if (savedInstanceState == null) {
             final int preference = intent.getIntExtra(EXTRA_PREFERENCE, R.xml.preferences);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.main_layout, PreferencesFragment.create(preference, R.layout.fragment_preferences))
+                    .add(R.id.main, PreferencesFragment.create(preference, R.layout.fragment_preferences))
                     .commit();
         }
 

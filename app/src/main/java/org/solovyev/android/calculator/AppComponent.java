@@ -7,6 +7,7 @@ import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.history.BaseHistoryFragment;
 import org.solovyev.android.calculator.history.EditHistoryFragment;
+import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.operators.OperatorsFragment;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
@@ -40,4 +41,5 @@ public interface AppComponent {
     void inject(KeyboardFragment fragment);
     void inject(PurchaseDialogActivity activity);
     void inject(PreferencesActivity activity);
+    void inject(BaseKeyboardUi ui);
 }
