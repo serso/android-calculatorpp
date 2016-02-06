@@ -23,11 +23,7 @@
   -->
 
 <org.solovyev.android.calculator.DisplayView
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/calculator_display"
+    android:id="@+id/calculator_display"
     style="@style/CppText.Display"
-    a:inputType="textMultiLine"
-    a:maxLines="3"
-    a:padding="@dimen/cpp_display_padding"
-    a:scrollHorizontally="false"
-    a:scrollbars="none" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="@dimen/cpp_display_padding" />

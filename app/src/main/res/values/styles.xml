@@ -69,10 +69,13 @@
     </style>
 
     <style name="CppText.Display" parent="CppText">
-        <item name="android:gravity">top|right</item>
+        <item name="android:gravity">center_vertical|right</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:singleLine">false</item>
         <item name="android:textSize">@dimen/cpp_display_text_size</item>
+        <item name="android:scrollHorizontally">false</item>
+        <item name="android:scrollbars">none</item>
     </style>
 
     <style name="CppText.Display.Onscreen" parent="CppText.Display">

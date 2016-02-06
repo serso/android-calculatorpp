@@ -35,7 +35,7 @@
             <include
                 layout="@layout/onscreen_display"
                 a:layout_width="0dp"
-                a:layout_height="wrap_content"
+                a:layout_height="match_parent"
                 a:layout_weight="4" />
 
         </LinearLayout>

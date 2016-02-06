@@ -12,5 +12,4 @@
     style="@style/CppText.Display.Widget.Light"
     a:padding="@dimen/cpp_display_padding"
     a:scrollbars="vertical"
-    a:singleLine="false"
     a:textIsSelectable="true" />
