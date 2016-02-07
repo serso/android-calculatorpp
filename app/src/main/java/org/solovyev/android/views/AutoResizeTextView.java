@@ -19,6 +19,7 @@ import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.TimingLogger;
 import android.util.TypedValue;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class AutoResizeTextView extends TextView {
     public static final float MIN_TEXT_SIZE = 20;
     // Our ellipse string
     private static final String mEllipsis = "…";
+    private static final String TAG = "AutoResizeTextView";
     // Registered resize listener
     private OnTextResizeListener mTextResizeListener;
     // Flag for text and/or size changes to force a resize
@@ -58,6 +60,7 @@ public class AutoResizeTextView extends TextView {
     private boolean mAddEllipsis = true;
     private final TextPaint tmpPaint = new TextPaint();
     private final float mStep;
+    private final TimingLogger mTimer = new TimingLogger(TAG, "");
 
     // Default constructor override
     public AutoResizeTextView(Context context) {
@@ -221,6 +224,7 @@ public class AutoResizeTextView extends TextView {
      * Resize the text size with specified width and height
      */
     public void resizeText(int width, int height) {
+        mTimer.reset(TAG, "resizeText");
         CharSequence text = getText();
         // Do not resize if the view does not have dimensions or there is no text
         if (text == null || text.length() == 0 || height <= 0 || width <= 0 || mTextSize == 0) {
@@ -242,10 +246,13 @@ public class AutoResizeTextView extends TextView {
         // Get the required text height
         int textHeight = getTextHeight(text, textPaint, width, targetTextSize);
 
+        mTimer.addSplit("beforeScaling");
         if (textHeight > height && targetTextSize > mMinTextSize) {
             // Until we either fit within our text view or we had reached our min text size, incrementally try smaller sizes
             while (textHeight > height && targetTextSize > mMinTextSize) {
-                targetTextSize = Math.max(targetTextSize - mStep, mMinTextSize);
+                // to make search faster let's use "textHeight / height" factor for the step (it is always > 1)
+                final float factor = textHeight / height;
+                targetTextSize = Math.max((float)Math.floor(targetTextSize - mStep * factor), mMinTextSize);
                 textHeight = getTextHeight(text, textPaint, width, targetTextSize);
             }
         } else if (textHeight < height) {
@@ -257,10 +264,13 @@ public class AutoResizeTextView extends TextView {
                 targetTextSize = newTargetTextSize;
                 textHeight = newTextHeight;
 
-                newTargetTextSize += mStep;
+                // to make search faster let's use "height / newTextHeight" factor for the step (it is always > 1)
+                final float factor = height / newTextHeight;
+                newTargetTextSize = (float) Math.floor(newTargetTextSize + mStep * factor);
                 newTextHeight = getTextHeight(text, textPaint, width, newTargetTextSize);
             }
         }
+        mTimer.addSplit("scaling");
 
         // If we had reached our minimum text size and still don't fit, append an ellipsis
         if (mAddEllipsis && targetTextSize == mMinTextSize && textHeight > height) {
@@ -293,6 +303,7 @@ public class AutoResizeTextView extends TextView {
                 }
             }
         }
+        mTimer.addSplit("ellipsising");
 
         // Some devices try to auto adjust line spacing, so force default line spacing
         // and invalidate the layout as a side effect
@@ -306,6 +317,7 @@ public class AutoResizeTextView extends TextView {
 
         // Reset force resize flag
         mNeedsResize = false;
+        mTimer.dumpToLog();
     }
 
     // Set the text size of the text paint object and use a static layout to render text off screen before measuring
