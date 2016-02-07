@@ -32,18 +32,11 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -68,8 +61,6 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     Display display;
     @Inject
     SharedPreferences preferences;
-    @Inject
-    Keyboard keyboard;
 
     @Nonnull
     private static Class<?> getIntentListenerClass() {
@@ -120,7 +111,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
         final int width = Math.min(width0, height0);
         final int height = Math.max(width0, height0);
 
-        view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this, preferences, keyboard);
+        view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this, preferences);
         view.show();
         view.updateEditorState(editor.getState());
         view.updateDisplayState(display.getState());
