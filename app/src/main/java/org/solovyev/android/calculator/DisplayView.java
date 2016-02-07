@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -65,6 +66,8 @@ public class DisplayView extends AutoResizeTextView {
         final Resources resources = getResources();
         setAddEllipsis(false);
         setMinTextSize(applyDimension(COMPLEX_UNIT_SP, 10, resources.getDisplayMetrics()));
+        // make text scrollable if it doesn't fit
+        setMovementMethod(ScrollingMovementMethod.getInstance());
         if (context instanceof Service) {
             return;
         }
