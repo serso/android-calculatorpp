@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.squareup.otto.Bus;
 import com.squareup.otto.GeneratedHandlerFinder;
 import dagger.Module;
@@ -19,6 +20,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.io.File;
 import java.util.Collections;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -34,6 +36,7 @@ public class AppModule {
     public static final String THREAD_UI = "thread-ui";
     // multiple threads
     public static final String THREAD_BACKGROUND = "thread-background";
+    public static final String DIR_FILES = "dir-files";
 
     @NonNull
     private final Application application;
@@ -144,6 +147,31 @@ public class AppModule {
     @Provides
     Typeface provideTypeface() {
         return Typeface.createFromAsset(application.getAssets(), "fonts/Roboto-Regular.ttf");
+    }
+
+    @Singleton
+    @Provides
+    @Named(DIR_FILES)
+    File provideFilesDir(@Named(THREAD_INIT) Executor initThread) {
+        final File filesDir = makeFilesDir();
+        initThread.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (!filesDir.exists() && !filesDir.mkdirs()) {
+                    Log.e(App.TAG, "Can't create files dirs");
+                }
+            }
+        });
+        return filesDir;
+    }
+
+    @Nonnull
+    private File makeFilesDir() {
+        final File filesDir = application.getFilesDir();
+        if (filesDir == null) {
+            return new File(application.getApplicationInfo().dataDir, "files");
+        }
+        return filesDir;
     }
 
     private static class AppBus extends Bus {
