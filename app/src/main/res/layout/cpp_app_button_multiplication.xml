@@ -29,7 +29,6 @@
     a:id="@id/cpp_button_multiplication"
     style="?attr/cpp_button_style_operation"
     a:text="×"
-    c:directionTextScale="0.5"
     c:textDown="^2"
     c:textLeft="Π"
     c:textUp="^"

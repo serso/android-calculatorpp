@@ -27,6 +27,7 @@
     </style>
 
     <style name="CppKeyboardButton">
+        <item name="android:textAllCaps">false</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -38,6 +39,7 @@
         <item name="android:textColor">@color/cpp_button_text</item>
         <item name="android:scaleType">centerInside</item>
         <item name="directionTextColor">@color/cpp_button_text</item>
+        <item name="directionTextScale">@string/cpp_direction_text_size</item>
     </style>
 
     <style name="CppText.Editor.Onscreen.Light" parent="CppText.Editor.Onscreen">

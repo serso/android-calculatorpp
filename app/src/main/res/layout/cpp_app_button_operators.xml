@@ -27,5 +27,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     a:id="@id/cpp_button_operators"
     style="?attr/cpp_button_style_control"
-    a:text="∂,…"
+    a:text="@string/cpp_kb_operators"
     tools:ignore="HardcodedText" />

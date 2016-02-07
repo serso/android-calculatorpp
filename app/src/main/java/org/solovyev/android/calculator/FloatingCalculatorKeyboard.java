@@ -71,7 +71,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         final int parametersCount = parameterNames.size();
 
         LinearLayout row = makeRow();
-        addImageButton(row, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_white_24dp);
+        addImageButton(row, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_grey300_24dp);
         addButton(row, 0, parametersCount > 0 ? parameterNames.get(0) : "x");
         addButton(row, 0, "7");
         addButton(row, 0, "8");
@@ -88,7 +88,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "6");
         addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText("%", up).setText("sqrt", down);
         addOperationButton(row, R.id.cpp_kb_button_minus, "−");
-        final View backspace = addImageButton(row, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_white_24dp);
+        final View backspace = addImageButton(row, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_grey300_24dp);
         EditTextLongClickEraser.attachTo(backspace, user.getEditor());
 
         row = makeRow();
@@ -98,8 +98,8 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "2");
         addButton(row, 0, "3");
         addButton(row, 0, "0").setText("00", up).setText("000", down);
-        addImageButton(row, R.id.cpp_kb_button_space, R.drawable.ic_space_bar_white_24dp);
-        addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
+        addImageButton(row, R.id.cpp_kb_button_space, R.drawable.ic_space_bar_grey300_24dp);
+        addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_grey300_24dp);
     }
 
     private void makeViewPort() {
@@ -115,7 +115,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "5");
         addButton(row, 0, "6");
         addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText("%", up).setText("sqrt", down);
-        final View backspace = addImageButton(row, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_white_24dp);
+        final View backspace = addImageButton(row, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_grey300_24dp);
         EditTextLongClickEraser.attachTo(backspace, user.getEditor());
 
         row = makeRow();
@@ -123,14 +123,14 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "2");
         addButton(row, 0, "3");
         addOperationButton(row, R.id.cpp_kb_button_plus, "+");
-        addImageButton(row, R.id.cpp_kb_button_space, R.drawable.ic_space_bar_white_24dp);
+        addImageButton(row, R.id.cpp_kb_button_space, R.drawable.ic_space_bar_grey300_24dp);
 
         row = makeRow();
         addButton(row, R.id.cpp_kb_button_brackets, "( )").setText("(", up).setText(")", down);
         addButton(row, 0, "0").setText("00", up).setText("000", down);
         addButton(row, 0, ".").setText(",", up);
         addOperationButton(row, R.id.cpp_kb_button_minus, "−");
-        addImageButton(row, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_white_24dp);
+        addImageButton(row, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_grey300_24dp);
 
         row = makeRow();
         final int parametersCount = parameterNames.size();
@@ -138,7 +138,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, parametersCount > 1 ? parameterNames.get(1) : "y");
         addButton(row, R.id.cpp_kb_button_functions, "f");
         addButton(row, R.id.cpp_kb_button_constants, "π");
-        addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
+        addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_grey300_24dp);
     }
 
     public int getRowsCount(boolean landscape) {

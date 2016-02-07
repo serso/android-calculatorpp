@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.NumeralBase;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.EditorLongClickEraser;
@@ -62,8 +63,10 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
         prepareButton(leftButton);
         prepareButton(equalsButton);
         prepareButton(clearButton);
-        prepareButton(eraseButton);
         if (eraseButton != null) {
+            Check.isTrue(IMAGE_SCALE == 0.6f);
+            // backspace button is too big, scale it more
+            prepareButton(eraseButton, 0.5f);
             EditorLongClickEraser.attachTo(eraseButton);
         }
         if (isSimpleLayout()) {

@@ -29,7 +29,6 @@
     a:id="@id/cpp_button_division"
     style="?attr/cpp_button_style_operation"
     a:text="/"
-    c:directionTextScale="0.5"
     c:textDown="√"
     c:textUp="%"
     tools:ignore="HardcodedText" />

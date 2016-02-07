@@ -29,7 +29,6 @@
     a:id="@id/cpp_button_7"
     style="?attr/cpp_button_style_digit"
     a:text="7"
-    c:directionTextScale="0.5;0.5;0.5;0.33"
     c:textDown="!"
     c:textLeft="0b:"
     c:textUp="i"

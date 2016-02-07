@@ -23,7 +23,6 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    xmlns:c="http://schemas.android.com/apk/res-auto"
     a:layout_width="match_parent"
     a:layout_height="match_parent"
     a:gravity="center"
@@ -62,8 +61,7 @@
                 style="?attr/cpp_button_style_operation"
                 a:layout_width="100dp"
                 a:layout_height="100dp"
-                a:text="7"
-                c:directionTextScale="0.5" />
+                a:text="7" />
         </FrameLayout>
 
         <TextView

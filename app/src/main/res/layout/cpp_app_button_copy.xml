@@ -26,4 +26,4 @@
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@id/cpp_button_copy"
     style="?attr/cpp_button_style_control_image"
-    a:src="@drawable/kb_copy" />
+    a:src="@drawable/ic_content_copy_white_48dp" />

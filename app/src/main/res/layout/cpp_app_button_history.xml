@@ -28,6 +28,5 @@
     style="?attr/cpp_button_style_control"
     a:text="@string/c_history_button"
     a:textStyle="bold"
-    c:directionTextScale="0.27"
-    c:textDown="@string/c_redo"
-    c:textUp="@string/c_undo" />
+    c:textDown="@string/cpp_kb_redo"
+    c:textUp="@string/cpp_kb_undo" />
