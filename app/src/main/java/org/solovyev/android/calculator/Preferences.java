@@ -31,7 +31,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-import hugo.weaving.DebugLog;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.Check;
@@ -60,7 +59,6 @@ public final class Preferences {
         throw new AssertionError();
     }
 
-    @DebugLog
     static void setDefaultValues(@Nonnull SharedPreferences preferences) {
         // renew value after each application start
         Gui.showFixableErrorDialog.putDefault(preferences);

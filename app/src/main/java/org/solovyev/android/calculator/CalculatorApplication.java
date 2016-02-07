@@ -26,9 +26,9 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.TimingLogger;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Bus;
-import hugo.weaving.DebugLog;
 import jscl.MathEngine;
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
@@ -99,20 +99,31 @@ public class CalculatorApplication extends android.app.Application implements Sh
     @Inject
     ActivityLauncher launcher;
 
-    @DebugLog
+    @Nonnull
+    private final TimingLogger timer = new TimingLogger("App", "onCreate");
+
     @Override
     public void onCreate() {
+        timer.reset();
+
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final Languages languages = new Languages(preferences);
+        timer.addSplit("languages");
 
         onPreCreate(preferences, languages);
+        timer.addSplit("onPreCreate");
+
         super.onCreate();
+        timer.addSplit("super.onCreate");
 
         initDagger();
+        timer.addSplit("initDagger");
+
         onPostCreate(preferences, languages);
+        timer.addSplit("onPostCreate");
+        timer.dumpToLog();
     }
 
-    @DebugLog
     private void initDagger() {
         component = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
@@ -122,7 +133,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
         history.init(initThread);
     }
 
-    @DebugLog
     private void onPostCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
         App.init(this, languages);
 
@@ -157,7 +167,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
         }
     }
 
-    @DebugLog
     private void onPreCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
         // first we need to setup crash handler and memory leak analyzer
         if (AcraErrorReporter.ENABLED) {

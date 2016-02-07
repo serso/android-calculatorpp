@@ -36,7 +36,6 @@ import android.view.*;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hugo.weaving.DebugLog;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.history.History;
@@ -153,7 +152,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         return result;
     }
 
-    @DebugLog
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -205,7 +203,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         }
     }
 
-    @DebugLog
     @Override
     protected void inject(@Nonnull AppComponent component) {
         super.inject(component);

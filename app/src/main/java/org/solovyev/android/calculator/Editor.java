@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import hugo.weaving.DebugLog;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
@@ -56,7 +55,6 @@ public class Editor {
         textProcessor = new EditorTextProcessor(preferences);
     }
 
-    @DebugLog
     public void init() {
         bus.register(this);
     }
