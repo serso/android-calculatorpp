@@ -28,7 +28,6 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import hugo.weaving.DebugLog;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
@@ -40,7 +39,6 @@ import javax.annotation.Nonnull;
 import static android.util.TypedValue.COMPLEX_UNIT_SP;
 import static android.util.TypedValue.applyDimension;
 
-@DebugLog
 public class DisplayView extends AutoResizeTextView {
 
     @Nonnull

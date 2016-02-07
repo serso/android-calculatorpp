@@ -24,7 +24,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 23

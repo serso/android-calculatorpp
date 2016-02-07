@@ -30,7 +30,6 @@ import android.text.TextUtils;
 import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import hugo.weaving.DebugLog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
@@ -158,7 +157,6 @@ public class History {
     public History() {
     }
 
-    @DebugLog
     public void init(@NonNull Executor initThread) {
         Check.isMainThread();
         bus.register(this);
