@@ -31,54 +31,40 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.HapticFeedbackConstants;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.ImageView;
-
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppButton;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.DisplayView;
-import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.EditorView;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.prefs.Preference;
-
-import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import java.util.Locale;
+
+import static org.solovyev.android.calculator.App.cast;
 
 public class CalculatorOnscreenView {
     private static final String TAG = CalculatorOnscreenView.class.getSimpleName();
 
     private static final Preference<CalculatorOnscreenViewState> viewStatePreference = new CalculatorOnscreenViewState.Preference("onscreen_view_state", CalculatorOnscreenViewState.createDefault());
 
-    @Nonnull
     private View root;
-    @Nonnull
     private View content;
-    @Nonnull
     private View header;
-    @Nonnull
     private ImageView headerTitle;
     private Drawable headerTitleDrawable;
-    @Nonnull
     private EditorView editorView;
-    @Nonnull
     private DisplayView displayView;
-    @Nonnull
     private Context context;
     @Nonnull
     private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.createDefault();
     @Nullable
     private OnscreenViewListener viewListener;
-    @Nonnull
-    private Keyboard keyboard;
+    @Inject
+    Keyboard keyboard;
+    @Inject
+    Editor editor;
 
     private boolean minimized;
     private boolean attached;
@@ -93,16 +79,14 @@ public class CalculatorOnscreenView {
     public static CalculatorOnscreenView create(@Nonnull Context context,
                                                 @Nonnull CalculatorOnscreenViewState state,
                                                 @Nullable OnscreenViewListener viewListener,
-                                                @NonNull SharedPreferences preferences,
-                                                @NonNull Keyboard keyboard) {
+                                                @NonNull SharedPreferences preferences) {
         final CalculatorOnscreenView view = new CalculatorOnscreenView();
-
+        cast(context).getComponent().inject(view);
         final Preferences.SimpleTheme theme = Preferences.Onscreen.theme.getPreferenceNoError(preferences);
         final Preferences.Gui.Theme appTheme = Preferences.Gui.theme.getPreferenceNoError(preferences);
         view.root = View.inflate(context, theme.getOnscreenLayout(appTheme), null);
         view.context = context;
         view.viewListener = viewListener;
-        view.keyboard = keyboard;
 
         final CalculatorOnscreenViewState persistedState = readState(context);
         if (persistedState != null) {
@@ -190,6 +174,7 @@ public class CalculatorOnscreenView {
         displayView = (DisplayView) root.findViewById(R.id.calculator_display);
 
         editorView = (EditorView) root.findViewById(R.id.calculator_editor);
+        editorView.setEditor(editor);
 
         final View onscreenFoldButton = root.findViewById(R.id.onscreen_fold_button);
         onscreenFoldButton.setOnClickListener(new View.OnClickListener() {
