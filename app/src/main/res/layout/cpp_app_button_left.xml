@@ -29,6 +29,5 @@
     a:id="@id/cpp_button_left"
     style="?attr/cpp_button_style_control"
     a:text="◁"
-    c:directionTextScale="0.5"
     c:textUp="◁◁"
     tools:ignore="HardcodedText" />

@@ -13,17 +13,17 @@
         <ImageButton
             a:id="@+id/onscreen_fold_button"
             style="@style/CppHeaderButton.Material"
-            a:src="@drawable/cpp_onscreen_button_fold" />
+            a:src="@drawable/ic_space_bar_white_24dp" />
 
         <ImageButton
             a:id="@+id/onscreen_minimize_button"
             style="@style/CppHeaderButton.Material"
-            a:src="@drawable/cpp_onscreen_button_minimize" />
+            a:src="@drawable/ic_file_download_white_24dp" />
 
         <ImageButton
             a:id="@+id/onscreen_close_button"
             style="@style/CppHeaderButton.Material"
-            a:src="@drawable/cpp_onscreen_button_close" />
+            a:src="@drawable/ic_close_white_24dp" />
 
     </LinearLayout>
 

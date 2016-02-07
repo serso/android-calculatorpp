@@ -28,7 +28,6 @@
     a:id="@id/cpp_button_plus"
     style="?attr/cpp_button_style_operation"
     a:text="+"
-    c:directionTextScale="0.5"
     c:textDown="E"
     c:textUp="°"
     tools:ignore="HardcodedText" />

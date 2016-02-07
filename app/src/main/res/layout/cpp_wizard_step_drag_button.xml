@@ -53,7 +53,6 @@
         a:minHeight="100dp"
         a:minWidth="100dp"
         a:text="9"
-        c:directionTextScale="0.5;0.5;0.5;0.33"
         c:textDown="^2"
         c:textUp="%" />
 

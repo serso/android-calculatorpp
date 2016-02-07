@@ -29,7 +29,6 @@
     a:id="@id/cpp_button_round_brackets"
     style="?attr/cpp_button_style_digit"
     a:text="( )"
-    c:directionTextScale="0.5;0.5;0.5;0.33"
     c:textDown=")"
     c:textLeft="(…)"
     c:textUp="("

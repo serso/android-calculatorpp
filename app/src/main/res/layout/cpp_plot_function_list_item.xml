@@ -53,6 +53,6 @@
         a:paddingBottom="0dp"
         a:paddingTop="0dp"
         a:scaleType="centerInside"
-        a:src="@drawable/kb_settings" />
+        a:src="@drawable/ic_settings_white_48dp" />
 
 </LinearLayout>

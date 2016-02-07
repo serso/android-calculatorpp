@@ -34,9 +34,7 @@
         <item name="android:textColor">@color/cpp_button_text_operator</item>
     </style>
 
-    <style name="CppKeyboardButton.Gray.Control.Image" parent="CppKeyboardButton.Gray.Control">
-        <item name="android:padding">6dp</item>
-    </style>
+    <style name="CppKeyboardButton.Gray.Control.Image" parent="CppKeyboardButton.Gray.Control"/>
 
     <style name="Cpp.Theme.Gray" parent="Cpp.Theme">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Gray.Digit</item>

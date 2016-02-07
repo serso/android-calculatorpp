@@ -34,9 +34,7 @@
         <item name="android:background">@drawable/violet_button_dark</item>
     </style>
 
-    <style name="CppKeyboardButton.Violet.Control.Image" parent="CppKeyboardButton.Violet.Control">
-        <item name="android:padding">6dp</item>
-    </style>
+    <style name="CppKeyboardButton.Violet.Control.Image" parent="CppKeyboardButton.Violet.Control"/>
 
     <style name="Cpp.Theme.Violet" parent="Cpp.Theme">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Violet.Digit</item>

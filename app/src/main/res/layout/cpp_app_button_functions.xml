@@ -28,8 +28,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     a:id="@id/cpp_button_functions"
     style="?attr/cpp_button_style_control"
-    a:text="ƒ(x)"
+    a:text="@string/cpp_kb_functions"
     a:textStyle="italic"
-    c:directionTextScale="0.4"
     c:textUp="+ƒ"
     tools:ignore="HardcodedText" />

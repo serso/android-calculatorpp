@@ -27,4 +27,4 @@
     a:id="@id/cpp_button_settings"
     style="@style/CppKeyboardButton.Material.Light.Simple.Control.Image"
     a:contentDescription="Settings"
-    a:src="@drawable/kb_settings" />
+    a:src="@drawable/ic_settings_white_48dp" />

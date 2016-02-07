@@ -10,10 +10,12 @@ import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.widget.ImageView;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.ScreenMetrics;
+import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
@@ -27,6 +29,9 @@ import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
 
 public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPreferenceChangeListener, SimpleDragListener.DragProcessor, View.OnClickListener {
+
+    protected static final float TEXT_SCALE = 0.6f;
+    protected static final float IMAGE_SCALE = 0.6f;
 
     @NonNull
     protected final SimpleDragListener listener;
@@ -59,6 +64,18 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         textSize = layout.optimized ? 0 : calculateTextSize();
     }
 
+    protected final void prepareButton(@Nullable ImageView button) {
+        prepareButton(button, IMAGE_SCALE);
+    }
+
+    protected final void prepareButton(@Nullable ImageView button, float scale) {
+        if (button == null) {
+            return;
+        }
+        prepareButton((View) button);
+        Adjuster.adjustImage(button, scale);
+    }
+
     protected final void prepareButton(@Nullable View button) {
         if (button == null) {
             return;
@@ -76,6 +93,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         if (textSize > 0) {
             button.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         }
+        Adjuster.adjustText(button, TEXT_SCALE);
     }
 
     protected final void hideText(@Nullable DirectionDragButton button, @Nonnull DragDirection... directions) {

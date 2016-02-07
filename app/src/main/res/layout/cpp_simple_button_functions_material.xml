@@ -26,5 +26,5 @@
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@id/cpp_button_functions"
     style="@style/CppKeyboardButton.Material.Simple.Control"
-    a:text="ƒ(x)"
+    a:text="@string/cpp_kb_functions"
     a:textStyle="italic" />
