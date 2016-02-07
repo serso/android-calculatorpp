@@ -42,7 +42,7 @@ android {
         }
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-debug.cfg'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-debug.cfg'
         }
     }
     lintOptions {
