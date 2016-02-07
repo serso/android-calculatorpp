@@ -86,6 +86,9 @@ public class History {
     @Inject
     @Named(AppModule.THREAD_BACKGROUND)
     Executor backgroundThread;
+    @Inject
+    @Named(AppModule.DIR_FILES)
+    File filesDir;
 
     @Nullable
     static List<HistoryState> convertOldHistory(@NonNull String xml) {
@@ -170,12 +173,12 @@ public class History {
 
     @NonNull
     private File getSavedHistoryFile() {
-        return new File(application.getFilesDir(), "history-saved.json");
+        return new File(filesDir, "history-saved.json");
     }
 
     @NonNull
     private File getRecentHistoryFile() {
-        return new File(application.getFilesDir(), "history-recent.json");
+        return new File(filesDir, "history-recent.json");
     }
 
     private void migrateOldHistory() {

@@ -75,6 +75,9 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     @Inject
     @Named(AppModule.THREAD_BACKGROUND)
     public Executor backgroundThread;
+    @Inject
+    @Named(AppModule.DIR_FILES)
+    public File filesDir;
 
     // synchronized on lock
     private boolean initialized;
