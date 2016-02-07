@@ -64,6 +64,13 @@ public final class Preferences {
         Gui.showFixableErrorDialog.putDefault(preferences);
         Gui.lastPreferredPreferencesCheck.putDefault(preferences);
 
+        final Integer version = Preferences.appVersion.getPreference(preferences);
+        if (version == null) {
+            setInitialDefaultValues(preferences);
+        }
+    }
+
+    private static void setInitialDefaultValues(@Nonnull SharedPreferences preferences) {
         if (!Engine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
