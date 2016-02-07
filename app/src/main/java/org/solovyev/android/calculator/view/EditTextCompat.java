@@ -72,7 +72,7 @@ public class EditTextCompat extends EditText {
             setShowSoftInputOnFocusMethod = EditText.class.getMethod("setShowSoftInputOnFocus", boolean.class);
             setShowSoftInputOnFocusMethod.setAccessible(true);
         } catch (NoSuchMethodException e) {
-            Log.w("EditTextCompat", e.getMessage(), e);
+            Log.d("EditTextCompat", "setShowSoftInputOnFocus was not found...");
         }
         return setShowSoftInputOnFocusMethod;
     }
