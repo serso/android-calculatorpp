@@ -21,7 +21,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
-import hugo.weaving.DebugLog;
 
 import static android.util.TypedValue.COMPLEX_UNIT_SP;
 import static android.util.TypedValue.applyDimension;
@@ -34,7 +33,6 @@ import static android.util.TypedValue.applyDimension;
  * @author Chase Colburn
  * @since Apr 4, 2011
  */
-@DebugLog
 @SuppressWarnings("unused")
 public class AutoResizeTextView extends TextView {
 
