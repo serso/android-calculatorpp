@@ -22,10 +22,12 @@
 
 package org.solovyev.android.calculator.view;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
+
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.ParseException;
 import org.solovyev.android.calculator.R;
@@ -36,9 +38,10 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.Unit;
 import org.solovyev.common.units.UnitImpl;
 
+import java.util.Arrays;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 public class NumeralBaseConverterDialog {
 
@@ -96,7 +99,7 @@ public class NumeralBaseConverterDialog {
             }
         }));
 
-        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context, App.getTheme().alertDialogTheme);
         alertBuilder.setView(b.build(context));
         alertBuilder.setTitle(R.string.c_conversion_tool);
 

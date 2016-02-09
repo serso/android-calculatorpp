@@ -22,10 +22,14 @@
 
 package org.solovyev.android.calculator;
 
+import static org.solovyev.android.calculator.BaseFragment.addMenu;
+import static org.solovyev.android.calculator.CalculatorEventType.conversion_failed;
+import static org.solovyev.android.calculator.CalculatorEventType.conversion_result;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -43,17 +47,13 @@ import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 
+import dagger.Lazy;
+import jscl.math.Generic;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import dagger.Lazy;
-import jscl.math.Generic;
-
-import static org.solovyev.android.calculator.BaseFragment.addMenu;
-import static org.solovyev.android.calculator.CalculatorEventType.conversion_failed;
-import static org.solovyev.android.calculator.CalculatorEventType.conversion_result;
 
 @Singleton
 public class Display implements CalculatorEventListener, View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
@@ -210,7 +210,7 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
         final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
         ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, App.getTheme().alertDialogTheme)
                 .setPositiveButton(R.string.c_cancel, null)
                 .setView(errorMessageView);
 
