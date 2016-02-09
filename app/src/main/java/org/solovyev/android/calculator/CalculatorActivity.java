@@ -22,8 +22,16 @@
 
 package org.solovyev.android.calculator;
 
+import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
+import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
+import static org.solovyev.android.wizard.WizardUi.continueWizard;
+import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
+
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -31,11 +39,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.text.method.LinkMovementMethod;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.Window;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.history.History;
@@ -47,16 +59,12 @@ import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.Objects;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
-import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
-import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.*;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -141,7 +149,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
             final TextView feedbackTextView = (TextView) view.findViewById(textViewId);
             feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(view);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context, App.getTheme().alertDialogTheme).setView(view);
             builder.setPositiveButton(android.R.string.ok, null);
             builder.create().show();
 

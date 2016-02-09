@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator.wizard;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,9 +7,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+
 import com.viewpagerindicator.PageIndicator;
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.wizard.*;
+
+import org.solovyev.android.calculator.ActivityUi;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.wizard.ListWizardFlow;
+import org.solovyev.android.wizard.Wizard;
+import org.solovyev.android.wizard.WizardFlow;
+import org.solovyev.android.wizard.WizardStep;
+import org.solovyev.android.wizard.WizardUi;
+import org.solovyev.android.wizard.Wizards;
+import org.solovyev.android.wizard.WizardsAware;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -109,7 +121,7 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
                 return;
             }
 
-            final AlertDialog.Builder b = new AlertDialog.Builder(this);
+            final AlertDialog.Builder b = new AlertDialog.Builder(this, App.getTheme().alertDialogTheme);
             b.setTitle(getString(R.string.cpp_wizard_finish_confirmation_title)).
                     setMessage(R.string.cpp_wizard_finish_confirmation).
                     setNegativeButton(R.string.c_no, dialogListener).
