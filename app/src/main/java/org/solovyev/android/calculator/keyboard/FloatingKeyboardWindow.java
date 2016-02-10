@@ -4,18 +4,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
 
 public class FloatingKeyboardWindow {
@@ -30,14 +29,6 @@ public class FloatingKeyboardWindow {
 
     public FloatingKeyboardWindow(@javax.annotation.Nullable PopupWindow.OnDismissListener dismissListener) {
         this.dismissListener = dismissListener;
-    }
-
-    private static void hideIme(@NonNull View view) {
-        final IBinder token = view.getWindowToken();
-        if (token != null) {
-            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(token, 0);
-        }
     }
 
     public void hide() {
@@ -58,12 +49,12 @@ public class FloatingKeyboardWindow {
     public void show(@NonNull FloatingKeyboard keyboard, @Nullable Dialog dialog) {
         final EditText editor = keyboard.getUser().getEditor();
         if (isShown()) {
-            hideIme(editor);
+            App.hideIme(editor);
             return;
         }
         this.dialog = dialog;
         moveDialog(Gravity.TOP);
-        hideIme(editor);
+        App.hideIme(editor);
         final Context context = editor.getContext();
         final LinearLayout view = new LinearLayout(context);
         view.setOrientation(LinearLayout.VERTICAL);
@@ -93,7 +84,7 @@ public class FloatingKeyboardWindow {
                     return;
                 }
                 if (editor.getWindowToken() != null) {
-                    hideIme(editor);
+                    App.hideIme(editor);
                     final int inputWidth = editor.getWidth();
                     final int xOff = (inputWidth - keyboardWidth) / 2;
                     window.setWidth(keyboardWidth);
