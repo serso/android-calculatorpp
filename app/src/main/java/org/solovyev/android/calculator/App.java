@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -38,6 +39,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import com.squareup.otto.Bus;
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
@@ -324,5 +326,13 @@ public final class App {
         }
         Check.shouldNotHappen();
         return (CalculatorApplication) application;
+    }
+
+    public static void hideIme(@NonNull View view) {
+        final IBinder token = view.getWindowToken();
+        if (token != null) {
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(token, 0);
+        }
     }
 }

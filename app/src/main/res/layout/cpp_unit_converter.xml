@@ -27,59 +27,93 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <Spinner
+        android:id="@+id/converter_dimensions_spinner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp">
-
-        <Button
-            android:id="@+id/converter_spinner_from"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="?android:attr/spinnerStyle" />
-
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/converter_label_from"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/converter_edittext_from"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginBottom="@dimen/control_margin" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/converter_spinner_to"
+        <ImageButton
+            android:id="@+id/converter_swap_button"
+            style="@style/CppImageButton"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginEnd="@dimen/control_margin"
+            android:layout_marginRight="@dimen/control_margin"
+            android:src="@drawable/ic_swap_vert_white_24dp" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/converter_label_to"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/converter_edittext_to"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:editable="false"
-                android:inputType="none"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/control_margin"
+                android:orientation="horizontal">
 
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/converter_label_from"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/converter_edittext_from"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="From"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Spinner
+                    android:id="@+id/converter_spinner_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/converter_label_to"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/converter_edittext_to"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:hint="To"
+                        android:inputType="none"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Spinner
+                    android:id="@+id/converter_spinner_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

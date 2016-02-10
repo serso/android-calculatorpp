@@ -8,41 +8,301 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
-import android.view.ContextMenu;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-
-import org.solovyev.android.Check;
+import android.view.inputmethod.EditorInfo;
+import android.widget.*;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.measure.unit.Dimension;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
+import java.util.*;
 
 public class ConverterFragment extends BaseDialogFragment
-        implements AdapterView.OnItemSelectedListener, View.OnClickListener,
-        MenuItem.OnMenuItemClickListener {
+        implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener {
 
+    @NonNull
+    private static final Set<String> excludedUnits = new HashSet<>(Arrays.asList("year_sidereal", "year_calendar", "day_sidereal", "foot_survey_us"));
+    @NonNull
     private static final Map<MyDimension, List<Unit<?>>> units = new HashMap<>();
+    private static final String STATE_SELECTION_FROM = "selection.from";
+    private static final String STATE_SELECTION_TO = "selection.to";
+
+    static {
+        for (Unit<?> unit : SI.getInstance().getUnits()) {
+            addUnit(unit);
+        }
+        for (Unit<?> unit : NonSI.getInstance().getUnits()) {
+            addUnit(unit);
+        }
+    }
+
+    @Bind(R.id.converter_dimensions_spinner)
+    Spinner dimensionsSpinner;
+    @Bind(R.id.converter_spinner_from)
+    Spinner spinnerFrom;
+    @Bind(R.id.converter_label_from)
+    TextInputLayout labelFrom;
+    @Bind(R.id.converter_edittext_from)
+    EditText editTextFrom;
+    @Bind(R.id.converter_spinner_to)
+    Spinner spinnerTo;
+    @Bind(R.id.converter_label_to)
+    TextInputLayout labelTo;
+    @Bind(R.id.converter_edittext_to)
+    EditText editTextTo;
+    @Bind(R.id.converter_swap_button)
+    ImageButton swapButton;
+    private ArrayAdapter<MyDimensionUi> dimensionsAdapter;
+    private ArrayAdapter<Unit<?>> adapterFrom;
+    private ArrayAdapter<Unit<?>> adapterTo;
+
+    private int pendingFromSelection = View.NO_ID;
+    private int pendingToSelection = View.NO_ID;
+
+    private static void addUnit(@NonNull Unit<?> unit) {
+        if (excludedUnits.contains(unit.toString())) {
+            return;
+        }
+
+        final MyDimension dimension = MyDimension.getByDimension(unit);
+        if (dimension == null) {
+            return;
+        }
+
+        List<Unit<?>> unitsInDimension = units.get(dimension);
+        if (unitsInDimension == null) {
+            unitsInDimension = new ArrayList<>();
+            units.put(dimension, unitsInDimension);
+        }
+        unitsInDimension.add(unit);
+    }
+
+    public static void show(@Nonnull FragmentActivity activity) {
+        App.showDialog(new ConverterFragment(), "converter",
+                activity.getSupportFragmentManager());
+    }
+
+    @Nonnull
+    private static <T> ArrayAdapter<T> makeAdapter(@NonNull Context context) {
+        final ArrayAdapter<T> adapter =
+                new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
+    }
+
+    @Override
+    protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
+
+    }
+
+    @SuppressLint("InflateParams")
+    @Nullable
+    @Override
+    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater,
+                                      @Nullable Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.cpp_unit_converter, null);
+        ButterKnife.bind(this, view);
+
+        dimensionsAdapter = makeAdapter(context);
+        for (MyDimension dimension : MyDimension.values()) {
+            dimensionsAdapter.add(new MyDimensionUi(dimension));
+        }
+        adapterFrom = makeAdapter(context);
+        adapterTo = makeAdapter(context);
+
+        dimensionsSpinner.setAdapter(dimensionsAdapter);
+        spinnerFrom.setAdapter(adapterFrom);
+        spinnerTo.setAdapter(adapterTo);
+
+        dimensionsSpinner.setOnItemSelectedListener(this);
+        spinnerFrom.setOnItemSelectedListener(this);
+        spinnerTo.setOnItemSelectedListener(this);
+
+        editTextFrom.setOnFocusChangeListener(this);
+        editTextFrom.setOnEditorActionListener(this);
+
+        swapButton.setOnClickListener(this);
+
+        if (savedInstanceState == null) {
+            editTextFrom.setText("1");
+            dimensionsSpinner.setSelection(0);
+        } else {
+            pendingFromSelection = savedInstanceState.getInt(STATE_SELECTION_FROM, View.NO_ID);
+            pendingToSelection = savedInstanceState.getInt(STATE_SELECTION_TO, View.NO_ID);
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_SELECTION_FROM, spinnerFrom.getSelectedItemPosition());
+        outState.putInt(STATE_SELECTION_TO, spinnerTo.getSelectedItemPosition());
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.converter_dimensions_spinner:
+                onDimensionChanged(dimensionsAdapter.getItem(position).dimension);
+                break;
+            case R.id.converter_spinner_from:
+                onUnitFromChanged(adapterFrom.getItem(position));
+                break;
+            case R.id.converter_spinner_to:
+                convert();
+                break;
+        }
+    }
+
+    private void onUnitFromChanged(@NonNull Unit<?> unit) {
+        final int dimensionPosition = dimensionsSpinner.getSelectedItemPosition();
+        updateUnitsTo(dimensionsAdapter.getItem(dimensionPosition).dimension, unit);
+        convert();
+    }
+
+    private void onDimensionChanged(@NonNull MyDimension dimension) {
+        updateUnitsFrom(dimension);
+        updateUnitsTo(dimension, adapterFrom.getItem(spinnerFrom.getSelectedItemPosition()));
+        convert();
+    }
+
+    private void updateUnitsFrom(@NonNull MyDimension dimension) {
+        adapterFrom.setNotifyOnChange(false);
+        adapterFrom.clear();
+        for (Unit<?> unit : units.get(dimension)) {
+            adapterFrom.add(unit);
+        }
+        adapterFrom.setNotifyOnChange(true);
+        adapterFrom.notifyDataSetChanged();
+        spinnerFrom.setSelection(Math.max(0, Math.min(pendingFromSelection, adapterFrom.getCount() - 1)));
+        pendingFromSelection = View.NO_ID;
+    }
+
+    private void updateUnitsTo(@NonNull MyDimension dimension, @NonNull Unit<?> except) {
+        final Unit<?> selectedUnit;
+        if (pendingToSelection > View.NO_ID) {
+            selectedUnit = null;
+        } else {
+            final int selectedPosition = spinnerTo.getSelectedItemPosition();
+            selectedUnit = selectedPosition >= 0 && selectedPosition < adapterTo.getCount() ? adapterTo.getItem(selectedPosition) : null;
+        }
+        adapterTo.setNotifyOnChange(false);
+        adapterTo.clear();
+        for (Unit<?> unit : units.get(dimension)) {
+            if (!except.equals(unit)) {
+                adapterTo.add(unit);
+            }
+        }
+        adapterTo.setNotifyOnChange(true);
+        adapterTo.notifyDataSetChanged();
+        if (selectedUnit != null && !except.equals(selectedUnit)) {
+            for (int i = 0; i < adapterTo.getCount(); i++) {
+                final Unit<?> unit = adapterTo.getItem(i);
+                if (unit.equals(selectedUnit)) {
+                    spinnerTo.setSelection(i);
+                    return;
+                }
+            }
+        }
+        spinnerTo.setSelection(Math.max(0, Math.min(pendingToSelection, adapterTo.getCount() - 1)));
+        pendingToSelection = View.NO_ID;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        switch (v.getId()) {
+            case R.id.converter_edittext_from:
+                if (!hasFocus) {
+                    convert();
+                } else {
+                    clearError(labelFrom);
+                }
+                break;
+        }
+    }
+
+    private void convert() {
+        final String value = editTextFrom.getText().toString();
+        if (TextUtils.isEmpty(value)) {
+            setError(labelFrom, "Empty");
+            return;
+        }
+
+        try {
+            final Double fromValue = Double.valueOf(value);
+            final Unit<?> from = adapterFrom.getItem(spinnerFrom.getSelectedItemPosition());
+            final Unit<?> to = adapterTo.getItem(spinnerTo.getSelectedItemPosition());
+            final double toValue = from.getConverterTo(to).convert(fromValue);
+            editTextTo.setText(String.valueOf(toValue));
+            clearError(labelFrom);
+        } catch (RuntimeException e) {
+            setError(labelFrom, e.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        switch (v.getId()) {
+            case R.id.converter_edittext_from:
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    App.hideIme(editTextFrom);
+                    convert();
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.converter_swap_button:
+                swap();
+                return;
+        }
+    }
+
+    private void swap() {
+        editTextFrom.setText(editTextTo.getText());
+        final Unit<?> oldFromUnit = adapterFrom.getItem(spinnerFrom.getSelectedItemPosition());
+        final Unit<?> oldToUnit = adapterTo.getItem(spinnerTo.getSelectedItemPosition());
+
+        pendingToSelection = -1;
+        for (int i = 0; i < adapterFrom.getCount(); i++) {
+            pendingToSelection++;
+            final Unit<?> unit = adapterFrom.getItem(i);
+            if (unit.equals(oldToUnit)) {
+                pendingToSelection--;
+            } else if (unit.equals(oldFromUnit)) {
+                break;
+            }
+        }
+
+        for (int i = 0; i < adapterFrom.getCount(); i++) {
+            final Unit<?> unit = adapterFrom.getItem(i);
+            if (unit.equals(oldToUnit)) {
+                spinnerFrom.setSelection(i);
+                break;
+            }
+        }
+    }
 
     private enum MyDimension {
         TIME(Dimension.TIME, "Time"),
@@ -71,182 +331,19 @@ public class ConverterFragment extends BaseDialogFragment
             }
             return null;
         }
+    }
 
-        @Nullable
-        public static MyDimension getByGroup(int group) {
-            final int ordinal = group - Menu.FIRST;
-            final MyDimension[] values = values();
-            if (ordinal >= 0 && ordinal < values.length) {
-                return values[ordinal];
-            }
-            return null;
+    private class MyDimensionUi {
+        @NonNull
+        public final MyDimension dimension;
+
+        private MyDimensionUi(@NonNull MyDimension dimension) {
+            this.dimension = dimension;
         }
 
-        public int group() {
-            return Menu.FIRST + ordinal();
-        }
-    }
-
-    @Bind(R.id.converter_spinner_from)
-    Button spinnerFrom;
-    @Bind(R.id.converter_label_from)
-    TextInputLayout labelFrom;
-    @Bind(R.id.converter_edittext_from)
-    EditText editTextFrom;
-    @Bind(R.id.converter_spinner_to)
-    Spinner spinnerTo;
-    @Bind(R.id.converter_label_to)
-    TextInputLayout labelTo;
-    @Bind(R.id.converter_edittext_to)
-    EditText editTextTo;
-    private ArrayAdapter<Unit<?>> adapterTo;
-
-    private static void addUnit(@NonNull Unit<?> unit) {
-        final MyDimension dimension = MyDimension.getByDimension(unit);
-        if (dimension == null) {
-            return;
-        }
-
-        List<Unit<?>> unitsInDimension = units.get(dimension);
-        if (unitsInDimension == null) {
-            unitsInDimension = new ArrayList<>();
-            units.put(dimension, unitsInDimension);
-        }
-        unitsInDimension.add(unit);
-    }
-
-    public static void show(@Nonnull FragmentActivity activity) {
-        App.showDialog(new ConverterFragment(), "converter",
-                activity.getSupportFragmentManager());
-    }
-
-    @Override
-    protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-
-    }
-
-    @SuppressLint("InflateParams")
-    @Nullable
-    @Override
-    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater,
-            @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.cpp_unit_converter, null);
-        ButterKnife.bind(this, view);
-
-        adapterTo = makeAdapter(context);
-        spinnerTo.setAdapter(adapterTo);
-
-        spinnerFrom.setOnClickListener(this);
-
-        return view;
-    }
-
-    @Nonnull
-    private static ArrayAdapter<Unit<?>> makeAdapter(@NonNull Context context) {
-        final ArrayAdapter<Unit<?>> adapter =
-                new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        return adapter;
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        adapterTo.clear();
-        /*final Unit<?> unitFrom = adapterFrom.getItem(position);
-        final List<Unit<?>> units = ConverterFragment.units.get(unitFrom.getDimension());
-        for (Unit<?> unitTo : units) {
-            if (!unitTo.equals(unitFrom)) {
-                adapterTo.add(unitTo);
-            }
-        }*/
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.converter_spinner_from:
-                showDimensions();
-                break;
-        }
-    }
-
-    private void showDimensions() {
-        spinnerFrom.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v,
-                    ContextMenu.ContextMenuInfo menuInfo) {
-                Check.isTrue(v.getId() == R.id.converter_spinner_from);
-                menu.clear();
-                // can't use sub-menus as AlertDialog doesn't support them
-                for (MyDimension dimension : units.keySet()) {
-                    menu.add(Menu.NONE, dimension.group(), Menu.NONE, dimension.name)
-                            .setOnMenuItemClickListener(ConverterFragment.this);
-                }
-                unregisterForContextMenu(spinnerFrom);
-            }
-        });
-        spinnerFrom.showContextMenu();
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        if (item.getGroupId() == Menu.NONE) {
-            final MyDimension dimension = MyDimension.getByGroup(item.getItemId());
-            if (dimension == null) {
-                return false;
-            }
-            spinnerFrom.post(new Runnable() {
-                @Override
-                public void run() {
-                    showUnits(dimension);
-                }
-            });
-            return true;
-        }
-        final MyDimension dimension = MyDimension.getByGroup(item.getGroupId());
-        final List<Unit<?>> unitsInDimension = units.get(dimension);
-        final Unit<?> unit = unitsInDimension.get(item.getItemId());
-        spinnerFrom.setText(unit.toString());
-        adapterTo.clear();
-        for (Unit<?> unitInDimension : unitsInDimension) {
-            if (!unitInDimension.equals(unit)) {
-                adapterTo.add(unitInDimension);
-            }
-        }
-        return true;
-    }
-
-    private void showUnits(@NonNull final MyDimension dimension) {
-        spinnerFrom.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v,
-                    ContextMenu.ContextMenuInfo menuInfo) {
-                Check.isTrue(v.getId() == R.id.converter_spinner_from);
-                menu.clear();
-                final int group = dimension.group();
-                final List<Unit<?>> get = units.get(dimension);
-                for (int i = 0; i < get.size(); i++) {
-                    final Unit<?> unit = get.get(i);
-                    menu.add(group, i, Menu.NONE, unit.toString())
-                            .setOnMenuItemClickListener(ConverterFragment.this);
-                }
-                unregisterForContextMenu(spinnerFrom);
-            }
-        });
-        spinnerFrom.showContextMenu();
-    }
-
-    static {
-        for (Unit<?> unit : SI.getInstance().getUnits()) {
-            addUnit(unit);
-        }
-        for (Unit<?> unit : NonSI.getInstance().getUnits()) {
-            addUnit(unit);
+        @Override
+        public String toString() {
+            return dimension.name;
         }
     }
 }

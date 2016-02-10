@@ -80,6 +80,12 @@
         <item name="android:scrollbars">none</item>
     </style>
 
+    <style name="CppImageButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/cpp_image_button_padding</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
     <style name="CppText.Display.Onscreen" parent="CppText.Display">
         <item name="android:textSize">@dimen/cpp_onscreen_display_text_size</item>
         <item name="android:textColor">@color/cpp_text</item>
