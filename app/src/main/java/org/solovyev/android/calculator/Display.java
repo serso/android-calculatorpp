@@ -45,7 +45,6 @@ import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 
 import dagger.Lazy;
 import jscl.math.Generic;
@@ -264,7 +263,8 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
                 return true;
             case R.string.c_convert:
                 if (result != null) {
-                    new NumeralBaseConverterDialog(result.toString()).show(App.getApplication());
+                    // FIXME: 2016-02-10
+                    //new NumeralBaseConverterDialog(result.toString()).show(App.getApplication());
                 }
                 return true;
             case R.string.c_plot:

@@ -67,6 +67,7 @@ dependencies {
     compile('ch.acra:acra:4.7.0') {
         exclude group: 'org.json'
     }
+    compile ':measure:'
     compile ':drag-button:1.1@aar'
     compile ':square-otto:1.3.9-SNAPSHOT'
     apt ':square-otto-compiler:1.3.9-SNAPSHOT'

@@ -22,88 +22,63 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="fill_parent"
-    a:layout_height="fill_parent"
-    a:orientation="vertical"
-    a:paddingLeft="10dp"
-    a:paddingRight="10dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-        a:layout_width="fill_parent"
-        a:layout_height="fill_parent"
-        a:orientation="horizontal"
-        a:paddingBottom="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
 
-        <Spinner
-            a:id="@+id/unit_types_from"
-            a:layout_width="wrap_content"
-            a:layout_height="fill_parent" />
+        <Button
+            android:id="@+id/converter_spinner_from"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="?android:attr/spinnerStyle" />
 
 
-        <EditText
-            a:id="@+id/units_from"
-            a:layout_width="fill_parent"
-            a:layout_height="fill_parent"
-            a:inputType="text"
-            a:singleLine="true" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/converter_label_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/converter_edittext_from"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        a:layout_width="fill_parent"
-        a:layout_height="fill_parent"
-        a:orientation="horizontal"
-        a:paddingBottom="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
 
         <Spinner
-            a:id="@+id/unit_types_to"
-            a:layout_width="wrap_content"
-            a:layout_height="fill_parent" />
+            android:id="@+id/converter_spinner_to"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
 
-        <EditText
-            a:id="@+id/units_to"
-            a:layout_width="fill_parent"
-            a:layout_height="fill_parent"
-            a:editable="false"
-            a:inputType="none"
-            a:singleLine="true" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/converter_label_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
-
-    <LinearLayout
-        a:layout_width="fill_parent"
-        a:layout_height="fill_parent"
-        a:gravity="center"
-        a:orientation="horizontal"
-        a:paddingBottom="10dp">
-
-        <Button
-            a:id="@+id/unit_converter_copy_button"
-            a:layout_width="wrap_content"
-            a:layout_height="wrap_content"
-            a:paddingLeft="15dp"
-            a:paddingRight="15dp"
-            a:singleLine="true"
-            a:text="@android:string/copy" />
-
-        <Button
-            a:id="@+id/unit_converter_custom_button"
-            a:layout_width="wrap_content"
-            a:layout_height="wrap_content"
-            a:ellipsize="end"
-            a:paddingLeft="15dp"
-            a:paddingRight="15dp"
-            a:singleLine="true" />
-
-        <Button
-            a:id="@+id/unit_converter_ok_button"
-            a:layout_width="wrap_content"
-            a:layout_height="wrap_content"
-            a:paddingLeft="15dp"
-            a:paddingRight="15dp"
-            a:singleLine="true"
-            a:text="@android:string/ok" />
+            <EditText
+                android:id="@+id/converter_edittext_to"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:editable="false"
+                android:inputType="none"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 

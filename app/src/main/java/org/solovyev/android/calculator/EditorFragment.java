@@ -24,10 +24,17 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import org.solovyev.android.calculator.converter.ConverterFragment;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -99,7 +106,7 @@ public class EditorFragment extends BaseFragment {
                 Locator.getInstance().getPlotter().plot();
                 return true;
             case R.id.menu_conversion_tool:
-                new NumeralBaseConverterDialog(null).show(getActivity());
+                ConverterFragment.show(getActivity());
                 return true;
             case R.id.menu_about:
                 launcher.showAbout();
