@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import dagger.Component;
+import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.errors.FixableErrorFragment;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
@@ -35,6 +36,7 @@ public interface AppComponent {
     void inject(FunctionsFragment fragment);
     void inject(VariablesFragment fragment);
     void inject(OperatorsFragment fragment);
+    void inject(ConverterFragment fragment);
     void inject(CalculatorActivity activity);
     void inject(FixableErrorsActivity activity);
     void inject(CalculatorReceiver receiver);
