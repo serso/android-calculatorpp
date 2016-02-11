@@ -44,11 +44,6 @@ class CalculatorEventDataImpl implements CalculatorEventData {
         return new CalculatorEventDataImpl(id, sequenceId, null);
     }
 
-    @Nonnull
-    static CalculatorEventData newInstance(long id, long sequenceId, @Nonnull Object source) {
-        return new CalculatorEventDataImpl(id, sequenceId, source);
-    }
-
     @Override
     public long getEventId() {
         return this.eventId;

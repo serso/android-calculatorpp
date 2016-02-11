@@ -127,12 +127,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
         return CalculatorEventDataImpl.newInstance(eventId, eventId);
     }
 
-    @Nonnull
-    private CalculatorEventData nextEventData(@Nonnull Long sequenceId) {
-        long eventId = nextSequence();
-        return CalculatorEventDataImpl.newInstance(eventId, sequenceId);
-    }
-
     public void evaluate() {
         final EditorState state = editor.getState();
         evaluate(JsclOperation.numeric, state.getTextString());
@@ -143,34 +137,21 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
         evaluate(JsclOperation.simplify, state.getTextString());
     }
 
-    @Nonnull
-    public CalculatorEventData evaluate(@Nonnull final JsclOperation operation,
-                                        @Nonnull final String expression) {
-
-        final CalculatorEventData eventDataId = nextEventData();
-
-        background.execute(new Runnable() {
-            @Override
-            public void run() {
-                evaluateAsync(eventDataId.getSequenceId(), operation, expression);
-            }
-        });
-
-        return eventDataId;
+    public long evaluate(@Nonnull final JsclOperation operation,
+            @Nonnull final String expression) {
+        return evaluate(operation, expression, nextSequence());
     }
 
-    @Nonnull
-    public CalculatorEventData evaluate(@Nonnull final JsclOperation operation, @Nonnull final String expression, long sequenceId) {
-        final CalculatorEventData eventDataId = nextEventData(sequenceId);
-
+    public long evaluate(@Nonnull final JsclOperation operation, @Nonnull final String expression,
+            final long sequence) {
         background.execute(new Runnable() {
             @Override
             public void run() {
-                evaluateAsync(eventDataId.getSequenceId(), operation, expression);
+                evaluateAsync(sequence, operation, expression);
             }
         });
 
-        return eventDataId;
+        return sequence;
     }
 
     public void init(@Nonnull Executor init) {

@@ -26,9 +26,10 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
 
-import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -39,11 +40,6 @@ public final class CalculatorUtils {
 
     private CalculatorUtils() {
         throw new AssertionError();
-    }
-
-    @Nonnull
-    public static CalculatorEventData createFirstEventDataId() {
-        return CalculatorEventDataImpl.newInstance(Calculator.NO_SEQUENCE, Calculator.NO_SEQUENCE);
     }
 
     @Nonnull
