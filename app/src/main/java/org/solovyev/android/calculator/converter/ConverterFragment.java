@@ -19,6 +19,7 @@ import android.widget.*;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
 
@@ -27,11 +28,15 @@ import javax.measure.unit.Dimension;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.*;
 
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
 
+    @Nonnull
+    private static final DecimalFormat formatter = new DecimalFormat("0.#####E0");
     @NonNull
     private static final Set<String> excludedUnits = new HashSet<>(Arrays.asList("year_sidereal", "year_calendar", "day_sidereal", "foot_survey_us"));
     @NonNull
@@ -113,7 +118,11 @@ public class ConverterFragment extends BaseDialogFragment
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
+    }
 
+    @Override
+    protected void inject(@NonNull AppComponent component) {
+        super.inject(component);
     }
 
     @SuppressLint("InflateParams")
@@ -264,13 +273,13 @@ public class ConverterFragment extends BaseDialogFragment
         }
 
         try {
-            final Double fromValue = Double.valueOf(value);
+            final Double fromValue = formatter.parse(value).doubleValue();
             final Unit<?> from = adapterFrom.getItem(spinnerFrom.getSelectedItemPosition());
             final Unit<?> to = adapterTo.getItem(spinnerTo.getSelectedItemPosition());
             final double toValue = from.getConverterTo(to).convert(fromValue);
-            editTextTo.setText(String.valueOf(toValue));
+            editTextTo.setText(formatter.format(toValue));
             clearError(labelFrom);
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | ParseException e) {
             if (validate) {
                 setError(labelFrom, e.getLocalizedMessage());
             }
