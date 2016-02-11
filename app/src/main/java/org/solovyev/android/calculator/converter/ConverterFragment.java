@@ -2,6 +2,7 @@ package org.solovyev.android.calculator.converter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,12 +19,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import javax.measure.unit.Dimension;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
@@ -33,7 +32,7 @@ import java.text.ParseException;
 import java.util.*;
 
 public class ConverterFragment extends BaseDialogFragment
-        implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
+        implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher, DialogInterface.OnClickListener {
 
     @Nonnull
     private static final DecimalFormat formatter = new DecimalFormat("0.#####E0");
@@ -54,6 +53,10 @@ public class ConverterFragment extends BaseDialogFragment
         }
     }
 
+    @Inject
+    Clipboard clipboard;
+    @Inject
+    Editor editor;
     @Bind(R.id.converter_dimensions_spinner)
     Spinner dimensionsSpinner;
     @Bind(R.id.converter_spinner_from)
@@ -118,11 +121,15 @@ public class ConverterFragment extends BaseDialogFragment
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
+        builder.setPositiveButton(R.string.c_use, this);
+        builder.setNegativeButton(R.string.c_cancel, null);
+        builder.setNeutralButton(R.string.c_copy, this);
     }
 
     @Override
     protected void inject(@NonNull AppComponent component) {
         super.inject(component);
+        component.inject(this);
     }
 
     @SuppressLint("InflateParams")
@@ -347,6 +354,23 @@ public class ConverterFragment extends BaseDialogFragment
     @Override
     public void afterTextChanged(Editable s) {
         convert(false);
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        final String text = editTextTo.getText().toString();
+        try {
+            final double value = formatter.parse(text).doubleValue();
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    editor.insert(String.valueOf(value));
+                    break;
+                case DialogInterface.BUTTON_NEUTRAL:
+                    clipboard.setText(String.valueOf(value));
+                    break;
+            }
+        } catch (ParseException e) {
+        }
     }
 
     private enum MyDimension {
