@@ -39,8 +39,6 @@ public enum CalculatorEventType {
     *
     **********************************************************************
     */
-    conversion_started,
-
     // @Nonnull String conversion result
     conversion_result,
 

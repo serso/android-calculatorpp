@@ -22,19 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import static org.solovyev.android.calculator.BaseFragment.addMenu;
-import static org.solovyev.android.calculator.CalculatorEventType.conversion_failed;
-import static org.solovyev.android.calculator.CalculatorEventType.conversion_result;
-
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.support.v7.app.AlertDialog;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
+import android.support.annotation.NonNull;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -43,11 +33,11 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
+import org.solovyev.android.calculator.calculations.ConversionFailedEvent;
+import org.solovyev.android.calculator.calculations.ConversionFinishedEvent;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
-import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import dagger.Lazy;
-import jscl.math.Generic;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -55,10 +45,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class Display implements CalculatorEventListener, View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+public class Display {
 
-    @Nonnull
-    private final CalculatorEventHolder lastEvent;
     @Nonnull
     private final Bus bus;
     @Inject
@@ -75,10 +63,8 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
     private DisplayState state = DisplayState.empty();
 
     @Inject
-    public Display(@Nonnull Calculator calculator, @Nonnull Bus bus) {
+    public Display(@Nonnull Bus bus) {
         this.bus = bus;
-        lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
-        calculator.addCalculatorEventListener(this);
         bus.register(this);
     }
 
@@ -87,12 +73,13 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
         copy();
     }
 
-    private void copy() {
+    void copy() {
         if (!state.valid) {
             return;
         }
         clipboard.get().setText(state.text);
-        notifier.get().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
+        notifier.get().showMessage(
+                CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
     }
 
     @Subscribe
@@ -124,6 +111,22 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
         setState(DisplayState.createError(e.operation, error, e.sequence));
     }
 
+    @Subscribe
+    public void onConversionFinished(@NonNull ConversionFinishedEvent e) {
+        if (e.state.sequence != state.sequence) return;
+        final String result = e.numeralBase.getJsclPrefix() + e.result;
+        setState(DisplayState.createValid(e.state.getOperation(), e.state.getResult(), result,
+                e.state.sequence));
+    }
+
+    @Subscribe
+    public void onConversionFailed(@NonNull ConversionFailedEvent e) {
+        if (e.state.sequence != state.sequence) return;
+        setState(DisplayState.createError(e.state.getOperation(),
+                CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error),
+                e.state.sequence));
+    }
+
     public void clearView(@Nonnull DisplayView view) {
         Check.isMainThread();
         if (this.view != view) {
@@ -135,7 +138,6 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
     public void setView(@Nonnull DisplayView view) {
         Check.isMainThread();
         this.view = view;
-        this.view.setOnClickListener(this);
         this.view.setState(state);
     }
 
@@ -154,127 +156,6 @@ public class Display implements CalculatorEventListener, View.OnClickListener, V
             view.setState(newState);
         }
         bus.post(new ChangedEvent(oldState, newState));
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData,
-                                  @Nonnull CalculatorEventType calculatorEventType,
-                                  @Nullable Object data) {
-        if (calculatorEventType.isOfType(conversion_result, conversion_failed)) {
-
-            final CalculatorEventHolder.Result result = lastEvent.apply(calculatorEventData);
-
-            if (result.isNewAfter()) {
-                switch (calculatorEventType) {
-                    case conversion_failed:
-                        processConversationFailed((CalculatorConversionEventData) calculatorEventData);
-                        break;
-                    case conversion_result:
-                        processConversationResult((CalculatorConversionEventData) calculatorEventData, (String) data);
-                        break;
-                }
-            }
-        }
-    }
-
-    private void processConversationFailed(@Nonnull CalculatorConversionEventData calculatorEventData) {
-        setState(DisplayState.createError(calculatorEventData.getDisplayState().getOperation(), CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error), calculatorEventData.getSequenceId()));
-
-    }
-
-    private void processConversationResult(@Nonnull CalculatorConversionEventData calculatorEventData, @Nonnull String result) {
-        // add prefix
-        if (calculatorEventData.getFromNumeralBase() != calculatorEventData.getToNumeralBase()) {
-            result = calculatorEventData.getToNumeralBase().getJsclPrefix() + result;
-        }
-
-        final DisplayState displayState = calculatorEventData.getDisplayState();
-        setState(DisplayState.createValid(displayState.getOperation(), displayState.getResult(), result, calculatorEventData.getSequenceId()));
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (state.valid) {
-            v.setOnCreateContextMenuListener(this);
-            v.showContextMenu();
-            v.setOnCreateContextMenuListener(null);
-        } else {
-            showEvaluationError(v.getContext(), state.text);
-        }
-    }
-
-    public static void showEvaluationError(@Nonnull Context context, @Nonnull final String errorMessage) {
-        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
-        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context, App.getTheme().alertDialogTheme)
-                .setPositiveButton(R.string.c_cancel, null)
-                .setView(errorMessageView);
-
-        builder.create().show();
-    }
-
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (!state.valid) {
-            return;
-        }
-        addMenu(menu, R.string.c_copy, this);
-
-        final Generic result = state.getResult();
-        final JsclOperation operation = state.getOperation();
-        if (result != null) {
-            if (ConversionMenuItem.convert_to_bin.isItemVisibleFor(result, operation)) {
-                addMenu(menu, R.string.convert_to_bin, this);
-            }
-            if (ConversionMenuItem.convert_to_dec.isItemVisibleFor(result, operation)) {
-                addMenu(menu, R.string.convert_to_dec, this);
-            }
-            if (ConversionMenuItem.convert_to_hex.isItemVisibleFor(result, operation)) {
-                addMenu(menu, R.string.convert_to_hex, this);
-            }
-            if (operation == JsclOperation.numeric && result.getConstants().isEmpty()) {
-                addMenu(menu, R.string.c_convert, this);
-            }
-            if (Locator.getInstance().getPlotter().isPlotPossibleFor(result)) {
-                addMenu(menu, R.string.c_plot, this);
-            }
-        }
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        final Generic result = state.getResult();
-        switch (item.getItemId()) {
-            case R.string.c_copy:
-                copy();
-                return true;
-            case R.string.convert_to_bin:
-                ConversionMenuItem.convert_to_bin.onClick(state, App.getApplication());
-                return true;
-            case R.string.convert_to_dec:
-                ConversionMenuItem.convert_to_dec.onClick(state, App.getApplication());
-                return true;
-            case R.string.convert_to_hex:
-                ConversionMenuItem.convert_to_hex.onClick(state, App.getApplication());
-                return true;
-            case R.string.c_convert:
-                if (result != null) {
-                    // FIXME: 2016-02-10
-                    //new NumeralBaseConverterDialog(result.toString()).show(App.getApplication());
-                }
-                return true;
-            case R.string.c_plot:
-                if (result != null) {
-                    Locator.getInstance().getPlotter().plot(result);
-                }
-                return true;
-            default:
-                return false;
-        }
     }
 
     public static class CopyOperation {

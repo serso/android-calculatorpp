@@ -30,12 +30,14 @@ import android.util.Log;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
+import org.solovyev.android.calculator.calculations.ConversionFailedEvent;
+import org.solovyev.android.calculator.calculations.ConversionFinishedEvent;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.android.calculator.variables.CppVariable;
 import org.solovyev.common.msg.ListMessageRegistry;
 import org.solovyev.common.msg.Message;
@@ -43,8 +45,17 @@ import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
-import org.solovyev.common.units.Conversions;
 
+import jscl.JsclArithmeticException;
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Constants;
+import jscl.math.function.IConstant;
+import jscl.text.ParseInterruptedException;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,15 +68,6 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import jscl.JsclArithmeticException;
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.Constants;
-import jscl.math.function.IConstant;
-import jscl.text.ParseInterruptedException;
 
 @Singleton
 public class Calculator implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -111,28 +113,12 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
 
 
     @Nonnull
-    private static String doConversion(@Nonnull Generic generic,
-                                       @Nonnull NumeralBase from,
-                                       @Nonnull NumeralBase to) throws ConversionException {
-        final String result;
-
-        if (from != to) {
-            String fromString = generic.toString();
-            if (!Strings.isEmpty(fromString)) {
-                try {
-                    fromString = ToJsclTextProcessor.getInstance().process(fromString).getValue();
-                } catch (ParseException e) {
-                    // ok, problems while processing occurred
-                }
-            }
-
-
-            result = Conversions.doConversion(CalculatorNumeralBase.getConverter(), fromString, CalculatorNumeralBase.valueOf(from), CalculatorNumeralBase.valueOf(to));
-        } else {
-            result = generic.toString();
+    private static String convert(@Nonnull Generic generic, @Nonnull NumeralBase to) throws ConversionException {
+        final BigInteger value = generic.toBigInteger();
+        if (value == null) {
+            throw new ConversionException();
         }
-
-        return result;
+        return to.toString(value);
     }
 
     @Nonnull
@@ -142,12 +128,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     }
 
     @Nonnull
-    private CalculatorEventData nextEventData(@Nonnull Object source) {
-        long eventId = nextSequence();
-        return CalculatorEventDataImpl.newInstance(eventId, eventId, source);
-    }
-
-	@Nonnull
     private CalculatorEventData nextEventData(@Nonnull Long sequenceId) {
         long eventId = nextSequence();
         return CalculatorEventDataImpl.newInstance(eventId, sequenceId);
@@ -211,15 +191,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
         }
     }
 
-    @Nonnull
-    private CalculatorConversionEventData newConversionEventData(@Nonnull Long sequenceId,
-                                                                 @Nonnull Generic value,
-                                                                 @Nonnull NumeralBase from,
-                                                                 @Nonnull NumeralBase to,
-                                                                 @Nonnull DisplayState displayViewState) {
-        return CalculatorConversionEventDataImpl.newInstance(nextEventData(sequenceId), value, from, to, displayViewState);
-    }
-
     private void evaluateAsync(long sequence, @Nonnull JsclOperation o, @Nonnull String e) {
         evaluateAsync(sequence, o, e, new ListMessageRegistry());
     }
@@ -240,7 +211,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
             pe = prepare(e);
 
             try {
-                Locator.getInstance().getEngine().getMathEngine().setMessageRegistry(mr);
+                mathEngine.setMessageRegistry(mr);
 
                 final Generic result = o.evaluateGeneric(pe.value, mathEngine);
 
@@ -325,38 +296,33 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
         bus.post(new CalculationFailedEvent(operation, e, sequence, parseException));
     }
 
-    @Nonnull
-    public CalculatorEventData convert(@Nonnull final Generic value,
-                                       @Nonnull final NumeralBase to) {
-        final CalculatorEventData eventDataId = nextEventData();
-
-        final DisplayState displayViewState = App.getDisplay().getState();
-        final NumeralBase from = Locator.getInstance().getEngine().getMathEngine().getNumeralBase();
+    public void convert(@Nonnull final DisplayState state,  @Nonnull final NumeralBase to) {
+        final Generic value = state.getResult();
+        Check.isNotNull(value);
+        final NumeralBase from = mathEngine.getNumeralBase();
+        if (from == to) {
+            return;
+        }
 
         background.execute(new Runnable() {
             @Override
             public void run() {
-                final Long sequenceId = eventDataId.getSequenceId();
-
-                fireCalculatorEvent(newConversionEventData(sequenceId, value, from, to, displayViewState), CalculatorEventType.conversion_started, null);
                 try {
-
-                    final String result = doConversion(value, from, to);
-
-                    fireCalculatorEvent(newConversionEventData(sequenceId, value, from, to, displayViewState), CalculatorEventType.conversion_result, result);
-
+                    final String result = convert(value, to);
+                    bus.post(new ConversionFinishedEvent(result, to, state));
                 } catch (ConversionException e) {
-                    fireCalculatorEvent(newConversionEventData(sequenceId, value, from, to, displayViewState), CalculatorEventType.conversion_failed, new ConversionFailureImpl(e));
+                    bus.post(new ConversionFailedEvent(state));
                 }
             }
         });
-
-        return eventDataId;
     }
 
-    public boolean isConversionPossible(@Nonnull Generic generic, NumeralBase from, @Nonnull NumeralBase to) {
+    public boolean canConvert(@Nonnull Generic generic, @NonNull NumeralBase from, @Nonnull NumeralBase to) {
+        if(from == to) {
+            return false;
+        }
         try {
-            doConversion(generic, from, to);
+            convert(generic, to);
             return true;
         } catch (ConversionException e) {
             return false;
@@ -383,15 +349,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     @Nonnull
     public CalculatorEventData fireCalculatorEvent(@Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
         final CalculatorEventData eventData = nextEventData();
-
-        fireCalculatorEvent(eventData, calculatorEventType, data);
-
-        return eventData;
-    }
-
-    @Nonnull
-    public CalculatorEventData fireCalculatorEvent(@Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data, @Nonnull Object source) {
-        final CalculatorEventData eventData = nextEventData(source);
 
         fireCalculatorEvent(eventData, calculatorEventType, data);
 
@@ -476,4 +433,5 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     public static long nextSequence() {
         return SEQUENCER.incrementAndGet();
     }
+
 }

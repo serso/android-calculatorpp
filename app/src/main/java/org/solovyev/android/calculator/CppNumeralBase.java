@@ -22,17 +22,17 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.NumeralBase;
 import org.solovyev.android.calculator.keyboard.KeyboardUi;
-import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 
+import jscl.NumeralBase;
+
 import javax.annotation.Nonnull;
 
-public enum AndroidNumeralBase {
+public enum CppNumeralBase {
 
-    bin(CalculatorNumeralBase.bin) {
+    bin(NumeralBase.bin) {
         @Override
         public void toggleButtons(boolean show, @Nonnull KeyboardUi ui) {
             toggleButton(show, ui.button0);
@@ -40,7 +40,7 @@ public enum AndroidNumeralBase {
         }
     },
 
-    oct(CalculatorNumeralBase.oct) {
+    oct(NumeralBase.oct) {
         @Override
         public void toggleButtons(boolean show, @Nonnull KeyboardUi ui) {
             bin.toggleButtons(show, ui);
@@ -53,7 +53,7 @@ public enum AndroidNumeralBase {
         }
     },
 
-    dec(CalculatorNumeralBase.dec) {
+    dec(NumeralBase.dec) {
         @Override
         public void toggleButtons(boolean show, @Nonnull KeyboardUi ui) {
             oct.toggleButtons(show, ui);
@@ -62,7 +62,7 @@ public enum AndroidNumeralBase {
         }
     },
 
-    hex(CalculatorNumeralBase.hex) {
+    hex(NumeralBase.hex) {
         @Override
         public void toggleButtons(boolean show, @Nonnull KeyboardUi ui) {
             dec.toggleButtons(show, ui);
@@ -81,17 +81,17 @@ public enum AndroidNumeralBase {
     };
 
     @Nonnull
-    private final CalculatorNumeralBase calculatorNumeralBase;
+    public final NumeralBase numeralBase;
 
-    AndroidNumeralBase(@Nonnull CalculatorNumeralBase calculatorNumeralBase) {
-        this.calculatorNumeralBase = calculatorNumeralBase;
+    CppNumeralBase(@Nonnull NumeralBase numeralBase) {
+        this.numeralBase = numeralBase;
     }
 
     @Nonnull
-    public static AndroidNumeralBase valueOf(@Nonnull NumeralBase nb) {
-        for (AndroidNumeralBase androidNumeralBase : values()) {
-            if (androidNumeralBase.calculatorNumeralBase.getNumeralBase() == nb) {
-                return androidNumeralBase;
+    public static CppNumeralBase valueOf(@Nonnull NumeralBase nb) {
+        for (CppNumeralBase cppNumeralBase : values()) {
+            if (cppNumeralBase.numeralBase == nb) {
+                return cppNumeralBase;
             }
         }
 
@@ -103,10 +103,5 @@ public enum AndroidNumeralBase {
     protected final void toggleButton(boolean show, @Nonnull DirectionDragButton button) {
         button.setShowText(show);
         button.invalidate();
-    }
-
-    @Nonnull
-    public NumeralBase getNumeralBase() {
-        return calculatorNumeralBase.getNumeralBase();
     }
 }

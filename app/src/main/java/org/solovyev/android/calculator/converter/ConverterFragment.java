@@ -13,19 +13,33 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.measure.unit.Dimension;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
-import java.util.*;
 
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener {
@@ -36,6 +50,7 @@ public class ConverterFragment extends BaseDialogFragment
     private static final Map<MyDimension, List<Unit<?>>> units = new HashMap<>();
     private static final String STATE_SELECTION_FROM = "selection.from";
     private static final String STATE_SELECTION_TO = "selection.to";
+    private static final String EXTRA_VALUE = "value";
 
     static {
         for (Unit<?> unit : SI.getInstance().getUnits()) {
@@ -88,7 +103,15 @@ public class ConverterFragment extends BaseDialogFragment
     }
 
     public static void show(@Nonnull FragmentActivity activity) {
-        App.showDialog(new ConverterFragment(), "converter",
+        show(activity, 1d);
+    }
+
+    public static void show(@Nonnull FragmentActivity activity, double value) {
+        final ConverterFragment fragment = new ConverterFragment();
+        final Bundle args = new Bundle(1);
+        args.putDouble(EXTRA_VALUE, value);
+        fragment.setArguments(args);
+        App.showDialog(fragment, "converter",
                 activity.getSupportFragmentManager());
     }
 
@@ -134,7 +157,7 @@ public class ConverterFragment extends BaseDialogFragment
         swapButton.setOnClickListener(this);
 
         if (savedInstanceState == null) {
-            editTextFrom.setText("1");
+            editTextFrom.setText(String.valueOf(getArguments().getDouble(EXTRA_VALUE, 1f)));
             dimensionsSpinner.setSelection(0);
         } else {
             pendingFromSelection = savedInstanceState.getInt(STATE_SELECTION_FROM, View.NO_ID);

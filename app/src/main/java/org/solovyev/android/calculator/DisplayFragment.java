@@ -22,18 +22,65 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.v7.app.AlertDialog;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.squareup.otto.Bus;
+
+import org.solovyev.android.calculator.converter.ConverterFragment;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jscl.NumeralBase;
+import jscl.math.Generic;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-public class DisplayFragment extends BaseFragment {
+public class DisplayFragment extends BaseFragment implements View.OnClickListener,
+        MenuItem.OnMenuItemClickListener {
+
+    private enum ConversionMenuItem {
+
+        to_bin(NumeralBase.bin, R.string.convert_to_bin),
+        to_dec(NumeralBase.dec, R.string.convert_to_dec),
+        to_hex(NumeralBase.hex, R.string.convert_to_hex);
+
+        @Nonnull
+        public final NumeralBase toNumeralBase;
+        public final int title;
+
+        ConversionMenuItem(@Nonnull NumeralBase toNumeralBase, @StringRes int title) {
+            this.toNumeralBase = toNumeralBase;
+            this.title = title;
+        }
+
+        @Nullable
+        public static ConversionMenuItem getByTitle(int title) {
+            switch (title) {
+                case R.string.convert_to_bin:
+                    return to_bin;
+                case R.string.convert_to_dec:
+                    return to_dec;
+                case R.string.convert_to_hex:
+                    return to_hex;
+            }
+            return null;
+        }
+    }
 
     @Bind(R.id.calculator_display)
     DisplayView displayView;
@@ -41,12 +88,10 @@ public class DisplayFragment extends BaseFragment {
     SharedPreferences preferences;
     @Inject
     Display display;
-
-    @Override
-    protected void inject(@Nonnull AppComponent component) {
-        super.inject(component);
-        component.inject(this);
-    }
+    @Inject
+    Bus bus;
+    @Inject
+    Calculator calculator;
 
     @Nonnull
     @Override
@@ -60,10 +105,18 @@ public class DisplayFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
         display.setView(displayView);
+        displayView.setOnClickListener(this);
         return view;
     }
 
@@ -71,5 +124,116 @@ public class DisplayFragment extends BaseFragment {
     public void onDestroyView() {
         display.clearView(displayView);
         super.onDestroyView();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+            ContextMenu.ContextMenuInfo menuInfo) {
+        final DisplayState state = display.getState();
+        if (!state.valid) {
+            return;
+        }
+        addMenu(menu, R.string.c_copy, this);
+
+        final Generic result = state.getResult();
+        final JsclOperation operation = state.getOperation();
+        if (result != null) {
+            if (operation == JsclOperation.numeric && result.getConstants().isEmpty()) {
+                for (ConversionMenuItem item : ConversionMenuItem.values()) {
+                    if (isMenuItemVisible(item, result)) {
+                        addMenu(menu, item.title, this);
+                    }
+                }
+                if (result.toDouble() != null) {
+                    addMenu(menu, R.string.c_convert, this);
+                }
+            }
+            if (Locator.getInstance().getPlotter().isPlotPossibleFor(result)) {
+                addMenu(menu, R.string.c_plot, this);
+            }
+        }
+    }
+
+    protected boolean isMenuItemVisible(@NonNull ConversionMenuItem menuItem,
+            @Nonnull Generic generic) {
+        final NumeralBase fromNumeralBase =
+                Locator.getInstance().getEngine().getMathEngine().getNumeralBase();
+        if (fromNumeralBase != menuItem.toNumeralBase) {
+            return calculator.canConvert(generic, fromNumeralBase, menuItem.toNumeralBase);
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        final DisplayState state = display.getState();
+        if (state.valid) {
+            v.setOnCreateContextMenuListener(this);
+            v.showContextMenu();
+            v.setOnCreateContextMenuListener(null);
+        } else {
+            showEvaluationError(v.getContext(), state.text);
+        }
+    }
+
+    public static void showEvaluationError(@Nonnull Context context,
+            @Nonnull final String errorMessage) {
+        final LayoutInflater layoutInflater =
+                (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
+        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view))
+                .setText(errorMessage);
+
+        final AlertDialog.Builder builder =
+                new AlertDialog.Builder(context, App.getTheme().alertDialogTheme)
+                        .setPositiveButton(R.string.c_cancel, null)
+                        .setView(errorMessageView);
+
+        builder.create().show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        final DisplayState state = display.getState();
+        final Generic result = state.getResult();
+        switch (item.getItemId()) {
+            case R.string.c_copy:
+                display.copy();
+                return true;
+            case R.string.convert_to_bin:
+            case R.string.convert_to_dec:
+            case R.string.convert_to_hex:
+                final ConversionMenuItem menuItem = ConversionMenuItem.getByTitle(item.getItemId());
+                if (menuItem == null) {
+                    return false;
+                }
+                if (result != null) {
+                    calculator.convert(state, menuItem.toNumeralBase);
+                }
+                return true;
+            case R.string.c_convert:
+                ConverterFragment.show(getActivity(), getValue(result));
+                return true;
+            case R.string.c_plot:
+                if (result != null) {
+                    Locator.getInstance().getPlotter().plot(result);
+                }
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private static double getValue(@Nullable Generic result) {
+        if (result == null) {
+            return 1d;
+        }
+        final Double value = result.toDouble();
+        if (value == null) {
+            return 1d;
+        }
+        return value;
     }
 }

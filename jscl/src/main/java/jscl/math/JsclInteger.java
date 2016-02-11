@@ -4,11 +4,12 @@ import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public final class JsclInteger extends Generic {
 
@@ -363,5 +364,15 @@ public final class JsclInteger extends Generic {
         MathML e1 = element.element("mn");
         e1.appendChild(element.text(String.valueOf(content)));
         element.appendChild(e1);
+    }
+
+    @Override
+    public BigInteger toBigInteger() {
+        return content;
+    }
+
+    @Override
+    public Double toDouble() {
+        return content.doubleValue();
     }
 }

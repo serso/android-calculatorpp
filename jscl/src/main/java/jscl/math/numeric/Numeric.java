@@ -1,14 +1,16 @@
 package jscl.math.numeric;
 
+import static jscl.math.numeric.Complex.I;
+import static jscl.math.numeric.Real.ONE;
+import static jscl.math.numeric.Real.TWO;
+
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.math.Arithmetic;
 
-import javax.annotation.Nonnull;
+import java.math.BigInteger;
 
-import static jscl.math.numeric.Complex.I;
-import static jscl.math.numeric.Real.ONE;
-import static jscl.math.numeric.Real.TWO;
+import javax.annotation.Nonnull;
 
 public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>, Comparable {
 
@@ -324,5 +326,13 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
     @Nonnull
     protected String toString(final double value) {
         return JsclMathEngine.getInstance().format(value, JsclMathEngine.getInstance().getNumeralBase());
+    }
+
+    public BigInteger toBigInteger() {
+        return null;
+    }
+
+    public Double toDouble() {
+        return null;
     }
 }

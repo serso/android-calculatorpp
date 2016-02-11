@@ -2,6 +2,8 @@ package jscl.math.numeric;
 
 import jscl.math.NotDivisibleException;
 
+import java.math.BigInteger;
+
 import javax.annotation.Nonnull;
 
 public final class Real extends Numeric {
@@ -276,5 +278,18 @@ public final class Real extends Numeric {
     @Nonnull
     public Complex toComplex() {
         return Complex.valueOf(this.content, 0.);
+    }
+
+    @Override
+    public BigInteger toBigInteger() {
+        if (content == Math.floor(content)) {
+            return BigInteger.valueOf((long) content);
+        }
+        return null;
+    }
+
+    @Override
+    public Double toDouble() {
+        return content;
     }
 }
