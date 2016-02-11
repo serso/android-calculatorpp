@@ -8,41 +8,29 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
-
+import android.widget.*;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.measure.unit.Dimension;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
+import java.util.*;
 
 public class ConverterFragment extends BaseDialogFragment
-        implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener {
+        implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
 
     @NonNull
     private static final Set<String> excludedUnits = new HashSet<>(Arrays.asList("year_sidereal", "year_calendar", "day_sidereal", "foot_survey_us"));
@@ -153,6 +141,7 @@ public class ConverterFragment extends BaseDialogFragment
 
         editTextFrom.setOnFocusChangeListener(this);
         editTextFrom.setOnEditorActionListener(this);
+        editTextFrom.addTextChangedListener(this);
 
         swapButton.setOnClickListener(this);
 
@@ -261,9 +250,15 @@ public class ConverterFragment extends BaseDialogFragment
     }
 
     private void convert() {
+        convert(true);
+    }
+
+    private void convert(boolean validate) {
         final String value = editTextFrom.getText().toString();
         if (TextUtils.isEmpty(value)) {
-            setError(labelFrom, "Empty");
+            if (validate) {
+                setError(labelFrom, "Empty");
+            }
             return;
         }
 
@@ -275,7 +270,9 @@ public class ConverterFragment extends BaseDialogFragment
             editTextTo.setText(String.valueOf(toValue));
             clearError(labelFrom);
         } catch (RuntimeException e) {
-            setError(labelFrom, e.getLocalizedMessage());
+            if (validate) {
+                setError(labelFrom, e.getLocalizedMessage());
+            }
         }
     }
 
@@ -325,6 +322,21 @@ public class ConverterFragment extends BaseDialogFragment
                 break;
             }
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        convert(false);
     }
 
     private enum MyDimension {
