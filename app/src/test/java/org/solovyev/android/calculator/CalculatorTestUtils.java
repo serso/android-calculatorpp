@@ -22,10 +22,13 @@
 
 package org.solovyev.android.calculator;
 
+import static org.mockito.Mockito.mock;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import com.squareup.otto.Bus;
-import jscl.JsclMathEngine;
+
 import org.junit.Assert;
 import org.robolectric.fakes.RoboSharedPreferences;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
@@ -35,9 +38,14 @@ import org.solovyev.android.calculator.operators.OperatorsRegistry;
 import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.*;
+import jscl.JsclMathEngine;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +53,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
-import static org.mockito.Mockito.mock;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -118,7 +127,7 @@ public class CalculatorTestUtils {
         try {
             calculator.addCalculatorEventListener(calculatorEventListener);
 
-            calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
+            //calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
 
             if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
                 Assert.assertNotNull(calculatorEventListener.getResult());
@@ -173,7 +182,7 @@ public class CalculatorTestUtils {
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
         try {
             calculator.addCalculatorEventListener(calculatorEventListener);
-            calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
+            //calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
 
             if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
                 Assert.assertNotNull(calculatorEventListener.getResult());

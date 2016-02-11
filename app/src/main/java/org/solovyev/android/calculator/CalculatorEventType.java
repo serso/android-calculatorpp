@@ -22,41 +22,7 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-
-/**
- * User: Solovyev_S
- * Date: 20.09.12
- * Time: 16:40
- */
 public enum CalculatorEventType {
-
-    /*
-    **********************************************************************
-    *
-    *                           CONVERSION
-    *                           CalculatorConversionEventData
-    *
-    **********************************************************************
-    */
-    // @Nonnull String conversion result
-    conversion_result,
-
-    // @Nonnull ConversionFailure
-    conversion_failed,
-
-    conversion_finished,
-
-    /*
-	**********************************************************************
-	*
-	*                           OTHER
-	*
-	**********************************************************************
-	*/
-
-    // List<Message>
-    calculation_messages,
 
     show_create_var_dialog,
     show_create_matrix_dialog,
@@ -68,15 +34,5 @@ public enum CalculatorEventType {
      * {@link org.solovyev.android.calculator.plot.PlotData}
      */
     plot_data_changed;
-
-    public boolean isOfType(@Nonnull CalculatorEventType... types) {
-        for (CalculatorEventType type : types) {
-            if (this == type) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
 }
