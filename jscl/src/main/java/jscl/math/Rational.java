@@ -5,10 +5,11 @@ import jscl.math.function.Fraction;
 import jscl.math.function.Inverse;
 import jscl.mathml.MathML;
 
-import javax.annotation.Nonnull;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 public final class Rational extends Generic implements Field {
 
@@ -307,5 +308,19 @@ public final class Rational extends Generic implements Field {
             e1.appendChild(e2);
             element.appendChild(e1);
         }
+    }
+
+    @Override
+    public BigInteger toBigInteger() {
+        try {
+            return integerValue().toBigInteger();
+        } catch (NotIntegerException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Double toDouble() {
+        return numerator.doubleValue() / denominator.doubleValue();
     }
 }

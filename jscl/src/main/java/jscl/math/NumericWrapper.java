@@ -4,12 +4,18 @@ import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.math.function.Constants;
 import jscl.math.function.IConstant;
-import jscl.math.numeric.*;
+import jscl.math.numeric.Complex;
+import jscl.math.numeric.INumeric;
+import jscl.math.numeric.Numeric;
+import jscl.math.numeric.Real;
+import jscl.math.numeric.Vector;
 import jscl.mathml.MathML;
 
-import javax.annotation.Nonnull;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 public final class NumericWrapper extends Generic implements INumeric<NumericWrapper> {
 
@@ -415,7 +421,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
     }
 
     public String toJava() {
-        return "JsclDouble.valueOf(" + new Double(((Real) content).doubleValue()) + ")";
+        return "JsclDouble.valueOf(" + ((Real) content).doubleValue() + ")";
     }
 
     public void toMathML(MathML element, Object data) {
@@ -441,5 +447,15 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         MathML e1 = element.element("mn");
         e1.appendChild(element.text(String.valueOf(new Double(((Real) content).doubleValue()))));
         element.appendChild(e1);
+    }
+
+    @Override
+    public BigInteger toBigInteger() {
+        return content.toBigInteger();
+    }
+
+    @Override
+    public Double toDouble() {
+        return content.toDouble();
     }
 }

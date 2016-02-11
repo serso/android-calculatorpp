@@ -2,15 +2,6 @@ package jscl.math;
 
 import org.solovyev.common.Converter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.math.function.Constant;
 import jscl.math.function.Fraction;
 import jscl.math.function.Inverse;
@@ -24,6 +15,15 @@ import jscl.text.Parser;
 import jscl.text.ParserUtils;
 import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Expression extends Generic {
 

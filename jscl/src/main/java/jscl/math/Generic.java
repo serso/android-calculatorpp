@@ -4,11 +4,21 @@ import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.math.BigInteger;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public abstract class Generic implements Arithmetic<Generic>, Comparable {
+
+    public BigInteger toBigInteger() {
+        return null;
+    }
+
+    public Double toDouble() {
+        return null;
+    }
 
     @Nonnull
     public Generic subtract(@Nonnull Generic that) {
