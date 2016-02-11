@@ -144,6 +144,7 @@ public class ConverterFragment extends BaseDialogFragment
         editTextFrom.addTextChangedListener(this);
 
         swapButton.setOnClickListener(this);
+        swapButton.setImageResource(App.getTheme().light ? R.drawable.ic_swap_vert_black_24dp : R.drawable.ic_swap_vert_white_24dp);
 
         if (savedInstanceState == null) {
             editTextFrom.setText(String.valueOf(getArguments().getDouble(EXTRA_VALUE, 1f)));
