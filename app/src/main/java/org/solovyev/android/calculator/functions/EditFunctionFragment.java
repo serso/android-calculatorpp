@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator.functions;
 
+import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,27 +37,46 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.function.Function;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.FloatingCalculatorKeyboard;
+import org.solovyev.android.calculator.ParseException;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.Function;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.*;
-
-import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
 
 public class EditFunctionFragment extends BaseDialogFragment implements View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
 
@@ -111,7 +132,8 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             intent.putExtra(FunctionsActivity.EXTRA_FUNCTION, function);
             context.startActivity(intent);
         } else {
-            EditFunctionFragment.show(function, ((FunctionsActivity) context).getSupportFragmentManager());
+            EditFunctionFragment.show(function,
+                    ((FunctionsActivity) context).getSupportFragmentManager());
         }
     }
 
@@ -138,7 +160,8 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         builder.setNegativeButton(R.string.c_cancel, null);
         builder.setPositiveButton(R.string.ok, null);
-        builder.setTitle(isNewFunction() ? R.string.function_create_function : R.string.function_edit_function);
+        builder.setTitle(isNewFunction() ? R.string.function_create_function :
+                R.string.function_edit_function);
         if (!isNewFunction()) {
             builder.setNeutralButton(R.string.c_remove, null);
         }
@@ -158,41 +181,22 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
 
     @Override
     protected void onShowDialog(@NonNull AlertDialog dialog, boolean firstTime) {
-        super.onShowDialog(dialog, firstTime);
-
         if (firstTime) {
             nameView.selectAll();
             showIme(nameView);
         }
-
-        final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tryClose();
-            }
-        });
-        if (!isNewFunction()) {
-            Check.isNotNull(function);
-            final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-            neutral.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showRemovalDialog(function);
-                }
-            });
-        }
     }
 
     private void showRemovalDialog(@NonNull final CppFunction function) {
-        EntityRemovalDialog.showForFunction(getActivity(), function.name, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
-                functionsRegistry.remove(function.toJsclBuilder().create());
-                dismiss();
-            }
-        });
+        EntityRemovalDialog.showForFunction(getActivity(), function.name,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                        functionsRegistry.remove(function.toJsclBuilder().create());
+                        dismiss();
+                    }
+                });
     }
 
     @Override
@@ -231,7 +235,8 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     private void showKeyboard() {
-        keyboardWindow.show(new FloatingCalculatorKeyboard(keyboardUser, collectParameters()), getDialog());
+        keyboardWindow.show(new FloatingCalculatorKeyboard(keyboardUser, collectParameters()),
+                getDialog());
     }
 
     @Nonnull
@@ -247,8 +252,29 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.function_body) {
-            showKeyboard();
+        switch (v.getId()) {
+            case R.id.function_body:
+                showKeyboard();
+                break;
+            default:
+                super.onClick(v);
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                tryClose();
+                break;
+            case DialogInterface.BUTTON_NEUTRAL:
+                Check.isNotNull(function);
+                showRemovalDialog(function);
+                break;
+            default:
+                super.onClick(dialog, which);
+                break;
         }
     }
 

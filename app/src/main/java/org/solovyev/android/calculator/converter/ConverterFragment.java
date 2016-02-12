@@ -16,10 +16,33 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Clipboard;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.R;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import org.solovyev.android.calculator.*;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -27,12 +50,9 @@ import javax.measure.unit.Dimension;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.*;
 
 public class ConverterFragment extends BaseDialogFragment
-        implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher, DialogInterface.OnClickListener {
+        implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
 
     @Nonnull
     private static final DecimalFormat formatter = new DecimalFormat("0.#####E0");
@@ -121,9 +141,9 @@ public class ConverterFragment extends BaseDialogFragment
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        builder.setPositiveButton(R.string.c_use, this);
+        builder.setPositiveButton(R.string.c_use, null);
         builder.setNegativeButton(R.string.c_cancel, null);
-        builder.setNeutralButton(R.string.c_copy, this);
+        builder.setNeutralButton(R.string.c_copy, null);
     }
 
     @Override
@@ -312,7 +332,34 @@ public class ConverterFragment extends BaseDialogFragment
         switch (v.getId()) {
             case R.id.converter_swap_button:
                 swap();
-                return;
+                break;
+            default:
+                super.onClick(v);
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        if (which == DialogInterface.BUTTON_NEGATIVE) {
+            dismiss();
+            return;
+        }
+        final String text = editTextTo.getText().toString();
+        try {
+            final double value = formatter.parse(text).doubleValue();
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    editor.insert(String.valueOf(value));
+                    dismiss();
+                    break;
+                case DialogInterface.BUTTON_NEUTRAL:
+                    clipboard.setText(String.valueOf(value));
+                    Toast.makeText(getActivity(), getString(R.string.c_result_copied),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        } catch (ParseException e) {
         }
     }
 
@@ -354,23 +401,6 @@ public class ConverterFragment extends BaseDialogFragment
     @Override
     public void afterTextChanged(Editable s) {
         convert(false);
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        final String text = editTextTo.getText().toString();
-        try {
-            final double value = formatter.parse(text).doubleValue();
-            switch (which) {
-                case DialogInterface.BUTTON_POSITIVE:
-                    editor.insert(String.valueOf(value));
-                    break;
-                case DialogInterface.BUTTON_NEUTRAL:
-                    clipboard.setText(String.valueOf(value));
-                    break;
-            }
-        } catch (ParseException e) {
-        }
     }
 
     private enum MyDimension {

@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator.variables;
 
+import static org.solovyev.android.calculator.variables.CppVariable.NO_ID;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,12 +43,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.function.IConstant;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
@@ -55,13 +61,16 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.IConstant;
+
 import java.util.Arrays;
 import java.util.List;
 
-import static org.solovyev.android.calculator.variables.CppVariable.NO_ID;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 public class EditVariableFragment extends BaseDialogFragment implements View.OnFocusChangeListener, View.OnKeyListener, View.OnClickListener {
 
@@ -122,7 +131,8 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
             intent.putExtra(VariablesActivity.EXTRA_VARIABLE, variable);
             context.startActivity(intent);
         } else {
-            EditVariableFragment.showDialog(variable, ((VariablesActivity) context).getSupportFragmentManager());
+            EditVariableFragment.showDialog(variable,
+                    ((VariablesActivity) context).getSupportFragmentManager());
         }
     }
 
@@ -170,41 +180,22 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
 
     @Override
     protected void onShowDialog(@NonNull AlertDialog dialog, boolean firstTime) {
-        super.onShowDialog(dialog, firstTime);
-
         if (firstTime) {
             nameView.selectAll();
             showIme(nameView);
         }
-
-        final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tryClose();
-            }
-        });
-        if (!isNewVariable()) {
-            Check.isNotNull(variable);
-            final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-            neutral.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showRemovalDialog(variable);
-                }
-            });
-        }
     }
 
     private void showRemovalDialog(@NonNull final CppVariable variable) {
-        EntityRemovalDialog.showForVariable(getActivity(), variable.name, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
-                variablesRegistry.remove(variable.toJsclBuilder().create());
-                dismiss();
-            }
-        });
+        EntityRemovalDialog.showForVariable(getActivity(), variable.name,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                        variablesRegistry.remove(variable.toJsclBuilder().create());
+                        dismiss();
+                    }
+                });
     }
 
     private void tryClose() {
@@ -351,6 +342,25 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
                 } else {
                     showKeyboard();
                 }
+                break;
+            default:
+                super.onClick(v);
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                tryClose();
+                break;
+            case DialogInterface.BUTTON_NEUTRAL:
+                Check.isNotNull(variable);
+                showRemovalDialog(variable);
+                break;
+            default:
+                super.onClick(dialog, which);
                 break;
         }
     }
