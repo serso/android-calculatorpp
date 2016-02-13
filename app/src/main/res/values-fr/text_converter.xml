@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_converter_time">Temps</string>
+   <string name="cpp_converter_amount_of_substance">Quantité de matière</string>
+   <string name="cpp_converter_electric_current">Courant électrique</string>
+   <string name="cpp_converter_length">Longueur</string>
+   <string name="cpp_converter_mass">Masse</string>
+   <string name="cpp_converter_termperature">Température</string>
+</resources>

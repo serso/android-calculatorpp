@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_converter_time">Tijd</string>
+   <string name="cpp_converter_amount_of_substance">Stofhoeveelheid</string>
+   <string name="cpp_converter_electric_current">Elektrische stroom</string>
+   <string name="cpp_converter_length">Lengte</string>
+   <string name="cpp_converter_mass">Massa</string>
+   <string name="cpp_converter_termperature">Temperatuur</string>
+</resources>
