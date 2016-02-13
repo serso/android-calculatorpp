@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_converter_time">Aika</string>
+   <string name="cpp_converter_amount_of_substance">Ainemäärä</string>
+   <string name="cpp_converter_electric_current">Sähkövirta</string>
+   <string name="cpp_converter_length">Pituus</string>
+   <string name="cpp_converter_mass">Massa</string>
+   <string name="cpp_converter_termperature">Lämpötila</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_converter_time">زمن</string>
+   <string name="cpp_converter_amount_of_substance">كمية مادة</string>
+   <string name="cpp_converter_electric_current">تيار كهربائي</string>
+   <string name="cpp_converter_length">طول</string>
+   <string name="cpp_converter_mass">كتلة</string>
+   <string name="cpp_converter_termperature">درجة حرارة</string>
+</resources>

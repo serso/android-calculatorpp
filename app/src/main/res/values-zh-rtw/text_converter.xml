@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_converter_time">时间</string>
+   <string name="cpp_converter_amount_of_substance">物质的量</string>
+   <string name="cpp_converter_electric_current">电流</string>
+   <string name="cpp_converter_length">长度</string>
+   <string name="cpp_converter_mass">质量</string>
+   <string name="cpp_converter_termperature">温度</string>
+</resources>

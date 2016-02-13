@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_converter_time">Thời gian</string>
+   <string name="cpp_converter_electric_current">Dòng điện</string>
+   <string name="cpp_converter_length">Chiều dài</string>
+   <string name="cpp_converter_mass">Khối lượng</string>
+   <string name="cpp_converter_termperature">Nhiệt độ</string>
+</resources>

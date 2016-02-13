@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_converter_time">Čas</string>
+   <string name="cpp_converter_amount_of_substance">Látkové množství</string>
+   <string name="cpp_converter_electric_current">Elektrický proud</string>
+   <string name="cpp_converter_length">Délka</string>
+   <string name="cpp_converter_mass">Hmotnost</string>
+   <string name="cpp_converter_termperature">Teplota</string>
+</resources>
