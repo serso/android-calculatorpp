@@ -22,15 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
-import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
-import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.continueWizard;
-import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -41,13 +32,10 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.method.LinkMovementMethod;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.Window;
+import android.view.*;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.history.History;
@@ -59,12 +47,16 @@ import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.Objects;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+
+import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
+import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
+import static org.solovyev.android.wizard.WizardUi.*;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -92,16 +84,16 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     }
 
     private static void firstTimeInit(@Nonnull SharedPreferences preferences, @Nonnull Context context) {
+        final SharedPreferences.Editor editor = preferences.edit();
         final Integer appOpenedCounter = Preferences.appOpenedCounter.getPreference(preferences);
-        if (appOpenedCounter != null) {
-            Preferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
-        }
+        Preferences.appOpenedCounter.putPreference(editor, appOpenedCounter == null ? 1 : appOpenedCounter + 1);
 
         final Integer savedVersion = Preferences.appVersion.getPreference(preferences);
 
         final int appVersion = Android.getAppVersionCode(context);
 
-        Preferences.appVersion.putPreference(preferences, appVersion);
+        Preferences.appVersion.putPreference(editor, appVersion);
+        editor.apply();
 
         if (!App.isMonkeyRunner(context)) {
 

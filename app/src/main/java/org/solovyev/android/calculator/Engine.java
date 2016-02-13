@@ -175,7 +175,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             migratePreference(preferences, Preferences.Output.scientificNotation, "calculation.output.science_notation", editor);
             migratePreference(preferences, Preferences.Output.round, "org.solovyev.android.calculator.CalculatorModel_round_result", editor);
         }
-        Preferences.version.putDefault(preferences);
+        Preferences.version.putDefault(editor);
         editor.apply();
     }
 

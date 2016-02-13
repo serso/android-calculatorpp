@@ -60,17 +60,19 @@ public final class Preferences {
     }
 
     static void setDefaultValues(@Nonnull SharedPreferences preferences) {
+        SharedPreferences.Editor editor = preferences.edit();
         // renew value after each application start
-        Gui.showFixableErrorDialog.putDefault(preferences);
-        Gui.lastPreferredPreferencesCheck.putDefault(preferences);
+        Gui.showFixableErrorDialog.putDefault(editor);
+        Gui.lastPreferredPreferencesCheck.putDefault(editor);
 
         final Integer version = Preferences.appVersion.getPreference(preferences);
         if (version == null) {
-            setInitialDefaultValues(preferences);
+            setInitialDefaultValues(preferences, editor);
         }
+        editor.apply();
     }
 
-    private static void setInitialDefaultValues(@Nonnull SharedPreferences preferences) {
+    private static void setInitialDefaultValues(@Nonnull SharedPreferences preferences, @Nonnull SharedPreferences.Editor editor) {
         if (!Engine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
@@ -83,44 +85,44 @@ public final class Preferences {
                     groupingSeparator = " ";
                 }
 
-                Engine.Preferences.groupingSeparator.putPreference(preferences, groupingSeparator);
+                Engine.Preferences.groupingSeparator.putPreference(editor, groupingSeparator);
             }
         }
 
-        Engine.Preferences.angleUnit.tryPutDefault(preferences);
-        Engine.Preferences.numeralBase.tryPutDefault(preferences);
+        Engine.Preferences.angleUnit.tryPutDefault(preferences, editor);
+        Engine.Preferences.numeralBase.tryPutDefault(preferences, editor);
 
         if (!Engine.Preferences.multiplicationSign.isSet(preferences)) {
             if (isPhoneModel(samsung_galaxy_s) || isPhoneModel(samsung_galaxy_s_2)) {
                 // workaround ofr samsung galaxy s phones
-                Engine.Preferences.multiplicationSign.putPreference(preferences, "*");
+                Engine.Preferences.multiplicationSign.putPreference(editor, "*");
             }
         }
 
-        Gui.theme.tryPutDefault(preferences);
-        Gui.layout.tryPutDefault(preferences);
+        Gui.theme.tryPutDefault(preferences, editor);
+        Gui.layout.tryPutDefault(preferences, editor);
         if (Gui.layout.getPreference(preferences) == Gui.Layout.main_cellphone) {
-            Gui.layout.putDefault(preferences);
+            Gui.layout.putDefault(editor);
         }
-        Gui.feedbackWindowShown.tryPutDefault(preferences);
-        Gui.showReleaseNotes.tryPutDefault(preferences);
-        Gui.usePrevAsBack.tryPutDefault(preferences);
-        Gui.showEqualsButton.tryPutDefault(preferences);
-        Gui.autoOrientation.tryPutDefault(preferences);
-        Gui.hideNumeralBaseDigits.tryPutDefault(preferences);
-        Gui.preventScreenFromFading.tryPutDefault(preferences);
-        Gui.language.tryPutDefault(preferences);
+        Gui.feedbackWindowShown.tryPutDefault(preferences, editor);
+        Gui.showReleaseNotes.tryPutDefault(preferences, editor);
+        Gui.usePrevAsBack.tryPutDefault(preferences, editor);
+        Gui.showEqualsButton.tryPutDefault(preferences, editor);
+        Gui.autoOrientation.tryPutDefault(preferences, editor);
+        Gui.hideNumeralBaseDigits.tryPutDefault(preferences, editor);
+        Gui.preventScreenFromFading.tryPutDefault(preferences, editor);
+        Gui.language.tryPutDefault(preferences, editor);
 
-        Graph.plotImag.tryPutDefault(preferences);
-        Calculations.calculateOnFly.tryPutDefault(preferences);
-        Calculations.preferredAngleUnits.tryPutDefault(preferences);
-        Calculations.preferredNumeralBase.tryPutDefault(preferences);
+        Graph.plotImag.tryPutDefault(preferences, editor);
+        Calculations.calculateOnFly.tryPutDefault(preferences, editor);
+        Calculations.preferredAngleUnits.tryPutDefault(preferences, editor);
+        Calculations.preferredNumeralBase.tryPutDefault(preferences, editor);
 
-        Onscreen.showAppIcon.tryPutDefault(preferences);
-        Onscreen.startOnBoot.tryPutDefault(preferences);
-        Onscreen.theme.tryPutDefault(preferences);
+        Onscreen.showAppIcon.tryPutDefault(preferences, editor);
+        Onscreen.startOnBoot.tryPutDefault(preferences, editor);
+        Onscreen.theme.tryPutDefault(preferences, editor);
 
-        Widget.theme.tryPutDefault(preferences);
+        Widget.theme.tryPutDefault(preferences, editor);
     }
 
     public enum SimpleTheme {

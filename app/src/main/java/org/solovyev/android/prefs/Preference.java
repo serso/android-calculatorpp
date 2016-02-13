@@ -66,18 +66,19 @@ public interface Preference<T> {
 
     /**
      * Method puts (saves) preference represented by <code>value</code> in <code>preferences</code> container
-     *
-     * @param preferences preferences container
+     *  @param editor preferences container
      * @param value       value to be saved
      */
+    void putPreference(@Nonnull SharedPreferences.Editor editor, @Nullable T value);
     void putPreference(@Nonnull SharedPreferences preferences, @Nullable T value);
 
     /**
      * Method saves default value in <code>preferences</code> container.
      * Should behave exactly as <code>p.putPreference(preferences, p.getDefaultValue())</code>
      *
-     * @param preferences preferences container
+     * @param editor preferences editor
      */
+    void putDefault(@Nonnull SharedPreferences.Editor editor);
     void putDefault(@Nonnull SharedPreferences preferences);
 
     /**
@@ -89,9 +90,12 @@ public interface Preference<T> {
     /**
      * Method applies default value to preference only if explicit value is not set
      *
-     * @param preferences preferences container
+     *
+     * @param preferences preferences
+     * @param editor preferences editor
      * @return true if default values have been applied, false otherwise
      */
+    boolean tryPutDefault(@Nonnull SharedPreferences preferences, @Nonnull SharedPreferences.Editor editor);
     boolean tryPutDefault(@Nonnull SharedPreferences preferences);
 
     /**
