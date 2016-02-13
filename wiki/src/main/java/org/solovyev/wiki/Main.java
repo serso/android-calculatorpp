@@ -18,7 +18,9 @@ import org.simpleframework.xml.core.Persister;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     private static final Persister persister = new Persister();
@@ -32,35 +34,43 @@ public class Main {
         outDir.mkdirs();
 
         final Resources resources = persister.read(Resources.class, inFile);
-        final List<String> languages = new ArrayList<>();
-        languages.add("ar");
-        languages.add("cs");
-        languages.add("es");
-        languages.add("de");
-        languages.add("fi");
-        languages.add("fr");
-        languages.add("it");
-        languages.add("nl");
-        languages.add("pl");
-        languages.add("pt");
-        languages.add("ru");
-        languages.add("tr");
-        languages.add("vi");
-        languages.add("ja");
-        languages.add("ja");
-        languages.add("zh");
+        final List<String> languageLocales = new ArrayList<>();
+        languageLocales.add("ar");
+        languageLocales.add("cs");
+        languageLocales.add("es");
+        languageLocales.add("de");
+        languageLocales.add("fi");
+        languageLocales.add("fr");
+        languageLocales.add("it");
+        languageLocales.add("nl");
+        languageLocales.add("pl");
+        languageLocales.add("pt-rbr");
+        languageLocales.add("pt-rpt");
+        languageLocales.add("ru");
+        languageLocales.add("tr");
+        languageLocales.add("vi");
+        languageLocales.add("ja");
+        languageLocales.add("ja");
+        languageLocales.add("zh-rcn");
+        languageLocales.add("zh-rtw");
 
         final CloseableHttpClient client = HttpClients.createDefault();
         try {
-            for (String language : languages) {
-                final Resources translations = new Resources();
-                for (ResourceString string : resources.strings) {
-                    final String translation = translate(client, string.value, language);
-                    if (!TextUtils.isEmpty(translation)) {
-                        translations.strings.add(new ResourceString(string.name, translation));
+            final Map<String, Resources> allTranslations = new HashMap<>();
+            for (String languageLocale : languageLocales) {
+                final String language = toLanguage(languageLocale);
+                Resources translations = allTranslations.get(language);
+                if (translations == null) {
+                    translations = new Resources();
+                    allTranslations.put(language, translations);
+                    for (ResourceString string : resources.strings) {
+                        final String translation = translate(client, string.value, language);
+                        if (!TextUtils.isEmpty(translation)) {
+                            translations.strings.add(new ResourceString(string.name, translation));
+                        }
                     }
                 }
-                saveTranslations(translations, language, outDir, inFile.getName());
+                saveTranslations(translations, languageLocale, outDir, inFile.getName());
             }
 
         } finally {
@@ -130,7 +140,7 @@ public class Main {
     }
 
     private static void saveTranslations(Resources translations, String language, File outDir, String fileName) {
-        final File dir = new File(outDir, "values-" + androidLanguage(language));
+        final File dir = new File(outDir, "values-" + language);
         dir.mkdirs();
         FileWriter out = null;
         try {
@@ -145,15 +155,12 @@ public class Main {
 
     }
 
-    private static String androidLanguage(String language) {
-        switch (language) {
-            case "pt":
-                return "pt-rpt";
-            case "zh":
-                return "zh-rcn";
-            default:
-                return language;
+    private static String toLanguage(String languageLocale) {
+        final int i = languageLocale.indexOf('-');
+        if(i >= 0) {
+            return languageLocale.substring(0, i);
         }
+        return languageLocale;
     }
 
     private static void close(Closeable closeable) {
