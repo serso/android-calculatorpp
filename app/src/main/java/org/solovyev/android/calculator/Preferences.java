@@ -87,13 +87,8 @@ public final class Preferences {
             }
         }
 
-        if (!Engine.Preferences.angleUnit.isSet(preferences)) {
-            Engine.Preferences.angleUnit.putDefault(preferences);
-        }
-
-        if (!Engine.Preferences.numeralBase.isSet(preferences)) {
-            Engine.Preferences.numeralBase.putDefault(preferences);
-        }
+        Engine.Preferences.angleUnit.tryPutDefault(preferences);
+        Engine.Preferences.numeralBase.tryPutDefault(preferences);
 
         if (!Engine.Preferences.multiplicationSign.isSet(preferences)) {
             if (isPhoneModel(samsung_galaxy_s) || isPhoneModel(samsung_galaxy_s_2)) {
@@ -102,34 +97,30 @@ public final class Preferences {
             }
         }
 
-        applyDefaultPreference(preferences, Gui.theme);
-        applyDefaultPreference(preferences, Gui.layout);
+        Gui.theme.tryPutDefault(preferences);
+        Gui.layout.tryPutDefault(preferences);
         if (Gui.layout.getPreference(preferences) == Gui.Layout.main_cellphone) {
             Gui.layout.putDefault(preferences);
         }
-        applyDefaultPreference(preferences, Gui.feedbackWindowShown);
-        applyDefaultPreference(preferences, Gui.showReleaseNotes);
-        applyDefaultPreference(preferences, Gui.usePrevAsBack);
-        applyDefaultPreference(preferences, Gui.showEqualsButton);
-        applyDefaultPreference(preferences, Gui.autoOrientation);
-        applyDefaultPreference(preferences, Gui.hideNumeralBaseDigits);
-        applyDefaultPreference(preferences, Gui.preventScreenFromFading);
-        applyDefaultPreference(preferences, Gui.language);
+        Gui.feedbackWindowShown.tryPutDefault(preferences);
+        Gui.showReleaseNotes.tryPutDefault(preferences);
+        Gui.usePrevAsBack.tryPutDefault(preferences);
+        Gui.showEqualsButton.tryPutDefault(preferences);
+        Gui.autoOrientation.tryPutDefault(preferences);
+        Gui.hideNumeralBaseDigits.tryPutDefault(preferences);
+        Gui.preventScreenFromFading.tryPutDefault(preferences);
+        Gui.language.tryPutDefault(preferences);
 
-        applyDefaultPreference(preferences, Graph.plotImag);
-        applyDefaultPreference(preferences, Calculations.calculateOnFly);
-        applyDefaultPreference(preferences, Calculations.preferredAngleUnits);
-        applyDefaultPreference(preferences, Calculations.preferredNumeralBase);
+        Graph.plotImag.tryPutDefault(preferences);
+        Calculations.calculateOnFly.tryPutDefault(preferences);
+        Calculations.preferredAngleUnits.tryPutDefault(preferences);
+        Calculations.preferredNumeralBase.tryPutDefault(preferences);
 
-        applyDefaultPreference(preferences, Onscreen.showAppIcon);
-        applyDefaultPreference(preferences, Onscreen.startOnBoot);
-        applyDefaultPreference(preferences, Onscreen.theme);
+        Onscreen.showAppIcon.tryPutDefault(preferences);
+        Onscreen.startOnBoot.tryPutDefault(preferences);
+        Onscreen.theme.tryPutDefault(preferences);
 
-        applyDefaultPreference(preferences, Widget.theme);
-    }
-
-    private static void applyDefaultPreference(@Nonnull SharedPreferences preferences, @Nonnull Preference<?> preference) {
-        preference.tryPutDefault(preferences);
+        Widget.theme.tryPutDefault(preferences);
     }
 
     public enum SimpleTheme {
