@@ -77,7 +77,6 @@ dependencies {
     compile 'org.solovyev.android:android-common-other:1.1.18@aar'
     compile 'org.solovyev.android:android-common-views:1.1.18@aar'
     compile 'org.solovyev.android:android-common-menus:1.1.18@aar'
-    compile 'org.solovyev.android:android-common-preferences:1.1.18@aar'
     compile(project(':jscl')) {
         exclude(module: 'xercesImpl')
     }
