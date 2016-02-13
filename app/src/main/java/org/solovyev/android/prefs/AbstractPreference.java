@@ -75,17 +75,31 @@ public abstract class AbstractPreference<T> implements Preference<T> {
     }
 
     @Override
+    public void putDefault(@Nonnull SharedPreferences.Editor editor) {
+        putPreference(editor, this.defaultValue);
+    }
+
+    @Override
     public void putDefault(@Nonnull SharedPreferences preferences) {
         putPreference(preferences, this.defaultValue);
     }
 
     @Override
-    public void putPreference(@Nonnull SharedPreferences preferences, @Nullable T value) {
-        if (value != null) {
-            final SharedPreferences.Editor editor = preferences.edit();
-            putPersistedValue(editor, value);
-            editor.commit();
+    public void putPreference(@Nonnull SharedPreferences.Editor editor, @Nullable T value) {
+        if (value == null) {
+            return;
         }
+        putPersistedValue(editor, value);
+    }
+
+    @Override
+    public void putPreference(@Nonnull SharedPreferences preferences, @Nullable T value) {
+        if (value == null) {
+            return;
+        }
+        final SharedPreferences.Editor editor = preferences.edit();
+        putPersistedValue(editor, value);
+        editor.apply();
     }
 
     @Override
@@ -95,16 +109,20 @@ public abstract class AbstractPreference<T> implements Preference<T> {
 
     @Override
     public final boolean tryPutDefault(@Nonnull SharedPreferences preferences) {
-        final boolean result;
+        final SharedPreferences.Editor editor = preferences.edit();
+        final boolean changed = tryPutDefault(preferences, editor);
+        editor.apply();
+        return changed;
+    }
 
+    @Override
+    public final boolean tryPutDefault(@Nonnull SharedPreferences preferences, @Nonnull SharedPreferences.Editor editor) {
         if (isSet(preferences)) {
-            result = false;
-        } else {
-            putDefault(preferences);
-            result = true;
+            return false;
         }
 
-        return result;
+        putDefault(editor);
+        return true;
     }
 
     @Override
