@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -16,33 +17,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.Clipboard;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.R;
-
+import android.widget.*;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -50,6 +28,9 @@ import javax.measure.unit.Dimension;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.*;
 
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
@@ -359,7 +340,7 @@ public class ConverterFragment extends BaseDialogFragment
                             Toast.LENGTH_SHORT).show();
                     break;
             }
-        } catch (ParseException e) {
+        } catch (ParseException ignored) {
         }
     }
 
@@ -404,19 +385,19 @@ public class ConverterFragment extends BaseDialogFragment
     }
 
     private enum MyDimension {
-        TIME(Dimension.TIME, "Time"),
-        AMOUNT_OF_SUBSTANCE(Dimension.AMOUNT_OF_SUBSTANCE, "Amount of substance"),
-        ELECTRIC_CURRENT(Dimension.ELECTRIC_CURRENT, "Electric current"),
-        LENGTH(Dimension.LENGTH, "Length"),
-        MASS(Dimension.MASS, "Mass"),
-        TEMPERATURE(Dimension.TEMPERATURE, "Temperature");
+        TIME(Dimension.TIME, R.string.cpp_converter_time),
+        AMOUNT_OF_SUBSTANCE(Dimension.AMOUNT_OF_SUBSTANCE, R.string.cpp_converter_amount_of_substance),
+        ELECTRIC_CURRENT(Dimension.ELECTRIC_CURRENT, R.string.cpp_converter_electric_current),
+        LENGTH(Dimension.LENGTH, R.string.cpp_converter_length),
+        MASS(Dimension.MASS, R.string.cpp_converter_mass),
+        TEMPERATURE(Dimension.TEMPERATURE, R.string.cpp_converter_termperature);
 
         @NonNull
         public final Dimension dimension;
-        @NonNull
-        public final String name;
+        @StringRes
+        public final int name;
 
-        MyDimension(@NonNull Dimension dimension, @NonNull String name) {
+        MyDimension(@NonNull Dimension dimension, @StringRes int name) {
             this.dimension = dimension;
             this.name = name;
         }
@@ -442,7 +423,7 @@ public class ConverterFragment extends BaseDialogFragment
 
         @Override
         public String toString() {
-            return dimension.name;
+            return getString(dimension.name);
         }
     }
 }

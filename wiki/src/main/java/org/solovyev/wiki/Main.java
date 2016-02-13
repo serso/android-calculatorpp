@@ -9,27 +9,29 @@ import org.apache.http.util.EntityUtils;
 import org.apache.http.util.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Text;
+import org.simpleframework.xml.core.Persister;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
-    public static void main(String... args) throws UnsupportedEncodingException {
-        final List<String> words = new ArrayList<>();
-        words.add("Time");
-        words.add("Amount of substance");
-        words.add("Electric current");
-        words.add("Length");
-        words.add("Mass");
-        words.add("Temperature");
+    private static final Persister persister = new Persister();
+
+    public static void main(String... args) throws Exception {
+        final String inFileName = "app/src/main/res/values/text_converter.xml";
+        final File inFile = new File(inFileName);
+
+        final File outDir = new File("build/translations/res");
+        delete(outDir);
+        outDir.mkdirs();
+
+        final Resources resources = persister.read(Resources.class, inFile);
         final List<String> languages = new ArrayList<>();
         languages.add("ar");
         languages.add("cs");
@@ -51,19 +53,36 @@ public class Main {
         final CloseableHttpClient client = HttpClients.createDefault();
         try {
             for (String language : languages) {
-                final Map<String, String> translations = new HashMap<>();
-                for (String word : words) {
-                    final String translation = translate(client, word, language);
+                final Resources translations = new Resources();
+                for (ResourceString string : resources.strings) {
+                    final String translation = translate(client, string.value, language);
                     if (!TextUtils.isEmpty(translation)) {
-                        translations.put(word, translation);
+                        translations.strings.add(new ResourceString(string.name, translation));
                     }
                 }
-                writeTranslations(translations, language);
+                saveTranslations(translations, language, outDir, inFile.getName());
             }
 
         } finally {
             close(client);
         }
+    }
+
+    private static boolean delete(File file) {
+        if(!file.exists()) {
+            return true;
+        }
+        if (file.isFile()) {
+            return file.delete();
+        }
+        boolean deleted = true;
+        final File[] children = file.listFiles();
+        if (children != null) {
+            for (File child : children) {
+                deleted &= delete(child);
+            }
+        }
+        return deleted && file.delete();
     }
 
     private static String translate(CloseableHttpClient client, String word, String language)
@@ -90,7 +109,15 @@ public class Main {
                 final JSONArray jsonLangLinks = jsonPage.getJSONArray("langlinks");
                 if (jsonLangLinks.length() > 0) {
                     final JSONObject jsonLangLink = jsonLangLinks.getJSONObject(0);
-                    return jsonLangLink.getString("*");
+                    final String translation = jsonLangLink.getString("*");
+                    if (TextUtils.isBlank(translation)) {
+                        return null;
+                    }
+                    final int i = translation.lastIndexOf(" (");
+                    if(i >= 0) {
+                        return translation.substring(0, i);
+                    }
+                    return translation;
                 }
             }
         } catch (IOException | RuntimeException e) {
@@ -102,25 +129,31 @@ public class Main {
         return null;
     }
 
-    private static void writeTranslations(Map<String, String> translations, String language) {
-        File dir = new File("out");
+    private static void saveTranslations(Resources translations, String language, File outDir, String fileName) {
+        final File dir = new File(outDir, "values-" + androidLanguage(language));
         dir.mkdirs();
         FileWriter out = null;
         try {
-            out = new FileWriter(new File(dir, language + ".xml"));
+            out = new FileWriter(new File(dir, fileName));
             out.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-            out.write("<resources>\n");
-            for (Map.Entry<String, String> entry : translations.entrySet()) {
-                out.write("<string name=\"" + entry.getKey() + "\">" + entry.getValue()
-                        + "</string>\n");
-            }
-            out.write("</resources>\n");
-        } catch (IOException e) {
+            persister.write(translations, out);
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             close(out);
         }
 
+    }
+
+    private static String androidLanguage(String language) {
+        switch (language) {
+            case "pt":
+                return "pt-rpt";
+            case "zh":
+                return "zh-rcn";
+            default:
+                return language;
+        }
     }
 
     private static void close(Closeable closeable) {
@@ -131,6 +164,32 @@ public class Main {
             closeable.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Root
+    public static class Resources {
+        @ElementList(inline = true)
+        public List<ResourceString> strings = new ArrayList<>();
+
+        public Resources() {
+        }
+    }
+
+    @SuppressWarnings("unused")
+    @Root(name = "string")
+    public static class ResourceString {
+        @Attribute
+        public String name;
+        @Text
+        public String value;
+
+        public ResourceString() {
+        }
+
+        private ResourceString(String name, String value) {
+            this.name = name;
+            this.value = value;
         }
     }
 }
