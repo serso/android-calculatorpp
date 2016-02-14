@@ -4,7 +4,6 @@ import android.graphics.PointF;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +18,7 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import java.util.List;
 
+import static android.view.HapticFeedbackConstants.*;
 import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.down;
 import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.up;
 
@@ -89,7 +89,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText("%", up).setText("sqrt", down);
         addOperationButton(row, R.id.cpp_kb_button_minus, "−");
         final View backspace = addImageButton(row, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_grey300_24dp);
-        EditTextLongClickEraser.attachTo(backspace, user.getEditor());
+        EditTextLongClickEraser.attachTo(backspace, user.getEditor(), user.isVibrateOnKeypress());
 
         row = makeRow();
         addButton(row, R.id.cpp_kb_button_functions_constants, "f/π");
@@ -116,7 +116,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "6");
         addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText("%", up).setText("sqrt", down);
         final View backspace = addImageButton(row, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_grey300_24dp);
-        EditTextLongClickEraser.attachTo(backspace, user.getEditor());
+        EditTextLongClickEraser.attachTo(backspace, user.getEditor(), user.isVibrateOnKeypress());
 
         row = makeRow();
         addButton(row, 0, "1");
@@ -172,7 +172,9 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
 
         @Override
         public void onClick(@NonNull View v) {
-            v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+            if (user.isVibrateOnKeypress()) {
+                v.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
+            }
             switch (v.getId()) {
                 case R.id.cpp_kb_button_divide:
                     user.insertOperator('/');
@@ -260,7 +262,6 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
                     user.insertText(text, 0);
                     break;
             }
-            button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
             return true;
         }
     }

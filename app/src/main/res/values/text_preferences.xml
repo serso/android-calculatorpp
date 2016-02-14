@@ -18,4 +18,5 @@
   <string name="prefs_prevent_screen_from_fading_summary">If turned on screen will not fade while using the app
 	</string>
     <string name="prefs_language_title">Language</string>
+    <string name="cpp_prefs_vibrate_on_keypress">Vibrate on keypress</string>
 </resources>

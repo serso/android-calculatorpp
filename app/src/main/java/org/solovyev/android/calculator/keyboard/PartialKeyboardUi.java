@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
+import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
 import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class PartialKeyboardUi extends BaseKeyboardUi {
@@ -49,6 +50,8 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     @Nullable
     @Bind(R.id.cpp_button_equals)
     DirectionDragButton equalsButton;
+    @Nullable
+    EditorLongClickEraser longClickEraser;
 
     @Inject
     public PartialKeyboardUi(@NonNull Application application) {
@@ -67,7 +70,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
             Check.isTrue(IMAGE_SCALE == 0.6f);
             // backspace button is too big, scale it more
             prepareButton(eraseButton, 0.5f);
-            EditorLongClickEraser.attachTo(eraseButton);
+            longClickEraser = EditorLongClickEraser.attachTo(eraseButton, keyboard.isVibrateOnKeypress());
         }
         if (isSimpleLayout()) {
             hideText(clearButton, left, up, down);
@@ -96,11 +99,15 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        super.onSharedPreferenceChanged(preferences, key);
         if (clearButton != null && numeralBase.isSameKey(key)) {
             clearButton.setNumeralBase(numeralBase.getPreference(preferences));
         }
         if (equalsButton != null && showEqualsButton.isSameKey(key)) {
             toggleEqualsButton();
+        }
+        if (longClickEraser != null && vibrateOnKeypress.isSameKey(key)) {
+            longClickEraser.setVibrateOnKeypress(vibrateOnKeypress.getPreference(preferences));
         }
     }
 

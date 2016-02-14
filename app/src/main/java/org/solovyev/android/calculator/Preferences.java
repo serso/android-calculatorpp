@@ -22,10 +22,13 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Application;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.provider.Settings;
 import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
@@ -50,29 +53,35 @@ import java.util.Map;
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
+import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
 public final class Preferences {
 
-    public static final Preference<Integer> appVersion = IntegerPreference.of("application.version", -1);
+    public static final Preference<Integer> appVersion = IntegerPreference.of("application.version", DEF_VALUE);
     public static final Preference<Integer> appOpenedCounter = IntegerPreference.of("app_opened_counter", 0);
     private Preferences() {
         throw new AssertionError();
     }
 
-    static void setDefaultValues(@Nonnull SharedPreferences preferences) {
+    static void setDefaultValues(@Nonnull Application application, @Nonnull SharedPreferences preferences) {
         SharedPreferences.Editor editor = preferences.edit();
         // renew value after each application start
         Gui.showFixableErrorDialog.putDefault(editor);
         Gui.lastPreferredPreferencesCheck.putDefault(editor);
 
-        final Integer version = Preferences.appVersion.getPreference(preferences);
-        if (version == null) {
-            setInitialDefaultValues(preferences, editor);
+        final int version = Preferences.appVersion.getPreference(preferences);
+        if (version == DEF_VALUE) {
+            setInitialDefaultValues(application, preferences, editor);
+        } else if (version > 143) {
+            if (!Gui.vibrateOnKeypress.isSet(preferences)) {
+                //noinspection deprecation
+                Gui.vibrateOnKeypress.putPreference(editor, Gui.hapticFeedback.getPreference(preferences) > 0);
+            }
         }
         editor.apply();
     }
 
-    private static void setInitialDefaultValues(@Nonnull SharedPreferences preferences, @Nonnull SharedPreferences.Editor editor) {
+    private static void setInitialDefaultValues(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull SharedPreferences.Editor editor) {
         if (!Engine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
@@ -101,6 +110,7 @@ public final class Preferences {
 
         Gui.theme.tryPutDefault(preferences, editor);
         Gui.layout.tryPutDefault(preferences, editor);
+        //noinspection deprecation
         if (Gui.layout.getPreference(preferences) == Gui.Layout.main_cellphone) {
             Gui.layout.putDefault(editor);
         }
@@ -123,6 +133,12 @@ public final class Preferences {
         Onscreen.theme.tryPutDefault(preferences, editor);
 
         Widget.theme.tryPutDefault(preferences, editor);
+
+        final ContentResolver cr = application.getContentResolver();
+        if (cr != null) {
+            final boolean vibrateOnKeyPress = Settings.System.getInt(cr, Settings.System.HAPTIC_FEEDBACK_ENABLED, 0) != 0;
+            Gui.vibrateOnKeypress.putPreference(editor, vibrateOnKeyPress);
+        }
     }
 
     public enum SimpleTheme {
@@ -254,9 +270,11 @@ public final class Preferences {
         public static final Preference<Boolean> hideNumeralBaseDigits = BooleanPreference.of("hideNumeralBaseDigits", true);
         public static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
         public static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
-        public static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
+        public static final Preference<Boolean> vibrateOnKeypress = BooleanPreference.of("gui.vibrateOnKeypress", true);
         public static final Preference<Boolean> showFixableErrorDialog = BooleanPreference.of("gui.showFixableErrorDialog", true);
         public static final Preference<Long> lastPreferredPreferencesCheck = LongPreference.of("gui.lastPreferredPreferencesCheck", 0L);
+        @Deprecated
+        public static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
 
         @Nonnull
         public static Theme getTheme(@Nonnull SharedPreferences preferences) {

@@ -42,6 +42,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.Locale;
 
+import static android.view.HapticFeedbackConstants.*;
 import static org.solovyev.android.calculator.App.cast;
 
 public class CalculatorOnscreenView {
@@ -145,7 +146,9 @@ public class CalculatorOnscreenView {
                 @Override
                 public void onClick(View v) {
                     if (keyboard.buttonPressed(widgetButton.action)) {
-                        v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                        if (keyboard.isVibrateOnKeypress()) {
+                            v.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
+                        }
                     }
                     if (widgetButton == CppButton.app) {
                         minimize();
@@ -156,7 +159,9 @@ public class CalculatorOnscreenView {
                 @Override
                 public boolean onLongClick(View v) {
                     if (keyboard.buttonPressed(widgetButton.actionLong)) {
-                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                        if (keyboard.isVibrateOnKeypress()) {
+                            v.performHapticFeedback(LONG_PRESS, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
+                        }
                     }
                     return true;
                 }

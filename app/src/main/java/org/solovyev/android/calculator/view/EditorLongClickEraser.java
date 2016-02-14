@@ -17,12 +17,13 @@ public class EditorLongClickEraser extends BaseLongClickEraser {
 
     private boolean wasCalculatingOnFly;
 
-    private EditorLongClickEraser(@Nonnull View view) {
-        super(view);
+    private EditorLongClickEraser(@Nonnull View view, boolean vibrateOnKeypress) {
+        super(view, vibrateOnKeypress);
     }
 
-    public static void attachTo(@Nonnull View view) {
-        new EditorLongClickEraser(view);
+    @Nonnull
+    public static EditorLongClickEraser attachTo(@Nonnull View view, boolean vibrateOnKeypress) {
+        return new EditorLongClickEraser(view, vibrateOnKeypress);
     }
 
     protected boolean erase() {
