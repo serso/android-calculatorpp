@@ -8,7 +8,6 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.TypedValue;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.ImageView;
 import org.solovyev.android.Views;
@@ -17,12 +16,16 @@ import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
+import static android.view.HapticFeedbackConstants.*;
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.App.getScreenMetrics;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
@@ -33,6 +36,8 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     protected static final float TEXT_SCALE = 0.6f;
     protected static final float IMAGE_SCALE = 0.6f;
 
+    @NonNull
+    private final List<DragButton> dragButtons = new ArrayList<>();
     @NonNull
     protected final SimpleDragListener listener;
     @Inject
@@ -80,6 +85,8 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         if (button == null) {
             return;
         }
+        // we call android.view.View.performHapticFeedback(int, int) from #onClick
+        button.setHapticFeedbackEnabled(false);
         button.setOnClickListener(this);
     }
 
@@ -87,6 +94,8 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         if (button == null) {
             return;
         }
+        dragButtons.add(button);
+        button.setVibrateOnDrag(keyboard.isVibrateOnKeypress());
         prepareButton((View) button);
         button.setOnDragListener(listener);
         BaseUi.setFont(button, typeface);
@@ -113,6 +122,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     }
 
     public void onDestroyView() {
+        dragButtons.clear();
         preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
@@ -125,14 +135,28 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         return 5 * buttonSize / 12;
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (Preferences.Gui.vibrateOnKeypress.isSameKey(key)) {
+            final boolean vibrate = Preferences.Gui.vibrateOnKeypress.getPreference(preferences);
+            for (DragButton dragButton : dragButtons) {
+                dragButton.setVibrateOnDrag(vibrate);
+            }
+        }
+    }
+
     protected boolean isSimpleLayout() {
         return layout == simple || layout == simple_mobile;
     }
 
     protected final void onClick(@Nonnull View v, @Nonnull String s) {
-        if (keyboard.buttonPressed(s)) {
-            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        if (!keyboard.buttonPressed(s)) {
+            return;
         }
+        if (!keyboard.isVibrateOnKeypress()) {
+            return;
+        }
+        v.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
     }
 
     protected final void onClick(@Nonnull View v, @Nonnull CppSpecialButton b) {

@@ -32,5 +32,8 @@ public interface FloatingKeyboard {
         void done();
 
         void showIme();
+
+        boolean isVibrateOnKeypress();
+
     }
 }

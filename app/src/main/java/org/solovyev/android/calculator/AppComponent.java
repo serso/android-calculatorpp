@@ -39,7 +39,7 @@ public interface AppComponent {
     void inject(ConverterFragment fragment);
     void inject(CalculatorActivity activity);
     void inject(FixableErrorsActivity activity);
-    void inject(CalculatorReceiver receiver);
+    void inject(WidgetReceiver receiver);
     void inject(DisplayFragment fragment);
     void inject(KeyboardFragment fragment);
     void inject(PurchaseDialogActivity activity);

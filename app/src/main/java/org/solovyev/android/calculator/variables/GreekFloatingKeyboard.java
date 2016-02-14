@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -16,6 +15,8 @@ import org.solovyev.android.calculator.view.EditTextLongClickEraser;
 
 import javax.annotation.Nonnull;
 import java.util.Locale;
+
+import static android.view.HapticFeedbackConstants.*;
 
 
 public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.OnClickListener {
@@ -57,7 +58,7 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
         switch (row) {
             case 0:
                 final View backspace = addImageButton(rowView, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_grey300_24dp);
-                EditTextLongClickEraser.attachTo(backspace, user.getEditor());
+                EditTextLongClickEraser.attachTo(backspace, user.getEditor(), user.isVibrateOnKeypress());
                 break;
             case 1:
                 addButton(rowView, R.id.cpp_kb_button_change_case, "↑");
@@ -81,7 +82,7 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
                 break;
             case 1:
                 final View backspace = addImageButton(rowView, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_grey300_24dp);
-                EditTextLongClickEraser.attachTo(backspace, user.getEditor());
+                EditTextLongClickEraser.attachTo(backspace, user.getEditor(), user.isVibrateOnKeypress());
                 break;
             case 2:
                 addButton(rowView, R.id.cpp_kb_button_change_case, "↑");
@@ -118,7 +119,9 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
 
     @Override
     public void onClick(View v) {
-        v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+        if (user.isVibrateOnKeypress()) {
+            v.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
+        }
         switch (v.getId()) {
             case R.id.cpp_kb_button_close:
                 user.done();

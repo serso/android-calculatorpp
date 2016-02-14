@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 import com.squareup.otto.Bus;
-
+import dagger.Lazy;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.math.MathType;
@@ -36,10 +36,8 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import dagger.Lazy;
-
 @Singleton
-public class Keyboard {
+public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Nonnull
     private final MathType.Result mathType = new MathType.Result();
@@ -56,9 +54,16 @@ public class Keyboard {
     Lazy<Bus> bus;
     @Inject
     ActivityLauncher launcher;
+    private boolean vibrateOnKeypress;
 
     @Inject
-    public Keyboard() {
+    public Keyboard(@Nonnull SharedPreferences preferences) {
+        preferences.registerOnSharedPreferenceChangeListener(this);
+        vibrateOnKeypress = Preferences.Gui.vibrateOnKeypress.getPreference(preferences);
+    }
+
+    public boolean isVibrateOnKeypress() {
+        return vibrateOnKeypress;
     }
 
     public boolean buttonPressed(@Nullable final String text) {
@@ -214,5 +219,12 @@ public class Keyboard {
 
     public void moveCursorRight() {
         editor.moveCursorRight();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (Preferences.Gui.vibrateOnKeypress.isSameKey(key)) {
+            vibrateOnKeypress = Preferences.Gui.vibrateOnKeypress.getPreference(preferences);
+        }
     }
 }

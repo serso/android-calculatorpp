@@ -64,6 +64,7 @@ public abstract class BaseFloatingKeyboard implements FloatingKeyboard {
         button.setTextColor(textColor);
         button.setDirectionTextColor(textColorSecondary);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
+        button.setVibrateOnDrag(user.isVibrateOnKeypress());
         if (TextUtils.isEmpty(text)) {
             button.setEnabled(false);
         }
@@ -74,6 +75,7 @@ public abstract class BaseFloatingKeyboard implements FloatingKeyboard {
         button.setId(id);
         button.setBackgroundResource(buttonBackground);
         button.setPadding(sidePadding, 1, sidePadding, 1);
+        button.setHapticFeedbackEnabled(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             button.setStateListAnimator(null);
         }

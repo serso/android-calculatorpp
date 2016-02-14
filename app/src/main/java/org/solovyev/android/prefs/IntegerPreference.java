@@ -29,6 +29,8 @@ import javax.annotation.Nullable;
 
 public class IntegerPreference extends AbstractPreference<Integer> {
 
+    public static final int DEF_VALUE = -1;
+
     private IntegerPreference(@Nonnull String key, @Nullable Integer defaultValue) {
         super(key, defaultValue);
     }
@@ -40,7 +42,7 @@ public class IntegerPreference extends AbstractPreference<Integer> {
 
     @Override
     protected Integer getPersistedValue(@Nonnull SharedPreferences preferences) {
-        return preferences.getInt(getKey(), -1);
+        return preferences.getInt(getKey(), DEF_VALUE);
     }
 
     @Override

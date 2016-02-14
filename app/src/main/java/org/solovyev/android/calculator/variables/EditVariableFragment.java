@@ -22,8 +22,6 @@
 
 package org.solovyev.android.calculator.variables;
 
-import static org.solovyev.android.calculator.variables.CppVariable.NO_ID;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,16 +41,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.IConstant;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.VariablesRegistry;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
@@ -61,16 +55,13 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.text.Strings;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.function.IConstant;
-
-import java.util.Arrays;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.solovyev.android.calculator.variables.CppVariable.NO_ID;
 
 public class EditVariableFragment extends BaseDialogFragment implements View.OnFocusChangeListener, View.OnKeyListener, View.OnClickListener {
 
@@ -99,6 +90,8 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     EditText descriptionView;
     @Inject
     Calculator calculator;
+    @Inject
+    Keyboard keyboard;
     @Inject
     FunctionsRegistry functionsRegistry;
     @Inject
@@ -409,6 +402,11 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
                     getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.showSoftInput(getEditor(), InputMethodManager.SHOW_FORCED);
             keyboardWindow.hide();
+        }
+
+        @Override
+        public boolean isVibrateOnKeypress() {
+            return keyboard.isVibrateOnKeypress();
         }
     }
 }

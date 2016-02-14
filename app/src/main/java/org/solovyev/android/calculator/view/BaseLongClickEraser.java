@@ -1,25 +1,26 @@
 package org.solovyev.android.calculator.view;
 
 import android.view.GestureDetector;
-import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
 import javax.annotation.Nonnull;
 
+import static android.view.HapticFeedbackConstants.*;
+
 public abstract class BaseLongClickEraser implements View.OnTouchListener {
 
     @Nonnull
     private final View view;
-
     @Nonnull
     private final GestureDetector gestureDetector;
-
     @Nonnull
     private final Eraser eraser = new Eraser();
+    protected boolean vibrateOnKeypress;
 
-    protected BaseLongClickEraser(@Nonnull final View view) {
+    protected BaseLongClickEraser(@Nonnull final View view, boolean vibrateOnKeypress) {
         this.view = view;
+        this.vibrateOnKeypress = vibrateOnKeypress;
         this.gestureDetector = new GestureDetector(view.getContext(), new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
                 if (eraser.isTracking()) {
@@ -28,6 +29,10 @@ public abstract class BaseLongClickEraser implements View.OnTouchListener {
             }
         });
         this.view.setOnTouchListener(this);
+    }
+
+    public void setVibrateOnKeypress(boolean vibrateOnKeypress) {
+        this.vibrateOnKeypress = vibrateOnKeypress;
     }
 
     @Override
@@ -74,7 +79,9 @@ public abstract class BaseLongClickEraser implements View.OnTouchListener {
             erasing = true;
             delay = DELAY;
             view.removeCallbacks(this);
-            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            if (vibrateOnKeypress) {
+                view.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
+            }
             onStartErase();
             run();
         }

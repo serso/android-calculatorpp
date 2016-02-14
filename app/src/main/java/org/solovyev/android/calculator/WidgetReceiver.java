@@ -3,8 +3,8 @@ package org.solovyev.android.calculator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.text.TextUtils;
-
 import org.solovyev.android.calculator.buttons.CppButton;
 
 import javax.annotation.Nonnull;
@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import static org.solovyev.android.calculator.App.cast;
 
-public final class CalculatorReceiver extends BroadcastReceiver {
+public final class WidgetReceiver extends BroadcastReceiver {
 
     public static final String ACTION_BUTTON_ID_EXTRA = "buttonId";
     public static final String ACTION_BUTTON_PRESSED = "org.solovyev.android.calculator.BUTTON_PRESSED";
@@ -22,7 +22,7 @@ public final class CalculatorReceiver extends BroadcastReceiver {
 
     @Nonnull
     public static Intent newButtonClickedIntent(@Nonnull Context context, @Nonnull CppButton button) {
-        final Intent intent = new Intent(context, CalculatorReceiver.class);
+        final Intent intent = new Intent(context, WidgetReceiver.class);
         intent.setAction(ACTION_BUTTON_PRESSED);
         intent.putExtra(ACTION_BUTTON_ID_EXTRA, button.id);
         return intent;
@@ -43,6 +43,16 @@ public final class CalculatorReceiver extends BroadcastReceiver {
             return;
         }
 
-        keyboard.buttonPressed(button.action);
+        if (!keyboard.buttonPressed(button.action)) {
+            return;
+        }
+        if (!keyboard.isVibrateOnKeypress()) {
+            return;
+        }
+        final Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator == null) {
+            return;
+        }
+        vibrator.vibrate(10);
     }
 }
