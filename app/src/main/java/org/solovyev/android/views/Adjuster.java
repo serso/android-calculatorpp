@@ -1,5 +1,7 @@
 package org.solovyev.android.views;
 
+import static android.graphics.Matrix.MSCALE_Y;
+
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,8 +10,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import static android.graphics.Matrix.MSCALE_Y;
 
 public class Adjuster {
 
@@ -47,6 +47,7 @@ public class Adjuster {
         @NonNull
         private final TextView view;
         private final float percentage;
+        private int lastHeight;
 
         public TextViewAdjuster(@NonNull TextView view, float percentage) {
             this.view = view;
@@ -55,12 +56,11 @@ public class Adjuster {
 
         @Override
         public boolean onPreDraw() {
-            // assume that the view properties are constant
-            final ViewTreeObserver treeObserver = getTreeObserver(view);
-            if (treeObserver != null) {
-                treeObserver.removeOnPreDrawListener(this);
-            }
             final int height = view.getHeight();
+            if (lastHeight == height || height <= 0) {
+                return true;
+            }
+            lastHeight = height;
             final float oldTextSize = Math.round(view.getTextSize());
             final float newTextSize = Math.round(height * percentage);
             if (oldTextSize == newTextSize) {
@@ -75,6 +75,7 @@ public class Adjuster {
         @NonNull
         private final ImageView view;
         private final float percentage;
+        private int lastHeight;
 
         public ImageViewAdjuster(@NonNull ImageView view, float percentage) {
             this.view = view;
@@ -83,17 +84,15 @@ public class Adjuster {
 
         @Override
         public boolean onPreDraw() {
-            // assume that the view properties are constant
-            final ViewTreeObserver treeObserver = getTreeObserver(view);
-            if (treeObserver != null) {
-                treeObserver.removeOnPreDrawListener(this);
+            final int height = view.getHeight();
+            if (lastHeight == height || height <= 0) {
+                return true;
             }
-
+            lastHeight = height;
             final Drawable d = view.getDrawable();
             if (d == null) {
                 return true;
             }
-            final int height = view.getHeight();
             view.getImageMatrix().getValues(MATRIX);
             final int oldImageHeight = Math.round(d.getIntrinsicHeight() * MATRIX[MSCALE_Y]);
             final int newImageHeight = Math.round(height * percentage);
