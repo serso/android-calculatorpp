@@ -22,13 +22,19 @@
 
 package org.solovyev.android.calculator.wizard;
 
+import static org.solovyev.android.calculator.App.cast;
+
 import android.graphics.PointF;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import org.solovyev.android.calculator.BaseUi;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
+import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
@@ -38,41 +44,24 @@ import java.util.Arrays;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 public class DragButtonWizardStep extends WizardFragment {
 
-	/*
-    **********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
-
     private static final String ACTION = "action";
-
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
-
-    @Nullable
-    private DirectionDragButton dragButton;
 
     @Nullable
     private TextView actionTextView;
 
-    @Nonnull
-    private TextView descriptionTextView;
-
     private DragButtonAction action = DragButtonAction.center;
+
+    @Inject
+    Typeface typeface;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cast(this).getComponent().inject(this);
     }
 
     @Override
@@ -84,12 +73,13 @@ public class DragButtonWizardStep extends WizardFragment {
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        dragButton = (DirectionDragButton) root.findViewById(R.id.wizard_dragbutton);
-        dragButton.setOnClickListener(new DragButtonOnClickListener());
-        dragButton.setOnDragListener(new SimpleDragListener(new DragButtonProcessor(), getActivity()));
+        final DirectionDragButton dragButton =(DirectionDragButton) root.findViewById(R.id.wizard_dragbutton);
+        dragButton.setOnClickListener(this);
+        dragButton.setOnDragListener(
+                new SimpleDragListener(new DragButtonProcessor(), getActivity()));
+        BaseUi.setFont(dragButton, typeface);
+        Adjuster.adjustText(dragButton, BaseKeyboardUi.TEXT_SCALE);
         actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
-        descriptionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_description_textview);
-
         if (savedInstanceState != null) {
             setAction((DragButtonAction) savedInstanceState.getSerializable(ACTION));
         }
@@ -102,14 +92,6 @@ public class DragButtonWizardStep extends WizardFragment {
         outState.putSerializable(ACTION, action);
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           STATIC/INNER
-	*
-	**********************************************************************
-	*/
-
     private void setNextAction() {
         setAction(action.getNextAction());
     }
@@ -119,14 +101,6 @@ public class DragButtonWizardStep extends WizardFragment {
             this.action = action;
             if (actionTextView != null) {
                 actionTextView.setText(this.action.actionTextResId);
-            }
-
-            boolean firstChange = false;
-            if (action != DragButtonAction.center) {
-                firstChange = true;
-            }
-            if (firstChange) {
-                //descriptionTextView.setVisibility(GONE);
             }
         }
     }
@@ -159,13 +133,15 @@ public class DragButtonWizardStep extends WizardFragment {
         }
     }
 
-    private class DragButtonOnClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.wizard_dragbutton) {
             if (action == DragButtonAction.center || action == DragButtonAction.end) {
                 setNextAction();
             }
+            return;
         }
+        super.onClick(v);
     }
 
     private class DragButtonProcessor implements SimpleDragListener.DragProcessor {

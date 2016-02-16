@@ -34,7 +34,7 @@
 
     <LinearLayout
         a:layout_width="match_parent"
-        a:layout_height="wrap_content"
+        a:layout_height="60dp"
         a:orientation="horizontal">
 
         <include layout="@layout/cpp_app_button_equals_no_bg" />
@@ -51,7 +51,7 @@
 
     <LinearLayout
         a:layout_width="match_parent"
-        a:layout_height="wrap_content"
+        a:layout_height="60dp"
         a:orientation="horizontal">
 
         <include layout="@layout/cpp_app_button_0" />
@@ -64,7 +64,7 @@
 
     <LinearLayout
         a:layout_width="match_parent"
-        a:layout_height="wrap_content"
+        a:layout_height="60dp"
         a:orientation="horizontal">
 
         <include layout="@layout/cpp_app_button_1" />

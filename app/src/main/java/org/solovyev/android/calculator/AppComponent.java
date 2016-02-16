@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator;
 
-import dagger.Component;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.errors.FixableErrorFragment;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
@@ -16,6 +15,9 @@ import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
+import org.solovyev.android.calculator.wizard.DragButtonWizardStep;
+
+import dagger.Component;
 
 import javax.inject.Singleton;
 
@@ -46,4 +48,5 @@ public interface AppComponent {
     void inject(PreferencesActivity activity);
     void inject(BaseKeyboardUi ui);
     void inject(CalculatorOnscreenView view);
+    void inject(DragButtonWizardStep fragment);
 }
