@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">الاهتزاز عند اللمس</string>
+   <string name="cpp_prefs_auto_rotate_screen">التدوير التلقائي للشاشة</string>
+   <string name="cpp_prefs_language">اللغة</string>
+   <string name="cpp_prefs_theme">المظهر</string>
+   <string name="cpp_prefs_keep_screen_on">البقاء في الوضع النشط</string>
+</resources>

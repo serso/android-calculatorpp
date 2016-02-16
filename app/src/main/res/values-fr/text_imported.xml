@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">Vibrer au toucher</string>
+   <string name="cpp_prefs_auto_rotate_screen">Rotation auto de l\&apos;écran</string>
+   <string name="cpp_prefs_language">Langue</string>
+   <string name="cpp_prefs_theme">Thème</string>
+   <string name="cpp_prefs_keep_screen_on">Rester activé</string>
+</resources>

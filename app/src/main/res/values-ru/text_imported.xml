@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">Виброотклик</string>
+   <string name="cpp_prefs_auto_rotate_screen">Автоповорот экрана</string>
+   <string name="cpp_prefs_language">Язык</string>
+   <string name="cpp_prefs_theme">Тема</string>
+   <string name="cpp_prefs_keep_screen_on">Не выключать экран</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">Trillen bij aanraking</string>
+   <string name="cpp_prefs_auto_rotate_screen">Scherm autom. draaien</string>
+   <string name="cpp_prefs_language">Taal</string>
+   <string name="cpp_prefs_theme">Thema</string>
+   <string name="cpp_prefs_keep_screen_on">Stand-by</string>
+</resources>
