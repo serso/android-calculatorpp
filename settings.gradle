@@ -1,1 +1,1 @@
-include ':app', ':jscl', ':wiki'
+include ':app', ':jscl', ':translations'

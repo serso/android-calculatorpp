@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">Při dotyku vibrovat</string>
+   <string name="cpp_prefs_auto_rotate_screen">Autom. otočení obrazovky</string>
+   <string name="cpp_prefs_language">Jazyk</string>
+   <string name="cpp_prefs_theme">Motiv</string>
+   <string name="cpp_prefs_keep_screen_on">Nevypínat obrazovku</string>
+</resources>

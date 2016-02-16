@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">タッチ操作バイブ</string>
+   <string name="cpp_prefs_auto_rotate_screen">画面の自動回転</string>
+   <string name="cpp_prefs_language">言語</string>
+   <string name="cpp_prefs_theme">テーマ</string>
+   <string name="cpp_prefs_keep_screen_on">スリープモードにしない</string>
+</resources>

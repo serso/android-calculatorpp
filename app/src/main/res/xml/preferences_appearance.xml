@@ -27,7 +27,7 @@
 
     <org.solovyev.android.material.preferences.ListPreference
         a:key="gui.language"
-        a:title="@string/prefs_language_title"
+        a:title="@string/cpp_prefs_language"
         m:materialColor="@color/material_text_selector" />
 
     <android.preference.CheckBoxPreference
@@ -51,8 +51,7 @@
         a:entries="@array/p_theme_names"
         a:entryValues="@array/p_theme_values"
         a:key="@string/p_calc_theme_key"
-        a:summary="@string/c_calc_theme_summary"
-        a:title="@string/c_calc_theme" />
+        a:title="@string/cpp_prefs_theme" />
 
     <ListPreference
         a:entries="@array/p_layout_names"
@@ -64,8 +63,7 @@
     <android.preference.CheckBoxPreference
         a:defaultValue="true"
         a:key="autoOrientation"
-        a:summary="@string/c_auto_orientation_summary"
-        a:title="@string/c_auto_orientation_title" />
+        a:title="@string/cpp_prefs_auto_rotate_screen" />
 
 
     <android.preference.CheckBoxPreference
@@ -76,7 +74,6 @@
 
     <android.preference.CheckBoxPreference
         a:key="preventScreenFromFading"
-        a:summary="@string/prefs_prevent_screen_from_fading_summary"
-        a:title="@string/prefs_prevent_screen_from_fading_title" />
+        a:title="@string/cpp_prefs_keep_screen_on" />
 
 </PreferenceScreen>

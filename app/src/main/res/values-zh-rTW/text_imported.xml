@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">觸控時震動</string>
+   <string name="cpp_prefs_auto_rotate_screen">自動旋轉螢幕</string>
+   <string name="cpp_prefs_language">語言</string>
+   <string name="cpp_prefs_theme">主題</string>
+   <string name="cpp_prefs_keep_screen_on">螢幕不休眠</string>
+</resources>
