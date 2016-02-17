@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.BaseUi;
@@ -44,6 +45,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
 
     public static final float TEXT_SCALE = 0.6f;
     public static final float IMAGE_SCALE = 0.6f;
+    public static final float IMAGE_SCALE_ERASE = 0.5f;
 
     @NonNull
     private final List<DragButton> dragButtons = new ArrayList<>();
@@ -67,6 +69,14 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
 
     public BaseKeyboardUi(@NonNull Application application) {
         listener = new SimpleDragListener(this, application);
+    }
+
+    public static void adjustButton(@NonNull View button) {
+        if (button instanceof TextView) {
+            Adjuster.adjustText((TextView) button, TEXT_SCALE);
+        } else if (button instanceof ImageView) {
+            Adjuster.adjustImage((ImageView) button, IMAGE_SCALE);
+        }
     }
 
     public void onCreateView(@Nonnull Activity activity, @Nonnull View view) {

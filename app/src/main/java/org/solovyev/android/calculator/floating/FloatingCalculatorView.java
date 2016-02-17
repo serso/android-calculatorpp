@@ -36,6 +36,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -47,8 +48,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.BaseUi;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.DisplayView;
 import org.solovyev.android.calculator.Editor;
@@ -58,6 +61,8 @@ import org.solovyev.android.calculator.Keyboard;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppButton;
+import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
+import org.solovyev.android.views.Adjuster;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -248,6 +253,8 @@ public class FloatingCalculatorView {
     Editor editor;
     @Inject
     SharedPreferences preferences;
+    @Inject
+    Typeface typeface;
     @Named(AppModule.PREFS_FLOATING)
     @Inject
     SharedPreferences myPreferences;
@@ -363,6 +370,14 @@ public class FloatingCalculatorView {
                     return true;
                 }
             });
+            if (widgetButton == CppButton.erase && button instanceof ImageView) {
+                Adjuster.adjustImage((ImageView) button, BaseKeyboardUi.IMAGE_SCALE_ERASE);
+            } else {
+                BaseKeyboardUi.adjustButton(button);
+            }
+            if (button instanceof TextView) {
+                BaseUi.setFont((TextView) button, typeface);
+            }
         }
 
         final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

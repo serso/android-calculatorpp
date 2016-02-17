@@ -28,9 +28,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
 import org.solovyev.android.Views;
@@ -38,7 +36,6 @@ import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
-import org.solovyev.android.views.Adjuster;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,11 +92,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
         Views.processViews(preview, new Views.ViewProcessor<View>() {
             @Override
             public void process(@Nonnull View view) {
-                if (view instanceof Button) {
-                    Adjuster.adjustText((Button) view, BaseKeyboardUi.TEXT_SCALE);
-                } else if (view instanceof ImageView) {
-                    Adjuster.adjustImage((ImageView) view, BaseKeyboardUi.IMAGE_SCALE);
-                }
+                BaseKeyboardUi.adjustButton(view);
             }
         });
     }
