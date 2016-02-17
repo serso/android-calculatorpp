@@ -33,16 +33,18 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import org.solovyev.android.calculator.AppModule;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.DisplayView;
 import org.solovyev.android.calculator.Editor;
@@ -52,20 +54,199 @@ import org.solovyev.android.calculator.Keyboard;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppButton;
-import org.solovyev.android.prefs.Preference;
-
-import java.util.Locale;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public class FloatingCalculatorView {
-    private static final String TAG = FloatingCalculatorView.class.getSimpleName();
 
-    private static final Preference<FloatingCalculatorViewState> viewStatePreference = new FloatingCalculatorViewState.Preference("onscreen_view_state", FloatingCalculatorViewState
-            .createDefault());
+    private static class MyTouchListener implements View.OnTouchListener {
+        private static final float DIST_EPS = 0f;
+        private static final float DIST_MAX = 100000f;
+        private static final long TIME_EPS = 0L;
 
+        @Nonnull
+        private final WindowManager wm;
+        @Nonnull
+        private final View view;
+        private int orientation;
+        private float x0;
+        private float y0;
+        private long lastMoveTime = 0;
+        private final DisplayMetrics dm = new DisplayMetrics();
+
+        public MyTouchListener(@Nonnull WindowManager wm,
+                @Nonnull View view) {
+            this.wm = wm;
+            this.view = view;
+            onDisplayChanged();
+        }
+
+        private void onDisplayChanged() {
+            final Display dd = wm.getDefaultDisplay();
+            //noinspection deprecation
+            orientation = dd.getOrientation();
+            dd.getMetrics(dm);
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            //noinspection deprecation
+            if (orientation != wm.getDefaultDisplay().getOrientation()) {
+                // orientation has changed => we need to check display width/height each time window moved
+                onDisplayChanged();
+            }
+
+            final float x1 = event.getRawX();
+            final float y1 = event.getRawY();
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    x0 = x1;
+                    y0 = y1;
+                    return true;
+
+                case MotionEvent.ACTION_MOVE:
+                    final long now = System.currentTimeMillis();
+                    if (now - lastMoveTime >= TIME_EPS) {
+                        lastMoveTime = now;
+                        processMove(x1, y1);
+                    }
+                    return true;
+            }
+
+            return false;
+        }
+
+        private void processMove(float x1, float y1) {
+            final float Δx = x1 - x0;
+            final float Δy = y1 - y0;
+
+            final WindowManager.LayoutParams params =
+                    (WindowManager.LayoutParams) view.getLayoutParams();
+
+            boolean xInBounds = isDistanceInBounds(Δx);
+            boolean yInBounds = isDistanceInBounds(Δy);
+            if (xInBounds || yInBounds) {
+
+                if (xInBounds) {
+                    params.x = (int) (params.x + Δx);
+                }
+
+                if (yInBounds) {
+                    params.y = (int) (params.y + Δy);
+                }
+
+                params.x = Math.min(Math.max(params.x, 0), dm.widthPixels - params.width);
+                params.y = Math.min(Math.max(params.y, 0), dm.heightPixels - params.height);
+
+                wm.updateViewLayout(view, params);
+
+                if (xInBounds) {
+                    x0 = x1;
+                }
+
+                if (yInBounds) {
+                    y0 = y1;
+                }
+            }
+        }
+
+        private boolean isDistanceInBounds(float δx) {
+            δx = Math.abs(δx);
+            return δx >= DIST_EPS && δx < DIST_MAX;
+        }
+    }
+
+    public static class State implements Parcelable {
+
+        public static final Creator<State> CREATOR = new Creator<State>() {
+            public State createFromParcel(@Nonnull Parcel in) {
+                return new State(in);
+            }
+
+            public State[] newArray(int size) {
+                return new State[size];
+            }
+        };
+        public final int width;
+        public final int height;
+        public final int x;
+        public final int y;
+
+        public State(int width, int height, int x, int y) {
+            this.width = width;
+            this.height = height;
+            this.x = x;
+            this.y = y;
+        }
+
+        private State(@NonNull SharedPreferences prefs) {
+            width = prefs.getInt("width", 200);
+            height = prefs.getInt("height", 400);
+            x = prefs.getInt("x", 0);
+            y = prefs.getInt("y", 0);
+        }
+
+        public State(@Nonnull Parcel in) {
+            width = in.readInt();
+            height = in.readInt();
+            x = in.readInt();
+            y = in.readInt();
+        }
+
+        @android.support.annotation.Nullable
+        public static State fromPrefs(@NonNull SharedPreferences prefs) {
+            if(!prefs.contains("width")) {
+                return null;
+            }
+            return new State(prefs);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@Nonnull Parcel out, int flags) {
+            out.writeInt(width);
+            out.writeInt(height);
+            out.writeInt(x);
+            out.writeInt(y);
+        }
+
+        @Override
+        public String toString() {
+            return "State{" +
+                    "y=" + y +
+                    ", x=" + x +
+                    ", height=" + height +
+                    ", width=" + width +
+                    '}';
+        }
+
+        public void save(@NonNull SharedPreferences.Editor editor) {
+            editor.putInt("width", width);
+            editor.putInt("height", height);
+            editor.putInt("x", x);
+            editor.putInt("y", y);
+        }
+    }
+    @NonNull
+    private final Context context;
+    @NonNull
+    private final FloatingViewListener listener;
+    @Inject
+    Keyboard keyboard;
+    @Inject
+    Editor editor;
+    @Inject
+    SharedPreferences preferences;
+    @Named(AppModule.PREFS_FLOATING)
+    @Inject
+    SharedPreferences myPreferences;
     private View root;
     private View content;
     private View header;
@@ -73,67 +254,42 @@ public class FloatingCalculatorView {
     private Drawable headerTitleDrawable;
     private EditorView editorView;
     private DisplayView displayView;
-    private Context context;
     @Nonnull
-    private FloatingCalculatorViewState state = FloatingCalculatorViewState.createDefault();
-    @Nullable
-    private FloatingViewListener viewListener;
-    @Inject
-    Keyboard keyboard;
-    @Inject
-    Editor editor;
-
+    private final State state;
     private boolean minimized;
     private boolean attached;
     private boolean folded;
     private boolean initialized;
     private boolean shown;
 
-
-    private FloatingCalculatorView() {
-    }
-
-    public static FloatingCalculatorView create(@Nonnull Context context,
-                                                @Nonnull FloatingCalculatorViewState state,
-                                                @Nullable FloatingViewListener viewListener,
-                                                @NonNull SharedPreferences preferences) {
-        final FloatingCalculatorView view = new FloatingCalculatorView();
-        cast(context).getComponent().inject(view);
-        final Preferences.SimpleTheme theme = Preferences.Onscreen.theme.getPreferenceNoError(preferences);
-        final Preferences.Gui.Theme appTheme = Preferences.Gui.theme.getPreferenceNoError(preferences);
-        view.root = View.inflate(context, theme.getOnscreenLayout(appTheme), null);
-        view.context = context;
-        view.viewListener = viewListener;
-
-        final FloatingCalculatorViewState persistedState = readState(context);
+    public FloatingCalculatorView(@Nonnull Context context,
+            @Nonnull State state,
+            @NonNull FloatingViewListener listener) {
+        cast(context).getComponent().inject(this);
+        this.context = context;
+        this.listener = listener;
+        final Preferences.SimpleTheme theme =
+                Preferences.Onscreen.theme.getPreferenceNoError(preferences);
+        final Preferences.Gui.Theme appTheme =
+                Preferences.Gui.theme.getPreferenceNoError(preferences);
+        this.root = View.inflate(context, theme.getOnscreenLayout(appTheme), null);
+        final State persistedState = State.fromPrefs(myPreferences);
         if (persistedState != null) {
-            view.state = persistedState;
+            this.state = persistedState;
         } else {
-            view.state = state;
-        }
-
-        return view;
-    }
-
-    public static void persistState(@Nonnull Context context, @Nonnull
-    FloatingCalculatorViewState state) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        viewStatePreference.putPreference(preferences, state);
-    }
-
-    @Nullable
-    public static FloatingCalculatorViewState readState(@Nonnull Context context) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (viewStatePreference.isSet(preferences)) {
-            return viewStatePreference.getPreference(preferences);
-        } else {
-            return null;
+            this.state = state;
         }
     }
 
     public void updateDisplayState(@Nonnull DisplayState displayState) {
         checkInit();
         displayView.setState(displayState);
+    }
+
+    private void checkInit() {
+        if (!initialized) {
+            throw new IllegalStateException("init() must be called!");
+        }
     }
 
     public void updateEditorState(@Nonnull EditorState editorState) {
@@ -144,7 +300,8 @@ public class FloatingCalculatorView {
     private void setHeight(int height) {
         checkInit();
 
-        final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
+        final WindowManager.LayoutParams params =
+                (WindowManager.LayoutParams) root.getLayoutParams();
         params.height = height;
         getWindowManager().updateViewLayout(root, params);
     }
@@ -164,7 +321,8 @@ public class FloatingCalculatorView {
                 public void onClick(View v) {
                     if (keyboard.buttonPressed(widgetButton.action)) {
                         if (keyboard.isVibrateOnKeypress()) {
-                            v.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
+                            v.performHapticFeedback(KEYBOARD_TAP,
+                                    FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
                         }
                     }
                     if (widgetButton == CppButton.app) {
@@ -177,7 +335,8 @@ public class FloatingCalculatorView {
                 public boolean onLongClick(View v) {
                     if (keyboard.buttonPressed(widgetButton.actionLong)) {
                         if (keyboard.isVibrateOnKeypress()) {
-                            v.performHapticFeedback(LONG_PRESS, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
+                            v.performHapticFeedback(LONG_PRESS,
+                                    FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
                         }
                     }
                     return true;
@@ -218,23 +377,18 @@ public class FloatingCalculatorView {
             }
         });
 
-        root.findViewById(R.id.onscreen_close_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hide();
-            }
-        });
+        root.findViewById(R.id.onscreen_close_button)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hide();
+                    }
+                });
 
-        headerTitle.setOnTouchListener(new WindowDragTouchListener(wm, root));
+        headerTitle.setOnTouchListener(new MyTouchListener(wm, root));
 
         initialized = true;
 
-    }
-
-    private void checkInit() {
-        if (!initialized) {
-            throw new IllegalStateException("init() must be called!");
-        }
     }
 
     public void show() {
@@ -253,12 +407,14 @@ public class FloatingCalculatorView {
         final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         if (!attached) {
             final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                    state.getWidth(),
-                    state.getHeight(),
-                    state.getX(),
-                    state.getY(),
+                    state.width,
+                    state.height,
+                    state.x,
+                    state.y,
                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                            | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                            | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                     PixelFormat.TRANSLUCENT);
 
             params.gravity = Gravity.TOP | Gravity.LEFT;
@@ -272,7 +428,8 @@ public class FloatingCalculatorView {
         if (!folded) {
             headerTitle.setImageDrawable(headerTitleDrawable);
             final Resources r = header.getResources();
-            final int newHeight = header.getHeight() + 2 * r.getDimensionPixelSize(R.dimen.cpp_onscreen_main_padding);
+            final int newHeight = header.getHeight() + 2 * r
+                    .getDimensionPixelSize(R.dimen.cpp_onscreen_main_padding);
             content.setVisibility(View.GONE);
             setHeight(newHeight);
             folded = true;
@@ -283,7 +440,7 @@ public class FloatingCalculatorView {
         if (folded) {
             headerTitle.setImageDrawable(null);
             content.setVisibility(View.VISIBLE);
-            setHeight(state.getHeight());
+            setHeight(state.height);
             folded = false;
         }
     }
@@ -300,14 +457,9 @@ public class FloatingCalculatorView {
     public void minimize() {
         checkInit();
         if (!minimized) {
-            persistState(context, getCurrentState(!folded));
-
+            saveState();
             detach();
-
-            if (viewListener != null) {
-                viewListener.onViewMinimized();
-            }
-
+            listener.onViewMinimized();
             minimized = true;
         }
     }
@@ -317,16 +469,16 @@ public class FloatingCalculatorView {
         if (!shown) {
             return;
         }
-
-        persistState(context, getCurrentState(!folded));
-
+        saveState();
         detach();
-
-        if (viewListener != null) {
-            viewListener.onViewHidden();
-        }
-
+        listener.onViewHidden();
         shown = false;
+    }
+
+    private void saveState() {
+        final SharedPreferences.Editor editor = myPreferences.edit();
+        getState().save(editor);
+        editor.apply();
     }
 
     @Nonnull
@@ -335,132 +487,13 @@ public class FloatingCalculatorView {
     }
 
     @Nonnull
-    public FloatingCalculatorViewState getCurrentState(boolean useRealSize) {
-        final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
-        if (useRealSize) {
-            return FloatingCalculatorViewState
-                    .create(params.width, params.height, params.x, params.y);
+    public State getState() {
+        final WindowManager.LayoutParams params =
+                (WindowManager.LayoutParams) root.getLayoutParams();
+        if (!folded) {
+            return new State(params.width, params.height, params.x, params.y);
         } else {
-            return FloatingCalculatorViewState
-                    .create(state.getWidth(), state.getHeight(), params.x, params.y);
-        }
-    }
-
-    private static class WindowDragTouchListener implements View.OnTouchListener {
-        private static final float DIST_EPS = 0f;
-        private static final float DIST_MAX = 100000f;
-        private static final long TIME_EPS = 0L;
-
-        @Nonnull
-        private final WindowManager wm;
-        @Nonnull
-        private final View view;
-        private int orientation;
-        private float x0;
-        private float y0;
-        private long time = 0;
-        private int displayWidth;
-        private int displayHeight;
-
-        public WindowDragTouchListener(@Nonnull WindowManager wm,
-                                       @Nonnull View view) {
-            this.wm = wm;
-            this.view = view;
-            initDisplayParams();
-        }
-
-        @Nonnull
-        private static String toString(float x, float y) {
-            return "(" + formatFloat(x) + ", " + formatFloat(y) + ")";
-        }
-
-        private static String formatFloat(float value) {
-            if (value >= 0) {
-                return "+" + String.format("%.2f", value);
-            } else {
-                return String.format(Locale.ENGLISH, "%.2f", value);
-            }
-        }
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (orientation != this.wm.getDefaultDisplay().getOrientation()) {
-                // orientation has changed => we need to check display width/height each time window moved
-                initDisplayParams();
-            }
-
-            //Log.d(TAG, "Action: " + event.getAction());
-
-            final float x1 = event.getRawX();
-            final float y1 = event.getRawY();
-
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1));
-                    x0 = x1;
-                    y0 = y1;
-                    return true;
-
-                case MotionEvent.ACTION_MOVE:
-                    final long currentTime = System.currentTimeMillis();
-
-                    if (currentTime - time >= TIME_EPS) {
-                        time = currentTime;
-                        processMove(x1, y1);
-                    }
-                    return true;
-            }
-
-            return false;
-        }
-
-        private void initDisplayParams() {
-            this.orientation = this.wm.getDefaultDisplay().getOrientation();
-
-            final DisplayMetrics displayMetrics = new DisplayMetrics();
-            wm.getDefaultDisplay().getMetrics(displayMetrics);
-
-            this.displayWidth = displayMetrics.widthPixels;
-            this.displayHeight = displayMetrics.heightPixels;
-        }
-
-        private void processMove(float x1, float y1) {
-            final float Δx = x1 - x0;
-            final float Δy = y1 - y0;
-
-            final WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
-            Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1) + ", Δ: " + toString(Δx, Δy) + ", params: " + toString(params.x, params.y));
-
-            boolean xInBounds = isDistanceInBounds(Δx);
-            boolean yInBounds = isDistanceInBounds(Δy);
-            if (xInBounds || yInBounds) {
-
-                if (xInBounds) {
-                    params.x = (int) (params.x + Δx);
-                }
-
-                if (yInBounds) {
-                    params.y = (int) (params.y + Δy);
-                }
-
-                params.x = Math.min(Math.max(params.x, 0), displayWidth - params.width);
-                params.y = Math.min(Math.max(params.y, 0), displayHeight - params.height);
-
-                wm.updateViewLayout(view, params);
-
-                if (xInBounds) {
-                    x0 = x1;
-                }
-
-                if (yInBounds) {
-                    y0 = y1;
-                }
-            }
-        }
-
-        private boolean isDistanceInBounds(float δx) {
-            δx = Math.abs(δx);
-            return δx >= DIST_EPS && δx < DIST_MAX;
+            return new State(state.width, state.height, params.x, params.y);
         }
     }
 }

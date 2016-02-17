@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Handler;
@@ -8,24 +9,34 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.GeneratedHandlerFinder;
+
+import org.solovyev.android.UiThreadExecutor;
+import org.solovyev.android.checkout.Billing;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.Inventory;
+import org.solovyev.android.checkout.ProductTypes;
+import org.solovyev.android.checkout.Products;
+import org.solovyev.android.checkout.RobotmediaDatabase;
+import org.solovyev.android.checkout.RobotmediaInventory;
+
 import dagger.Module;
 import dagger.Provides;
 import jscl.JsclMathEngine;
-import org.solovyev.android.UiThreadExecutor;
-import org.solovyev.android.checkout.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.io.File;
 import java.util.Collections;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 @Module
 public class AppModule {
@@ -37,6 +48,7 @@ public class AppModule {
     // multiple threads
     public static final String THREAD_BACKGROUND = "thread-background";
     public static final String DIR_FILES = "dir-files";
+    public static final String PREFS_FLOATING = "prefs-floating";
 
     @NonNull
     private final Application application;
@@ -67,6 +79,13 @@ public class AppModule {
     @Singleton
     SharedPreferences providePreferences() {
         return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @Singleton
+    @Named(PREFS_FLOATING)
+    SharedPreferences provideFloatingPreferences() {
+        return application.getSharedPreferences("floating-calculator", Context.MODE_PRIVATE);
     }
 
     @Provides
