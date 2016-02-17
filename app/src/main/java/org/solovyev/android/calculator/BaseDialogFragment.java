@@ -79,10 +79,13 @@ public abstract class BaseDialogFragment extends DialogFragment implements View.
         return button;
     }
 
-    protected abstract void onPrepareDialog(@NonNull AlertDialog.Builder builder);
+    protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
+    }
 
     @Nullable
-    protected abstract View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState);
+    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
+        return null;
+    }
 
     protected void setError(@NonNull TextInputLayout textInput, @StringRes int error, Object... errorArgs) {
         setError(textInput, getString(error, errorArgs));

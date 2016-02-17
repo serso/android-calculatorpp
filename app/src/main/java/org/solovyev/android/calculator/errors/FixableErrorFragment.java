@@ -1,17 +1,20 @@
 package org.solovyev.android.calculator.errors;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
-import android.view.View;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.PreferredPreferences;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -88,11 +91,5 @@ public class FixableErrorFragment extends BaseDialogFragment {
             activity.onDialogClosed();
             activity = null;
         }
-    }
-
-    @Nullable
-    @Override
-    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
-        return null;
     }
 }

@@ -227,4 +227,6 @@ En cliquant sur le bouton \'Continuer\' vous serez redirigés vers l\'applicatio
     <string name="cpp_new_in_version">Nouveautés de la version %1$s</string>
     <string name="cpp_release_notes_choose_theme">Voulez-vous essayer les nouveaux thèmes Material ? Choisissez-en dans la liste :</string>
     <string name="cpp_system_language">System language</string>
+    <string name="cpp_missing_permission_title">Autorisation manquante</string>
+    <string name="cpp_missing_permission_msg">Veuillez activer l\'autorisation \"%1$s\" dans les réglages systèmes</string>
 </resources>

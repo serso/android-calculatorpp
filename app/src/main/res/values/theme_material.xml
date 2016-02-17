@@ -69,9 +69,7 @@
     <style name="Cpp.Theme.Material.Dialog" parent="Cpp.Theme.Dialog">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
-        <item name="cpp_button_style_control_image">
-            @style/CppKeyboardButton.Material.Control.Image
-        </item>
+        <item name="cpp_button_style_control_image">@style/CppKeyboardButton.Material.Control.Image</item>
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
     </style>
 

@@ -5,4 +5,5 @@
    <string name="cpp_prefs_language">Język</string>
    <string name="cpp_prefs_theme">Motyw</string>
    <string name="cpp_prefs_keep_screen_on">Pozostaw ekran włączony</string>
+   <string name="cpp_permission_overlay">Wyświetlanie nad innymi aplikacjami</string>
 </resources>

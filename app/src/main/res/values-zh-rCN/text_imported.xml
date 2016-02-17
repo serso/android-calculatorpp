@@ -5,4 +5,5 @@
    <string name="cpp_prefs_language">语言</string>
    <string name="cpp_prefs_theme">主题背景</string>
    <string name="cpp_prefs_keep_screen_on">不锁定屏幕</string>
+   <string name="cpp_permission_overlay">在其他应用的上层显示</string>
 </resources>

@@ -22,11 +22,15 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -37,26 +41,33 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
 import com.squareup.otto.Bus;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
+import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.JPredicate;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Formatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * This class aggregates several useful in any Android application interfaces and provides access to {@link android.app.Application} object from a static context.
@@ -333,6 +344,18 @@ public final class App {
         if (token != null) {
             InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(token, 0);
+        }
+    }
+
+    public static void showSystemPermissionSettings(@NonNull Activity activity,
+            @NonNull String action) {
+        try {
+            final Intent intent = new Intent(action);
+            intent.setData(Uri.parse("package:" + activity.getPackageName()));
+            activity.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG,
+                    "Failed to show permission settings for " + action, e);
         }
     }
 }

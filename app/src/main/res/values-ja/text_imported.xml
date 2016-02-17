@@ -5,4 +5,5 @@
    <string name="cpp_prefs_language">言語</string>
    <string name="cpp_prefs_theme">テーマ</string>
    <string name="cpp_prefs_keep_screen_on">スリープモードにしない</string>
+   <string name="cpp_permission_overlay">他のアプリの上に重ねて描画</string>
 </resources>

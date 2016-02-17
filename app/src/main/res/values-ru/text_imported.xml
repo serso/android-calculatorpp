@@ -5,4 +5,5 @@
    <string name="cpp_prefs_language">Язык</string>
    <string name="cpp_prefs_theme">Тема</string>
    <string name="cpp_prefs_keep_screen_on">Не выключать экран</string>
+   <string name="cpp_permission_overlay">Наложение поверх других окон</string>
 </resources>

@@ -5,4 +5,5 @@
    <string name="cpp_prefs_language">Kieli</string>
    <string name="cpp_prefs_theme">Teema</string>
    <string name="cpp_prefs_keep_screen_on">Pysy käynnissä</string>
+   <string name="cpp_permission_overlay">Piirrä muihin sovelluksiin</string>
 </resources>

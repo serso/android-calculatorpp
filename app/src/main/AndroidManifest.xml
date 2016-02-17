@@ -123,7 +123,7 @@
             android:icon="@drawable/ic_launcher_window"
             android:label="@string/c_app_name_on_screen"
             android:launchMode="singleInstance"
-            android:theme="@style/Cpp.Theme.Material.Dialog">
+            android:theme="@style/Cpp.Theme.Translucent">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
