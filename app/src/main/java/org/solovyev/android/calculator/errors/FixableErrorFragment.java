@@ -12,7 +12,6 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.PreferredPreferences;
 import org.solovyev.android.calculator.R;
 
@@ -68,7 +67,7 @@ public class FixableErrorFragment extends BaseDialogFragment {
         builder.setNeutralButton(R.string.cpp_dont_show_again, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Preferences.Gui.showFixableErrorDialog.putPreference(preferences, false);
+                preferredPreferences.dontShowWarningDialog();
                 dismiss();
             }
         });

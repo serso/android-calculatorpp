@@ -25,26 +25,30 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.calculator.errors.FixableError;
 import org.solovyev.android.calculator.errors.FixableErrorType;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.MessageType;
 
+import jscl.AngleUnit;
+import jscl.NumeralBase;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-
-import static org.solovyev.android.calculator.Preferences.Gui.lastPreferredPreferencesCheck;
 
 @Singleton
 public class PreferredPreferences {
 
-    // one hour
-    private static final Long PREFERRED_PREFS_INTERVAL_TIME = 1000L * 60L * 60L;
+    private static final long PREFERRED_PREFS_INTERVAL_TIME = TimeUnit.MINUTES.toMillis(15);
+
+    private long lastCheckTime;
+    private boolean showWarningDialog = true;
 
     @Inject
     Application application;
@@ -65,11 +69,11 @@ public class PreferredPreferences {
         final long now = System.currentTimeMillis();
 
         if (!force) {
-            if (!Preferences.Gui.showFixableErrorDialog.getPreference(preferences)) {
+            if (!showWarningDialog) {
                 // user has disabled calculation message dialogs until the next session
                 return;
             }
-            if (!shouldCheck(now)) {
+            if (now - lastCheckTime < PREFERRED_PREFS_INTERVAL_TIME) {
                 return;
             }
         }
@@ -90,13 +94,7 @@ public class PreferredPreferences {
         }
 
         FixableErrorsActivity.show(context, messages);
-
-        lastPreferredPreferencesCheck.putPreference(preferences, now);
-    }
-
-    private boolean shouldCheck(long now) {
-        final long lastCheckTime = lastPreferredPreferencesCheck.getPreference(preferences);
-        return now - lastCheckTime > PREFERRED_PREFS_INTERVAL_TIME;
+        lastCheckTime = now;
     }
 
     public void setPreferredAngleUnits() {
@@ -105,7 +103,9 @@ public class PreferredPreferences {
 
     public void setAngleUnits(@Nonnull AngleUnit angleUnit) {
         Engine.Preferences.angleUnit.putPreference(preferences, angleUnit);
-        notifier.showMessage(new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application, angleUnit.name()));
+        notifier.showMessage(
+                new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application,
+                        angleUnit.name()));
     }
 
     public void setPreferredNumeralBase() {
@@ -114,6 +114,16 @@ public class PreferredPreferences {
 
     public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
         Engine.Preferences.numeralBase.putPreference(preferences, numeralBase);
-        notifier.showMessage(new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info, application, numeralBase.name()));
+        notifier.showMessage(
+                new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info,
+                        application, numeralBase.name()));
+    }
+
+    public boolean isShowWarningDialog() {
+        return showWarningDialog;
+    }
+
+    public void dontShowWarningDialog() {
+        showWarningDialog = false;
     }
 }
