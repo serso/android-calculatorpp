@@ -56,6 +56,8 @@ public class Display {
     @Inject
     Lazy<Notifier> notifier;
     @Inject
+    Lazy<PreferredPreferences> preferredPreferences;
+    @Inject
     ActivityLauncher launcher;
     @Nullable
     private DisplayView view;
@@ -86,7 +88,7 @@ public class Display {
     public void onCalculationFinished(@Nonnull CalculationFinishedEvent e) {
         if (e.sequence < state.sequence) return;
         setState(DisplayState.createValid(e.operation, e.result, e.stringResult, e.sequence));
-        if (!e.messages.isEmpty()) {
+        if (!e.messages.isEmpty() && preferredPreferences.get().isShowWarningDialog()) {
             final Context context = view != null ? view.getContext() : application;
             FixableErrorsActivity.show(context, e.messages);
         }

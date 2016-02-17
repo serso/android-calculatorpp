@@ -60,7 +60,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.Nonnull;
@@ -73,7 +72,6 @@ import javax.inject.Singleton;
 public class Calculator implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final long NO_SEQUENCE = -1;
-    private static final long PREFERENCE_CHECK_INTERVAL = TimeUnit.MINUTES.toMillis(15);
 
     @Nonnull
     private final CalculatorEventContainer calculatorEventContainer = new ListCalculatorEventContainer();
@@ -91,8 +89,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     private final Executor background;
 
     private volatile boolean calculateOnFly = true;
-
-    private long lastPreferredPreferenceCheck = 0L;
 
     @Inject
     PreferredPreferences preferredPreferences;
@@ -186,7 +182,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
             return;
         }
 
-        checkPreferredPreferences();
+        preferredPreferences.check(false);
         PreparedExpression pe = null;
         try {
             pe = prepare(e);
@@ -239,22 +235,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
             }
         }
         return Collections.emptyList();
-    }
-
-    private void checkPreferredPreferences() {
-        if (shouldCheckPreferredPreferences()) {
-            preferredPreferences.check(false);
-        }
-    }
-
-    private synchronized boolean shouldCheckPreferredPreferences() {
-        final long now = System.currentTimeMillis();
-
-        if (now - lastPreferredPreferenceCheck > PREFERENCE_CHECK_INTERVAL) {
-            lastPreferredPreferenceCheck = now;
-            return true;
-        }
-        return false;
     }
 
     @Nonnull

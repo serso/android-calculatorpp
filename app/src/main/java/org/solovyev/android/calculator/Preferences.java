@@ -22,6 +22,11 @@
 
 package org.solovyev.android.calculator;
 
+import static org.solovyev.android.Android.isPhoneModel;
+import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
+import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
+import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
+
 import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -34,26 +39,28 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.*;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.NumberToStringPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jscl.AngleUnit;
+import jscl.NumeralBase;
+
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.solovyev.android.Android.isPhoneModel;
-import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
-import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
-import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public final class Preferences {
 
@@ -64,21 +71,19 @@ public final class Preferences {
     }
 
     static void setDefaultValues(@Nonnull Application application, @Nonnull SharedPreferences preferences) {
-        SharedPreferences.Editor editor = preferences.edit();
-        // renew value after each application start
-        Gui.showFixableErrorDialog.putDefault(editor);
-        Gui.lastPreferredPreferencesCheck.putDefault(editor);
-
         final int version = Preferences.appVersion.getPreference(preferences);
         if (version == DEF_VALUE) {
+            final SharedPreferences.Editor editor = preferences.edit();
             setInitialDefaultValues(application, preferences, editor);
+            editor.apply();
         } else if (version > 143) {
             if (!Gui.vibrateOnKeypress.isSet(preferences)) {
+                final SharedPreferences.Editor editor = preferences.edit();
                 //noinspection deprecation
                 Gui.vibrateOnKeypress.putPreference(editor, Gui.hapticFeedback.getPreference(preferences) > 0);
+                editor.apply();
             }
         }
-        editor.apply();
     }
 
     private static void setInitialDefaultValues(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull SharedPreferences.Editor editor) {
@@ -260,7 +265,9 @@ public final class Preferences {
     public static class Gui {
 
         public static final Preference<Theme> theme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.material_theme, Theme.class);
-        public static final Preference<Layout> layout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.simple, Layout.class);
+        public static final Preference<Layout> layout = StringPreference.ofEnum(
+                "org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.simple,
+                Layout.class);
         public static final Preference<String> language = StringPreference.of("gui.language", Languages.SYSTEM_LANGUAGE_CODE);
         public static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
         public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
@@ -271,8 +278,6 @@ public final class Preferences {
         public static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
         public static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
         public static final Preference<Boolean> vibrateOnKeypress = BooleanPreference.of("gui.vibrateOnKeypress", true);
-        public static final Preference<Boolean> showFixableErrorDialog = BooleanPreference.of("gui.showFixableErrorDialog", true);
-        public static final Preference<Long> lastPreferredPreferencesCheck = LongPreference.of("gui.lastPreferredPreferencesCheck", 0L);
         @Deprecated
         public static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
 

@@ -22,16 +22,17 @@
 
 package org.solovyev.android.calculator.errors;
 
+import static org.solovyev.android.calculator.App.cast;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import org.solovyev.android.Activities;
-import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.PreferredPreferences;
 import org.solovyev.common.msg.Message;
 
 import java.util.ArrayList;
@@ -40,26 +41,22 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.App.cast;
-
 public class FixableErrorsActivity extends AppCompatActivity {
 
     public static final String EXTRA_ERRORS = "errors";
     public static final String STATE_ERRORS = "errors";
     @Inject
     SharedPreferences preferences;
+    @Inject
+    PreferredPreferences preferredPreferences;
     private ArrayList<FixableError> errors;
 
     public static void show(@Nonnull Context context, @Nonnull List<Message> messages) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        if (Preferences.Gui.showFixableErrorDialog.getPreference(preferences)) {
-            final ArrayList<FixableError> errors = new ArrayList<>();
-            for (Message message : messages) {
-                errors.add(new FixableError(message));
-            }
-            show(context, errors);
+        final ArrayList<FixableError> errors = new ArrayList<>();
+        for (Message message : messages) {
+            errors.add(new FixableError(message));
         }
+        show(context, errors);
     }
 
     public static void show(@Nonnull Context context, @Nonnull ArrayList<FixableError> errors) {
@@ -101,7 +98,7 @@ public class FixableErrorsActivity extends AppCompatActivity {
             finish();
             return;
         }
-        if (!Preferences.Gui.showFixableErrorDialog.getPreference(preferences)) {
+        if (!preferredPreferences.isShowWarningDialog()) {
             finish();
             return;
         }
