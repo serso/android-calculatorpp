@@ -94,25 +94,18 @@ public class FloatingCalculatorService extends Service implements FloatingViewLi
             return;
         }
         final WindowManager wm = ((WindowManager) this.getSystemService(Context.WINDOW_SERVICE));
-
         final DisplayMetrics dm = getResources().getDisplayMetrics();
+        final android.view.Display dd = wm.getDefaultDisplay();
 
-        int twoThirdWidth = 2 * wm.getDefaultDisplay().getWidth() / 3;
-        int twoThirdHeight = 2 * wm.getDefaultDisplay().getHeight() / 3;
+        //noinspection deprecation
+        final int maxWidth = 2 * Math.min(dd.getWidth(), dd.getHeight()) / 3;
+        final int desiredWidth = Views.toPixels(dm, 300);
 
-        twoThirdWidth = Math.min(twoThirdWidth, twoThirdHeight);
-        twoThirdHeight = Math.max(twoThirdWidth, getHeight(twoThirdWidth));
+        final int width = Math.min(maxWidth, desiredWidth);
+        final int height = getHeight(width);
 
-        final int baseWidth = Views.toPixels(dm, 300);
-        final int width0 = Math.min(twoThirdWidth, baseWidth);
-        final int height0 = Math.min(twoThirdHeight, getHeight(baseWidth));
-
-        final int width = Math.min(width0, height0);
-        final int height = Math.max(width0, height0);
-
-        view = FloatingCalculatorView
-                .create(this, FloatingCalculatorViewState.create(width, height, -1, -1), this,
-                        preferences);
+        final FloatingCalculatorView.State state = new FloatingCalculatorView.State(width, height, -1, -1);
+        view = new FloatingCalculatorView(this, state, this);
         view.show();
         view.updateEditorState(editor.getState());
         view.updateDisplayState(display.getState());
