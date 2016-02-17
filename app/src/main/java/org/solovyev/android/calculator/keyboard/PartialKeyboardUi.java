@@ -1,5 +1,12 @@
 package org.solovyev.android.calculator.keyboard;
 
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
+import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
+import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
+import static org.solovyev.android.views.dragbutton.DragDirection.down;
+import static org.solovyev.android.views.dragbutton.DragDirection.left;
+import static org.solovyev.android.views.dragbutton.DragDirection.up;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -13,11 +20,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.ActivityLauncher;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.EditorLongClickEraser;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
@@ -25,13 +34,12 @@ import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.NumeralBase;
+
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
-import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
-import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
-import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class PartialKeyboardUi extends BaseKeyboardUi {
 
@@ -69,7 +77,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
         if (eraseButton != null) {
             Check.isTrue(IMAGE_SCALE == 0.6f);
             // backspace button is too big, scale it more
-            prepareButton(eraseButton, 0.5f);
+            prepareButton(eraseButton, IMAGE_SCALE_ERASE);
             longClickEraser = EditorLongClickEraser.attachTo(eraseButton, keyboard.isVibrateOnKeypress());
         }
         if (isSimpleLayout()) {
