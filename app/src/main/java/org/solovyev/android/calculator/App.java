@@ -45,7 +45,7 @@ import org.solovyev.android.Check;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
+import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.wizard.Wizards;
@@ -171,7 +171,7 @@ public final class App {
 
     @Nonnull
     public static Preferences.Gui.Theme getThemeFor(@Nonnull Context context) {
-        if (context instanceof CalculatorOnscreenService) {
+        if (context instanceof FloatingCalculatorService) {
             final SharedPreferences p = getPreferences();
             final Preferences.SimpleTheme onscreenTheme = Preferences.Onscreen.getTheme(p);
             final Preferences.Gui.Theme appTheme = Preferences.Gui.getTheme(p);

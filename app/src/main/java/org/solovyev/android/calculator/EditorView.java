@@ -30,7 +30,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
+import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.view.EditTextCompat;
 
 import javax.annotation.Nonnull;
@@ -84,7 +84,7 @@ public class EditorView extends EditTextCompat {
         Check.isMainThread();
         // we don't want to be notified about changes we make ourselves
         reportChanges = false;
-        if (App.getTheme().light && getContext() instanceof CalculatorOnscreenService) {
+        if (App.getTheme().light && getContext() instanceof FloatingCalculatorService) {
             // don't need formatting
             setText(state.getTextString());
         } else {

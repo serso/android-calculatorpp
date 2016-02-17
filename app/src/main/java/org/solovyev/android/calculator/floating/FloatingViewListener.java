@@ -20,14 +20,9 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.onscreen;
+package org.solovyev.android.calculator.floating;
 
-/**
- * User: serso
- * Date: 11/21/12
- * Time: 9:45 PM
- */
-public interface OnscreenViewListener {
+public interface FloatingViewListener {
 
     // view minimized == view is in the action bar
     void onViewMinimized();

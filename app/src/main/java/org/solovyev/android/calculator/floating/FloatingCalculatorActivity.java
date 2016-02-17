@@ -20,18 +20,18 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.onscreen;
+package org.solovyev.android.calculator.floating;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-public class CalculatorOnscreenStartActivity extends Activity {
+public class FloatingCalculatorActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CalculatorOnscreenService.showOnscreenView(this);
+        FloatingCalculatorService.show(this);
 
         this.finish();
     }

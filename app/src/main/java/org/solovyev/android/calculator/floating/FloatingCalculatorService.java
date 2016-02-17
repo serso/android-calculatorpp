@@ -20,7 +20,9 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.onscreen;
+package org.solovyev.android.calculator.floating;
+
+import static org.solovyev.android.calculator.App.cast;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -32,26 +34,29 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.App.cast;
+public class FloatingCalculatorService extends Service implements FloatingViewListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-public class CalculatorOnscreenService extends Service implements OnscreenViewListener, SharedPreferences.OnSharedPreferenceChangeListener {
-
-    public static final Class<CalculatorOnscreenBroadcastReceiver> INTENT_LISTENER_CLASS = CalculatorOnscreenBroadcastReceiver.class;
     private static final String SHOW_WINDOW_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_WINDOW";
     private static final String SHOW_NOTIFICATION_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_NOTIFICATION";
     private static final int NOTIFICATION_ID = 9031988; // my birthday =)
 
-    private CalculatorOnscreenView view;
+    private FloatingCalculatorView view;
 
     @Inject
     Bus bus;
@@ -62,26 +67,20 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     @Inject
     SharedPreferences preferences;
 
-    @Nonnull
-    private static Class<?> getIntentListenerClass() {
-        return INTENT_LISTENER_CLASS;
-    }
-
     public static void showNotification(@Nonnull Context context) {
         final Intent intent = new Intent(SHOW_NOTIFICATION_ACTION);
-        intent.setClass(context, getIntentListenerClass());
+        intent.setClass(context, FloatingCalculatorBroadcastReceiver.class);
         context.sendBroadcast(intent);
     }
 
-    public static void showOnscreenView(@Nonnull Context context) {
-        final Intent intent = createShowWindowIntent(context);
-        context.sendBroadcast(intent);
+    public static void show(@Nonnull Context context) {
+        context.sendBroadcast(createShowWindowIntent(context));
     }
 
     @Nonnull
     private static Intent createShowWindowIntent(@Nonnull Context context) {
         final Intent intent = new Intent(SHOW_WINDOW_ACTION);
-        intent.setClass(context, getIntentListenerClass());
+        intent.setClass(context, FloatingCalculatorBroadcastReceiver.class);
         return intent;
     }
 
@@ -111,7 +110,9 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
         final int width = Math.min(width0, height0);
         final int height = Math.max(width0, height0);
 
-        view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this, preferences);
+        view = FloatingCalculatorView
+                .create(this, FloatingCalculatorViewState.create(width, height, -1, -1), this,
+                        preferences);
         view.show();
         view.updateEditorState(editor.getState());
         view.updateDisplayState(display.getState());
@@ -196,7 +197,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
         builder.setContentIntent(PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
         final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFICATION_ID, builder.getNotification());
+        nm.notify(NOTIFICATION_ID, builder.build());
     }
 
     @Override
@@ -204,7 +205,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
         Check.isNotNull(view);
         if (Preferences.Gui.theme.isSameKey(key) || Preferences.Onscreen.theme.isSameKey(key)) {
             stopSelf();
-            CalculatorOnscreenService.showOnscreenView(this);
+            FloatingCalculatorService.show(this);
         }
     }
 
