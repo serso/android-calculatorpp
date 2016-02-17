@@ -20,7 +20,13 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.onscreen;
+package org.solovyev.android.calculator.floating;
+
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
+import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
+import static android.view.HapticFeedbackConstants.LONG_PRESS;
+import static org.solovyev.android.calculator.App.cast;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -31,24 +37,34 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.DisplayView;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.EditorView;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppButton;
 import org.solovyev.android.prefs.Preference;
+
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.Locale;
 
-import static android.view.HapticFeedbackConstants.*;
-import static org.solovyev.android.calculator.App.cast;
+public class FloatingCalculatorView {
+    private static final String TAG = FloatingCalculatorView.class.getSimpleName();
 
-public class CalculatorOnscreenView {
-    private static final String TAG = CalculatorOnscreenView.class.getSimpleName();
-
-    private static final Preference<CalculatorOnscreenViewState> viewStatePreference = new CalculatorOnscreenViewState.Preference("onscreen_view_state", CalculatorOnscreenViewState.createDefault());
+    private static final Preference<FloatingCalculatorViewState> viewStatePreference = new FloatingCalculatorViewState.Preference("onscreen_view_state", FloatingCalculatorViewState
+            .createDefault());
 
     private View root;
     private View content;
@@ -59,9 +75,9 @@ public class CalculatorOnscreenView {
     private DisplayView displayView;
     private Context context;
     @Nonnull
-    private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.createDefault();
+    private FloatingCalculatorViewState state = FloatingCalculatorViewState.createDefault();
     @Nullable
-    private OnscreenViewListener viewListener;
+    private FloatingViewListener viewListener;
     @Inject
     Keyboard keyboard;
     @Inject
@@ -74,14 +90,14 @@ public class CalculatorOnscreenView {
     private boolean shown;
 
 
-    private CalculatorOnscreenView() {
+    private FloatingCalculatorView() {
     }
 
-    public static CalculatorOnscreenView create(@Nonnull Context context,
-                                                @Nonnull CalculatorOnscreenViewState state,
-                                                @Nullable OnscreenViewListener viewListener,
+    public static FloatingCalculatorView create(@Nonnull Context context,
+                                                @Nonnull FloatingCalculatorViewState state,
+                                                @Nullable FloatingViewListener viewListener,
                                                 @NonNull SharedPreferences preferences) {
-        final CalculatorOnscreenView view = new CalculatorOnscreenView();
+        final FloatingCalculatorView view = new FloatingCalculatorView();
         cast(context).getComponent().inject(view);
         final Preferences.SimpleTheme theme = Preferences.Onscreen.theme.getPreferenceNoError(preferences);
         final Preferences.Gui.Theme appTheme = Preferences.Gui.theme.getPreferenceNoError(preferences);
@@ -89,7 +105,7 @@ public class CalculatorOnscreenView {
         view.context = context;
         view.viewListener = viewListener;
 
-        final CalculatorOnscreenViewState persistedState = readState(context);
+        final FloatingCalculatorViewState persistedState = readState(context);
         if (persistedState != null) {
             view.state = persistedState;
         } else {
@@ -99,13 +115,14 @@ public class CalculatorOnscreenView {
         return view;
     }
 
-    public static void persistState(@Nonnull Context context, @Nonnull CalculatorOnscreenViewState state) {
+    public static void persistState(@Nonnull Context context, @Nonnull
+    FloatingCalculatorViewState state) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         viewStatePreference.putPreference(preferences, state);
     }
 
     @Nullable
-    public static CalculatorOnscreenViewState readState(@Nonnull Context context) {
+    public static FloatingCalculatorViewState readState(@Nonnull Context context) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (viewStatePreference.isSet(preferences)) {
             return viewStatePreference.getPreference(preferences);
@@ -318,44 +335,21 @@ public class CalculatorOnscreenView {
     }
 
     @Nonnull
-    public CalculatorOnscreenViewState getCurrentState(boolean useRealSize) {
+    public FloatingCalculatorViewState getCurrentState(boolean useRealSize) {
         final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
         if (useRealSize) {
-            return CalculatorOnscreenViewState.create(params.width, params.height, params.x, params.y);
+            return FloatingCalculatorViewState
+                    .create(params.width, params.height, params.x, params.y);
         } else {
-            return CalculatorOnscreenViewState.create(state.getWidth(), state.getHeight(), params.x, params.y);
+            return FloatingCalculatorViewState
+                    .create(state.getWidth(), state.getHeight(), params.x, params.y);
         }
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
-
     private static class WindowDragTouchListener implements View.OnTouchListener {
-
-    	/*
-		**********************************************************************
-    	*
-    	*                           CONSTANTS
-    	*
-    	**********************************************************************
-    	*/
-
         private static final float DIST_EPS = 0f;
         private static final float DIST_MAX = 100000f;
         private static final long TIME_EPS = 0L;
-
-    	/*
-    	**********************************************************************
-    	*
-    	*                           FIELDS
-    	*
-    	**********************************************************************
-    	*/
 
         @Nonnull
         private final WindowManager wm;
@@ -366,16 +360,7 @@ public class CalculatorOnscreenView {
         private float y0;
         private long time = 0;
         private int displayWidth;
-
         private int displayHeight;
-
-    	/*
-    	**********************************************************************
-    	*
-    	*                           CONSTRUCTORS
-    	*
-    	**********************************************************************
-    	*/
 
         public WindowDragTouchListener(@Nonnull WindowManager wm,
                                        @Nonnull View view) {

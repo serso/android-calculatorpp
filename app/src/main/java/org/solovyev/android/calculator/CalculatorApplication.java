@@ -37,7 +37,7 @@ import org.solovyev.android.Android;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
+import org.solovyev.android.calculator.floating.FloatingCalculatorActivity;
 import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.common.msg.MessageType;
@@ -198,7 +198,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (Preferences.Onscreen.showAppIcon.getKey().equals(key)) {
             boolean showAppIcon = Preferences.Onscreen.showAppIcon.getPreference(prefs);
-            Android.enableComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
+            Android.enableComponent(this, FloatingCalculatorActivity.class, showAppIcon);
             notifier.showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
     }

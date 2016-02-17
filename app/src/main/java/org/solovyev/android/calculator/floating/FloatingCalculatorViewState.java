@@ -20,44 +20,46 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.onscreen;
+package org.solovyev.android.calculator.floating;
 
 import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.prefs.AbstractPreference;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CalculatorOnscreenViewState implements Parcelable {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-    private static final String TAG = CalculatorOnscreenViewState.class.getSimpleName();
+public class FloatingCalculatorViewState implements Parcelable {
+
+    private static final String TAG = FloatingCalculatorViewState.class.getSimpleName();
     private int width;
     private int height;
     private int x;
     private int y;
-    public static final Parcelable.Creator<CalculatorOnscreenViewState> CREATOR = new Parcelable.Creator<CalculatorOnscreenViewState>() {
-        public CalculatorOnscreenViewState createFromParcel(@Nonnull Parcel in) {
-            return CalculatorOnscreenViewState.fromParcel(in);
+    public static final Parcelable.Creator<FloatingCalculatorViewState> CREATOR = new Parcelable.Creator<FloatingCalculatorViewState>() {
+        public FloatingCalculatorViewState createFromParcel(@Nonnull Parcel in) {
+            return FloatingCalculatorViewState.fromParcel(in);
         }
 
-        public CalculatorOnscreenViewState[] newArray(int size) {
-            return new CalculatorOnscreenViewState[size];
+        public FloatingCalculatorViewState[] newArray(int size) {
+            return new FloatingCalculatorViewState[size];
         }
     };
 
-    private CalculatorOnscreenViewState() {
+    private FloatingCalculatorViewState() {
     }
 
     @Nonnull
-    private static CalculatorOnscreenViewState fromParcel(@Nonnull Parcel in) {
-        final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
+    private static FloatingCalculatorViewState fromParcel(@Nonnull Parcel in) {
+        final FloatingCalculatorViewState result = new FloatingCalculatorViewState();
         result.width = in.readInt();
         result.height = in.readInt();
         result.x = in.readInt();
@@ -66,13 +68,13 @@ public class CalculatorOnscreenViewState implements Parcelable {
     }
 
     @Nonnull
-    public static CalculatorOnscreenViewState createDefault() {
+    public static FloatingCalculatorViewState createDefault() {
         return create(200, 400, 0, 0);
     }
 
     @Nonnull
-    public static CalculatorOnscreenViewState create(int width, int height, int x, int y) {
-        final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
+    public static FloatingCalculatorViewState create(int width, int height, int x, int y) {
+        final FloatingCalculatorViewState result = new FloatingCalculatorViewState();
         result.width = width;
         result.height = height;
         result.x = x;
@@ -135,17 +137,17 @@ public class CalculatorOnscreenViewState implements Parcelable {
                 '}';
     }
 
-    public static class Preference extends AbstractPreference<CalculatorOnscreenViewState> {
+    public static class Preference extends AbstractPreference<FloatingCalculatorViewState> {
 
-        public Preference(@Nonnull String key, @Nullable CalculatorOnscreenViewState defaultValue) {
+        public Preference(@Nonnull String key, @Nullable FloatingCalculatorViewState defaultValue) {
             super(key, defaultValue);
         }
 
         @Nullable
         @Override
-        protected CalculatorOnscreenViewState getPersistedValue(@Nonnull SharedPreferences preferences) {
+        protected FloatingCalculatorViewState getPersistedValue(@Nonnull SharedPreferences preferences) {
             try {
-                final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
+                final FloatingCalculatorViewState result = new FloatingCalculatorViewState();
                 final JSONObject jsonObject = new JSONObject(preferences.getString(getKey(), "{}"));
                 result.width = jsonObject.getInt("width");
                 result.height = jsonObject.getInt("height");
@@ -161,7 +163,8 @@ public class CalculatorOnscreenViewState implements Parcelable {
         }
 
         @Override
-        protected void putPersistedValue(@Nonnull SharedPreferences.Editor editor, @Nonnull CalculatorOnscreenViewState value) {
+        protected void putPersistedValue(@Nonnull SharedPreferences.Editor editor, @Nonnull
+        FloatingCalculatorViewState value) {
             final Map<String, Object> properties = new HashMap<String, Object>();
             properties.put("width", value.getWidth());
             properties.put("height", value.getHeight());

@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.onscreen;
+package org.solovyev.android.calculator.floating;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,14 +33,9 @@ import org.solovyev.android.calculator.Preferences;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: serso
- * Date: 11/20/12
- * Time: 11:05 PM
- */
-public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver {
+public final class FloatingCalculatorBroadcastReceiver extends BroadcastReceiver {
 
-    public CalculatorOnscreenBroadcastReceiver() {
+    public FloatingCalculatorBroadcastReceiver() {
     }
 
     @Override
@@ -49,12 +44,12 @@ public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (Preferences.Onscreen.startOnBoot.getPreferenceNoError(preferences)) {
-                CalculatorOnscreenService.showNotification(context);
+                FloatingCalculatorService.showNotification(context);
                 App.getGa().onBootStart();
             }
         } else {
             final Intent newIntent = new Intent(intent);
-            newIntent.setClass(context, CalculatorOnscreenService.class);
+            newIntent.setClass(context, FloatingCalculatorService.class);
             context.startService(newIntent);
         }
     }
