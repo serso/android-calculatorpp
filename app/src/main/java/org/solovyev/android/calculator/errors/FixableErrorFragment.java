@@ -64,22 +64,28 @@ public class FixableErrorFragment extends BaseDialogFragment {
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         builder.setMessage(error.message);
-        builder.setNeutralButton(R.string.cpp_dont_show_again, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                preferredPreferences.dontShowWarningDialog();
-                dismiss();
-            }
-        });
+        builder.setNeutralButton(R.string.cpp_dont_show_again, null);
         builder.setNegativeButton(R.string.close, null);
         if (error.error != null) {
-            builder.setPositiveButton(R.string.fix, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    error.error.fix(preferredPreferences);
-                    dismiss();
-                }
-            });
+            builder.setPositiveButton(R.string.fix, null);
+        }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_NEUTRAL:
+                preferredPreferences.dontShowWarningDialog();
+                dismiss();
+                break;
+            case DialogInterface.BUTTON_POSITIVE:
+                assert error.error != null;
+                error.error.fix(preferredPreferences);
+                dismiss();
+                break;
+            default:
+                super.onClick(dialog, which);
+                break;
         }
     }
 
