@@ -224,4 +224,6 @@
     <string name="cpp_new_in_version">Uutta versiossa %1$s</string>
     <string name="cpp_release_notes_choose_theme">Haluatko kokeilla uusia materiaaliteemoja? Valitse luettelosta:</string>
     <string name="cpp_system_language">System language</string>
+    <string name="cpp_missing_permission_title">Käyttöoikeus puuttuu</string>
+    <string name="cpp_missing_permission_msg">Salli kohteen \"%1$s\" käyttöoikeus järjestelmäasetuksissa</string>
 </resources>

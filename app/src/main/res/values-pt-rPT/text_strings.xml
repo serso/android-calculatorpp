@@ -224,4 +224,6 @@
     <string name="cpp_new_in_version">New in %1$s version</string>
     <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
     <string name="cpp_system_language">System language</string>
+    <string name="cpp_missing_permission_title">Sem permissão</string>
+    <string name="cpp_missing_permission_msg">Por favor active as permissões de \"%1$s\" nas definiçõe de sistema</string>
 </resources>

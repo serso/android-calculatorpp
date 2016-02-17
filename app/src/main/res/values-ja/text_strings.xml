@@ -236,4 +236,6 @@
     <string name="cpp_new_in_version">%1$sバージョンの新機能</string>
     <string name="cpp_release_notes_choose_theme">新しいマテリアルテーマを試してみたいですか？リストから選択してください:</string>
     <string name="cpp_system_language">System language</string>
+    <string name="cpp_missing_permission_title">不足している権限</string>
+    <string name="cpp_missing_permission_msg">システム設定で \"%1$s\" へのアクセス権限を許可してください</string>
 </resources>

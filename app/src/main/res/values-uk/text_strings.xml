@@ -240,4 +240,6 @@
     <string name="cpp_new_in_version">Нове у версії %1$s</string>
     <string name="cpp_release_notes_choose_theme">Кортить спробувати нові теми Матеріал? Вибирайте одну з них у списку:</string>
     <string name="cpp_system_language">System language</string>
+  <string name="cpp_missing_permission_title">Бракує дозволу</string>
+  <string name="cpp_missing_permission_msg">Будь ласка, відкрийте доступ до додатка \"%1$s\" у параметрах системи</string>
 </resources>

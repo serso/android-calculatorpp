@@ -269,4 +269,6 @@
     <string name="cpp_new_in_version">Новое в версии %1$s</string>
     <string name="cpp_release_notes_choose_theme">Хотите попробовать новые темы в стиле Матириал? Выберите их из списка:</string>
     <string name="cpp_system_language">Язык системы</string>
+  <string name="cpp_missing_permission_title">Отсутствует разрешение</string>
+  <string name="cpp_missing_permission_msg">В системных настройках разрешите приложению доступ к следующему компоненту:\"%1$s\"</string>
 </resources>

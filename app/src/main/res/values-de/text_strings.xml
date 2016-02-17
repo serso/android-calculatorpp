@@ -229,4 +229,6 @@ Klicken Sie auf \"Weiter\" und Sie werden zu Google Play weitergeleitet, wo Sie 
     <string name="cpp_new_in_version">Neu in Version %1$s</string>
     <string name="cpp_release_notes_choose_theme">Wollen Sie das neue Material-Design ausprobieren? Wählen sie aus der Liste:</string>
     <string name="cpp_system_language">System language</string>
+    <string name="cpp_missing_permission_title">Berechtigung fehlt</string>
+    <string name="cpp_missing_permission_msg">Bitte aktivieren Sie die Berechtigung \"%1$s\" in den Systemeinstellungen</string>
 </resources>

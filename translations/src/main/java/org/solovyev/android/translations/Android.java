@@ -31,6 +31,7 @@ public class Android {
         translationLinks.add(new TranslationLink("phone_language", "cpp_prefs_language"));
         translationLinks.add(new TranslationLink("night_mode_title", "cpp_prefs_theme"));
         translationLinks.add(new TranslationLink("keep_screen_on", "cpp_prefs_keep_screen_on"));
+        translationLinks.add(new TranslationLink("draw_overlay", "cpp_permission_overlay"));
 
         List<String> languageLocales = new ArrayList<>(Utils.languageLocales);
         languageLocales.add("");

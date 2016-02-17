@@ -5,4 +5,5 @@
    <string name="cpp_prefs_language">Langue</string>
    <string name="cpp_prefs_theme">Thème</string>
    <string name="cpp_prefs_keep_screen_on">Rester activé</string>
+   <string name="cpp_permission_overlay">Se superposer aux autres applis</string>
 </resources>

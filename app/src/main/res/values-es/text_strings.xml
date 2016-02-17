@@ -229,4 +229,6 @@
   <string name="cpp_release_notes_choose_theme">¿Desea probar nuevos temas Material?
 Escojalos de la lista:</string>
     <string name="cpp_system_language">System language</string>
+  <string name="cpp_missing_permission_title">Falta el permiso</string>
+  <string name="cpp_missing_permission_msg">Por favor, activa el permiso \"%1$s\" en la configuración del sistema</string>
 </resources>

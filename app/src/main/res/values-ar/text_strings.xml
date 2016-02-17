@@ -230,4 +230,6 @@
     <string name="cpp_new_in_version">الجديد في الإصدار %1$s</string>
     <string name="cpp_release_notes_choose_theme">هل تريد محاولة المواضيع المادية الجديدة؟ اختر منهم من القائمة:</string>
     <string name="cpp_system_language">System language</string>
+    <string name="cpp_missing_permission_title">إذن مفقود</string>
+    <string name="cpp_missing_permission_msg">يرجى تمكين إذن \"%1$s\" في إعدادات النظام</string>
 </resources>

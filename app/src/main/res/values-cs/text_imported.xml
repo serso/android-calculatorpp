@@ -5,4 +5,5 @@
    <string name="cpp_prefs_language">Jazyk</string>
    <string name="cpp_prefs_theme">Motiv</string>
    <string name="cpp_prefs_keep_screen_on">Nevypínat obrazovku</string>
+   <string name="cpp_permission_overlay">Vykreslení přes další aplikace</string>
 </resources>

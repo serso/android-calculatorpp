@@ -26,6 +26,10 @@ import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
 import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
 import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
 import static android.view.HapticFeedbackConstants.LONG_PRESS;
+import static android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+import static android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+import static android.view.WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
+import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
 import static org.solovyev.android.calculator.App.cast;
 
 import android.content.Context;
@@ -281,6 +285,23 @@ public class FloatingCalculatorView {
         }
     }
 
+    static boolean isOverlayPermissionGranted(@NonNull Context context) {
+        try {
+            final Context application = context.getApplicationContext();
+            final WindowManager wm =
+                    (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
+            if (wm == null) {
+                return false;
+            }
+            final View view = new View(application);
+            wm.addView(view, makeLayoutParams());
+            wm.removeView(view);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void updateDisplayState(@Nonnull DisplayState displayState) {
         checkInit();
         displayView.setState(displayState);
@@ -406,22 +427,23 @@ public class FloatingCalculatorView {
 
         final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         if (!attached) {
-            final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                    state.width,
-                    state.height,
-                    state.x,
-                    state.y,
-                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                            | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                            | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                    PixelFormat.TRANSLUCENT);
-
+            final WindowManager.LayoutParams params = makeLayoutParams();
+            params.width = state.width;
+            params.height = state.height;
+            params.x = state.x;
+            params.y = state.y;
             params.gravity = Gravity.TOP | Gravity.LEFT;
-
             wm.addView(root, params);
             attached = true;
         }
+    }
+
+    @Nonnull
+    private static WindowManager.LayoutParams makeLayoutParams() {
+        return new WindowManager.LayoutParams(
+                TYPE_SYSTEM_ALERT,
+                FLAG_NOT_FOCUSABLE | FLAG_NOT_TOUCH_MODAL | FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSLUCENT);
     }
 
     private void fold() {

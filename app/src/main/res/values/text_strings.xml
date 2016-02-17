@@ -237,4 +237,6 @@
     <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
     <string name="cpp_dont_show_again">Don\'t show again</string>
     <string name="cpp_system_language">System language</string>
+    <string name="cpp_missing_permission_title">Missing permission</string>
+    <string name="cpp_missing_permission_msg">Please enable \"%1$s\" permission in system settings</string>
 </resources>

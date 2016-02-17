@@ -5,4 +5,5 @@
    <string name="cpp_prefs_language">Ngôn ngữ</string>
    <string name="cpp_prefs_theme">Chủ đề</string>
    <string name="cpp_prefs_keep_screen_on">Không khóa màn hình</string>
+   <string name="cpp_permission_overlay">Vẽ lên trên ứng dụng khác</string>
 </resources>

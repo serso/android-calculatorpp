@@ -227,4 +227,6 @@ Google Play</a>,\n yorum yazın yada \n uygulamayı tartışın \non
     <string name="cpp_new_in_version">%1$s sürümünde yeni</string>
     <string name="cpp_release_notes_choose_theme">Yeni materyal temaları denemek istiyor musunuz?Listeden seçin:</string>
     <string name="cpp_system_language">System language</string>
+    <string name="cpp_missing_permission_title">Eksik izin</string>
+    <string name="cpp_missing_permission_msg">\"%1$s\" Sistem ayarlarından izini etkinleştir</string>
 </resources>
