@@ -7,15 +7,9 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
-
-import org.solovyev.android.calculator.AdView;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.BillingRequests;
@@ -23,10 +17,9 @@ import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.RequestListener;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
@@ -212,7 +205,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
             if (adView != null) {
                 return;
             }
-            adView = (AdView) LayoutInflater.from(getActivity()).inflate(R.layout.ad, null);
+            adView = new AdView(getActivity());
             adView.show();
             try {
                 listView.addHeaderView(adView);

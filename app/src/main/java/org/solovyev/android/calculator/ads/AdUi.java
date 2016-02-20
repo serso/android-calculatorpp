@@ -24,7 +24,7 @@ public class AdUi {
     @NonNull
     private final Handler handler;
     @Nullable
-    @Bind(R.id.ad)
+    @Bind(R.id.cpp_ad)
     AdView adView;
     @Nullable
     private Boolean adFree = null;

@@ -21,6 +21,7 @@
   -->
 
 <resources>
+    <item name="cpp_ad" type="id" />
     <item name="cpp_button_1" type="id" />
     <item name="cpp_button_2" type="id" />
     <item name="cpp_button_3" type="id" />
