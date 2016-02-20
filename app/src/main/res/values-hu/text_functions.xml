@@ -10,12 +10,12 @@
     <string name="c_fun_description_atan">Arkusz tangens - inverz tangens függvény</string>
     <string name="c_fun_description_acot">Arkusz kotangens - inverz kotangens függvény</string>
     <string name="c_fun_description_ln">Természetes logaritmus - e alapú logaritmus</string>
-    <string name="c_fun_description_lg">Decadic logarithm - logarithm to base 10</string>
-    <string name="c_fun_description_log">Logarithm - logarithm the specified base</string>
+    <string name="c_fun_description_lg">Közönséges logaritmus - 10-es alapú logaritmus</string>
+    <string name="c_fun_description_log">Logaritmus - logaritmus meghatározott alappal</string>
     <string name="c_fun_description_exp">Exponenciális függvény</string>
     <string name="c_fun_description_sqrt">Négyzetgyök függvény</string>
     <string name="c_fun_description_cubic">Köbgyök függvény</string>
-    <string name="c_fun_description_abs">Gives absolute value of an argument</string>
+    <string name="c_fun_description_abs">Változó abszolút értéke</string>
   <string name="c_fun_description_sgn">Gives the sign of an argument: -1 if an argument is less than 0, 0
 		if equals to 0, 1 if more than 0
 	</string>
