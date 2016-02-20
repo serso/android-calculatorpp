@@ -105,7 +105,7 @@
         <activity
             android:name=".preferences.PurchaseDialogActivity"
             android:label="@string/cpp_purchase_title"
-            android:theme="@style/Cpp.Theme.Material.Dialog" />
+            android:theme="@style/Cpp.Theme.Translucent" />
 
         <!-- todo serso: strings-->
         <activity

@@ -25,16 +25,14 @@ package org.solovyev.android.calculator;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-
 import org.solovyev.android.calculator.about.AboutFragment;
 import org.solovyev.android.calculator.about.ReleaseNotesFragment;
+import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.history.RecentHistoryFragment;
 import org.solovyev.android.calculator.history.SavedHistoryFragment;
-import org.solovyev.android.calculator.functions.FunctionsFragment;
+import org.solovyev.android.calculator.matrix.EditMatrixFragment;
 import org.solovyev.android.calculator.operators.OperatorsFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
-import org.solovyev.android.calculator.matrix.EditMatrixFragment;
-import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 
 import javax.annotation.Nonnull;
 
@@ -48,9 +46,6 @@ public enum FragmentTab {
     variables(VariablesFragment.class, R.layout.fragment_entities, R.string.c_vars),
     functions(FunctionsFragment.class, R.layout.fragment_entities, R.string.c_functions),
     operators(OperatorsFragment.class, R.layout.fragment_entities, R.string.c_operators),
-
-    purchase_dialog(PurchaseDialogActivity.PurchaseDialogFragment.class, R.layout.cpp_purchase_dialog_fragment, R.string.cpp_purchase_title),
-
     about(AboutFragment.class, R.layout.about_fragment, R.string.c_about),
 
     // todo serso: strings
