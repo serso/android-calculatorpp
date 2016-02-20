@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">Rezgés gombnyomáskor</string>
+   <string name="cpp_prefs_auto_rotate_screen">Képernyő automatikus elforgatása</string>
+   <string name="cpp_prefs_language">Nyelv</string>
+   <string name="cpp_prefs_theme">Téma</string>
+   <string name="cpp_prefs_keep_screen_on">Maradjon ébren</string>
+   <string name="cpp_permission_overlay">Mindig legyen legfelül</string>
+</resources>
