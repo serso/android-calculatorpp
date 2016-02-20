@@ -37,7 +37,7 @@
         a:layout_width="match_parent"
         a:layout_height="wrap_content" />
 
-    <include layout="@layout/ad" />
+    <org.solovyev.android.calculator.AdView style="@style/CppAd" />
 
     <LinearLayout
         a:layout_width="match_parent"

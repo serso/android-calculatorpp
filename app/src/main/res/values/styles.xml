@@ -349,6 +349,13 @@
         <item name="backgroundSplit">@color/cpp_material_actionbar_light</item>
     </style>
 
+    <style name="CppAd">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
     <dimen name="list_item_text_size">16sp</dimen>
     <dimen name="list_item_text_size_small">14sp</dimen>
 </resources>

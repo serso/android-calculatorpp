@@ -29,7 +29,7 @@
     a:layout_width="match_parent"
     a:layout_height="match_parent">
 
-    <include layout="@layout/ad" />
+    <org.solovyev.android.calculator.AdView style="@style/CppAd" />
 
     <FrameLayout
         a:layout_width="match_parent"

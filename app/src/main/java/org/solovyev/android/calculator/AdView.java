@@ -2,17 +2,18 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
-
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-
-import org.solovyev.android.Check;
+import com.google.android.gms.ads.AdSize;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class AdView extends FrameLayout {
 
@@ -23,14 +24,22 @@ public class AdView extends FrameLayout {
 
     public AdView(Context context) {
         super(context);
+        init();
     }
 
     public AdView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public AdView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init();
+    }
+
+    private void init() {
+        setVisibility(GONE);
+        setId(R.id.cpp_ad);
     }
 
     public void destroy() {
@@ -66,13 +75,7 @@ public class AdView extends FrameLayout {
             return;
         }
 
-        LayoutInflater.from(getContext()).inflate(R.layout.admob, this);
-        admobView = (com.google.android.gms.ads.AdView) findViewById(R.id.admob);
-        Check.isNotNull(admobView);
-        if (admobView == null) {
-            return;
-        }
-
+        admobView = addAdmobView();
         admobListener = new AdView.AdViewListener(this);
         admobView.setAdListener(admobListener);
 
@@ -83,6 +86,18 @@ public class AdView extends FrameLayout {
             b.addTestDevice("B80E676D60CE6FDBE1B84A55464E3FE1");
         }
         admobView.loadAd(b.build());
+    }
+
+    @Nonnull
+    private com.google.android.gms.ads.AdView addAdmobView() {
+        final com.google.android.gms.ads.AdView v = new com.google.android.gms.ads.AdView(getContext());
+        v.setVisibility(GONE);
+        v.setAdSize(AdSize.BANNER);
+        v.setAdUnitId(getResources().getString(R.string.admob));
+        final LayoutParams lp = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+        lp.gravity = Gravity.CENTER;
+        addView(v, lp);
+        return v;
     }
 
     public void hide() {
