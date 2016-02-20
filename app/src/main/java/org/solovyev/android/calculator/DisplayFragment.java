@@ -96,12 +96,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     @Nonnull
     @Override
     protected FragmentUi createUi() {
-        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
-        if (!layout.optimized) {
-            return new FragmentUi(R.layout.cpp_app_display_mobile, R.string.result);
-        } else {
-            return new FragmentUi(R.layout.cpp_app_display, R.string.result);
-        }
+        return new FragmentUi(R.layout.cpp_app_display, R.string.result);
     }
 
     @Override

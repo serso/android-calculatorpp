@@ -154,26 +154,16 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
-        ui.setLayoutId(layout.layoutId);
+        ui.setLayoutId(R.layout.main_calculator);
 
         super.onCreate(savedInstanceState);
 
-        if (isMultiPane()) {
-            ui.addTab(this, FragmentTab.history, null, R.id.main_second_pane);
-            ui.addTab(this, FragmentTab.saved_history, null, R.id.main_second_pane);
-            ui.addTab(this, FragmentTab.variables, null, R.id.main_second_pane);
-            ui.addTab(this, FragmentTab.functions, null, R.id.main_second_pane);
-            ui.addTab(this, FragmentTab.operators, null, R.id.main_second_pane);
+        final ActionBar actionBar = getSupportActionBar();
+        if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
+            actionBar.hide();
         } else {
-            final ActionBar actionBar = getSupportActionBar();
-            if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
-                actionBar.hide();
-            } else {
-                actionBar.setDisplayShowTitleEnabled(false);
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            }
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
         ButterKnife.bind(this);
 

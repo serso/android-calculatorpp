@@ -23,62 +23,45 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.content.SharedPreferences;
-
+import jscl.AngleUnit;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 
-import jscl.AngleUnit;
-
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator;
-import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator_mobile;
 
-/**
- * User: serso
- * Date: 6/17/13
- * Time: 9:30 PM
- */
 enum CalculatorMode {
 
-    simple(R.string.cpp_wizard_mode_simple) {
+    simple() {
         @Override
         protected void apply(@Nonnull SharedPreferences preferences) {
-            final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
-            if (layout.optimized) {
-                Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple);
-            } else {
-                Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple_mobile);
-            }
-            Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
-            Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
-            Engine.Preferences.Output.scientificNotation.putPreference(preferences, false);
-            Engine.Preferences.Output.round.putPreference(preferences, true);
+            final SharedPreferences.Editor editor = preferences.edit();
+
+            Preferences.Gui.layout.putPreference(editor, Preferences.Gui.Layout.simple);
+            Preferences.Calculations.preferredAngleUnits.putPreference(editor, AngleUnit.deg);
+            Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.deg);
+            Engine.Preferences.Output.scientificNotation.putPreference(editor, false);
+            Engine.Preferences.Output.round.putPreference(editor, true);
+
+            editor.apply();
         }
     },
 
-    engineer(R.string.cpp_wizard_mode_engineer) {
+    engineer() {
         @Override
         protected void apply(@Nonnull SharedPreferences preferences) {
-            final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
-            if (layout.optimized) {
-                Preferences.Gui.layout.putPreference(preferences, main_calculator);
-            } else {
-                Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
-            }
-            Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
-            Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
-            Engine.Preferences.Output.scientificNotation.putPreference(preferences, true);
-            Engine.Preferences.Output.round.putPreference(preferences, false);
+            final SharedPreferences.Editor editor = preferences.edit();
+
+            Preferences.Gui.layout.putPreference(editor, main_calculator);
+            Preferences.Calculations.preferredAngleUnits.putPreference(editor, AngleUnit.rad);
+            Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.rad);
+            Engine.Preferences.Output.scientificNotation.putPreference(editor, true);
+            Engine.Preferences.Output.round.putPreference(editor, false);
+
+            editor.apply();
         }
     };
-
-    private final int nameResId;
-
-    CalculatorMode(int nameResId) {
-        this.nameResId = nameResId;
-    }
 
     @Nonnull
     static CalculatorMode getDefaultMode() {
@@ -98,10 +81,6 @@ enum CalculatorMode {
             default:
                 return getDefaultMode();
         }
-    }
-
-    int getNameResId() {
-        return nameResId;
     }
 
     protected abstract void apply(@Nonnull SharedPreferences preferences);

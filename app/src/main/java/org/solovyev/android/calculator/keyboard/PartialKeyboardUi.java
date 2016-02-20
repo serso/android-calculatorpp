@@ -1,12 +1,5 @@
 package org.solovyev.android.calculator.keyboard;
 
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
-import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
-import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
-import static org.solovyev.android.views.dragbutton.DragDirection.down;
-import static org.solovyev.android.views.dragbutton.DragDirection.left;
-import static org.solovyev.android.views.dragbutton.DragDirection.up;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -20,10 +13,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.ActivityLauncher;
-import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
@@ -34,12 +28,13 @@ import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.NumeralBase;
-
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
+import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
+import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
+import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class PartialKeyboardUi extends BaseKeyboardUi {
 
@@ -88,10 +83,6 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
 
     public void toggleEqualsButton() {
         if (equalsButton == null) {
-            return;
-        }
-        final boolean large = App.isLargeScreen() && Preferences.Gui.getLayout(preferences).optimized;
-        if (large) {
             return;
         }
         if (orientation != Configuration.ORIENTATION_PORTRAIT && Preferences.Gui.autoOrientation.getPreference(preferences)) {
