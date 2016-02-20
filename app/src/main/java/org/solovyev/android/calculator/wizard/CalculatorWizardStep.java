@@ -25,7 +25,6 @@ package org.solovyev.android.calculator.wizard;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
@@ -34,13 +33,6 @@ import javax.annotation.Nullable;
 enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 
     welcome(WelcomeWizardStep.class, R.string.cpp_wizard_welcome_title, R.string.cpp_wizard_start),
-
-    choose_layout(ChooseLayoutWizardStep.class, R.string.cpp_wizard_layout_title) {
-        @Override
-        public boolean isVisible() {
-            return App.isLargeScreen();
-        }
-    },
     choose_mode(ChooseModeWizardStep.class, R.string.cpp_wizard_mode_title),
     choose_theme(ChooseThemeWizardStep.class, R.string.cpp_wizard_theme_title),
     on_screen_calculator(OnScreenCalculatorWizardStep.class, R.string.cpp_wizard_onscreen_calculator_title),

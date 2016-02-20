@@ -59,12 +59,7 @@ public class KeyboardFragment extends BaseFragment {
     @Nonnull
     @Override
     protected FragmentUi createUi() {
-        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
-        if (!layout.optimized) {
-            return new FragmentUi(R.layout.cpp_app_keyboard_mobile);
-        } else {
-            return new FragmentUi(R.layout.cpp_app_keyboard);
-        }
+        return new FragmentUi(R.layout.cpp_app_keyboard);
     }
 
     @Override

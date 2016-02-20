@@ -68,13 +68,6 @@ public class DisplayView extends AutoResizeTextView {
         setMinTextSize(applyDimension(COMPLEX_UNIT_SP, 10, resources.getDisplayMetrics()));
         // make text scrollable if it doesn't fit
         setMovementMethod(ScrollingMovementMethod.getInstance());
-        if (context instanceof Service) {
-            return;
-        }
-        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(App.getPreferences());
-        if (!layout.optimized) {
-            setTextSize(resources.getDimensionPixelSize(R.dimen.cpp_display_text_size_mobile));
-        }
     }
 
     @Nonnull

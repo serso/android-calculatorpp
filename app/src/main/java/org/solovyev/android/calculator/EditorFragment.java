@@ -65,12 +65,7 @@ public class EditorFragment extends BaseFragment {
     @Nonnull
     @Override
     protected FragmentUi createUi() {
-        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
-        if (!layout.optimized) {
-            return new FragmentUi(R.layout.cpp_app_editor_mobile, R.string.editor);
-        } else {
-            return new FragmentUi(R.layout.cpp_app_editor, R.string.editor);
-        }
+        return new FragmentUi(R.layout.cpp_app_editor, R.string.editor);
     }
 
     @Override

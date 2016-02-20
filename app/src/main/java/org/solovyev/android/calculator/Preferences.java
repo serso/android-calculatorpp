@@ -22,11 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import static org.solovyev.android.Android.isPhoneModel;
-import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
-import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
-import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
-
 import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -39,28 +34,26 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.NumberToStringPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.prefs.*;
 
-import jscl.AngleUnit;
-import jscl.NumeralBase;
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import static org.solovyev.android.Android.isPhoneModel;
+import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
+import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
+import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
 public final class Preferences {
 
@@ -77,12 +70,18 @@ public final class Preferences {
             setInitialDefaultValues(application, preferences, editor);
             editor.apply();
         } else if (version > 143) {
+            // FIXME: 2016-02-20 use correct version
+            final SharedPreferences.Editor editor = preferences.edit();
             if (!Gui.vibrateOnKeypress.isSet(preferences)) {
-                final SharedPreferences.Editor editor = preferences.edit();
                 //noinspection deprecation
                 Gui.vibrateOnKeypress.putPreference(editor, Gui.hapticFeedback.getPreference(preferences) > 0);
-                editor.apply();
             }
+            Gui.Layout layout = Gui.layout.getPreference(preferences);
+            //noinspection deprecation
+            if (layout == Gui.Layout.main_cellphone || layout == Gui.Layout.main_calculator_mobile || layout == Gui.Layout.simple_mobile) {
+                Gui.layout.putDefault(editor);
+            }
+            editor.apply();
         }
     }
 
@@ -115,10 +114,6 @@ public final class Preferences {
 
         Gui.theme.tryPutDefault(preferences, editor);
         Gui.layout.tryPutDefault(preferences, editor);
-        //noinspection deprecation
-        if (Gui.layout.getPreference(preferences) == Gui.Layout.main_cellphone) {
-            Gui.layout.putDefault(editor);
-        }
         Gui.feedbackWindowShown.tryPutDefault(preferences, editor);
         Gui.showReleaseNotes.tryPutDefault(preferences, editor);
         Gui.usePrevAsBack.tryPutDefault(preferences, editor);
@@ -354,23 +349,18 @@ public final class Preferences {
         }
 
         public enum Layout {
-            main_calculator(R.layout.main_calculator, true),
-            main_calculator_mobile(R.layout.main_calculator_mobile, false),
+            main_calculator,
+            simple,
 
             // not used anymore
             @Deprecated
-            main_cellphone(R.layout.main_calculator, true),
-
-            simple(R.layout.main_calculator, true),
-            simple_mobile(R.layout.main_calculator_mobile, false);
-
-            public final int layoutId;
-            public final boolean optimized;
-
-            Layout(int layoutId, boolean optimized) {
-                this.layoutId = layoutId;
-                this.optimized = optimized;
-            }
+            main_cellphone,
+            // not used anymore
+            @Deprecated
+            main_calculator_mobile,
+            // not used anymore
+            @Deprecated
+            simple_mobile;
         }
 
         public static final class TextColor {
