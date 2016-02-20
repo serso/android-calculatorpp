@@ -204,10 +204,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         return ViewConfiguration.get(this).hasPermanentMenuKey();
     }
 
-    private boolean isMultiPane() {
-        return findViewById(R.id.main_second_pane) != null;
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

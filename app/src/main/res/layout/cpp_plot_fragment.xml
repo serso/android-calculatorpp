@@ -29,12 +29,6 @@
     a:layout_width="match_parent"
     a:layout_height="match_parent">
 
-    <TextView
-        a:id="@+id/fragment_title"
-        style="@style/CppFragmentTitle"
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content" />
-
     <include layout="@layout/ad" />
 
 

@@ -27,7 +27,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Nonnull
     protected final FragmentUi createUi(@Nonnull FragmentTab tab) {
-        return new FragmentUi(tab.layout, tab.title);
+        return new FragmentUi(tab.layout);
     }
 
     protected void inject(@Nonnull AppComponent component) {

@@ -65,7 +65,7 @@ public class EditorFragment extends BaseFragment {
     @Nonnull
     @Override
     protected FragmentUi createUi() {
-        return new FragmentUi(R.layout.cpp_app_editor, R.string.editor);
+        return new FragmentUi(R.layout.cpp_app_editor);
     }
 
     @Override

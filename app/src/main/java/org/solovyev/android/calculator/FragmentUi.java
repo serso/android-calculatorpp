@@ -26,7 +26,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.checkout.CppCheckout;
@@ -36,37 +35,21 @@ import org.solovyev.android.checkout.ProductTypes;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.Locale;
 
 import static org.solovyev.android.calculator.App.cast;
 
 public class FragmentUi {
     private final int layoutId;
-    private final int titleId;
-
     @Nullable
     private Boolean adFree = null;
-
     @Inject
     CppCheckout checkout;
-    @Nullable
-    @Bind(R.id.fragment_title)
-    TextView fragmentTitle;
     @Nullable
     @Bind(R.id.admob)
     AdView adView;
 
     public FragmentUi(int layoutId) {
-        this(layoutId, View.NO_ID);
-    }
-
-    public FragmentUi(int layoutId, int titleId) {
         this.layoutId = layoutId;
-        this.titleId = titleId;
-    }
-
-    public boolean isPane(@Nonnull Fragment fragment) {
-        return fragment.getActivity() instanceof CalculatorActivity;
     }
 
     public void onCreate(@Nonnull Fragment fragment) {
@@ -112,14 +95,6 @@ public class FragmentUi {
             // no ads in those fragments
         } else if (adView != null) {
             updateAdView();
-        }
-
-        if (titleId != View.NO_ID && fragmentTitle != null) {
-            if (isPane(fragment)) {
-                fragmentTitle.setText(fragment.getString(titleId).toUpperCase(Locale.getDefault()));
-            } else {
-                fragmentTitle.setVisibility(View.GONE);
-            }
         }
     }
 
