@@ -96,7 +96,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     @Nonnull
     @Override
     protected FragmentUi createUi() {
-        return new FragmentUi(R.layout.cpp_app_display, R.string.result);
+        return new FragmentUi(R.layout.cpp_app_display);
     }
 
     @Override
