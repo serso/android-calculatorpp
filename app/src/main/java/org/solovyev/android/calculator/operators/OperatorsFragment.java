@@ -26,7 +26,8 @@ import android.support.annotation.NonNull;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import jscl.math.operator.Operator;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.common.text.Strings;
@@ -37,20 +38,12 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.solovyev.android.calculator.FragmentTab.operators;
-
 public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
 
     @Inject
     OperatorsRegistry operatorsRegistry;
     @Inject
     PostfixFunctionsRegistry postfixFunctionsRegistry;
-
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return createUi(operators);
-    }
 
     @Override
     protected void inject(@Nonnull AppComponent component) {

@@ -30,11 +30,6 @@ import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 9/16/11
- * Time: 11:52 PM
- */
 public class AboutActivity extends EmptyActivity {
 
     @Override

@@ -69,6 +69,7 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     private HistoryAdapter adapter;
 
     protected BaseHistoryFragment(boolean recentHistory) {
+        super(R.layout.fragment_history);
         this.recentHistory = recentHistory;
     }
 

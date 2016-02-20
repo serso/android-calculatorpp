@@ -22,21 +22,9 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.solovyev.android.calculator.FragmentUi;
-
-import javax.annotation.Nonnull;
-
-import static org.solovyev.android.calculator.FragmentTab.saved_history;
-
 public class SavedHistoryFragment extends BaseHistoryFragment {
 
     public SavedHistoryFragment() {
         super(false);
-    }
-
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return createUi(saved_history);
     }
 }

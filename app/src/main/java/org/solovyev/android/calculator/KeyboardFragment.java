@@ -41,6 +41,10 @@ public class KeyboardFragment extends BaseFragment {
     @Inject
     KeyboardUi keyboardUi;
 
+    public KeyboardFragment() {
+        super(R.layout.cpp_app_keyboard);
+    }
+
     @Override
     protected void inject(@Nonnull AppComponent component) {
         super.inject(component);
@@ -54,12 +58,6 @@ public class KeyboardFragment extends BaseFragment {
         Check.isNotNull(view);
         keyboardUi.onCreateView(getActivity(), view);
         return view;
-    }
-
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return new FragmentUi(R.layout.cpp_app_keyboard);
     }
 
     @Override

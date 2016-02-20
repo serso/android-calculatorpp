@@ -32,7 +32,9 @@ import com.squareup.otto.Subscribe;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
@@ -43,8 +45,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.solovyev.android.calculator.FragmentTab.functions;
-
 public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
     @Inject
@@ -53,12 +53,6 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     Calculator calculator;
     @Inject
     Bus bus;
-
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return createUi(functions);
-    }
 
     @Override
     protected void inject(@Nonnull AppComponent component) {

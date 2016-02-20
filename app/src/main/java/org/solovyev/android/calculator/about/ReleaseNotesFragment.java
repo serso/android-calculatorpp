@@ -32,23 +32,16 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.BaseFragment;
-import org.solovyev.android.calculator.FragmentUi;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.release.ReleaseNotes;
-
-import javax.annotation.Nonnull;
-
-import static org.solovyev.android.calculator.FragmentTab.release_notes;
 
 public class ReleaseNotesFragment extends BaseFragment {
 
     @Bind(R.id.releasenotes_text)
     TextView text;
 
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return createUi(release_notes);
+    public ReleaseNotesFragment() {
+        super(R.layout.release_notes_fragment);
     }
 
     @Override
