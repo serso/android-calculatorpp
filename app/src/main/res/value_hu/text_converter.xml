@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cpp_converter_time">Idő</string>
+    <string name="cpp_converter_amount_of_substance">Anyagmennyiség</string>
+    <string name="cpp_converter_electric_current">Elektromos áram</string>
+    <string name="cpp_converter_length">Hosszúság</string>
+    <string name="cpp_converter_mass">Tömeg</string>
+    <string name="cpp_converter_termperature">Hőmérséklet</string>
+</resources>
