@@ -23,39 +23,26 @@
 package org.solovyev.android.calculator.preferences;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import org.solovyev.android.calculator.*;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import org.solovyev.android.calculator.ActivityUi;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.checkout.*;
-import org.solovyev.android.fragments.FragmentUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.FragmentTab.purchase_dialog;
+import static org.solovyev.android.calculator.App.cast;
 
-public class PurchaseDialogActivity extends BaseActivity {
-
-    @Nonnull
-    private final RequestListener<Purchase> purchaseListener = new RequestListener<Purchase>() {
-        @Override
-        public void onSuccess(@Nonnull Purchase purchase) {
-            finish();
-        }
-
-        @Override
-        public void onError(int i, @Nonnull Exception e) {
-            finish();
-        }
-    };
+public class PurchaseDialogActivity extends AppCompatActivity implements RequestListener<Purchase> {
 
     @Inject
     Billing billing;
@@ -63,25 +50,19 @@ public class PurchaseDialogActivity extends BaseActivity {
     Products products;
     ActivityCheckout checkout;
 
-    public PurchaseDialogActivity() {
-        super(R.layout.cpp_dialog);
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FragmentUtils.createFragment(this, PurchaseDialogFragment.class, R.id.dialog_layout, "purchase-dialog");
+        cast(getApplication()).getComponent().inject(this);
+
+        if (savedInstanceState == null) {
+            App.showDialog(new PurchaseDialogFragment(), PurchaseDialogFragment.FRAGMENT_TAG, getSupportFragmentManager());
+        }
 
         checkout = Checkout.forActivity(this, billing, products);
         checkout.start();
-        checkout.createPurchaseFlow(purchaseListener);
-    }
-
-    @Override
-    protected void inject(@Nonnull AppComponent component) {
-        super.inject(component);
-        component.inject(this);
+        checkout.createPurchaseFlow(this);
     }
 
     @Override
@@ -118,34 +99,66 @@ public class PurchaseDialogActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    public static class PurchaseDialogFragment extends BaseFragment {
+    public void onDialogClosed() {
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(PurchaseDialogFragment.FRAGMENT_TAG);
+        if (fragment == null) {
+            // activity is closing
+            return;
+        }
+        finish();
+    }
 
-        @Bind(R.id.cpp_purchase_text)
-        TextView purchaseText;
-        @Bind(R.id.cpp_continue_button)
-        View continueButton;
+    @Override
+    public void onSuccess(@Nonnull Purchase result) {
+        finish();
+    }
 
-        @Nonnull
+    @Override
+    public void onError(int response, @Nonnull Exception e) {
+        finish();
+    }
+
+    public static class PurchaseDialogFragment extends BaseDialogFragment {
+
+        public static final String FRAGMENT_TAG = "purchase-dialog";
+        @Nullable
+        private PurchaseDialogActivity activity;
+
         @Override
-        protected FragmentUi createUi() {
-            return createUi(purchase_dialog);
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            this.activity = (PurchaseDialogActivity) activity;
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            final View view = super.onCreateView(inflater, container, savedInstanceState);
-            ButterKnife.bind(this, view);
-            purchaseText.setMovementMethod(ScrollingMovementMethod.getInstance());
-            continueButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final Activity activity = getActivity();
+        protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
+            super.onPrepareDialog(builder);
+            builder.setTitle(R.string.cpp_purchase_title);
+            builder.setMessage(R.string.cpp_purchase_text);
+            builder.setPositiveButton(R.string.cpp_continue, null);
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
                     if (activity != null) {
-                        ((PurchaseDialogActivity) activity).purchase();
+                        activity.purchase();
                     }
-                }
-            });
-            return view;
+                    break;
+                default:
+                    super.onClick(dialog, which);
+                    break;
+            }
+        }
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            super.onDismiss(dialog);
+            if (activity != null) {
+                activity.onDialogClosed();
+                activity = null;
+            }
         }
     }
 }
