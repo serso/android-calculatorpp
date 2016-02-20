@@ -22,7 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import org.solovyev.android.calculator.about.AboutFragment;
@@ -38,22 +37,17 @@ import javax.annotation.Nonnull;
 
 public enum FragmentTab {
 
-    editor(EditorFragment.class, R.layout.cpp_app_editor, R.string.editor),
-    //display(CalculatorHistoryFragment.class, "history", R.layout.fragment_history, R.string.c_history),
-    //keyboard(CalculatorHistoryFragment.class, "history", R.layout.fragment_history, R.string.c_history),
-    history(RecentHistoryFragment.class, R.layout.fragment_history, R.string.cpp_history_tab_recent),
-    saved_history(SavedHistoryFragment.class, R.layout.fragment_history, R.string.cpp_history_tab_saved),
-    variables(VariablesFragment.class, R.layout.fragment_entities, R.string.c_vars),
-    functions(FunctionsFragment.class, R.layout.fragment_entities, R.string.c_functions),
-    operators(OperatorsFragment.class, R.layout.fragment_entities, R.string.c_operators),
-    about(AboutFragment.class, R.layout.about_fragment, R.string.c_about),
+    history(RecentHistoryFragment.class, R.string.cpp_history_tab_recent),
+    saved_history(SavedHistoryFragment.class, R.string.cpp_history_tab_saved),
+    variables(VariablesFragment.class, R.string.c_vars),
+    functions(FunctionsFragment.class, R.string.c_functions),
+    operators(OperatorsFragment.class, R.string.c_operators),
+    about(AboutFragment.class, R.string.c_about),
 
     // todo serso: strings
-    matrix_edit(EditMatrixFragment.class, R.layout.matrix_edit_fragment, R.string.c_release_notes),
-    release_notes(ReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
+    matrix_edit(EditMatrixFragment.class, R.string.c_release_notes),
+    release_notes(ReleaseNotesFragment.class, R.string.c_release_notes);
 
-    @LayoutRes
-    public final int layout;
     @Nonnull
     public final Class<? extends Fragment> type;
     @StringRes
@@ -61,9 +55,8 @@ public enum FragmentTab {
     @Nonnull
     public final String tag;
 
-    FragmentTab(@Nonnull Class<? extends Fragment> type, int layout, int title) {
+    FragmentTab(@Nonnull Class<? extends Fragment> type, int title) {
         this.type = type;
-        this.layout = layout;
         this.title = title;
         this.tag = name();
     }

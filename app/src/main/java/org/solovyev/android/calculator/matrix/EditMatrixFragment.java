@@ -24,15 +24,13 @@ package org.solovyev.android.calculator.matrix;
 
 import android.os.Bundle;
 import android.view.View;
-
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.BaseFragment;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.IntegerRange;
 import org.solovyev.android.view.Picker;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import static org.solovyev.android.calculator.FragmentTab.matrix_edit;
 
 public class EditMatrixFragment extends BaseFragment implements Picker.OnChangedListener<Integer> {
     private static final int MAX_COUNT = 10;
@@ -43,13 +41,8 @@ public class EditMatrixFragment extends BaseFragment implements Picker.OnChanged
     private static final String MATRIX = "matrix";
 
     public EditMatrixFragment() {
+        super(R.layout.matrix_edit_fragment);
         setRetainInstance(true);
-    }
-
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return createUi(matrix_edit);
     }
 
     @Override

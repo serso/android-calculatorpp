@@ -27,7 +27,6 @@ public interface AppComponent {
     void inject(CalculatorApplication application);
     void inject(EditorFragment fragment);
     void inject(BaseUi ui);
-    void inject(FragmentUi ui);
     void inject(FloatingCalculatorService service);
     void inject(BaseHistoryFragment fragment);
     void inject(BaseDialogFragment fragment);
@@ -49,4 +48,5 @@ public interface AppComponent {
     void inject(BaseKeyboardUi ui);
     void inject(FloatingCalculatorView view);
     void inject(DragButtonWizardStep fragment);
+    void inject(BaseFragment fragment);
 }

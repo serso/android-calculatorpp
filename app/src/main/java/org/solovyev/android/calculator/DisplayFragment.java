@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -93,10 +94,8 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     @Inject
     Calculator calculator;
 
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return new FragmentUi(R.layout.cpp_app_display);
+    public DisplayFragment() {
+        super(R.layout.cpp_app_display);
     }
 
     @Override

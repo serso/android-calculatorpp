@@ -50,6 +50,10 @@ public class EditorFragment extends BaseFragment {
     @Bind(R.id.calculator_editor)
     EditorView editorView;
 
+    public EditorFragment() {
+        super(R.layout.cpp_app_editor);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +64,6 @@ public class EditorFragment extends BaseFragment {
     protected void inject(@Nonnull AppComponent component) {
         super.inject(component);
         component.inject(this);
-    }
-
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return new FragmentUi(R.layout.cpp_app_editor);
     }
 
     @Override
@@ -79,7 +77,6 @@ public class EditorFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         editor.clearView(editorView);
-        ui.onDestroyView();
         super.onDestroyView();
     }
 

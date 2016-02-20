@@ -33,13 +33,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseFragment;
-import org.solovyev.android.calculator.FragmentUi;
 import org.solovyev.android.calculator.R;
 
-import javax.annotation.Nonnull;
-
 import static android.view.View.GONE;
-import static org.solovyev.android.calculator.FragmentTab.about;
 import static org.solovyev.common.text.Strings.isEmpty;
 
 public class AboutFragment extends BaseFragment {
@@ -53,10 +49,8 @@ public class AboutFragment extends BaseFragment {
     @Bind(R.id.about_translators)
     TextView translatorsView;
 
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return createUi(about);
+    public AboutFragment() {
+        super(R.layout.about_fragment);
     }
 
     @Override

@@ -71,6 +71,10 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     @Nullable
     private String category;
 
+    public BaseEntitiesFragment() {
+        super(R.layout.fragment_entities);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +87,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = ui.onCreateView(inflater, container);
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
         final Context context = inflater.getContext();
         adapter = new EntitiesAdapter(context, TextUtils.isEmpty(category) ? getEntities() : getEntities(category));

@@ -32,10 +32,10 @@ import com.squareup.otto.Subscribe;
 import jscl.math.function.IConstant;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
@@ -56,12 +56,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     Calculator calculator;
     @Inject
     Bus bus;
-
-    @Nonnull
-    @Override
-    protected FragmentUi createUi() {
-        return createUi(variables);
-    }
 
     public static boolean isValidValue(@Nonnull String value) {
         try {
