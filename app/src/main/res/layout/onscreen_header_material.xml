@@ -13,12 +13,12 @@
         <ImageButton
             a:id="@+id/onscreen_fold_button"
             style="@style/CppHeaderButton.Material"
-            a:src="@drawable/ic_space_bar_white_24dp" />
+            a:src="@drawable/ic_vertical_align_center_white_24dp" />
 
         <ImageButton
             a:id="@+id/onscreen_minimize_button"
             style="@style/CppHeaderButton.Material"
-            a:src="@drawable/ic_file_download_white_24dp" />
+            a:src="@drawable/ic_vertical_align_top_white_24dp" />
 
         <ImageButton
             a:id="@+id/onscreen_close_button"

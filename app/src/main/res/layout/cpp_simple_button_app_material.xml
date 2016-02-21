@@ -27,4 +27,4 @@
     a:id="@id/cpp_button_app"
     style="@style/CppKeyboardButton.Material.Simple.Control.Image"
     a:contentDescription="App"
-    a:src="@drawable/kb_logo" />
+    a:src="@drawable/ic_launch_white_48dp" />
