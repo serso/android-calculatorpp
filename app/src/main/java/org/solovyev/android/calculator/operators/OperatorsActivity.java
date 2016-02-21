@@ -25,15 +25,10 @@ package org.solovyev.android.calculator.operators;
 import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
-import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
 
 public class OperatorsActivity extends BaseActivity {
-
-    public OperatorsActivity() {
-        super(R.layout.main_empty, OperatorsActivity.class.getSimpleName());
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
 
 public class ActivityUi extends BaseUi {
 
-    private int layoutId;
+    private final int layoutId;
 
     @Nonnull
     private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;
@@ -265,10 +265,6 @@ public class ActivityUi extends BaseUi {
                 ft.commit();
             }
         }
-    }
-
-    public void setLayoutId(int layoutId) {
-        this.layoutId = layoutId;
     }
 
     @Nonnull

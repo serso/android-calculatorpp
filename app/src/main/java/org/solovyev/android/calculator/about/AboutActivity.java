@@ -23,14 +23,13 @@
 package org.solovyev.android.calculator.about;
 
 import android.os.Bundle;
-
+import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
-import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
 
-public class AboutActivity extends EmptyActivity {
+public class AboutActivity extends BaseActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

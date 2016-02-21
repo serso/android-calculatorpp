@@ -34,10 +34,6 @@ import static org.solovyev.android.calculator.FragmentTab.saved_history;
 
 public class HistoryActivity extends BaseActivity {
 
-    public HistoryActivity() {
-        super(R.layout.main_empty, HistoryActivity.class.getSimpleName());
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -23,19 +23,13 @@
 package org.solovyev.android.calculator.matrix;
 
 import android.os.Bundle;
-
+import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
-import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.R;
 
 import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
 
-/**
- * User: Solovyev_S
- * Date: 12.10.12
- * Time: 10:56
- */
-public class CalculatorMatrixActivity extends EmptyActivity {
+public class CalculatorMatrixActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

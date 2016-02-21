@@ -25,17 +25,12 @@ package org.solovyev.android.calculator.variables;
 import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
-import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
 
 public class VariablesActivity extends BaseActivity {
 
     public static final String EXTRA_VARIABLE = "variable";
-
-    public VariablesActivity() {
-        super(R.layout.main_empty, VariablesActivity.class.getSimpleName());
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

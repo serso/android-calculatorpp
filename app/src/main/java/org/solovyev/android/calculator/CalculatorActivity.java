@@ -62,8 +62,6 @@ import static org.solovyev.android.wizard.WizardUi.*;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, Toolbar.OnMenuItemClickListener {
 
-    @Nonnull
-    public static final String TAG = CalculatorActivity.class.getSimpleName();
     @Inject
     PreferredPreferences preferredPreferences;
     @Inject
@@ -89,7 +87,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     private boolean useBackAsPrev;
 
     public CalculatorActivity() {
-        super(0, TAG);
+        super(R.layout.activity_main);
     }
 
     private static void firstTimeInit(@Nonnull SharedPreferences preferences, @Nonnull Context context) {
@@ -163,8 +161,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        ui.setLayoutId(R.layout.activity_main);
-
         super.onCreate(savedInstanceState);
 
         ButterKnife.bind(this);

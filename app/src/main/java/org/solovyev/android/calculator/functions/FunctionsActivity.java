@@ -34,10 +34,6 @@ public class FunctionsActivity extends BaseActivity {
 
     public static final String EXTRA_FUNCTION = "function";
 
-    public FunctionsActivity() {
-        super(R.layout.main_empty, FunctionsActivity.class.getSimpleName());
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

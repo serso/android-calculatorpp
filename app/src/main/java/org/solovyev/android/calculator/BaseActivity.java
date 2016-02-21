@@ -18,16 +18,12 @@ public class BaseActivity extends AppCompatActivity {
     @Nonnull
     protected final ActivityUi ui;
 
-    public BaseActivity(@Nonnull ActivityUi ui) {
-        this.ui = ui;
+    public BaseActivity() {
+        this(R.layout.main_empty);
     }
 
     public BaseActivity(@LayoutRes int layout) {
-        this(layout, "Activity");
-    }
-
-    public BaseActivity(@LayoutRes int layout, @Nonnull String logTag) {
-        this.ui = new ActivityUi(layout, logTag);
+        this.ui = new ActivityUi(layout, getClass().getSimpleName());
     }
 
     @Nonnull
