@@ -39,7 +39,6 @@ import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
 import org.solovyev.android.prefs.*;
 
@@ -329,13 +328,10 @@ public final class Preferences {
 
             public int getThemeFor(@Nullable Context context) {
                 if (context instanceof CalculatorActivity) {
-                    return wizardTheme;
+                    return mainTheme;
                 }
                 if (context instanceof WizardActivity) {
                     return wizardTheme;
-                }
-                if (context instanceof PurchaseDialogActivity) {
-                    return dialogTheme;
                 }
                 return theme;
             }
