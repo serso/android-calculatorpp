@@ -31,12 +31,6 @@
     a:layout_width="match_parent"
     a:layout_height="match_parent">
 
-    <TextView
-        a:id="@+id/fragmentTitle"
-        style="@style/CppFragmentTitle"
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content" />
-
     <org.solovyev.android.calculator.AdView style="@style/CppAd" />
 
     <LinearLayout

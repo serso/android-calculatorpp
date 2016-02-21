@@ -66,10 +66,6 @@
         <item name="android:inputType">textMultiLine|textNoSuggestions</item>
     </style>
 
-    <style name="CppText.Editor.Mobile" parent="CppText.Editor">
-        <item name="android:textSize">@dimen/cpp_editor_text_size_mobile</item>
-    </style>
-
     <style name="CppText.Display" parent="CppText">
         <item name="android:gravity">center_vertical|right</item>
         <item name="android:layout_width">match_parent</item>
@@ -201,11 +197,6 @@
         <item name="android:textColor">@color/cpp_button_text</item>
         <item name="materialColor">?attr/cpp_wizard_button_bg</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
-    </style>
-
-    <style name="CppFragmentTitle">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:textSize">@dimen/cpp_fragment_title_text_size</item>
     </style>
 
     <style name="CppPane.Multipane.Left" parent="CppPane.Multipane">

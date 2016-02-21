@@ -16,9 +16,6 @@
     <dimen name="cpp_keyboard_button_text_size">30dp</dimen>
     <dimen name="cpp_keyboard_simple_image_button_padding">12dp</dimen>
 
-    <dimen name="cpp_display_text_size_mobile">25sp</dimen>
-    <dimen name="cpp_editor_text_size_mobile">25sp</dimen>
-
     <dimen name="cpp_display_text_size">25sp</dimen>
     <dimen name="cpp_editor_text_size">25sp</dimen>
     <dimen name="cpp_pane_margin">2dp</dimen>

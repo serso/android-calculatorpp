@@ -21,12 +21,13 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<LinearLayout a:id="@+id/main"
+<LinearLayout
+    a:id="@+id/main"
     style="@style/CppMain"
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:orientation="vertical">
 
-    <include layout="@layout/activity_main_editor_with_toolbar"/>
+    <include layout="@layout/activity_main_editor_with_toolbar" />
 
     <LinearLayout
         a:id="@+id/partial_keyboard"
@@ -69,11 +70,10 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         a:id="@+id/keyboard"
         a:layout_width="match_parent"
         a:layout_height="0dp"
-        a:layout_weight="3"
-        a:orientation="horizontal" />
+        a:layout_weight="3" />
 
 </LinearLayout>

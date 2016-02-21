@@ -32,6 +32,7 @@ import android.view.ContextMenu;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.view.EditTextCompat;
+import org.solovyev.android.views.Adjuster;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -64,6 +65,7 @@ public class EditorView extends EditTextCompat {
     }
 
     private void init() {
+        Adjuster.adjustText(this, 0.25f);
         addTextChangedListener(new MyTextWatcher());
         dontShowSoftInputOnFocusCompat();
         // changes should only be reported after the view has been set up completely, i.e. now

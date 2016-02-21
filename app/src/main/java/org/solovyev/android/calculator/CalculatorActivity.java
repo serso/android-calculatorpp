@@ -83,6 +83,9 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     Toolbar toolbar;
     @Bind(R.id.editor)
     FrameLayout editor;
+    @Nullable
+    @Bind(R.id.card)
+    CardView card;
     private boolean useBackAsPrev;
 
     public CalculatorActivity() {
@@ -292,10 +295,9 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     }
 
     private void prepareCardAndToolbar() {
-        if (!(editor instanceof CardView)) {
+        if (card == null) {
             return;
         }
-        final CardView card = (CardView) editor;
         final Resources resources = getResources();
         final int cardTopMargin = resources.getDimensionPixelSize(R.dimen.cpp_card_margin);
         final int preLollipopCardTopPadding = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? card.getPaddingTop() : 0;

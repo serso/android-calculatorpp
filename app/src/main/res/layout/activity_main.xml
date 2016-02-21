@@ -30,7 +30,7 @@
     a:layout_height="match_parent"
     a:orientation="vertical">
 
-    <include layout="@layout/activity_main_editor_with_toolbar"/>
+    <include layout="@layout/activity_main_editor_with_toolbar" />
 
     <LinearLayout
         a:id="@+id/partial_keyboard"
@@ -53,11 +53,10 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         a:id="@+id/keyboard"
         a:layout_width="match_parent"
         a:layout_height="0dp"
-        a:layout_weight="5"
-        a:orientation="vertical" />
+        a:layout_weight="5" />
 
 </LinearLayout>
