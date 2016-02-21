@@ -2,27 +2,25 @@
 <resources>
     <string name="c_operators">Operátorok</string>
     <string name="c_op_description_mod">Modulo operátor az \'x\' és \'y\' osztásából származó maradékot adja vissza</string>
-  <string name="c_op_description_sum">Sums functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'
+  <string name="c_op_description_sum">\'f(i)\' fügvény szummázása, \'i\'-vel ismétli, \'from\'-tól \'to\'-ig
 	</string>
-  <string name="c_op_description_product">Gives product of functions \'f(i)\', iterating through \'i\' from \'from\'
-		to \'to\'
+  <string name="c_op_description_product">\'f(i)\' függvény szorzássorozatta, \'i\'-vel ismétli, \'from\'-tól \'to\'-ig
 	</string>
-  <string name="c_op_description_derivative">Gives derivative of order \'order\' (default = 1) of functions \'f(x)\'
-		by \'x\' variable and calculates at point \'x_point\' (default = same as \'x\')
+  <string name="c_op_description_derivative">\'order\' rendűen deriválja (alapértelmezett = 1) az \'f(x)\' függvényt
+		\'x\' változóra és kiszámolja \'x_point\' pontra (alapértelmezett = ugyan az mint \'x\')
 	</string>
-    <string name="c_op_description_integral">Gives integral of function \'f(x)\' by \'x\' variable</string>
-  <string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'
+    <string name="c_op_description_integral">Integrálja az \'f(x)\' függvényt \'x\' változóra</string>
+  <string name="c_op_description_integral_ab">Integrálja az \'f(x)\' függvényt \'x\'-re \'a\'-tól \'b\'-ig
 	</string>
-    <string name="c_pf_description_factorial">Gives the factorial of the previous expression</string>
-    <string name="c_pf_description_double_factorial">Gives the double factorial of the previous expression</string>
-  <string name="c_pf_description_percent" formatted="false">Gives the percent value of the expression
-		before.\nExamples:\n
+    <string name="c_pf_description_factorial">Az előző érték faktoriálisa</string>
+    <string name="c_pf_description_double_factorial">Az előző érték dupla faktoriálisa</string>
+  <string name="c_pf_description_percent" formatted="false">Az előző érték százalékká alakítása\nPéldák:\n
 		100 + 50% = 150\n
 		100 * 50% = 50\n
 		100 + 100 * 50% * 50% = 125
 	</string>
-  <string name="c_pf_description_degree">Converts degrees to radians.\n
-		Examples:\n
+  <string name="c_pf_description_degree">Fokok radiánba átváltása.\n
+		Példák:\n
 		268° = 4.67748\n
 		30.21° = 0.52726
 	</string>
