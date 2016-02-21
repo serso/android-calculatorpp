@@ -59,6 +59,11 @@
         <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
     </style>
 
+    <style name="Cpp.Theme.Material.NoActionBar" parent="Cpp.Theme.Material">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Cpp.Theme.Material" parent="Cpp.Theme">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>

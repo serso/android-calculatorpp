@@ -26,6 +26,11 @@
         <item name="android:background">@drawable/metro_button_purple</item>
     </style>
 
+    <style name="Cpp.Theme.Metro.Purple.NoActionBar" parent="Cpp.Theme.Metro.Purple">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Cpp.Theme.Metro.Purple" parent="Cpp.Theme.Metro.Blue">
         <item name="cpp_button_style_operation">@style/metro_purple_operation_button_style</item>
     </style>

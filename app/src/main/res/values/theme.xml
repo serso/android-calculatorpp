@@ -22,6 +22,11 @@
 
 <resources>
 
+    <style name="Cpp.Theme.NoActionBar" parent="@style/Cpp.Theme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Cpp.Theme" parent="@style/Theme.AppCompat">
         <item name="colorPrimary">@color/cpp_metro_button</item>
         <item name="colorPrimaryDark">@color/cpp_metro_button_dark</item>
@@ -36,6 +41,7 @@
         <item name="cpp_fab_bg">@color/grey_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
+        <item name="cpp_card_style">@style/CardView.Dark</item>
 
         <item name="android:listDivider">@drawable/divider_dark</item>
     </style>
@@ -94,6 +100,7 @@
         <item name="cpp_fab_bg">@color/cpp_material_light</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
+        <item name="cpp_card_style">@style/CardView.Light</item>
 
         <item name="android:listDivider">@drawable/divider</item>
     </style>

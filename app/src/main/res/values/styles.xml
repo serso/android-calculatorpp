@@ -59,8 +59,8 @@
     <style name="CppText.Editor">
         <item name="android:text">""</item>
         <item name="android:gravity">left|top</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">@dimen/cpp_editor_text_size</item>
         <item name="android:textColor">?attr/cpp_text_color</item>
         <item name="android:inputType">textMultiLine|textNoSuggestions</item>

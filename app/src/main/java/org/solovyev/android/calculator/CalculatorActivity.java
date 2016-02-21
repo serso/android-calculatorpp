@@ -22,26 +22,28 @@
 
 package org.solovyev.android.calculator;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.view.*;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
+import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
-import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.Wizards;
@@ -51,14 +53,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
-import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
 import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
 import static org.solovyev.android.wizard.WizardUi.*;
 
-public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, Toolbar.OnMenuItemClickListener {
 
     @Nonnull
     public static final String TAG = CalculatorActivity.class.getSimpleName();
@@ -77,6 +79,10 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     @Nullable
     @Bind(R.id.partial_keyboard)
     View partialKeyboard;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.editor)
+    FrameLayout editor;
     private boolean useBackAsPrev;
 
     public CalculatorActivity() {
@@ -154,36 +160,37 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        ui.setLayoutId(R.layout.main_calculator);
+        ui.setLayoutId(R.layout.activity_main);
 
         super.onCreate(savedInstanceState);
 
-        final ActionBar actionBar = getSupportActionBar();
-        if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
-            actionBar.hide();
-        } else {
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        }
         ButterKnife.bind(this);
 
-        FragmentUtils.createFragment(this, EditorFragment.class, R.id.editor, "editor");
-        FragmentUtils.createFragment(this, DisplayFragment.class, R.id.display, "display");
-        FragmentUtils.createFragment(this, KeyboardFragment.class, R.id.keyboard, "keyboard");
+        if (savedInstanceState == null) {
+            final FragmentManager fm = getSupportFragmentManager();
+            final FragmentTransaction t = fm.beginTransaction();
+            t.add(R.id.editor, new EditorFragment(), "editor");
+            t.add(R.id.display, new DisplayFragment(), "display");
+            t.add(R.id.keyboard, new KeyboardFragment(), "keyboard");
+            t.commit();
+        }
 
         if (partialKeyboard != null) {
             partialKeyboardUi.onCreateView(this, partialKeyboard);
         }
 
-        this.useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
+        toolbar.inflateMenu(R.menu.main);
+        toolbar.setOnMenuItemClickListener(this);
+
+        useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
         if (savedInstanceState == null) {
             firstTimeInit(preferences, this);
         }
 
-        toggleOrientationChange(preferences);
+        toggleOrientationChange();
+        prepareCardAndToolbar();
 
         preferences.registerOnSharedPreferenceChangeListener(this);
-
         preferredPreferences.check(this, false);
 
         if (App.isMonkeyRunner(this)) {
@@ -197,11 +204,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     protected void inject(@Nonnull AppComponent component) {
         super.inject(component);
         component.inject(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private boolean hasPermanentMenuKey() {
-        return ViewConfiguration.get(this).hasPermanentMenuKey();
     }
 
     @Override
@@ -255,16 +257,60 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         }
 
         if (Preferences.Gui.autoOrientation.getKey().equals(key)) {
-            toggleOrientationChange(preferences);
+            toggleOrientationChange();
         }
     }
 
-    private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
-        preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
+    private void toggleOrientationChange() {
         if (Preferences.Gui.autoOrientation.getPreference(preferences)) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            setRequestedOrientation(SCREEN_ORIENTATION_UNSPECIFIED);
         } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                launcher.showSettings();
+                return true;
+            case R.id.menu_history:
+                launcher.showHistory();
+                return true;
+            case R.id.menu_plotter:
+                Locator.getInstance().getPlotter().plot();
+                return true;
+            case R.id.menu_conversion_tool:
+                ConverterFragment.show(this);
+                return true;
+            case R.id.menu_about:
+                launcher.showAbout();
+                return true;
+        }
+        return false;
+    }
+
+    private void prepareCardAndToolbar() {
+        if (!(editor instanceof CardView)) {
+            return;
+        }
+        final CardView card = (CardView) editor;
+        final Resources resources = getResources();
+        final int cardTopMargin = resources.getDimensionPixelSize(R.dimen.cpp_card_margin);
+        final int preLollipopCardTopPadding = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? card.getPaddingTop() : 0;
+
+        {
+            final ViewGroup.LayoutParams lp = toolbar.getLayoutParams();
+            lp.height += cardTopMargin + preLollipopCardTopPadding;
+            toolbar.setLayoutParams(lp);
+            // center icons in toolbar
+            toolbar.setPadding(toolbar.getPaddingLeft(), toolbar.getPaddingTop() + cardTopMargin / 2 + preLollipopCardTopPadding, toolbar.getPaddingRight(), toolbar.getPaddingBottom() + cardTopMargin / 2);
+        }
+        final ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) card.getLayoutParams();
+        final int actionWidth = resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) + 2 * resources.getDimensionPixelSize(R.dimen.abc_action_bar_overflow_padding_start_material);
+        lp.leftMargin = actionWidth + 2 * toolbar.getPaddingLeft();
+        lp.rightMargin = actionWidth + 2 * toolbar.getPaddingRight();
+        card.setLayoutParams(lp);
     }
 }

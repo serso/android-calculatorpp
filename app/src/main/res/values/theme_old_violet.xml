@@ -36,11 +36,15 @@
 
     <style name="CppKeyboardButton.Violet.Control.Image" parent="CppKeyboardButton.Violet.Control"/>
 
+    <style name="Cpp.Theme.Violet.NoActionBar" parent="Cpp.Theme.Violet">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Cpp.Theme.Violet" parent="Cpp.Theme">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Violet.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Violet.Control</item>
-        <item name="cpp_button_style_control_image">@style/CppKeyboardButton.Violet.Control.Image
-        </item>
+        <item name="cpp_button_style_control_image">@style/CppKeyboardButton.Violet.Control.Image</item>
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Violet.Operation</item>
     </style>
 </resources>

@@ -22,17 +22,10 @@
 
 package org.solovyev.android.calculator;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import org.solovyev.android.calculator.converter.ConverterFragment;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -43,21 +36,11 @@ public class EditorFragment extends BaseFragment {
 
     @Inject
     Editor editor;
-    @Inject
-    SharedPreferences preferences;
-    @Inject
-    ActivityLauncher launcher;
     @Bind(R.id.calculator_editor)
     EditorView editorView;
 
     public EditorFragment() {
         super(R.layout.cpp_app_editor);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -78,32 +61,5 @@ public class EditorFragment extends BaseFragment {
     public void onDestroyView() {
         editor.clearView(editorView);
         super.onDestroyView();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_settings:
-                launcher.showSettings();
-                return true;
-            case R.id.menu_history:
-                launcher.showHistory();
-                return true;
-            case R.id.menu_plotter:
-                Locator.getInstance().getPlotter().plot();
-                return true;
-            case R.id.menu_conversion_tool:
-                ConverterFragment.show(getActivity());
-                return true;
-            case R.id.menu_about:
-                launcher.showAbout();
-                return true;
-        }
-        return false;
     }
 }

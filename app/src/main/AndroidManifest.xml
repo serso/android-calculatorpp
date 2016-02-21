@@ -57,13 +57,6 @@
         </receiver>
 
         <activity
-            android:name=".CalculatorActivityMobile"
-            android:clearTaskOnLaunch="true"
-            android:label="@string/c_app_name"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity
             android:name=".preferences.PreferencesActivity"
             android:label="@string/c_app_settings" />
 
