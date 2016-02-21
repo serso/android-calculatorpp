@@ -25,8 +25,9 @@ package org.solovyev.android.calculator.history;
 import android.os.Bundle;
 
 import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.view.Tabs;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.FragmentTab.history;
@@ -35,10 +36,9 @@ import static org.solovyev.android.calculator.FragmentTab.saved_history;
 public class HistoryActivity extends BaseActivity {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        ui.addTab(this, history, null, R.id.main);
-        ui.addTab(this, saved_history, null, R.id.main);
+    protected void populateTabs(@Nonnull Tabs tabs) {
+        super.populateTabs(tabs);
+        tabs.addTab(history);
+        tabs.addTab(saved_history);
     }
 }

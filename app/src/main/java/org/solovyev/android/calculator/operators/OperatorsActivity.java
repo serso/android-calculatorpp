@@ -22,20 +22,19 @@
 
 package org.solovyev.android.calculator.operators;
 
-import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
+import org.solovyev.android.calculator.view.Tabs;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 public class OperatorsActivity extends BaseActivity {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    protected void populateTabs(@Nonnull Tabs tabs) {
+        super.populateTabs(tabs);
         for (OperatorCategory category : OperatorCategory.values()) {
-            addTab(category, FragmentTab.operators);
+            tabs.addTab(category, FragmentTab.operators);
         }
     }
 }

@@ -36,11 +36,6 @@
 
     <style name="CppKeyboardButton.Gray.Control.Image" parent="CppKeyboardButton.Gray.Control"/>
 
-    <style name="Cpp.Theme.Gray.NoActionBar" parent="Cpp.Theme.Gray">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="Cpp.Theme.Gray" parent="Cpp.Theme">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Gray.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Gray.Control</item>

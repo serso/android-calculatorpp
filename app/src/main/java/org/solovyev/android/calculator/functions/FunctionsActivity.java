@@ -27,19 +27,33 @@ import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.operators.OperatorCategory;
+import org.solovyev.android.calculator.view.Tabs;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 public class FunctionsActivity extends BaseActivity {
 
     public static final String EXTRA_FUNCTION = "function";
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (savedInstanceState == null) {
+            final Bundle extras = getIntent().getExtras();
+            final CppFunction function = extras != null ? (CppFunction) extras.getParcelable(EXTRA_FUNCTION) : null;
+            if (function != null) {
+                EditFunctionFragment.show(function, this);
+            }
+        }
+    }
+
+    @Override
+    protected void populateTabs(@Nonnull Tabs tabs) {
+        super.populateTabs(tabs);
+
         for (FunctionCategory category : FunctionCategory.values()) {
-            addTab(category, FragmentTab.functions);
+            tabs.addTab(category, FragmentTab.functions);
         }
 
         for (OperatorCategory category : OperatorCategory.values()) {
@@ -49,15 +63,7 @@ public class FunctionsActivity extends BaseActivity {
             } else {
                 title = getString(category.title());
             }
-            addTab(category, FragmentTab.operators, title);
-        }
-
-        if (savedInstanceState == null) {
-            final Bundle extras = getIntent().getExtras();
-            final CppFunction function = extras != null ? (CppFunction) extras.getParcelable(EXTRA_FUNCTION) : null;
-            if (function != null) {
-                EditFunctionFragment.show(function, this);
-            }
+            tabs.addTab(category, FragmentTab.operators, title);
         }
     }
 }

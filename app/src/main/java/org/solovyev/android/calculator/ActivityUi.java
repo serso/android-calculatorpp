@@ -23,49 +23,74 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.Activities;
-import org.solovyev.android.Check;
 import org.solovyev.android.Views;
+import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
+import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
-public class ActivityUi extends BaseUi {
+import static org.solovyev.android.calculator.App.cast;
 
+public class ActivityUi {
+
+    @Nonnull
+    private final AppCompatActivity activity;
     private final int layoutId;
-
+    @Nonnull
+    private final Tabs tabs;
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    Editor editor;
+    @Inject
+    History history;
+    @Inject
+    Keyboard keyboard;
+    @Inject
+    Calculator calculator;
+    @Inject
+    Typeface typeface;
+    @Bind(R.id.main)
+    ViewGroup mainView;
+    @Nullable
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     @Nonnull
     private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;
-
     @Nonnull
     private Preferences.Gui.Layout layout = Preferences.Gui.Layout.main_calculator;
-
     @Nonnull
     private Language language = Languages.SYSTEM_LANGUAGE;
-
     private int selectedNavigationIndex = 0;
 
-    public ActivityUi(@LayoutRes int layoutId, @Nonnull String logTag) {
-        super(logTag);
+    public ActivityUi(@Nonnull AppCompatActivity activity, @LayoutRes int layoutId) {
+        this.activity = activity;
         this.layoutId = layoutId;
+        tabs = new Tabs(activity);
     }
 
     public static boolean restartIfThemeChanged(@Nonnull Activity activity, @Nonnull Preferences.Gui.Theme oldTheme) {
@@ -96,6 +121,20 @@ public class ActivityUi extends BaseUi {
         App.getGa().getAnalytics().reportActivityStart(activity);
     }
 
+    @Nonnull
+    private static String makeLastTabKey(@Nonnull Activity activity) {
+        return "tab_" + activity.getClass().getSimpleName();
+    }
+
+    public static void setFont(@Nonnull TextView view, @Nonnull Typeface newTypeface) {
+        final Typeface oldTypeface = view.getTypeface();
+        if (oldTypeface == newTypeface) {
+            return;
+        }
+        final int style = oldTypeface != null ? oldTypeface.getStyle() : Typeface.NORMAL;
+        view.setTypeface(newTypeface, style);
+    }
+
     public void onPreCreate(@Nonnull Activity activity) {
         final SharedPreferences preferences = App.getPreferences();
 
@@ -106,9 +145,16 @@ public class ActivityUi extends BaseUi {
         language = App.getLanguages().getCurrent();
     }
 
-    @Override
-    public void onCreate(@Nonnull Activity activity) {
-        super.onCreate(activity);
+    public void onCreate() {
+        cast(activity.getApplication()).getComponent().inject(this);
+
+        // let's disable locking of screen for monkeyrunner
+        if (App.isMonkeyRunner(activity)) {
+            final KeyguardManager km = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
+            //noinspection deprecation
+            km.newKeyguardLock(activity.getClass().getName()).disableKeyguard();
+        }
+
         App.getLanguages().updateContextLocale(activity, false);
 
         if (activity instanceof CalculatorEventListener) {
@@ -116,51 +162,31 @@ public class ActivityUi extends BaseUi {
         }
 
         activity.setContentView(layoutId);
+        ButterKnife.bind(this, activity);
 
-        final View root = activity.findViewById(R.id.main);
-        if (root != null) {
-            fixFonts(root);
-            addHelpInfo(activity, root);
-        }
+        fixFonts(mainView);
+        addHelpInfo(activity, mainView);
+        initToolbar();
     }
 
-    public void onCreate(@Nonnull final AppCompatActivity activity) {
-        onCreate((Activity) activity);
-        final ActionBar actionBar = activity.getSupportActionBar();
-        if (actionBar != null) {
-            initActionBar(activity, actionBar);
+    private void initToolbar() {
+        if (toolbar == null) {
+            return;
         }
-    }
-
-    private void initActionBar(@Nonnull Activity activity, @Nonnull ActionBar actionBar) {
-        actionBar.setDisplayUseLogoEnabled(false);
-        final boolean homeAsUp = !(activity instanceof CalculatorActivity);
-        actionBar.setDisplayHomeAsUpEnabled(homeAsUp);
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setElevation(0);
-
-        toggleTitle(activity, actionBar, true);
-
-        if (!homeAsUp) {
-            actionBar.setIcon(R.drawable.ab_logo);
-        }
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-    }
-
-    private void toggleTitle(@Nonnull Activity activity, @Nonnull ActionBar actionBar, boolean showTitle) {
         if (activity instanceof CalculatorActivity) {
-            if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT) {
-                actionBar.setDisplayShowTitleEnabled(true);
-            } else {
-                actionBar.setDisplayShowTitleEnabled(false);
-            }
-        } else {
-            actionBar.setDisplayShowTitleEnabled(showTitle);
+            return;
         }
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onBackPressed();
+            }
+        });
+        toolbar.setTitle(activity.getTitle());
     }
 
-    public void restoreSavedTab(@Nonnull AppCompatActivity activity) {
+    public void restoreSavedTab() {
         final ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
             if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
@@ -169,25 +195,7 @@ public class ActivityUi extends BaseUi {
         }
     }
 
-    public void onSaveInstanceState(@Nonnull AppCompatActivity activity, @Nonnull Bundle outState) {
-        onSaveInstanceState((Activity) activity, outState);
-    }
-
-    public void onSaveInstanceState(@Nonnull Activity activity, @Nonnull Bundle outState) {
-    }
-
-    public void onResume(@Nonnull Activity activity) {
-        if (!restartIfThemeChanged(activity, theme)) {
-            restartIfLanguageChanged(activity, language);
-        }
-    }
-
-    public void onPause(@Nonnull Activity activity) {
-    }
-
-    public void onPause(@Nonnull AppCompatActivity activity) {
-        onPause((Activity) activity);
-
+    public void onPause() {
         final ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
             final int selectedNavigationIndex = actionBar.getSelectedNavigationIndex();
@@ -200,71 +208,23 @@ public class ActivityUi extends BaseUi {
         }
     }
 
-    @Nonnull
-    private static String makeLastTabKey(@Nonnull Activity activity) {
-        return "tab_" + activity.getClass().getSimpleName();
+    public void onDestroy() {
     }
 
-    @Override
-    public void onDestroy(@Nonnull Activity activity) {
-        super.onDestroy(activity);
-
-        if (activity instanceof CalculatorEventListener) {
-            Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) activity);
-        }
-    }
-
-    public void onDestroy(@Nonnull AppCompatActivity activity) {
-        this.onDestroy((Activity) activity);
-    }
-
-    public void addTab(@Nonnull AppCompatActivity activity,
-                       @Nonnull String tag,
-                       @Nonnull Class<? extends Fragment> fragmentClass,
+    public void addTab(@Nonnull Class<? extends Fragment> fragmentClass,
                        @Nullable Bundle fragmentArgs,
-                       int title,
-                       int parentViewId) {
-        addTab(activity, tag, fragmentClass, fragmentArgs, activity.getString(title), parentViewId);
+                       int title) {
+        addTab(fragmentClass, fragmentArgs, activity.getString(title));
     }
 
-    public void addTab(@Nonnull AppCompatActivity activity,
-                       @Nonnull String tag,
-                       @Nonnull Class<? extends Fragment> fragmentClass,
+    public void addTab(@Nonnull Class<? extends Fragment> fragmentClass,
                        @Nullable Bundle fragmentArgs,
-                       @Nullable CharSequence title,
-                       int parentViewId) {
-        final ActionBar actionBar = activity.getSupportActionBar();
-        Check.isNotNull(actionBar);
-
-        final ActionBar.Tab tab = actionBar.newTab();
-        tab.setTag(tag);
-        tab.setText(title);
-
-        final ActionBarFragmentTabListener listener = new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, parentViewId);
-        tab.setTabListener(listener);
-        actionBar.addTab(tab);
+                       @Nonnull CharSequence title) {
+        tabs.addTab(fragmentClass, fragmentArgs, title);
     }
 
-    public void addTab(@Nonnull AppCompatActivity activity, @Nonnull FragmentTab tab, @Nullable Bundle fragmentArgs, int parentViewId) {
-        addTab(activity, tab.tag, tab.type, fragmentArgs, tab.title, parentViewId);
-    }
-
-    public void setFragment(@Nonnull AppCompatActivity activity, @Nonnull FragmentTab tab, @Nullable Bundle fragmentArgs, int parentViewId) {
-        final FragmentManager fm = activity.getSupportFragmentManager();
-
-        Fragment fragment = fm.findFragmentByTag(tab.tag);
-        if (fragment == null) {
-            fragment = Fragment.instantiate(activity, tab.type.getName(), fragmentArgs);
-            final FragmentTransaction ft = fm.beginTransaction();
-            ft.add(parentViewId, fragment, tab.tag);
-            ft.commit();
-        } else {
-            if (fragment.isDetached()) {
-                final FragmentTransaction ft = fm.beginTransaction();
-                ft.attach(fragment);
-                ft.commit();
-            }
-        }
+    public void addTab(@Nonnull FragmentTab tab, @Nullable Bundle fragmentArgs) {
+        addTab(tab.type, fragmentArgs, tab.title);
     }
 
     @Nonnull
@@ -277,12 +237,19 @@ public class ActivityUi extends BaseUi {
         return layout;
     }
 
-    public void onResume(@Nonnull AppCompatActivity activity) {
-        onResume((Activity) activity);
+    @Nonnull
+    public Preferences.Gui.Theme getTheme() {
+        return theme;
+    }
+
+    public void onResume() {
+        if (!restartIfThemeChanged(activity, theme)) {
+            restartIfLanguageChanged(activity, language);
+        }
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         selectedNavigationIndex = preferences.getInt(makeLastTabKey(activity), -1);
-        restoreSavedTab(activity);
+        restoreSavedTab();
     }
 
     private void addHelpInfo(@Nonnull Activity activity, @Nonnull View root) {
@@ -350,5 +317,24 @@ public class ActivityUi extends BaseUi {
 
     public void onStart(@Nonnull Activity activity) {
         reportActivityStart(activity);
+    }
+
+    protected void fixFonts(@Nonnull View root) {
+        // some devices ship own fonts which causes issues with rendering. Let's use our own font for all text views
+        Views.processViewsOfType(root, TextView.class, new Views.ViewProcessor<TextView>() {
+            @Override
+            public void process(@Nonnull TextView view) {
+                setFont(view, typeface);
+            }
+        });
+    }
+
+    public void onPostCreate() {
+        tabs.onCreate();
+    }
+
+    @Nonnull
+    public Tabs getTabs() {
+        return tabs;
     }
 }

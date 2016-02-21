@@ -26,7 +26,7 @@ import javax.inject.Singleton;
 public interface AppComponent {
     void inject(CalculatorApplication application);
     void inject(EditorFragment fragment);
-    void inject(BaseUi ui);
+    void inject(ActivityUi ui);
     void inject(FloatingCalculatorService service);
     void inject(BaseHistoryFragment fragment);
     void inject(BaseDialogFragment fragment);

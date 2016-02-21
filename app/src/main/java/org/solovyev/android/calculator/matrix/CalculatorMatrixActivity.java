@@ -25,17 +25,15 @@ package org.solovyev.android.calculator.matrix;
 import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.view.Tabs;
 
-import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
+import javax.annotation.Nonnull;
 
 public class CalculatorMatrixActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
-        getUi().setFragment(this, FragmentTab.matrix_edit, null, R.id.main);
+    protected void populateTabs(@Nonnull Tabs tabs) {
+        super.populateTabs(tabs);
+        tabs.addTab(FragmentTab.matrix_edit);
     }
 }

@@ -25,7 +25,9 @@ package org.solovyev.android.calculator.variables;
 import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
+import org.solovyev.android.calculator.view.Tabs;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class VariablesActivity extends BaseActivity {
@@ -36,16 +38,20 @@ public class VariablesActivity extends BaseActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        for (VariableCategory category : VariableCategory.values()) {
-            addTab(category, FragmentTab.variables);
-        }
-
         if (savedInstanceState == null) {
             final Bundle extras = getIntent().getExtras();
             final CppVariable variable = extras != null ? (CppVariable) extras.getParcelable(EXTRA_VARIABLE) : null;
             if (variable != null) {
                 EditVariableFragment.showDialog(variable, this);
             }
+        }
+    }
+
+    @Override
+    protected void populateTabs(@Nonnull Tabs tabs) {
+        super.populateTabs(tabs);
+        for (VariableCategory category : VariableCategory.values()) {
+            tabs.addTab(category, FragmentTab.variables);
         }
     }
 }

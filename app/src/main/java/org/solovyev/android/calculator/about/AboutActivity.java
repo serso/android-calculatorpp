@@ -22,20 +22,18 @@
 
 package org.solovyev.android.calculator.about;
 
-import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.view.Tabs;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 public class AboutActivity extends BaseActivity {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getUi().addTab(this, FragmentTab.about, null, R.id.main);
-        getUi().addTab(this, FragmentTab.release_notes, null, R.id.main);
+    protected void populateTabs(@Nonnull Tabs tabs) {
+        super.populateTabs(tabs);
+        tabs.addTab(FragmentTab.about);
+        tabs.addTab(FragmentTab.release_notes);
     }
 }

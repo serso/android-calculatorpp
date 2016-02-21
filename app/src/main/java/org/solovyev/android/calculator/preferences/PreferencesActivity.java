@@ -44,10 +44,6 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     @Inject
     Products products;
 
-    public PreferencesActivity() {
-        super(R.layout.main_empty);
-    }
-
     @Nonnull
     static SparseArray<PrefDef> getPreferences() {
         return preferences;
@@ -89,8 +85,6 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
                     .add(R.id.main, PreferencesFragment.create(preference, R.layout.fragment_preferences))
                     .commit();
         }
-
-        getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
 
         checkout = Checkout.forActivity(this, billing, products);
         checkout.start();

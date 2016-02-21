@@ -22,16 +22,13 @@
 
 package org.solovyev.android.calculator.wizard;
 
-import static org.solovyev.android.calculator.App.cast;
-
 import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
-import org.solovyev.android.calculator.BaseUi;
+import org.solovyev.android.calculator.ActivityUi;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 import org.solovyev.android.views.Adjuster;
@@ -40,11 +37,12 @@ import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
-import java.util.Arrays;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.Arrays;
+
+import static org.solovyev.android.calculator.App.cast;
 
 public class DragButtonWizardStep extends WizardFragment {
 
@@ -77,7 +75,7 @@ public class DragButtonWizardStep extends WizardFragment {
         dragButton.setOnClickListener(this);
         dragButton.setOnDragListener(
                 new SimpleDragListener(new DragButtonProcessor(), getActivity()));
-        BaseUi.setFont(dragButton, typeface);
+        ActivityUi.setFont(dragButton, typeface);
         Adjuster.adjustText(dragButton, BaseKeyboardUi.TEXT_SCALE);
         actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
         if (savedInstanceState != null) {
