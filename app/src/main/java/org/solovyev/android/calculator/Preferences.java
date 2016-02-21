@@ -76,10 +76,13 @@ public final class Preferences {
                 //noinspection deprecation
                 Gui.vibrateOnKeypress.putPreference(editor, Gui.hapticFeedback.getPreference(preferences) > 0);
             }
-            Gui.Layout layout = Gui.layout.getPreference(preferences);
-            //noinspection deprecation
-            if (layout == Gui.Layout.main_cellphone || layout == Gui.Layout.main_calculator_mobile || layout == Gui.Layout.simple_mobile) {
+            final Gui.Layout layout = Gui.layout.getPreference(preferences);
+            if (layout == Gui.Layout.main_cellphone) {
                 Gui.layout.putDefault(editor);
+            } else if (layout == Gui.Layout.main_calculator_mobile) {
+                Gui.layout.putPreference(editor, Gui.Layout.main_calculator);
+            } else if (layout == Gui.Layout.simple_mobile) {
+                Gui.layout.putPreference(editor, Gui.Layout.simple);
             }
             editor.apply();
         }
