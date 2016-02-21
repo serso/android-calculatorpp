@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,8 +33,8 @@ public class Tabs {
     @Bind(R.id.tabs)
     TabLayout tabLayout;
     @Nullable
-    @Bind(R.id.viewpager)
-    ViewPager viewpager;
+    @Bind(R.id.viewPager)
+    ViewPager viewPager;
 
     public Tabs(@Nonnull AppCompatActivity activity) {
         this.activity = activity;
@@ -43,14 +44,21 @@ public class Tabs {
     public void onCreate() {
         ButterKnife.bind(this, activity);
 
-        if (tabLayout == null || viewpager == null) {
+        if (tabLayout == null || viewPager == null) {
             return;
         }
-        viewpager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewpager);
+        final int tabs = adapter.getCount();
+        if (tabs == 0) {
+            tabLayout.setVisibility(View.GONE);
+            return;
+        }
+        viewPager.setAdapter(adapter);
+        tabLayout.setTabMode(tabs > 3 ? TabLayout.MODE_SCROLLABLE : TabLayout.MODE_FIXED);
+        tabLayout.setupWithViewPager(viewPager);
+
 
         if (ViewCompat.isLaidOut(tabLayout)) {
-            tabLayout.setupWithViewPager(viewpager);
+            tabLayout.setupWithViewPager(viewPager);
         } else {
             final ViewTreeObserver treeObserver = Adjuster.getTreeObserver(tabLayout);
             if (treeObserver != null) {
@@ -62,7 +70,7 @@ public class Tabs {
                             //noinspection deprecation
                             anotherTreeObserver.removeGlobalOnLayoutListener(this);
                         }
-                        tabLayout.setupWithViewPager(viewpager);
+                        tabLayout.setupWithViewPager(viewPager);
                     }
                 });
             }
@@ -85,6 +93,14 @@ public class Tabs {
 
     public void addTab(@Nonnull Class<? extends Fragment> fragmentClass, @Nullable Bundle fragmentArgs, @Nonnull CharSequence title) {
         adapter.add(new TabFragment(fragmentClass, fragmentArgs, title));
+    }
+
+    @Nullable
+    public Fragment getCurrentFragment() {
+        if (viewPager == null) {
+            return null;
+        }
+        return adapter.getItem(viewPager.getCurrentItem());
     }
 
     private final class TabFragments extends FragmentPagerAdapter {

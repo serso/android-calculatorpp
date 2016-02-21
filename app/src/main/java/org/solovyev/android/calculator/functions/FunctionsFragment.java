@@ -64,14 +64,6 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
         bus.register(this);
-        fab.setVisibility(View.VISIBLE);
-        fab.attachToRecyclerView(recyclerView);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditFunctionFragment.show(getActivity());
-            }
-        });
         return view;
     }
 

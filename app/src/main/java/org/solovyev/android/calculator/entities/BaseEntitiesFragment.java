@@ -35,7 +35,6 @@ import android.view.*;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.melnykov.fab.FloatingActionButton;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.views.llm.DividerItemDecoration;
@@ -61,8 +60,6 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         }
     };
 
-    @Bind(R.id.entities_fab)
-    public FloatingActionButton fab;
     @Bind(R.id.entities_recyclerview)
     public RecyclerView recyclerView;
     @Inject

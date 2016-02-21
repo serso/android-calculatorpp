@@ -44,13 +44,17 @@ public class AdUi {
             return;
         }
         adView.resume();
-        checkout.loadInventory().whenLoaded(onMainThread(new Inventory.Listener() {
-            @Override
-            public void onLoaded(@Nonnull Inventory.Products products) {
-                adFree = products.get(IN_APP).isPurchased("ad_free");
-                updateAdView();
-            }
-        }));
+        if (adFree != null) {
+            updateAdView();
+        } else {
+            checkout.loadInventory().whenLoaded(onMainThread(new Inventory.Listener() {
+                @Override
+                public void onLoaded(@Nonnull Inventory.Products products) {
+                    adFree = products.get(IN_APP).isPurchased("ad_free");
+                    updateAdView();
+                }
+            }));
+        }
     }
 
     private void updateAdView() {

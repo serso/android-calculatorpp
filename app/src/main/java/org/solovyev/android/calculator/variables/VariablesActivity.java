@@ -23,8 +23,10 @@
 package org.solovyev.android.calculator.variables;
 
 import android.os.Bundle;
+import android.view.View;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
@@ -45,6 +47,13 @@ public class VariablesActivity extends BaseActivity {
                 EditVariableFragment.showDialog(variable, this);
             }
         }
+
+        ui.withFab(R.drawable.ic_add_white_36dp, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditVariableFragment.showDialog(VariablesActivity.this);
+            }
+        });
     }
 
     @Override

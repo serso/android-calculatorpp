@@ -24,11 +24,9 @@ package org.solovyev.android.calculator.history;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
@@ -37,7 +35,6 @@ import android.view.*;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.melnykov.fab.FloatingActionButton;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import org.solovyev.android.Check;
@@ -64,8 +61,6 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     Bus bus;
     @Bind(R.id.history_recyclerview)
     RecyclerView recyclerView;
-    @Bind(R.id.history_fab)
-    FloatingActionButton fab;
     private HistoryAdapter adapter;
 
     protected BaseHistoryFragment(boolean recentHistory) {
@@ -107,33 +102,7 @@ public abstract class BaseHistoryFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(context, null));
-        fab.attachToRecyclerView(recyclerView);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showClearHistoryDialog();
-            }
-        });
         return view;
-    }
-
-    private void showClearHistoryDialog() {
-        new AlertDialog.Builder(getActivity(), App.getTheme().alertDialogTheme)
-                .setTitle(R.string.cpp_clear_history_title)
-                .setMessage(R.string.cpp_clear_history_message)
-                .setPositiveButton(R.string.cpp_clear_history, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (recentHistory) {
-                            history.clearRecent();
-                        } else {
-                            history.clearSaved();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.c_cancel, null)
-                .create()
-                .show();
     }
 
     @SuppressWarnings("deprecation")

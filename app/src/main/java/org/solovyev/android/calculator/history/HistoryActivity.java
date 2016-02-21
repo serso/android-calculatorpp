@@ -22,23 +22,67 @@
 
 package org.solovyev.android.calculator.history;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-
-import org.solovyev.android.calculator.BaseActivity;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.FragmentTab.history;
 import static org.solovyev.android.calculator.FragmentTab.saved_history;
 
 public class HistoryActivity extends BaseActivity {
 
+    @Inject
+    History history;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ui.withFab(R.drawable.ic_delete_white_36dp, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Fragment fragment = ui.getTabs().getCurrentFragment();
+                showClearHistoryDialog(fragment instanceof RecentHistoryFragment);
+            }
+        });
+    }
+
+    @Override
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
+    }
+
     @Override
     protected void populateTabs(@Nonnull Tabs tabs) {
         super.populateTabs(tabs);
-        tabs.addTab(history);
+        tabs.addTab(FragmentTab.history);
         tabs.addTab(saved_history);
     }
+
+    private void showClearHistoryDialog(final boolean recentHistory) {
+        new AlertDialog.Builder(this, App.getTheme().alertDialogTheme)
+                .setTitle(R.string.cpp_clear_history_title)
+                .setMessage(R.string.cpp_clear_history_message)
+                .setPositiveButton(R.string.cpp_clear_history, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (recentHistory) {
+                            history.clearRecent();
+                        } else {
+                            history.clearSaved();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.c_cancel, null)
+                .create()
+                .show();
+    }
+
 }

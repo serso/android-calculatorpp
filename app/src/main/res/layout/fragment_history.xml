@@ -31,18 +31,9 @@
 
     <org.solovyev.android.calculator.AdView style="@style/CppAd" />
 
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
+        a:id="@+id/history_recyclerview"
         a:layout_width="match_parent"
-        a:layout_height="match_parent">
+        a:layout_height="match_parent" />
 
-        <android.support.v7.widget.RecyclerView
-            a:id="@+id/history_recyclerview"
-            a:layout_width="match_parent"
-            a:layout_height="match_parent" />
-
-        <com.melnykov.fab.FloatingActionButton
-            a:id="@+id/history_fab"
-            style="@style/CppFab"
-            a:src="@drawable/ic_delete_white_36dp" />
-    </FrameLayout>
 </LinearLayout>

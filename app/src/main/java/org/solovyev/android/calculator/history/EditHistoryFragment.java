@@ -12,15 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
 
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class EditHistoryFragment extends BaseDialogFragment {
 
@@ -74,14 +72,22 @@ public class EditHistoryFragment extends BaseDialogFragment {
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         builder.setNegativeButton(R.string.c_cancel, null);
-        builder.setPositiveButton(R.string.c_save, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton(R.string.c_save, null);
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
                 final HistoryState.Builder b = HistoryState.builder(state, newState)
                         .withComment(commentView.getText().toString());
                 history.updateSaved(b.build());
-            }
-        });
+                dismiss();
+                break;
+            default:
+                super.onClick(dialog, which);
+                break;
+        }
     }
 
     @SuppressLint("InflateParams")

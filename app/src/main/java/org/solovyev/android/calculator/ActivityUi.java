@@ -31,7 +31,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +45,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.Activities;
+import org.solovyev.android.Check;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
@@ -79,6 +82,9 @@ public class ActivityUi {
     @Nullable
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Nullable
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
     @Nonnull
     private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;
     @Nonnull
@@ -336,5 +342,15 @@ public class ActivityUi {
     @Nonnull
     public Tabs getTabs() {
         return tabs;
+    }
+
+    public void withFab(@DrawableRes int icon, @Nonnull View.OnClickListener listener) {
+        if (fab == null) {
+            Check.shouldNotHappen();
+            return;
+        }
+        fab.setVisibility(View.VISIBLE);
+        fab.setImageResource(icon);
+        fab.setOnClickListener(listener);
     }
 }

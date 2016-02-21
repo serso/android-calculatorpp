@@ -8,6 +8,7 @@ import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.history.BaseHistoryFragment;
 import org.solovyev.android.calculator.history.EditHistoryFragment;
+import org.solovyev.android.calculator.history.HistoryActivity;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 import org.solovyev.android.calculator.floating.FloatingCalculatorView;
 import org.solovyev.android.calculator.operators.OperatorsFragment;
@@ -49,4 +50,5 @@ public interface AppComponent {
     void inject(FloatingCalculatorView view);
     void inject(DragButtonWizardStep fragment);
     void inject(BaseFragment fragment);
+    void inject(HistoryActivity activity);
 }

@@ -23,6 +23,7 @@
 package org.solovyev.android.calculator.functions;
 
 import android.os.Bundle;
+import android.view.View;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
@@ -46,6 +47,13 @@ public class FunctionsActivity extends BaseActivity {
                 EditFunctionFragment.show(function, this);
             }
         }
+
+        ui.withFab(R.drawable.ic_add_white_36dp, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditFunctionFragment.show(FunctionsActivity.this);
+            }
+        });
     }
 
     @Override

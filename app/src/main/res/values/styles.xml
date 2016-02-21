@@ -279,9 +279,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">bottom|end</item>
         <item name="android:layout_margin">16dp</item>
-        <item name="fab_colorNormal">?attr/cpp_fab_bg</item>
-        <item name="fab_colorPressed">?attr/cpp_fab_bg</item>
-        <item name="fab_colorRipple">?attr/colorControlHighlight</item>
+        <item name="android:visibility">gone</item>
+        <item name="backgroundTint">?attr/cpp_fab_bg</item>
     </style>
 
     <style name="CppListItemText">
@@ -326,16 +325,14 @@
         <item name="android:padding">0dp</item>
     </style>
 
-    <style name="CppActionBar" parent="@style/Widget.AppCompat.ActionBar">
+    <style name="CppToolbar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="background">@color/cpp_material_actionbar</item>
-        <item name="android:background">@color/cpp_material_actionbar</item>
         <item name="backgroundStacked">@color/cpp_material_actionbar</item>
         <item name="backgroundSplit">@color/cpp_material_actionbar</item>
     </style>
 
-    <style name="CppActionBar.Light" parent="CppActionBar">
+    <style name="CppToolbar.Light" parent="CppToolbar">
         <item name="background">@color/cpp_material_actionbar_light</item>
-        <item name="android:background">@color/cpp_material_actionbar_light</item>
         <item name="backgroundStacked">@color/cpp_material_actionbar_light</item>
         <item name="backgroundSplit">@color/cpp_material_actionbar_light</item>
     </style>

@@ -22,28 +22,16 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/main_fragment_layout"
+<LinearLayout a:id="@+id/main_fragment_layout"
     style="@style/CppFragment"
+    xmlns:a="http://schemas.android.com/apk/res/android"
     a:layout_width="match_parent"
     a:layout_height="match_parent">
 
     <org.solovyev.android.calculator.AdView style="@style/CppAd" />
 
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
+        a:id="@+id/entities_recyclerview"
         a:layout_width="match_parent"
-        a:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            a:id="@+id/entities_recyclerview"
-            a:layout_width="match_parent"
-            a:layout_height="match_parent" />
-
-        <com.melnykov.fab.FloatingActionButton
-            a:id="@+id/entities_fab"
-            style="@style/CppFab"
-            a:src="@drawable/ic_add_white_36dp"
-            a:visibility="gone" />
-    </FrameLayout>
+        a:layout_height="match_parent" />
 </LinearLayout>

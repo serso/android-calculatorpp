@@ -46,8 +46,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.solovyev.android.calculator.FragmentTab.variables;
-
 public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
 
     @Inject
@@ -76,14 +74,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
         bus.register(this);
-        fab.setVisibility(View.VISIBLE);
-        fab.attachToRecyclerView(recyclerView);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditVariableFragment.showDialog(null, getFragmentManager());
-            }
-        });
         return view;
     }
 
