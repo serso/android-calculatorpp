@@ -21,11 +21,9 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<org.solovyev.android.calculator.EditorView a:id="@+id/calculator_editor"
+<org.solovyev.android.calculator.EditorView
+    a:id="@+id/calculator_editor"
     style="@style/CppText.Editor"
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:hint="@string/c_calc_editor_hint"
-    a:padding="@dimen/cpp_editor_padding"
-    a:scrollbars="vertical"
-    a:singleLine="false"
-    a:textIsSelectable="true" />
+    a:padding="@dimen/cpp_editor_padding" />

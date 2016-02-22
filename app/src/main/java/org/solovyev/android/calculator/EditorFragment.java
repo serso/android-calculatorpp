@@ -58,6 +58,12 @@ public class EditorFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        editorView.requestFocus();
+    }
+
+    @Override
     public void onDestroyView() {
         editor.clearView(editorView);
         super.onDestroyView();

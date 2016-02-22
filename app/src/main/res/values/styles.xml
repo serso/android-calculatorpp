@@ -67,6 +67,7 @@
         <item name="android:textSize">@dimen/cpp_min_editor_text_size</item>
         <item name="android:textColor">?attr/cpp_text_color</item>
         <item name="android:inputType">textMultiLine|textNoSuggestions</item>
+        <item name="android:scrollbars">vertical</item>
     </style>
 
     <style name="CppText.Display" parent="CppText">
