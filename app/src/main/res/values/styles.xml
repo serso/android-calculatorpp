@@ -96,9 +96,8 @@
 
     <style name="CppText.About">
         <item name="android:gravity">center</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:textSize">@dimen/cpp_fragment_text_size</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:padding">5dp</item>
     </style>
 

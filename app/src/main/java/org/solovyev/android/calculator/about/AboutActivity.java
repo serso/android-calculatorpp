@@ -25,9 +25,9 @@ package org.solovyev.android.calculator.about;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
@@ -39,8 +39,7 @@ public class AboutActivity extends BaseActivity {
 
     @Nonnull
     public static Class<? extends AboutActivity> getClass(@NonNull Context context) {
-        boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
-        return tablet ? Dialog.class : AboutActivity.class;
+        return App.isTablet(context) ? Dialog.class : AboutActivity.class;
     }
 
 

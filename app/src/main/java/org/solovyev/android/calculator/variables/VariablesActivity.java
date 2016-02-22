@@ -26,6 +26,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
@@ -40,8 +42,7 @@ public class VariablesActivity extends BaseActivity {
 
     @Nonnull
     public static Class<? extends VariablesActivity> getClass(@NonNull Context context) {
-        boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
-        return tablet ? Dialog.class : VariablesActivity.class;
+        return App.isTablet(context) ? Dialog.class : VariablesActivity.class;
     }
 
     @Override

@@ -49,8 +49,7 @@ public class HistoryActivity extends BaseActivity {
 
     @Nonnull
     public static Class<? extends HistoryActivity> getClass(@NonNull Context context) {
-        boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
-        return tablet ? Dialog.class : HistoryActivity.class;
+        return App.isTablet(context) ? Dialog.class : HistoryActivity.class;
     }
 
 

@@ -25,6 +25,7 @@ package org.solovyev.android.calculator.operators;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
@@ -39,8 +40,7 @@ public class OperatorsActivity extends BaseActivity {
 
     @Nonnull
     public static Class<? extends OperatorsActivity> getClass(@NonNull Context context) {
-        boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
-        return tablet ? Dialog.class : OperatorsActivity.class;
+        return App.isTablet(context) ? Dialog.class : OperatorsActivity.class;
     }
 
     @Override

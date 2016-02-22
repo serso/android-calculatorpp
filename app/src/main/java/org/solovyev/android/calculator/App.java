@@ -358,4 +358,8 @@ public final class App {
                     "Failed to show permission settings for " + action, e);
         }
     }
+
+    public static boolean isTablet(@NonNull Context context) {
+        return context.getResources().getBoolean(R.bool.cpp_tablet);
+    }
 }

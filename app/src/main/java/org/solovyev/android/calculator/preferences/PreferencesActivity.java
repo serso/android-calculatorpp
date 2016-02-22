@@ -32,8 +32,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     private static final SparseArray<PrefDef> preferences = new SparseArray<>();
 
     public static Class<? extends PreferencesActivity> getClass(@NonNull Context context) {
-        final boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
-        return tablet ? Dialog.class : PreferencesActivity.class;
+        return App.isTablet(context) ? Dialog.class : PreferencesActivity.class;
     }
 
     static {
