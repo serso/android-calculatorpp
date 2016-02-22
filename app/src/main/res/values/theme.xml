@@ -51,8 +51,8 @@
         <item name="colorPrimaryDark">@color/cpp_metro_button_dark</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
 
-        <item name="windowNoTitle">false</item>
-        <item name="android:windowNoTitle">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
         <item name="windowActionBar">false</item>
 
@@ -101,8 +101,8 @@
         <item name="colorPrimaryDark">@color/cpp_material_light</item>
         <item name="colorAccent">@color/cpp_material_light</item>
 
-        <item name="windowNoTitle">false</item>
-        <item name="android:windowNoTitle">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
         <item name="windowActionBar">false</item>
 
