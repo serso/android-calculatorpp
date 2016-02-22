@@ -182,14 +182,10 @@ public class ActivityUi {
         if (activity instanceof CalculatorActivity) {
             return;
         }
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.onBackPressed();
-            }
-        });
-        toolbar.setTitle(activity.getTitle());
+        activity.setSupportActionBar(toolbar);
+        final ActionBar actionBar = activity.getSupportActionBar();
+        Check.isNotNull(actionBar);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     public void restoreSavedTab() {
