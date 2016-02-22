@@ -22,6 +22,9 @@ public class PagerViewFabBehavior extends FloatingActionButton.Behavior {
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout,
             FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
+        if (!child.isClickable()) {
+            return false;
+        }
         switch (nestedScrollAxes) {
             case ViewCompat.SCROLL_AXIS_HORIZONTAL:
                 return target instanceof ViewPager;
