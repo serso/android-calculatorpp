@@ -59,6 +59,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
+        app:layout_behavior="org.solovyev.android.calculator.view.PagerViewFabBehavior"
         android:id="@+id/fab"
         style="@style/CppFab" />
 
