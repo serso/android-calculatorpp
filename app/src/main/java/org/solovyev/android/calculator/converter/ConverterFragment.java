@@ -17,10 +17,33 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Clipboard;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.R;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import org.solovyev.android.calculator.*;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -28,9 +51,6 @@ import javax.measure.unit.Dimension;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.*;
 
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
@@ -416,14 +436,17 @@ public class ConverterFragment extends BaseDialogFragment
     private class MyDimensionUi {
         @NonNull
         public final MyDimension dimension;
+        @NonNull
+        public final String name;
 
         private MyDimensionUi(@NonNull MyDimension dimension) {
             this.dimension = dimension;
+            this.name = getString(dimension.name);
         }
 
         @Override
         public String toString() {
-            return getString(dimension.name);
+            return name;
         }
     }
 }
