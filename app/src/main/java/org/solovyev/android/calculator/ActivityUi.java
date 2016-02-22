@@ -30,7 +30,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
@@ -55,6 +54,7 @@ import org.solovyev.android.calculator.view.Tabs;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import static org.solovyev.android.calculator.App.cast;
 
@@ -91,7 +91,6 @@ public class ActivityUi {
     private Preferences.Gui.Layout layout = Preferences.Gui.Layout.main_calculator;
     @Nonnull
     private Language language = Languages.SYSTEM_LANGUAGE;
-    private int selectedNavigationIndex = 0;
 
     public ActivityUi(@Nonnull AppCompatActivity activity, @LayoutRes int layoutId) {
         this.activity = activity;
@@ -125,11 +124,6 @@ public class ActivityUi {
 
     public static void reportActivityStart(@Nonnull Activity activity) {
         App.getGa().getAnalytics().reportActivityStart(activity);
-    }
-
-    @Nonnull
-    private static String makeLastTabKey(@Nonnull Activity activity) {
-        return "tab_" + activity.getClass().getSimpleName();
     }
 
     public static void setFont(@Nonnull TextView view, @Nonnull Typeface newTypeface) {
@@ -188,26 +182,8 @@ public class ActivityUi {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    public void restoreSavedTab() {
-        final ActionBar actionBar = activity.getSupportActionBar();
-        if (actionBar != null) {
-            if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
-                actionBar.setSelectedNavigationItem(selectedNavigationIndex);
-            }
-        }
-    }
-
     public void onPause() {
-        final ActionBar actionBar = activity.getSupportActionBar();
-        if (actionBar != null) {
-            final int selectedNavigationIndex = actionBar.getSelectedNavigationIndex();
-            if (selectedNavigationIndex >= 0) {
-                final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-                final SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt(makeLastTabKey(activity), selectedNavigationIndex);
-                editor.apply();
-            }
-        }
+        tabs.onPause();
     }
 
     public void onDestroy() {
@@ -248,10 +224,6 @@ public class ActivityUi {
         if (!restartIfThemeChanged(activity, theme)) {
             restartIfLanguageChanged(activity, language);
         }
-
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        selectedNavigationIndex = preferences.getInt(makeLastTabKey(activity), -1);
-        restoreSavedTab();
     }
 
     private void addHelpInfo(@Nonnull Activity activity, @Nonnull View root) {

@@ -16,6 +16,7 @@ import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
+import org.solovyev.android.calculator.view.Tabs;
 import org.solovyev.android.calculator.wizard.DragButtonWizardStep;
 
 import dagger.Component;
@@ -51,4 +52,5 @@ public interface AppComponent {
     void inject(DragButtonWizardStep fragment);
     void inject(BaseFragment fragment);
     void inject(HistoryActivity activity);
+    void inject(Tabs tabs);
 }

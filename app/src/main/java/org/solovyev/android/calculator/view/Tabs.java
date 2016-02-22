@@ -1,27 +1,34 @@
 package org.solovyev.android.calculator.view;
 
+import static org.solovyev.android.calculator.App.cast;
+
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
+import org.solovyev.android.calculator.AppModule;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
-import org.solovyev.android.views.Adjuster;
 
-import javax.annotation.Nonnull;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class Tabs {
 
@@ -29,6 +36,9 @@ public class Tabs {
     private final AppCompatActivity activity;
     @Nonnull
     private final TabFragments adapter;
+    @Inject
+    @Named(AppModule.PREFS_TABS)
+    SharedPreferences preferences;
     @Nullable
     @Bind(R.id.tabs)
     TabLayout tabLayout;
@@ -42,6 +52,7 @@ public class Tabs {
     }
 
     public void onCreate() {
+        cast(activity.getApplicationContext()).getComponent().inject(this);
         ButterKnife.bind(this, activity);
 
         if (tabLayout == null || viewPager == null) {
@@ -55,26 +66,7 @@ public class Tabs {
         viewPager.setAdapter(adapter);
         tabLayout.setTabMode(tabs > 3 ? TabLayout.MODE_SCROLLABLE : TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
-
-
-        if (ViewCompat.isLaidOut(tabLayout)) {
-            tabLayout.setupWithViewPager(viewPager);
-        } else {
-            final ViewTreeObserver treeObserver = Adjuster.getTreeObserver(tabLayout);
-            if (treeObserver != null) {
-                treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        final ViewTreeObserver anotherTreeObserver = Adjuster.getTreeObserver(tabLayout);
-                        if(anotherTreeObserver != null) {
-                            //noinspection deprecation
-                            anotherTreeObserver.removeGlobalOnLayoutListener(this);
-                        }
-                        tabLayout.setupWithViewPager(viewPager);
-                    }
-                });
-            }
-        }
+        restoreSelectedTab();
     }
 
     public void addTab(@Nonnull Category category, @Nonnull FragmentTab tab) {
@@ -101,6 +93,13 @@ public class Tabs {
             return null;
         }
         return adapter.getItem(viewPager.getCurrentItem());
+    }
+
+    public int getCurrentTab() {
+        if (viewPager == null) {
+            return -1;
+        }
+        return viewPager.getCurrentItem();
     }
 
     private final class TabFragments extends FragmentPagerAdapter {
@@ -151,5 +150,44 @@ public class Tabs {
         public Fragment makeFragment() {
             return Fragment.instantiate(activity, fragmentClass.getName(), fragmentArgs);
         }
+    }
+
+    public int getTabCount() {
+        return adapter.getCount();
+    }
+
+    public void selectTab(int index) {
+        if(tabLayout == null) {
+            return;
+        }
+        final TabLayout.Tab tab = tabLayout.getTabAt(index);
+        if (tab != null) {
+            tab.select();
+        }
+    }
+
+    public void restoreSelectedTab() {
+        final int selectedTab = preferences.getInt(makeTabKey(activity), -1);
+        if (selectedTab >= 0 && selectedTab < getTabCount()) {
+            selectTab(selectedTab);
+        }
+    }
+
+    public void onPause() {
+        saveSelectedTab();
+    }
+
+    private void saveSelectedTab() {
+        final int selectedTab = getCurrentTab();
+        if (selectedTab >= 0) {
+            final SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(makeTabKey(activity), selectedTab);
+            editor.apply();
+        }
+    }
+
+    @Nonnull
+    private static String makeTabKey(@Nonnull Activity activity) {
+        return activity.getClass().getSimpleName();
     }
 }

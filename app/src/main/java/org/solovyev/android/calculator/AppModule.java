@@ -49,6 +49,7 @@ public class AppModule {
     public static final String THREAD_BACKGROUND = "thread-background";
     public static final String DIR_FILES = "dir-files";
     public static final String PREFS_FLOATING = "prefs-floating";
+    public static final String PREFS_TABS = "prefs-tabs";
 
     @NonNull
     private final Application application;
@@ -86,6 +87,13 @@ public class AppModule {
     @Named(PREFS_FLOATING)
     SharedPreferences provideFloatingPreferences() {
         return application.getSharedPreferences("floating-calculator", Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @Singleton
+    @Named(PREFS_TABS)
+    SharedPreferences provideTabsPreferences() {
+        return application.getSharedPreferences("tabs", Context.MODE_PRIVATE);
     }
 
     @Provides
