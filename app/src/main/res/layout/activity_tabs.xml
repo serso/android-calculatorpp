@@ -37,6 +37,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.AppBarLayout
+        app:theme="?cpp_toolbar_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -60,6 +61,6 @@
     <android.support.design.widget.FloatingActionButton
         app:layout_behavior="org.solovyev.android.calculator.view.PagerViewFabBehavior"
         android:id="@+id/fab"
-        style="@style/CppFab"/>
+        style="@style/CppFab" />
 
 </android.support.design.widget.CoordinatorLayout>

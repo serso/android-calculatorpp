@@ -34,5 +34,6 @@
     <attr name="cpp_text_color" format="reference" />
     <attr name="cpp_text_color_error" format="reference" />
     <attr name="cpp_card_style" format="reference" />
+    <attr name="cpp_toolbar_theme" format="reference" />
 
 </resources>

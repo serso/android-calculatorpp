@@ -325,16 +325,12 @@
         <item name="android:padding">0dp</item>
     </style>
 
-    <style name="CppToolbar" parent="@style/Widget.AppCompat.Toolbar">
-        <item name="background">@color/cpp_material_actionbar</item>
-        <item name="backgroundStacked">@color/cpp_material_actionbar</item>
-        <item name="backgroundSplit">@color/cpp_material_actionbar</item>
+    <style name="CppToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/cpp_material_actionbar</item>
     </style>
 
     <style name="CppToolbar.Light" parent="CppToolbar">
-        <item name="background">@color/cpp_material_actionbar_light</item>
-        <item name="backgroundStacked">@color/cpp_material_actionbar_light</item>
-        <item name="backgroundSplit">@color/cpp_material_actionbar_light</item>
+        <item name="android:background">@color/cpp_material_actionbar_light</item>
     </style>
 
     <style name="CppAd">
