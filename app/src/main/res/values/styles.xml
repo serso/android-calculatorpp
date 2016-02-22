@@ -326,12 +326,15 @@
         <item name="android:padding">0dp</item>
     </style>
 
-    <style name="CppToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="CppToolbar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="android:background">@color/cpp_material_actionbar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
     <style name="CppToolbar.Light" parent="CppToolbar">
         <item name="android:background">@color/cpp_material_actionbar_light</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <style name="CppAd">

@@ -35,7 +35,7 @@
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
         <item name="cpp_card_style">@style/CardView.Dark</item>
-        <item name="cpp_toolbar_theme">@style/CppToolbar</item>
+        <item name="cpp_toolbar_style">@style/CppToolbar</item>
 
         <item name="android:listDivider">@drawable/divider_dark</item>
     </style>
@@ -62,7 +62,7 @@
         <item name="cpp_fab_bg">@color/grey_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
-        <item name="cpp_toolbar_theme">@style/CppToolbar</item>
+        <item name="cpp_toolbar_style">@style/CppToolbar</item>
 
         <item name="android:listDivider">@drawable/divider_dark</item>
     </style>
@@ -77,7 +77,7 @@
         <item name="cpp_fab_bg">@color/grey_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
-        <item name="cpp_toolbar_theme">@style/CppToolbar</item>
+        <item name="cpp_toolbar_style">@style/CppToolbar</item>
 
         <item name="android:listDivider">@drawable/divider_dark</item>
     </style>
@@ -95,7 +95,7 @@
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
         <item name="cpp_card_style">@style/CardView.Light</item>
-        <item name="cpp_toolbar_theme">@style/CppToolbar.Light</item>
+        <item name="cpp_toolbar_style">@style/CppToolbar.Light</item>
 
         <item name="android:listDivider">@drawable/divider</item>
     </style>
@@ -115,7 +115,7 @@
         <item name="cpp_fab_bg">@color/cpp_material_light</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
-        <item name="cpp_toolbar_theme">@style/CppToolbar.Light</item>
+        <item name="cpp_toolbar_style">@style/CppToolbar.Light</item>
 
         <item name="android:listDivider">@drawable/divider</item>
     </style>
@@ -130,7 +130,7 @@
         <item name="cpp_fab_bg">@color/cpp_material_light</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
-        <item name="cpp_toolbar_theme">@style/CppToolbar.Light</item>
+        <item name="cpp_toolbar_style">@style/CppToolbar.Light</item>
 
         <item name="android:listDivider">@drawable/divider</item>
     </style>
