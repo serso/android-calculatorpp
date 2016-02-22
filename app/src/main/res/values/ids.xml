@@ -58,9 +58,6 @@
     <item name="cpp_button_paste" type="id" />
     <item name="cpp_button_equals" type="id" />
 
-    <item name="acl_wizard_prev_button" type="id" />
-    <item name="acl_wizard_next_button" type="id" />
-    <item name="acl_wizard_content" type="id" />
     <item name="cpp_kb_button_multiply" type="id" />
     <item name="cpp_kb_button_clear" type="id" />
     <item name="cpp_kb_button_divide" type="id" />
