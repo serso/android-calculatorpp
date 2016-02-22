@@ -5,6 +5,7 @@ import static android.graphics.Matrix.MSCALE_Y;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -52,7 +53,6 @@ public class Adjuster {
         private final TextView view;
         private final float percentage;
         private final float minTextSizePxs;
-        private int lastHeight;
 
         public TextViewAdjuster(@NonNull TextView view, float percentage, float minTextSizePxs) {
             this.view = view;
@@ -63,10 +63,13 @@ public class Adjuster {
         @Override
         public boolean onPreDraw() {
             final int height = view.getHeight();
-            if (lastHeight == height || height <= 0) {
+            if (!ViewCompat.isLaidOut(view) || height <= 0) {
                 return true;
             }
-            lastHeight = height;
+            final ViewTreeObserver treeObserver = getTreeObserver(view);
+            if (treeObserver != null) {
+                treeObserver.removeOnPreDrawListener(this);
+            }
             final float oldTextSize = Math.round(view.getTextSize());
             final float newTextSize = Math.max(minTextSizePxs, Math.round(height * percentage));
             if (oldTextSize == newTextSize) {
@@ -81,7 +84,6 @@ public class Adjuster {
         @NonNull
         private final ImageView view;
         private final float percentage;
-        private int lastHeight;
 
         public ImageViewAdjuster(@NonNull ImageView view, float percentage) {
             this.view = view;
@@ -91,10 +93,13 @@ public class Adjuster {
         @Override
         public boolean onPreDraw() {
             final int height = view.getHeight();
-            if (lastHeight == height || height <= 0) {
+            if (!ViewCompat.isLaidOut(view) || height <= 0) {
                 return true;
             }
-            lastHeight = height;
+            final ViewTreeObserver treeObserver = getTreeObserver(view);
+            if (treeObserver != null) {
+                treeObserver.removeOnPreDrawListener(this);
+            }
             final Drawable d = view.getDrawable();
             if (d == null) {
                 return true;

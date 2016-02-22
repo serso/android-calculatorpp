@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import static java.lang.Math.min;
+
 import android.content.SharedPreferences;
 
 import com.squareup.otto.Bus;
@@ -35,8 +37,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import static java.lang.Math.min;
 
 @Singleton
 public class Editor {
@@ -167,7 +167,8 @@ public class Editor {
         if (selection <= 0 || text.length() <= 0 || selection > text.length()) {
             return state;
         }
-        final String newText = text.substring(0, selection - 1) + text.substring(selection, text.length());
+        final String newText = text.substring(0, selection - 1) + text.substring(selection,
+                text.length());
         return onTextChanged(EditorState.create(newText, selection - 1));
     }
 
@@ -215,6 +216,9 @@ public class Editor {
     @Nonnull
     public EditorState setSelection(int selection) {
         Check.isMainThread();
+        if (state.selection == selection) {
+            return state;
+        }
         return onSelectionChanged(EditorState.forNewSelection(state, clamp(selection, state.text)));
     }
 

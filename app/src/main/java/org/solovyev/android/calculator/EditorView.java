@@ -26,6 +26,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
@@ -95,8 +97,8 @@ public class EditorView extends EditTextCompat {
         } else {
             setText(state.text, BufferType.EDITABLE);
         }
-        setSelection(Editor.clamp(state.selection, length()));
         reportChanges = true;
+        setSelection(Editor.clamp(state.selection, length()));
     }
 
     private boolean isFloatingCalculator() {
@@ -117,7 +119,6 @@ public class EditorView extends EditTextCompat {
             return;
         }
         if (editor == null) {
-            Check.shouldNotHappen();
             return;
         }
         editor.setSelection(start);
