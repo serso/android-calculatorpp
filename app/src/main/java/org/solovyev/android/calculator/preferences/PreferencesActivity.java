@@ -7,7 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.util.SparseArray;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.ActivityUi;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Billing;
 import org.solovyev.android.checkout.Checkout;
@@ -15,8 +21,6 @@ import org.solovyev.android.checkout.Products;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-
-import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
 
 public class PreferencesActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -43,6 +47,10 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     Billing billing;
     @Inject
     Products products;
+
+    public PreferencesActivity() {
+        super(R.layout.activity_empty);
+    }
 
     @Nonnull
     static SparseArray<PrefDef> getPreferences() {

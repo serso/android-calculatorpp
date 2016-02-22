@@ -1,15 +1,16 @@
 package org.solovyev.android.calculator;
 
+import static org.solovyev.android.calculator.App.cast;
+
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+
 import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
-
-import static org.solovyev.android.calculator.App.cast;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -17,7 +18,7 @@ public class BaseActivity extends AppCompatActivity {
     protected final ActivityUi ui;
 
     public BaseActivity() {
-        this(R.layout.activity_empty);
+        this(R.layout.activity_tabs);
     }
 
     public BaseActivity(@LayoutRes int layout) {
