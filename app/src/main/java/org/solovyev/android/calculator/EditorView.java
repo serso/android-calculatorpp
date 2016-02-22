@@ -65,7 +65,10 @@ public class EditorView extends EditTextCompat {
     }
 
     private void init() {
-        Adjuster.adjustText(this, 0.25f);
+        if (!isFloatingCalculator()) {
+            Adjuster.adjustText(this, 0.22f,
+                    getResources().getDimensionPixelSize(R.dimen.cpp_min_editor_text_size));
+        }
         addTextChangedListener(new MyTextWatcher());
         dontShowSoftInputOnFocusCompat();
         // changes should only be reported after the view has been set up completely, i.e. now
@@ -86,7 +89,7 @@ public class EditorView extends EditTextCompat {
         Check.isMainThread();
         // we don't want to be notified about changes we make ourselves
         reportChanges = false;
-        if (App.getTheme().light && getContext() instanceof FloatingCalculatorService) {
+        if (App.getTheme().light && isFloatingCalculator()) {
             // don't need formatting
             setText(state.getTextString());
         } else {
@@ -94,6 +97,10 @@ public class EditorView extends EditTextCompat {
         }
         setSelection(Editor.clamp(state.selection, length()));
         reportChanges = true;
+    }
+
+    private boolean isFloatingCalculator() {
+        return getContext() instanceof FloatingCalculatorService;
     }
 
     @Override

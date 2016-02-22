@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:a="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     style="@style/CppMain.Onscreen"
     a:orientation="vertical">
 

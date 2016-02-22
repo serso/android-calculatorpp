@@ -52,7 +52,10 @@
         <item name="android:maxLines">1</item>
         <item name="android:minLines">1</item>
         <item name="android:lines">1</item>
+        <item name="android:inputType">text|textNoSuggestions</item>
+        <item name="android:gravity">center_vertical|left</item>
         <item name="android:scrollbars">horizontal</item>
+        <item name="android:padding">@dimen/cpp_editor_padding</item>
         <item name="android:textColor">@color/cpp_text</item>
     </style>
 
@@ -61,7 +64,7 @@
         <item name="android:gravity">left|top</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:textSize">@dimen/cpp_editor_text_size</item>
+        <item name="android:textSize">@dimen/cpp_min_editor_text_size</item>
         <item name="android:textColor">?attr/cpp_text_color</item>
         <item name="android:inputType">textMultiLine|textNoSuggestions</item>
     </style>

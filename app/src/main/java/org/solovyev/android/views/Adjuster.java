@@ -1,5 +1,7 @@
 package org.solovyev.android.views;
 
+import static android.graphics.Matrix.MSCALE_Y;
+
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,18 +11,20 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import static android.graphics.Matrix.MSCALE_Y;
-
 public class Adjuster {
 
     private static final float[] MATRIX = new float[9];
 
     public static void adjustText(@NonNull final TextView view, final float percentage) {
+        adjustText(view, percentage, 0);
+    }
+
+    public static void adjustText(@NonNull final TextView view, final float percentage, final float minTextSizePxs) {
         ViewTreeObserver treeObserver = getTreeObserver(view);
         if (treeObserver == null) {
             return;
         }
-        treeObserver.addOnPreDrawListener(new TextViewAdjuster(view, percentage));
+        treeObserver.addOnPreDrawListener(new TextViewAdjuster(view, percentage, minTextSizePxs));
     }
 
     @Nullable
@@ -47,11 +51,13 @@ public class Adjuster {
         @NonNull
         private final TextView view;
         private final float percentage;
+        private final float minTextSizePxs;
         private int lastHeight;
 
-        public TextViewAdjuster(@NonNull TextView view, float percentage) {
+        public TextViewAdjuster(@NonNull TextView view, float percentage, float minTextSizePxs) {
             this.view = view;
             this.percentage = percentage;
+            this.minTextSizePxs = minTextSizePxs;
         }
 
         @Override
@@ -62,7 +68,7 @@ public class Adjuster {
             }
             lastHeight = height;
             final float oldTextSize = Math.round(view.getTextSize());
-            final float newTextSize = Math.round(height * percentage);
+            final float newTextSize = Math.max(minTextSizePxs, Math.round(height * percentage));
             if (oldTextSize == newTextSize) {
                 return true;
             }
