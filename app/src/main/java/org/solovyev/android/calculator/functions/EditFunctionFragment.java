@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator.functions;
 
+import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,26 +37,47 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.function.Function;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.FloatingCalculatorKeyboard;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.ParseException;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.Function;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.*;
-
-import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
 
 public class EditFunctionFragment extends BaseDialogFragment implements View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
 
@@ -107,7 +130,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
 
     public static void show(@Nullable CppFunction function, @Nonnull Context context) {
         if (!(context instanceof FunctionsActivity)) {
-            final Intent intent = new Intent(context, FunctionsActivity.class);
+            final Intent intent = new Intent(context, FunctionsActivity.getClass(context));
             Activities.addIntentFlags(intent, false, context);
             intent.putExtra(FunctionsActivity.EXTRA_FUNCTION, function);
             context.startActivity(intent);

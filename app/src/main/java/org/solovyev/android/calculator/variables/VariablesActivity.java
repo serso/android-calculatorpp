@@ -22,7 +22,9 @@
 
 package org.solovyev.android.calculator.variables;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
@@ -35,6 +37,12 @@ import javax.annotation.Nullable;
 public class VariablesActivity extends BaseActivity {
 
     public static final String EXTRA_VARIABLE = "variable";
+
+    @Nonnull
+    public static Class<? extends VariablesActivity> getClass(@NonNull Context context) {
+        boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
+        return tablet ? Dialog.class : VariablesActivity.class;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,5 +70,8 @@ public class VariablesActivity extends BaseActivity {
         for (VariableCategory category : VariableCategory.values()) {
             tabs.addTab(category, FragmentTab.variables);
         }
+    }
+
+    public static final class Dialog extends VariablesActivity {
     }
 }

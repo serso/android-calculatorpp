@@ -47,15 +47,15 @@ import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
+import jscl.math.Generic;
+import jscl.math.function.Constant;
+
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import jscl.math.Generic;
-import jscl.math.function.Constant;
 
 @Singleton
 public final class ActivityLauncher implements CalculatorEventListener {
@@ -150,11 +150,11 @@ public final class ActivityLauncher implements CalculatorEventListener {
     }
 
     public void showHistory() {
-        show(getContext(), HistoryActivity.class);
+        show(getContext(), HistoryActivity.getClass(getContext()));
     }
 
     public void showSettings() {
-        show(getContext(), PreferencesActivity.class);
+        show(getContext(), PreferencesActivity.getClass(getContext()));
     }
 
     public void showWidgetSettings() {
@@ -163,11 +163,11 @@ public final class ActivityLauncher implements CalculatorEventListener {
     }
 
     public void showOperators() {
-        show(getContext(), OperatorsActivity.class);
+        show(getContext(), OperatorsActivity.getClass(getContext()));
     }
 
     public void showAbout() {
-        show(getContext(), AboutActivity.class);
+        show(getContext(), AboutActivity.getClass(getContext()));
     }
 
     public void openFacebook() {
@@ -239,11 +239,11 @@ public final class ActivityLauncher implements CalculatorEventListener {
     }
 
     public void showFunctions() {
-        show(getContext(), FunctionsActivity.class);
+        show(getContext(), FunctionsActivity.getClass(getContext()));
     }
 
     public void showVariables() {
-        show(getContext(), VariablesActivity.class);
+        show(getContext(), VariablesActivity.getClass(getContext()));
     }
 
     public void openApp() {

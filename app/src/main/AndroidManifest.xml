@@ -61,8 +61,18 @@
             android:label="@string/c_app_settings" />
 
         <activity
+            android:name=".preferences.PreferencesActivity$Dialog"
+            android:label="@string/c_app_settings"
+            android:theme="@style/Cpp.Theme.Dialog" />
+
+        <activity
             android:name=".history.HistoryActivity"
             android:label="@string/c_history" />
+
+        <activity
+            android:name=".history.HistoryActivity$Dialog"
+            android:label="@string/c_history"
+            android:theme="@style/Cpp.Theme.Dialog" />
 
         <activity
             android:name=".errors.FixableErrorsActivity"
@@ -76,16 +86,37 @@
             android:label="@string/c_about" />
 
         <activity
+            android:name=".about.AboutActivity$Dialog"
+            android:label="@string/c_about"
+            android:theme="@style/Cpp.Theme.Dialog" />
+
+        <activity
             android:name=".functions.FunctionsActivity"
             android:label="@string/c_functions" />
+
+        <activity
+            android:name=".functions.FunctionsActivity$Dialog"
+            android:label="@string/c_functions"
+            android:theme="@style/Cpp.Theme.Dialog" />
 
         <activity
             android:name=".operators.OperatorsActivity"
             android:label="@string/c_operators" />
 
         <activity
+            android:name=".operators.OperatorsActivity$Dialog"
+            android:label="@string/c_operators"
+            android:theme="@style/Cpp.Theme.Dialog" />
+
+        <activity
             android:name=".variables.VariablesActivity"
             android:label="@string/c_vars_and_constants" />
+
+        <activity
+            android:name=".variables.VariablesActivity$Dialog"
+            android:label="@string/c_vars_and_constants"
+            android:theme="@style/Cpp.Theme.Dialog" />
+
         <activity
             android:name=".wizard.WizardActivity"
             android:launchMode="singleTop"

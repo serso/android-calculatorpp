@@ -41,8 +41,14 @@ import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.about.AboutActivity;
+import org.solovyev.android.calculator.functions.FunctionsActivity;
+import org.solovyev.android.calculator.history.HistoryActivity;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.operators.OperatorsActivity;
+import org.solovyev.android.calculator.preferences.PreferencesActivity;
+import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
@@ -334,7 +340,24 @@ public final class Preferences {
                 if (context instanceof WizardActivity) {
                     return wizardTheme;
                 }
-                final boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
+                if (context instanceof FunctionsActivity.Dialog) {
+                    return dialogTheme;
+                }
+                if (context instanceof PreferencesActivity.Dialog) {
+                    return dialogTheme;
+                }
+                if (context instanceof VariablesActivity.Dialog) {
+                    return dialogTheme;
+                }
+                if (context instanceof OperatorsActivity.Dialog) {
+                    return dialogTheme;
+                }
+                if (context instanceof HistoryActivity.Dialog) {
+                    return dialogTheme;
+                }
+                if (context instanceof AboutActivity.Dialog) {
+                    return dialogTheme;
+                }
                 return theme;
             }
 

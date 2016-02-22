@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import static org.solovyev.android.calculator.App.cast;
+
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
@@ -29,11 +31,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,8 +41,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
@@ -51,12 +50,12 @@ import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.view.Tabs;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import javax.inject.Named;
-
-import static org.solovyev.android.calculator.App.cast;
 
 public class ActivityUi {
 
@@ -157,10 +156,6 @@ public class ActivityUi {
 
         App.getLanguages().updateContextLocale(activity, false);
 
-        if (activity instanceof CalculatorEventListener) {
-            Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
-        }
-
         activity.setContentView(layoutId);
         ButterKnife.bind(this, activity);
 
@@ -187,22 +182,6 @@ public class ActivityUi {
     }
 
     public void onDestroy() {
-    }
-
-    public void addTab(@Nonnull Class<? extends Fragment> fragmentClass,
-                       @Nullable Bundle fragmentArgs,
-                       int title) {
-        addTab(fragmentClass, fragmentArgs, activity.getString(title));
-    }
-
-    public void addTab(@Nonnull Class<? extends Fragment> fragmentClass,
-                       @Nullable Bundle fragmentArgs,
-                       @Nonnull CharSequence title) {
-        tabs.addTab(fragmentClass, fragmentArgs, title);
-    }
-
-    public void addTab(@Nonnull FragmentTab tab, @Nullable Bundle fragmentArgs) {
-        addTab(tab.type, fragmentArgs, tab.title);
     }
 
     @Nonnull

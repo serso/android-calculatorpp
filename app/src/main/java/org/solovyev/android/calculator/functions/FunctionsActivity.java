@@ -22,8 +22,11 @@
 
 package org.solovyev.android.calculator.functions;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
+
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
@@ -35,6 +38,12 @@ import javax.annotation.Nonnull;
 public class FunctionsActivity extends BaseActivity {
 
     public static final String EXTRA_FUNCTION = "function";
+
+    @Nonnull
+    public static Class<? extends FunctionsActivity> getClass(@NonNull Context context) {
+        boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
+        return tablet ? Dialog.class : FunctionsActivity.class;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,5 +82,8 @@ public class FunctionsActivity extends BaseActivity {
             }
             tabs.addTab(category, FragmentTab.operators, title);
         }
+    }
+
+    public static final class Dialog extends FunctionsActivity {
     }
 }

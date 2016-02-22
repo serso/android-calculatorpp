@@ -1,15 +1,24 @@
 package org.solovyev.android.calculator.preferences;
 
+import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ListView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.AdView;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.BillingRequests;
@@ -17,12 +26,10 @@ import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.RequestListener;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
-import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class PreferencesFragment extends org.solovyev.android.material.preferences.PreferencesFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -49,7 +56,8 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
     private void setPreferenceIntent(int xml, @Nonnull PreferencesActivity.PrefDef def) {
         final Preference preference = findPreference(def.id);
         if (preference != null) {
-            final Intent intent = new Intent(getActivity(), PreferencesActivity.class);
+            final FragmentActivity context = getActivity();
+            final Intent intent = new Intent(context, PreferencesActivity.getClass(context));
             intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE, xml);
             intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE_TITLE, def.title);
             preference.setIntent(intent);

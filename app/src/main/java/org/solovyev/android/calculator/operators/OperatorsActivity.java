@@ -22,13 +22,26 @@
 
 package org.solovyev.android.calculator.operators;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
 
 public class OperatorsActivity extends BaseActivity {
+
+    public static class Dialog extends OperatorsActivity {
+    }
+
+    @Nonnull
+    public static Class<? extends OperatorsActivity> getClass(@NonNull Context context) {
+        boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
+        return tablet ? Dialog.class : OperatorsActivity.class;
+    }
 
     @Override
     protected void populateTabs(@Nonnull Tabs tabs) {

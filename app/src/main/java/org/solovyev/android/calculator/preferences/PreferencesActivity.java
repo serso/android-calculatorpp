@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.util.SparseArray;
@@ -29,6 +30,11 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
 
     @Nonnull
     private static final SparseArray<PrefDef> preferences = new SparseArray<>();
+
+    public static Class<? extends PreferencesActivity> getClass(@NonNull Context context) {
+        final boolean tablet = context.getResources().getBoolean(R.bool.cpp_tablet);
+        return tablet ? Dialog.class : PreferencesActivity.class;
+    }
 
     static {
         preferences.append(R.xml.preferences, new PrefDef("screen-main", R.string.c_app_settings));
@@ -68,7 +74,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
 
     @Nonnull
     public static Intent makeIntent(@Nonnull Context context, @XmlRes int preference, @StringRes int title) {
-        final Intent intent = new Intent(context, PreferencesActivity.class);
+        final Intent intent = new Intent(context, getClass(context));
         intent.putExtra(EXTRA_PREFERENCE, preference);
         if (title != 0) {
             intent.putExtra(EXTRA_PREFERENCE_TITLE, title);
@@ -149,5 +155,8 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
             this.id = id;
             this.title = title;
         }
+    }
+
+    public static final class Dialog extends PreferencesActivity {
     }
 }
