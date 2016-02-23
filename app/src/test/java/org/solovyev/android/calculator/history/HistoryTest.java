@@ -22,28 +22,50 @@
 
 package org.solovyev.android.calculator.history;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.solovyev.android.calculator.Engine.Preferences.groupingSeparator;
+import static org.solovyev.android.calculator.Tests.sameThreadExecutor;
+import static org.solovyev.android.calculator.jscl.JsclOperation.numeric;
+
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.os.Looper;
+
 import com.squareup.otto.Bus;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.CalculatorTestRunner;
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.BuildConfig;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.ErrorReporter;
 import org.solovyev.android.calculator.json.Json;
+import org.solovyev.android.io.FileSystem;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
-import static org.solovyev.android.calculator.Engine.Preferences.groupingSeparator;
+import javax.annotation.Nonnull;
 
 @Config(constants = BuildConfig.class, sdk = CalculatorTestRunner.SUPPORTED_SDK)
 @RunWith(RobolectricGradleTestRunner.class)
@@ -54,11 +76,23 @@ public class HistoryTest {
     @Before
     public void setUp() throws Exception {
         history = new History();
+        history.backgroundThread = sameThreadExecutor();
         history.application = RuntimeEnvironment.application;
         history.bus = mock(Bus.class);
-        history.handler = mock(Handler.class);
+        history.errorReporter = mock(ErrorReporter.class);
+        history.fileSystem = mock(FileSystem.class);
+        history.handler = new Handler(Looper.getMainLooper());
         history.preferences = mock(SharedPreferences.class);
+        final SharedPreferences.Editor editor = mock(SharedPreferences.Editor.class);
+        when(history.preferences.edit()).thenReturn(editor);
+        when(editor.remove(anyString())).thenReturn(editor);
         history.editor = mock(Editor.class);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        history.getSavedHistoryFile().delete();
+        history.getRecentHistoryFile().delete();
     }
 
     @Test
@@ -231,10 +265,14 @@ public class HistoryTest {
         assertNull(state.display.getResult());
 
         states = History.convertOldHistory(oldXml2);
+        checkOldXml2States(states);
+    }
+
+    private void checkOldXml2States(List<HistoryState> states) {
         assertNotNull(states);
         assertEquals(4, states.size());
 
-        state = states.get(0);
+        HistoryState state = states.get(0);
         assertEquals(100000000, state.time);
         assertEquals("boom", state.comment);
         assertEquals("1+11", state.editor.getTextString());
@@ -254,11 +292,31 @@ public class HistoryTest {
     }
 
     @Test
+    public void testShouldMigrateOldHistory() throws Exception {
+        history.fileSystem = new FileSystem();
+        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), anyString())).thenReturn(oldXml2);
+        history.init(sameThreadExecutor());
+        Robolectric.flushForegroundThreadScheduler();
+        checkOldXml2States(history.getSaved());
+    }
+
+    @Test
+    public void testShouldWriteNewHistoryFile() throws Exception {
+        history.fileSystem = mock(FileSystem.class);
+        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), anyString()))
+            .thenReturn(oldXml1);
+        history.init(sameThreadExecutor());
+        Robolectric.flushForegroundThreadScheduler();
+        verify(history.fileSystem).write(eq(history.getSavedHistoryFile()), eq(
+            "[{\"e\":{\"t\":\"1+1\",\"s\":3},\"d\":{\"t\":\"Error\"},\"t\":100000000}]"));
+    }
+
+    @Test
     public void testShouldAddStateIfEditorAndDisplayAreInSync() throws Exception {
         final EditorState editorState = EditorState.create("editor", 2);
         when(history.editor.getState()).thenReturn(editorState);
 
-        final DisplayState displayState = DisplayState.createError(JsclOperation.numeric, "test", editorState.sequence);
+        final DisplayState displayState = DisplayState.createError(numeric, "test", editorState.sequence);
         history.onDisplayChanged(new Display.ChangedEvent(DisplayState.empty(), displayState));
 
         final List<HistoryState> states = history.getRecent();
@@ -272,7 +330,7 @@ public class HistoryTest {
         final EditorState editorState = EditorState.create("editor", 2);
         when(history.editor.getState()).thenReturn(editorState);
 
-        final DisplayState displayState = DisplayState.createError(JsclOperation.numeric, "test", editorState.sequence - 1);
+        final DisplayState displayState = DisplayState.createError(numeric, "test", editorState.sequence - 1);
         history.onDisplayChanged(new Display.ChangedEvent(DisplayState.empty(), displayState));
 
         final List<HistoryState> states = history.getRecent();
@@ -280,8 +338,27 @@ public class HistoryTest {
     }
 
     @Test
+    public void testShouldReportOnMigrateException() throws Exception {
+        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), anyString())).thenReturn(
+            "boom");
+        history.init(sameThreadExecutor());
+
+        verify(history.errorReporter).onException(any(Throwable.class));
+    }
+
+    @Test
+    public void testShouldNotRemoveOldHistoryOnError() throws Exception {
+        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), anyString())).thenReturn("boom");
+        history.init(sameThreadExecutor());
+
+        verify(history.preferences, never()).edit();
+        verify(history.errorReporter).onException(any(Throwable.class));
+    }
+
+    @Test
     public void testShouldLoadStates() throws Exception {
-        final List<HistoryState> states = Json.load(new File(HistoryTest.class.getResource("recent-history.json").getFile()), HistoryState.JSON_CREATOR);
+        final List<HistoryState> states = Json.load(new File(HistoryTest.class.getResource("recent-history.json").getFile()),
+            new FileSystem(), HistoryState.JSON_CREATOR);
         assertEquals(8, states.size());
 
         HistoryState state = states.get(0);
@@ -304,5 +381,50 @@ public class HistoryTest {
         assertEquals("52", state.editor.getTextString());
         assertEquals(2, state.editor.selection);
         assertEquals("52", state.display.text);
+    }
+
+    @Test
+    public void testShouldClearSaved() throws Exception {
+        history.updateSaved(HistoryState.builder(EditorState.create("text", 0),
+            DisplayState.createValid(numeric, null, "result", 0)).build());
+        Robolectric.flushForegroundThreadScheduler();
+        assertTrue(!history.getSaved().isEmpty());
+
+        // renew counter
+        history.fileSystem = mock(FileSystem.class);
+        history.clearSaved();
+        Robolectric.flushForegroundThreadScheduler();
+
+        assertTrue(history.getSaved().isEmpty());
+        verify(history.fileSystem).writeSilently(eq(history.getSavedHistoryFile()), eq("[]"));
+    }
+
+    @Test
+    public void testShouldClearRecent() throws Exception {
+        history.addRecent(HistoryState.builder(EditorState.create("text", 0),
+            DisplayState.createValid(numeric, null, "result", 0)).build());
+        Robolectric.flushForegroundThreadScheduler();
+        assertTrue(!history.getRecent().isEmpty());
+
+        // renew counter
+        history.fileSystem = mock(FileSystem.class);
+        history.clearRecent();
+        Robolectric.flushForegroundThreadScheduler();
+
+        assertTrue(history.getRecent().isEmpty());
+        verify(history.fileSystem).writeSilently(eq(history.getRecentHistoryFile()), eq("[]"));
+    }
+
+    @Test
+    public void testShouldUpdateSaved() throws Exception {
+        final HistoryState state = HistoryState.builder(EditorState.create("text", 0),
+            DisplayState.createValid(numeric, null, "result", 0)).build();
+        history.updateSaved(state);
+        assertTrue(history.getSaved().size() == 1);
+        assertEquals(state.time, history.getSaved().get(0).time);
+
+        history.updateSaved(HistoryState.builder(state, false).withTime(10).build());
+        assertTrue(history.getSaved().size() == 1);
+        assertEquals(10, history.getSaved().get(0).time);
     }
 }

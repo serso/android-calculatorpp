@@ -22,27 +22,32 @@
 
 package org.solovyev.android.calculator.history;
 
+import static android.text.TextUtils.isEmpty;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.Engine.Preferences;
+import org.solovyev.android.calculator.ErrorReporter;
 import org.solovyev.android.calculator.json.Json;
-import org.solovyev.android.io.FileSaver;
+import org.solovyev.android.io.FileSystem;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,12 +56,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import static android.text.TextUtils.isEmpty;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 @Singleton
 public class History {
 
-    public static final String TAG = App.subTag("History");
     public static final String OLD_HISTORY_PREFS_KEY = "org.solovyev.android.calculator.CalculatorModel_history";
     private static final ClearedEvent CLEARED_EVENT_RECENT = new ClearedEvent(true);
     private static final ClearedEvent CLEARED_EVENT_SAVED = new ClearedEvent(false);
@@ -84,6 +92,8 @@ public class History {
     @Inject
     ErrorReporter errorReporter;
     @Inject
+    FileSystem fileSystem;
+    @Inject
     @Named(AppModule.THREAD_BACKGROUND)
     Executor backgroundThread;
     @Inject
@@ -91,7 +101,7 @@ public class History {
     File filesDir;
 
     @Nullable
-    static List<HistoryState> convertOldHistory(@NonNull String xml) {
+    static List<HistoryState> convertOldHistory(@NonNull String xml) throws Exception {
         final OldHistory history = OldHistory.fromXml(xml);
         if (history == null) {
             // strange, history seems to be broken. Avoid clearing the preference
@@ -172,12 +182,12 @@ public class History {
     }
 
     @NonNull
-    private File getSavedHistoryFile() {
+    File getSavedHistoryFile() {
         return new File(filesDir, "history-saved.json");
     }
 
     @NonNull
-    private File getRecentHistoryFile() {
+    File getRecentHistoryFile() {
         return new File(filesDir, "history-recent.json");
     }
 
@@ -192,9 +202,9 @@ public class History {
                 return;
             }
             final JSONArray json = Json.toJson(states);
-            FileSaver.save(getSavedHistoryFile(), json.toString());
+            fileSystem.write(getSavedHistoryFile(), json.toString());
             preferences.edit().remove(OLD_HISTORY_PREFS_KEY).apply();
-        } catch (IOException e) {
+        } catch (Exception e) {
             errorReporter.onException(e);
         }
     }
@@ -218,7 +228,7 @@ public class History {
     @Nonnull
     private List<HistoryState> tryLoadStates(@NonNull File file) {
         try {
-            return Json.load(file, HistoryState.JSON_CREATOR);
+            return Json.load(file, fileSystem, HistoryState.JSON_CREATOR);
         } catch (IOException | JSONException e) {
             errorReporter.onException(e);
         }
@@ -333,12 +343,6 @@ public class History {
         onSavedChanged(new RemovedEvent(state, false));
     }
 
-    public void removeRecent(@Nonnull HistoryState state) {
-        Check.isMainThread();
-        recent.remove(state);
-        onSavedChanged(new RemovedEvent(state, true));
-    }
-
     @Subscribe
     public void onDisplayChanged(@Nonnull Display.ChangedEvent e) {
         final EditorState editorState = editor.getState();
@@ -403,11 +407,7 @@ public class History {
                 public void run() {
                     final File file = recent ? getRecentHistoryFile() : getSavedHistoryFile();
                     final JSONArray array = Json.toJson(states);
-                    try {
-                        FileSaver.save(file, array.toString());
-                    } catch (IOException e) {
-                        errorReporter.onException(e);
-                    }
+                    fileSystem.writeSilently(file, array.toString());
                 }
             });
         }

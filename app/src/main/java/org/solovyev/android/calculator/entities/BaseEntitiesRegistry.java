@@ -28,22 +28,25 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+
 import com.squareup.otto.Bus;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.EntitiesRegistry;
+import org.solovyev.android.calculator.ErrorReporter;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.io.FileSaver;
+import org.solovyev.android.io.FileSystem;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +54,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public abstract class BaseEntitiesRegistry<T extends MathEntity> implements EntitiesRegistry<T> {
 
@@ -72,6 +80,8 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     public Bus bus;
     @Inject
     public ErrorReporter errorReporter;
+    @Inject
+    public FileSystem fileSystem;
     @Inject
     @Named(AppModule.THREAD_BACKGROUND)
     public Executor backgroundThread;
@@ -132,7 +142,7 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
             return Collections.emptyList();
         }
         try {
-            return Json.load(file, creator);
+            return Json.load(file, fileSystem, creator);
         } catch (IOException | JSONException e) {
             errorReporter.onException(e);
         }

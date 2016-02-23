@@ -1,20 +1,22 @@
 package org.solovyev.android.calculator.json;
 
+import static android.text.TextUtils.isEmpty;
+
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.solovyev.android.io.FileLoader;
+import org.solovyev.android.io.FileSystem;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static android.text.TextUtils.isEmpty;
+import javax.annotation.Nonnull;
 
 public final class Json {
 
@@ -56,11 +58,12 @@ public final class Json {
     }
 
     @Nonnull
-    public static <T> List<T> load(@Nonnull File file, @NonNull Creator<T> creator) throws IOException, JSONException {
+    public static <T> List<T> load(@Nonnull File file, @NonNull FileSystem fileSystem,
+        @NonNull Creator<T> creator) throws IOException, JSONException {
         if (!file.exists()) {
             return Collections.emptyList();
         }
-        final CharSequence json = FileLoader.load(file);
+        final CharSequence json = fileSystem.read(file);
         if (isEmpty(json)) {
             return Collections.emptyList();
         }

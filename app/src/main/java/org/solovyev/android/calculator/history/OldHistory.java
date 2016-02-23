@@ -44,16 +44,12 @@ class OldHistory {
     }
 
     @Nullable
-    public static OldHistory fromXml(@Nullable String xml) {
+    public static OldHistory fromXml(@Nullable String xml) throws Exception {
         if (xml == null) {
             return null;
         }
         final Serializer serializer = new Persister();
-        try {
-            return serializer.read(OldHistory.class, xml);
-        } catch (Exception e) {
-            return null;
-        }
+        return serializer.read(OldHistory.class, xml);
     }
 
     @Nonnull
