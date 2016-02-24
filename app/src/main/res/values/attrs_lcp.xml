@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LineColorPicker">
+        <attr name="lcp_orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="lcp_colors" format="reference" />
+        <attr name="lcp_selectedColorIndex" format="integer" />
+    </declare-styleable>
+
+</resources>

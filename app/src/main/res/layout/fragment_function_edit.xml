@@ -31,51 +31,8 @@
         a:layout_height="wrap_content"
         a:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            a:id="@+id/function_name_label"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content">
 
-            <EditText
-                a:id="@+id/function_name"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:hint="@string/c_function_name"
-                a:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
-
-        <org.solovyev.android.calculator.functions.FunctionParamsView
-            a:id="@+id/function_params"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:orientation="vertical" />
-
-        <android.support.design.widget.TextInputLayout
-            a:id="@+id/function_body_label"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content">
-
-            <org.solovyev.android.calculator.view.EditTextCompat
-                a:id="@+id/function_body"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:hint="@string/c_function_value"
-                a:imeOptions="flagNoExtractUi"
-                a:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content">
-
-            <EditText
-                a:id="@+id/function_description"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:hint="@string/c_function_description"
-                a:inputType="textMultiLine"
-                a:maxLines="4" />
-        </android.support.design.widget.TextInputLayout>
+        <include layout="@layout/fragment_function_edit_base_controls" />
 
     </LinearLayout>
 

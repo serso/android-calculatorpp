@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<org.solovyev.android.plotter.PlotViewFrame xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/plot_view_frame"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent">
+
+    <org.solovyev.android.plotter.PlotView
+        a:id="@id/plot_view"
+        a:layout_width="match_parent"
+        a:layout_height="match_parent" />
+
+    <org.solovyev.android.material.MaterialImageButton
+        a:id="@+id/plot_dimensions"
+        style="@style/CppPlotButton"
+        a:layout_gravity="top|start"
+        a:src="@drawable/ic_straighten_white_24dp" />
+
+    <org.solovyev.android.material.MaterialButton
+        a:id="@id/plot_3d_button"
+        style="@style/CppPlotButton"
+        a:layout_gravity="top|end"
+        a:text="@string/cpp_plot_3d" />
+
+    <LinearLayout
+        a:layout_width="wrap_content"
+        a:layout_height="wrap_content"
+        a:layout_gravity="bottom|start"
+        a:orientation="vertical">
+
+        <org.solovyev.android.material.MaterialButton
+            a:id="@+id/plot_add_function"
+            style="@style/CppPlotButton"
+            a:text="@string/cpp_plot_add_function" />
+
+        <org.solovyev.android.material.MaterialImageButton
+            a:id="@+id/plot_functions"
+            style="@style/CppPlotButton"
+            a:src="@drawable/ic_list_white_24dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        a:layout_width="wrap_content"
+        a:layout_height="wrap_content"
+        a:layout_gravity="bottom|end"
+        a:orientation="vertical">
+
+        <org.solovyev.android.material.MaterialButton
+            a:id="@id/plot_zoom_in_button"
+            style="@style/CppPlotButton"
+            a:text="@string/cpp_plot_zoom_in" />
+
+        <org.solovyev.android.material.MaterialButton
+            a:id="@id/plot_zoom_reset_button"
+            style="@style/CppPlotButton"
+            a:text="@string/cpp_plot_zoom_reset" />
+
+        <org.solovyev.android.material.MaterialButton
+            a:id="@id/plot_zoom_out_button"
+            style="@style/CppPlotButton"
+            a:text="@string/cpp_plot_zoom_out" />
+    </LinearLayout>
+
+</org.solovyev.android.plotter.PlotViewFrame>

@@ -22,6 +22,15 @@
 
 package org.solovyev.android.calculator;
 
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
+import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
+import static org.solovyev.android.wizard.WizardUi.continueWizard;
+import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -33,11 +42,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.converter.ConverterFragment;
@@ -49,16 +62,12 @@ import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.Objects;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
-import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.*;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, Toolbar.OnMenuItemClickListener {
 
@@ -278,7 +287,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
                 launcher.showHistory();
                 return true;
             case R.id.menu_plotter:
-                Locator.getInstance().getPlotter().plot();
+                launcher.showPlotter();
                 return true;
             case R.id.menu_conversion_tool:
                 ConverterFragment.show(this);

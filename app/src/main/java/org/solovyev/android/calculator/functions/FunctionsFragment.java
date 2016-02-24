@@ -26,11 +26,15 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.Calculator;
@@ -39,11 +43,15 @@ import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
@@ -85,7 +93,8 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
                 return true;
             case R.string.c_edit:
                 if (function instanceof IFunction) {
-                    EditFunctionFragment.show(CppFunction.builder((IFunction) function).build(), activity.getSupportFragmentManager());
+                    EditFunctionFragment.show(CppFunction.builder((IFunction) function).build(),
+                        activity.getSupportFragmentManager());
                 }
                 return true;
             case R.string.c_remove:

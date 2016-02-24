@@ -167,14 +167,6 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="WizardButton" parent="MaterialButton">
-        <item name="android:singleLine">true</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:lines">1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
-    </style>
-
     <style name="WizardPrimaryButton" parent="PrimaryButton">
         <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>
@@ -199,6 +191,40 @@
     <style name="MaterialButton.Wizard" parent="MaterialButton">
         <item name="android:textColor">@color/cpp_button_text</item>
         <item name="materialColor">?attr/cpp_wizard_button_bg</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
+    </style>
+
+    <style name="CppPlotButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/cpp_button_text</item>
+        <item name="materialColor">@color/cpp_wizard_button_selector</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:minWidth">40dp</item>
+        <item name="android:minHeight">40dp</item>
+    </style>
+
+    <style name="DimensionEditText.Last" parent="DimensionEditText">
+        <item name="android:imeOptions">actionDone|flagNoExtractUi</item>
+    </style>
+
+    <style name="DimensionEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:imeOptions">actionNext|flagNoExtractUi</item>
+        <item name="android:inputType">numberDecimal|numberSigned</item>
+        <item name="android:selectAllOnFocus">true</item>
+        <item name="android:gravity">start|center_vertical</item>
+    </style>
+
+    <style name="DimensionTextInput">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="DimensionLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
     </style>
 

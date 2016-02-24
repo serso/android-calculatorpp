@@ -6,4 +6,12 @@
     <string name="cpp_kb_undo" translatable="false">↶</string>
     <string name="cpp_kb_redo" translatable="false">↷</string>
     <string name="cpp_direction_text_size" translatable="false">0.3;0.3;0.3;0.25</string>
+    <string name="cpp_plot_add_function" translatable="false">+</string>
+    <string name="cpp_plot_zoom_in" translatable="false">+</string>
+    <string name="cpp_plot_zoom_reset" translatable="false">0</string>
+    <string name="cpp_plot_zoom_out" translatable="false">−</string>
+    <string name="cpp_dimensions_x_min" translatable="false">X min</string>
+    <string name="dimensions_x_max" translatable="false">X max</string>
+    <string name="dimensions_y_min" translatable="false">Y min</string>
+    <string name="dimensions_y_max" translatable="false">Y max</string>
 </resources>

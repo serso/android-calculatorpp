@@ -39,6 +39,7 @@ import org.solovyev.android.calculator.history.HistoryActivity;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
+import org.solovyev.android.calculator.plot.PlotActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.CppVariable;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
@@ -159,7 +160,8 @@ public final class ActivityLauncher implements CalculatorEventListener {
 
     public void showWidgetSettings() {
         final Context context = getContext();
-        show(context, PreferencesActivity.makeIntent(context, R.xml.preferences_widget, R.string.prefs_widget_title));
+        show(context, PreferencesActivity.makeIntent(context, R.xml.preferences_widget,
+            R.string.prefs_widget_title));
     }
 
     public void showOperators() {
@@ -168,6 +170,10 @@ public final class ActivityLauncher implements CalculatorEventListener {
 
     public void showAbout() {
         show(getContext(), AboutActivity.getClass(getContext()));
+    }
+
+    public void showPlotter() {
+        show(getContext(), PlotActivity.class);
     }
 
     public void openFacebook() {

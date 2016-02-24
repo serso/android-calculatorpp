@@ -38,12 +38,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        a:id="@+id/menu_plot_fullscreen"
-        a:icon="@drawable/ab_expand"
-        a:title="@string/cpp_fullscreen"
-        app:showAsAction="ifRoom" />
-
-    <item
         a:id="@+id/menu_plot_range"
         a:icon="@drawable/ab_range"
         a:title="@string/cpp_plot_range"

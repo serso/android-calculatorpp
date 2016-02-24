@@ -1,17 +1,25 @@
 package org.solovyev.android.calculator;
 
+import static android.view.Menu.NONE;
+import static org.solovyev.android.calculator.App.cast;
+
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
 import org.solovyev.android.calculator.ads.AdUi;
+import org.solovyev.android.plotter.Check;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-
-import static android.view.Menu.NONE;
-import static org.solovyev.android.calculator.App.cast;
 
 public abstract class BaseFragment extends Fragment {
 
@@ -24,8 +32,17 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Nonnull
-    public static MenuItem addMenu(@Nonnull ContextMenu menu, @StringRes int label, @Nonnull MenuItem.OnMenuItemClickListener listener) {
+    public static MenuItem addMenu(@Nonnull ContextMenu menu, @StringRes int label,
+        @Nonnull MenuItem.OnMenuItemClickListener listener) {
         return menu.add(NONE, label, NONE, label).setOnMenuItemClickListener(listener);
+    }
+
+    @NonNull
+    public static <P extends Parcelable> P getParcelable(@NonNull Bundle bundle,
+        @NonNull String key) {
+        final P parcelable = bundle.getParcelable(key);
+        Check.isNotNull(parcelable);
+        return parcelable;
     }
 
     @Override
@@ -40,7 +57,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
         final View view = inflater.inflate(layout, container, false);
         adUi.onCreateView(view);
         return view;

@@ -21,6 +21,8 @@ import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.Products;
 import org.solovyev.android.checkout.RobotmediaDatabase;
 import org.solovyev.android.checkout.RobotmediaInventory;
+import org.solovyev.android.plotter.Plot;
+import org.solovyev.android.plotter.Plotter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -190,6 +192,12 @@ public class AppModule {
             }
         });
         return filesDir;
+    }
+
+    @Provides
+    @Singleton
+    Plotter providePlotter() {
+        return Plot.newPlotter(application);
     }
 
     @Nonnull

@@ -42,4 +42,6 @@
     <dimen name="cpp_image_button_padding">5dp</dimen>
     <dimen name="cpp_dialog_width_max">400dp</dimen>
     <dimen name="cpp_card_margin">4dp</dimen>
+
+    <dimen name="list_item_height">48dp</dimen>
 </resources>

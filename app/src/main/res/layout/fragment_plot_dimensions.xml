@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/x_bounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/plot_x_min_label"
+            style="@style/DimensionTextInput">
+
+            <EditText
+                android:id="@+id/plot_x_min"
+                style="@style/DimensionEditText"
+                android:hint="@string/cpp_dimensions_x_min"
+                android:nextFocusRight="@+id/plot_x_max" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/plot_x_max_label"
+            style="@style/DimensionTextInput"
+            android:layout_marginLeft="@dimen/form_input_margin_hor"
+            android:layout_marginStart="@dimen/form_input_margin_hor">
+
+            <EditText
+                android:id="@+id/plot_x_max"
+                style="@style/DimensionEditText"
+                android:hint="@string/dimensions_x_max"
+                android:nextFocusDown="@+id/plot_y_min"
+                android:nextFocusRight="@+id/plot_y_min" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/y_bounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/plot_y_min_label"
+            style="@style/DimensionTextInput">
+
+            <EditText
+                android:id="@+id/plot_y_min"
+                style="@style/DimensionEditText"
+                android:hint="@string/dimensions_y_min"
+                android:nextFocusRight="@+id/plot_y_max" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/plot_y_max_label"
+            style="@style/DimensionTextInput"
+            android:layout_marginLeft="@dimen/form_input_margin_hor"
+            android:layout_marginStart="@dimen/form_input_margin_hor">
+
+            <EditText
+                android:id="@+id/plot_y_max"
+                style="@style/DimensionEditText.Last"
+                android:hint="@string/dimensions_y_max" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+</LinearLayout>

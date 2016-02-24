@@ -118,6 +118,10 @@
             android:theme="@style/Cpp.Theme.Dialog" />
 
         <activity
+            android:name=".plot.PlotActivity"
+            android:label="@string/cpp_plotter" />
+
+        <activity
             android:name=".wizard.WizardActivity"
             android:launchMode="singleTop"
             android:theme="@style/Cpp.Theme.Wizard">
