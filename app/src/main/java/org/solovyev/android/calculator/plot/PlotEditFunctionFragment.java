@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.google.common.base.Strings;
-
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.R;
@@ -23,17 +21,17 @@ import org.solovyev.android.plotter.PlotIconView;
 import org.solovyev.android.plotter.Plotter;
 import org.solovyev.android.plotter.meshes.MeshSpec;
 
-import butterknife.Bind;
-import jscl.math.function.Constant;
-import jscl.math.function.CustomFunction;
-import uz.shift.colorpicker.LineColorPicker;
-import uz.shift.colorpicker.OnColorChangedListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import jscl.math.function.Constant;
+import jscl.math.function.CustomFunction;
+import uz.shift.colorpicker.LineColorPicker;
+import uz.shift.colorpicker.OnColorChangedListener;
 
 public class PlotEditFunctionFragment extends BaseFunctionFragment
     implements SeekBar.OnSeekBarChangeListener {
@@ -67,22 +65,14 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
         final PlotEditFunctionFragment fragment = new PlotEditFunctionFragment();
         if (pf != null && pf.function instanceof ExpressionFunction) {
             final Bundle args = new Bundle();
-            final String name =
-                pf.function.hasName() ? Strings.nullToEmpty(pf.function.getName()) : "";
-            final List<String> parameters = new ArrayList<>();
             final ExpressionFunction ef = (ExpressionFunction) pf.function;
-            if (ef.xVariable != null) {
-                parameters.add(ef.xVariable.getName());
-            }
-            if (ef.yVariable != null) {
-                parameters.add(ef.yVariable.getName());
-            }
+            final List<String> parameters = new ArrayList<>(((CustomFunction) ef.function).getParameterNames());
             args.putParcelable(ARG_FUNCTION, CppFunction
-                .builder(name,
-                    ((CustomFunction) ef.function).getContent())
-                .withParameters(parameters)
-                .withId(pf.function.getId())
-                .build());
+                    .builder(ef.function.getName(),
+                            ((CustomFunction) ef.function).getContent())
+                    .withParameters(parameters)
+                    .withId(pf.function.getId())
+                    .build());
             fragment.setArguments(args);
         }
         return fragment;
@@ -168,7 +158,7 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
             final Constant x = parameters.size() > 0 ? new Constant(parameters.get(0)) : null;
             final Constant y = parameters.size() > 1 ? new Constant(parameters.get(1)) : null;
             final ExpressionFunction expressionFunction =
-                new ExpressionFunction(function.toJsclBuilder().create(), x, y, false);
+                new ExpressionFunction(function.toJsclBuilder().create(), false);
             final PlotFunction plotFunction = PlotFunction.create(expressionFunction,
                 applyMeshSpec());
             final int id = function.getId();

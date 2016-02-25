@@ -1,5 +1,11 @@
 package jscl.math;
 
+import java.math.BigInteger;
+import java.util.Collections;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+
 import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.math.function.Constants;
@@ -10,12 +16,6 @@ import jscl.math.numeric.Numeric;
 import jscl.math.numeric.Real;
 import jscl.math.numeric.Vector;
 import jscl.mathml.MathML;
-
-import java.math.BigInteger;
-import java.util.Collections;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
 
 public final class NumericWrapper extends Generic implements INumeric<NumericWrapper> {
 
@@ -185,7 +185,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
     }
 
     public Generic substitute(@Nonnull Variable variable, Generic generic) {
-        return null;
+        return this;
     }
 
     public Generic expand() {

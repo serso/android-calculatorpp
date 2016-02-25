@@ -12,13 +12,14 @@ import android.support.v7.app.AlertDialog;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 
-import jscl.math.function.Function;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import jscl.math.function.Function;
 
 public class EditFunctionFragment extends BaseFunctionFragment {
 
@@ -103,10 +104,11 @@ public class EditFunctionFragment extends BaseFunctionFragment {
 
     @Override
     protected boolean validateName() {
-        if (!super.validateName()) {
+        final String name = nameView.getText().toString();
+        if (!Engine.isValidName(name)) {
+            setError(nameLabel, getString(R.string.function_name_is_not_valid));
             return false;
         }
-        final String name = nameView.getText().toString();
         final Function existingFunction = functionsRegistry.get(name);
         if (existingFunction != null) {
             if (!existingFunction.isIdDefined()) {
