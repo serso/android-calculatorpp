@@ -37,11 +37,17 @@ import butterknife.ButterKnife;
 import com.squareup.otto.Bus;
 import jscl.NumeralBase;
 import jscl.math.Generic;
+import jscl.math.function.Constant;
+import jscl.math.function.CustomFunction;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.plot.ExpressionFunction;
+import org.solovyev.android.plotter.Plotter;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DisplayFragment extends BaseFragment implements View.OnClickListener,
         MenuItem.OnMenuItemClickListener {
@@ -80,9 +86,15 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     @Inject
     SharedPreferences preferences;
     @Inject
+    ErrorReporter errorReporter;
+    @Inject
     Display display;
     @Inject
+    ActivityLauncher launcher;
+    @Inject
     Bus bus;
+    @Inject
+    Plotter plotter;
     @Inject
     Calculator calculator;
 
@@ -134,7 +146,8 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
                     addMenu(menu, R.string.c_convert, this);
                 }
             }
-            if (Locator.getInstance().getPlotter().isPlotPossibleFor(result)) {
+            final int parameters = CalculatorUtils.getNotSystemConstants(result).size();
+            if (parameters >= 0 && parameters <= 2) {
                 addMenu(menu, R.string.c_plot, this);
             }
         }
@@ -204,7 +217,19 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
                 return true;
             case R.string.c_plot:
                 if (result != null) {
-                    Locator.getInstance().getPlotter().plot(result);
+                    try {
+                        final List<String> parameters = new ArrayList<>();
+                        for (Constant parameter : CalculatorUtils.getNotSystemConstants(result)) {
+                            parameters.add(parameter.getName());
+                        }
+                        new CustomFunction.Builder().setParameterNames(parameters).setContent(state.text).create();
+                        final CustomFunction f = new CustomFunction.Builder().setName("").setParameterNames(parameters).setContent(result.toString()).create();
+                        final ExpressionFunction ef = new ExpressionFunction(f, false);
+                        plotter.add(ef);
+                        launcher.showPlotter();
+                    } catch (RuntimeException e) {
+                        errorReporter.onException(e);
+                    }
                 }
                 return true;
             default:

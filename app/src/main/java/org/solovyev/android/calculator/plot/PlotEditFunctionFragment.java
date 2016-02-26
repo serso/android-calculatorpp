@@ -9,7 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import jscl.math.function.CustomFunction;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.R;
@@ -20,18 +21,13 @@ import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.PlotIconView;
 import org.solovyev.android.plotter.Plotter;
 import org.solovyev.android.plotter.meshes.MeshSpec;
-
-import java.util.ArrayList;
-import java.util.List;
+import uz.shift.colorpicker.LineColorPicker;
+import uz.shift.colorpicker.OnColorChangedListener;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import jscl.math.function.Constant;
-import jscl.math.function.CustomFunction;
-import uz.shift.colorpicker.LineColorPicker;
-import uz.shift.colorpicker.OnColorChangedListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlotEditFunctionFragment extends BaseFunctionFragment
     implements SeekBar.OnSeekBarChangeListener {
@@ -157,9 +153,6 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
 
     protected boolean applyData(@Nonnull CppFunction function) {
         try {
-            final List<String> parameters = function.getParameters();
-            final Constant x = parameters.size() > 0 ? new Constant(parameters.get(0)) : null;
-            final Constant y = parameters.size() > 1 ? new Constant(parameters.get(1)) : null;
             final ExpressionFunction expressionFunction =
                 new ExpressionFunction(function.toJsclBuilder().create(), false);
             final PlotFunction plotFunction = PlotFunction.create(expressionFunction,
