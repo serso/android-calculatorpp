@@ -33,42 +33,20 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.ContextMenu;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.FloatingCalculatorKeyboard;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.ParseException;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.VariablesRegistry;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import java.util.*;
 
 import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
 
@@ -132,8 +110,8 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        builder.setNegativeButton(R.string.c_cancel, null);
-        builder.setPositiveButton(R.string.ok, null);
+        builder.setNegativeButton(R.string.cpp_cancel, null);
+        builder.setPositiveButton(R.string.cpp_done, null);
         builder.setTitle(isNewFunction() ? R.string.function_create_function :
             R.string.function_edit_function);
     }

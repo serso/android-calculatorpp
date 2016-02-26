@@ -43,7 +43,7 @@ public class BasePlotTest {
         }
 
         onView(withId(R.id.function_body)).perform(typeText(function.getBody()));
-        onView(withText(R.string.ok)).perform(click());
+        onView(withText(R.string.cpp_done)).perform(click());
     }
 
     protected final void openFunctionEditor() {

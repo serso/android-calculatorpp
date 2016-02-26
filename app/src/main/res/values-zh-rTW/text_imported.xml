@@ -13,9 +13,15 @@
    <string name="cpp_create">建立</string>
    <string name="cpp_close">關閉</string>
    <string name="cpp_switch">切換</string>
+   <string name="cpp_add">新增</string>
    <string name="cpp_edit">編輯</string>
    <string name="cpp_delete">刪除</string>
-   <string name="cpp_save">完成</string>
+   <string name="cpp_done">完成</string>
    <string name="cpp_cancel">取消</string>
    <string name="cpp_description">說明</string>
+   <string name="cpp_copy_text">複製到剪貼簿</string>
+   <string name="cpp_text_copied">文字已複製</string>
+   <string name="cpp_name">姓名</string>
+   <string name="cpp_nan">非數字</string>
+   <string name="cpp_error">錯誤</string>
 </resources>

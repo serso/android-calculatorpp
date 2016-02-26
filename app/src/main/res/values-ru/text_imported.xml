@@ -13,9 +13,15 @@
    <string name="cpp_create">Создать</string>
    <string name="cpp_close">Закрыть</string>
    <string name="cpp_switch">Сменить аккаунт</string>
+   <string name="cpp_add">Добавить</string>
    <string name="cpp_edit">Изменить</string>
    <string name="cpp_delete">Удалить</string>
-   <string name="cpp_save">Готово</string>
+   <string name="cpp_done">Готово</string>
    <string name="cpp_cancel">Отмена</string>
    <string name="cpp_description">Описание</string>
+   <string name="cpp_copy_text">Копировать в буфер обмена</string>
+   <string name="cpp_text_copied">Текст скопирован</string>
+   <string name="cpp_name">Имя</string>
+   <string name="cpp_nan">Не число</string>
+   <string name="cpp_error">Ошибка</string>
 </resources>

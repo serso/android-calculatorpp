@@ -186,8 +186,8 @@ public abstract class BaseHistoryFragment extends BaseFragment {
                 if (shouldHaveCopyResult(state)) {
                     addMenu(menu, R.string.c_copy_result, this);
                 }
-                addMenu(menu, R.string.c_edit, this);
-                addMenu(menu, R.string.c_remove, this);
+                addMenu(menu, R.string.cpp_edit, this);
+                addMenu(menu, R.string.cpp_delete, this);
             }
         }
 
@@ -210,13 +210,13 @@ public abstract class BaseHistoryFragment extends BaseFragment {
                 case R.string.c_copy_result:
                     copyResult(state);
                     return true;
-                case R.string.c_edit:
+                case R.string.cpp_edit:
                     EditHistoryFragment.show(state, false, getFragmentManager());
                     return true;
                 case R.string.c_save:
                     EditHistoryFragment.show(state, true, getFragmentManager());
                     return true;
-                case R.string.c_remove:
+                case R.string.cpp_delete:
                     history.removeSaved(state);
                     return true;
             }

@@ -13,9 +13,15 @@
    <string name="cpp_create">Tạo</string>
    <string name="cpp_close">Đóng</string>
    <string name="cpp_switch">Chuyển đổi</string>
+   <string name="cpp_add">Thêm</string>
    <string name="cpp_edit">Chỉnh sửa</string>
    <string name="cpp_delete">Xóa</string>
-   <string name="cpp_save">Xong</string>
+   <string name="cpp_done">Xong</string>
    <string name="cpp_cancel">Hủy</string>
    <string name="cpp_description">Mô tả</string>
+   <string name="cpp_copy_text">Sao chép vào khay nhớ tạm</string>
+   <string name="cpp_text_copied">Đã sao chép văn bản</string>
+   <string name="cpp_name">Tên</string>
+   <string name="cpp_nan">Không phải số</string>
+   <string name="cpp_error">Lỗi</string>
 </resources>

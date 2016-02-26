@@ -22,8 +22,6 @@
 
 package org.solovyev.android.calculator.history;
 
-import static org.solovyev.android.calculator.FragmentTab.saved_history;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -31,16 +29,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.FragmentTab;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import static org.solovyev.android.calculator.FragmentTab.saved_history;
 
 public class HistoryActivity extends BaseActivity {
 
@@ -96,7 +91,7 @@ public class HistoryActivity extends BaseActivity {
                         }
                     }
                 })
-                .setNegativeButton(R.string.c_cancel, null)
+                .setNegativeButton(R.string.cpp_cancel, null)
                 .create()
                 .show();
     }

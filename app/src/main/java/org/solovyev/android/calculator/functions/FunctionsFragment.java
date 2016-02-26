@@ -26,15 +26,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
+import android.view.*;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.Calculator;
@@ -43,15 +39,11 @@ import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
@@ -79,8 +71,8 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull Function function, @NonNull MenuItem.OnMenuItemClickListener listener) {
         addMenu(menu, R.string.c_use, listener);
         if (!function.isSystem()) {
-            addMenu(menu, R.string.c_edit, listener);
-            addMenu(menu, R.string.c_remove, listener);
+            addMenu(menu, R.string.cpp_edit, listener);
+            addMenu(menu, R.string.cpp_delete, listener);
         }
     }
 
@@ -91,13 +83,13 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
             case R.string.c_use:
                 onClick(function);
                 return true;
-            case R.string.c_edit:
+            case R.string.cpp_edit:
                 if (function instanceof IFunction) {
                     EditFunctionFragment.show(CppFunction.builder((IFunction) function).build(),
                         activity.getSupportFragmentManager());
                 }
                 return true;
-            case R.string.c_remove:
+            case R.string.cpp_delete:
                 EntityRemovalDialog.showForFunction(getActivity(), function.getName(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

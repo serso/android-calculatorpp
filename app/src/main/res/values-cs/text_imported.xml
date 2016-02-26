@@ -13,9 +13,15 @@
    <string name="cpp_create">Vytvořit</string>
    <string name="cpp_close">Zavřít</string>
    <string name="cpp_switch">Přepnout</string>
+   <string name="cpp_add">Přidat</string>
    <string name="cpp_edit">Upravit</string>
    <string name="cpp_delete">Smazat</string>
-   <string name="cpp_save">Hotovo</string>
+   <string name="cpp_done">Hotovo</string>
    <string name="cpp_cancel">Zrušit</string>
    <string name="cpp_description">Popis</string>
+   <string name="cpp_copy_text">Zkopírovat do schránky</string>
+   <string name="cpp_text_copied">Text zkopírován</string>
+   <string name="cpp_name">Jméno</string>
+   <string name="cpp_nan">Není číslo</string>
+   <string name="cpp_error">Chyba</string>
 </resources>

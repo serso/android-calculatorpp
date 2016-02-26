@@ -22,8 +22,6 @@
 
 package org.solovyev.android.calculator.variables;
 
-import static org.solovyev.android.calculator.variables.CppVariable.NO_ID;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,17 +41,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.IConstant;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.VariablesRegistry;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
@@ -62,16 +55,13 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.text.Strings;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.function.IConstant;
-
-import java.util.Arrays;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.solovyev.android.calculator.variables.CppVariable.NO_ID;
 
 public class EditVariableFragment extends BaseDialogFragment implements View.OnFocusChangeListener, View.OnKeyListener, View.OnClickListener {
 
@@ -160,11 +150,11 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        builder.setNegativeButton(R.string.c_cancel, null);
-        builder.setPositiveButton(R.string.ok, null);
+        builder.setNegativeButton(R.string.cpp_cancel, null);
+        builder.setPositiveButton(R.string.cpp_done, null);
         builder.setTitle(isNewVariable() ? R.string.c_var_create_var : R.string.c_var_edit_var);
         if (!isNewVariable()) {
-            builder.setNeutralButton(R.string.c_remove, null);
+            builder.setNeutralButton(R.string.cpp_delete, null);
         }
     }
 

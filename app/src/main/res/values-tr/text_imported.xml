@@ -13,9 +13,15 @@
    <string name="cpp_create">Oluştur</string>
    <string name="cpp_close">Kapat</string>
    <string name="cpp_switch">Değiştir</string>
+   <string name="cpp_add">Ekle</string>
    <string name="cpp_edit">Düzenle</string>
    <string name="cpp_delete">Sil</string>
-   <string name="cpp_save">Bitti</string>
+   <string name="cpp_done">Bitti</string>
    <string name="cpp_cancel">İptal</string>
    <string name="cpp_description">Açıklama</string>
+   <string name="cpp_copy_text">Panoya kopyala</string>
+   <string name="cpp_text_copied">Metin kopyalandı</string>
+   <string name="cpp_name">Ad</string>
+   <string name="cpp_nan">Sayı değil</string>
+   <string name="cpp_error">Hata</string>
 </resources>

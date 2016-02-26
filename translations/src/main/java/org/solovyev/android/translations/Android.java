@@ -11,6 +11,8 @@ public class Android {
 
     private static final List<TranslationLink> settingsLinks = new ArrayList<>();
     private static final List<TranslationLink> calendarLinks = new ArrayList<>();
+    private static final List<TranslationLink> contactsLinks = new ArrayList<>();
+    private static final List<TranslationLink> calculatorLinks = new ArrayList<>();
 
     static {
         settingsLinks.add(new TranslationLink("haptic_feedback_enable_title", "cpp_prefs_vibrate_on_keypress"));
@@ -26,24 +28,34 @@ public class Android {
         settingsLinks.add(new TranslationLink("create", "cpp_create"));
         settingsLinks.add(new TranslationLink("dlg_close", "cpp_close"));
         settingsLinks.add(new TranslationLink("dlg_switch", "cpp_switch"));
+        settingsLinks.add(new TranslationLink("user_dict_settings_add_menu_title", "cpp_add"));
 
         calendarLinks.add(new TranslationLink("edit_label", "cpp_edit"));
         calendarLinks.add(new TranslationLink("delete_label", "cpp_delete"));
-        calendarLinks.add(new TranslationLink("save_label", "cpp_save"));
+        calendarLinks.add(new TranslationLink("save_label", "cpp_done"));
         calendarLinks.add(new TranslationLink("discard_label", "cpp_cancel"));
         calendarLinks.add(new TranslationLink("hint_description", "cpp_description"));
+
+        contactsLinks.add(new TranslationLink("copy_text", "cpp_copy_text"));
+        contactsLinks.add(new TranslationLink("toast_text_copied", "cpp_text_copied"));
+        contactsLinks.add(new TranslationLink("header_name_entry", "cpp_name"));
+
+        calculatorLinks.add(new TranslationLink("error_nan", "cpp_nan"));
+        calculatorLinks.add(new TranslationLink("error_syntax", "cpp_error"));
     }
 
     public static void main(String... args) throws Exception {
         final Options options = new Options();
-        options.addOption(Option.builder("as").longOpt("aosp-settings").hasArg().desc("Local location of aosp/platform/packages/apps/settings").required().build());
-        options.addOption(Option.builder("ac").longOpt("aosp-calendar").hasArg().desc("Local location of aosp/platform/packages/apps/calendar").required().build());
+        options.addOption(Option.builder("aosp").hasArg().desc("Local location of aosp project").required().build());
 
         final CommandLineParser parser = new DefaultParser();
         final CommandLine commandLine = parser.parse(options, args);
 
-        final File aospSettings = makeInputDirectory(commandLine.getOptionValue("as"));
-        final File aospCalendar = makeInputDirectory(commandLine.getOptionValue("ac"));
+        final String aosp = commandLine.getOptionValue("aosp");
+        final File aospSettings = makeInputDirectory(aosp + "/platform/packages/apps/settings");
+        final File aospCalendar = makeInputDirectory(aosp + "/platform/packages/apps/calendar");
+        final File aospContacts = makeInputDirectory(aosp + "/platform/packages/apps/contacts");
+        final File aospCalculator = makeInputDirectory(aosp + "/platform/packages/apps/calculator");
 
         final File outDir = new File("build/translations/res");
         Utils.delete(outDir);
@@ -55,6 +67,8 @@ public class Android {
             Resources translations = new Resources();
             translate(readResources(aospSettings, languageLocale), translations, settingsLinks);
             translate(readResources(aospCalendar, languageLocale), translations, calendarLinks);
+            translate(readResources(aospContacts, languageLocale), translations, contactsLinks);
+            translate(readResources(aospCalculator, languageLocale), translations, calculatorLinks);
             Utils.saveTranslations(translations, languageLocale, outDir, "text_imported.xml");
         }
     }

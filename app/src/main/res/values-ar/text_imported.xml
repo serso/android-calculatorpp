@@ -13,9 +13,15 @@
    <string name="cpp_create">إنشاء</string>
    <string name="cpp_close">إغلاق</string>
    <string name="cpp_switch">تبديل</string>
+   <string name="cpp_add">إضافة</string>
    <string name="cpp_edit">تعديل</string>
    <string name="cpp_delete">حذف</string>
-   <string name="cpp_save">تم</string>
+   <string name="cpp_done">تم</string>
    <string name="cpp_cancel">إلغاء</string>
    <string name="cpp_description">الوصف</string>
+   <string name="cpp_copy_text">نسخ إلى الحافظة</string>
+   <string name="cpp_text_copied">تم نسخ النص</string>
+   <string name="cpp_name">الاسم</string>
+   <string name="cpp_nan">ليس رقمًا</string>
+   <string name="cpp_error">خطأ</string>
 </resources>

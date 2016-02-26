@@ -13,9 +13,15 @@
    <string name="cpp_create">Aanmaken</string>
    <string name="cpp_close">Sluiten</string>
    <string name="cpp_switch">Overschakelen</string>
+   <string name="cpp_add">Toevoegen</string>
    <string name="cpp_edit">Bewerken</string>
    <string name="cpp_delete">Verwijderen</string>
-   <string name="cpp_save">Gereed</string>
+   <string name="cpp_done">Gereed</string>
    <string name="cpp_cancel">Annuleren</string>
    <string name="cpp_description">Beschrijving</string>
+   <string name="cpp_copy_text">Kopiëren naar klembord</string>
+   <string name="cpp_text_copied">Tekst gekopieerd</string>
+   <string name="cpp_name">Naam</string>
+   <string name="cpp_nan">Is geen getal</string>
+   <string name="cpp_error">Fout</string>
 </resources>

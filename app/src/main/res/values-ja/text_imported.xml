@@ -13,9 +13,15 @@
    <string name="cpp_create">作成</string>
    <string name="cpp_close">閉じる</string>
    <string name="cpp_switch">切り替え</string>
+   <string name="cpp_add">追加</string>
    <string name="cpp_edit">編集</string>
    <string name="cpp_delete">削除</string>
-   <string name="cpp_save">完了</string>
+   <string name="cpp_done">完了</string>
    <string name="cpp_cancel">キャンセル</string>
    <string name="cpp_description">説明</string>
+   <string name="cpp_copy_text">クリップボードにコピー</string>
+   <string name="cpp_text_copied">テキストをコピーしました</string>
+   <string name="cpp_name">名前</string>
+   <string name="cpp_nan">数字以外の値</string>
+   <string name="cpp_error">エラー</string>
 </resources>

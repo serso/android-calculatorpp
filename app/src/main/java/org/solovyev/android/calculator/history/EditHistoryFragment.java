@@ -71,7 +71,7 @@ public class EditHistoryFragment extends BaseDialogFragment {
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        builder.setNegativeButton(R.string.c_cancel, null);
+        builder.setNegativeButton(R.string.cpp_cancel, null);
         builder.setPositiveButton(R.string.c_save, null);
     }
 

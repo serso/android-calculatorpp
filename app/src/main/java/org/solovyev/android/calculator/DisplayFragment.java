@@ -26,27 +26,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
-
-import com.squareup.otto.Bus;
-
-import org.solovyev.android.calculator.converter.ConverterFragment;
-import org.solovyev.android.calculator.jscl.JsclOperation;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.squareup.otto.Bus;
 import jscl.NumeralBase;
 import jscl.math.Generic;
+import org.solovyev.android.calculator.converter.ConverterFragment;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -182,7 +174,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
 
         final AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, App.getTheme().alertDialogTheme)
-                        .setPositiveButton(R.string.c_cancel, null)
+                        .setPositiveButton(R.string.cpp_cancel, null)
                         .setView(errorMessageView);
 
         builder.create().show();

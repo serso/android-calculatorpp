@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-
+import jscl.math.function.Function;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
@@ -18,8 +18,6 @@ import org.solovyev.android.calculator.entities.EntityRemovalDialog;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.function.Function;
 
 public class EditFunctionFragment extends BaseFunctionFragment {
 
@@ -61,7 +59,7 @@ public class EditFunctionFragment extends BaseFunctionFragment {
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         super.onPrepareDialog(builder);
         if (!isNewFunction()) {
-            builder.setNeutralButton(R.string.c_remove, null);
+            builder.setNeutralButton(R.string.cpp_delete, null);
         }
     }
 

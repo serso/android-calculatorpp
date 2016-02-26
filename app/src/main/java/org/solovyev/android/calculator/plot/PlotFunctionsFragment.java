@@ -11,13 +11,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
@@ -29,13 +26,9 @@ import org.solovyev.android.plotter.Plotter;
 import org.solovyev.android.views.llm.DividerItemDecoration;
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import java.util.List;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static android.view.Menu.NONE;
@@ -71,7 +64,7 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
 
     @NonNull
     protected RecyclerView onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, Bundle savedInstanceState) {
-        @SuppressLint("InflateParams") final RecyclerView view = (RecyclerView) inflater.inflate(R.layout.dialog_functions, null);
+        @SuppressLint("InflateParams") final RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_functions, null);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(context, VERTICAL, false);
         final int itemHeight = context.getResources().getDimensionPixelSize(R.dimen.list_item_height);
@@ -99,8 +92,8 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
     }
 
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        builder.setPositiveButton(android.R.string.ok, null);
-        builder.setNeutralButton("Add", null);
+        builder.setPositiveButton(R.string.cpp_close, null);
+        builder.setNeutralButton(R.string.cpp_add, null);
     }
 
     @Override
@@ -144,12 +137,12 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.add(NONE, R.string.c_remove, NONE, R.string.c_remove).setOnMenuItemClickListener(this);
+            menu.add(NONE, R.string.cpp_delete, NONE, R.string.cpp_delete).setOnMenuItemClickListener(this);
         }
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            if (function != null && item.getItemId() == R.string.c_remove) {
+            if (function != null && item.getItemId() == R.string.cpp_delete) {
                 plotter.remove(function);
                 return true;
             }
@@ -168,7 +161,7 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            return new ViewHolder(inflater.inflate(R.layout.dialog_functions_function, parent, false));
+            return new ViewHolder(inflater.inflate(R.layout.fragment_functions_function, parent, false));
         }
 
         @Override

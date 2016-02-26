@@ -107,12 +107,12 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull IConstant variable, @Nonnull MenuItem.OnMenuItemClickListener listener) {
         addMenu(menu, R.string.c_use, listener);
         if (!variable.isSystem()) {
-            addMenu(menu, R.string.c_edit, listener);
-            addMenu(menu, R.string.c_remove, listener);
+            addMenu(menu, R.string.cpp_edit, listener);
+            addMenu(menu, R.string.cpp_delete, listener);
         }
 
         if (!Strings.isEmpty(variable.getValue())) {
-            addMenu(menu, R.string.c_copy_value, listener);
+            addMenu(menu, R.string.cpp_copy_text, listener);
         }
     }
 
@@ -123,10 +123,10 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
             case R.string.c_use:
                 onClick(variable);
                 return true;
-            case R.string.c_edit:
+            case R.string.cpp_edit:
                 EditVariableFragment.showDialog(CppVariable.builder(variable).build(), activity);
                 return true;
-            case R.string.c_remove:
+            case R.string.cpp_delete:
                 EntityRemovalDialog.showForVariable(getActivity(), variable.getName(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -135,7 +135,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
                     }
                 });
                 return true;
-            case R.string.c_copy_value:
+            case R.string.cpp_copy_text:
                 copyText(variable.getValue());
                 return true;
         }

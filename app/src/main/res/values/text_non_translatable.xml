@@ -14,4 +14,5 @@
     <string name="dimensions_x_max" translatable="false">X max</string>
     <string name="dimensions_y_min" translatable="false">Y min</string>
     <string name="dimensions_y_max" translatable="false">Y max</string>
+    <string name="cpp_function_body" translatable="false">f(x, y)</string>
 </resources>

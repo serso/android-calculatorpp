@@ -13,9 +13,15 @@
    <string name="cpp_create">Criar</string>
    <string name="cpp_close">Fechar</string>
    <string name="cpp_switch">Alternar</string>
+   <string name="cpp_add">Adicionar</string>
    <string name="cpp_edit">Editar</string>
    <string name="cpp_delete">Eliminar</string>
-   <string name="cpp_save">Concluído</string>
+   <string name="cpp_done">Concluído</string>
    <string name="cpp_cancel">Cancelar</string>
    <string name="cpp_description">Descrição</string>
+   <string name="cpp_copy_text">Copiar para área de transf.</string>
+   <string name="cpp_text_copied">Texto copiado</string>
+   <string name="cpp_name">Nome</string>
+   <string name="cpp_nan">Não é um núm.</string>
+   <string name="cpp_error">Erro</string>
 </resources>
