@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,18 +19,12 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.BaseFragment;
-import org.solovyev.android.calculator.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.plotter.Check;
 import org.solovyev.android.plotter.Plot;
 import org.solovyev.android.plotter.Plotter;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -152,7 +145,7 @@ public class PlotDimensionsFragment extends BaseDialogFragment
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         builder.setTitle("Dimensions");
-        builder.setPositiveButton(android.R.string.ok, null);
+        builder.setPositiveButton(R.string.cpp_done, null);
     }
 
     @NonNull
@@ -243,12 +236,12 @@ public class PlotDimensionsFragment extends BaseDialogFragment
         final boolean nanRight = Float.isNaN(r);
         if (nanLeft || nanRight) {
             if (nanLeft) {
-                setError(lInput, " ");
+                setError(lInput, R.string.cpp_nan);
             } else {
                 clearError(lInput);
             }
             if (nanRight) {
-                setError(rInput, " ");
+                setError(rInput, R.string.cpp_nan);
             } else {
                 clearError(rInput);
             }
@@ -259,8 +252,7 @@ public class PlotDimensionsFragment extends BaseDialogFragment
 
     @NonNull
     private RectF collectData() {
-        return new RectF(getDimension(xMin), getDimension(yMin), getDimension(xMax),
-            getDimension(yMax));
+        return new RectF(getDimension(xMin), getDimension(yMin), getDimension(xMax), getDimension(yMax));
     }
 
     private void applyData() {
@@ -272,7 +264,6 @@ public class PlotDimensionsFragment extends BaseDialogFragment
         try {
             return Float.parseFloat(view.getText().toString().replace(",", ".").replace("−", "-"));
         } catch (NumberFormatException e) {
-            Log.w(Plot.getTag("MainActivity"), e.getMessage(), e);
             return Float.NaN;
         }
     }

@@ -16,11 +16,11 @@
         a:layout_gravity="top|start"
         a:src="@drawable/ic_straighten_white_24dp" />
 
-    <org.solovyev.android.material.MaterialButton
+    <org.solovyev.android.material.MaterialImageButton
         a:id="@id/plot_3d_button"
         style="@style/CppPlotButton"
         a:layout_gravity="top|end"
-        a:text="@string/cpp_plot_3d" />
+        a:src="@drawable/ic_3d_rotation_white_24dp" />
 
     <LinearLayout
         a:layout_width="wrap_content"
@@ -28,10 +28,10 @@
         a:layout_gravity="bottom|start"
         a:orientation="vertical">
 
-        <org.solovyev.android.material.MaterialButton
+        <org.solovyev.android.material.MaterialImageButton
             a:id="@+id/plot_add_function"
             style="@style/CppPlotButton"
-            a:text="@string/cpp_plot_add_function" />
+            a:src="@drawable/ic_add_white_24dp" />
 
         <org.solovyev.android.material.MaterialImageButton
             a:id="@+id/plot_functions"
@@ -45,20 +45,20 @@
         a:layout_gravity="bottom|end"
         a:orientation="vertical">
 
-        <org.solovyev.android.material.MaterialButton
+        <org.solovyev.android.material.MaterialImageButton
             a:id="@id/plot_zoom_in_button"
             style="@style/CppPlotButton"
-            a:text="@string/cpp_plot_zoom_in" />
+            a:src="@drawable/ic_zoom_in_white_24dp" />
 
-        <org.solovyev.android.material.MaterialButton
+        <org.solovyev.android.material.MaterialImageButton
             a:id="@id/plot_zoom_reset_button"
             style="@style/CppPlotButton"
-            a:text="@string/cpp_plot_zoom_reset" />
+            a:src="@drawable/ic_my_location_white_24dp" />
 
-        <org.solovyev.android.material.MaterialButton
+        <org.solovyev.android.material.MaterialImageButton
             a:id="@id/plot_zoom_out_button"
             style="@style/CppPlotButton"
-            a:text="@string/cpp_plot_zoom_out" />
+            a:src="@drawable/ic_zoom_out_white_24dp" />
     </LinearLayout>
 
 </org.solovyev.android.plotter.PlotViewFrame>
