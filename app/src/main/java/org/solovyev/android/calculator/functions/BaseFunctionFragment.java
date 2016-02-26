@@ -94,8 +94,10 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
     public TextInputLayout bodyLabel;
     @Bind(R.id.function_body)
     public EditTextCompat bodyView;
+    @Bind(R.id.function_description_label)
+    public TextInputLayout descriptionLabel;
     @Bind(R.id.function_description)
-    EditText descriptionView;
+    public EditText descriptionView;
     @Inject
     Calculator calculator;
     @Inject

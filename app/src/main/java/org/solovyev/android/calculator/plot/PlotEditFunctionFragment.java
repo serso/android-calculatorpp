@@ -112,6 +112,8 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
         final int[] colors = MeshSpec.LightColors.asIntArray();
         colorPicker.setColors(colors);
         paramsView.setMaxParams(2);
+        // no descriptions for functions in plotter
+        descriptionLabel.setVisibility(View.GONE);
         if (savedInstanceState == null) {
             if (plotFunction != null) {
                 setupViews(plotFunction.meshSpec);

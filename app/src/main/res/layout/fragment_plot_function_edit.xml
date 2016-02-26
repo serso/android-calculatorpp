@@ -23,9 +23,10 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +34,7 @@
         android:orientation="vertical">
 
 
-        <include layout="@layout/fragment_function_edit_base_controls" />
+        <include layout="@layout/fragment_function_edit_base_controls"/>
 
         <LinearLayout
             android:id="@+id/fn_meshspec_views"
@@ -44,12 +45,12 @@
 
             <org.solovyev.android.plotter.PlotIconView
                 android:id="@+id/fn_iconview"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_width="@dimen/cpp_plot_icon_size"
+                android:layout_height="@dimen/cpp_plot_icon_size"
+                android:layout_marginLeft="@dimen/cpp_plot_icon_margin"
+                android:layout_marginRight="@dimen/cpp_plot_icon_margin"
                 android:background="#212121"
-                android:padding="5dp" />
+                android:padding="@dimen/cpp_image_button_padding"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,25 +62,31 @@
                     style="@style/TextAppearance.AppCompat.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/fn_line_width" />
+                    android:paddingStart="4dp"
+                    android:paddingLeft="4dp"
+                    android:text="@string/fn_line_width"
+                    tools:ignore="RtlSymmetry"/>
 
                 <SeekBar
                     android:id="@+id/fn_linewidth_seekbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/fn_color_label"
                     style="@style/TextAppearance.AppCompat.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/fn_line_color" />
+                    android:paddingStart="4dp"
+                    android:paddingLeft="4dp"
+                    android:text="@string/fn_line_color"
+                    tools:ignore="RtlSymmetry"/>
 
                 <uz.shift.colorpicker.LineColorPicker
                     android:id="@+id/fn_color_picker"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    app:lcp_orientation="horizontal" />
+                    app:lcp_orientation="horizontal"/>
             </LinearLayout>
 
         </LinearLayout>

@@ -59,7 +59,8 @@
 
     <android.support.design.widget.TextInputLayout
         a:layout_width="match_parent"
-        a:layout_height="wrap_content">
+        a:layout_height="wrap_content"
+        a:id="@+id/function_description_label">
 
         <EditText
             a:id="@+id/function_description"
