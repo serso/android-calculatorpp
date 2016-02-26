@@ -40,7 +40,12 @@
         <item name="android:listDivider">@drawable/divider_dark</item>
     </style>
 
-    <style name="Cpp.Theme.Translucent" parent="Cpp.Theme.Dialog"/>
+    <style name="Cpp.Theme.Translucent" parent="@style/Theme.AppCompat.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
 
     <style name="Cpp.Theme.Dialog" parent="@style/Theme.AppCompat.DialogWhenLarge">
         <item name="android:windowBackground">@color/cpp_main_bg</item>
