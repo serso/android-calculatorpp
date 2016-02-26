@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">الاهتزاز عند اللمس</string>
    <string name="cpp_prefs_auto_rotate_screen">التدوير التلقائي للشاشة</string>
-   <string name="cpp_prefs_language">اللغة</string>
-   <string name="cpp_prefs_theme">المظهر</string>
+   <string name="cpp_language">اللغة</string>
+   <string name="cpp_theme">المظهر</string>
+   <string name="cpp_theme_light">فاتح</string>
+   <string name="cpp_theme_dark">داكن</string>
    <string name="cpp_prefs_keep_screen_on">البقاء في الوضع النشط</string>
    <string name="cpp_permission_overlay">الظهور أمام التطبيقات الأخرى</string>
+   <string name="cpp_yes">نعم</string>
+   <string name="cpp_no">لا</string>
+   <string name="cpp_create">إنشاء</string>
+   <string name="cpp_close">إغلاق</string>
+   <string name="cpp_switch">تبديل</string>
 </resources>

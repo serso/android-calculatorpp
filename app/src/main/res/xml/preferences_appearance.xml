@@ -27,7 +27,7 @@
 
     <org.solovyev.android.material.preferences.ListPreference
         a:key="gui.language"
-        a:title="@string/cpp_prefs_language"
+        a:title="@string/cpp_language"
         m:materialColor="@color/material_text_selector" />
 
     <android.preference.CheckBoxPreference
@@ -51,7 +51,7 @@
         a:entries="@array/p_theme_names"
         a:entryValues="@array/p_theme_values"
         a:key="@string/p_calc_theme_key"
-        a:title="@string/cpp_prefs_theme" />
+        a:title="@string/cpp_theme" />
 
     <ListPreference
         a:entries="@array/p_layout_names"

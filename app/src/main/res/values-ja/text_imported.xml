@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">タッチ操作バイブ</string>
    <string name="cpp_prefs_auto_rotate_screen">画面の自動回転</string>
-   <string name="cpp_prefs_language">言語</string>
-   <string name="cpp_prefs_theme">テーマ</string>
+   <string name="cpp_language">言語</string>
+   <string name="cpp_theme">テーマ</string>
+   <string name="cpp_theme_light">ライト</string>
+   <string name="cpp_theme_dark">ダーク</string>
    <string name="cpp_prefs_keep_screen_on">スリープモードにしない</string>
    <string name="cpp_permission_overlay">他のアプリの上に重ねて描画</string>
+   <string name="cpp_yes">はい</string>
+   <string name="cpp_no">いいえ</string>
+   <string name="cpp_create">作成</string>
+   <string name="cpp_close">閉じる</string>
+   <string name="cpp_switch">切り替え</string>
 </resources>

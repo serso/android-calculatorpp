@@ -1,5 +1,6 @@
 package org.solovyev.android.translations;
 
+import org.apache.commons.cli.*;
 import org.apache.http.util.TextUtils;
 
 import java.io.File;
@@ -19,8 +20,18 @@ public class Android {
     }
 
     public static void main(String... args) throws Exception {
+        final Options options = new Options();
+        options.addOption(Option.builder("as").longOpt("aosp-settings").hasArg().desc("Local location of aosp/platform/packages/apps/settings").required().build());
+
+        final CommandLineParser parser = new DefaultParser();
+        final CommandLine commandLine = parser.parse(options, args);
+        final File aospSettings = new File(commandLine.getOptionValue("as"));
+        if (!aospSettings.exists() || !aospSettings.isDirectory()) {
+            throw new IllegalArgumentException(aospSettings + " doesn't exist or not a directory");
+        }
+
         final File inDir =
-                new File("/home/serso/projects/java/aosp/platform/packages-apps-settings/res");
+                new File(aospSettings, "res");
         final File outDir = new File("build/translations/res");
         Utils.delete(outDir);
         outDir.mkdirs();
@@ -28,10 +39,17 @@ public class Android {
         final List<TranslationLink> translationLinks = new ArrayList<>();
         translationLinks.add(new TranslationLink("haptic_feedback_enable_title", "cpp_prefs_vibrate_on_keypress"));
         translationLinks.add(new TranslationLink("accelerometer_title", "cpp_prefs_auto_rotate_screen"));
-        translationLinks.add(new TranslationLink("phone_language", "cpp_prefs_language"));
-        translationLinks.add(new TranslationLink("night_mode_title", "cpp_prefs_theme"));
+        translationLinks.add(new TranslationLink("phone_language", "cpp_language"));
+        translationLinks.add(new TranslationLink("night_mode_title", "cpp_theme"));
+        translationLinks.add(new TranslationLink("night_mode_no", "cpp_theme_light"));
+        translationLinks.add(new TranslationLink("night_mode_yes", "cpp_theme_dark"));
         translationLinks.add(new TranslationLink("keep_screen_on", "cpp_prefs_keep_screen_on"));
         translationLinks.add(new TranslationLink("draw_overlay", "cpp_permission_overlay"));
+        translationLinks.add(new TranslationLink("yes", "cpp_yes"));
+        translationLinks.add(new TranslationLink("no", "cpp_no"));
+        translationLinks.add(new TranslationLink("create", "cpp_create"));
+        translationLinks.add(new TranslationLink("dlg_close", "cpp_close"));
+        translationLinks.add(new TranslationLink("dlg_switch", "cpp_switch"));
 
         List<String> languageLocales = new ArrayList<>(Utils.languageLocales);
         languageLocales.add("");

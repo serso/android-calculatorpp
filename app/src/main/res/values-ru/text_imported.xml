@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">Виброотклик</string>
    <string name="cpp_prefs_auto_rotate_screen">Автоповорот экрана</string>
-   <string name="cpp_prefs_language">Язык</string>
-   <string name="cpp_prefs_theme">Тема</string>
+   <string name="cpp_language">Язык</string>
+   <string name="cpp_theme">Тема</string>
+   <string name="cpp_theme_light">Светлая</string>
+   <string name="cpp_theme_dark">Темная</string>
    <string name="cpp_prefs_keep_screen_on">Не выключать экран</string>
    <string name="cpp_permission_overlay">Наложение поверх других окон</string>
+   <string name="cpp_yes">Да</string>
+   <string name="cpp_no">Нет</string>
+   <string name="cpp_create">Создать</string>
+   <string name="cpp_close">Закрыть</string>
+   <string name="cpp_switch">Сменить аккаунт</string>
 </resources>

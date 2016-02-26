@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">Käytä värinää kosketettaessa</string>
    <string name="cpp_prefs_auto_rotate_screen">Näytön automaattinen kierto</string>
-   <string name="cpp_prefs_language">Kieli</string>
-   <string name="cpp_prefs_theme">Teema</string>
+   <string name="cpp_language">Kieli</string>
+   <string name="cpp_theme">Teema</string>
+   <string name="cpp_theme_light">Vaalea</string>
+   <string name="cpp_theme_dark">Tumma</string>
    <string name="cpp_prefs_keep_screen_on">Pysy käynnissä</string>
    <string name="cpp_permission_overlay">Piirrä muihin sovelluksiin</string>
+   <string name="cpp_yes">Kyllä</string>
+   <string name="cpp_no">Ei</string>
+   <string name="cpp_create">Luo</string>
+   <string name="cpp_close">Sulje</string>
+   <string name="cpp_switch">Vaihda</string>
 </resources>

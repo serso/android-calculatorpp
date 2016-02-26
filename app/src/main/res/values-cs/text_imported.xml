@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">Při dotyku vibrovat</string>
    <string name="cpp_prefs_auto_rotate_screen">Autom. otočení obrazovky</string>
-   <string name="cpp_prefs_language">Jazyk</string>
-   <string name="cpp_prefs_theme">Motiv</string>
+   <string name="cpp_language">Jazyk</string>
+   <string name="cpp_theme">Motiv</string>
+   <string name="cpp_theme_light">Světlý</string>
+   <string name="cpp_theme_dark">Tmavý</string>
    <string name="cpp_prefs_keep_screen_on">Nevypínat obrazovku</string>
    <string name="cpp_permission_overlay">Vykreslení přes další aplikace</string>
+   <string name="cpp_yes">Ano</string>
+   <string name="cpp_no">Ne</string>
+   <string name="cpp_create">Vytvořit</string>
+   <string name="cpp_close">Zavřít</string>
+   <string name="cpp_switch">Přepnout</string>
 </resources>

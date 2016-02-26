@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">Rung khi chạm</string>
    <string name="cpp_prefs_auto_rotate_screen">Tự động xoay màn hình</string>
-   <string name="cpp_prefs_language">Ngôn ngữ</string>
-   <string name="cpp_prefs_theme">Chủ đề</string>
+   <string name="cpp_language">Ngôn ngữ</string>
+   <string name="cpp_theme">Chủ đề</string>
+   <string name="cpp_theme_light">Sáng</string>
+   <string name="cpp_theme_dark">Tối</string>
    <string name="cpp_prefs_keep_screen_on">Không khóa màn hình</string>
    <string name="cpp_permission_overlay">Vẽ lên trên ứng dụng khác</string>
+   <string name="cpp_yes">Có</string>
+   <string name="cpp_no">Không</string>
+   <string name="cpp_create">Tạo</string>
+   <string name="cpp_close">Đóng</string>
+   <string name="cpp_switch">Chuyển đổi</string>
 </resources>

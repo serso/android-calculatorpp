@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">觸控時震動</string>
    <string name="cpp_prefs_auto_rotate_screen">自動旋轉螢幕</string>
-   <string name="cpp_prefs_language">語言</string>
-   <string name="cpp_prefs_theme">主題</string>
+   <string name="cpp_language">語言</string>
+   <string name="cpp_theme">主題</string>
+   <string name="cpp_theme_light">淺色</string>
+   <string name="cpp_theme_dark">深色</string>
    <string name="cpp_prefs_keep_screen_on">螢幕不休眠</string>
    <string name="cpp_permission_overlay">在其他應用程式上層繪製內容</string>
+   <string name="cpp_yes">是</string>
+   <string name="cpp_no">否</string>
+   <string name="cpp_create">建立</string>
+   <string name="cpp_close">關閉</string>
+   <string name="cpp_switch">切換</string>
 </resources>

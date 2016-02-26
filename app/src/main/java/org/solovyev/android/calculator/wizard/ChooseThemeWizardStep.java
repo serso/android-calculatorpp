@@ -30,17 +30,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
 
 public class ChooseThemeWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
@@ -61,8 +59,8 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
         final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(App.getPreferences());
         final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_theme_spinner);
         themes.clear();
-        themes.add(new ThemeUi(Preferences.Gui.Theme.material_theme, R.string.p_material_theme));
-        themes.add(new ThemeUi(Preferences.Gui.Theme.material_light_theme, R.string.p_material_light_theme));
+        themes.add(new ThemeUi(Preferences.Gui.Theme.material_theme, R.string.cpp_theme_dark));
+        themes.add(new ThemeUi(Preferences.Gui.Theme.material_light_theme, R.string.cpp_theme_light));
         themes.add(new ThemeUi(Preferences.Gui.Theme.metro_blue_theme, R.string.p_metro_blue_theme));
         themes.add(new ThemeUi(Preferences.Gui.Theme.metro_green_theme, R.string.p_metro_green_theme));
         themes.add(new ThemeUi(Preferences.Gui.Theme.metro_purple_theme, R.string.p_metro_purple_theme));

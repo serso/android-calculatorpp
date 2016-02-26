@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">触摸时振动</string>
    <string name="cpp_prefs_auto_rotate_screen">自动旋转屏幕</string>
-   <string name="cpp_prefs_language">语言</string>
-   <string name="cpp_prefs_theme">主题背景</string>
+   <string name="cpp_language">语言</string>
+   <string name="cpp_theme">主题背景</string>
+   <string name="cpp_theme_light">浅色</string>
+   <string name="cpp_theme_dark">深色</string>
    <string name="cpp_prefs_keep_screen_on">不锁定屏幕</string>
    <string name="cpp_permission_overlay">在其他应用的上层显示</string>
+   <string name="cpp_yes">是</string>
+   <string name="cpp_no">否</string>
+   <string name="cpp_create">创建</string>
+   <string name="cpp_close">关闭</string>
+   <string name="cpp_switch">切换</string>
 </resources>

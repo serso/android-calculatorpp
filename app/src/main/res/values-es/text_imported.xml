@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">Vibrar al tocar</string>
    <string name="cpp_prefs_auto_rotate_screen">Girar pantalla automáticamente</string>
-   <string name="cpp_prefs_language">Idioma</string>
-   <string name="cpp_prefs_theme">Tema</string>
+   <string name="cpp_language">Idioma</string>
+   <string name="cpp_theme">Tema</string>
+   <string name="cpp_theme_light">Claro</string>
+   <string name="cpp_theme_dark">Oscuro</string>
    <string name="cpp_prefs_keep_screen_on">Pantalla activa</string>
    <string name="cpp_permission_overlay">Escribir sobre otras aplicaciones</string>
+   <string name="cpp_yes">Sí</string>
+   <string name="cpp_no">No</string>
+   <string name="cpp_create">Crear</string>
+   <string name="cpp_close">Cerrar</string>
+   <string name="cpp_switch">Cambiar</string>
 </resources>

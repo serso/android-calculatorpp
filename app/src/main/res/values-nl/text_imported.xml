@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">Trillen bij aanraking</string>
    <string name="cpp_prefs_auto_rotate_screen">Scherm autom. draaien</string>
-   <string name="cpp_prefs_language">Taal</string>
-   <string name="cpp_prefs_theme">Thema</string>
+   <string name="cpp_language">Taal</string>
+   <string name="cpp_theme">Thema</string>
+   <string name="cpp_theme_light">Licht</string>
+   <string name="cpp_theme_dark">Donker</string>
    <string name="cpp_prefs_keep_screen_on">Stand-by</string>
    <string name="cpp_permission_overlay">Over andere apps tekenen</string>
+   <string name="cpp_yes">Ja</string>
+   <string name="cpp_no">Nee</string>
+   <string name="cpp_create">Aanmaken</string>
+   <string name="cpp_close">Sluiten</string>
+   <string name="cpp_switch">Overschakelen</string>
 </resources>

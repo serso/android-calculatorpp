@@ -2,8 +2,15 @@
 <resources>
    <string name="cpp_prefs_vibrate_on_keypress">Dokunulduğunda titreşim</string>
    <string name="cpp_prefs_auto_rotate_screen">Ekranı otomatik döndür</string>
-   <string name="cpp_prefs_language">Dil</string>
-   <string name="cpp_prefs_theme">Tema</string>
+   <string name="cpp_language">Dil</string>
+   <string name="cpp_theme">Tema</string>
+   <string name="cpp_theme_light">Açık Renkli</string>
+   <string name="cpp_theme_dark">Koyu Renkli</string>
    <string name="cpp_prefs_keep_screen_on">Uyanık kal</string>
    <string name="cpp_permission_overlay">Diğer uygl. üzerinde görüntüle</string>
+   <string name="cpp_yes">Evet</string>
+   <string name="cpp_no">Hayır</string>
+   <string name="cpp_create">Oluştur</string>
+   <string name="cpp_close">Kapat</string>
+   <string name="cpp_switch">Değiştir</string>
 </resources>
