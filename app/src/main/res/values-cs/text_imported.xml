@@ -19,9 +19,11 @@
    <string name="cpp_done">Hotovo</string>
    <string name="cpp_cancel">Zrušit</string>
    <string name="cpp_description">Popis</string>
+   <string name="cpp_about">O aplikaci</string>
    <string name="cpp_copy_text">Zkopírovat do schránky</string>
    <string name="cpp_text_copied">Text zkopírován</string>
    <string name="cpp_name">Jméno</string>
+   <string name="cpp_settings">Nastavení</string>
    <string name="cpp_nan">Není číslo</string>
    <string name="cpp_error">Chyba</string>
 </resources>

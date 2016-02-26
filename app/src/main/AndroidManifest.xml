@@ -58,11 +58,11 @@
 
         <activity
             android:name=".preferences.PreferencesActivity"
-            android:label="@string/c_app_settings" />
+            android:label="@string/cpp_settings" />
 
         <activity
             android:name=".preferences.PreferencesActivity$Dialog"
-            android:label="@string/c_app_settings"
+            android:label="@string/cpp_settings"
             android:theme="@style/Cpp.Theme.Dialog" />
 
         <activity
@@ -83,11 +83,11 @@
 
         <activity
             android:name=".about.AboutActivity"
-            android:label="@string/c_about" />
+            android:label="@string/cpp_about" />
 
         <activity
             android:name=".about.AboutActivity$Dialog"
-            android:label="@string/c_about"
+            android:label="@string/cpp_about"
             android:theme="@style/Cpp.Theme.Dialog" />
 
         <activity

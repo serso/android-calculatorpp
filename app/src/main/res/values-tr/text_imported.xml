@@ -19,9 +19,11 @@
    <string name="cpp_done">Bitti</string>
    <string name="cpp_cancel">İptal</string>
    <string name="cpp_description">Açıklama</string>
+   <string name="cpp_about">Hakkında</string>
    <string name="cpp_copy_text">Panoya kopyala</string>
    <string name="cpp_text_copied">Metin kopyalandı</string>
    <string name="cpp_name">Ad</string>
+   <string name="cpp_settings">Ayarlar</string>
    <string name="cpp_nan">Sayı değil</string>
    <string name="cpp_error">Hata</string>
 </resources>

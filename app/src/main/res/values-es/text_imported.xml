@@ -19,9 +19,11 @@
    <string name="cpp_done">Listo</string>
    <string name="cpp_cancel">Cancelar</string>
    <string name="cpp_description">Descripción</string>
+   <string name="cpp_about">Información de la aplicación</string>
    <string name="cpp_copy_text">Copiar en el portapapeles</string>
    <string name="cpp_text_copied">Texto copiado</string>
    <string name="cpp_name">Nombre</string>
+   <string name="cpp_settings">Ajustes</string>
    <string name="cpp_nan">No es un número</string>
    <string name="cpp_error">Error</string>
 </resources>

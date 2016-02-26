@@ -19,9 +19,11 @@
    <string name="cpp_done">تم</string>
    <string name="cpp_cancel">إلغاء</string>
    <string name="cpp_description">الوصف</string>
+   <string name="cpp_about">حول</string>
    <string name="cpp_copy_text">نسخ إلى الحافظة</string>
    <string name="cpp_text_copied">تم نسخ النص</string>
    <string name="cpp_name">الاسم</string>
+   <string name="cpp_settings">الإعدادات</string>
    <string name="cpp_nan">ليس رقمًا</string>
    <string name="cpp_error">خطأ</string>
 </resources>

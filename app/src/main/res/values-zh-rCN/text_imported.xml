@@ -19,9 +19,11 @@
    <string name="cpp_done">完成</string>
    <string name="cpp_cancel">取消</string>
    <string name="cpp_description">说明</string>
+   <string name="cpp_about">应用信息</string>
    <string name="cpp_copy_text">复制到剪贴板</string>
    <string name="cpp_text_copied">文本已复制</string>
    <string name="cpp_name">姓名</string>
+   <string name="cpp_settings">设置</string>
    <string name="cpp_nan">不是数字</string>
    <string name="cpp_error">错误</string>
 </resources>

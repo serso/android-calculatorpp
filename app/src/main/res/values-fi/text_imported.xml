@@ -19,9 +19,11 @@
    <string name="cpp_done">Valmis</string>
    <string name="cpp_cancel">Peruuta</string>
    <string name="cpp_description">Kuvaus</string>
+   <string name="cpp_about">Tietoja</string>
    <string name="cpp_copy_text">Kopioi leikepöydälle</string>
    <string name="cpp_text_copied">Teksti kopioitu</string>
    <string name="cpp_name">Nimi</string>
+   <string name="cpp_settings">Asetukset</string>
    <string name="cpp_nan">Ei ole numero</string>
    <string name="cpp_error">Virhe</string>
 </resources>

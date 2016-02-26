@@ -42,7 +42,7 @@ public enum FragmentTab {
     variables(VariablesFragment.class, R.string.c_vars),
     functions(FunctionsFragment.class, R.string.c_functions),
     operators(OperatorsFragment.class, R.string.c_operators),
-    about(AboutFragment.class, R.string.c_about),
+    about(AboutFragment.class, R.string.cpp_about),
 
     // todo serso: strings
     matrix_edit(EditMatrixFragment.class, R.string.c_release_notes),
@@ -59,10 +59,5 @@ public enum FragmentTab {
         this.type = type;
         this.title = title;
         this.tag = name();
-    }
-
-    @Nonnull
-    public String subTag(@Nonnull String subTag) {
-        return tag + "_" + subTag;
     }
 }

@@ -19,9 +19,11 @@
    <string name="cpp_done">Concluído</string>
    <string name="cpp_cancel">Cancelar</string>
    <string name="cpp_description">Descrição</string>
+   <string name="cpp_about">Sobre</string>
    <string name="cpp_copy_text">Copiar para área de transferência</string>
    <string name="cpp_text_copied">Texto copiado</string>
    <string name="cpp_name">Nome</string>
+   <string name="cpp_settings">Configurações</string>
    <string name="cpp_nan">Não é número</string>
    <string name="cpp_error">Erro</string>
 </resources>

@@ -19,9 +19,11 @@
    <string name="cpp_done">Gotowe</string>
    <string name="cpp_cancel">Anuluj</string>
    <string name="cpp_description">Opis</string>
+   <string name="cpp_about">Informacje</string>
    <string name="cpp_copy_text">Kopiuj do schowka</string>
    <string name="cpp_text_copied">Tekst skopiowany</string>
    <string name="cpp_name">Imię i nazwisko</string>
+   <string name="cpp_settings">Ustawienia</string>
    <string name="cpp_nan">To nie liczba</string>
    <string name="cpp_error">Błąd</string>
 </resources>

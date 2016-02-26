@@ -35,10 +35,12 @@ public class Android {
         calendarLinks.add(new TranslationLink("save_label", "cpp_done"));
         calendarLinks.add(new TranslationLink("discard_label", "cpp_cancel"));
         calendarLinks.add(new TranslationLink("hint_description", "cpp_description"));
+        calendarLinks.add(new TranslationLink("preferences_about_title", "cpp_about"));
 
         contactsLinks.add(new TranslationLink("copy_text", "cpp_copy_text"));
         contactsLinks.add(new TranslationLink("toast_text_copied", "cpp_text_copied"));
         contactsLinks.add(new TranslationLink("header_name_entry", "cpp_name"));
+        contactsLinks.add(new TranslationLink("activity_title_settings", "cpp_settings"));
 
         calculatorLinks.add(new TranslationLink("error_nan", "cpp_nan"));
         calculatorLinks.add(new TranslationLink("error_syntax", "cpp_error"));

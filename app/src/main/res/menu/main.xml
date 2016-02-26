@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_settings"
-        android:title="@string/c_settings"
+        android:title="@string/cpp_settings"
         app:showAsAction="never" />
 
     <item
@@ -24,6 +24,6 @@
 
     <item
         android:id="@+id/menu_about"
-        android:title="@string/c_about"
+        android:title="@string/cpp_about"
         app:showAsAction="never" />
 </menu>

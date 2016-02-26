@@ -19,9 +19,11 @@
    <string name="cpp_done">Xong</string>
    <string name="cpp_cancel">Hủy</string>
    <string name="cpp_description">Mô tả</string>
+   <string name="cpp_about">Giới thiệu về</string>
    <string name="cpp_copy_text">Sao chép vào khay nhớ tạm</string>
    <string name="cpp_text_copied">Đã sao chép văn bản</string>
    <string name="cpp_name">Tên</string>
+   <string name="cpp_settings">Cài đặt</string>
    <string name="cpp_nan">Không phải số</string>
    <string name="cpp_error">Lỗi</string>
 </resources>

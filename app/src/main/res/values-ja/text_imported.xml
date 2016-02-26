@@ -19,9 +19,11 @@
    <string name="cpp_done">完了</string>
    <string name="cpp_cancel">キャンセル</string>
    <string name="cpp_description">説明</string>
+   <string name="cpp_about">概要</string>
    <string name="cpp_copy_text">クリップボードにコピー</string>
    <string name="cpp_text_copied">テキストをコピーしました</string>
    <string name="cpp_name">名前</string>
+   <string name="cpp_settings">設定</string>
    <string name="cpp_nan">数字以外の値</string>
    <string name="cpp_error">エラー</string>
 </resources>

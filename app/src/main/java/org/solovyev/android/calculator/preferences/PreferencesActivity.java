@@ -36,7 +36,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     }
 
     static {
-        preferences.append(R.xml.preferences, new PrefDef("screen-main", R.string.c_app_settings));
+        preferences.append(R.xml.preferences, new PrefDef("screen-main", R.string.cpp_settings));
         preferences.append(R.xml.preferences_calculations, new PrefDef("screen-calculations", R.string.c_prefs_calculations_category));
         preferences.append(R.xml.preferences_appearance, new PrefDef("screen-appearance", R.string.c_prefs_appearance_category));
         preferences.append(R.xml.preferences_plot, new PrefDef("screen-plot", R.string.prefs_graph_screen_title));
