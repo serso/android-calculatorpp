@@ -135,7 +135,7 @@ public class ActivityUi {
     }
 
     public void onPreCreate(@Nonnull Activity activity) {
-        final SharedPreferences preferences = App.getPreferences();
+        cast(activity.getApplication()).getComponent().inject(this);
 
         theme = Preferences.Gui.getTheme(preferences);
         activity.setTheme(theme.getThemeFor(activity));
@@ -145,8 +145,6 @@ public class ActivityUi {
     }
 
     public void onCreate() {
-        cast(activity.getApplication()).getComponent().inject(this);
-
         // let's disable locking of screen for monkeyrunner
         if (App.isMonkeyRunner(activity)) {
             final KeyguardManager km = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
