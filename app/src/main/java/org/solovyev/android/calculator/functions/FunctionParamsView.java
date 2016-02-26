@@ -48,6 +48,7 @@ import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -60,6 +61,7 @@ public class FunctionParamsView extends LinearLayout {
 
     @Nonnull
     public static final String PARAM_VIEW_TAG = "param-view";
+    private static final List<String> PARAM_NAMES = Arrays.asList("x", "y", "z", "t", "a", "b", "c");
     private static final int FOOTERS = 1;
     private static final int PARAM_VIEW_INDEX = 3;
     private static final int START_ROW_ID = App.generateViewId();
@@ -106,7 +108,7 @@ public class FunctionParamsView extends LinearLayout {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final LinearLayout rowView = addParam(null);
+                final LinearLayout rowView = addParam(generateParamName());
                 final EditText paramView = getParamView(rowView);
                 paramView.requestFocus();
             }
@@ -114,6 +116,13 @@ public class FunctionParamsView extends LinearLayout {
         headerView.addView(addButton, makeButtonParams());
         headerView.addView(new View(context), new LayoutParams(3 * clickableAreaSize, WRAP_CONTENT));
         addView(headerView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+    }
+
+    @Nullable
+    private String generateParamName() {
+        final List<String> available = new ArrayList<>(PARAM_NAMES);
+        available.removeAll(getParams());
+        return available.size() > 0 ? available.get(0) : null;
     }
 
     @NonNull
@@ -187,6 +196,7 @@ public class FunctionParamsView extends LinearLayout {
             paramView.setText(param);
         }
         paramView.setOnFocusChangeListener(getOnFocusChangeListener());
+        paramView.setSelectAllOnFocus(true);
         paramView.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         paramView.setId(id);
         paramView.setTag(PARAM_VIEW_TAG);
