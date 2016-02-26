@@ -1,8 +1,5 @@
 package org.solovyev.android.calculator.plot;
 
-import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
-import static android.view.Menu.NONE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,13 +29,16 @@ import org.solovyev.android.plotter.Plotter;
 import org.solovyev.android.views.llm.DividerItemDecoration;
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
+import static android.view.Menu.NONE;
 
 public class PlotFunctionsFragment extends BaseDialogFragment {
 
@@ -120,7 +120,7 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
         @Bind(R.id.function_icon)
         PlotIconView icon;
 
-        @Bind(R.id.fn_name_edittext)
+        @Bind(R.id.function_name)
         TextView name;
         private PlotFunction function;
 

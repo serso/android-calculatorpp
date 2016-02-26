@@ -16,11 +16,11 @@ import org.solovyev.android.plotter.Dimensions;
 import org.solovyev.android.plotter.PlotViewFrame;
 import org.solovyev.android.plotter.Plotter;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class PlotActivity extends BaseActivity {
 
@@ -79,7 +79,7 @@ public class PlotActivity extends BaseActivity {
                 PlotFunctionsFragment.show(getActivity().getSupportFragmentManager());
                 return true;
             } else if (id == R.id.plot_add_function) {
-                //App.getBus().post(new AddFunctionDialog.ShowEvent());
+                PlotEditFunctionFragment.show(null, getActivity().getSupportFragmentManager());
                 return true;
             }
             return false;

@@ -36,16 +36,22 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -63,6 +69,9 @@ public class FunctionParamsView extends LinearLayout {
     @Nonnull
     private final Preferences.Gui.Theme theme = App.getTheme();
     private int maxRowId = START_ROW_ID;
+    private int maxParams = Integer.MAX_VALUE;
+    @Nonnull
+    private LinearLayout headerView;
 
     {
         final Resources resources = getResources();
@@ -91,8 +100,9 @@ public class FunctionParamsView extends LinearLayout {
         setOrientation(VERTICAL);
         final Context context = getContext();
 
-        final LinearLayout headerView = makeRowView(context);
+        headerView = makeRowView(context);
         final ImageButton addButton = makeButton(theme.light ? R.drawable.ic_add_black_24dp : R.drawable.ic_add_white_24dp);
+        addButton.setId(R.id.function_params_add);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,7 +197,13 @@ public class FunctionParamsView extends LinearLayout {
 
         // for row is added at 0 position, the consequent rows
         addView(rowView, Math.max(0, getChildCount() - 1), new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        onParamsChanged();
         return rowView;
+    }
+
+    private void onParamsChanged() {
+        final boolean enabled = getParamsCount() < maxParams;
+        headerView.setVisibility(enabled ? VISIBLE : GONE);
     }
 
     @NonNull
@@ -224,25 +240,35 @@ public class FunctionParamsView extends LinearLayout {
 
     @Nonnull
     private ViewGroup getRow(int index) {
-        Check.isTrue(index >= 0 && index < getChildCount() - FOOTERS);
+        Check.isTrue(index >= 0 && index < getParamsCount());
         return (ViewGroup) getChildAt(index);
     }
 
     public void removeRow(@Nonnull ViewGroup row) {
         removeView(row);
+        onParamsChanged();
     }
 
     @Nonnull
     public List<String> getParams() {
-        final List<String> params = new ArrayList<>(getChildCount());
+        final List<String> params = new ArrayList<>(getParamsCount());
 
-        for (int i = 0; i < getChildCount() - FOOTERS; i++) {
+        for (int i = 0; i < getParamsCount(); i++) {
             final ViewGroup row = getRow(i);
             final EditText paramView = getParamView(row);
             params.add(paramView.getText().toString());
         }
 
         return params;
+    }
+
+    private int getParamsCount() {
+        return getChildCount() - FOOTERS;
+    }
+
+    public void setMaxParams(int maxParams) {
+        this.maxParams = maxParams;
+        onParamsChanged();
     }
 
     @Nonnull

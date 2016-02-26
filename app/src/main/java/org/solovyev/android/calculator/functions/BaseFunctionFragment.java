@@ -84,6 +84,7 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
     @NonNull
     private final KeyboardUser keyboardUser = new KeyboardUser();
     @Bind(R.id.function_params)
+    public
     FunctionParamsView paramsView;
     @Bind(R.id.function_name_label)
     TextInputLayout nameLabel;

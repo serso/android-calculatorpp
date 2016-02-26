@@ -73,4 +73,6 @@
     <item name="cpp_kb_button_close" type="id" />
     <item name="cpp_kb_button_change_case" type="id" />
 
+    <item name="function_params_add" type="id" />
+
 </resources>

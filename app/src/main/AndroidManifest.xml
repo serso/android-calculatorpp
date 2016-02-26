@@ -119,7 +119,11 @@
 
         <activity
             android:name=".plot.PlotActivity"
-            android:label="@string/cpp_plotter" />
+            android:label="@string/cpp_plotter">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".wizard.WizardActivity"
