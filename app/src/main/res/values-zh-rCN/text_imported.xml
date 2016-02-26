@@ -13,4 +13,9 @@
    <string name="cpp_create">创建</string>
    <string name="cpp_close">关闭</string>
    <string name="cpp_switch">切换</string>
+   <string name="cpp_edit">编辑</string>
+   <string name="cpp_delete">删除</string>
+   <string name="cpp_save">完成</string>
+   <string name="cpp_cancel">取消</string>
+   <string name="cpp_description">说明</string>
 </resources>

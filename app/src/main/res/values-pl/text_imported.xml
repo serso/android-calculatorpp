@@ -13,4 +13,9 @@
    <string name="cpp_create">Utwórz</string>
    <string name="cpp_close">Zamknij</string>
    <string name="cpp_switch">Przełącz</string>
+   <string name="cpp_edit">Edytuj</string>
+   <string name="cpp_delete">Usuń</string>
+   <string name="cpp_save">Gotowe</string>
+   <string name="cpp_cancel">Anuluj</string>
+   <string name="cpp_description">Opis</string>
 </resources>

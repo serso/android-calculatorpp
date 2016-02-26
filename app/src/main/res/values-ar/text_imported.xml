@@ -13,4 +13,9 @@
    <string name="cpp_create">إنشاء</string>
    <string name="cpp_close">إغلاق</string>
    <string name="cpp_switch">تبديل</string>
+   <string name="cpp_edit">تعديل</string>
+   <string name="cpp_delete">حذف</string>
+   <string name="cpp_save">تم</string>
+   <string name="cpp_cancel">إلغاء</string>
+   <string name="cpp_description">الوصف</string>
 </resources>

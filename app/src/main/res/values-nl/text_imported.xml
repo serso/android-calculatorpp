@@ -13,4 +13,9 @@
    <string name="cpp_create">Aanmaken</string>
    <string name="cpp_close">Sluiten</string>
    <string name="cpp_switch">Overschakelen</string>
+   <string name="cpp_edit">Bewerken</string>
+   <string name="cpp_delete">Verwijderen</string>
+   <string name="cpp_save">Gereed</string>
+   <string name="cpp_cancel">Annuleren</string>
+   <string name="cpp_description">Beschrijving</string>
 </resources>

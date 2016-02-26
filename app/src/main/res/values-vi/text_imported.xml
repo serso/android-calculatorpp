@@ -13,4 +13,9 @@
    <string name="cpp_create">Tạo</string>
    <string name="cpp_close">Đóng</string>
    <string name="cpp_switch">Chuyển đổi</string>
+   <string name="cpp_edit">Chỉnh sửa</string>
+   <string name="cpp_delete">Xóa</string>
+   <string name="cpp_save">Xong</string>
+   <string name="cpp_cancel">Hủy</string>
+   <string name="cpp_description">Mô tả</string>
 </resources>

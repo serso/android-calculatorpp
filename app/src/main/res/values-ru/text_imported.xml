@@ -13,4 +13,9 @@
    <string name="cpp_create">Создать</string>
    <string name="cpp_close">Закрыть</string>
    <string name="cpp_switch">Сменить аккаунт</string>
+   <string name="cpp_edit">Изменить</string>
+   <string name="cpp_delete">Удалить</string>
+   <string name="cpp_save">Готово</string>
+   <string name="cpp_cancel">Отмена</string>
+   <string name="cpp_description">Описание</string>
 </resources>

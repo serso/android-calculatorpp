@@ -13,4 +13,9 @@
    <string name="cpp_create">Luo</string>
    <string name="cpp_close">Sulje</string>
    <string name="cpp_switch">Vaihda</string>
+   <string name="cpp_edit">Muokkaa</string>
+   <string name="cpp_delete">Poista</string>
+   <string name="cpp_save">Valmis</string>
+   <string name="cpp_cancel">Peruuta</string>
+   <string name="cpp_description">Kuvaus</string>
 </resources>

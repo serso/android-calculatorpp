@@ -13,4 +13,9 @@
    <string name="cpp_create">作成</string>
    <string name="cpp_close">閉じる</string>
    <string name="cpp_switch">切り替え</string>
+   <string name="cpp_edit">編集</string>
+   <string name="cpp_delete">削除</string>
+   <string name="cpp_save">完了</string>
+   <string name="cpp_cancel">キャンセル</string>
+   <string name="cpp_description">説明</string>
 </resources>
