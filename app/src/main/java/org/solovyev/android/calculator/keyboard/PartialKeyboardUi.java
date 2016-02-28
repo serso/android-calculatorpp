@@ -68,6 +68,9 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
         prepareButton(leftButton);
         prepareButton(equalsButton);
         prepareButton(clearButton);
+        if (clearButton != null) {
+            clearButton.setNumeralBase(numeralBase.getPreference(preferences));
+        }
         if (eraseButton != null) {
             Check.isTrue(IMAGE_SCALE == 0.6f);
             // backspace button is too big, scale it more

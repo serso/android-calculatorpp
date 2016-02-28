@@ -28,7 +28,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import jscl.NumeralBase;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
@@ -37,11 +36,10 @@ import javax.annotation.Nonnull;
 public class NumeralBasesButton extends DirectionDragButton {
 
     @Nonnull
-    private NumeralBase numeralBase;
+    private NumeralBase numeralBase = NumeralBase.dec;
 
     public NumeralBasesButton(Context context, @Nonnull AttributeSet attrs) {
         super(context, attrs);
-        this.numeralBase = Locator.getInstance().getEngine().getMathEngine().getNumeralBase();
     }
 
     @Override
@@ -70,9 +68,10 @@ public class NumeralBasesButton extends DirectionDragButton {
     }
 
     public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
-        if (this.numeralBase != numeralBase) {
-            this.numeralBase = numeralBase;
-            invalidate();
+        if (this.numeralBase == numeralBase) {
+            return;
         }
+        this.numeralBase = numeralBase;
+        invalidate();
     }
 }
