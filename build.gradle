@@ -27,5 +27,13 @@ allprojects {
         flatDir {
             dirs 'misc/libs'
         }
+
+        if (!project.hasProperty("ossrhUsername")) {
+            ext.ossrhUsername = "no-username"
+        }
+
+        if (!project.hasProperty("ossrhPassword")) {
+            ext.ossrhPassword = "no-password"
+        }
     }
 }
