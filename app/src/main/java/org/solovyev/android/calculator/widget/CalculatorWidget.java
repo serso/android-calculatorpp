@@ -48,11 +48,13 @@ import org.solovyev.android.calculator.buttons.CppButton;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import java.util.EnumMap;
 
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
+import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Broadcaster.*;
 import static org.solovyev.android.calculator.WidgetReceiver.newButtonClickedIntent;
 
@@ -64,6 +66,12 @@ public class CalculatorWidget extends AppWidgetProvider {
     private static final Intents intents = new Intents();
     @Nullable
     private static SpannedString cursorString;
+    @Inject
+    Editor editor;
+    @Inject
+    Display display;
+    @Inject
+    Engine engine;
 
     public CalculatorWidget() {
     }
@@ -109,8 +117,8 @@ public class CalculatorWidget extends AppWidgetProvider {
                               @Nonnull AppWidgetManager manager,
                               @Nonnull int[] widgetIds,
                               boolean partially) {
-        final EditorState editorState = App.getEditor().getState();
-        final DisplayState displayState = App.getDisplay().getState();
+        final EditorState editorState = editor.getState();
+        final DisplayState displayState = display.getState();
 
         final Resources resources = context.getResources();
         final SimpleTheme theme = App.getWidgetTheme().resolveThemeFor(App.getTheme());
@@ -136,7 +144,7 @@ public class CalculatorWidget extends AppWidgetProvider {
             updateEditorState(context, views, editorState, theme);
             updateDisplayState(context, views, displayState, theme);
 
-            views.setTextViewText(R.id.cpp_button_multiplication, Locator.getInstance().getEngine().getMultiplicationSign());
+            views.setTextViewText(R.id.cpp_button_multiplication, engine.getMultiplicationSign());
 
             if (partially && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 manager.partiallyUpdateAppWidget(widgetId, views);
@@ -186,6 +194,8 @@ public class CalculatorWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(@Nonnull Context context, @Nonnull Intent intent) {
+        cast(context).getComponent().inject(this);
+
         super.onReceive(context, intent);
 
         final String action = intent.getAction();
