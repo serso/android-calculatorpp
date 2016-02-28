@@ -43,6 +43,7 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import dagger.Lazy;
 import jscl.math.function.IConstant;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
@@ -96,6 +97,8 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     FunctionsRegistry functionsRegistry;
     @Inject
     VariablesRegistry variablesRegistry;
+    @Inject
+    Lazy<ToJsclTextProcessor> toJsclTextProcessor;
     @Nullable
     private CppVariable variable;
 
@@ -131,6 +134,15 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
 
     public static void showDialog(@Nullable CppVariable variable, @Nonnull FragmentManager fm) {
         App.showDialog(create(variable), "variable-editor", fm);
+    }
+
+    public boolean isValidValue(@Nonnull String value) {
+        try {
+            final PreparedExpression pe = toJsclTextProcessor.get().process(value);
+            return !pe.hasUndefinedVariables();
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 
     @Override
@@ -220,7 +232,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         final String value = valueView.getText().toString();
         if (!Strings.isEmpty(value)) {
             // value is not empty => must be a number
-            if (!VariablesFragment.isValidValue(value)) {
+            if (!isValidValue(value)) {
                 setError(valueLabel, R.string.c_value_is_not_a_number);
                 return false;
             }

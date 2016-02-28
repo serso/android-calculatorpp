@@ -55,15 +55,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     @Inject
     Bus bus;
 
-    public static boolean isValidValue(@Nonnull String value) {
-        try {
-            final PreparedExpression pe = ToJsclTextProcessor.getInstance().process(value);
-            return !pe.hasUndefinedVariables();
-        } catch (RuntimeException e) {
-            return false;
-        }
-    }
-
     @Override
     protected void inject(@Nonnull AppComponent component) {
         super.inject(component);

@@ -30,23 +30,19 @@ import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.search.StartsWithFinder;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 
     @Nonnull
     private static final Integer MAX_DEPTH = 20;
 
-    @Nonnull
-    private static final ToJsclTextProcessor instance = new ToJsclTextProcessor();
-
-    private ToJsclTextProcessor() {
-    }
-
-    @Nonnull
-    public static ToJsclTextProcessor getInstance() {
-        return instance;
+    @Inject
+    public ToJsclTextProcessor() {
     }
 
     private static PreparedExpression processWithDepth(@Nonnull String s, int depth, @Nonnull List<IConstant> undefinedVars) throws ParseException {

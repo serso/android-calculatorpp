@@ -70,8 +70,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     @Nonnull
     private static final AtomicLong SEQUENCER = new AtomicLong(NO_SEQUENCE);
     @Nonnull
-    private final ToJsclTextProcessor preprocessor = ToJsclTextProcessor.getInstance();
-    @Nonnull
     private final SharedPreferences preferences;
     @Nonnull
     private final Bus bus;
@@ -88,6 +86,8 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     Editor editor;
     @Inject
     JsclMathEngine mathEngine;
+    @Inject
+    ToJsclTextProcessor preprocessor;
 
     @Inject
     public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Named(AppModule.THREAD_UI) @Nonnull Executor ui, @Named(AppModule.THREAD_BACKGROUND) @Nonnull Executor background) {
