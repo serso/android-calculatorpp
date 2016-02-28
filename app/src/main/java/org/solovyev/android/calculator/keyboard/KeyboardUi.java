@@ -139,6 +139,7 @@ public class KeyboardUi extends BaseKeyboardUi {
         prepareButton(button4);
         prepareButton(button5);
         prepareButton(button6);
+        button6.setAngleUnit(angleUnit.getPreference(preferences));
         prepareButton(button7);
         prepareButton(button8);
         prepareButton(button9);

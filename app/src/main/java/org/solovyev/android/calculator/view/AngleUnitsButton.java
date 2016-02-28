@@ -28,7 +28,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import jscl.AngleUnit;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
@@ -37,11 +36,10 @@ import javax.annotation.Nonnull;
 public class AngleUnitsButton extends DirectionDragButton {
 
     @Nonnull
-    private AngleUnit angleUnit;
+    private AngleUnit angleUnit = AngleUnit.deg;
 
     public AngleUnitsButton(Context context, @Nonnull AttributeSet attrs) {
         super(context, attrs);
-        this.angleUnit = Locator.getInstance().getEngine().getMathEngine().getAngleUnits();
     }
 
     @Override
