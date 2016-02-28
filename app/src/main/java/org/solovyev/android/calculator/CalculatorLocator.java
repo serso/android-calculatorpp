@@ -36,7 +36,4 @@ public interface CalculatorLocator {
     @Nonnull
     Engine getEngine();
 
-    @Nonnull
-    Keyboard getKeyboard();
-
 }

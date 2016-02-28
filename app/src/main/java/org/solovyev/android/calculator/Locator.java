@@ -32,8 +32,6 @@ public class Locator implements CalculatorLocator {
     private Engine engine;
     @Nonnull
     private Calculator calculator;
-    @Nonnull
-    private Keyboard keyboard;
 
     public Locator() {
     }
@@ -50,7 +48,6 @@ public class Locator implements CalculatorLocator {
 
         this.calculator = calculator;
         this.engine = engine;
-        this.keyboard = keyboard;
     }
 
     @Nonnull
@@ -63,12 +60,6 @@ public class Locator implements CalculatorLocator {
     @Override
     public Calculator getCalculator() {
         return this.calculator;
-    }
-
-    @Override
-    @Nonnull
-    public Keyboard getKeyboard() {
-        return keyboard;
     }
 
 }

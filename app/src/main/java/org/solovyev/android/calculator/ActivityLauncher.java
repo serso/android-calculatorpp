@@ -40,7 +40,6 @@ import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
 import org.solovyev.android.calculator.history.HistoryActivity;
-import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.plot.ExpressionFunction;
 import org.solovyev.android.calculator.plot.PlotActivity;
@@ -48,10 +47,8 @@ import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.CppVariable;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesActivity;
-import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.android.plotter.Plotter;
 import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -59,10 +56,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Singleton
-public final class ActivityLauncher implements CalculatorEventListener {
+public final class ActivityLauncher {
 
     @Inject
     Application application;
@@ -91,49 +87,6 @@ public final class ActivityLauncher implements CalculatorEventListener {
         final boolean detached = !(context instanceof Activity);
         Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
-    }
-
-    public static void tryCreateVar(@Nonnull final Context context) {
-        final Display display = App.getDisplay();
-        final DisplayState state = display.getState();
-        if (state.valid) {
-            final String value = state.text;
-            if (!Strings.isEmpty(value)) {
-                if (VariablesFragment.isValidValue(value)) {
-                    EditVariableFragment.showDialog(CppVariable.builder("").withValue(value).build(), context);
-                } else {
-                    getNotifier().showMessage(R.string.c_value_is_not_a_number, MessageType.error);
-                }
-            } else {
-                getNotifier().showMessage(R.string.empty_var_error, MessageType.error);
-            }
-        } else {
-            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
-        }
-    }
-
-    public static void tryCreateFunction(@Nonnull final Context context) {
-        final Display display = App.getDisplay();
-        final DisplayState viewState = display.getState();
-
-        if (viewState.valid) {
-            final String functionBody = viewState.text;
-            if (!Strings.isEmpty(functionBody)) {
-                final CppFunction.Builder builder = CppFunction.builder("", functionBody);
-                final Generic generic = viewState.getResult();
-                if (generic != null) {
-                    final Set<Constant> constants = generic.getUndefinedConstants(null);
-                    for (Constant constant : constants) {
-                        builder.withParameter(constant.getName());
-                    }
-                }
-                EditFunctionFragment.show(builder.build(), context);
-            } else {
-                getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
-            }
-        } else {
-            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
-        }
     }
 
     @Nonnull
@@ -203,47 +156,6 @@ public final class ActivityLauncher implements CalculatorEventListener {
         return activity == null ? application : activity;
     }
 
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        final Context context;
-
-        final Object source = calculatorEventData.getSource();
-        if (source instanceof Context) {
-            context = ((Context) source);
-        } else {
-            context = App.getApplication();
-        }
-
-        switch (calculatorEventType) {
-            case show_create_matrix_dialog:
-                App.getUiThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        final Intent intent = new Intent(context, CalculatorMatrixActivity.class);
-                        Activities.addIntentFlags(intent, false, context);
-                        context.startActivity(intent);
-                    }
-                });
-                break;
-            case show_create_var_dialog:
-                App.getUiThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        ActivityLauncher.tryCreateVar(context);
-                    }
-                });
-                break;
-            case show_create_function_dialog:
-                App.getUiThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        ActivityLauncher.tryCreateFunction(context);
-                    }
-                });
-                break;
-        }
-    }
-
     public void showFunctions() {
         show(getContext(), FunctionsActivity.getClass(getContext()));
     }
@@ -297,5 +209,30 @@ public final class ActivityLauncher implements CalculatorEventListener {
             return false;
         }
         return true;
+    }
+
+    public void showConstantEditor() {
+        final DisplayState state = display.get().getState();
+        if (!state.valid) {
+            notifier.showMessage(R.string.not_valid_result);
+            return;
+        }
+        EditVariableFragment.showDialog(CppVariable.builder("").withValue(state.text).build(), getContext());
+    }
+
+    public void showFunctionEditor() {
+        final DisplayState state = display.get().getState();
+        if (!state.valid) {
+            notifier.showMessage(R.string.not_valid_result);
+            return;
+        }
+        final CppFunction.Builder builder = CppFunction.builder("", state.text);
+        final Generic expression = state.getResult();
+        if (expression != null) {
+            for (Constant constant : expression.getUndefinedConstants(variablesRegistry.get())) {
+                builder.withParameter(constant.getName());
+            }
+        }
+        EditFunctionFragment.show(builder.build(), getContext());
     }
 }

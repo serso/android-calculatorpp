@@ -233,11 +233,11 @@ public class KeyboardUi extends BaseKeyboardUi {
     public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF point, @Nonnull MotionEvent event) {
         switch (button.getId()) {
             case R.id.cpp_button_vars:
-                calculator.fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null);
+                launcher.showConstantEditor();
                 return true;
             case R.id.cpp_button_functions:
                 if (direction == up) {
-                    calculator.fireCalculatorEvent(CalculatorEventType.show_create_function_dialog, null);
+                    launcher.showFunctionEditor();
                     return true;
                 }
                 return false;

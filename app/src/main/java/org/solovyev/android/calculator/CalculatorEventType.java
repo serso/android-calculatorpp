@@ -24,15 +24,6 @@ package org.solovyev.android.calculator;
 
 public enum CalculatorEventType {
 
-    show_create_var_dialog,
-    show_create_matrix_dialog,
-    show_create_function_dialog,
-
-    plot_graph,
-
-    /**
-     * {@link org.solovyev.android.calculator.plot.PlotData}
-     */
-    plot_data_changed;
+    ;
 
 }
