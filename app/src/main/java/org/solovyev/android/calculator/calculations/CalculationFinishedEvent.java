@@ -30,4 +30,14 @@ public final class CalculationFinishedEvent extends BaseCalculationEvent {
         this.stringResult = stringResult;
         this.messages = messages;
     }
+
+    @Override
+    public String toString() {
+        return "CalculationFinishedEvent{" +
+                "super=" + super.toString() +
+                ", result=" + result +
+                ", stringResult='" + stringResult + '\'' +
+                ", messages=" + messages +
+                "}";
+    }
 }

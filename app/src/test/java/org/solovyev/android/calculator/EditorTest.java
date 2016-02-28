@@ -23,19 +23,27 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
-import jscl.JsclMathEngine;
+import android.os.Build;
+import com.squareup.otto.Bus;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
+import static org.mockito.Mockito.mock;
+
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@RunWith(value = RobolectricGradleTestRunner.class)
 public class EditorTest {
 
     private Editor editor;
 
     @Before
     public void setUp() throws Exception {
-        this.editor = new Editor(Mockito.mock(SharedPreferences.class), new Engine(new JsclMathEngine()));
+        editor = new Editor(mock(SharedPreferences.class), Tests.makeEngine());
+        editor.bus = mock(Bus.class);
     }
 
     @Test

@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator.math;
 
-import jscl.JsclMathEngine;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.solovyev.android.calculator.math.MathType.postfix_function;
@@ -37,7 +37,7 @@ public class MathTypeTest {
 
     @Before
     public void setUp() throws Exception {
-        engine = new Engine(new JsclMathEngine());
+        engine = Tests.makeEngine();
     }
 
     @Test

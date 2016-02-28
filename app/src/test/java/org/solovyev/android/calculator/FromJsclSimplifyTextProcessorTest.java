@@ -22,7 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.JsclMathEngine;
 import org.junit.Test;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 import org.solovyev.android.calculator.variables.CppVariable;
@@ -35,7 +34,7 @@ public class FromJsclSimplifyTextProcessorTest {
 
     @Test
     public void testProcess() throws Exception {
-        final Engine engine = new Engine(new JsclMathEngine());
+        final Engine engine = Tests.makeEngine();
         FromJsclSimplifyTextProcessor tp = new FromJsclSimplifyTextProcessor(engine);
         //Assert.assertEquals("(e)", tp.process("(2.718281828459045)"));
         //Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));

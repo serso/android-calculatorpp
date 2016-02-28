@@ -35,7 +35,7 @@ public class ToJsclTextProcessorTest {
     @Before
     public void setUp() throws Exception {
         preprocessor = new ToJsclTextProcessor();
-        preprocessor.engine = new Engine(new JsclMathEngine());
+        preprocessor.engine = Tests.makeEngine();
     }
 
     @Test

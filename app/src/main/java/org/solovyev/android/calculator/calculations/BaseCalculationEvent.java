@@ -16,4 +16,13 @@ public abstract class BaseCalculationEvent {
         this.expression = expression;
         this.sequence = sequence;
     }
+
+    @Override
+    public String toString() {
+        return "BaseCalculationEvent{" +
+                "operation=" + operation +
+                ", expression='" + expression + '\'' +
+                ", sequence=" + sequence +
+                '}';
+    }
 }

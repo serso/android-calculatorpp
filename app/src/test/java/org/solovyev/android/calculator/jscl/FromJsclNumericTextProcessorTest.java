@@ -37,6 +37,7 @@ public class FromJsclNumericTextProcessorTest {
         final FromJsclNumericTextProcessor cm = new FromJsclNumericTextProcessor();
 
         final JsclMathEngine me = JsclMathEngine.getInstance();
+        me.setGroupingSeparator(' ');
         final AngleUnit defaultAngleUnits = me.getAngleUnits();
 
         assertEquals("1.22133+23 123i", cm.process(Expression.valueOf("1.22133232+23123*i").numeric()));

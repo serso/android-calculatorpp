@@ -3,16 +3,12 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import com.squareup.otto.Bus;
-import jscl.JsclMathEngine;
 import org.hamcrest.Description;
 import org.junit.Before;
 import org.mockito.ArgumentMatcher;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
-import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.operators.OperatorsRegistry;
-import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
 
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.*;
@@ -27,13 +23,8 @@ public abstract class BaseCalculatorTest {
     public void setUp() throws Exception {
         bus = mock(Bus.class);
         calculator = new Calculator(mock(SharedPreferences.class), bus, Tests.sameThreadExecutor());
-        final JsclMathEngine mathEngine = JsclMathEngine.getInstance();
-        engine = new Engine(mathEngine);
-        engine.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine);
-        engine.functionsRegistry = new FunctionsRegistry(mathEngine);
-        engine.variablesRegistry = new VariablesRegistry(mathEngine);
+        engine = Tests.makeEngine();
         engine.variablesRegistry.bus = bus;
-        engine.operatorsRegistry = new OperatorsRegistry(mathEngine);
         calculator.engine = engine;
         calculator.preferredPreferences = mock(PreferredPreferences.class);
         final ToJsclTextProcessor processor = new ToJsclTextProcessor();

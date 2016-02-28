@@ -23,11 +23,14 @@
 package org.solovyev.android.calculator;
 
 import android.graphics.Color;
-import jscl.JsclMathEngine;
+import android.os.Build;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 
@@ -36,13 +39,15 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@RunWith(value = RobolectricGradleTestRunner.class)
 public class TextHighlighterTest {
 
     private Engine engine;
 
     @Before
     public void setUp() throws Exception {
-        engine = new Engine(new JsclMathEngine());
+        engine = Tests.makeEngine();
     }
 
     @Test
