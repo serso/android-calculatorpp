@@ -26,12 +26,7 @@ import javax.annotation.Nonnull;
 
 public interface CalculatorLocator {
 
-    void init(@Nonnull Calculator calculator,
-              @Nonnull Engine engine,
-              @Nonnull Keyboard keyboard);
-
-    @Nonnull
-    Calculator getCalculator();
+    void init(@Nonnull Engine engine);
 
     @Nonnull
     Engine getEngine();

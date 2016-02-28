@@ -30,8 +30,6 @@ public class Locator implements CalculatorLocator {
     private static final Locator instance = new Locator();
     @Nonnull
     private Engine engine;
-    @Nonnull
-    private Calculator calculator;
 
     public Locator() {
     }
@@ -42,11 +40,8 @@ public class Locator implements CalculatorLocator {
     }
 
     @Override
-    public void init(@Nonnull Calculator calculator,
-                     @Nonnull Engine engine,
-                     @Nonnull Keyboard keyboard) {
+    public void init(@Nonnull Engine engine) {
 
-        this.calculator = calculator;
         this.engine = engine;
     }
 
@@ -54,12 +49,6 @@ public class Locator implements CalculatorLocator {
     @Override
     public Engine getEngine() {
         return engine;
-    }
-
-    @Nonnull
-    @Override
-    public Calculator getCalculator() {
-        return this.calculator;
     }
 
 }

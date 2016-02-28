@@ -22,9 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import android.content.SharedPreferences;
-import com.squareup.otto.Bus;
-
 import java.util.concurrent.Executor;
 
 import static org.mockito.Mockito.mock;
@@ -37,7 +34,7 @@ import static org.mockito.Mockito.mock;
 public class AbstractCalculatorTest {
 
     protected void setUp() throws Exception {
-        Locator.getInstance().init(new Calculator(mock(SharedPreferences.class), mock(Bus.class), mock(Executor.class), mock(Executor.class)), CalculatorTestUtils.newCalculatorEngine(), mock(Keyboard.class));
+        Locator.getInstance().init(CalculatorTestUtils.newCalculatorEngine());
         Locator.getInstance().getEngine().init(new Executor() {
             @Override
             public void execute(Runnable command) {

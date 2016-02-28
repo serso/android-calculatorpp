@@ -10,20 +10,22 @@ import static android.text.TextUtils.isEmpty;
 public class EditorLongClickEraser extends BaseLongClickEraser {
 
     @Nonnull
-    private final Editor editor = App.getEditor();
+    private final Editor editor;
 
     @Nonnull
-    private final Calculator calculator = Locator.getInstance().getCalculator();
+    private final Calculator calculator;
 
     private boolean wasCalculatingOnFly;
 
-    private EditorLongClickEraser(@Nonnull View view, boolean vibrateOnKeypress) {
+    private EditorLongClickEraser(@Nonnull View view, boolean vibrateOnKeypress, @Nonnull Editor editor, @Nonnull Calculator calculator) {
         super(view, vibrateOnKeypress);
+        this.editor = editor;
+        this.calculator = calculator;
     }
 
     @Nonnull
-    public static EditorLongClickEraser attachTo(@Nonnull View view, boolean vibrateOnKeypress) {
-        return new EditorLongClickEraser(view, vibrateOnKeypress);
+    public static EditorLongClickEraser attachTo(@Nonnull View view, boolean vibrateOnKeypress, @Nonnull Editor editor, @Nonnull Calculator calculator) {
+        return new EditorLongClickEraser(view, vibrateOnKeypress, editor, calculator);
     }
 
     protected boolean erase() {

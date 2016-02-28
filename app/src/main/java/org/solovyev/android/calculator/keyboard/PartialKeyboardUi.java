@@ -72,7 +72,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
             Check.isTrue(IMAGE_SCALE == 0.6f);
             // backspace button is too big, scale it more
             prepareButton(eraseButton, IMAGE_SCALE_ERASE);
-            longClickEraser = EditorLongClickEraser.attachTo(eraseButton, keyboard.isVibrateOnKeypress());
+            longClickEraser = EditorLongClickEraser.attachTo(eraseButton, keyboard.isVibrateOnKeypress(), editor, calculator);
         }
         if (isSimpleLayout()) {
             hideText(clearButton, left, up, down);
