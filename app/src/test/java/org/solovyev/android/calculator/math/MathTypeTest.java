@@ -22,52 +22,49 @@
 
 package org.solovyev.android.calculator.math;
 
+import jscl.JsclMathEngine;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
-import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorTestUtils;
+import org.solovyev.android.calculator.Engine;
 
 import static org.junit.Assert.assertEquals;
 import static org.solovyev.android.calculator.math.MathType.postfix_function;
 
-/**
- * User: serso
- * Date: 10/5/11
- * Time: 1:25 AM
- */
-public class MathTypeTest extends AbstractCalculatorTest {
+public class MathTypeTest {
 
-    @BeforeClass
-    public static void staticSetUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
+    Engine engine;
+
+    @Before
+    public void setUp() throws Exception {
+        engine = new Engine(new JsclMathEngine());
     }
 
     @Test
     public void testGetType() throws Exception {
-        assertEquals(MathType.function, MathType.getType("sin", 0, false).type);
-        assertEquals(MathType.text, MathType.getType("sn", 0, false).type);
-        assertEquals(MathType.text, MathType.getType("s", 0, false).type);
-        assertEquals(MathType.text, MathType.getType("", 0, false).type);
+        assertEquals(MathType.function, MathType.getType("sin", 0, false, engine).type);
+        assertEquals(MathType.text, MathType.getType("sn", 0, false, engine).type);
+        assertEquals(MathType.text, MathType.getType("s", 0, false, engine).type);
+        assertEquals(MathType.text, MathType.getType("", 0, false, engine).type);
 
         try {
-            assertEquals(MathType.text, MathType.getType("22", -1, false).type);
+            assertEquals(MathType.text, MathType.getType("22", -1, false, engine).type);
             Assert.fail();
         } catch (IllegalArgumentException e) {
         }
 
         try {
-            assertEquals(MathType.text, MathType.getType("22", 2, false).type);
+            assertEquals(MathType.text, MathType.getType("22", 2, false, engine).type);
             Assert.fail();
         } catch (IllegalArgumentException e) {
         }
 
-        assertEquals("atanh", MathType.getType("atanh", 0, false).match);
+        assertEquals("atanh", MathType.getType("atanh", 0, false, engine).match);
     }
 
     @Test
     public void testPostfixFunctionsProcessing() throws Exception {
-        assertEquals(postfix_function, MathType.getType("5!", 1, false).type);
-        assertEquals(postfix_function, MathType.getType("!", 0, false).type);
+        assertEquals(postfix_function, MathType.getType("5!", 1, false, engine).type);
+        assertEquals(postfix_function, MathType.getType("!", 0, false, engine).type);
     }
 }

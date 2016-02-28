@@ -22,11 +22,13 @@
 
 package org.solovyev.android.calculator.math;
 
+import android.support.annotation.NonNull;
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.function.Constants;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.ParseException;
 
 import javax.annotation.Nonnull;
@@ -39,19 +41,11 @@ import java.util.List;
 
 public enum MathType {
 
-    numeral_base(50, true, false, MathGroupType.number) {
-
-        private final List<String> tokens = new ArrayList<>(10);
+    numeral_base(50, true, false, MathGroupType.number, new ArrayList<String>()) {
         {
             for (NumeralBase numeralBase : NumeralBase.values()) {
                 tokens.add(numeralBase.getJsclPrefix());
             }
-        }
-
-        @Nonnull
-        @Override
-        public List<String> getTokens() {
-            return tokens;
         }
     },
 
@@ -74,8 +68,8 @@ public enum MathType {
     postfix_function(400, false, true, MathGroupType.function) {
         @Nonnull
         @Override
-        public List<String> getTokens() {
-            return Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getNames();
+        public List<String> getTokens(@NonNull Engine engine) {
+            return engine.getPostfixFunctionsRegistry().getNames();
         }
     },
 
@@ -153,24 +147,45 @@ public enum MathType {
     function(1000, true, true, MathGroupType.function) {
         @Nonnull
         @Override
+        public List<String> getTokens(@NonNull Engine engine) {
+            return engine.getFunctionsRegistry().getNames();
+        }
+
+        @Nonnull
+        @Override
         public List<String> getTokens() {
-            return Locator.getInstance().getEngine().getFunctionsRegistry().getNames();
+            Check.shouldNotHappen();
+            return super.getTokens();
         }
     },
 
     operator(1050, true, true, MathGroupType.function) {
         @Nonnull
         @Override
+        public List<String> getTokens(@NonNull Engine engine) {
+            return engine.getOperatorsRegistry().getNames();
+        }
+
+        @Nonnull
+        @Override
         public List<String> getTokens() {
-            return Locator.getInstance().getEngine().getOperatorsRegistry().getNames();
+            Check.shouldNotHappen();
+            return super.getTokens();
         }
     },
 
     constant(1100, true, true, MathGroupType.other) {
         @Nonnull
         @Override
+        public List<String> getTokens(@NonNull Engine engine) {
+            return engine.getVariablesRegistry().getNames();
+        }
+
+        @Nonnull
+        @Override
         public List<String> getTokens() {
-            return Locator.getInstance().getEngine().getVariablesRegistry().getNames();
+            Check.shouldNotHappen();
+            return super.getTokens();
         }
 
         @Override
@@ -179,9 +194,7 @@ public enum MathType {
         }
     },
 
-    digit(1125, true, true, MathGroupType.number) {
-
-        private final List<String> tokens = new ArrayList<>(16);
+    digit(1125, true, true, MathGroupType.number, new ArrayList<String>()) {
         {
             for (Character character : NumeralBase.hex.getAcceptableCharacters()) {
                 tokens.add(character.toString());
@@ -191,12 +204,6 @@ public enum MathType {
         @Override
         public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
             return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot /*&& mathTypeBefore != numeral_base*/;
-        }
-
-        @Nonnull
-        @Override
-        public List<String> getTokens() {
-            return tokens;
         }
     },
 
@@ -222,7 +229,7 @@ public enum MathType {
     public final static String INFINITY_JSCL = "Infinity";
     private static List<MathType> mathTypesByPriority;
     @Nonnull
-    private final List<String> tokens;
+    protected final List<String> tokens;
     @Nonnull
     private final Integer priority;
     private final boolean needMultiplicationSignBefore;
@@ -246,7 +253,7 @@ public enum MathType {
         this.needMultiplicationSignBefore = needMultiplicationSignBefore;
         this.needMultiplicationSignAfter = needMultiplicationSignAfter;
         this.groupType = groupType;
-        this.tokens = java.util.Collections.unmodifiableList(tokens);
+        this.tokens = tokens;
     }
 
     /**
@@ -255,15 +262,16 @@ public enum MathType {
      * @param text    analyzed text
      * @param i       index which points to start of substring
      * @param hexMode true if current mode if HEX
+     * @param engine math engine
      * @return math entity type of substring starting from ith index of specified text
      */
     @Nonnull
-    public static Result getType(@Nonnull String text, int i, boolean hexMode) {
-        return getType(text, i, hexMode, new Result());
+    public static Result getType(@Nonnull String text, int i, boolean hexMode, @Nonnull Engine engine) {
+        return getType(text, i, hexMode, new Result(), engine);
     }
 
     @Nonnull
-    public static Result getType(@Nonnull String text, int i, boolean hexMode, @Nonnull Result result) {
+    public static Result getType(@Nonnull String text, int i, boolean hexMode, @Nonnull Result result, @Nonnull Engine engine) {
         if (i < 0) {
             throw new IllegalArgumentException("I must be more or equals to 0.");
         } else if (i >= text.length() && i != 0) {
@@ -274,7 +282,7 @@ public enum MathType {
         final List<MathType> mathTypes = getMathTypesByPriority();
         for (int j = 0; j < mathTypes.size(); j++) {
             final MathType mathType = mathTypes.get(j);
-            final String s = App.find(mathType.getTokens(), text, i);
+            final String s = App.find(mathType.getTokens(engine), text, i);
             if (s == null) {
                 continue;
             }
@@ -304,7 +312,7 @@ public enum MathType {
             }
 
             if (mathType == MathType.grouping_separator) {
-                if (i + 1 < text.length() && getType(text, i + 1, hexMode, result).type == MathType.digit) {
+                if (i + 1 < text.length() && getType(text, i + 1, hexMode, result, engine).type == MathType.digit) {
                     return result.set(mathType, s);
                 }
                 continue;
@@ -337,6 +345,11 @@ public enum MathType {
     @Nonnull
     public MathGroupType getGroupType() {
         return groupType;
+    }
+
+    @Nonnull
+    public List<String> getTokens(@Nonnull Engine engine) {
+        return getTokens();
     }
 
     @Nonnull
@@ -400,7 +413,8 @@ public enum MathType {
         public String match;
 
         public Result(@Nonnull MathType type, @Nonnull String match) {
-            set(type, match);
+            this.type = type;
+            this.match = match;
         }
 
         @Nonnull
@@ -411,6 +425,7 @@ public enum MathType {
         }
 
         public Result() {
+            this(MathType.text, "");
         }
 
         public int processToJscl(@Nonnull StringBuilder result, int i) throws ParseException {

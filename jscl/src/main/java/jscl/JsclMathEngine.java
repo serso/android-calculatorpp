@@ -41,7 +41,7 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     private NumeralBase numeralBase = DEFAULT_NUMERAL_BASE;
     @Nonnull
-    private ConstantsRegistry constantsRegistry;
+    private final ConstantsRegistry constantsRegistry = new ConstantsRegistry();
     @Nonnull
     private MessageRegistry messageRegistry = Messages.synchronizedMessageRegistry(new FixedCapacityListMessageRegistry(10));
 
@@ -50,8 +50,7 @@ public class JsclMathEngine implements MathEngine {
         decimalGroupSymbols.setGroupingSeparator(GROUPING_SEPARATOR_DEFAULT.charAt(0));
     }
 
-    private JsclMathEngine() {
-        this.constantsRegistry = new ConstantsRegistry();
+    public JsclMathEngine() {
     }
 
     @Nonnull
@@ -176,7 +175,7 @@ public class JsclMathEngine implements MathEngine {
                             if (name.equals(Constants.PI_INV.getName()) || name.equals(Constants.ANS)) {
                                 return false;
                             }
-                            return !name.equals(Constants.PI.getName()) || JsclMathEngine.getInstance().getAngleUnits() == AngleUnit.rad;
+                            return !name.equals(Constants.PI.getName()) || getAngleUnits() == AngleUnit.rad;
                         }
                     });
 

@@ -22,9 +22,12 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
     @Nullable
     private TextHighlighter textHighlighter;
     @Nonnull
+    private final SharedPreferences preferences;
+    @Nonnull
     private final Engine engine;
 
     public EditorTextProcessor(@Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
+        this.preferences = preferences;
         this.engine = engine;
         preferences.registerOnSharedPreferenceChangeListener(this);
         onSharedPreferenceChanged(preferences, colorDisplay.getKey());
@@ -43,7 +46,7 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
     @Nonnull
     private TextHighlighter getTextHighlighter() {
         if (textHighlighter == null) {
-            onSharedPreferenceChanged(App.getPreferences(), theme.getKey());
+            onSharedPreferenceChanged(preferences, theme.getKey());
         }
         return textHighlighter;
     }

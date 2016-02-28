@@ -23,10 +23,7 @@
 package org.solovyev.android.calculator;
 
 import android.os.Build;
-
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
@@ -40,26 +37,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * User: serso
- * Date: 10/13/12
- * Time: 1:11 PM
- */
-
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(value = RobolectricGradleTestRunner.class)
 public class AndroidEditorViewTest {
-
-    @BeforeClass
-    public static void staticSetUp() throws Exception {
-        /*CalculatorTestUtils.staticSetUp(null);*/
-    }
-
-    @Before
-    public void setUp() throws Exception {
-/*        CalculatorActivity context = new CalculatorActivity();
-		CalculatorTestUtils.initViews(context);*/
-    }
 
     @Test
     public void testCreation() throws Exception {

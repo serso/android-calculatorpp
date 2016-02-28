@@ -41,7 +41,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
@@ -60,9 +59,7 @@ import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.JPredicate;
 
 import java.util.Collection;
-import java.util.Formatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -78,16 +75,6 @@ import javax.annotation.Nullable;
 public final class App {
 
     public static final String TAG = "C++";
-
-    @Nonnull
-    public static String subTag(@Nonnull String subTag) {
-        return sub(TAG, subTag);
-    }
-
-    @NonNull
-    public static String sub(@Nonnull String tag, @Nonnull String subTag) {
-        return tag + "/" + subTag;
-    }
 
     @Nonnull
     private static Languages languages;

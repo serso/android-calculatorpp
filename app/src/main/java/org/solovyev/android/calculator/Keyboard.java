@@ -49,6 +49,8 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
     @Inject
     Calculator calculator;
     @Inject
+    Engine engine;
+    @Inject
     Lazy<Clipboard> clipboard;
     @Inject
     Lazy<Bus> bus;
@@ -81,7 +83,7 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         int cursorPositionOffset = 0;
         final StringBuilder textToBeInserted = new StringBuilder(text);
 
-        MathType.getType(text, 0, false, mathType);
+        MathType.getType(text, 0, false, mathType, engine);
         switch (mathType.type) {
             case function:
                 textToBeInserted.append("()");

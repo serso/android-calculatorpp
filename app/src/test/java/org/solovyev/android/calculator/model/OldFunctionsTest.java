@@ -29,7 +29,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.functions.OldFunction;
 import org.solovyev.android.calculator.functions.OldFunctions;
 import org.solovyev.common.Objects;
@@ -86,11 +85,6 @@ public class OldFunctionsTest {
             "      </function>\n" +
             "   </functions>\n" +
             "</functions>";
-
-    @Before
-    public void setUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
-    }
 
     @Nonnull
     private OldFunctions testXml(@Nonnull OldFunctions in, @Nullable String expectedXml) throws Exception {

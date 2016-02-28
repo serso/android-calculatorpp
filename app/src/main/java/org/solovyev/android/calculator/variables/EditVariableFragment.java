@@ -99,6 +99,8 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     VariablesRegistry variablesRegistry;
     @Inject
     Lazy<ToJsclTextProcessor> toJsclTextProcessor;
+    @Inject
+    Engine engine;
     @Nullable
     private CppVariable variable;
 
@@ -275,7 +277,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
             }
         }
 
-        final MathType.Result type = MathType.getType(name, 0, false);
+        final MathType.Result type = MathType.getType(name, 0, false, engine);
         if (type.type != MathType.text && type.type != MathType.constant) {
             setError(nameLabel, getString(R.string.c_var_name_clashes));
             return false;

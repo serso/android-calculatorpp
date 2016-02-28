@@ -27,7 +27,6 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.solovyev.android.calculator.CalculatorTestUtils.staticSetUp;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
@@ -37,8 +36,6 @@ public class NumeralBasesButtonTest {
 
     @Before
     public void setUp() throws Exception {
-        staticSetUp();
-
         final Activity context = Robolectric.buildActivity(Activity.class).create().get();
         final ShadowActivity activity = Shadows.shadowOf(context);
         button = new NumeralBasesButton(context, activity.createAttributeSet(new ArrayList<Attribute>(), NumeralBasesButton.class));

@@ -22,11 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import static org.solovyev.android.Android.isPhoneModel;
-import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
-import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
-import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
-
 import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -39,7 +34,8 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -50,22 +46,19 @@ import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.NumberToStringPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.prefs.*;
 
-import jscl.AngleUnit;
-import jscl.NumeralBase;
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import static org.solovyev.android.Android.isPhoneModel;
+import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
+import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
+import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
 public final class Preferences {
 

@@ -20,44 +20,31 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
-
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.ParseException;
-import org.solovyev.android.calculator.CalculatorTestUtils;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.PreparedExpression;
-import org.solovyev.android.calculator.ToJsclTextProcessor;
-import org.solovyev.android.calculator.text.TextProcessor;
+package org.solovyev.android.calculator;
 
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-/**
- * User: serso
- * Date: 9/26/11
- * Time: 12:13 PM
- */
-public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
+public class ToJsclTextProcessorTest {
 
-    @BeforeClass
-    public static void staticSetUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
+    private ToJsclTextProcessor preprocessor;
+
+    @Before
+    public void setUp() throws Exception {
+        preprocessor = new ToJsclTextProcessor();
+        preprocessor.engine = new Engine(new JsclMathEngine());
     }
 
     @Test
     public void testSpecialCases() throws ParseException {
-        final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
         Assert.assertEquals("3^E10", preprocessor.process("3^E10").toString());
     }
 
     @Test
     public void testProcess() throws Exception {
-        final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
-
         Assert.assertEquals("", preprocessor.process("").toString());
         Assert.assertEquals("()", preprocessor.process("[]").toString());
         Assert.assertEquals("()*()", preprocessor.process("[][]").toString());
@@ -87,10 +74,10 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
         Assert.assertEquals("EE", preprocessor.process("EE").toString());
 
         try {
-            Locator.getInstance().getEngine().getMathEngine().setNumeralBase(NumeralBase.hex);
+            preprocessor.engine.getMathEngine().setNumeralBase(NumeralBase.hex);
             Assert.assertEquals("22F*exp(F)", preprocessor.process("22Fexp(F)").toString());
         } finally {
-            Locator.getInstance().getEngine().getMathEngine().setNumeralBase(NumeralBase.dec);
+            preprocessor.engine.getMathEngine().setNumeralBase(NumeralBase.dec);
         }
         Assert.assertEquals("0x:ABCDEF", preprocessor.process("0x:ABCDEF").toString());
         Assert.assertEquals("0x:ABCDEF", preprocessor.process("0x:A BC DEF").toString());
@@ -108,30 +95,30 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
         try {
             preprocessor.process("ln()");
             Assert.fail();
-        } catch (ParseException e) {
+        } catch (ParseException ignored) {
         }
         try {
             preprocessor.process("ln()ln()");
             Assert.fail();
-        } catch (ParseException e) {
+        } catch (ParseException ignored) {
         }
 
         try {
             preprocessor.process("eln()eln()ln()ln()ln()e");
             Assert.fail();
-        } catch (ParseException e) {
+        } catch (ParseException ignored) {
         }
 
         try {
             preprocessor.process("ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln()))))))))))))))");
             Assert.fail();
-        } catch (ParseException e) {
+        } catch (ParseException ignored) {
         }
 
         try {
             preprocessor.process("cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
             Assert.fail();
-        } catch (ParseException e) {
+        } catch (ParseException ignored) {
         }
     }
 
@@ -141,15 +128,13 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
 
     @Test
     public void testNumeralBases() throws Exception {
-        final TextProcessor<PreparedExpression, String> processor = ToJsclTextProcessor.getInstance();
-
         final NumeralBase defaultNumeralBase = JsclMathEngine.getInstance().getNumeralBase();
         try {
             JsclMathEngine.getInstance().setNumeralBase(NumeralBase.bin);
             Assert.assertEquals("101", JsclMathEngine.getInstance().evaluate("10+11"));
 
             JsclMathEngine.getInstance().setNumeralBase(NumeralBase.hex);
-            Assert.assertEquals("56CE+CAD", processor.process("56CE+CAD").getValue());
+            Assert.assertEquals("56CE+CAD", preprocessor.process("56CE+CAD").getValue());
         } finally {
             JsclMathEngine.getInstance().setNumeralBase(defaultNumeralBase);
         }

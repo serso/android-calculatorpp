@@ -137,8 +137,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
         languages.updateContextLocale(this, true);
         App.getGa().reportInitially(preferences);
 
-        Locator.getInstance().init(engine);
-
         calculator.init(initThread);
 
         initThread.execute(new Runnable() {

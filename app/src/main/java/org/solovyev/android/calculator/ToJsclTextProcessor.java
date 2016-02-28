@@ -40,30 +40,33 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
     @Nonnull
     private static final Integer MAX_DEPTH = 20;
+    
+    @Inject
+    Engine engine;
 
     @Inject
     public ToJsclTextProcessor() {
     }
 
-    private static PreparedExpression processWithDepth(@Nonnull String s, int depth, @Nonnull List<IConstant> undefinedVars) throws ParseException {
-        return replaceVariables(processExpression(s).toString(), depth, undefinedVars);
+    private static PreparedExpression processWithDepth(@Nonnull String s, int depth, @Nonnull List<IConstant> undefinedVars, @Nonnull Engine engine) throws ParseException {
+        return replaceVariables(processExpression(s, engine).toString(), depth, undefinedVars, engine);
     }
 
     @Nonnull
-    private static StringBuilder processExpression(@Nonnull String s) throws ParseException {
+    private static StringBuilder processExpression(@Nonnull String s, @Nonnull Engine engine) throws ParseException {
         final StringBuilder result = new StringBuilder();
         final MathType.Results results = new MathType.Results();
 
         MathType.Result mathTypeResult = null;
         MathType.Result mathTypeBefore = null;
 
-        final LiteNumberBuilder nb = new LiteNumberBuilder(Locator.getInstance().getEngine());
+        final LiteNumberBuilder nb = new LiteNumberBuilder(engine);
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == ' ') continue;
 
             results.release(mathTypeBefore);
             mathTypeBefore = mathTypeResult == null ? null : mathTypeResult;
-            mathTypeResult = MathType.getType(s, i, nb.isHexMode(), results.obtain());
+            mathTypeResult = MathType.getType(s, i, nb.isHexMode(), engine);
 
             nb.process(mathTypeResult);
 
@@ -80,7 +83,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
                     (mathTypeBefore.type == MathType.function || mathTypeBefore.type == MathType.operator) &&
                     App.find(MathType.groupSymbols, s, i) != null) {
                 final String functionName = mathTypeBefore.match;
-                final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
+                final Function function = engine.getFunctionsRegistry().get(functionName);
                 if (function == null || function.getMinParameters() > 0) {
                     throw new ParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.match));
                 }
@@ -92,7 +95,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
     }
 
     @Nonnull
-    private static PreparedExpression replaceVariables(@Nonnull final String s, int depth, @Nonnull List<IConstant> undefinedVars) throws ParseException {
+    private static PreparedExpression replaceVariables(@Nonnull final String s, int depth, @Nonnull List<IConstant> undefinedVars, @Nonnull Engine engine) throws ParseException {
         if (depth >= MAX_DEPTH) {
             throw new ParseException(s, new CalculatorMessage(CalculatorMessages.msg_006, MessageType.error));
         } else {
@@ -106,13 +109,13 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
             startsWithFinder.setI(i);
 
             int offset = 0;
-            String functionName = App.find(MathType.function.getTokens(), startsWithFinder);
+            String functionName = App.find(MathType.function.getTokens(engine), startsWithFinder);
             if (functionName == null) {
-                String operatorName = App.find(MathType.operator.getTokens(), startsWithFinder);
+                String operatorName = App.find(MathType.operator.getTokens(engine), startsWithFinder);
                 if (operatorName == null) {
-                    String varName = App.find(Locator.getInstance().getEngine().getVariablesRegistry().getNames(), startsWithFinder);
+                    String varName = App.find(engine.getVariablesRegistry().getNames(), startsWithFinder);
                     if (varName != null) {
-                        final IConstant var = Locator.getInstance().getEngine().getVariablesRegistry().get(varName);
+                        final IConstant var = engine.getVariablesRegistry().get(varName);
                         if (var != null) {
                             if (!var.isDefined()) {
                                 undefinedVars.add(var);
@@ -127,7 +130,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
                                     // NOTE: append varName as JSCL engine will convert it to double if needed
                                     result.append(varName);
                                 } else {
-                                    result.append("(").append(processWithDepth(value, depth, undefinedVars)).append(")");
+                                    result.append("(").append(processWithDepth(value, depth, undefinedVars, engine)).append(")");
                                 }
                                 offset = varName.length();
                             }
@@ -156,6 +159,6 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
     @Override
     @Nonnull
     public PreparedExpression process(@Nonnull String s) throws ParseException {
-        return processWithDepth(s, 0, new ArrayList<IConstant>());
+        return processWithDepth(s, 0, new ArrayList<IConstant>(), engine);
     }
 }

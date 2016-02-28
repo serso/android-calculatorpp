@@ -92,6 +92,8 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     Plotter plotter;
     @Inject
     Calculator calculator;
+    @Inject
+    Engine engine;
 
     public DisplayFragment() {
         super(R.layout.cpp_app_display);
@@ -149,8 +151,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
 
     protected boolean isMenuItemVisible(@NonNull ConversionMenuItem menuItem,
             @Nonnull Generic generic) {
-        final NumeralBase fromNumeralBase =
-                Locator.getInstance().getEngine().getMathEngine().getNumeralBase();
+        final NumeralBase fromNumeralBase = engine.getMathEngine().getNumeralBase();
         if (fromNumeralBase != menuItem.toNumeralBase) {
             return calculator.canConvert(generic, fromNumeralBase, menuItem.toNumeralBase);
         }

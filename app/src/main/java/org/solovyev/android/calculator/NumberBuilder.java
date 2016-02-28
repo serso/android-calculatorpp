@@ -23,15 +23,6 @@
 package org.solovyev.android.calculator;
 
 import android.text.SpannableStringBuilder;
-
-import org.solovyev.android.calculator.math.MathType;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.MathContext;
 import jscl.MathEngine;
 import jscl.NumeralBase;
@@ -40,6 +31,12 @@ import jscl.text.DoubleParser;
 import jscl.text.JsclIntegerParser;
 import jscl.text.ParseException;
 import jscl.text.Parser;
+import org.solovyev.android.calculator.math.MathType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NumberBuilder extends BaseNumberBuilder {
 
@@ -178,7 +175,7 @@ public class NumberBuilder extends BaseNumberBuilder {
 
                 // let's get rid of unnecessary characters (grouping separators, + after E)
                 final List<String> tokens = new ArrayList<String>();
-                tokens.addAll(MathType.grouping_separator.getTokens());
+                tokens.addAll(MathType.grouping_separator.getTokens(engine));
                 // + after E can be omitted: 10+E = 10E (NOTE: - cannot be omitted )
                 tokens.add("+");
                 for (String groupingSeparator : tokens) {

@@ -23,7 +23,7 @@
 package org.solovyev.android.calculator.text;
 
 import jscl.math.Generic;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.math.MathType;
 
 import javax.annotation.Nonnull;
@@ -33,10 +33,13 @@ import java.util.List;
 
 public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Generic> {
 
-    public static final FromJsclSimplifyTextProcessor instance = new FromJsclSimplifyTextProcessor();
     private final List<MathType> mathTypes = Arrays.asList(MathType.function, MathType.constant);
 
-    public FromJsclSimplifyTextProcessor() {
+    @Nonnull
+    private final Engine engine;
+
+    public FromJsclSimplifyTextProcessor(@Nonnull Engine engine) {
+        this.engine = engine;
     }
 
     @Nonnull
@@ -63,7 +66,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
             mathTypeBefore = mathType;
 
             if (mathTypeAfter == null) {
-                mathType = MathType.getType(s, i, false, results.obtain());
+                mathType = MathType.getType(s, i, false, results.obtain(), engine);
             } else {
                 mathType = mathTypeAfter;
             }
@@ -71,13 +74,13 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
             char ch = s.charAt(i);
             if (ch == '*') {
                 if (i + 1 < s.length()) {
-                    mathTypeAfter = MathType.getType(s, i + 1, false, results.obtain());
+                    mathTypeAfter = MathType.getType(s, i + 1, false, results.obtain(), engine);
                 } else {
                     mathTypeAfter = null;
                 }
 
                 if (needMultiplicationSign(mathTypeBefore == null ? null : mathTypeBefore.type, mathTypeAfter == null ? null : mathTypeAfter.type)) {
-                    sb.append(Locator.getInstance().getEngine().getMultiplicationSign());
+                    sb.append(engine.getMultiplicationSign());
                 }
 
             } else {

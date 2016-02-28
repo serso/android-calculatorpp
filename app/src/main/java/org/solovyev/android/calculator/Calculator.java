@@ -28,10 +28,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import jscl.JsclArithmeticException;
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
+import jscl.*;
 import jscl.math.Generic;
 import jscl.math.function.Constants;
 import jscl.math.function.IConstant;
@@ -66,15 +63,11 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     public static final long NO_SEQUENCE = -1;
 
     @Nonnull
-    private final CalculatorEventContainer calculatorEventContainer = new ListCalculatorEventContainer();
-    @Nonnull
     private static final AtomicLong SEQUENCER = new AtomicLong(NO_SEQUENCE);
     @Nonnull
     private final SharedPreferences preferences;
     @Nonnull
-    private final Bus bus;
-    @Nonnull
-    private final Executor ui;
+    final Bus bus;
     @Nonnull
     private final Executor background;
 
@@ -85,15 +78,14 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     @Inject
     Editor editor;
     @Inject
-    JsclMathEngine mathEngine;
+    Engine engine;
     @Inject
     ToJsclTextProcessor preprocessor;
 
     @Inject
-    public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Named(AppModule.THREAD_UI) @Nonnull Executor ui, @Named(AppModule.THREAD_BACKGROUND) @Nonnull Executor background) {
+    public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Named(AppModule.THREAD_BACKGROUND) @Nonnull Executor background) {
         this.preferences = preferences;
         this.bus = bus;
-        this.ui = ui;
         this.background = background;
         bus.register(this);
         preferences.registerOnSharedPreferenceChangeListener(this);
@@ -107,12 +99,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
             throw new ConversionException();
         }
         return to.toString(value);
-    }
-
-    @Nonnull
-    private CalculatorEventData nextEventData() {
-        final long eventId = nextSequence();
-        return CalculatorEventDataImpl.newInstance(eventId, eventId);
     }
 
     public void evaluate() {
@@ -143,7 +129,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     }
 
     public void init(@Nonnull Executor init) {
-        Locator.getInstance().getEngine().init(init);
+        engine.init(init);
         setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(preferences));
     }
 
@@ -180,6 +166,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
             pe = prepare(e);
 
             try {
+                final MathEngine mathEngine = engine.getMathEngine();
                 mathEngine.setMessageRegistry(mr);
 
                 final Generic result = o.evaluateGeneric(pe.value, mathEngine);
@@ -188,7 +175,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
                 //noinspection ResultOfMethodCallIgnored
                 result.toString();
 
-                final String stringResult = o.getFromProcessor().process(result);
+                final String stringResult = o.getFromProcessor(engine).process(result);
                 bus.post(new CalculationFinishedEvent(o, e, sequence, result, stringResult, collectMessages(mr)));
 
             } catch (JsclArithmeticException exception) {
@@ -252,7 +239,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     public void convert(@Nonnull final DisplayState state,  @Nonnull final NumeralBase to) {
         final Generic value = state.getResult();
         Check.isNotNull(value);
-        final NumeralBase from = mathEngine.getNumeralBase();
+        final NumeralBase from = engine.getMathEngine().getNumeralBase();
         if (from == to) {
             return;
         }
@@ -282,24 +269,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
         }
     }
 
-    public void fireCalculatorEvent(@Nonnull final CalculatorEventData calculatorEventData, @Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
-        ui.execute(new Runnable() {
-            @Override
-            public void run() {
-                calculatorEventContainer.fireCalculatorEvent(calculatorEventData, calculatorEventType, data);
-            }
-        });
-    }
-
-    @Nonnull
-    public CalculatorEventData fireCalculatorEvent(@Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
-        final CalculatorEventData eventData = nextEventData();
-
-        fireCalculatorEvent(eventData, calculatorEventType, data);
-
-        return eventData;
-    }
-
     @Subscribe
     public void onEditorChanged(@Nonnull Editor.ChangedEvent e) {
         if (!calculateOnFly) {
@@ -324,8 +293,8 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
         updateAnsVariable(text);
     }
 
-    private void updateAnsVariable(@NonNull String value) {
-        final VariablesRegistry variablesRegistry = Locator.getInstance().getEngine().getVariablesRegistry();
+    void updateAnsVariable(@NonNull String value) {
+        final VariablesRegistry variablesRegistry = engine.getVariablesRegistry();
         final IConstant variable = variablesRegistry.get(Constants.ANS);
 
         final CppVariable.Builder b = variable != null ? CppVariable.builder(variable) : CppVariable.builder(Constants.ANS);

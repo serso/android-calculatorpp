@@ -24,30 +24,42 @@ package org.solovyev.android.calculator;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
 
-/**
- * User: Solovyev_S
- * Date: 15.10.12
- * Time: 12:30
- */
-public class CalculatorTest extends AbstractCalculatorTest {
+import static org.mockito.Mockito.doAnswer;
 
+public class CalculatorTest extends BaseCalculatorTest {
+
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                final Object[] args = invocationOnMock.getArguments();
+                final CalculationFinishedEvent e = (CalculationFinishedEvent) args[0];
+                calculator.updateAnsVariable(e.stringResult);
+                return null;
+            }
+        }).when(bus).post(anyFinishedEvent());
     }
 
     @Test
     public void testAnsVariable() throws Exception {
-        CalculatorTestUtils.assertEval("2", "2");
-        CalculatorTestUtils.assertEval("2", "ans");
-        CalculatorTestUtils.assertEval("4", "ans^2");
-        CalculatorTestUtils.assertEval("16", "ans^2");
-        CalculatorTestUtils.assertEval("0", "0");
-        CalculatorTestUtils.assertEval("0", "ans");
-        CalculatorTestUtils.assertEval("3", "3");
-        CalculatorTestUtils.assertEval("9", "ans*ans");
-        CalculatorTestUtils.assertError("ans*an");
-        CalculatorTestUtils.assertEval("81", "ans*ans");
+        assertEval("2", "2");
+        assertEval("2", "2");
+        assertEval("2", "ans");
+        assertEval("4", "ans^2");
+        assertEval("16", "ans^2");
+        assertEval("0", "0");
+        assertEval("0", "ans");
+        assertEval("3", "3");
+        assertEval("9", "ans*ans");
+        assertError("ans*an");
+        assertEval("81", "ans*ans");
     }
+
 }

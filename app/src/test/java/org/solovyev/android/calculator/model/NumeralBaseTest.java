@@ -28,11 +28,9 @@ import jscl.MathEngine;
 import jscl.math.Expression;
 import jscl.util.ExpressionGeneratorWithInput;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
-import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorTestUtils;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.BaseCalculatorTest;
 import org.solovyev.android.calculator.ParseException;
 import org.solovyev.common.Converter;
 
@@ -41,30 +39,25 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: serso
- * Date: 12/14/11
- * Time: 4:16 PM
- */
-public class NumeralBaseTest extends AbstractCalculatorTest {
+public class NumeralBaseTest extends BaseCalculatorTest {
 
-    @BeforeClass
-    public static void staticSetUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
-        Locator.getInstance().getEngine().getMathEngine().setPrecision(3);
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        engine.getMathEngine().setPrecision(3);
     }
 
-    public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws jscl.text.ParseException, ParseException {
+    public void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws jscl.text.ParseException, ParseException {
         final String dec = line[0].toUpperCase();
         final String hex = "0x:" + line[1].toUpperCase();
         final String bin = "0b:" + line[2].toUpperCase();
 
         final String decExpression = converter.convert(dec);
-        final String decResult = Locator.getInstance().getEngine().getMathEngine().evaluate(decExpression);
+        final String decResult = engine.getMathEngine().evaluate(decExpression);
         final String hexExpression = converter.convert(hex);
-        final String hexResult = Locator.getInstance().getEngine().getMathEngine().evaluate(hexExpression);
+        final String hexResult = engine.getMathEngine().evaluate(hexExpression);
         final String binExpression = converter.convert(bin);
-        final String binResult = Locator.getInstance().getEngine().getMathEngine().evaluate(binExpression);
+        final String binResult = engine.getMathEngine().evaluate(binExpression);
 
         Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
         Assert.assertEquals("dec-bin: " + decExpression + " : " + binExpression, decResult, binResult);

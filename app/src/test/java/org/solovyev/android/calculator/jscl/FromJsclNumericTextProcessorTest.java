@@ -22,28 +22,15 @@
 
 package org.solovyev.android.calculator.jscl;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorTestUtils;
-
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.math.Expression;
 import jscl.math.Generic;
+import org.junit.Test;
 
-/**
- * User: serso
- * Date: 10/18/11
- * Time: 10:42 PM
- */
-public class FromJsclNumericTextProcessorTest extends AbstractCalculatorTest {
+import static org.junit.Assert.assertEquals;
 
-    @BeforeClass
-    public static void staticSetUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
-    }
+public class FromJsclNumericTextProcessorTest {
 
     @Test
     public void testCreateResultForComplexNumber() throws Exception {
@@ -52,18 +39,18 @@ public class FromJsclNumericTextProcessorTest extends AbstractCalculatorTest {
         final JsclMathEngine me = JsclMathEngine.getInstance();
         final AngleUnit defaultAngleUnits = me.getAngleUnits();
 
-        Assert.assertEquals("1.22133+23 123i", cm.process(Expression.valueOf("1.22133232+23123*i").numeric()));
-        Assert.assertEquals("1.22133+1.2i", cm.process(Expression.valueOf("1.22133232+1.2*i").numeric()));
-        Assert.assertEquals("1.22133+0i", cm.process(Expression.valueOf("1.22133232+0.000000001*i").numeric()));
+        assertEquals("1.22133+23 123i", cm.process(Expression.valueOf("1.22133232+23123*i").numeric()));
+        assertEquals("1.22133+1.2i", cm.process(Expression.valueOf("1.22133232+1.2*i").numeric()));
+        assertEquals("1.22133+0i", cm.process(Expression.valueOf("1.22133232+0.000000001*i").numeric()));
         try {
             me.setAngleUnits(AngleUnit.rad);
-            Assert.assertEquals("1-0i", cm.process(Expression.valueOf("-(e^(i*π))").numeric()));
+            assertEquals("1-0i", cm.process(Expression.valueOf("-(e^(i*π))").numeric()));
         } finally {
             me.setAngleUnits(defaultAngleUnits);
         }
-        Assert.assertEquals("1.22i", cm.process(Expression.valueOf("1.22*i").numeric()));
-        Assert.assertEquals("i", cm.process(Expression.valueOf("i").numeric()));
+        assertEquals("1.22i", cm.process(Expression.valueOf("1.22*i").numeric()));
+        assertEquals("i", cm.process(Expression.valueOf("i").numeric()));
         Generic numeric = Expression.valueOf("e^(Π*i)+1").numeric();
-        junit.framework.Assert.assertEquals("0i", cm.process(numeric));
+        assertEquals("0i", cm.process(numeric));
     }
 }

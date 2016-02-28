@@ -30,8 +30,6 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
     private final List<String> parameterNames;
     @NonNull
     private final SimpleDragListener dragListener;
-    @NonNull
-    private final String multiplicationSign = Locator.getInstance().getEngine().getMultiplicationSign();
 
     public FloatingCalculatorKeyboard(@NonNull User user, @NonNull List<String> parameterNames) {
         super(user);
@@ -76,7 +74,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "7");
         addButton(row, 0, "8");
         addButton(row, 0, "9").setText("π", up).setText("e", down);
-        addOperationButton(row, R.id.cpp_kb_button_multiply, Locator.getInstance().getEngine().getMultiplicationSign()).setText("^n", up).setText("^2", down);
+        addOperationButton(row, R.id.cpp_kb_button_multiply, "×").setText("^n", up).setText("^2", down);
         addOperationButton(row, R.id.cpp_kb_button_plus, "+");
         addButton(row, R.id.cpp_kb_button_clear, "C");
 
@@ -107,7 +105,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "7");
         addButton(row, 0, "8");
         addButton(row, 0, "9").setText("π", up).setText("e", down);
-        addOperationButton(row, R.id.cpp_kb_button_multiply, multiplicationSign).setText("^n", up).setText("^2", down);
+        addOperationButton(row, R.id.cpp_kb_button_multiply, "×").setText("^n", up).setText("^2", down);
         addButton(row, R.id.cpp_kb_button_clear, "C");
 
         row = makeRow();
@@ -186,7 +184,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
                     user.insertOperator('-');
                     break;
                 case R.id.cpp_kb_button_multiply:
-                    user.insertOperator(multiplicationSign);
+                    user.insertOperator("×");
                     break;
                 case R.id.cpp_kb_button_functions_constants:
                     user.showFunctionsConstants(v);

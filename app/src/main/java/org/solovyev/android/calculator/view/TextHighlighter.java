@@ -89,7 +89,7 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
         int openGroupsCount = 0;
 
         for (int i = 0; i < text.length(); i++) {
-            MathType.getType(text, i, nb.isHexMode(), result);
+            MathType.getType(text, i, nb.isHexMode(), result, engine);
 
             offset += nb.process(sb, result);
 
