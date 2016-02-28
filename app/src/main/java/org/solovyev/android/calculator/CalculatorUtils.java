@@ -22,15 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.math.function.IConstant;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 /**
  * User: serso
  * Date: 9/22/12
@@ -40,20 +31,6 @@ public final class CalculatorUtils {
 
     private CalculatorUtils() {
         throw new AssertionError();
-    }
-
-    @Nonnull
-    public static Set<Constant> getNotSystemConstants(@Nonnull Generic expression) {
-        final Set<Constant> notSystemConstants = new HashSet<Constant>();
-
-        for (Constant constant : expression.getConstants()) {
-            IConstant var = Locator.getInstance().getEngine().getVariablesRegistry().get(constant.getName());
-            if (var != null && !var.isSystem() && !var.isDefined()) {
-                notSystemConstants.add(constant);
-            }
-        }
-
-        return notSystemConstants;
     }
 
 }

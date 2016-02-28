@@ -22,16 +22,13 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.plot.CalculatorPlotter;
-
 import javax.annotation.Nonnull;
 
 public interface CalculatorLocator {
 
     void init(@Nonnull Calculator calculator,
               @Nonnull Engine engine,
-              @Nonnull Keyboard keyboard,
-              @Nonnull CalculatorPlotter plotter);
+              @Nonnull Keyboard keyboard);
 
     @Nonnull
     Calculator getCalculator();
@@ -42,6 +39,4 @@ public interface CalculatorLocator {
     @Nonnull
     Keyboard getKeyboard();
 
-    @Nonnull
-    CalculatorPlotter getPlotter();
 }

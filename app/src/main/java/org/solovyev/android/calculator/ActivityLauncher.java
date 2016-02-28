@@ -28,7 +28,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-
+import android.text.TextUtils;
+import dagger.Lazy;
+import jscl.math.Generic;
+import jscl.math.function.Constant;
+import jscl.math.function.CustomFunction;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
@@ -38,31 +42,40 @@ import org.solovyev.android.calculator.functions.FunctionsActivity;
 import org.solovyev.android.calculator.history.HistoryActivity;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.operators.OperatorsActivity;
-import org.solovyev.android.calculator.plot.CalculatorPlotter;
+import org.solovyev.android.calculator.plot.ExpressionFunction;
 import org.solovyev.android.calculator.plot.PlotActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.CppVariable;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.variables.VariablesFragment;
+import org.solovyev.android.plotter.Plotter;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
-
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-
-import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Singleton
 public final class ActivityLauncher implements CalculatorEventListener {
 
     @Inject
     Application application;
+    @Inject
+    Lazy<Plotter> plotter;
+    @Inject
+    Lazy<ErrorReporter> errorReporter;
+    @Inject
+    Lazy<Display> display;
+    @Inject
+    Lazy<VariablesRegistry> variablesRegistry;
+    @Inject
+    Notifier notifier;
     @Nullable
     private CalculatorActivity activity;
 
@@ -109,7 +122,7 @@ public final class ActivityLauncher implements CalculatorEventListener {
                 final CppFunction.Builder builder = CppFunction.builder("", functionBody);
                 final Generic generic = viewState.getResult();
                 if (generic != null) {
-                    final Set<Constant> constants = CalculatorUtils.getNotSystemConstants(generic);
+                    final Set<Constant> constants = generic.getUndefinedConstants(null);
                     for (Constant constant : constants) {
                         builder.withParameter(constant.getName());
                     }
@@ -128,26 +141,13 @@ public final class ActivityLauncher implements CalculatorEventListener {
         return ((CalculatorApplication) App.getApplication()).notifier;
     }
 
-    public static void tryPlot() {
-        final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
-        final Display display = App.getDisplay();
-        final DisplayState viewState = display.getState();
-
-        if (viewState.valid) {
-            final String functionValue = viewState.text;
-            final Generic expression = viewState.getResult();
-            if (!Strings.isEmpty(functionValue) && expression != null) {
-                if (plotter.isPlotPossibleFor(expression)) {
-                    plotter.plot(expression);
-                } else {
-                    getNotifier().showMessage(R.string.cpp_plot_too_many_variables, MessageType.error);
-                }
-            } else {
-                getNotifier().showMessage(R.string.cpp_plot_empty_function_error, MessageType.error);
-            }
-        } else {
+    public void plotDisplayedExpression() {
+        final DisplayState state = display.get().getState();
+        if (!state.valid) {
             getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+            return;
         }
+        plot(state.getResult());
     }
 
     public void showHistory() {
@@ -161,7 +161,7 @@ public final class ActivityLauncher implements CalculatorEventListener {
     public void showWidgetSettings() {
         final Context context = getContext();
         show(context, PreferencesActivity.makeIntent(context, R.xml.preferences_widget,
-            R.string.prefs_widget_title));
+                R.string.prefs_widget_title));
     }
 
     public void showOperators() {
@@ -257,5 +257,45 @@ public final class ActivityLauncher implements CalculatorEventListener {
         final Intent intent = new Intent(context, CalculatorActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+    }
+
+    void plot(@Nullable Generic expression) {
+        if (expression == null) {
+            notifier.showMessage(R.string.cpp_plot_empty_function_error);
+            return;
+        }
+        final String content = expression.toString();
+        if (TextUtils.isEmpty(content)) {
+            notifier.showMessage(R.string.cpp_plot_empty_function_error);
+            return;
+        }
+        final List<String> parameters = new ArrayList<>();
+        for (Constant parameter : expression.getUndefinedConstants(variablesRegistry.get())) {
+            parameters.add(parameter.getName());
+        }
+        if (parameters.size() > 2) {
+            notifier.showMessage(R.string.cpp_plot_too_many_variables);
+            return;
+        }
+
+        try {
+            final CustomFunction f = new CustomFunction.Builder().setName("").setParameterNames(parameters).setContent(content).create();
+            final ExpressionFunction ef = new ExpressionFunction(f, false);
+            plotter.get().add(ef);
+            showPlotter();
+        } catch (RuntimeException e) {
+            errorReporter.get().onException(e);
+            notifier.showMessage(e.getLocalizedMessage());
+        }
+    }
+
+    public boolean canPlot(@Nullable Generic expression) {
+        if (expression == null || TextUtils.isEmpty(expression.toString())) {
+            return false;
+        }
+        if (expression.getUndefinedConstants(variablesRegistry.get()).size() > 2) {
+            return false;
+        }
+        return true;
     }
 }

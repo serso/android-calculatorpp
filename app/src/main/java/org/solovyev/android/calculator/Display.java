@@ -57,8 +57,6 @@ public class Display {
     Lazy<Notifier> notifier;
     @Inject
     Lazy<PreferredPreferences> preferredPreferences;
-    @Inject
-    ActivityLauncher launcher;
     @Nullable
     private DisplayView view;
     @Nonnull

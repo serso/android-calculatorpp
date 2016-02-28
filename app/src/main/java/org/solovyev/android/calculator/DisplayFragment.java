@@ -37,17 +37,12 @@ import butterknife.ButterKnife;
 import com.squareup.otto.Bus;
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.math.function.CustomFunction;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.plot.ExpressionFunction;
 import org.solovyev.android.plotter.Plotter;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DisplayFragment extends BaseFragment implements View.OnClickListener,
         MenuItem.OnMenuItemClickListener {
@@ -146,8 +141,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
                     addMenu(menu, R.string.c_convert, this);
                 }
             }
-            final int parameters = CalculatorUtils.getNotSystemConstants(result).size();
-            if (parameters >= 0 && parameters <= 2) {
+            if (launcher.canPlot(result)) {
                 addMenu(menu, R.string.c_plot, this);
             }
         }
@@ -216,21 +210,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
                 ConverterFragment.show(getActivity(), getValue(result));
                 return true;
             case R.string.c_plot:
-                if (result != null) {
-                    try {
-                        final List<String> parameters = new ArrayList<>();
-                        for (Constant parameter : CalculatorUtils.getNotSystemConstants(result)) {
-                            parameters.add(parameter.getName());
-                        }
-                        new CustomFunction.Builder().setParameterNames(parameters).setContent(state.text).create();
-                        final CustomFunction f = new CustomFunction.Builder().setName("").setParameterNames(parameters).setContent(result.toString()).create();
-                        final ExpressionFunction ef = new ExpressionFunction(f, false);
-                        plotter.add(ef);
-                        launcher.showPlotter();
-                    } catch (RuntimeException e) {
-                        errorReporter.onException(e);
-                    }
-                }
+                launcher.plot(result);
                 return true;
             default:
                 return false;

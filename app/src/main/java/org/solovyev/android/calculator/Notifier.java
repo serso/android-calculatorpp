@@ -24,17 +24,14 @@ package org.solovyev.android.calculator;
 
 import android.app.Application;
 import android.os.Handler;
+import android.support.annotation.StringRes;
 import android.widget.Toast;
 import org.solovyev.android.Threads;
-import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.Message;
-import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.List;
 
 @Singleton
 public class Notifier {
@@ -48,27 +45,27 @@ public class Notifier {
     }
 
     public void showMessage(@Nonnull Message message) {
-        showMessageInUiThread(message.getLocalizedMessage());
+        showMessage(message.getLocalizedMessage());
     }
 
-    public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nonnull List<Object> parameters) {
-        showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
+    public void showMessage(@StringRes int message, Object... parameters) {
+        showMessage(application.getString(message, parameters));
     }
 
-    public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nullable Object... parameters) {
-        showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
+    public void showMessage(@StringRes int message) {
+        showMessage(application.getString(message));
     }
 
-    private void showMessageInUiThread(@Nonnull final String message) {
+    public void showMessage(@Nonnull final String message) {
         if (Threads.isUiThread()) {
             Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
-        } else {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
-                }
-            });
+            return;
         }
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

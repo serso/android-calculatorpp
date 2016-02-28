@@ -1,16 +1,39 @@
 package jscl.math;
 
 import jscl.math.function.Constant;
+import jscl.math.function.IConstant;
 import jscl.mathml.MathML;
 import jscl.text.ParserUtils;
-
-import java.math.BigInteger;
-import java.util.Set;
+import org.solovyev.common.math.MathRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Generic implements Arithmetic<Generic>, Comparable {
+
+    @Nonnull
+    public Set<Constant> getUndefinedConstants(@Nonnull MathRegistry<IConstant> constantsRegistry) {
+        final Set<Constant> result = new HashSet<>();
+
+        for (Constant expressionConstant : getConstants()) {
+            final IConstant registryConstant = constantsRegistry.get(expressionConstant.getName());
+            if (registryConstant == null) {
+                continue;
+            }
+            if (registryConstant.isSystem()) {
+                continue;
+            }
+            if(registryConstant.isDefined()) {
+                continue;
+            }
+            result.add(expressionConstant);
+        }
+
+        return result;
+    }
 
     public BigInteger toBigInteger() {
         return null;

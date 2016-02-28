@@ -43,7 +43,7 @@ public class CustomFunction extends Function implements IFunction {
     private CustomFunction(@Nonnull String name,
                            @Nonnull List<String> parameterNames,
                            @Nonnull String content,
-                           @Nullable String description) {
+                           @Nullable String description) throws CustomFunctionCalculationException {
         super(name, new Generic[parameterNames.size()]);
         this.parameterNames = parameterNames;
         try {
@@ -321,7 +321,7 @@ public class CustomFunction extends Function implements IFunction {
         }
 
         @Nonnull
-        public CustomFunction create() {
+        public CustomFunction create() throws CustomFunctionCalculationException {
             final CustomFunction customFunction = new CustomFunction(name, parameterNames, prepareContent(content), description);
             customFunction.setSystem(system);
             if (id != null) {

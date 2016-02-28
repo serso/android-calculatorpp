@@ -17,7 +17,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.NumeralBase;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.ActivityLauncher;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
@@ -121,7 +120,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
                 return true;
             case R.id.cpp_button_equals:
                 if (direction == down) {
-                    ActivityLauncher.tryPlot();
+                    launcher.plotDisplayedExpression();
                     return true;
                 } else if (direction == up) {
                     calculator.simplify();

@@ -27,9 +27,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TimingLogger;
-
 import com.squareup.otto.Bus;
-
+import jscl.MathEngine;
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
@@ -38,18 +37,13 @@ import org.solovyev.android.calculator.floating.FloatingCalculatorActivity;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
-import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.common.msg.MessageType;
-
-import jscl.MathEngine;
-
-import java.util.Locale;
-import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Locale;
+import java.util.concurrent.Executor;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -143,11 +137,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         languages.updateContextLocale(this, true);
         App.getGa().reportInitially(preferences);
 
-        Locator.getInstance().init(calculator,
-                engine,
-                keyboard,
-                new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator))
-        );
+        Locator.getInstance().init(calculator, engine, keyboard);
 
         calculator.init(initThread);
 

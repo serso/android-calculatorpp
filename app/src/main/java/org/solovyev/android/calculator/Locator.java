@@ -22,8 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.plot.CalculatorPlotter;
-
 import javax.annotation.Nonnull;
 
 public class Locator implements CalculatorLocator {
@@ -36,8 +34,6 @@ public class Locator implements CalculatorLocator {
     private Calculator calculator;
     @Nonnull
     private Keyboard keyboard;
-    @Nonnull
-    private CalculatorPlotter calculatorPlotter;
 
     public Locator() {
     }
@@ -50,13 +46,10 @@ public class Locator implements CalculatorLocator {
     @Override
     public void init(@Nonnull Calculator calculator,
                      @Nonnull Engine engine,
-                     @Nonnull Keyboard keyboard,
-                     @Nonnull CalculatorPlotter plotter) {
+                     @Nonnull Keyboard keyboard) {
 
         this.calculator = calculator;
         this.engine = engine;
-        this.calculatorPlotter = plotter;
-
         this.keyboard = keyboard;
     }
 
@@ -78,9 +71,4 @@ public class Locator implements CalculatorLocator {
         return keyboard;
     }
 
-    @Nonnull
-    @Override
-    public CalculatorPlotter getPlotter() {
-        return calculatorPlotter;
-    }
 }

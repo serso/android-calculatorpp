@@ -36,7 +36,6 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.operators.OperatorsRegistry;
 import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
-import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
 import jscl.JsclMathEngine;
 
@@ -68,7 +67,7 @@ public class CalculatorTestUtils {
 
     public static void staticSetUp() throws Exception {
         App.init(new CalculatorApplication(), new Languages(new RoboSharedPreferences(new HashMap<String, Map<String, Object>>(), "test", 0)));
-        Locator.getInstance().init(new Calculator(mock(SharedPreferences.class), mock(Bus.class), mock(Executor.class), mock(Executor.class)), newCalculatorEngine(), mock(Keyboard.class), mock(CalculatorPlotter.class));
+        Locator.getInstance().init(new Calculator(mock(SharedPreferences.class), mock(Bus.class), mock(Executor.class), mock(Executor.class)), newCalculatorEngine(), mock(Keyboard.class));
         Locator.getInstance().getEngine().init(new Executor() {
             @Override
             public void execute(Runnable command) {
@@ -83,7 +82,7 @@ public class CalculatorTestUtils {
     }
 
     public static void staticSetUp(@Nullable Context context) throws Exception {
-        Locator.getInstance().init(new Calculator(mock(SharedPreferences.class), mock(Bus.class), mock(Executor.class), mock(Executor.class)), newCalculatorEngine(), mock(Keyboard.class), mock(CalculatorPlotter.class));
+        Locator.getInstance().init(new Calculator(mock(SharedPreferences.class), mock(Bus.class), mock(Executor.class), mock(Executor.class)), newCalculatorEngine(), mock(Keyboard.class));
         Locator.getInstance().getEngine().init(new Executor() {
             @Override
             public void execute(Runnable command) {
