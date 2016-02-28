@@ -44,9 +44,12 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
     private final int blue;
     private final boolean formatNumber;
     private final int dark;
+    @Nonnull
+    private final Engine engine;
 
-    public TextHighlighter(int color, boolean formatNumber) {
+    public TextHighlighter(int color, boolean formatNumber, @Nonnull Engine engine) {
         this.formatNumber = formatNumber;
+        this.engine = engine;
         red = red(color);
         green = green(color);
         blue = blue(color);
@@ -77,7 +80,6 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
     @Nonnull
     @Override
     public TextProcessorEditorResult process(@Nonnull String text) {
-        final Engine engine = Locator.getInstance().getEngine();
         final SpannableStringBuilder sb = new SpannableStringBuilder();
         final BaseNumberBuilder nb = !formatNumber ? new LiteNumberBuilder(engine) : new NumberBuilder(engine);
         final MathType.Result result = new MathType.Result();

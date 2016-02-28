@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
@@ -20,8 +21,11 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
 
     @Nullable
     private TextHighlighter textHighlighter;
+    @Nonnull
+    private final Engine engine;
 
-    public EditorTextProcessor(@Nonnull SharedPreferences preferences) {
+    public EditorTextProcessor(@Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
+        this.engine = engine;
         preferences.registerOnSharedPreferenceChangeListener(this);
         onSharedPreferenceChanged(preferences, colorDisplay.getKey());
     }
@@ -44,10 +48,6 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
         return textHighlighter;
     }
 
-    public boolean isHighlightText() {
-        return highlightText;
-    }
-
     public void setHighlightText(boolean highlightText) {
         this.highlightText = highlightText;
     }
@@ -58,7 +58,7 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
             setHighlightText(colorDisplay.getPreference(preferences));
         } else if (theme.isSameKey(key)) {
             final int color = getTextColor(preferences);
-            textHighlighter = new TextHighlighter(color, true);
+            textHighlighter = new TextHighlighter(color, true, engine);
         }
     }
 

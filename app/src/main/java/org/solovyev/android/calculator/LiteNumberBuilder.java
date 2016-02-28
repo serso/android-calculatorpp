@@ -23,24 +23,15 @@
 package org.solovyev.android.calculator;
 
 import android.text.SpannableStringBuilder;
-
+import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
 
 import javax.annotation.Nonnull;
-
-import jscl.NumeralBase;
-
-/**
- * User: serso
- * Date: 12/15/11
- * Time: 8:33 PM
- */
 
 public class LiteNumberBuilder extends BaseNumberBuilder {
 
     public LiteNumberBuilder(@Nonnull Engine engine) {
         super(engine);
-        this.nb = engine.getMathEngine().getNumeralBase();
     }
 
     @Override

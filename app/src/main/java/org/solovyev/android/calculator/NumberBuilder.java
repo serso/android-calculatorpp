@@ -41,11 +41,6 @@ import jscl.text.JsclIntegerParser;
 import jscl.text.ParseException;
 import jscl.text.Parser;
 
-/**
- * User: serso
- * Date: 10/23/11
- * Time: 2:57 PM
- */
 public class NumberBuilder extends BaseNumberBuilder {
 
     public NumberBuilder(@Nonnull Engine engine) {

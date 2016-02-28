@@ -23,20 +23,13 @@
 package org.solovyev.android.calculator;
 
 import android.text.SpannableStringBuilder;
-
+import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import jscl.NumeralBase;
-
-/**
- * User: serso
- * Date: 12/15/11
- * Time: 9:01 PM
- */
 public abstract class BaseNumberBuilder {
 
     @Nonnull

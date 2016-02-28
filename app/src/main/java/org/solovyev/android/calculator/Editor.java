@@ -22,13 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import static java.lang.Math.min;
-
 import android.content.SharedPreferences;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
@@ -37,6 +33,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import static java.lang.Math.min;
 
 @Singleton
 public class Editor {
@@ -51,8 +49,8 @@ public class Editor {
     Bus bus;
 
     @Inject
-    public Editor(@Nonnull SharedPreferences preferences) {
-        textProcessor = new EditorTextProcessor(preferences);
+    public Editor(@Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
+        textProcessor = new EditorTextProcessor(preferences, engine);
     }
 
     public void init() {

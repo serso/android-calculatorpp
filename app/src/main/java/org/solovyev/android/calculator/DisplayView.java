@@ -22,16 +22,14 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.views.AutoResizeTextView;
 
@@ -42,8 +40,10 @@ import static android.util.TypedValue.applyDimension;
 
 public class DisplayView extends AutoResizeTextView {
 
-    @Nonnull
-    private final TextProcessor<TextProcessorEditorResult, String> textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
+    @Nullable
+    private Engine engine;
+    @Nullable
+    private TextHighlighter textHighlighter;
     @Nonnull
     private DisplayState state = DisplayState.empty();
 
@@ -60,6 +60,14 @@ public class DisplayView extends AutoResizeTextView {
     public DisplayView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
+    }
+
+    @Nullable
+    private TextHighlighter getTextHighlighter() {
+        if (textHighlighter == null && engine != null) {
+            textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false, engine);
+        }
+        return textHighlighter;
     }
 
     private void init(@Nonnull Context context) {
@@ -95,11 +103,19 @@ public class DisplayView extends AutoResizeTextView {
         }
     }
 
+    public void setEngine(@Nullable Engine engine) {
+        this.engine = engine;
+    }
+
     @NonNull
     private CharSequence highlightText(@Nonnull DisplayState state) {
         final String text = state.text;
         if (TextUtils.isEmpty(text)) {
             return "";
+        }
+        final TextHighlighter textHighlighter = getTextHighlighter();
+        if (textHighlighter == null) {
+            return text;
         }
         try {
             return textHighlighter.process(text).getCharSequence();

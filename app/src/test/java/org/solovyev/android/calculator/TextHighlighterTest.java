@@ -49,7 +49,7 @@ public class TextHighlighterTest {
 
     @Test
     public void testProcess() throws Exception {
-        TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.TRANSPARENT, false);
+        TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.TRANSPARENT, false, engine);
 
         final Random random = new Random(new Date().getTime());
         for (int i = 0; i < 1000; i++) {
@@ -69,7 +69,7 @@ public class TextHighlighterTest {
         assertEquals(")", textHighlighter.process(")").toString());
         assertEquals(")()(", textHighlighter.process(")()(").toString());
 
-        textHighlighter = new TextHighlighter(0, true);
+        textHighlighter = new TextHighlighter(0, true, engine);
         assertEquals("1 000 000", textHighlighter.process("1000000").toString());
         assertEquals("1 000 000", textHighlighter.process("1000000").toString());
         assertEquals("0.1E3", textHighlighter.process("0.1E3").toString());
@@ -88,7 +88,7 @@ public class TextHighlighterTest {
         assertEquals("-1 000 000E3", textHighlighter.process("-1000000E3").toString());
         assertEquals("-1 000 000E-3", textHighlighter.process("-1000000E-3").toString());
         assertEquals("-1 000 000E-30000", textHighlighter.process("-1000000E-30000").toString());
-        textHighlighter = new TextHighlighter(0, false);
+        textHighlighter = new TextHighlighter(0, false, engine);
 
         textHighlighter.process("cannot calculate 3^10^10 !!!\n" +
                 "        unable to enter 0. FIXED\n" +
@@ -159,7 +159,7 @@ public class TextHighlighterTest {
 
     @Test
     public void testTime() throws Exception {
-        final TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
+        final TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.WHITE, false, engine);
 
         final int count = 1000;
         final String subExpression = "cos(acos(t8ln(t5t85tln(8ln(5t55tln(5))))))+tln(88cos(tln(t)))+t√(ln(t))";
@@ -178,7 +178,7 @@ public class TextHighlighterTest {
 
     @Test
     public void testDarkColor() throws Exception {
-        final TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.BLACK, false);
+        final TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.BLACK, false, engine);
         assertEquals("", textHighlighter.process("sin(2cos(3))"));
     }
 

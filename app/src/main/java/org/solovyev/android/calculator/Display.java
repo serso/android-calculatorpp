@@ -52,6 +52,8 @@ public class Display {
     @Inject
     Application application;
     @Inject
+    Engine engine;
+    @Inject
     Lazy<Clipboard> clipboard;
     @Inject
     Lazy<Notifier> notifier;
@@ -139,6 +141,7 @@ public class Display {
         Check.isMainThread();
         this.view = view;
         this.view.setState(state);
+        this.view.setEngine(engine);
     }
 
     @Nonnull
