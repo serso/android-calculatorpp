@@ -23,6 +23,8 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import org.solovyev.android.Check;
@@ -87,6 +89,11 @@ public class Editor {
 
     @Nonnull
     public EditorState onTextChanged(@Nonnull EditorState newState) {
+        return onTextChanged(newState, false);
+    }
+
+    @Nonnull
+    public EditorState onTextChanged(@Nonnull EditorState newState, boolean force) {
         Check.isMainThread();
         if (textProcessor != null) {
             final TextProcessorEditorResult result = textProcessor.process(newState.getTextString());
@@ -97,7 +104,7 @@ public class Editor {
         if (view != null) {
             view.setState(newState);
         }
-        bus.post(new ChangedEvent(oldState, newState));
+        bus.post(new ChangedEvent(oldState, newState, force));
         return state;
     }
 
@@ -224,7 +231,7 @@ public class Editor {
     public void onEngineChanged(@Nonnull Engine.ChangedEvent e) {
         // this will effectively apply new formatting (if f.e. grouping separator has changed) and
         // will start new evaluation
-        onTextChanged(getState());
+        onTextChanged(getState(), true);
     }
 
     public static class ChangedEvent {
@@ -232,10 +239,16 @@ public class Editor {
         public final EditorState oldState;
         @Nonnull
         public final EditorState newState;
+        public final boolean force;
 
-        private ChangedEvent(@Nonnull EditorState oldState, @Nonnull EditorState newState) {
+        private ChangedEvent(@Nonnull EditorState oldState, @Nonnull EditorState newState, boolean force) {
             this.oldState = oldState;
             this.newState = newState;
+            this.force = force;
+        }
+
+        boolean shouldEvaluate() {
+            return force || !TextUtils.equals(newState.text, oldState.text);
         }
     }
 
