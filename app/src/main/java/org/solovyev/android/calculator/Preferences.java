@@ -63,19 +63,26 @@ import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
 public final class Preferences {
 
-    public static final Preference<Integer> appVersion = IntegerPreference.of("application.version", DEF_VALUE);
-    public static final Preference<Integer> appOpenedCounter = IntegerPreference.of("app_opened_counter", 0);
+    public static final Preference<Integer> version = IntegerPreference.of("version", 2);
+
     private Preferences() {
         throw new AssertionError();
     }
 
-    static void setDefaultValues(@Nonnull Application application, @Nonnull SharedPreferences preferences) {
-        final int version = Preferences.appVersion.getPreference(preferences);
-        if (version == DEF_VALUE) {
+    static void init(@Nonnull Application application, @Nonnull SharedPreferences preferences) {
+        int oldVersion;
+        if (version.isSet(preferences)) {
+            oldVersion = version.getPreference(preferences);
+        } else if (Deleted.appVersion.isSet(preferences)) {
+            oldVersion = 1;
+        } else {
+            oldVersion = 0;
+        }
+        if (oldVersion == 0) {
             final SharedPreferences.Editor editor = preferences.edit();
             setInitialDefaultValues(application, preferences, editor);
             editor.apply();
-        } else if (version <= 143) {
+        } else if (oldVersion == 1) {
             final SharedPreferences.Editor editor = preferences.edit();
             if (!Gui.vibrateOnKeypress.isSet(preferences)) {
                 //noinspection deprecation
@@ -89,6 +96,9 @@ public final class Preferences {
             migratePreference(preferences, editor, Gui.showReleaseNotes, Deleted.showReleaseNotes);
             migratePreference(preferences, editor, Gui.showEqualsButton, Deleted.showEqualsButton);
             migratePreference(preferences, editor, Gui.rotateScreen, Deleted.autoOrientation);
+            migratePreference(preferences, editor, UiPreferences.rateUsShown, Deleted.feedbackWindowShown);
+            migratePreference(preferences, editor, UiPreferences.opened, Deleted.appOpenedCounter);
+            migratePreference(preferences, editor, UiPreferences.version, Deleted.appVersion);
             final Gui.Layout layout = Deleted.layout.getPreference(preferences);
             if (layout == Gui.Layout.main_cellphone) {
                 Gui.layout.putDefault(editor);
@@ -97,6 +107,7 @@ public final class Preferences {
             } else if (layout == Gui.Layout.simple_mobile) {
                 Gui.layout.putPreference(editor, Gui.Layout.simple);
             }
+            version.putDefault(editor);
             editor.apply();
         }
     }
@@ -136,7 +147,6 @@ public final class Preferences {
 
         Gui.theme.tryPutDefault(preferences, editor);
         Gui.layout.tryPutDefault(preferences, editor);
-        Gui.feedbackWindowShown.tryPutDefault(preferences, editor);
         Gui.showReleaseNotes.tryPutDefault(preferences, editor);
         Gui.useBackAsPrevious.tryPutDefault(preferences, editor);
         Gui.showEqualsButton.tryPutDefault(preferences, editor);
@@ -154,6 +164,7 @@ public final class Preferences {
         Onscreen.theme.tryPutDefault(preferences, editor);
 
         Widget.theme.tryPutDefault(preferences, editor);
+        version.putDefault(editor);
 
         final ContentResolver cr = application.getContentResolver();
         if (cr != null) {
@@ -275,12 +286,14 @@ public final class Preferences {
         public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.ofEnum("preferred_angle_units", Engine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
     }
 
+    public static class App {
+    }
+
     public static class Gui {
 
         public static final Preference<Theme> theme = StringPreference.ofEnum("gui.theme", Theme.material_theme, Theme.class);
         public static final Preference<Layout> layout = StringPreference.ofEnum("gui.layout", Layout.simple, Layout.class);
         public static final Preference<String> language = StringPreference.of("gui.language", Languages.SYSTEM_LANGUAGE_CODE);
-        public static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
         public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("gui.showReleaseNotes", true);
         public static final Preference<Boolean> useBackAsPrevious = BooleanPreference.of("gui.useBackAsPrevious", false);
         public static final Preference<Boolean> showEqualsButton = BooleanPreference.of("gui.showEqualsButton", true);
@@ -407,6 +420,8 @@ public final class Preferences {
     }
 
     private static class Deleted {
+        static final Preference<Integer> appVersion = IntegerPreference.of("application.version", DEF_VALUE);
+        static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
         static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
         static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
         static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
@@ -416,5 +431,6 @@ public final class Preferences {
         static final Preference<Boolean> usePrevAsBack = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
         static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
         static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
+        static final Preference<Integer> appOpenedCounter = IntegerPreference.of("app_opened_counter", 0);
     }
 }

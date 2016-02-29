@@ -161,7 +161,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         } else {
             oldVersion = 0;
         }
-        final int newVersion = Preferences.version.getPreference(preferences);
+        final int newVersion = Preferences.version.getDefaultValue();
         if (oldVersion == newVersion) {
             return;
         }

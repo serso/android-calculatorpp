@@ -170,7 +170,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         }
 
         // then we should set default preferences
-        Preferences.setDefaultValues(this, preferences);
+        Preferences.init(this, preferences);
 
         // and change application's theme/language is needed
         final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
