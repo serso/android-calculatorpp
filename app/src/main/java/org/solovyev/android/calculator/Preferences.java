@@ -35,7 +35,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -46,22 +47,14 @@ import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.NumberToStringPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.prefs.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
@@ -82,8 +75,7 @@ public final class Preferences {
             final SharedPreferences.Editor editor = preferences.edit();
             setInitialDefaultValues(application, preferences, editor);
             editor.apply();
-        } else if (version > 143) {
-            // FIXME: 2016-02-20 use correct version
+        } else if (version <= 143) {
             final SharedPreferences.Editor editor = preferences.edit();
             if (!Gui.vibrateOnKeypress.isSet(preferences)) {
                 //noinspection deprecation
@@ -91,9 +83,13 @@ public final class Preferences {
             }
             migratePreference(preferences, editor, Gui.highlightText, Deleted.colorDisplay);
             migratePreference(preferences, editor, Gui.keepScreenOn, Deleted.preventScreenFromFading);
-            migratePreference(preferences, editor, Gui.theme, Deleted.oldTheme);
-            migratePreference(preferences, editor, Gui.layout, Deleted.oldLayout);
-            final Gui.Layout layout = Deleted.oldLayout.getPreference(preferences);
+            migratePreference(preferences, editor, Gui.theme, Deleted.theme);
+            migratePreference(preferences, editor, Gui.layout, Deleted.layout);
+            migratePreference(preferences, editor, Gui.useBackAsPrevious, Deleted.usePrevAsBack);
+            migratePreference(preferences, editor, Gui.showReleaseNotes, Deleted.showReleaseNotes);
+            migratePreference(preferences, editor, Gui.showEqualsButton, Deleted.showEqualsButton);
+            migratePreference(preferences, editor, Gui.rotateScreen, Deleted.autoOrientation);
+            final Gui.Layout layout = Deleted.layout.getPreference(preferences);
             if (layout == Gui.Layout.main_cellphone) {
                 Gui.layout.putDefault(editor);
             } else if (layout == Gui.Layout.main_calculator_mobile) {
@@ -142,10 +138,9 @@ public final class Preferences {
         Gui.layout.tryPutDefault(preferences, editor);
         Gui.feedbackWindowShown.tryPutDefault(preferences, editor);
         Gui.showReleaseNotes.tryPutDefault(preferences, editor);
-        Gui.usePrevAsBack.tryPutDefault(preferences, editor);
+        Gui.useBackAsPrevious.tryPutDefault(preferences, editor);
         Gui.showEqualsButton.tryPutDefault(preferences, editor);
-        Gui.autoOrientation.tryPutDefault(preferences, editor);
-        Gui.hideNumeralBaseDigits.tryPutDefault(preferences, editor);
+        Gui.rotateScreen.tryPutDefault(preferences, editor);
         Gui.keepScreenOn.tryPutDefault(preferences, editor);
         Gui.language.tryPutDefault(preferences, editor);
 
@@ -275,12 +270,9 @@ public final class Preferences {
     }
 
     public static class Calculations {
-
         public static final Preference<Boolean> calculateOnFly = BooleanPreference.of("calculations_calculate_on_fly", true);
-
         public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.ofEnum("preferred_numeral_base", Engine.Preferences.numeralBase.getDefaultValue(), NumeralBase.class);
         public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.ofEnum("preferred_angle_units", Engine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
-
     }
 
     public static class Gui {
@@ -289,11 +281,10 @@ public final class Preferences {
         public static final Preference<Layout> layout = StringPreference.ofEnum("gui.layout", Layout.simple, Layout.class);
         public static final Preference<String> language = StringPreference.of("gui.language", Languages.SYSTEM_LANGUAGE_CODE);
         public static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
-        public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
-        public static final Preference<Boolean> usePrevAsBack = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
-        public static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
-        public static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
-        public static final Preference<Boolean> hideNumeralBaseDigits = BooleanPreference.of("hideNumeralBaseDigits", true);
+        public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("gui.showReleaseNotes", true);
+        public static final Preference<Boolean> useBackAsPrevious = BooleanPreference.of("gui.useBackAsPrevious", false);
+        public static final Preference<Boolean> showEqualsButton = BooleanPreference.of("gui.showEqualsButton", true);
+        public static final Preference<Boolean> rotateScreen = BooleanPreference.of("gui.rotateScreen", true);
         public static final Preference<Boolean> keepScreenOn = BooleanPreference.of("gui.keepScreenOn", true);
         public static final Preference<Boolean> highlightText = BooleanPreference.of("gui.highlightText", true);
         public static final Preference<Boolean> vibrateOnKeypress = BooleanPreference.of("gui.vibrateOnKeypress", true);
@@ -419,7 +410,11 @@ public final class Preferences {
         static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
         static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
         static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
-        static final Preference<Gui.Theme> oldTheme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Gui.Theme.material_theme, Gui.Theme.class);
-        static final Preference<Gui.Layout> oldLayout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Gui.Layout.simple, Gui.Layout.class);
+        static final Preference<Gui.Theme> theme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Gui.Theme.material_theme, Gui.Theme.class);
+        static final Preference<Gui.Layout> layout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Gui.Layout.simple, Gui.Layout.class);
+        static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
+        static final Preference<Boolean> usePrevAsBack = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
+        static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
+        static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
     }
 }

@@ -87,7 +87,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
         if (equalsButton == null) {
             return;
         }
-        if (orientation != Configuration.ORIENTATION_PORTRAIT && Preferences.Gui.autoOrientation.getPreference(preferences)) {
+        if (orientation != Configuration.ORIENTATION_PORTRAIT && Preferences.Gui.rotateScreen.getPreference(preferences)) {
             return;
         }
 

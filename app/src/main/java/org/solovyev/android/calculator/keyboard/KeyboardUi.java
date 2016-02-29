@@ -15,7 +15,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.ActivityLauncher;
+import org.solovyev.android.calculator.CppNumeralBase;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
@@ -26,9 +29,7 @@ import org.solovyev.android.views.dragbutton.DragDirection;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import static jscl.NumeralBase.hex;
 import static org.solovyev.android.calculator.Engine.Preferences.*;
-import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
 import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class KeyboardUi extends BaseKeyboardUi {
@@ -96,12 +97,7 @@ public class KeyboardUi extends BaseKeyboardUi {
     }
 
     public void toggleNumericDigits() {
-        if (hideNumeralBaseDigits.getPreference(preferences)) {
-            toggleNumericDigits(numeralBase.getPreference(preferences));
-        } else {
-            // set HEX to show all digits
-            CppNumeralBase.valueOf(hex).toggleButtons(true, this);
-        }
+        toggleNumericDigits(numeralBase.getPreference(preferences));
     }
 
     public void toggleNumericDigits(@Nonnull NumeralBase currentNumeralBase) {
@@ -177,7 +173,7 @@ public class KeyboardUi extends BaseKeyboardUi {
         if (angleUnit.isSameKey(key)) {
             button6.setAngleUnit(angleUnit.getPreference(preferences));
         }
-        if (numeralBase.isSameKey(key) || hideNumeralBaseDigits.isSameKey(key)) {
+        if (numeralBase.isSameKey(key)) {
             toggleNumericDigits();
         }
         if (multiplicationSign.isSameKey(key)) {

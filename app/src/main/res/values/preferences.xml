@@ -21,17 +21,6 @@
   -->
 
 <resources>
-	<string name="p_calc_use_back_button_as_prev_key" translatable="false">
-		org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev
-	</string>
-    <string name="p_calc_use_back_button_as_prev" translatable="false">false</string>
-
-	<string name="p_calc_show_release_notes_key" translatable="false">org.solovyev.android.calculator.CalculatorActivity_show_release_notes
-	</string>
-    <string name="p_calc_show_release_notes" translatable="false">true</string>
-
     <string name="p_calc_history" translatable="false">org.solovyev.android.calculator.CalculatorModel_history</string>
-
     <string name="p_calc_ad_free" translatable="false">false</string>
-
 </resources>

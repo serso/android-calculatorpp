@@ -33,15 +33,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.converter.ConverterFragment;
@@ -57,17 +53,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.Preferences.Gui.keepScreenOn;
 import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.continueWizard;
-import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
+import static org.solovyev.android.wizard.WizardUi.*;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, Toolbar.OnMenuItemClickListener {
 
@@ -190,7 +181,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         toolbar.inflateMenu(R.menu.main);
         toolbar.setOnMenuItemClickListener(this);
 
-        useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
+        useBackAsPrev = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
         if (savedInstanceState == null) {
             firstTimeInit(preferences, this);
         }
@@ -260,17 +251,17 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-        if (Preferences.Gui.usePrevAsBack.getKey().equals(key)) {
-            useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
+        if (Preferences.Gui.useBackAsPrevious.getKey().equals(key)) {
+            useBackAsPrev = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
         }
 
-        if (Preferences.Gui.autoOrientation.getKey().equals(key)) {
+        if (Preferences.Gui.rotateScreen.getKey().equals(key)) {
             toggleOrientationChange();
         }
     }
 
     private void toggleOrientationChange() {
-        if (Preferences.Gui.autoOrientation.getPreference(preferences)) {
+        if (Preferences.Gui.rotateScreen.getPreference(preferences)) {
             setRequestedOrientation(SCREEN_ORIENTATION_UNSPECIFIED);
         } else {
             setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
