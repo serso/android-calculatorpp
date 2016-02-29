@@ -43,7 +43,7 @@ public class StartupHelper {
         if (!App.isMonkeyRunner(activity)) {
             handleOnMainActivityOpened(activity, editor, opened == null ? 0 : opened);
         }
-
+        UiPreferences.version.putPreference(editor, Android.getAppVersionCode(activity));
         editor.apply();
     }
 
@@ -52,7 +52,6 @@ public class StartupHelper {
         final Wizards wizards = App.getWizards();
         final Wizard wizard = wizards.getWizard(CalculatorWizards.FIRST_TIME_WIZARD);
         if (wizard.isStarted() && !wizard.isFinished()) {
-            UiPreferences.version.putPreference(editor, currentVersion);
             continueWizard(wizards, wizard.getName(), activity);
             return;
         }
@@ -60,13 +59,11 @@ public class StartupHelper {
         if (!UiPreferences.version.isSet(preferences)) {
             // new start
             startWizard(wizards, activity);
-            UiPreferences.version.putPreference(editor, currentVersion);
             return;
         }
 
         final Integer savedVersion = UiPreferences.version.getPreference(uiPreferences);
         if (savedVersion < currentVersion) {
-            UiPreferences.version.putPreference(editor, currentVersion);
             if (Preferences.Gui.showReleaseNotes.getPreference(preferences) && hasReleaseNotes(activity, savedVersion + 1)) {
                 final Bundle bundle = new Bundle();
                 bundle.putInt(CalculatorWizards.RELEASE_NOTES_VERSION, savedVersion);
