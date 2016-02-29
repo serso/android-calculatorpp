@@ -22,15 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
-import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.continueWizard;
-import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -62,12 +53,21 @@ import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.Objects;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static org.solovyev.android.calculator.Preferences.Gui.keepScreenOn;
+import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
+import static org.solovyev.android.wizard.WizardUi.continueWizard;
+import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, Toolbar.OnMenuItemClickListener {
 
@@ -236,7 +236,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         }
 
         final Window window = getWindow();
-        if (preventScreenFromFading.getPreference(preferences)) {
+        if (keepScreenOn.getPreference(preferences)) {
             window.addFlags(FLAG_KEEP_SCREEN_ON);
         } else {
             window.clearFlags(FLAG_KEEP_SCREEN_ON);

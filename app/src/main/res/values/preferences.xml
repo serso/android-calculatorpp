@@ -21,12 +21,6 @@
   -->
 
 <resources>
-    <string name="p_calc_color_display_key" translatable="false">org.solovyev.android.calculator.CalculatorModel_color_display</string>
-    <string name="p_calc_color_display" translatable="false">true</string>
-
-    <string name="p_calc_haptic_feedback_key" translatable="false">org.solovyev.android.calculator.CalculatorModel_haptic_feedback</string>
-    <string name="p_calc_haptic_feedback" translatable="false">false</string>
-
 	<string name="p_calc_use_back_button_as_prev_key" translatable="false">
 		org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev
 	</string>
@@ -37,12 +31,6 @@
     <string name="p_calc_show_release_notes" translatable="false">true</string>
 
     <string name="p_calc_history" translatable="false">org.solovyev.android.calculator.CalculatorModel_history</string>
-
-    <string name="p_calc_theme_key" translatable="false">org.solovyev.android.calculator.CalculatorActivity_calc_theme</string>
-    <string name="p_calc_theme" translatable="false">default_theme</string>
-
-    <string name="p_calc_layout_key" translatable="false">org.solovyev.android.calculator.CalculatorActivity_calc_layout</string>
-    <string name="p_calc_layout" translatable="false">main_calculator</string>
 
     <string name="p_calc_ad_free" translatable="false">false</string>
 

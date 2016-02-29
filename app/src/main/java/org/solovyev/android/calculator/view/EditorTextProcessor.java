@@ -12,7 +12,6 @@ import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.Preferences.Gui.colorDisplay;
 import static org.solovyev.android.calculator.Preferences.Gui.theme;
 
 public final class EditorTextProcessor implements TextProcessor<TextProcessorEditorResult, String>, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -30,7 +29,7 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
         this.preferences = preferences;
         this.engine = engine;
         preferences.registerOnSharedPreferenceChangeListener(this);
-        onSharedPreferenceChanged(preferences, colorDisplay.getKey());
+        onSharedPreferenceChanged(preferences, Preferences.Gui.highlightText.getKey());
     }
 
     @Nonnull
@@ -57,8 +56,8 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (colorDisplay.isSameKey(key)) {
-            setHighlightText(colorDisplay.getPreference(preferences));
+        if (Preferences.Gui.highlightText.isSameKey(key)) {
+            setHighlightText(Preferences.Gui.highlightText.getPreference(preferences));
         } else if (theme.isSameKey(key)) {
             final int color = getTextColor(preferences);
             textHighlighter = new TextHighlighter(color, true, engine);

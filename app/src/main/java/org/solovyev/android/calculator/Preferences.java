@@ -31,11 +31,11 @@ import android.graphics.Color;
 import android.provider.Settings;
 import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -46,14 +46,22 @@ import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.*;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.NumberToStringPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
@@ -79,9 +87,13 @@ public final class Preferences {
             final SharedPreferences.Editor editor = preferences.edit();
             if (!Gui.vibrateOnKeypress.isSet(preferences)) {
                 //noinspection deprecation
-                Gui.vibrateOnKeypress.putPreference(editor, Gui.hapticFeedback.getPreference(preferences) > 0);
+                Gui.vibrateOnKeypress.putPreference(editor, Deleted.hapticFeedback.getPreference(preferences) > 0);
             }
-            final Gui.Layout layout = Gui.layout.getPreference(preferences);
+            migratePreference(preferences, editor, Gui.highlightText, Deleted.colorDisplay);
+            migratePreference(preferences, editor, Gui.keepScreenOn, Deleted.preventScreenFromFading);
+            migratePreference(preferences, editor, Gui.theme, Deleted.oldTheme);
+            migratePreference(preferences, editor, Gui.layout, Deleted.oldLayout);
+            final Gui.Layout layout = Deleted.oldLayout.getPreference(preferences);
             if (layout == Gui.Layout.main_cellphone) {
                 Gui.layout.putDefault(editor);
             } else if (layout == Gui.Layout.main_calculator_mobile) {
@@ -90,6 +102,12 @@ public final class Preferences {
                 Gui.layout.putPreference(editor, Gui.Layout.simple);
             }
             editor.apply();
+        }
+    }
+
+    private static <T> void migratePreference(@Nonnull SharedPreferences preferences, @NonNull SharedPreferences.Editor editor, @NonNull Preference<T> to, @NonNull Preference<T> from) {
+        if (!to.isSet(preferences)) {
+            to.putPreference(editor, from.getPreferenceNoError(preferences));
         }
     }
 
@@ -128,7 +146,7 @@ public final class Preferences {
         Gui.showEqualsButton.tryPutDefault(preferences, editor);
         Gui.autoOrientation.tryPutDefault(preferences, editor);
         Gui.hideNumeralBaseDigits.tryPutDefault(preferences, editor);
-        Gui.preventScreenFromFading.tryPutDefault(preferences, editor);
+        Gui.keepScreenOn.tryPutDefault(preferences, editor);
         Gui.language.tryPutDefault(preferences, editor);
 
         Graph.plotImag.tryPutDefault(preferences, editor);
@@ -267,10 +285,8 @@ public final class Preferences {
 
     public static class Gui {
 
-        public static final Preference<Theme> theme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.material_theme, Theme.class);
-        public static final Preference<Layout> layout = StringPreference.ofEnum(
-                "org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.simple,
-                Layout.class);
+        public static final Preference<Theme> theme = StringPreference.ofEnum("gui.theme", Theme.material_theme, Theme.class);
+        public static final Preference<Layout> layout = StringPreference.ofEnum("gui.layout", Layout.simple, Layout.class);
         public static final Preference<String> language = StringPreference.of("gui.language", Languages.SYSTEM_LANGUAGE_CODE);
         public static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
         public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
@@ -278,11 +294,9 @@ public final class Preferences {
         public static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
         public static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
         public static final Preference<Boolean> hideNumeralBaseDigits = BooleanPreference.of("hideNumeralBaseDigits", true);
-        public static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
-        public static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
+        public static final Preference<Boolean> keepScreenOn = BooleanPreference.of("gui.keepScreenOn", true);
+        public static final Preference<Boolean> highlightText = BooleanPreference.of("gui.highlightText", true);
         public static final Preference<Boolean> vibrateOnKeypress = BooleanPreference.of("gui.vibrateOnKeypress", true);
-        @Deprecated
-        public static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
 
         @Nonnull
         public static Theme getTheme(@Nonnull SharedPreferences preferences) {
@@ -399,5 +413,13 @@ public final class Preferences {
 
     public static class Graph {
         public static final Preference<Boolean> plotImag = BooleanPreference.of("graph_plot_imag", false);
+    }
+
+    private static class Deleted {
+        static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
+        static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
+        static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
+        static final Preference<Gui.Theme> oldTheme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Gui.Theme.material_theme, Gui.Theme.class);
+        static final Preference<Gui.Layout> oldLayout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Gui.Layout.simple, Gui.Layout.class);
     }
 }

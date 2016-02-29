@@ -31,8 +31,7 @@
         m:materialColor="@color/material_text_selector" />
 
     <android.preference.CheckBoxPreference
-        a:defaultValue="true"
-        a:key="@string/p_calc_color_display_key"
+        a:key="gui.highlightText"
         a:summary="@string/c_calc_color_display_summary"
         a:title="@string/c_calc_color_display_title" />
 
@@ -50,13 +49,13 @@
     <ListPreference
         a:entries="@array/p_theme_names"
         a:entryValues="@array/p_theme_values"
-        a:key="@string/p_calc_theme_key"
+        a:key="gui.theme"
         a:title="@string/cpp_theme" />
 
     <ListPreference
         a:entries="@array/p_layout_names"
         a:entryValues="@array/p_layout_values"
-        a:key="@string/p_calc_layout_key"
+        a:key="gui.layout"
         a:summary="@string/c_calc_layout_summary"
         a:title="@string/c_calc_layout" />
 
@@ -73,7 +72,7 @@
         a:title="@string/c_show_equals_button_title" />
 
     <android.preference.CheckBoxPreference
-        a:key="preventScreenFromFading"
+        a:key="gui.keepScreenOn"
         a:title="@string/cpp_prefs_keep_screen_on" />
 
 </PreferenceScreen>

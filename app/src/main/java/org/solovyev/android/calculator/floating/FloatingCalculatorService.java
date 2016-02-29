@@ -22,8 +22,6 @@
 
 package org.solovyev.android.calculator.floating;
 
-import static org.solovyev.android.calculator.App.cast;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -49,6 +47,8 @@ import org.solovyev.android.calculator.R;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+
+import static org.solovyev.android.calculator.App.cast;
 
 public class FloatingCalculatorService extends Service implements FloatingViewListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
