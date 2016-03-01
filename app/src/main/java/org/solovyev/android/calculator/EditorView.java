@@ -26,11 +26,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
-import android.text.Selection;
-import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.view.EditTextCompat;
@@ -41,7 +40,7 @@ import javax.annotation.Nullable;
 
 public class EditorView extends EditTextCompat {
 
-    private boolean reportChanges;
+    private boolean editorChange;
     @Nullable
     private Editor editor;
 
@@ -73,12 +72,18 @@ public class EditorView extends EditTextCompat {
         }
         addTextChangedListener(new MyTextWatcher());
         dontShowSoftInputOnFocusCompat();
-        // changes should only be reported after the view has been set up completely, i.e. now
-        reportChanges = true;
+        // the state is controlled by Editor
+        setSaveEnabled(false);
     }
 
     public void setEditor(@Nullable Editor editor) {
+        if (this.editor == editor) {
+            return;
+        }
         this.editor = editor;
+        if (editor != null) {
+            setState(editor.getState());
+        }
     }
 
     @Override
@@ -90,14 +95,14 @@ public class EditorView extends EditTextCompat {
     public void setState(@Nonnull final EditorState state) {
         Check.isMainThread();
         // we don't want to be notified about changes we make ourselves
-        reportChanges = false;
+        editorChange = true;
         if (App.getTheme().light && isFloatingCalculator()) {
             // don't need formatting
             setText(state.getTextString());
         } else {
             setText(state.text, BufferType.EDITABLE);
         }
-        reportChanges = true;
+        editorChange = false;
         setSelection(Editor.clamp(state.selection, length()));
     }
 
@@ -108,7 +113,7 @@ public class EditorView extends EditTextCompat {
     @Override
     protected void onSelectionChanged(int start, int end) {
         Check.isMainThread();
-        if (!reportChanges) {
+        if (!editorChange) {
             return;
         }
         // external text change => need to notify editor
@@ -118,7 +123,7 @@ public class EditorView extends EditTextCompat {
         if (start != end) {
             return;
         }
-        if (editor == null) {
+        if (editor == null || editorChange) {
             return;
         }
         editor.setSelection(start);
@@ -135,12 +140,7 @@ public class EditorView extends EditTextCompat {
 
         @Override
         public void afterTextChanged(Editable s) {
-            // external text change => need to notify editor
-            if (!reportChanges) {
-                return;
-            }
-            if (editor == null) {
-                Check.shouldNotHappen();
+            if (editor == null || editorChange) {
                 return;
             }
             editor.setText(String.valueOf(s));
