@@ -13,10 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.NumeralBase;
-import org.solovyev.android.Check;
+
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
@@ -30,10 +27,16 @@ import org.solovyev.android.views.dragbutton.DragDirection;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.NumeralBase;
+
 import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
 import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
-import static org.solovyev.android.views.dragbutton.DragDirection.*;
+import static org.solovyev.android.views.dragbutton.DragDirection.down;
+import static org.solovyev.android.views.dragbutton.DragDirection.left;
+import static org.solovyev.android.views.dragbutton.DragDirection.up;
 
 public class PartialKeyboardUi extends BaseKeyboardUi {
 
@@ -72,7 +75,6 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
             clearButton.setNumeralBase(numeralBase.getPreference(preferences));
         }
         if (eraseButton != null) {
-            Check.isTrue(IMAGE_SCALE == 0.6f);
             // backspace button is too big, scale it more
             prepareButton(eraseButton, IMAGE_SCALE_ERASE);
             longClickEraser = EditorLongClickEraser.attachTo(eraseButton, keyboard.isVibrateOnKeypress(), editor, calculator);

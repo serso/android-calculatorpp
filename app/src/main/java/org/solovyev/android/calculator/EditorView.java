@@ -31,7 +31,6 @@ import android.util.AttributeSet;
 import android.view.ContextMenu;
 
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.android.views.Adjuster;
 
@@ -66,7 +65,7 @@ public class EditorView extends EditTextCompat {
     }
 
     private void init() {
-        if (!isFloatingCalculator()) {
+        if (!App.isFloatingCalculator(getContext())) {
             Adjuster.adjustText(this, 0.22f,
                     getResources().getDimensionPixelSize(R.dimen.cpp_min_editor_text_size));
         }
@@ -96,7 +95,7 @@ public class EditorView extends EditTextCompat {
         Check.isMainThread();
         // we don't want to be notified about changes we make ourselves
         editorChange = true;
-        if (App.getTheme().light && isFloatingCalculator()) {
+        if (App.getTheme().light && App.isFloatingCalculator(getContext())) {
             // don't need formatting
             setText(state.getTextString());
         } else {
@@ -104,10 +103,6 @@ public class EditorView extends EditTextCompat {
         }
         editorChange = false;
         setSelection(Editor.clamp(state.selection, length()));
-    }
-
-    private boolean isFloatingCalculator() {
-        return getContext() instanceof FloatingCalculatorService;
     }
 
     @Override

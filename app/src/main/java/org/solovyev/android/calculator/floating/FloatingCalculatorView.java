@@ -31,12 +31,26 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.*;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.DisplayView;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.EditorView;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppButton;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 import org.solovyev.android.views.Adjuster;
@@ -45,8 +59,14 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static android.view.HapticFeedbackConstants.*;
-import static android.view.WindowManager.LayoutParams.*;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
+import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
+import static android.view.HapticFeedbackConstants.LONG_PRESS;
+import static android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+import static android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+import static android.view.WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
+import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
 import static org.solovyev.android.calculator.App.cast;
 
 public class FloatingCalculatorView {
@@ -258,13 +278,14 @@ public class FloatingCalculatorView {
             @Nonnull State state,
             @NonNull FloatingViewListener listener) {
         cast(context).getComponent().inject(this);
-        this.context = context;
         this.listener = listener;
         final Preferences.SimpleTheme theme =
                 Preferences.Onscreen.theme.getPreferenceNoError(preferences);
         final Preferences.Gui.Theme appTheme =
                 Preferences.Gui.theme.getPreferenceNoError(preferences);
-        this.root = View.inflate(context, theme.getOnscreenLayout(appTheme), null);
+        final Preferences.SimpleTheme resolvedTheme = theme.resolveThemeFor(appTheme);
+        this.context = new ContextThemeWrapper(context, resolvedTheme.light ? R.style.Cpp_Theme_Light : R.style.Cpp_Theme);
+        this.root = View.inflate(this.context, theme.getOnscreenLayout(appTheme), null);
         final State persistedState = State.fromPrefs(myPreferences);
         if (persistedState != null) {
             this.state = persistedState;

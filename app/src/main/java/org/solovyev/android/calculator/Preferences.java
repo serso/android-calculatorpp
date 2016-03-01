@@ -33,8 +33,8 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.SparseArray;
-import android.view.ContextThemeWrapper;
 
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;

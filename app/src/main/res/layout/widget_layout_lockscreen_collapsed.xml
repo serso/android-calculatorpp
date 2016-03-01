@@ -22,11 +22,6 @@
             a:layout_width="0dp"
             a:layout_weight="3"
             a:gravity="center_vertical|left"
-            a:hint="@string/c_calc_editor_hint"
-            a:padding="@dimen/cpp_editor_padding"
-            a:scrollbars="vertical"
-            a:singleLine="false"
-            a:textIsSelectable="true"
             a:textSize="@dimen/cpp_widget_editor_text_size_collapsed" />
 
         <include

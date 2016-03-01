@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -40,6 +41,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -64,7 +66,6 @@ import org.solovyev.common.JPredicate;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nonnull;
@@ -85,13 +86,9 @@ public final class App {
     @Nonnull
     private static volatile Application application;
     @Nonnull
-    private static Executor uiThreadExecutor;
-    @Nonnull
     private static SharedPreferences preferences;
     @Nonnull
     private static volatile Ga ga;
-    @Nullable
-    private static Boolean lg = null;
     @Nonnull
     private static volatile ScreenMetrics screenMetrics;
     @Nonnull
@@ -111,7 +108,6 @@ public final class App {
                             @Nonnull Languages languages) {
         App.application = application;
         App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        App.uiThreadExecutor = application.uiThread;
         App.ga = new Ga(application, preferences);
         App.screenMetrics = new ScreenMetrics(application);
         App.languages = languages;
@@ -132,16 +128,6 @@ public final class App {
         return (A) application;
     }
 
-    /**
-     * Method returns executor which runs on Main Application's thread. It's safe to do all UI work on this executor
-     *
-     * @return UI thread executor
-     */
-    @Nonnull
-    public static Executor getUiThreadExecutor() {
-        return uiThreadExecutor;
-    }
-
     @Nonnull
     public static Wizards getWizards() {
         return wizards;
@@ -150,10 +136,6 @@ public final class App {
     @Nonnull
     public static Ga getGa() {
         return ga;
-    }
-
-    public static boolean isLargeScreen() {
-        return Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, App.getApplication().getResources().getConfiguration());
     }
 
     @Nonnull
@@ -173,7 +155,7 @@ public final class App {
 
     @Nonnull
     public static Preferences.Gui.Theme getThemeFor(@Nonnull Context context) {
-        if (context instanceof FloatingCalculatorService) {
+        if (isFloatingCalculator(context)) {
             final SharedPreferences p = getPreferences();
             final Preferences.SimpleTheme onscreenTheme = Preferences.Onscreen.getTheme(p);
             final Preferences.Gui.Theme appTheme = Preferences.Gui.getTheme(p);
@@ -181,6 +163,14 @@ public final class App {
         } else {
             return App.getTheme();
         }
+    }
+
+    @NonNull
+    private static Context unwrap(@NonNull Context context) {
+        if (context instanceof ContextThemeWrapper) {
+            return unwrap(((ContextThemeWrapper) context).getBaseContext());
+        }
+        return context;
     }
 
     @Nonnull
@@ -398,5 +388,9 @@ public final class App {
         helperTextView.setText(helpText);
 
         ((ViewGroup) root).addView(helperTextView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    }
+
+    static boolean isFloatingCalculator(@NonNull Context context) {
+        return unwrap(context) instanceof FloatingCalculatorService;
     }
 }

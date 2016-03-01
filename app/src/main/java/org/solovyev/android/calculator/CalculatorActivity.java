@@ -143,10 +143,10 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     @Override
     protected void onResume() {
         super.onResume();
+        launcher.setActivity(this);
         if (restartIfLayoutChanged()) {
             return;
         }
-        launcher.setActivity(this);
 
         final Window window = getWindow();
         if (keepScreenOn.getPreference(preferences)) {

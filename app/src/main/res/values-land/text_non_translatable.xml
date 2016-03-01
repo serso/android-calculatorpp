@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cpp_direction_text_size" translatable="false">0.4;0.4;0.4;0.35</string>
+    <string name="cpp_direction_text_size" translatable="false">0.4;0.4;0.4;0.4</string>
 </resources>
