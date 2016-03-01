@@ -4,8 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import org.solovyev.android.calculator.buttons.CppButton;
+import org.solovyev.android.calculator.history.History;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -19,6 +22,8 @@ public final class WidgetReceiver extends BroadcastReceiver {
 
     @Inject
     Keyboard keyboard;
+    @Inject
+    History history;
 
     @Nonnull
     public static Intent newButtonClickedIntent(@Nonnull Context context, @Nonnull CppButton button) {
@@ -43,9 +48,21 @@ public final class WidgetReceiver extends BroadcastReceiver {
             return;
         }
 
-        if (!keyboard.buttonPressed(button.action)) {
-            return;
+        if (history.isLoaded()) {
+            if (!keyboard.buttonPressed(button.action)) {
+                // prevent vibrate
+                return;
+            }
+        } else {
+            // if app has been killed we need first to restore the state and only after doing this
+            // to apply actions. Otherwise, we will apply actions on the empty editor
+            history.runWhenLoaded(new MyRunnable(keyboard, button.action));
         }
+
+        vibrate(context);
+    }
+
+    private void vibrate(@NonNull Context context) {
         if (!keyboard.isVibrateOnKeypress()) {
             return;
         }
@@ -54,5 +71,22 @@ public final class WidgetReceiver extends BroadcastReceiver {
             return;
         }
         vibrator.vibrate(10);
+    }
+
+    private static class MyRunnable implements Runnable {
+        @NonNull
+        private final Keyboard keyboard;
+        @NonNull
+        private final String action;
+
+        public MyRunnable(@NonNull Keyboard keyboard, @NonNull String action) {
+            this.keyboard = keyboard;
+            this.action = action;
+        }
+
+        @Override
+        public void run() {
+            keyboard.buttonPressed(action);
+        }
     }
 }

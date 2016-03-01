@@ -77,6 +77,9 @@ public class History {
     private final RecentHistory recent = new RecentHistory();
     @Nonnull
     private final List<HistoryState> saved = new ArrayList<>();
+    @Nonnull
+    private final List<Runnable> whenLoadedRunnables = new ArrayList<>();
+    private boolean loaded;
     @Inject
     Application application;
     @Inject
@@ -217,13 +220,30 @@ public class History {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Check.isTrue(recent.isEmpty());
-                Check.isTrue(saved.isEmpty());
-                recent.addInitial(recentStates);
-                saved.addAll(savedStates);
-                editor.onHistoryLoaded(recent);
+                onLoaded(recentStates, savedStates);
             }
         });
+    }
+
+    private void onLoaded(@NonNull List<HistoryState> recentStates, @NonNull List<HistoryState> savedStates) {
+        Check.isTrue(saved.isEmpty());
+        Check.isMainThread();
+        final boolean wasEmpty = recent.isEmpty();
+        recent.addInitial(recentStates);
+        saved.addAll(savedStates);
+        if (wasEmpty) {
+            // user has typed nothing while we were loading, let's use recent history to restore
+            // editor state
+            editor.onHistoryLoaded(recent);
+        } else {
+            // user has types something => we should schedule save
+            postRecentWrite();
+        }
+        loaded = true;
+        for (Runnable runnable : whenLoadedRunnables) {
+            runnable.run();
+        }
+        whenLoadedRunnables.clear();
     }
 
     @Nonnull
@@ -238,6 +258,10 @@ public class History {
 
     public void addRecent(@Nonnull HistoryState state) {
         Check.isMainThread();
+        if (recent.isEmpty() && state.isEmpty()) {
+            // don't add empty states to empty history
+            return;
+        }
         recent.add(state);
         onRecentChanged(new AddedEvent(state, true));
     }
@@ -255,15 +279,23 @@ public class History {
     }
 
     private void onRecentChanged(@Nonnull Object event) {
-        handler.removeCallbacks(writeRecent);
-        handler.postDelayed(writeRecent, 5000);
+        postRecentWrite();
         bus.post(event);
     }
 
+    private void postRecentWrite() {
+        handler.removeCallbacks(writeRecent);
+        handler.postDelayed(writeRecent, 5000);
+    }
+
     private void onSavedChanged(@Nonnull Object event) {
+        postSavedWrite();
+        bus.post(event);
+    }
+
+    private void postSavedWrite() {
         handler.removeCallbacks(writeSaved);
         handler.postDelayed(writeSaved, 500);
-        bus.post(event);
     }
 
     @Nonnull
@@ -359,6 +391,15 @@ public class History {
         addRecent(HistoryState.builder(editorState, displayState).build());
     }
 
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void runWhenLoaded(@NonNull Runnable runnable) {
+        Check.isTrue(!loaded);
+        whenLoadedRunnables.add(runnable);
+    }
+
     public static class ClearedEvent {
         public final boolean recent;
 
@@ -406,6 +447,9 @@ public class History {
         @Override
         public void run() {
             Check.isMainThread();
+            if (!loaded) {
+                return;
+            }
             // don't need to save intermediate states, thus {@link History#getRecent}
             final List<HistoryState> states = recent ? getRecent(false) : getSaved();
             backgroundThread.execute(new Runnable() {

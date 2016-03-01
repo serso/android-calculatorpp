@@ -26,13 +26,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.ContextMenu;
-import jscl.math.Generic;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import jscl.math.Generic;
 
 public class DisplayState implements Parcelable, ContextMenu.ContextMenuInfo {
 
@@ -142,5 +144,9 @@ public class DisplayState implements Parcelable, ContextMenu.ContextMenuInfo {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(text);
         dest.writeByte((byte) (valid ? 1 : 0));
+    }
+
+    public boolean isEmpty() {
+        return valid && TextUtils.isEmpty(text);
     }
 }

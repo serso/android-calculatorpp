@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.history;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,8 +15,6 @@ import org.solovyev.android.calculator.json.Jsonable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import static android.text.TextUtils.isEmpty;
 
 public class HistoryState implements Parcelable, Jsonable {
 
@@ -103,7 +102,7 @@ public class HistoryState implements Parcelable, Jsonable {
         json.put(JSON_EDITOR, editor.toJson());
         json.put(JSON_DISPLAY, display.toJson());
         json.put(JSON_TIME, time);
-        if (!isEmpty(comment)) {
+        if (!TextUtils.isEmpty(comment)) {
             json.put(JSON_COMMENT, comment);
         }
         return json;
@@ -171,6 +170,10 @@ public class HistoryState implements Parcelable, Jsonable {
         dest.writeParcelable(display, flags);
         dest.writeLong(time);
         dest.writeString(comment);
+    }
+
+    public boolean isEmpty() {
+        return display.isEmpty() && editor.isEmpty() && TextUtils.isEmpty(comment);
     }
 
     public static final class Builder {
