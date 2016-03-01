@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,7 @@ public class BaseActivity extends AppCompatActivity {
     @Nonnull
     protected final Tabs tabs;
     private final int layoutId;
+    private final int titleId;
     @Inject
     SharedPreferences preferences;
     @Inject
@@ -69,12 +71,13 @@ public class BaseActivity extends AppCompatActivity {
     @Nonnull
     private Language language = Languages.SYSTEM_LANGUAGE;
 
-    public BaseActivity() {
-        this(R.layout.activity_tabs);
+    public BaseActivity(@StringRes int titleId) {
+        this(R.layout.activity_tabs, titleId);
     }
 
-    public BaseActivity(@LayoutRes int layout) {
-        this.layoutId = layout;
+    public BaseActivity(@LayoutRes int layoutId, @StringRes int titleId) {
+        this.layoutId = layoutId;
+        this.titleId = titleId;
         this.tabs = new Tabs(this);
     }
 
@@ -139,6 +142,11 @@ public class BaseActivity extends AppCompatActivity {
 
     private void createView() {
         setContentView(layoutId);
+        // title must be updated as if a non-system language is used the value from AndroidManifest
+        // might be cached
+        if (titleId != 0) {
+            setTitle(titleId);
+        }
         ButterKnife.bind(this, this);
 
         fixFonts(mainView);
@@ -177,7 +185,7 @@ public class BaseActivity extends AppCompatActivity {
         setTheme(theme.getThemeFor(this));
 
         layout = Preferences.Gui.getLayout(preferences);
-        language = App.getLanguages().getCurrent();
+        language = languages.getCurrent();
     }
 
     protected void populateTabs(@Nonnull Tabs tabs) {

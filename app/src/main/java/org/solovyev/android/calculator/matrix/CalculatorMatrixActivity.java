@@ -22,14 +22,19 @@
 
 package org.solovyev.android.calculator.matrix;
 
-import android.os.Bundle;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
 
 public class CalculatorMatrixActivity extends BaseActivity {
+
+    public CalculatorMatrixActivity() {
+        super(R.string.c_plot_graph);
+        // FIXME: 2016-03-01 string
+    }
 
     @Override
     protected void populateTabs(@Nonnull Tabs tabs) {

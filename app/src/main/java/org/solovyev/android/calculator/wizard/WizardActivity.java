@@ -49,7 +49,7 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
     Languages languages;
 
     public WizardActivity() {
-        super(R.layout.cpp_activity_wizard);
+        super(R.layout.cpp_activity_wizard, 0);
     }
 
     @Override

@@ -7,8 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.BaseFragment;
@@ -19,6 +18,9 @@ import org.solovyev.android.plotter.Plotter;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class PlotActivity extends BaseActivity {
 
@@ -90,7 +92,7 @@ public class PlotActivity extends BaseActivity {
     }
 
     public PlotActivity() {
-        super(R.layout.activity_empty);
+        super(R.layout.activity_empty, R.string.c_plot);
     }
 
     @Override

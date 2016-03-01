@@ -58,7 +58,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     Languages languages;
 
     public PreferencesActivity() {
-        super(R.layout.activity_empty);
+        super(R.layout.activity_empty, R.string.cpp_settings);
     }
 
     @Nonnull

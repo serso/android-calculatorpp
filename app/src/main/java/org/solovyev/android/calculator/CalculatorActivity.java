@@ -82,7 +82,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     private boolean useBackAsPrevious;
 
     public CalculatorActivity() {
-        super(R.layout.activity_main);
+        super(R.layout.activity_main, R.string.c_app_name);
     }
 
     @Override

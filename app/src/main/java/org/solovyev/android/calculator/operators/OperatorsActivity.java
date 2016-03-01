@@ -35,6 +35,10 @@ import javax.annotation.Nonnull;
 
 public class OperatorsActivity extends BaseActivity {
 
+    public OperatorsActivity() {
+        super(R.string.c_operators);
+    }
+
     public static class Dialog extends OperatorsActivity {
     }
 

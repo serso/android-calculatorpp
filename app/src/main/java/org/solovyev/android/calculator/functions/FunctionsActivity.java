@@ -40,6 +40,10 @@ public class FunctionsActivity extends BaseActivity {
 
     public static final String EXTRA_FUNCTION = "function";
 
+    public FunctionsActivity() {
+        super(R.string.c_functions);
+    }
+
     @Nonnull
     public static Class<? extends FunctionsActivity> getClass(@NonNull Context context) {
         return App.isTablet(context) ? Dialog.class : FunctionsActivity.class;

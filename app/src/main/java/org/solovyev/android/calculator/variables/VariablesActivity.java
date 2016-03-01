@@ -40,6 +40,10 @@ public class VariablesActivity extends BaseActivity {
 
     public static final String EXTRA_VARIABLE = "variable";
 
+    public VariablesActivity() {
+        super(R.string.c_vars_and_constants);
+    }
+
     @Nonnull
     public static Class<? extends VariablesActivity> getClass(@NonNull Context context) {
         return App.isTablet(context) ? Dialog.class : VariablesActivity.class;
