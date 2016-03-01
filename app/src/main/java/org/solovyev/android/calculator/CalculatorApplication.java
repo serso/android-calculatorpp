@@ -28,27 +28,22 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.TimingLogger;
-
 import com.squareup.otto.Bus;
-
+import jscl.MathEngine;
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
-import org.solovyev.android.Android;
 import org.solovyev.android.calculator.floating.FloatingCalculatorActivity;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.common.msg.MessageType;
 
-import java.util.Locale;
-import java.util.concurrent.Executor;
-
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import jscl.MathEngine;
+import java.util.Locale;
+import java.util.concurrent.Executor;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -192,7 +187,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (Preferences.Onscreen.showAppIcon.getKey().equals(key)) {
             boolean showAppIcon = Preferences.Onscreen.showAppIcon.getPreference(prefs);
-            Android.enableComponent(this, FloatingCalculatorActivity.class, showAppIcon);
+            App.enableComponent(this, FloatingCalculatorActivity.class, showAppIcon);
             notifier.showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
     }

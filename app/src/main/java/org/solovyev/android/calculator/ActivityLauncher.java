@@ -33,7 +33,6 @@ import dagger.Lazy;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
-import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.CppFunction;
@@ -85,7 +84,7 @@ public final class ActivityLauncher {
 
     private static void show(@Nonnull Context context, @NonNull Intent intent) {
         final boolean detached = !(context instanceof Activity);
-        Activities.addIntentFlags(intent, detached, context);
+        App.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
 

@@ -45,7 +45,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import dagger.Lazy;
 import jscl.math.function.IConstant;
-import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.EntityRemovalDialog;
@@ -125,7 +124,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     public static void showDialog(@Nullable CppVariable variable, @Nonnull Context context) {
         if (!(context instanceof VariablesActivity)) {
             final Intent intent = new Intent(context, VariablesActivity.getClass(context));
-            Activities.addIntentFlags(intent, false, context);
+            App.addIntentFlags(intent, false, context);
             intent.putExtra(VariablesActivity.EXTRA_VARIABLE, variable);
             context.startActivity(intent);
         } else {

@@ -1,18 +1,15 @@
 package org.solovyev.android.calculator.release;
 
 import android.content.Context;
-
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.about.TextHelper;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import static org.solovyev.android.Android.getAppVersionCode;
 
 public final class ReleaseNotes {
 
@@ -26,7 +23,7 @@ public final class ReleaseNotes {
         final StringBuilder result = new StringBuilder();
 
         final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);
-        final int currentVersionCode = getAppVersionCode(context);
+        final int currentVersionCode = App.getAppVersionCode(context);
 
         final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
@@ -53,7 +50,7 @@ public final class ReleaseNotes {
     public static List<Integer> getReleaseNotesVersions(@Nonnull Context context, int minVersion) {
         final List<Integer> releaseNotes = new ArrayList<>();
 
-        final int currentVersionCode = getAppVersionCode(context);
+        final int currentVersionCode = App.getAppVersionCode(context);
         final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
         for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
@@ -70,7 +67,7 @@ public final class ReleaseNotes {
     }
 
     public static boolean hasReleaseNotes(@Nonnull Context context, int minVersion) {
-        final int currentVersionCode = getAppVersionCode(context);
+        final int currentVersionCode = App.getAppVersionCode(context);
         final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
         for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {

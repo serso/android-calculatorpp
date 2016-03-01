@@ -37,7 +37,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.solovyev.android.Check;
-import org.solovyev.android.Views;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.Editor;
@@ -99,7 +98,7 @@ public class FloatingCalculatorService extends Service implements FloatingViewLi
 
         //noinspection deprecation
         final int maxWidth = 2 * Math.min(dd.getWidth(), dd.getHeight()) / 3;
-        final int desiredWidth = Views.toPixels(dm, 300);
+        final int desiredWidth = App.toPixels(dm, 300);
 
         final int width = Math.min(maxWidth, desiredWidth);
         final int height = getHeight(width);

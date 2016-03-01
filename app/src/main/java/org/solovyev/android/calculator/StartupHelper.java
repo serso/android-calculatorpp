@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
-import org.solovyev.android.Android;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.Wizards;
@@ -20,9 +18,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.continueWizard;
-import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
+import static org.solovyev.android.wizard.WizardUi.*;
 
 @Singleton
 public class StartupHelper {
@@ -45,12 +41,12 @@ public class StartupHelper {
         if (!App.isMonkeyRunner(activity)) {
             handleOnMainActivityOpened(activity, editor, opened == null ? 0 : opened);
         }
-        UiPreferences.appVersion.putPreference(editor, Android.getAppVersionCode(activity));
+        UiPreferences.appVersion.putPreference(editor, App.getAppVersionCode(activity));
         editor.apply();
     }
 
     private void handleOnMainActivityOpened(@NonNull final AppCompatActivity activity, @NonNull SharedPreferences.Editor editor, int opened) {
-        final int currentVersion = Android.getAppVersionCode(activity);
+        final int currentVersion = App.getAppVersionCode(activity);
         final Wizards wizards = App.getWizards();
         final Wizard wizard = wizards.getWizard(CalculatorWizards.FIRST_TIME_WIZARD);
         if (wizard.isStarted() && !wizard.isFinished()) {

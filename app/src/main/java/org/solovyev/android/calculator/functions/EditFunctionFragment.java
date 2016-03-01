@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import jscl.math.function.Function;
-import org.solovyev.android.Activities;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
@@ -32,7 +31,7 @@ public class EditFunctionFragment extends BaseFunctionFragment {
     public static void show(@Nullable CppFunction function, @Nonnull Context context) {
         if (!(context instanceof FunctionsActivity)) {
             final Intent intent = new Intent(context, FunctionsActivity.getClass(context));
-            Activities.addIntentFlags(intent, false, context);
+            App.addIntentFlags(intent, false, context);
             intent.putExtra(FunctionsActivity.EXTRA_FUNCTION, function);
             context.startActivity(intent);
         } else {

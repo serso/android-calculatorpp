@@ -12,16 +12,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.solovyev.android.Views;
-import org.solovyev.android.calculator.ActivityLauncher;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.PreferredPreferences;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.views.Adjuster;
@@ -30,15 +21,12 @@ import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-
-import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
-import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
-import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
+import static android.view.HapticFeedbackConstants.*;
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.App.getScreenMetrics;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
@@ -93,7 +81,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         cast(activity.getApplication()).getComponent().inject(this);
         preferences.registerOnSharedPreferenceChangeListener(this);
 
-        orientation = Views.getScreenOrientation(activity);
+        orientation = App.getScreenOrientation(activity);
         layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
         textSize = calculateTextSize();
     }

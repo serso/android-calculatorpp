@@ -41,7 +41,6 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 import org.solovyev.android.Check;
-import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.Preferences.SimpleTheme;
 import org.solovyev.android.calculator.buttons.CppButton;
@@ -182,7 +181,7 @@ public class CalculatorWidget extends AppWidgetProvider {
             return getDefaultLayout(theme);
         }
 
-        final int widgetMinHeight = Views.toPixels(resources.getDisplayMetrics(), options.getInt(OPTION_APPWIDGET_MIN_HEIGHT, 0));
+        final int widgetMinHeight = App.toPixels(resources.getDisplayMetrics(), options.getInt(OPTION_APPWIDGET_MIN_HEIGHT, 0));
         final int lockScreenMinHeight = resources.getDimensionPixelSize(R.dimen.min_expanded_height_lock_screen);
         final boolean expanded = widgetMinHeight >= lockScreenMinHeight;
         if (expanded) {

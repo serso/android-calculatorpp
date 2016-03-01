@@ -24,17 +24,14 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -55,7 +52,6 @@ import android.widget.TextView;
 import com.squareup.otto.Bus;
 
 import org.solovyev.android.Check;
-import org.solovyev.android.Views;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Languages;
@@ -350,13 +346,13 @@ public final class App {
 
         final StringBuilder helpText = new StringBuilder();
         helpText.append("Size: ");
-        if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
+        if (isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
             helpText.append("xlarge");
-        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
+        } else if (isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
             helpText.append("large");
-        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
+        } else if (isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
             helpText.append("normal");
-        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
+        } else if (isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
             helpText.append("small");
         } else {
             helpText.append("unknown");
@@ -392,5 +388,118 @@ public final class App {
 
     static boolean isFloatingCalculator(@NonNull Context context) {
         return unwrap(context) instanceof FloatingCalculatorService;
+    }
+
+    public static int getAppVersionCode(@Nonnull Context context) {
+        try {
+            return getAppVersionCode(context, context.getPackageName());
+        } catch (PackageManager.NameNotFoundException e) {
+            Check.shouldNotHappen();
+        }
+        return 0;
+    }
+
+    public static int getAppVersionCode(@Nonnull Context context, @Nonnull String appPackageName) throws PackageManager.NameNotFoundException {
+        return context.getPackageManager().getPackageInfo(appPackageName, 0).versionCode;
+    }
+    public static boolean isUiThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
+
+    public static boolean isLayoutSizeAtLeast(int size, @Nonnull Configuration configuration) {
+        int cur = configuration.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+        if (cur == Configuration.SCREENLAYOUT_SIZE_UNDEFINED) return false;
+        return cur >= size;
+    }
+
+    public static void restartActivity(@Nonnull Activity activity) {
+        final Intent intent = activity.getIntent();
+        activity.finish();
+        activity.startActivity(intent);
+    }
+
+    /**
+     * Method runs through view and all it's children recursively and process them via viewProcessor
+     *
+     * @param view          parent view to be processed, if view is ViewGroup then all it's children will be processed
+     * @param viewProcessor object which processes views
+     */
+    public static void processViews(@Nonnull View view, @Nonnull ViewProcessor<View> viewProcessor) {
+        processViewsOfType0(view, null, viewProcessor);
+    }
+
+    static <T> void processViewsOfType0(@Nonnull View view, @Nullable Class<T> viewClass, @Nonnull ViewProcessor<T> viewProcessor) {
+        if (view instanceof ViewGroup) {
+            final ViewGroup viewGroup = (ViewGroup) view;
+
+            if (viewClass == null || viewClass.isAssignableFrom(ViewGroup.class)) {
+                //noinspection unchecked
+                viewProcessor.process((T) viewGroup);
+            }
+
+            for (int index = 0; index < viewGroup.getChildCount(); index++) {
+                processViewsOfType0(viewGroup.getChildAt(index), viewClass, viewProcessor);
+            }
+        } else if (viewClass == null || viewClass.isAssignableFrom(view.getClass())) {
+            //noinspection unchecked
+            viewProcessor.process((T) view);
+        }
+    }
+
+    public static <T> void processViewsOfType(@Nonnull View view, @Nonnull Class<T> viewClass, @Nonnull ViewProcessor<T> viewProcessor) {
+        processViewsOfType0(view, viewClass, viewProcessor);
+    }
+
+    public interface ViewProcessor<V> {
+        void process(@Nonnull V view);
+    }
+
+    @SuppressWarnings("deprecation")
+    public static int getScreenOrientation(@Nonnull Activity activity) {
+        final android.view.Display display = activity.getWindowManager().getDefaultDisplay();
+        if (display.getWidth() <= display.getHeight()) {
+            return Configuration.ORIENTATION_PORTRAIT;
+        } else {
+            return Configuration.ORIENTATION_LANDSCAPE;
+        }
+    }
+
+    public static void addIntentFlags(@Nonnull Intent intent, boolean detached, @Nonnull Context context) {
+        int flags = 0;
+        if (!(context instanceof Activity)) {
+            flags = flags | Intent.FLAG_ACTIVITY_NEW_TASK;
+        }
+        if (detached) {
+            flags = flags | Intent.FLAG_ACTIVITY_NO_HISTORY;
+        }
+        intent.setFlags(flags);
+    }
+
+    public static void enableComponent(@Nonnull Context context,
+                                       @Nonnull Class<?> componentClass,
+                                       boolean enable) {
+        final PackageManager pm = context.getPackageManager();
+
+        final int componentState;
+        if (enable) {
+            componentState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+        } else {
+            componentState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        }
+
+        pm.setComponentEnabledSetting(new ComponentName(context, componentClass), componentState, PackageManager.DONT_KILL_APP);
+    }
+
+    public static boolean isComponentEnabled(@Nonnull Context context,
+                                             @Nonnull Class<? extends Context> componentClass) {
+        final PackageManager pm = context.getPackageManager();
+
+        int componentEnabledSetting = pm.getComponentEnabledSetting(new ComponentName(context, componentClass));
+        return componentEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || componentEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+    }
+
+    public static int toPixels(@Nonnull DisplayMetrics dm, float dps) {
+        final float scale = dm.density;
+        return (int) (dps * scale + 0.5f);
     }
 }

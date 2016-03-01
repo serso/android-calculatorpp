@@ -22,24 +22,22 @@
 
 package org.solovyev.android.calculator.errors;
 
-import static org.solovyev.android.calculator.App.cast;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-
-import org.solovyev.android.Activities;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.PreferredPreferences;
 import org.solovyev.common.msg.Message;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
+import static org.solovyev.android.calculator.App.cast;
 
 public class FixableErrorsActivity extends AppCompatActivity {
 
@@ -62,7 +60,7 @@ public class FixableErrorsActivity extends AppCompatActivity {
     public static void show(@Nonnull Context context, @Nonnull ArrayList<FixableError> errors) {
         final Intent intent = new Intent(context, FixableErrorsActivity.class);
         intent.putExtra(EXTRA_ERRORS, errors);
-        Activities.addIntentFlags(intent, false, context);
+        App.addIntentFlags(intent, false, context);
         context.startActivity(intent);
     }
 

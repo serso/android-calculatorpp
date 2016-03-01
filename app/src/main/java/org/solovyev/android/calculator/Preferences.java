@@ -35,7 +35,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.SparseArray;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -46,26 +47,15 @@ import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.NumberToStringPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.prefs.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
-
-import static org.solovyev.android.Android.isPhoneModel;
-import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
-import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
 import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
 public final class Preferences {
@@ -142,13 +132,6 @@ public final class Preferences {
 
         Engine.Preferences.angleUnit.tryPutDefault(preferences, editor);
         Engine.Preferences.numeralBase.tryPutDefault(preferences, editor);
-
-        if (!Engine.Preferences.multiplicationSign.isSet(preferences)) {
-            if (isPhoneModel(samsung_galaxy_s) || isPhoneModel(samsung_galaxy_s_2)) {
-                // workaround ofr samsung galaxy s phones
-                Engine.Preferences.multiplicationSign.putPreference(editor, "*");
-            }
-        }
 
         Gui.theme.tryPutDefault(preferences, editor);
         Gui.layout.tryPutDefault(preferences, editor);

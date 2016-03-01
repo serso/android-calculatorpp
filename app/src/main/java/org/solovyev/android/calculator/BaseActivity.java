@@ -18,10 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.solovyev.android.Activities;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.Check;
-import org.solovyev.android.Views;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
@@ -30,9 +29,6 @@ import org.solovyev.android.calculator.view.Tabs;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import static org.solovyev.android.calculator.App.cast;
 
@@ -101,7 +97,7 @@ public class BaseActivity extends AppCompatActivity {
     public boolean restartIfLayoutChanged() {
         final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
         if (newLayout != layout) {
-            Activities.restartActivity(this);
+            App.restartActivity(this);
             return true;
         }
         return false;
@@ -112,7 +108,7 @@ public class BaseActivity extends AppCompatActivity {
         final int themeId = theme.getThemeFor(this);
         final int newThemeId = newTheme.getThemeFor(this);
         if (themeId != newThemeId) {
-            Activities.restartActivity(this);
+            App.restartActivity(this);
             return true;
         }
         return false;
@@ -121,7 +117,7 @@ public class BaseActivity extends AppCompatActivity {
     public boolean restartIfLanguageChanged() {
         final Language current = languages.getCurrent();
         if (!current.equals(language)) {
-            Activities.restartActivity(this);
+            App.restartActivity(this);
             return true;
         }
         return false;
@@ -255,11 +251,13 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void fixFonts(@Nonnull View root) {
         // some devices ship own fonts which causes issues with rendering. Let's use our own font for all text views
-        Views.processViewsOfType(root, TextView.class, new Views.ViewProcessor<TextView>() {
+        App.processViewsOfType(root, TextView.class, new App.ViewProcessor<TextView>() {
             @Override
             public void process(@Nonnull TextView view) {
                 setFont(view, typeface);
             }
         });
     }
+
+
 }

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.solovyev.android.Views;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseFloatingKeyboard;
 import org.solovyev.android.calculator.view.EditTextLongClickEraser;
@@ -145,7 +145,7 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
 
     private void changeCase(@NonNull Button button) {
         final boolean upperCase = button.getText().equals("↑");
-        Views.processViewsOfType(user.getKeyboard(), Button.class, new Views.ViewProcessor<Button>() {
+        App.processViewsOfType(user.getKeyboard(), Button.class, new App.ViewProcessor<Button>() {
             @Override
             public void process(@Nonnull Button key) {
                 final String letter = key.getText().toString();

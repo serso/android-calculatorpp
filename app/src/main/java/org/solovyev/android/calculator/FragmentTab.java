@@ -29,7 +29,6 @@ import org.solovyev.android.calculator.about.ReleaseNotesFragment;
 import org.solovyev.android.calculator.functions.FunctionsFragment;
 import org.solovyev.android.calculator.history.RecentHistoryFragment;
 import org.solovyev.android.calculator.history.SavedHistoryFragment;
-import org.solovyev.android.calculator.matrix.EditMatrixFragment;
 import org.solovyev.android.calculator.operators.OperatorsFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
 
@@ -43,9 +42,6 @@ public enum FragmentTab {
     functions(FunctionsFragment.class, R.string.c_functions),
     operators(OperatorsFragment.class, R.string.c_operators),
     about(AboutFragment.class, R.string.cpp_about),
-
-    // todo serso: strings
-    matrix_edit(EditMatrixFragment.class, R.string.c_release_notes),
     release_notes(ReleaseNotesFragment.class, R.string.c_release_notes);
 
     @Nonnull

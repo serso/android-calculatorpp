@@ -25,22 +25,18 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.calculator.errors.FixableError;
 import org.solovyev.android.calculator.errors.FixableErrorType;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
-import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.MessageType;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
-
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class PreferredPreferences {
@@ -103,9 +99,7 @@ public class PreferredPreferences {
 
     public void setAngleUnits(@Nonnull AngleUnit angleUnit) {
         Engine.Preferences.angleUnit.putPreference(preferences, angleUnit);
-        notifier.showMessage(
-                new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application,
-                        angleUnit.name()));
+        notifier.showMessage(R.string.c_angle_units_changed_to, angleUnit.name());
     }
 
     public void setPreferredNumeralBase() {
@@ -114,9 +108,7 @@ public class PreferredPreferences {
 
     public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
         Engine.Preferences.numeralBase.putPreference(preferences, numeralBase);
-        notifier.showMessage(
-                new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info,
-                        application, numeralBase.name()));
+        notifier.showMessage(R.string.c_numeral_base_changed_to, numeralBase.name());
     }
 
     public boolean isShowWarningDialog() {

@@ -26,7 +26,6 @@ import android.app.Application;
 import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
-import org.solovyev.android.Threads;
 import org.solovyev.common.msg.Message;
 
 import javax.annotation.Nonnull;
@@ -57,7 +56,7 @@ public class Notifier {
     }
 
     public void showMessage(@Nonnull final String message) {
-        if (Threads.isUiThread()) {
+        if (App.isUiThread()) {
             Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
             return;
         }
