@@ -55,10 +55,10 @@ public class HistoryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ui.withFab(R.drawable.ic_delete_white_36dp, new View.OnClickListener() {
+        withFab(R.drawable.ic_delete_white_36dp, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Fragment fragment = ui.getTabs().getCurrentFragment();
+                final Fragment fragment = tabs.getCurrentFragment();
                 showClearHistoryDialog(fragment instanceof RecentHistoryFragment);
             }
         });

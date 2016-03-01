@@ -14,6 +14,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.GeneratedHandlerFinder;
 
 import org.solovyev.android.UiThreadExecutor;
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.Billing;
 import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.Inventory;
@@ -56,9 +57,12 @@ public class AppModule {
 
     @NonNull
     private final Application application;
+    @NonNull
+    private final Languages languages;
 
-    public AppModule(@NonNull Application application) {
+    public AppModule(@NonNull Application application, @NonNull Languages languages) {
         this.application = application;
+        this.languages = languages;
     }
 
     @Provides
@@ -211,6 +215,13 @@ public class AppModule {
     @Singleton
     Plotter providePlotter() {
         return Plot.newPlotter(application);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    public Languages provideLanguages() {
+        return languages;
     }
 
     @Nonnull

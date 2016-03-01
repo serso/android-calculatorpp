@@ -357,7 +357,7 @@ public class FloatingCalculatorView {
                 BaseKeyboardUi.adjustButton(button);
             }
             if (button instanceof TextView) {
-                ActivityUi.setFont((TextView) button, typeface);
+                BaseActivity.setFont((TextView) button, typeface);
             }
         }
 

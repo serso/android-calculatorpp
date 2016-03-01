@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
@@ -42,9 +43,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 
@@ -182,19 +186,6 @@ public final class App {
     @Nonnull
     public static Languages getLanguages() {
         return languages;
-    }
-
-    public static boolean isLg() {
-        if (lg == null) {
-            lg = "lge".equalsIgnoreCase(Build.BRAND) || "lge".equalsIgnoreCase(Build.MANUFACTURER);
-        }
-        return lg;
-    }
-
-    // see https://code.google.com/p/android/issues/detail?id=78154
-    // and http://developer.lge.com/community/forums/RetrieveForumContent.dev?detailContsId=FC29190703
-    public static boolean shouldOpenMenuManually() {
-        return isLg() && Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN;
     }
 
     @Nonnull
@@ -348,5 +339,64 @@ public final class App {
 
     public static boolean isTablet(@NonNull Context context) {
         return context.getResources().getBoolean(R.bool.cpp_tablet);
+    }
+
+    static void addHelpInfo(@Nonnull Activity activity, @Nonnull View root) {
+        if (!isMonkeyRunner(activity)) {
+            return;
+        }
+        if (!(root instanceof ViewGroup)) {
+            return;
+        }
+        final TextView helperTextView = new TextView(activity);
+
+        final DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        helperTextView.setTextSize(15);
+        helperTextView.setTextColor(Color.WHITE);
+
+        final Configuration c = activity.getResources().getConfiguration();
+
+        final StringBuilder helpText = new StringBuilder();
+        helpText.append("Size: ");
+        if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
+            helpText.append("xlarge");
+        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
+            helpText.append("large");
+        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
+            helpText.append("normal");
+        } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
+            helpText.append("small");
+        } else {
+            helpText.append("unknown");
+        }
+
+        helpText.append(" (").append(dm.widthPixels).append("x").append(dm.heightPixels).append(")");
+
+        helpText.append(" Density: ");
+        switch (dm.densityDpi) {
+            case DisplayMetrics.DENSITY_LOW:
+                helpText.append("ldpi");
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                helpText.append("mdpi");
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                helpText.append("hdpi");
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                helpText.append("xhdpi");
+                break;
+            case DisplayMetrics.DENSITY_TV:
+                helpText.append("tv");
+                break;
+        }
+
+        helpText.append(" (").append(dm.densityDpi).append(")");
+
+        helperTextView.setText(helpText);
+
+        ((ViewGroup) root).addView(helperTextView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 }

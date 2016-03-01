@@ -31,7 +31,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import org.solovyev.android.calculator.ActivityUi;
+import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 import org.solovyev.android.views.Adjuster;
@@ -77,7 +77,7 @@ public class DragButtonWizardStep extends WizardFragment {
         dragButton.setOnClickListener(this);
         dragButton.setOnDragListener(
                 new SimpleDragListener(new DragButtonProcessor(), getActivity()));
-        ActivityUi.setFont(dragButton, typeface);
+        BaseActivity.setFont(dragButton, typeface);
         Adjuster.adjustText(dragButton, BaseKeyboardUi.getTextScale(getActivity()));
         actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
         if (savedInstanceState != null) {

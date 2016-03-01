@@ -9,12 +9,12 @@ import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.util.SparseArray;
 
-import org.solovyev.android.calculator.ActivityUi;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Billing;
 import org.solovyev.android.checkout.Checkout;
@@ -29,20 +29,20 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     static final String EXTRA_PREFERENCE_TITLE = "preference-title";
 
     @Nonnull
-    private static final SparseArray<PrefDef> preferences = new SparseArray<>();
+    private static final SparseArray<PrefDef> preferenceDefs = new SparseArray<>();
 
     public static Class<? extends PreferencesActivity> getClass(@NonNull Context context) {
         return App.isTablet(context) ? Dialog.class : PreferencesActivity.class;
     }
 
     static {
-        preferences.append(R.xml.preferences, new PrefDef("screen-main", R.string.cpp_settings));
-        preferences.append(R.xml.preferences_calculations, new PrefDef("screen-calculations", R.string.c_prefs_calculations_category));
-        preferences.append(R.xml.preferences_appearance, new PrefDef("screen-appearance", R.string.c_prefs_appearance_category));
-        preferences.append(R.xml.preferences_plot, new PrefDef("screen-plot", R.string.prefs_graph_screen_title));
-        preferences.append(R.xml.preferences_other, new PrefDef("screen-other", R.string.c_prefs_other_category));
-        preferences.append(R.xml.preferences_onscreen, new PrefDef("screen-onscreen", R.string.prefs_onscreen_title));
-        preferences.append(R.xml.preferences_widget, new PrefDef("screen-widget", R.string.prefs_widget_title));
+        preferenceDefs.append(R.xml.preferences, new PrefDef("screen-main", R.string.cpp_settings));
+        preferenceDefs.append(R.xml.preferences_calculations, new PrefDef("screen-calculations", R.string.c_prefs_calculations_category));
+        preferenceDefs.append(R.xml.preferences_appearance, new PrefDef("screen-appearance", R.string.c_prefs_appearance_category));
+        preferenceDefs.append(R.xml.preferences_plot, new PrefDef("screen-plot", R.string.prefs_graph_screen_title));
+        preferenceDefs.append(R.xml.preferences_other, new PrefDef("screen-other", R.string.c_prefs_other_category));
+        preferenceDefs.append(R.xml.preferences_onscreen, new PrefDef("screen-onscreen", R.string.prefs_onscreen_title));
+        preferenceDefs.append(R.xml.preferences_widget, new PrefDef("screen-widget", R.string.prefs_widget_title));
     }
 
     ActivityCheckout checkout;
@@ -52,14 +52,18 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     Billing billing;
     @Inject
     Products products;
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    Languages languages;
 
     public PreferencesActivity() {
         super(R.layout.activity_empty);
     }
 
     @Nonnull
-    static SparseArray<PrefDef> getPreferences() {
-        return preferences;
+    static SparseArray<PrefDef> getPreferenceDefs() {
+        return preferenceDefs;
     }
 
     public static void showPlotPreferences(@Nonnull Context context) {
@@ -113,9 +117,9 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (!paused) {
             if (Preferences.Gui.theme.isSameKey(key)) {
-                ActivityUi.restartIfThemeChanged(this, ui.getTheme());
+                restartIfThemeChanged();
             } else if (Preferences.Gui.language.isSameKey(key)) {
-                ActivityUi.restartIfLanguageChanged(this, ui.getLanguage());
+                restartIfLanguageChanged();
             }
         }
     }

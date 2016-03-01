@@ -30,8 +30,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import org.solovyev.android.calculator.ActivityUi;
+
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.checkout.*;
@@ -68,12 +69,12 @@ public class PurchaseDialogActivity extends AppCompatActivity implements Request
     @Override
     protected void onStart() {
         super.onStart();
-        ActivityUi.reportActivityStart(this);
+        BaseActivity.reportActivityStart(this);
     }
 
     @Override
     protected void onStop() {
-        ActivityUi.reportActivityStop(this);
+        BaseActivity.reportActivityStop(this);
         super.onStop();
     }
 

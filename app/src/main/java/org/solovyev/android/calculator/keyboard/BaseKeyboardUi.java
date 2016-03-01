@@ -116,7 +116,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         button.setVibrateOnDrag(keyboard.isVibrateOnKeypress());
         prepareButton((View) button);
         button.setOnDragListener(listener);
-        ActivityUi.setFont(button, typeface);
+        BaseActivity.setFont(button, typeface);
         button.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         Adjuster.adjustText(button, textScale);
     }

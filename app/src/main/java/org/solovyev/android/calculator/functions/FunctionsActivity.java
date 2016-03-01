@@ -57,7 +57,7 @@ public class FunctionsActivity extends BaseActivity {
             }
         }
 
-        ui.withFab(R.drawable.ic_add_white_36dp, new View.OnClickListener() {
+        withFab(R.drawable.ic_add_white_36dp, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditFunctionFragment.show(FunctionsActivity.this);

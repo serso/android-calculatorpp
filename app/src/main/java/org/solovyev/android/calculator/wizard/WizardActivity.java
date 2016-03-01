@@ -11,11 +11,12 @@ import android.support.v7.app.AlertDialog;
 
 import com.viewpagerindicator.PageIndicator;
 
-import org.solovyev.android.calculator.ActivityUi;
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.wizard.ListWizardFlow;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardFlow;
@@ -26,6 +27,7 @@ import org.solovyev.android.wizard.WizardsAware;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 public class WizardActivity extends BaseActivity implements WizardsAware, SharedPreferences.OnSharedPreferenceChangeListener {
     @Nonnull
@@ -40,6 +42,11 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
     private Wizards wizards = App.getWizards();
     @Nullable
     private AlertDialog dialog;
+    
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    Languages languages;
 
     public WizardActivity() {
         super(R.layout.cpp_activity_wizard);
@@ -76,7 +83,13 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
             wizard.saveLastStep(wizardUi.getStep());
         }
 
-        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     @Override
@@ -181,7 +194,7 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
 
     @Override
     protected void onDestroy() {
-        App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
         dismissDialog();
         super.onDestroy();
     }
@@ -196,9 +209,9 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         if (Preferences.Gui.theme.isSameKey(key)) {
-            ActivityUi.restartIfThemeChanged(this, ui.getTheme());
+            restartIfThemeChanged();
         } else if (Preferences.Gui.language.isSameKey(key)) {
-            ActivityUi.restartIfLanguageChanged(this, ui.getLanguage());
+            restartIfLanguageChanged();
         }
     }
 

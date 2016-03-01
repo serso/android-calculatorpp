@@ -1,8 +1,5 @@
 package org.solovyev.android.calculator.preferences;
 
-import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -30,6 +27,9 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 public class PreferencesFragment extends org.solovyev.android.material.preferences.PreferencesFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -70,7 +70,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
         final int preference = getPreferencesResId();
         if (preference == R.xml.preferences) {
-            final SparseArray<PreferencesActivity.PrefDef> preferences = PreferencesActivity.getPreferences();
+            final SparseArray<PreferencesActivity.PrefDef> preferences = PreferencesActivity.getPreferenceDefs();
             for (int i = 0; i < preferences.size(); i++) {
                 final int xml = preferences.keyAt(i);
                 final PreferencesActivity.PrefDef def = preferences.valueAt(i);

@@ -23,17 +23,17 @@ import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.android.calculator.view.Tabs;
 import org.solovyev.android.calculator.widget.CalculatorWidget;
 import org.solovyev.android.calculator.wizard.DragButtonWizardStep;
-
-import dagger.Component;
+import org.solovyev.android.calculator.wizard.WizardActivity;
 
 import javax.inject.Singleton;
+
+import dagger.Component;
 
 @Singleton
 @Component(modules = AppModule.class)
 public interface AppComponent {
     void inject(CalculatorApplication application);
     void inject(EditorFragment fragment);
-    void inject(ActivityUi ui);
     void inject(FloatingCalculatorService service);
     void inject(BaseHistoryFragment fragment);
     void inject(BaseDialogFragment fragment);
@@ -63,4 +63,6 @@ public interface AppComponent {
     void inject(HistoryActivity activity);
     void inject(Tabs tabs);
     void inject(CalculatorWidget widget);
+    void inject(WizardActivity activity);
+    void inject(BaseActivity activity);
 }

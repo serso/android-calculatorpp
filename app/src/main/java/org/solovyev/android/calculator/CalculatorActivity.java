@@ -30,11 +30,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import org.solovyev.android.Activities;
+
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
@@ -42,6 +44,9 @@ import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
@@ -74,7 +79,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     @Nullable
     @Bind(R.id.card)
     CardView card;
-    private boolean useBackAsPrev;
+    private boolean useBackAsPrevious;
 
     public CalculatorActivity() {
         super(R.layout.activity_main);
@@ -102,7 +107,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         toolbar.inflateMenu(R.menu.main);
         toolbar.setOnMenuItemClickListener(this);
 
-        useBackAsPrev = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
+        useBackAsPrevious = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
         if (savedInstanceState == null) {
             startupHelper.onMainActivityOpened(this);
         }
@@ -128,11 +133,9 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (useBackAsPrev) {
-                history.undo();
-                return true;
-            }
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && useBackAsPrevious) {
+            history.undo();
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -140,12 +143,10 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     @Override
     protected void onResume() {
         super.onResume();
-        launcher.setActivity(this);
-
-        final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
-        if (newLayout != ui.getLayout()) {
-            Activities.restartActivity(this);
+        if (restartIfLayoutChanged()) {
+            return;
         }
+        launcher.setActivity(this);
 
         final Window window = getWindow();
         if (keepScreenOn.getPreference(preferences)) {
@@ -173,7 +174,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
         if (Preferences.Gui.useBackAsPrevious.getKey().equals(key)) {
-            useBackAsPrev = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
+            useBackAsPrevious = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
         }
 
         if (Preferences.Gui.rotateScreen.getKey().equals(key)) {

@@ -57,7 +57,7 @@ public class VariablesActivity extends BaseActivity {
             }
         }
 
-        ui.withFab(R.drawable.ic_add_white_36dp, new View.OnClickListener() {
+        withFab(R.drawable.ic_add_white_36dp, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditVariableFragment.showDialog(VariablesActivity.this);

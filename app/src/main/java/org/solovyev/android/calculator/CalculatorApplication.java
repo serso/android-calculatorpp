@@ -25,6 +25,7 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.TimingLogger;
 
@@ -117,7 +118,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         super.onCreate();
         timer.addSplit("super.onCreate");
 
-        initDagger();
+        initDagger(languages);
         timer.addSplit("initDagger");
 
         onPostCreate(preferences, languages);
@@ -125,9 +126,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
         timer.dumpToLog();
     }
 
-    private void initDagger() {
+    private void initDagger(@NonNull Languages languages) {
         component = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
+                .appModule(new AppModule(this, languages))
                 .build();
         component.inject(this);
         editor.init();
