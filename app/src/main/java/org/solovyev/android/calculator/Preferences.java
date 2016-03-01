@@ -35,8 +35,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -47,14 +46,22 @@ import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.*;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.NumberToStringPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
@@ -63,29 +70,21 @@ import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
 public final class Preferences {
 
-    public static final Preference<Integer> version = IntegerPreference.of("version", 2);
+    private static final Preference<Integer> version = IntegerPreference.of("version", 2);
 
     private Preferences() {
         throw new AssertionError();
     }
 
     static void init(@Nonnull Application application, @Nonnull SharedPreferences preferences) {
-        int oldVersion;
-        if (version.isSet(preferences)) {
-            oldVersion = version.getPreference(preferences);
-        } else if (Deleted.appVersion.isSet(preferences)) {
-            oldVersion = 1;
-        } else {
-            oldVersion = 0;
-        }
-        if (oldVersion == 0) {
+        final int currentVersion = getVersion(preferences);
+        if (currentVersion == 0) {
             final SharedPreferences.Editor editor = preferences.edit();
             setInitialDefaultValues(application, preferences, editor);
             editor.apply();
-        } else if (oldVersion == 1) {
+        } else if (currentVersion == 1) {
             final SharedPreferences.Editor editor = preferences.edit();
             if (!Gui.vibrateOnKeypress.isSet(preferences)) {
-                //noinspection deprecation
                 Gui.vibrateOnKeypress.putPreference(editor, Deleted.hapticFeedback.getPreference(preferences) > 0);
             }
             migratePreference(preferences, editor, Gui.highlightText, Deleted.colorDisplay);
@@ -96,9 +95,6 @@ public final class Preferences {
             migratePreference(preferences, editor, Gui.showReleaseNotes, Deleted.showReleaseNotes);
             migratePreference(preferences, editor, Gui.showEqualsButton, Deleted.showEqualsButton);
             migratePreference(preferences, editor, Gui.rotateScreen, Deleted.autoOrientation);
-            migratePreference(preferences, editor, UiPreferences.rateUsShown, Deleted.feedbackWindowShown);
-            migratePreference(preferences, editor, UiPreferences.opened, Deleted.appOpenedCounter);
-            migratePreference(preferences, editor, UiPreferences.version, Deleted.appVersion);
             final Gui.Layout layout = Deleted.layout.getPreference(preferences);
             if (layout == Gui.Layout.main_cellphone) {
                 Gui.layout.putDefault(editor);
@@ -110,6 +106,15 @@ public final class Preferences {
             version.putDefault(editor);
             editor.apply();
         }
+    }
+
+    private static int getVersion(@Nonnull SharedPreferences preferences) {
+        if (version.isSet(preferences)) {
+            return version.getPreference(preferences);
+        } else if (Deleted.appVersion.isSet(preferences)) {
+            return  1;
+        }
+        return 0;
     }
 
     private static <T> void migratePreference(@Nonnull SharedPreferences preferences, @NonNull SharedPreferences.Editor editor, @NonNull Preference<T> to, @NonNull Preference<T> from) {
@@ -419,9 +424,10 @@ public final class Preferences {
         public static final Preference<Boolean> plotImag = BooleanPreference.of("graph_plot_imag", false);
     }
 
-    private static class Deleted {
+    static class Deleted {
         static final Preference<Integer> appVersion = IntegerPreference.of("application.version", DEF_VALUE);
         static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
+        static final Preference<Integer> appOpenedCounter = IntegerPreference.of("app_opened_counter", 0);
         static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
         static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
         static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
@@ -431,6 +437,5 @@ public final class Preferences {
         static final Preference<Boolean> usePrevAsBack = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
         static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
         static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
-        static final Preference<Integer> appOpenedCounter = IntegerPreference.of("app_opened_counter", 0);
     }
 }

@@ -27,8 +27,9 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TimingLogger;
+
 import com.squareup.otto.Bus;
-import jscl.MathEngine;
+
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
@@ -39,11 +40,14 @@ import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.common.msg.MessageType;
 
+import java.util.Locale;
+import java.util.concurrent.Executor;
+
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Locale;
-import java.util.concurrent.Executor;
+
+import jscl.MathEngine;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -171,6 +175,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
         // then we should set default preferences
         Preferences.init(this, preferences);
+        UiPreferences.init(preferences, AppModule.provideUiPreferences(this));
 
         // and change application's theme/language is needed
         final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);

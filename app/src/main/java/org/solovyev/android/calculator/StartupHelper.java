@@ -43,7 +43,7 @@ public class StartupHelper {
         if (!App.isMonkeyRunner(activity)) {
             handleOnMainActivityOpened(activity, editor, opened == null ? 0 : opened);
         }
-        UiPreferences.version.putPreference(editor, Android.getAppVersionCode(activity));
+        UiPreferences.appVersion.putPreference(editor, Android.getAppVersionCode(activity));
         editor.apply();
     }
 
@@ -56,13 +56,13 @@ public class StartupHelper {
             return;
         }
 
-        if (!UiPreferences.version.isSet(preferences)) {
+        if (!UiPreferences.appVersion.isSet(uiPreferences)) {
             // new start
             startWizard(wizards, activity);
             return;
         }
 
-        final Integer savedVersion = UiPreferences.version.getPreference(uiPreferences);
+        final Integer savedVersion = UiPreferences.appVersion.getPreference(uiPreferences);
         if (savedVersion < currentVersion) {
             if (Preferences.Gui.showReleaseNotes.getPreference(preferences) && hasReleaseNotes(activity, savedVersion + 1)) {
                 final Bundle bundle = new Bundle();

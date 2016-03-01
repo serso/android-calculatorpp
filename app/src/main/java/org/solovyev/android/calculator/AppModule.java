@@ -9,26 +9,36 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.GeneratedHandlerFinder;
-import dagger.Module;
-import dagger.Provides;
-import jscl.JsclMathEngine;
+
 import org.solovyev.android.UiThreadExecutor;
-import org.solovyev.android.checkout.*;
+import org.solovyev.android.checkout.Billing;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.Inventory;
+import org.solovyev.android.checkout.ProductTypes;
+import org.solovyev.android.checkout.Products;
+import org.solovyev.android.checkout.RobotmediaDatabase;
+import org.solovyev.android.checkout.RobotmediaInventory;
 import org.solovyev.android.plotter.Plot;
 import org.solovyev.android.plotter.Plotter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.io.File;
 import java.util.Collections;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import jscl.JsclMathEngine;
 
 @Module
 public class AppModule {
@@ -93,6 +103,11 @@ public class AppModule {
     @Singleton
     @Named(PREFS_UI)
     SharedPreferences provideUiPreferences() {
+        return provideUiPreferences(application);
+    }
+
+    @NonNull
+    public static SharedPreferences provideUiPreferences(@NonNull Application application) {
         return application.getSharedPreferences("ui", Context.MODE_PRIVATE);
     }
 
