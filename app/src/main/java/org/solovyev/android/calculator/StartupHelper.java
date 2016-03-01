@@ -1,15 +1,15 @@
 package org.solovyev.android.calculator;
 
-import android.content.Context;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
+
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.wizard.Wizard;
@@ -20,7 +20,9 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.*;
+import static org.solovyev.android.wizard.WizardUi.continueWizard;
+import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 @Singleton
 public class StartupHelper {
@@ -47,7 +49,7 @@ public class StartupHelper {
         editor.apply();
     }
 
-    private void handleOnMainActivityOpened(@NonNull AppCompatActivity activity, @NonNull SharedPreferences.Editor editor, int opened) {
+    private void handleOnMainActivityOpened(@NonNull final AppCompatActivity activity, @NonNull SharedPreferences.Editor editor, int opened) {
         final int currentVersion = Android.getAppVersionCode(activity);
         final Wizards wizards = App.getWizards();
         final Wizard wizard = wizards.getWizard(CalculatorWizards.FIRST_TIME_WIZARD);
@@ -72,17 +74,28 @@ public class StartupHelper {
             }
         }
 
-        if (opened > 30 && !UiPreferences.rateUsShown.getPreference(uiPreferences)) {
-            final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View view = layoutInflater.inflate(R.layout.feedback, null);
-
-            final TextView feedbackTextView = (TextView) view.findViewById(R.id.feedbackText);
-            feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(activity, App.getTheme().alertDialogTheme).setView(view);
-            builder.setPositiveButton(android.R.string.ok, null);
+        if (shouldShowRateUsDialog(opened)) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(activity, App.getTheme().alertDialogTheme);
+            builder.setPositiveButton(R.string.cpp_rateus_ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        final Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("https://market.android.com/details?id=org.solovyev.android.calculator"));
+                        activity.startActivity(intent);
+                    } catch (ActivityNotFoundException ignored) {
+                    }
+                }
+            });
+            builder.setNegativeButton(R.string.cpp_rateus_cancel, null);
+            builder.setMessage(activity.getString(R.string.cpp_rateus_message, activity.getString(R.string.c_app_name)));
+            builder.setTitle(activity.getString(R.string.cpp_rateus_title, activity.getString(R.string.c_app_name)));
             builder.create().show();
             UiPreferences.rateUsShown.putPreference(editor, true);
         }
+    }
+
+    private boolean shouldShowRateUsDialog(int opened) {
+        return opened > 30 && !UiPreferences.rateUsShown.getPreference(uiPreferences);
     }
 }

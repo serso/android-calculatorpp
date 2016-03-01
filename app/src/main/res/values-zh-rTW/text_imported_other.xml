@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_rateus_title">為 %1$s 評分</string>
+   <string name="cpp_rateus_message">如果你喜歡 %1$s，請花點時間在 Google Play 上給我們五顆星評價。</string>
+   <string name="cpp_rateus_ok">現在就去評分</string>
+   <string name="cpp_rateus_cancel">不用了，謝謝</string>
+</resources>

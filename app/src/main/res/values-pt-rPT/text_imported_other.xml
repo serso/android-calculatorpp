@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_rateus_title">Avalie %1$s</string>
+   <string name="cpp_rateus_message">Se gosta de %1$s, por favor avalie-nos com cinco estrelas na Google Play.</string>
+   <string name="cpp_rateus_ok">Avaliar agora</string>
+   <string name="cpp_rateus_cancel">Não, obrigado</string>
+</resources>

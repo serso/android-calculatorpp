@@ -49,6 +49,8 @@ public class Android {
     public static void main(String... args) throws Exception {
         final Options options = new Options();
         options.addOption(Option.builder("aosp").hasArg().desc("Local location of aosp project").required().build());
+        options.addOption(Option.builder("project").hasArg().desc("Local location of Android project").build());
+        options.addOption(Option.builder("resources").hasArg().desc("String identifiers to be copied").build());
 
         final CommandLineParser parser = new DefaultParser();
         final CommandLine commandLine = parser.parse(options, args);
@@ -59,19 +61,43 @@ public class Android {
         final File aospContacts = makeInputDirectory(aosp + "/platform/packages/apps/contacts");
         final File aospCalculator = makeInputDirectory(aosp + "/platform/packages/apps/calculator");
 
+        final File project;
+        if (commandLine.hasOption("project")) {
+            project = makeInputDirectory(commandLine.getOptionValue("project"));
+        } else {
+            project = null;
+        }
+        final List<TranslationLink> projectLinks = new ArrayList<>();
+        if (commandLine.hasOption("resources")) {
+            for (String resource : commandLine.getOptionValue("resources").split(",")) {
+                final int i = resource.indexOf("-");
+                if(i >= 0) {
+                    projectLinks.add(new TranslationLink(resource.substring(0, i), "cpp_" + resource.substring(i + 1, resource.length())));
+                } else {
+                    projectLinks.add(new TranslationLink(resource, "cpp_" + resource));
+                }
+            }
+        }
+
         final File outDir = new File("build/translations/res");
         Utils.delete(outDir);
         outDir.mkdirs();
 
+        translate(outDir, "aosp", new TranslationDef(aospSettings, settingsLinks), new TranslationDef(aospCalendar, calendarLinks), new TranslationDef(aospContacts, contactsLinks), new TranslationDef(aospCalculator, calculatorLinks));
+        if (project != null) {
+            translate(outDir, "other", new TranslationDef(project, projectLinks));
+        }
+    }
+
+    private static void translate(File outDir, String outPostfix, TranslationDef... translationDefs) throws Exception {
         List<String> languageLocales = new ArrayList<>(Utils.languageLocales);
         languageLocales.add("");
         for (String languageLocale : languageLocales) {
             Resources translations = new Resources();
-            translate(readResources(aospSettings, languageLocale), translations, settingsLinks);
-            translate(readResources(aospCalendar, languageLocale), translations, calendarLinks);
-            translate(readResources(aospContacts, languageLocale), translations, contactsLinks);
-            translate(readResources(aospCalculator, languageLocale), translations, calculatorLinks);
-            Utils.saveTranslations(translations, languageLocale, outDir, "text_imported.xml");
+            for (TranslationDef def : translationDefs) {
+                translate(readResources(def.project, languageLocale), translations, def.links);
+            }
+            Utils.saveTranslations(translations, languageLocale, outDir, "text_imported_" + outPostfix + ".xml");
         }
     }
 
@@ -124,6 +150,15 @@ public class Android {
         return null;
     }
 
+    private static class TranslationDef {
+        public final File project;
+        public final List <TranslationLink> links;
+
+        private TranslationDef(File project, List<TranslationLink> links) {
+            this.project = project;
+            this.links = links;
+        }
+    }
     private static class TranslationLink {
         public final String inName;
         public final String outName;

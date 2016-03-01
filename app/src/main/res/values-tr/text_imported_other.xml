@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_rateus_title">%1$s\&apos;yi değerlendir</string>
+   <string name="cpp_rateus_message">%1$s\&apos;yı sevdiyseniz, lütfen birkaç dakikanızı ayırın ve bize Google Play\&apos;de beş yıldızlı bir puan verin.</string>
+   <string name="cpp_rateus_ok">Hemen değerlendirin</string>
+   <string name="cpp_rateus_cancel">Hayır, teşekkürler</string>
+</resources>

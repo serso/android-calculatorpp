@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_rateus_title">%1$s を評価する</string>
+   <string name="cpp_rateus_message">%1$s を楽しまれている場合には、Google Play での評価にご協力ください。</string>
+   <string name="cpp_rateus_ok">今すぐ評価する</string>
+   <string name="cpp_rateus_cancel">今回はしない</string>
+</resources>

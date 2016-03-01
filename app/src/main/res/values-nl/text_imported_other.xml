@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_rateus_title">Waardeer %1$s</string>
+   <string name="cpp_rateus_message">Als je %1$s leuk vindt, neem dan even de tijd en geef ons een beoordeling van vijf sterren bij Google Play.</string>
+   <string name="cpp_rateus_ok">Nu beoordelen</string>
+   <string name="cpp_rateus_cancel">Nee, bedankt</string>
+</resources>

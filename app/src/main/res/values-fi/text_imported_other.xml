@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_rateus_title">Arvostele %1$s</string>
+   <string name="cpp_rateus_message">Jos pidät %1$s -sovelluksesta, anna meille viiden tähden arvostelu Google Play -palvelussa.</string>
+   <string name="cpp_rateus_ok">Arvostele nyt</string>
+   <string name="cpp_rateus_cancel">Ei kiitos</string>
+</resources>

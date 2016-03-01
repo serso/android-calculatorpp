@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_rateus_title">Оцените %1$s</string>
+   <string name="cpp_rateus_message">Если вам нравится %1$s, отвлекитесь на минутку и поставьте нам 5 звездочек в Google Play.</string>
+   <string name="cpp_rateus_ok">Оценить</string>
+   <string name="cpp_rateus_cancel">Нет, спасибо</string>
+</resources>

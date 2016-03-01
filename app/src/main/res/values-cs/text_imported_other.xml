@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_rateus_title">Ohodnotit aplikaci %1$s</string>
+   <string name="cpp_rateus_message">Pokud se vám aplikace %1$s líbí, prosím věnujte nám okamžik a udělte nám pětihvězdičkové hodnocení na Google Play.</string>
+   <string name="cpp_rateus_ok">Ohodnotit nyní</string>
+   <string name="cpp_rateus_cancel">Ne, díky</string>
+</resources>
