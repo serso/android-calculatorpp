@@ -106,6 +106,10 @@ public class EditorState implements Parcelable {
         return TextUtils.equals(text, that.text) && selection == that.selection;
     }
 
+    public boolean isEmpty() {
+        return TextUtils.isEmpty(text);
+    }
+
     @Override
     public String toString() {
         return "EditorState{" +

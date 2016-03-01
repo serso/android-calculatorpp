@@ -27,7 +27,10 @@ import android.text.TextUtils;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.history.HistoryState;
+import org.solovyev.android.calculator.history.RecentHistory;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
 
@@ -232,6 +235,17 @@ public class Editor {
         // this will effectively apply new formatting (if f.e. grouping separator has changed) and
         // will start new evaluation
         onTextChanged(getState(), true);
+    }
+
+    public void onHistoryLoaded(@Nonnull RecentHistory history) {
+        if (!state.isEmpty()) {
+            return;
+        }
+        final HistoryState state = history.getCurrent();
+        if (state == null) {
+            return;
+        }
+        setState(state.editor);
     }
 
     public static class ChangedEvent {

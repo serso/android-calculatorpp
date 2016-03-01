@@ -22,8 +22,6 @@
 
 package org.solovyev.android.calculator.history;
 
-import static android.text.TextUtils.isEmpty;
-
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -61,6 +59,8 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+
+import static android.text.TextUtils.isEmpty;
 
 @Singleton
 public class History {
@@ -219,8 +219,9 @@ public class History {
             public void run() {
                 Check.isTrue(recent.isEmpty());
                 Check.isTrue(saved.isEmpty());
-                recent.addAll(recentStates);
+                recent.addInitial(recentStates);
                 saved.addAll(savedStates);
+                editor.onHistoryLoaded(recent);
             }
         });
     }
@@ -267,6 +268,11 @@ public class History {
 
     @Nonnull
     public List<HistoryState> getRecent() {
+        return getRecent(true);
+    }
+
+    @Nonnull
+    private List<HistoryState> getRecent(boolean forUi) {
         Check.isMainThread();
 
         final List<HistoryState> result = new LinkedList<>();
@@ -291,7 +297,7 @@ public class History {
         if (statesCount > 0) {
             // try add last state if not empty
             final HistoryState state = states.get(statesCount - 1);
-            if (!isEmpty(state.editor.getTextString())) {
+            if (!state.editor.isEmpty() || !forUi) {
                 result.add(0, state);
             }
         }
@@ -401,7 +407,7 @@ public class History {
         public void run() {
             Check.isMainThread();
             // don't need to save intermediate states, thus {@link History#getRecent}
-            final List<HistoryState> states = recent ? getRecent() : getSaved();
+            final List<HistoryState> states = recent ? getRecent(false) : getSaved();
             backgroundThread.execute(new Runnable() {
                 @Override
                 public void run() {

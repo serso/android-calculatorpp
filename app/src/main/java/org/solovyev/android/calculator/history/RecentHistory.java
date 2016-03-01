@@ -2,13 +2,9 @@ package org.solovyev.android.calculator.history;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import org.solovyev.android.Check;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,16 +27,23 @@ public class RecentHistory {
         }
         list.add(state);
         current++;
-        if (list.size() > MAX_HISTORY) {
+        trim();
+    }
+
+    private void trim() {
+        while (list.size() > MAX_HISTORY) {
             current--;
             list.remove(0);
         }
     }
 
-    public void addAll(@NonNull List<HistoryState> states) {
+    public void addInitial(@NonNull List<HistoryState> states) {
+        Check.isMainThread();
         for (HistoryState state : states) {
-            add(state);
+            list.add(0, state);
         }
+        current += states.size();
+        trim();
     }
 
     public void remove(@NonNull HistoryState state) {
