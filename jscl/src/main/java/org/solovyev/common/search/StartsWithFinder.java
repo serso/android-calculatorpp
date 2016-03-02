@@ -20,24 +20,41 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.common.math;
+package org.solovyev.common.search;
 
+import org.solovyev.common.JPredicate;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public interface MathEntity {
+public class StartsWithFinder implements JPredicate<String> {
 
-    @Nonnull
-    String getName();
+	private int i;
 
-    boolean isSystem();
+	@Nonnull
+	private final String targetString;
 
-    @Nonnull
-    Integer getId();
+	private StartsWithFinder(@Nonnull String targetString, int i) {
+		this.targetString = targetString;
+		this.i = i;
+	}
 
-    void setId(@Nonnull Integer id);
+	@Nonnull
+	public static StartsWithFinder newFrom(@Nonnull String targetString, int i) {
+		return new StartsWithFinder(targetString, i);
+	}
 
-    boolean isIdDefined();
+	@Nonnull
+	public static StartsWithFinder newInstance(@Nonnull String targetString) {
+		return newFrom(targetString, 0);
+	}
 
-    void copy(@Nonnull MathEntity that);
+	@Override
+	public boolean apply(@Nullable String s) {
+		return s != null && targetString.startsWith(s, i);
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
 }

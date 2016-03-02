@@ -20,24 +20,46 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.common.math;
-
+package org.solovyev.common.msg;
 
 import javax.annotation.Nonnull;
 
-public interface MathEntity {
+public enum MessageType implements MessageLevel {
+
+    error(ERROR_LEVEL, "ERROR"),
+
+    warning(WARNING_LEVEL, "WARNING"),
+
+    info(INFO_LEVEL, "INFO");
+
+    private final int messageLevel;
 
     @Nonnull
-    String getName();
+    private final String stringValue;
 
-    boolean isSystem();
+    MessageType(int messageLevel, @Nonnull String stringValue) {
+        this.messageLevel = messageLevel;
+        this.stringValue = stringValue;
+    }
 
     @Nonnull
-    Integer getId();
+    public static MessageType getLowestMessageType() {
+        return info;
+    }
 
-    void setId(@Nonnull Integer id);
+    @Nonnull
+    public String getStringValue() {
+        return stringValue;
+    }
 
-    boolean isIdDefined();
+    @Override
+    public int getMessageLevel() {
+        return messageLevel;
+    }
 
-    void copy(@Nonnull MathEntity that);
+    @Nonnull
+    @Override
+    public String getName() {
+        return stringValue;
+    }
 }

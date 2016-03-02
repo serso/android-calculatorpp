@@ -23,9 +23,9 @@
 package org.solovyev.android.calculator;
 
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -60,7 +60,7 @@ public abstract class BaseNumberBuilder {
     }
 
     private boolean spaceBefore(@Nonnull MathType.Result mathTypeResult) {
-        return numberBuilder == null && Strings.isEmpty(mathTypeResult.match.trim());
+        return numberBuilder == null && TextUtils.isEmpty(mathTypeResult.match.trim());
     }
 
     private boolean numeralBaseInTheStart(@Nonnull MathType mathType) {

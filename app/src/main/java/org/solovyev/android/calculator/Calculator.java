@@ -26,39 +26,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
-import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
-import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
-import org.solovyev.android.calculator.calculations.ConversionFailedEvent;
-import org.solovyev.android.calculator.calculations.ConversionFinishedEvent;
-import org.solovyev.android.calculator.functions.FunctionsRegistry;
-import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.variables.CppVariable;
-import org.solovyev.common.msg.ListMessageRegistry;
-import org.solovyev.common.msg.Message;
-import org.solovyev.common.msg.MessageRegistry;
-import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.text.Strings;
-import org.solovyev.common.units.ConversionException;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicLong;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import jscl.JsclArithmeticException;
 import jscl.MathEngine;
 import jscl.NumeralBase;
@@ -67,6 +36,28 @@ import jscl.math.Generic;
 import jscl.math.function.Constants;
 import jscl.math.function.IConstant;
 import jscl.text.ParseInterruptedException;
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.calculations.*;
+import org.solovyev.android.calculator.functions.FunctionsRegistry;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.variables.CppVariable;
+import org.solovyev.common.msg.ListMessageRegistry;
+import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageRegistry;
+import org.solovyev.common.msg.MessageType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+import javax.measure.converter.ConversionException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Singleton
 public class Calculator implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -166,7 +157,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
                                @Nonnull String e,
                                @Nonnull MessageRegistry mr) {
         e = e.trim();
-        if (Strings.isEmpty(e)) {
+        if (TextUtils.isEmpty(e)) {
             bus.post(new CalculationFinishedEvent(o, e, sequence));
             return;
         }

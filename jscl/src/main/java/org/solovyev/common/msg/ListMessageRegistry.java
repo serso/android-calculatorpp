@@ -20,24 +20,32 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.common.math;
-
+package org.solovyev.common.msg;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface MathEntity {
-
-    @Nonnull
-    String getName();
-
-    boolean isSystem();
+public class ListMessageRegistry implements MessageRegistry {
 
     @Nonnull
-    Integer getId();
+    private final List<Message> messages = new ArrayList<Message>();
 
-    void setId(@Nonnull Integer id);
+    @Override
+    public void addMessage(@Nonnull Message message) {
+        if (!messages.contains(message)) {
+            messages.add(message);
+        }
+    }
 
-    boolean isIdDefined();
+    @Nonnull
+    @Override
+    public Message getMessage() {
+        return this.messages.remove(0);
+    }
 
-    void copy(@Nonnull MathEntity that);
+    @Override
+    public boolean hasMessage() {
+        return !this.messages.isEmpty();
+    }
 }

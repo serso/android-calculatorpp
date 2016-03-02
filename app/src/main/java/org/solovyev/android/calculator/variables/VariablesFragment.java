@@ -34,16 +34,14 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
-import org.solovyev.android.calculator.RemovalConfirmationDialog;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.JPredicate;
-import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
@@ -77,16 +75,17 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     @Nonnull
     @Override
     protected List<IConstant> getEntities() {
-        final List<IConstant> result = new ArrayList<>(registry.getEntities());
-
-        Collections.removeAll(result, new JPredicate<IConstant>() {
-            @Override
-            public boolean apply(@Nullable IConstant var) {
-                return var != null && Collections.contains(var.getName(), MathType.INFINITY_JSCL, MathType.NAN);
+        final List<IConstant> entities = new ArrayList<>(registry.getEntities());
+        for (Iterator<IConstant> it = entities.iterator(); it.hasNext(); ) {
+            final IConstant constant = it.next();
+            switch (constant.getName()) {
+                case MathType.INFINITY_JSCL:
+                case MathType.NAN:
+                    it.remove();
+                    break;
             }
-        });
-
-        return result;
+        }
+        return entities;
     }
 
     @Override

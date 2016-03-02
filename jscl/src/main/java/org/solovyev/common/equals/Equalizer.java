@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 serso aka se.solovyev
+ * Copyright 2013 serso aka se.solovyev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * ---------------------------------------------------------------------
  * Contact details
  *
  * Email: se.solovyev@gmail.com
  * Site:  http://se.solovyev.org
  */
 
-apply plugin: 'java'
+package org.solovyev.common.equals;
 
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.google.code.findbugs:annotations:2.0.1'
-    compile 'xerces:xercesImpl:2.8.0'
+import javax.annotation.Nonnull;
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'net.sf.opencsv:opencsv:2.0'
+public interface Equalizer<T> {
+
+	boolean areEqual(@Nonnull T first, @Nonnull T second);
 }
-
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7

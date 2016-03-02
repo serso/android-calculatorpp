@@ -20,24 +20,35 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.common.math;
-
+package org.solovyev.common.msg;
 
 import javax.annotation.Nonnull;
 
-public interface MathEntity {
+/**
+ * Container for messages
+ */
+public interface MessageRegistry {
 
+    /**
+     * Adds message to the registry.
+     * Note: according to the implementation this method doesn't guarantee that new message will be added
+     * in underlying container (e.g. if such message already exists)
+     *
+     * @param message message to be added
+     */
+    void addMessage(@Nonnull Message message);
+
+    /**
+     * @return true if there is any message available in the registry
+     */
+    boolean hasMessage();
+
+    /**
+     * Method returns message from registry and removes it from underlying container
+     * Note: this method must be called after {@link MessageRegistry#hasMessage()}
+     *
+     * @return message from the registry
+     */
     @Nonnull
-    String getName();
-
-    boolean isSystem();
-
-    @Nonnull
-    Integer getId();
-
-    void setId(@Nonnull Integer id);
-
-    boolean isIdDefined();
-
-    void copy(@Nonnull MathEntity that);
+    Message getMessage();
 }

@@ -60,7 +60,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'org.solovyev:common-msg:1.0.7'
     compile 'com.android.support:support-v4:23.2.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:cardview-v7:23.2.0'

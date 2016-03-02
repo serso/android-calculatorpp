@@ -23,7 +23,6 @@
 package org.solovyev.common.math;
 
 import org.solovyev.common.JBuilder;
-import org.solovyev.common.collections.Collections;
 import org.solovyev.common.collections.SortedList;
 
 import javax.annotation.Nonnull;
@@ -62,6 +61,22 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
         final Integer result = counter;
         counter++;
         return result;
+    }
+
+    @Nullable
+    private static <E extends MathEntity> E removeByName(@Nonnull List<E> entities, @Nonnull String name) {
+        for (int i = 0; i < entities.size(); i++) {
+            final E entity = entities.get(i);
+            if (entity.getName().equals(name)) {
+                entities.remove(i);
+                return entity;
+            }
+        }
+        return null;
+    }
+
+    private static boolean areEqual(@Nullable Object l, @Nullable Object r) {
+        return l != null ? l.equals(r) : r == null;
     }
 
     @Nonnull
@@ -136,8 +151,8 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
     public void remove(@Nonnull T entity) {
         synchronized (this) {
             if (!entity.isSystem()) {
-                final T removed = Collections.removeFirst(this.entities, new MathEntity.Finder<T>(entity.getName()));
-                if(removed != null) {
+                final T removed = removeByName(entities, entity.getName());
+                if (removed != null) {
                     this.entityNames.clear();
                 }
             }
@@ -172,10 +187,6 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
             }
         }
         return null;
-    }
-
-    private static boolean areEqual(@Nullable Object l, @Nullable Object r) {
-        return l != null ? l.equals(r) : r == null;
     }
 
     public T getById(@Nonnull final Integer id) {

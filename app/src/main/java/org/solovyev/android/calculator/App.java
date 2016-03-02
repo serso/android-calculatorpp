@@ -48,9 +48,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-
 import com.squareup.otto.Bus;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.ga.Ga;
@@ -60,12 +58,10 @@ import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.JPredicate;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class aggregates several useful in any Android application interfaces and provides access to {@link android.app.Application} object from a static context.
@@ -255,18 +251,6 @@ public final class App {
         }
         for (int i = 0; i < list.size(); i++) {
             final T t = list.get(i);
-            if (finder.apply(t)) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    public static <T> T find(@Nullable Collection<T> collection, @Nonnull JPredicate<T> finder) {
-        if (collection == null || collection.isEmpty()) {
-            return null;
-        }
-        for (T t : collection) {
             if (finder.apply(t)) {
                 return t;
             }

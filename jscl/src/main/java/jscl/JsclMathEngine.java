@@ -9,16 +9,16 @@ import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
-import org.solovyev.common.JPredicate;
-import org.solovyev.common.collections.Collections;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.Messages;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.List;
 import java.util.Locale;
 
 public class JsclMathEngine implements MathEngine {
@@ -165,20 +165,7 @@ public class JsclMathEngine implements MathEngine {
                     // decimal numeral base => do specific formatting
 
                     // detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
-                    final Double localValue = value;
-                    IConstant constant = Collections.find(getConstantsRegistry().getSystemEntities(), new JPredicate<IConstant>() {
-                        public boolean apply(@Nonnull IConstant constant) {
-                            if (!localValue.equals(constant.getDoubleValue())) {
-                                return false;
-                            }
-                            final String name = constant.getName();
-                            if (name.equals(Constants.PI_INV.getName()) || name.equals(Constants.ANS)) {
-                                return false;
-                            }
-                            return !name.equals(Constants.PI.getName()) || getAngleUnits() == AngleUnit.rad;
-                        }
-                    });
-
+                    IConstant constant = findConstant(getConstantsRegistry().getSystemEntities(), value);
 
                     if (constant == null) {
                         final IConstant piInv = this.getConstantsRegistry().get(Constants.PI_INV.getName());
@@ -229,6 +216,24 @@ public class JsclMathEngine implements MathEngine {
                 }
             }
         }
+    }
+
+    @Nullable
+    private IConstant findConstant(@Nonnull List<IConstant> constants, @Nonnull Double value) {
+        for (int i = 0; i < constants.size(); i++) {
+            final IConstant constant = constants.get(i);
+            if (!value.equals(constant.getDoubleValue())) {
+                continue;
+            }
+            final String name = constant.getName();
+            if (name.equals(Constants.PI_INV.getName()) || name.equals(Constants.ANS)) {
+                continue;
+            }
+            if (!name.equals(Constants.PI.getName()) || getAngleUnits() == AngleUnit.rad) {
+                return constant;
+            }
+        }
+        return null;
     }
 
     @Nonnull

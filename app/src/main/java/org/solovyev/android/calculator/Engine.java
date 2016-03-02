@@ -23,13 +23,15 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import com.squareup.otto.Bus;
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.math.operator.Operator;
-import jscl.text.*;
+import jscl.text.Identifier;
+import jscl.text.Parser;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.operators.OperatorsRegistry;
@@ -40,7 +42,6 @@ import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -104,7 +105,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     public static boolean isValidName(@Nullable String name) {
-        if (!Strings.isEmpty(name)) {
+        if (!TextUtils.isEmpty(name)) {
             try {
                 Identifier.parser.parse(Parser.Parameters.get(name), null);
                 return true;
@@ -205,7 +206,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         mathEngine.setRoundResult(Preferences.Output.round.getPreference(preferences));
 
         final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
-        if (Strings.isEmpty(groupingSeparator)) {
+        if (TextUtils.isEmpty(groupingSeparator)) {
             mathEngine.setUseGroupingSeparator(false);
         } else {
             mathEngine.setUseGroupingSeparator(true);

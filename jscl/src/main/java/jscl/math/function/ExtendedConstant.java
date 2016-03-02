@@ -2,7 +2,6 @@ package jscl.math.function;
 
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,7 +49,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         final Double doubleValue = constant.getDoubleValue();
         if (doubleValue == null) {
             final String stringValue = constant.getValue();
-            if (!Strings.isEmpty(stringValue)) {
+            if (stringValue != null && stringValue.length() > 0) {
                 return constant.getName() + " = " + stringValue;
             } else {
                 return constant.getName();
