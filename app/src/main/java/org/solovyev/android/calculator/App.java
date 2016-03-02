@@ -27,7 +27,6 @@ import android.app.Application;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
@@ -47,9 +46,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
@@ -299,65 +295,6 @@ public final class App {
         return context.getResources().getBoolean(R.bool.cpp_tablet);
     }
 
-    static void addHelpInfo(@Nonnull Activity activity, @Nonnull View root) {
-        if (!isMonkeyRunner(activity)) {
-            return;
-        }
-        if (!(root instanceof ViewGroup)) {
-            return;
-        }
-        final TextView helperTextView = new TextView(activity);
-
-        final DisplayMetrics dm = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-        helperTextView.setTextSize(15);
-        helperTextView.setTextColor(Color.WHITE);
-
-        final Configuration c = activity.getResources().getConfiguration();
-
-        final StringBuilder helpText = new StringBuilder();
-        helpText.append("Size: ");
-        if (isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
-            helpText.append("xlarge");
-        } else if (isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
-            helpText.append("large");
-        } else if (isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
-            helpText.append("normal");
-        } else if (isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
-            helpText.append("small");
-        } else {
-            helpText.append("unknown");
-        }
-
-        helpText.append(" (").append(dm.widthPixels).append("x").append(dm.heightPixels).append(")");
-
-        helpText.append(" Density: ");
-        switch (dm.densityDpi) {
-            case DisplayMetrics.DENSITY_LOW:
-                helpText.append("ldpi");
-                break;
-            case DisplayMetrics.DENSITY_MEDIUM:
-                helpText.append("mdpi");
-                break;
-            case DisplayMetrics.DENSITY_HIGH:
-                helpText.append("hdpi");
-                break;
-            case DisplayMetrics.DENSITY_XHIGH:
-                helpText.append("xhdpi");
-                break;
-            case DisplayMetrics.DENSITY_TV:
-                helpText.append("tv");
-                break;
-        }
-
-        helpText.append(" (").append(dm.densityDpi).append(")");
-
-        helperTextView.setText(helpText);
-
-        ((ViewGroup) root).addView(helperTextView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-    }
-
     static boolean isFloatingCalculator(@NonNull Context context) {
         return unwrap(context) instanceof FloatingCalculatorService;
     }
@@ -376,12 +313,6 @@ public final class App {
     }
     public static boolean isUiThread() {
         return Looper.myLooper() == Looper.getMainLooper();
-    }
-
-    public static boolean isLayoutSizeAtLeast(int size, @Nonnull Configuration configuration) {
-        int cur = configuration.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-        if (cur == Configuration.SCREENLAYOUT_SIZE_UNDEFINED) return false;
-        return cur >= size;
     }
 
     public static void restartActivity(@Nonnull Activity activity) {

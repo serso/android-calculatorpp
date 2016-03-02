@@ -146,7 +146,6 @@ public class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this, this);
 
         fixFonts(mainView);
-        App.addHelpInfo(this, mainView);
         initToolbar();
         populateTabs(tabs);
         tabs.onCreate();
