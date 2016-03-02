@@ -1,5 +1,6 @@
 package jscl.text;
 
+import org.solovyev.common.msg.AbstractMessage;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.msg.MessageType;
@@ -55,7 +56,7 @@ public class ParseException extends Exception implements Message {
     @Override
     public String getLocalizedMessage(@Nonnull Locale locale) {
         final ResourceBundle rb = ResourceBundle.getBundle("jscl/text/msg/messages", locale);
-        return rb.getString(getMessageCode());
+        return AbstractMessage.makeMessage(locale, rb.getString(getMessageCode()), parameters, MessageType.error);
     }
 
     public int getPosition() {

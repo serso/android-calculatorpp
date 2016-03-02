@@ -118,14 +118,16 @@ public abstract class AbstractMessage implements Message {
      */
     @Nonnull
     public String getLocalizedMessage(@Nonnull Locale locale) {
-        String result = null;
+        return makeMessage(locale, getMessagePattern(locale), parameters, messageLevel);
+    }
 
-        final String messagePattern = getMessagePattern(locale);
-        if (!Strings.isEmpty(messagePattern)) {
-            result = Messages.prepareMessage(locale, messagePattern, parameters);
+    @Nonnull
+    public static String makeMessage(@Nonnull Locale locale, @Nullable String format, @Nonnull List<?> parameters, @Nonnull MessageLevel messageLevel) {
+        if (!Strings.isEmpty(format)) {
+            return Messages.prepareMessage(locale, format, parameters);
         }
 
-        return Strings.getNotEmpty(result, messageLevel.getName() + ": message code = " + messageCode);
+        return messageLevel.getName() + ": message code = " + format;
     }
 
     @Nonnull
