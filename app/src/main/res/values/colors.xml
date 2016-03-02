@@ -48,8 +48,6 @@
     <color name="cpp_metro_purple">#651456</color>
     <color name="cpp_widget_cursor">#ff707070</color>
     <color name="cpp_widget_ripple">#40ffffff</color>
-    <color name="cpp_status_bar">#ff131313</color>
-    <color name="cpp_status_bar_light">#262626</color>
 
     <color name="cpp_wizard_disabled_text">#66ffffff</color>
 
@@ -61,8 +59,6 @@
     <color name="cpp_pane_bg_light">#ffeae5e3</color>
     <color name="grey_900">#212121</color>
     <color name="grey_950">#101010</color>
-    <color name="grey_600">#757575</color>
     <color name="grey_800">#424242</color>
-    <color name="blue_grey_800">#37474F</color>
 
 </resources>

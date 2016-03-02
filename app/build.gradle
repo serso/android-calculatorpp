@@ -83,6 +83,7 @@ dependencies {
     compile(name: 'plotter', ext: 'aar')
     compile 'com.google.guava:guava:19.0'
     compile('org.simpleframework:simple-xml:2.6.1') {
+        exclude(module: 'stax')
         exclude(module: 'stax-api')
         exclude(module: 'xpp3')
     }

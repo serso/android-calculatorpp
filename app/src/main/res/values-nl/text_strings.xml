@@ -149,7 +149,6 @@
     <string name="function_name_is_not_valid">Ongeldige functienaam: naam moet starten met een letter en kan Letters,  cijfers en \'_\' bevatten. </string>
     <string name="function_already_exists">Functienaam is al gebruikt!</string>
     <string name="function_is_empty">Functie mag niet leeg zijn!</string>
-    <string name="function_param_not_empty">Functieparameter mag niet leeg zijn!</string>
     <string name="function_removal_confirmation_question">Wilt u de functie  \'%s\' echt verwijderen?</string>
     <string name="empty_function_error">Niet mogelijk om een lege functie te maken!</string>
     <string name="do_not_show_messages_in_session">Dit bericht niet meer weergeven tot de volgende sessie</string>

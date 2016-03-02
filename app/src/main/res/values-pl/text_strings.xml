@@ -153,7 +153,6 @@ Proszę, oceń Calculator++ \nna<a href="https://market.android.com/details?id=o
     <string name="function_name_is_not_valid">Nazwa funkcji jest nieprawidłowa: nazwa musi zaczynać się od litery, może zawierać litery, cyfry i znak podkreślenia.</string>
     <string name="function_already_exists">Funkcja o takiej samej nazwie już istnieje!</string>
     <string name="function_is_empty">Definicja funkcji nie może być pusta!</string>
-    <string name="function_param_not_empty">Funkcja powinna posiadać parametry!</string>
     <string name="function_removal_confirmation_question">Czy na pewno chcesz usunąć funkcję \'%s\'?</string>
     <string name="empty_function_error">Nie można utworzyć pustej funkcji!</string>
     <string name="do_not_show_messages_in_session">Nie pokazuj tej wiadomości do czasu następnej sesji</string>

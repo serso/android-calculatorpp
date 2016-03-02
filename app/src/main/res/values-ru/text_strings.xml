@@ -175,7 +175,6 @@
 	</string>
     <string name="function_already_exists">Функция с таким именем уже существует!</string>
     <string name="function_is_empty">Тело функции не должно быть пустым!</string>
-    <string name="function_param_not_empty">Имя параметра не должно быть пустым!</string>
     <string name="function_removal_confirmation_question">Вы действительно хотите удалить функцию \'%s\'?</string>
     <string name="empty_function_error">Невозможно создать пустую функцию!</string>
     <string name="do_not_show_messages_in_session">Не показывать это сообщение до следующего запуска программы</string>

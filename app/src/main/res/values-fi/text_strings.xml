@@ -149,7 +149,6 @@
     <string name="function_name_is_not_valid">Toiminnon nimi ei kelpaa: nimen on alettava kirjaimella, voi sisältää kirjaimia, numeroita ja alaviivoja.  </string>
     <string name="function_already_exists">Saman niminen toiminto on jo olemassa!</string>
     <string name="function_is_empty">Toiminnon elin ei voi olla tyhjä!</string>
-    <string name="function_param_not_empty">Funktioparametri ei pitäisi olla tyhjä!</string>
     <string name="function_removal_confirmation_question">Haluatko todella poistaa toiminnon \'%s\'?</string>
     <string name="empty_function_error">Tyhjä funktion luominen ei onnistunut.</string>
     <string name="do_not_show_messages_in_session">Älä näytä tätä viestiä kunnes seuraavan istunnon</string>

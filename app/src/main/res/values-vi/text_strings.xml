@@ -153,7 +153,6 @@ Google Play</a>,\n để lại ý kiến hoặc \n thảo luận về ứng dụ
     <string name="function_name_is_not_valid">Tên của hàm không hợp lệ: tên phải bắt đầu với một chữ cái, có thể chứa chữ cái, chữ số và gạch dưới.</string>
     <string name="function_already_exists">Hàm cùng tên đã tồn tại!</string>
     <string name="function_is_empty">Hàm không được rỗng!</string>
-    <string name="function_param_not_empty">Tham số hàm không được rỗng!</string>
     <string name="function_removal_confirmation_question">Bạn có thực sự muốn xóa \'%s\' hàm?</string>
     <string name="empty_function_error">Không thể tạo ra hàm rỗng!</string>
     <string name="do_not_show_messages_in_session">Không hiện thông báo này cho đến khi phiên tiếp theo</string>

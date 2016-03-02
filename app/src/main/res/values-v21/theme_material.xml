@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CppKeyboardButton.Material.Digit" parent="CppKeyboardButton">
+        <item name="android:background">@drawable/material_button_dark</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+</resources>

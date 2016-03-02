@@ -38,7 +38,7 @@ public class ExpressionFunction extends Function {
                 name = function.toString();
             }
             if (name.length() > 10) {
-                name = name.substring(0, 10) + "...";
+                name = name.substring(0, 10) + "…";
             }
         }
         return imaginary ? "Im(" + name + ")" : name;

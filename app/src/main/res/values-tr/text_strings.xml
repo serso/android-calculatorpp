@@ -152,7 +152,6 @@ Google Play</a>,\n yorum yazın yada \n uygulamayı tartışın \non
     <string name="function_name_is_not_valid">Fonksiyon adı geçerli değil: isim bir harf ile başlamalıdır, harf, rakam ve alt çizli içerebilir.</string>
     <string name="function_already_exists">Aynı isimi bir fonksiyon zaten var!</string>
     <string name="function_is_empty">Fonksiyon gövdesi boş bırakılamaz!</string>
-    <string name="function_param_not_empty">Fonksiyon parametresi boş olamaz!</string>
     <string name="function_removal_confirmation_question">%s fonksiyonunu gerçekten silme istiyor musunuz?</string>
     <string name="empty_function_error">Boş fonksiyon oluşturulamaz!</string>
     <string name="do_not_show_messages_in_session">Yeni bir oturuma kadar bu mesajı gösterme</string>

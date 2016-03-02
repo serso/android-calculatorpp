@@ -153,7 +153,6 @@ Google Play</a>，\n留下評論或是\n討論這個應用程式\n於
     <string name="function_name_is_not_valid">函數名稱無效：名稱必須以字母開頭，可以包含字母、數字和底線。</string>
     <string name="function_already_exists">相同名稱的函數已經存在！</string>
     <string name="function_is_empty">函數主體不能空白！</string>
-    <string name="function_param_not_empty">函數參數不應該是空白！</string>
     <string name="function_removal_confirmation_question">你真的要刪除函數 \'%s\' 嗎？</string>
     <string name="empty_function_error">無法新增空白函數！</string>
     <string name="do_not_show_messages_in_session">直到下一次不要顯示這訊息</string>

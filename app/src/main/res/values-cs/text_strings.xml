@@ -154,7 +154,6 @@ Google Play</a>,\n nechte komentář nebo \ndiskutujte o aplikaci \nna
     <string name="function_name_is_not_valid">Název funkce není platný: jméno musí začínat písmenem, může obsahovat písmena, číslice a podtržítka!</string>
     <string name="function_already_exists">Funkce se stejným názvem již existuje!</string>
     <string name="function_is_empty">Tělo funkce nemůže být prázdné!</string>
-    <string name="function_param_not_empty">Parametr funkce nemůže být prázdný</string>
     <string name="function_removal_confirmation_question">Opravdu chcete odstranit \'%s\' funkci?</string>
     <string name="empty_function_error">Nelze vytvořit prázdnou funkci!</string>
     <string name="do_not_show_messages_in_session">Nezobrazovat tuto zprávu až do příštího spuštění</string>

@@ -158,7 +158,6 @@ Per favore valutate Calculator++ \nsu <a href="https://market.android.com/detail
     <string name="function_name_is_not_valid">Il nome della funzione non è valido: deve iniziare con una lettera, può contenere lettere, cifre e la sottolineatura. </string>
     <string name="function_already_exists">Funzione con lo stesso nome esiste già!</string>
     <string name="function_is_empty">Il corpo della funzione non può essere vuoto!</string>
-    <string name="function_param_not_empty">I parametri della funzione non possono essere vuoti!</string>
     <string name="function_removal_confirmation_question">Vuoi veramente eliminare la funzione \'%s\'?</string>
     <string name="empty_function_error"> Impassibile creare funzioni con argomento nullo!</string>
     <string name="do_not_show_messages_in_session">Non mostrare questo messaggio fino alla prossima sessione</string>

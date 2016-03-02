@@ -24,7 +24,6 @@
 
     <style name="CppKeyboardButton.Material.Light.Digit" parent="CppKeyboardButton">
         <item name="android:background">@drawable/material_button_light</item>
-        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="CppKeyboardButton.Material.Light.Operation" parent="CppKeyboardButton.Material.Digit">

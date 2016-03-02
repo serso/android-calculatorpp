@@ -10,17 +10,12 @@
     <dimen name="cpp_button_padding">1px</dimen>
     <dimen name="cpp_button_corner">1dp</dimen>
 
-    <dimen name="cpp_fragment_text_size">15sp</dimen>
-    <dimen name="cpp_fragment_title_text_size">20sp</dimen>
-
     <dimen name="cpp_keyboard_button_text_size">30dp</dimen>
     <dimen name="cpp_keyboard_simple_image_button_padding">12dp</dimen>
 
     <dimen name="cpp_display_text_size">25sp</dimen>
     <dimen name="cpp_min_editor_text_size">24sp</dimen>
     <dimen name="cpp_pane_margin">2dp</dimen>
-    <dimen name="cpp_li_text_size">16sp</dimen>
-    <dimen name="cpp_li_secondary_text_size">14sp</dimen>
 
     <dimen name="cpp_onscreen_display_text_size">20sp</dimen>
     <dimen name="cpp_onscreen_header_button_text_size">10dp</dimen>

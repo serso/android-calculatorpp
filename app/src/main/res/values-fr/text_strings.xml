@@ -149,7 +149,6 @@
     <string name="function_name_is_not_valid">Nom de fonction invalide : le nom doit commencer par une lettre, peut contenir des lettres, chiffres et trait de soulignement.</string>
     <string name="function_already_exists">Une fonction portant le même nom existe déjà !</string>
     <string name="function_is_empty">Le corps de la fonction ne peut pas être vide !</string>
-    <string name="function_param_not_empty">Il ne peut y avoir aucun paramètre à la fonction !</string>
     <string name="function_removal_confirmation_question">Voulez-vous vraiment supprimer la fonction \'%s\' ?</string>
     <string name="empty_function_error">Impossible de créer une fonction vide !</string>
     <string name="do_not_show_messages_in_session">Ne plus afficher ce message jusqu\'à la prochaine session</string>

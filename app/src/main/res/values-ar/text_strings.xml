@@ -153,7 +153,6 @@
     <string name="function_name_is_not_valid">اسم الدالّة غير صالح: الاسم يجب أن يبدأ بحرف, ويمكن أن تحتوي على أحرف, أرقام وإشارة _.</string>
     <string name="function_already_exists">هناك دالّة بنفس الاسم موجود مسبقاً!</string>
     <string name="function_is_empty">لا يمكن أن يكون نص الدالّة فارغة!</string>
-    <string name="function_param_not_empty">لا ينبغي أن يكون العامل المتغير في الدالة فارغاً!</string>
     <string name="function_removal_confirmation_question">هل تريد حقاً حذف الدالة \'%s\'؟</string>
     <string name="empty_function_error">غير قادر على إنشاء دالّة فارغة!</string>
     <string name="do_not_show_messages_in_session">عدم إظهار هذه الرسالة حتى الدورة القادمة</string>

@@ -165,7 +165,6 @@
     <string name="function_name_is_not_valid">Неприпустиме ім\'я функції: ім\'я має починатися з літери, може містити літери, цифри та знак підкреслення (_).</string>
     <string name="function_already_exists">Функція з таким ім\'ям вже існує!</string>
     <string name="function_is_empty">Тіло функції не може бути відсутнім!</string>
-    <string name="function_param_not_empty">Параметр функції не може бути відсутнім!</string>
     <string name="function_removal_confirmation_question">Ви дійсно хочете видалити функцію \'%s\'?</string>
     <string name="empty_function_error">Не вдалося створити порожню функцію!</string>
     <string name="do_not_show_messages_in_session">Не показувати це повідомлення до наступної сесії</string>

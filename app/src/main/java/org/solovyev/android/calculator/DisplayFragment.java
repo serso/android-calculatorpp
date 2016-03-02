@@ -22,7 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,7 +30,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.view.*;
-import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.squareup.otto.Bus;
@@ -172,20 +170,10 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     }
 
     public static void showEvaluationError(@Nonnull Context context,
-            @Nonnull final String errorMessage) {
-        final LayoutInflater layoutInflater =
-                (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
-        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view))
-                .setText(errorMessage);
-
-        final AlertDialog.Builder builder =
-                new AlertDialog.Builder(context, App.getTheme().alertDialogTheme)
-                        .setPositiveButton(R.string.cpp_cancel, null)
-                        .setView(errorMessageView);
-
-        builder.create().show();
+                                           @Nonnull final String errorMessage) {
+        new AlertDialog.Builder(context, App.getTheme().alertDialogTheme)
+                .setPositiveButton(R.string.cpp_cancel, null)
+                .setMessage(errorMessage).create().show();
     }
 
     @Override

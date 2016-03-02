@@ -26,8 +26,8 @@
         <item name="android:textSize">@dimen/cpp_text_size</item>
     </style>
 
-    <style name="CppKeyboardButton">
-        <item name="android:textAllCaps">false</item>
+    <style name="CppKeyboardButton" parent="BaseCppKeyboardButton"/>
+    <style name="BaseCppKeyboardButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -117,12 +117,12 @@
         <item name="android:background">@color/cpp_main_bg_light</item>
     </style>
 
-    <style name="CppText.Editor.Widget" parent="CppText.Editor">
+    <style name="CppText.Editor.Widget" parent="CppText.Editor.BaseWidget"/>
+    <style name="CppText.Editor.BaseWidget" parent="CppText.Editor">
         <item name="android:textSize">@dimen/cpp_widget_editor_text_size</item>
         <item name="android:textColor">@color/cpp_text</item>
         <item name="android:scrollbars">vertical</item>
         <item name="android:singleLine">false</item>
-        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="CppText.Editor.Widget.Light" parent="CppText.Editor.Widget">
@@ -333,12 +333,6 @@
         <item name="android:minLines">1</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="CppListViewItemTextSecondary">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
-        <item name="android:textColor">?android:attr/textColorSecondary</item>
-        <item name="android:textSize">@dimen/cpp_li_secondary_text_size</item>
     </style>
 
     <style name="CppListViewItemTextPrimary.History" parent="CppListItemText.Primary">

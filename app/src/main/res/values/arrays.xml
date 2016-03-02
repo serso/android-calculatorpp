@@ -75,19 +75,6 @@
         <item>simple</item>
     </string-array>
 
-    <string-array name="cpp_haptic_feedback_names">
-        <item>@string/p_calc_haptic_feedback_strength_disabled</item>
-        <item>@string/p_calc_haptic_feedback_strength_short</item>
-        <item>@string/p_calc_haptic_feedback_strength_middle</item>
-        <item>@string/p_calc_haptic_feedback_strength_long</item>
-    </string-array>
-    <string-array name="cpp_haptic_feedback_values" translatable="false">
-        <item>0</item>
-        <item>30</item>
-        <item>60</item>
-        <item>100</item>
-    </string-array>
-
     <string-array name="p_angle_units_names">
         <item>@string/p_deg</item>
         <item>@string/p_rad</item>
@@ -114,39 +101,8 @@
         <item>bin</item>
     </string-array>
 
-    <!--
-     monochrome,
-    dashed,
-    dotted,
-    dash_dotted;
-    -->
-    <string-array name="cpp_plot_line_style_names">
-        <item>@string/cpp_solid_line_style</item>
-        <item>@string/cpp_dashed_line_style</item>
-        <item>@string/cpp_dotted_line_style</item>
-        <item>@string/cpp_dash_dotted_line_style</item>
-    </string-array>
-
-    <string-array name="cpp_plot_line_color_type_names">
-        <item>@string/cpp_monochrome_line_color_type</item>
-        <item>@string/cpp_color_map_line_color_type</item>
-    </string-array>
-
-    <string-array name="cpp_plot_line_color_names">
-        <item>@string/p_white_line_color</item>
-        <item>@string/p_blue_line_color</item>
-        <item>@string/p_red_line_color</item>
-        <item>@string/p_green_line_color</item>
-        <item>@string/p_grey_line_color</item>
-    </string-array>
-
     <string-array name="cpp_modes">
         <item>@string/cpp_wizard_mode_simple</item>
         <item>@string/cpp_wizard_mode_engineer</item>
-    </string-array>
-
-    <string-array name="cpp_layouts">
-        <item>@string/cpp_wizard_layout_big_buttons</item>
-        <item>@string/cpp_wizard_layout_optimized</item>
     </string-array>
 </resources>

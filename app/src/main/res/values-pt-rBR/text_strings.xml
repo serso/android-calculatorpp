@@ -149,7 +149,6 @@
     <string name="function_name_is_not_valid">O nome da função não é válido: o nome deve começar com uma letra, pode conter letras, dígitos e sublinhado.</string>
     <string name="function_already_exists">Já existe uma função com o mesmo nome!</string>
     <string name="function_is_empty">O corpo da função não pode ficar vazio!</string>
-    <string name="function_param_not_empty">O parâmetro da função não pode ficar vazio!</string>
     <string name="function_removal_confirmation_question">Você quer realmente excluir a função \'%s\'?</string>
     <string name="empty_function_error">Não é possível criar uma função vazia!</string>
     <string name="do_not_show_messages_in_session">Não mostre esta mensagem até a próxima sessão</string>

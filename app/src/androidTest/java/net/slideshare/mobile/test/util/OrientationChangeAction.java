@@ -24,6 +24,7 @@
  */
 package net.slideshare.mobile.test.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.support.test.espresso.UiController;
@@ -60,13 +61,18 @@ public class OrientationChangeAction implements ViewAction {
     @Override
     public void perform(UiController uiController, View view) {
         uiController.loopMainThreadUntilIdle();
-        final Activity activity = (Activity) view.getContext();
-        activity.setRequestedOrientation(orientation);
+        requestOrientation(view);
 
         Collection<Activity> resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
         if (resumedActivities.isEmpty()) {
             throw new RuntimeException("Could not change orientation");
         }
+    }
+
+    @SuppressLint("WrongConstant")
+    private void requestOrientation(View view) {
+        final Activity activity = (Activity) view.getContext();
+        activity.setRequestedOrientation(orientation);
     }
 
     public static ViewAction orientationLandscape() {

@@ -152,7 +152,6 @@ Google Play</a>,\nschreiben Sie einen Kommentar oder\ndiskutieren Sie die Anwend
     <string name="function_name_is_not_valid">Name der Funktion ist ungültig: Name muss mit einem Buchstaben beginnen und darf Buchstaben, Ziffern und Unterstriche enthalten.</string>
     <string name="function_already_exists">Funktion mit demselben Namen existiert bereits!</string>
     <string name="function_is_empty">Funktion darf nicht leer sein!</string>
-    <string name="function_param_not_empty">Funktionsparameter sollte nicht leer sein!</string>
     <string name="function_removal_confirmation_question">Möchten Sie die Funktion \'%s\' wirklich löschen?</string>
     <string name="empty_function_error">Eine leere Funktion kann nicht erstellt werden!</string>
     <string name="do_not_show_messages_in_session">Diese Nachricht bis zum nächsten Mal verbergen</string>
