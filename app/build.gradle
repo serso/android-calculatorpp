@@ -82,8 +82,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-base:8.4.0'
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile(name: 'plotter', ext: 'aar')
-    compile 'org.solovyev:common-text:1.0.7'
-    compile 'org.solovyev:common-listeners:1.0.7'
     compile('com.google.guava:guava:11.0.2') {
         exclude(module: 'jsr305')
     }
