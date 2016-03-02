@@ -193,11 +193,6 @@ public final class App {
         return spannable;
     }
 
-    public static boolean isMonkeyRunner(@Nonnull Context context) {
-        // NOTE: this code is only for monkeyrunner
-        return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
-    }
-
     @NonNull
     public static String unspan(@Nonnull CharSequence spannable) {
         return spannable.toString();

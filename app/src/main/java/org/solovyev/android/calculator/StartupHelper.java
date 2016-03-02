@@ -37,10 +37,7 @@ public class StartupHelper {
         final SharedPreferences.Editor editor = uiPreferences.edit();
         final Integer opened = UiPreferences.opened.getPreference(uiPreferences);
         UiPreferences.opened.putPreference(editor, opened == null ? 1 : opened + 1);
-
-        if (!App.isMonkeyRunner(activity)) {
-            handleOnMainActivityOpened(activity, editor, opened == null ? 0 : opened);
-        }
+        handleOnMainActivityOpened(activity, editor, opened == null ? 0 : opened);
         UiPreferences.appVersion.putPreference(editor, App.getAppVersionCode(activity));
         editor.apply();
     }

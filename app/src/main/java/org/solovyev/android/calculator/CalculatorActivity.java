@@ -117,12 +117,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
         preferences.registerOnSharedPreferenceChangeListener(this);
         preferredPreferences.check(this, false);
-
-        if (App.isMonkeyRunner(this)) {
-            keyboard.buttonPressed("123");
-            keyboard.buttonPressed("+");
-            keyboard.buttonPressed("321");
-        }
     }
 
     @Override

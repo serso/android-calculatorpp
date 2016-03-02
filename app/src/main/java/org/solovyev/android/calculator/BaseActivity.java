@@ -130,7 +130,6 @@ public class BaseActivity extends AppCompatActivity {
 
         inject(cast(getApplication()).getComponent());
 
-        disableKeyguard();
         languages.updateContextLocale(this, false);
 
         createView();
@@ -162,15 +161,6 @@ public class BaseActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         Check.isNotNull(actionBar);
         actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-
-    @SuppressWarnings({"ResourceType", "deprecation"})
-    private void disableKeyguard() {
-        if (App.isMonkeyRunner(this)) {
-            final KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            km.newKeyguardLock(getClass().getName()).disableKeyguard();
-        }
     }
 
     private void onPreCreate() {
