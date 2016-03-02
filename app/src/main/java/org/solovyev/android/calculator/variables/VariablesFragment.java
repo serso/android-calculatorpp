@@ -102,7 +102,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
         }
 
         if (!Strings.isEmpty(variable.getValue())) {
-            addMenu(menu, R.string.cpp_copy_text, listener);
+            addMenu(menu, R.string.cpp_copy, listener);
         }
     }
 
@@ -125,7 +125,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
                     }
                 });
                 return true;
-            case R.string.cpp_copy_text:
+            case R.string.cpp_copy:
                 copyText(variable.getValue());
                 return true;
         }

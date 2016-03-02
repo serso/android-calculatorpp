@@ -26,4 +26,5 @@
    <string name="cpp_settings">设置</string>
    <string name="cpp_nan">不是数字</string>
    <string name="cpp_error">错误</string>
+   <string name="cpp_copy">复制</string>
 </resources>

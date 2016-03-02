@@ -26,4 +26,5 @@
    <string name="cpp_settings">Definições</string>
    <string name="cpp_nan">Não é um núm.</string>
    <string name="cpp_error">Erro</string>
+   <string name="cpp_copy">Copiar</string>
 </resources>

@@ -26,4 +26,5 @@
    <string name="cpp_settings">Asetukset</string>
    <string name="cpp_nan">Ei ole numero</string>
    <string name="cpp_error">Virhe</string>
+   <string name="cpp_copy">Kopioi</string>
 </resources>

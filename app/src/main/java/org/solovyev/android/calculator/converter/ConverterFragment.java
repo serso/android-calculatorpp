@@ -124,7 +124,7 @@ public class ConverterFragment extends BaseDialogFragment
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         builder.setPositiveButton(R.string.c_use, null);
         builder.setNegativeButton(R.string.cpp_cancel, null);
-        builder.setNeutralButton(R.string.cpp_copy_text, null);
+        builder.setNeutralButton(R.string.cpp_copy, null);
     }
 
     @Override

@@ -26,4 +26,5 @@
    <string name="cpp_settings">Paramètres</string>
    <string name="cpp_nan">Pas un nombre.</string>
    <string name="cpp_error">Erreur</string>
+   <string name="cpp_copy">Copier</string>
 </resources>

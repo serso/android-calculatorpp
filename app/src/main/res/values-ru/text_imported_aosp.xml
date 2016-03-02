@@ -26,4 +26,5 @@
    <string name="cpp_settings">Настройки</string>
    <string name="cpp_nan">Не число</string>
    <string name="cpp_error">Ошибка</string>
+   <string name="cpp_copy">Копировать</string>
 </resources>

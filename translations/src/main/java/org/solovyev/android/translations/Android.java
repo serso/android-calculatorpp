@@ -13,6 +13,7 @@ public class Android {
     private static final List<TranslationLink> calendarLinks = new ArrayList<>();
     private static final List<TranslationLink> contactsLinks = new ArrayList<>();
     private static final List<TranslationLink> calculatorLinks = new ArrayList<>();
+    private static final List<TranslationLink> platformLinks = new ArrayList<>();
 
     static {
         settingsLinks.add(new TranslationLink("haptic_feedback_enable_title", "cpp_prefs_vibrate_on_keypress"));
@@ -44,6 +45,8 @@ public class Android {
 
         calculatorLinks.add(new TranslationLink("error_nan", "cpp_nan"));
         calculatorLinks.add(new TranslationLink("error_syntax", "cpp_error"));
+
+        platformLinks.add(new TranslationLink("copy", "cpp_copy"));
     }
 
     public static void main(String... args) throws Exception {
@@ -61,6 +64,12 @@ public class Android {
         final File aospContacts = makeInputDirectory(aosp + "/platform/packages/apps/contacts");
         final File aospCalculator = makeInputDirectory(aosp + "/platform/packages/apps/calculator");
 
+        final String androidHome = System.getenv("ANDROID_HOME");
+        if (TextUtils.isEmpty(androidHome)) {
+            throw new MissingOptionException("ANDROID_HOME must be set");
+        }
+        final File androidPlatform = makeInputDirectory(androidHome + "/platforms/android-23/data");
+
         final File project;
         if (commandLine.hasOption("project")) {
             project = makeInputDirectory(commandLine.getOptionValue("project"));
@@ -71,7 +80,7 @@ public class Android {
         if (commandLine.hasOption("resources")) {
             for (String resource : commandLine.getOptionValue("resources").split(",")) {
                 final int i = resource.indexOf("-");
-                if(i >= 0) {
+                if (i >= 0) {
                     projectLinks.add(new TranslationLink(resource.substring(0, i), "cpp_" + resource.substring(i + 1, resource.length())));
                 } else {
                     projectLinks.add(new TranslationLink(resource, "cpp_" + resource));
@@ -83,7 +92,7 @@ public class Android {
         Utils.delete(outDir);
         outDir.mkdirs();
 
-        translate(outDir, "aosp", new TranslationDef(aospSettings, settingsLinks), new TranslationDef(aospCalendar, calendarLinks), new TranslationDef(aospContacts, contactsLinks), new TranslationDef(aospCalculator, calculatorLinks));
+        translate(outDir, "aosp", new TranslationDef(aospSettings, settingsLinks), new TranslationDef(aospCalendar, calendarLinks), new TranslationDef(aospContacts, contactsLinks), new TranslationDef(aospCalculator, calculatorLinks), new TranslationDef(androidPlatform, platformLinks));
         if (project != null) {
             translate(outDir, "other", new TranslationDef(project, projectLinks));
         }
@@ -103,9 +112,9 @@ public class Android {
 
     private static Resources readResources(File from, String languageLocale) throws Exception {
         File inFile = makeStringsFile(from, languageLocale);
-        if(!inFile.exists()) {
+        if (!inFile.exists()) {
             final int i = languageLocale.indexOf("-r");
-            if(i >= 0) {
+            if (i >= 0) {
                 inFile = makeStringsFile(from, languageLocale.substring(0, i));
             }
         }
@@ -152,13 +161,14 @@ public class Android {
 
     private static class TranslationDef {
         public final File project;
-        public final List <TranslationLink> links;
+        public final List<TranslationLink> links;
 
         private TranslationDef(File project, List<TranslationLink> links) {
             this.project = project;
             this.links = links;
         }
     }
+
     private static class TranslationLink {
         public final String inName;
         public final String outName;

@@ -126,7 +126,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
         if (!state.valid) {
             return;
         }
-        addMenu(menu, R.string.cpp_copy_text, this);
+        addMenu(menu, R.string.cpp_copy, this);
 
         final Generic result = state.getResult();
         final JsclOperation operation = state.getOperation();
@@ -181,7 +181,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
         final DisplayState state = display.getState();
         final Generic result = state.getResult();
         switch (item.getItemId()) {
-            case R.string.cpp_copy_text:
+            case R.string.cpp_copy:
                 display.copy();
                 return true;
             case R.string.convert_to_bin:

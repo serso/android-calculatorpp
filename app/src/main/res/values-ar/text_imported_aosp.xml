@@ -26,4 +26,5 @@
    <string name="cpp_settings">الإعدادات</string>
    <string name="cpp_nan">ليس رقمًا</string>
    <string name="cpp_error">خطأ</string>
+   <string name="cpp_copy">نسخ</string>
 </resources>

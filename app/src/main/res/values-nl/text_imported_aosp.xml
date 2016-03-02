@@ -26,4 +26,5 @@
    <string name="cpp_settings">Instellingen</string>
    <string name="cpp_nan">Is geen getal</string>
    <string name="cpp_error">Fout</string>
+   <string name="cpp_copy">Kopiëren</string>
 </resources>

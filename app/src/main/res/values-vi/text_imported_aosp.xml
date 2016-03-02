@@ -26,4 +26,5 @@
    <string name="cpp_settings">Cài đặt</string>
    <string name="cpp_nan">Không phải số</string>
    <string name="cpp_error">Lỗi</string>
+   <string name="cpp_copy">Sao chép</string>
 </resources>

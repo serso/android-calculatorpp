@@ -26,4 +26,5 @@
    <string name="cpp_settings">Ayarlar</string>
    <string name="cpp_nan">Sayı değil</string>
    <string name="cpp_error">Hata</string>
+   <string name="cpp_copy">Kopyala</string>
 </resources>

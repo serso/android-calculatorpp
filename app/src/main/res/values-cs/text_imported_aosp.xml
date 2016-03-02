@@ -26,4 +26,5 @@
    <string name="cpp_settings">Nastavení</string>
    <string name="cpp_nan">Není číslo</string>
    <string name="cpp_error">Chyba</string>
+   <string name="cpp_copy">Kopírovat</string>
 </resources>
