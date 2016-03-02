@@ -37,7 +37,7 @@ import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
-import org.solovyev.android.calculator.entities.EntityRemovalDialog;
+import org.solovyev.android.calculator.RemovalConfirmationDialog;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -90,7 +90,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
                 }
                 return true;
             case R.string.cpp_delete:
-                EntityRemovalDialog.showForFunction(getActivity(), function.getName(), new DialogInterface.OnClickListener() {
+                RemovalConfirmationDialog.showForFunction(getActivity(), function.getName(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);

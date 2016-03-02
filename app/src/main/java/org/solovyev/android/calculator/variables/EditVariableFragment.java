@@ -47,7 +47,7 @@ import dagger.Lazy;
 import jscl.math.function.IConstant;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.entities.EntityRemovalDialog;
+import org.solovyev.android.calculator.RemovalConfirmationDialog;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
@@ -193,7 +193,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     }
 
     private void showRemovalDialog(@NonNull final CppVariable variable) {
-        EntityRemovalDialog.showForVariable(getActivity(), variable.name,
+        RemovalConfirmationDialog.showForVariable(getActivity(), variable.name,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

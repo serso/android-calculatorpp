@@ -38,6 +38,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.view.EditTextCompat;
@@ -113,7 +114,10 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
         builder.setNegativeButton(R.string.cpp_cancel, null);
         builder.setPositiveButton(R.string.cpp_done, null);
         builder.setTitle(isNewFunction() ? R.string.function_create_function :
-            R.string.function_edit_function);
+                R.string.function_edit_function);
+        if (!isNewFunction()) {
+            builder.setNeutralButton(R.string.cpp_delete, null);
+        }
     }
 
     protected final boolean isNewFunction() {
@@ -205,11 +209,17 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
             case DialogInterface.BUTTON_POSITIVE:
                 tryClose();
                 break;
+            case DialogInterface.BUTTON_NEUTRAL:
+                Check.isNotNull(function);
+                showRemovalDialog(function);
+                break;
             default:
                 super.onClick(dialog, which);
                 break;
         }
     }
+
+    protected abstract void showRemovalDialog(@NonNull CppFunction function);
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {

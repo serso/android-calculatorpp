@@ -1,11 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
 import android.text.TextUtils;
-
-import org.solovyev.android.plotter.Function;
-
-import javax.annotation.Nonnull;
-
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
@@ -13,6 +8,9 @@ import jscl.math.function.CustomFunction;
 import jscl.math.numeric.Complex;
 import jscl.math.numeric.Numeric;
 import jscl.math.numeric.Real;
+import org.solovyev.android.plotter.Function;
+
+import javax.annotation.Nonnull;
 
 public class ExpressionFunction extends Function {
     @Nonnull
@@ -38,6 +36,9 @@ public class ExpressionFunction extends Function {
                 name = ((CustomFunction) function).getContent();
             } else {
                 name = function.toString();
+            }
+            if (name.length() > 10) {
+                name = name.substring(0, 10) + "...";
             }
         }
         return imaginary ? "Im(" + name + ")" : name;

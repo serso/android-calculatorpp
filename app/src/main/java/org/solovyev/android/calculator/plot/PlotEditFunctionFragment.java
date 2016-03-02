@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.plot;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,9 +12,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import butterknife.Bind;
 import jscl.math.function.CustomFunction;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.RemovalConfirmationDialog;
 import org.solovyev.android.calculator.functions.BaseFunctionFragment;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.plotter.Color;
@@ -51,8 +54,7 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
         super(R.layout.fragment_plot_function_edit);
     }
 
-    public static void show(@Nullable PlotFunction function, @Nonnull
-    FragmentManager fm) {
+    public static void show(@Nullable PlotFunction function, @Nonnull FragmentManager fm) {
         App.showDialog(create(function), "plot-function-editor", fm);
     }
 
@@ -183,5 +185,20 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    protected void showRemovalDialog(@NonNull final CppFunction function) {
+        Check.isNotNull(plotFunction);
+        final String functionName = plotFunction.function.getName();
+        Check.isNotNull(functionName);
+        RemovalConfirmationDialog.showForFunction(getActivity(), functionName,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                        plotter.remove(plotFunction);
+                        dismiss();
+                    }
+                });
     }
 }

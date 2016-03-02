@@ -7,13 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import jscl.math.function.Function;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.entities.EntityRemovalDialog;
+import org.solovyev.android.calculator.RemovalConfirmationDialog;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -52,39 +51,6 @@ public class EditFunctionFragment extends BaseFunctionFragment {
             fragment.setArguments(args);
         }
         return fragment;
-    }
-
-    @Override
-    protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        super.onPrepareDialog(builder);
-        if (!isNewFunction()) {
-            builder.setNeutralButton(R.string.cpp_delete, null);
-        }
-    }
-
-    private void showRemovalDialog(@NonNull final CppFunction function) {
-        EntityRemovalDialog.showForFunction(getActivity(), function.name,
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
-                    functionsRegistry.remove(function.toJsclBuilder().create());
-                    dismiss();
-                }
-            });
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        switch (which) {
-            case DialogInterface.BUTTON_NEUTRAL:
-                Check.isNotNull(function);
-                showRemovalDialog(function);
-                break;
-            default:
-                super.onClick(dialog, which);
-                break;
-        }
     }
 
     @Override
@@ -127,5 +93,17 @@ public class EditFunctionFragment extends BaseFunctionFragment {
         }
         clearError(nameLabel);
         return true;
+    }
+
+    protected void showRemovalDialog(@NonNull final CppFunction function) {
+        RemovalConfirmationDialog.showForFunction(getActivity(), function.name,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                        functionsRegistry.remove(function.toJsclBuilder().create());
+                        dismiss();
+                    }
+                });
     }
 }

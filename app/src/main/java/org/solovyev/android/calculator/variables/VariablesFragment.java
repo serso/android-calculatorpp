@@ -34,7 +34,7 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
-import org.solovyev.android.calculator.entities.EntityRemovalDialog;
+import org.solovyev.android.calculator.RemovalConfirmationDialog;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
@@ -118,7 +118,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
                 EditVariableFragment.showDialog(CppVariable.builder(variable).build(), activity);
                 return true;
             case R.string.cpp_delete:
-                EntityRemovalDialog.showForVariable(getActivity(), variable.getName(), new DialogInterface.OnClickListener() {
+                RemovalConfirmationDialog.showForVariable(getActivity(), variable.getName(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
