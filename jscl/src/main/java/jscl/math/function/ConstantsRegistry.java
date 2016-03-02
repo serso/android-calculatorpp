@@ -2,11 +2,6 @@ package jscl.math.function;
 
 import org.solovyev.common.math.AbstractMathRegistry;
 
-/**
- * User: serso
- * Date: 11/7/11
- * Time: 11:59 AM
- */
 public class ConstantsRegistry extends AbstractMathRegistry<IConstant> {
 
     public static final String E = "e";

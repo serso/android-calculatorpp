@@ -47,13 +47,15 @@ public class NumeralBaseTest {
 
         IConstant constant = null;
         try {
-            constant = me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("a"), 2d));
+            final ExtendedConstant.Builder a = new ExtendedConstant.Builder(new Constant("a"), 2d);
+            constant = me.getConstantsRegistry().addOrUpdate(a.create());
             Assert.assertEquals("2748", me.evaluate("0x:ABC"));
             Assert.assertEquals("5496", me.evaluate("0x:ABC*a"));
             Assert.assertEquals("27480", me.evaluate("0x:ABC*0x:A"));
         } finally {
             if (constant != null) {
-                me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("a"), (String) null));
+                final ExtendedConstant.Builder a = new ExtendedConstant.Builder(new Constant("a"), (String) null);
+                me.getConstantsRegistry().addOrUpdate(a.create());
             }
         }
     }

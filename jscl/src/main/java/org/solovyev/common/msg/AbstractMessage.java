@@ -22,9 +22,6 @@
 
 package org.solovyev.common.msg;
 
-import org.solovyev.common.HashCodeBuilder;
-import org.solovyev.common.Objects;
-import org.solovyev.common.equals.ListEqualizer;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
@@ -81,7 +78,7 @@ public abstract class AbstractMessage implements Message {
 
         final AbstractMessage that = (AbstractMessage) o;
 
-        if (!Objects.areEqual(parameters, that.parameters, ListEqualizer.newWithNaturalEquals(true))) {
+        if (!areEqual(parameters, that.parameters)) {
             return false;
         }
         if (!messageCode.equals(that.messageCode)) {
@@ -94,15 +91,23 @@ public abstract class AbstractMessage implements Message {
         return true;
     }
 
+    private boolean areEqual(@Nonnull List<Object> thisList, @Nonnull List<Object> thatList) {
+        if (thisList.size() != thatList.size()) {
+            return false;
+        }
+        for (int i = 0; i < thisList.size(); i++) {
+            final Object thisItem = thisList.get(i);
+            final Object thatItem = thatList.get(i);
+            if (!thisItem.equals(thatItem)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public int hashCode() {
-        final HashCodeBuilder hcb = HashCodeBuilder.newInstance();
-
-        hcb.append(messageCode);
-        hcb.append(messageLevel);
-        hcb.append(parameters);
-
-        return hcb.toHashCode();
+        return com.google.common.base.Objects.hashCode(messageCode, messageLevel, parameters);
     }
 
     /**

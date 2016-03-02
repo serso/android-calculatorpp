@@ -36,7 +36,6 @@ import org.solovyev.android.calculator.entities.Entities;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.io.FileSaver;
-import org.solovyev.common.JBuilder;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
@@ -63,8 +62,8 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
         super(mathEngine.getFunctionsRegistry(), "c_fun_description_");
     }
 
-    public void add(@NonNull JBuilder<? extends Function> builder, @Nullable Function oldFunction) {
-        final Function function = add(builder);
+    public void addOrUpdate(@Nonnull Function newFunction, @Nullable Function oldFunction) {
+        final Function function = addOrUpdate(newFunction);
         if (oldFunction == null) {
             bus.post(new AddedEvent(function));
         } else {
@@ -91,6 +90,15 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
         } finally {
             setInitialized();
         }
+    }
+    @Nullable
+    protected Function addSafely(@Nonnull CustomFunction.Builder builder) {
+        try {
+            return addSafely(builder.create());
+        } catch (Exception e) {
+            errorReporter.onException(e);
+        }
+        return null;
     }
 
     @Override

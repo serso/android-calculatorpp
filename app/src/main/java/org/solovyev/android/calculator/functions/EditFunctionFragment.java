@@ -57,7 +57,7 @@ public class EditFunctionFragment extends BaseFunctionFragment {
     protected boolean applyData(@Nonnull @NonNull CppFunction function) {
         try {
             final Function oldFunction = isNewFunction() ? null : functionsRegistry.getById(function.id);
-            functionsRegistry.add(function.toJsclBuilder(), oldFunction);
+            functionsRegistry.addOrUpdate(function.toJsclBuilder().create(), oldFunction);
             return true;
         } catch (RuntimeException e) {
             setError(bodyLabel, e.getLocalizedMessage());

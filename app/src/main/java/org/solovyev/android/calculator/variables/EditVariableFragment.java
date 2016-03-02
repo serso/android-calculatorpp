@@ -198,7 +198,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
-                        variablesRegistry.remove(variable.toJsclBuilder().create());
+                        variablesRegistry.remove(variable.toJsclConstant());
                         dismiss();
                     }
                 });
@@ -217,7 +217,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
                     .withValue(valueView.getText().toString())
                     .withDescription(descriptionView.getText().toString()).build();
             final IConstant oldVariable = isNewVariable() ? null : variablesRegistry.getById(variable.id);
-            variablesRegistry.add(newVariable.toJsclBuilder(), oldVariable);
+            variablesRegistry.addOrUpdate(newVariable.toJsclConstant(), oldVariable);
             return true;
         } catch (RuntimeException e) {
             setError(valueLabel, e.getLocalizedMessage());

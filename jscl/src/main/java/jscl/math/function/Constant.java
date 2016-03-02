@@ -4,10 +4,10 @@ import jscl.JsclMathEngine;
 import jscl.math.*;
 import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
-import org.solovyev.common.HashCodeBuilder;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Constant extends Variable {
@@ -148,14 +148,7 @@ public class Constant extends Variable {
 
     @Override
     public int hashCode() {
-        final HashCodeBuilder result = HashCodeBuilder.newInstance();
-
-        result.append(Constant.class);
-        result.append(name);
-        result.append(subscripts);
-        result.append(prime);
-
-        return result.toHashCode();
+        return Objects.hash(Constant.class, name, subscripts, prime);
     }
 
     public String toString() {

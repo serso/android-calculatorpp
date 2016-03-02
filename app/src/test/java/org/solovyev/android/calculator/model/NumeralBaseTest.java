@@ -23,6 +23,7 @@
 package org.solovyev.android.calculator.model;
 
 import au.com.bytecode.opencsv.CSVReader;
+import com.google.common.base.Function;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.math.Expression;
@@ -32,7 +33,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.solovyev.android.calculator.BaseCalculatorTest;
 import org.solovyev.android.calculator.ParseException;
-import org.solovyev.common.Converter;
 
 import javax.annotation.Nonnull;
 import java.io.InputStreamReader;
@@ -47,16 +47,16 @@ public class NumeralBaseTest extends BaseCalculatorTest {
         engine.getMathEngine().setPrecision(3);
     }
 
-    public void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws jscl.text.ParseException, ParseException {
+    public void testExpression(@Nonnull String[] line, @Nonnull Function<String, String> converter) throws jscl.text.ParseException, ParseException {
         final String dec = line[0].toUpperCase();
         final String hex = "0x:" + line[1].toUpperCase();
         final String bin = "0b:" + line[2].toUpperCase();
 
-        final String decExpression = converter.convert(dec);
+        final String decExpression = converter.apply(dec);
         final String decResult = engine.getMathEngine().evaluate(decExpression);
-        final String hexExpression = converter.convert(hex);
+        final String hexExpression = converter.apply(hex);
         final String hexResult = engine.getMathEngine().evaluate(hexExpression);
-        final String binExpression = converter.convert(bin);
+        final String binExpression = converter.apply(bin);
         final String binResult = engine.getMathEngine().evaluate(binExpression);
 
         Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
@@ -124,38 +124,38 @@ public class NumeralBaseTest extends BaseCalculatorTest {
         }
     }
 
-    private static class DummyExpression implements Converter<String, String> {
+    private static class DummyExpression implements Function<String, String> {
 
         @Nonnull
         @Override
-        public String convert(@Nonnull String s) {
+        public String apply(@Nonnull String s) {
             return s;
         }
     }
 
-    private static class Expression1 implements Converter<String, String> {
+    private static class Expression1 implements Function<String, String> {
 
         @Nonnull
         @Override
-        public String convert(@Nonnull String s) {
+        public String apply(@Nonnull String s) {
             return s + "*" + s;
         }
     }
 
-    private static class Expression2 implements Converter<String, String> {
+    private static class Expression2 implements Function<String, String> {
 
         @Nonnull
         @Override
-        public String convert(@Nonnull String s) {
+        public String apply(@Nonnull String s) {
             return s + "*" + s + " * sin(" + s + ") - 0b:1101";
         }
     }
 
-    private static class Expression3 implements Converter<String, String> {
+    private static class Expression3 implements Function<String, String> {
 
         @Nonnull
         @Override
-        public String convert(@Nonnull String s) {
+        public String apply(@Nonnull String s) {
             return s + "*" + s + " * sin(" + s + ") - 0b:1101 + √(" + s + ") + exp ( " + s + ")";
         }
     }

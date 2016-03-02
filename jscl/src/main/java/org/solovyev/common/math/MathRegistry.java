@@ -22,8 +22,6 @@
 
 package org.solovyev.common.math;
 
-import org.solovyev.common.JBuilder;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
@@ -36,7 +34,7 @@ public interface MathRegistry<T extends MathEntity> {
     @Nonnull
     List<T> getSystemEntities();
 
-    T add(@Nonnull JBuilder<? extends T> JBuilder);
+    T addOrUpdate(@Nonnull T t);
 
     void remove(@Nonnull T var);
 

@@ -38,7 +38,6 @@ import org.solovyev.android.calculator.variables.CppVariable;
 import org.solovyev.android.calculator.variables.OldVars;
 import org.solovyev.android.calculator.variables.VariableCategory;
 import org.solovyev.android.io.FileSaver;
-import org.solovyev.common.JBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -68,8 +67,8 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
         super(mathEngine.getConstantsRegistry(), "c_var_description_");
     }
 
-    public void add(@NonNull JBuilder<? extends IConstant> builder, @Nullable IConstant oldVariable) {
-        final IConstant variable = add(builder);
+    public void addOrUpdate(@Nonnull IConstant newVariable, @Nullable IConstant oldVariable) {
+        final IConstant variable = addOrUpdate(newVariable);
         if (oldVariable == null) {
             bus.post(new AddedEvent(variable));
         } else {
@@ -96,7 +95,7 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
             migrateOldVariables();
 
             for (CppVariable variable : loadEntities(CppVariable.JSON_CREATOR)) {
-                addSafely(variable.toJsclBuilder());
+                addSafely(variable.toJsclConstant());
             }
 
             addSafely("x");
@@ -140,7 +139,7 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
 
     private void addSafely(@Nonnull String name) {
         if (!contains(name)) {
-            addSafely(CppVariable.builder(name).build().toJsclBuilder());
+            addSafely(CppVariable.builder(name).build().toJsclConstant());
         }
     }
 

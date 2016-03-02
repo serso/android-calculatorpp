@@ -48,6 +48,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
@@ -56,7 +58,6 @@ import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.wizard.Wizards;
-import org.solovyev.common.JPredicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -243,19 +244,6 @@ public final class App {
                 }
             }
         }
-    }
-
-    public static <T> T find(@Nullable List<T> list, @Nonnull JPredicate<T> finder) {
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
-        for (int i = 0; i < list.size(); i++) {
-            final T t = list.get(i);
-            if (finder.apply(t)) {
-                return t;
-            }
-        }
-        return null;
     }
 
     @Nullable

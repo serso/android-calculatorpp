@@ -5,7 +5,6 @@ import jscl.math.operator.Factorial;
 import jscl.math.operator.Operator;
 import jscl.mathml.MathML;
 import jscl.text.ParseException;
-import org.solovyev.common.Converter;
 import org.solovyev.common.math.MathEntity;
 
 import javax.annotation.Nonnull;
@@ -19,31 +18,31 @@ public abstract class Variable implements Comparable, MathEntity {
 
     @Nonnull
     public static final Comparator<Variable> comparator = VariableComparator.comparator;
-    protected static final Converter<Generic, Generic> FACTORIZE_CONVERTER = new Converter<Generic, Generic>() {
+    protected static final com.google.common.base.Function<Generic, Generic> FACTORIZE_CONVERTER = new com.google.common.base.Function<Generic, Generic>() {
         @Nonnull
         @Override
-        public Generic convert(@Nonnull Generic generic) {
+        public Generic apply(@Nonnull Generic generic) {
             return generic.factorize();
         }
     };
-    protected static final Converter<Generic, Generic> ELEMENTARY_CONVERTER = new Converter<Generic, Generic>() {
+    protected static final com.google.common.base.Function<Generic, Generic> ELEMENTARY_CONVERTER = new com.google.common.base.Function<Generic, Generic>() {
         @Nonnull
         @Override
-        public Generic convert(@Nonnull Generic generic) {
+        public Generic apply(@Nonnull Generic generic) {
             return generic.elementary();
         }
     };
-    protected static final Converter<Generic, Generic> EXPAND_CONVERTER = new Converter<Generic, Generic>() {
+    protected static final com.google.common.base.Function<Generic, Generic> EXPAND_CONVERTER = new com.google.common.base.Function<Generic, Generic>() {
         @Nonnull
         @Override
-        public Generic convert(@Nonnull Generic generic) {
+        public Generic apply(@Nonnull Generic generic) {
             return generic.expand();
         }
     };
-    protected static final Converter<Generic, Generic> NUMERIC_CONVERTER = new Converter<Generic, Generic>() {
+    protected static final com.google.common.base.Function<Generic, Generic> NUMERIC_CONVERTER = new com.google.common.base.Function<Generic, Generic>() {
         @Nonnull
         @Override
-        public Generic convert(@Nonnull Generic generic) {
+        public Generic apply(@Nonnull Generic generic) {
             return generic.numeric();
         }
     };

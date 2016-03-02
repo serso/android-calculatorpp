@@ -123,7 +123,7 @@ public class AndroidEngineTest extends BaseCalculatorTest {
             me.setAngleUnits(defaultAngleUnit);
         }
 
-        engine.getVariablesRegistry().add(CppVariable.builder("si").withValue(5d).build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("si").withValue(5d).build().toJsclConstant());
         assertEval("5", me.evaluate("si"));
 
         assertError("sin");

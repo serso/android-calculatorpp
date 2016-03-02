@@ -7,7 +7,6 @@ import jscl.text.ParseException;
 import jscl.util.ExpressionGeneratorWithInput;
 import org.junit.Assert;
 import org.junit.Test;
-import org.solovyev.common.Converter;
 
 import javax.annotation.Nonnull;
 import java.io.InputStreamReader;

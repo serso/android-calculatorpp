@@ -304,7 +304,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
         b.withSystem(true);
         b.withDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
 
-        variablesRegistry.add(b.build().toJsclBuilder(), variable);
+        variablesRegistry.addOrUpdate(b.build().toJsclConstant(), variable);
     }
 
     @Subscribe

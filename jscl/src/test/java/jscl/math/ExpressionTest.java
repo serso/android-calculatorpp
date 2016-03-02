@@ -121,7 +121,8 @@ public class ExpressionTest {
 
         final JsclMathEngine me = JsclMathEngine.getInstance();
         try {
-            constant = me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t_0"), 1d));
+            final ExtendedConstant.Builder t_0 = new ExtendedConstant.Builder(new Constant("t_0"), 1d);
+            constant = me.getConstantsRegistry().addOrUpdate(t_0.create());
 
             constants = Expression.valueOf("3+4*t_0+t_0+t_1").getConstants();
             Assert.assertTrue(constants.size() == 2);
@@ -136,7 +137,8 @@ public class ExpressionTest {
 
         } finally {
             if (constant != null) {
-                me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant(constant.getName()), (String) null));
+                final ExtendedConstant.Builder jBuilder = new ExtendedConstant.Builder(new Constant(constant.getName()), (String) null);
+                me.getConstantsRegistry().addOrUpdate(jBuilder.create());
             }
         }
     }
@@ -268,23 +270,27 @@ public class ExpressionTest {
         Assert.assertEquals("2.8284271247461903", Expression.valueOf("abs(2-2*i)").numeric().toString());
 
         try {
-            me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k"), 2.8284271247461903));
+            final ExtendedConstant.Builder k = new ExtendedConstant.Builder(new Constant("k"), 2.8284271247461903);
+            me.getConstantsRegistry().addOrUpdate(k.create());
             Assert.assertEquals("k", Expression.valueOf("k").numeric().toString());
             Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
             Assert.assertEquals("k", Expression.valueOf("k").simplify().toString());
             Assert.assertEquals("k^3", Expression.valueOf("k*k*k").simplify().toString());
             Assert.assertEquals("22.627416997969526", Expression.valueOf("k*k*k").numeric().toString());
         } finally {
-            me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k"), (String) null));
+            final ExtendedConstant.Builder k = new ExtendedConstant.Builder(new Constant("k"), (String) null);
+            me.getConstantsRegistry().addOrUpdate(k.create());
         }
 
         try {
-            me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k_1"), 3d));
+            final ExtendedConstant.Builder k_1 = new ExtendedConstant.Builder(new Constant("k_1"), 3d);
+            me.getConstantsRegistry().addOrUpdate(k_1.create());
             Assert.assertEquals("k_1", Expression.valueOf("k_1").numeric().toString());
             Assert.assertEquals("k_1", Expression.valueOf("k_1[0]").numeric().toString());
             Assert.assertEquals("k_1", Expression.valueOf("k_1[2]").numeric().toString());
         } finally {
-            me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("k_1"), (String) null));
+            final ExtendedConstant.Builder k_1 = new ExtendedConstant.Builder(new Constant("k_1"), (String) null);
+            me.getConstantsRegistry().addOrUpdate(k_1.create());
         }
 
         Generic expression = me.simplifyGeneric("cos(t)+∂(cos(t),t)");
@@ -357,7 +363,8 @@ public class ExpressionTest {
         } catch (ArithmeticException e) {
         }
 
-        me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t"), (String) null));
+        final ExtendedConstant.Builder t = new ExtendedConstant.Builder(new Constant("t"), (String) null);
+        me.getConstantsRegistry().addOrUpdate(t.create());
         try {
             Expression.valueOf("t").numeric();
             fail();

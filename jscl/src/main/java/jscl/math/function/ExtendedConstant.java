@@ -1,6 +1,5 @@
 package jscl.math.function;
 
-import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 
 import javax.annotation.Nonnull;
@@ -176,7 +175,7 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         return this.constant.compareTo(o.getConstant());
     }
 
-    public static final class Builder implements JBuilder<ExtendedConstant> {
+    public static final class Builder {
         @Nonnull
         private Constant constant;
 
@@ -209,7 +208,6 @@ public class ExtendedConstant implements Comparable<ExtendedConstant>, IConstant
         }
 
         @Nonnull
-        @Override
         public ExtendedConstant create() {
             final ExtendedConstant result = new ExtendedConstant();
 

@@ -22,12 +22,12 @@
 
 package org.solovyev.common.search;
 
-import org.solovyev.common.JPredicate;
+import com.google.common.base.Predicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class StartsWithFinder implements JPredicate<String> {
+public class StartsWithFinder implements Predicate<String> {
 
 	private int i;
 

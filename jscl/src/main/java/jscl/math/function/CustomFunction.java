@@ -4,7 +4,6 @@ import jscl.CustomFunctionCalculationException;
 import jscl.JsclMathEngine;
 import jscl.math.*;
 import jscl.text.ParseException;
-import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 
 import javax.annotation.Nonnull;
@@ -211,7 +210,7 @@ public class CustomFunction extends Function implements IFunction {
         return new CustomFunction(name, parameterNames, content, description);
     }
 
-    public static class Builder implements JBuilder<CustomFunction> {
+    public static class Builder {
 
         private final boolean system;
 
@@ -320,7 +319,6 @@ public class CustomFunction extends Function implements IFunction {
             return this;
         }
 
-        @Nonnull
         public CustomFunction create() throws CustomFunctionCalculationException {
             final CustomFunction customFunction = new CustomFunction(name, parameterNames, prepareContent(content), description);
             customFunction.setSystem(system);

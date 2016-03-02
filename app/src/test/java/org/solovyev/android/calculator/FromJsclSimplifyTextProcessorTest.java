@@ -48,15 +48,15 @@ public class FromJsclSimplifyTextProcessorTest {
         //Assert.assertEquals("e", tp.process("2.718281828459045"));
         //Assert.assertEquals("tee", tp.process("t2.718281828459045*2.718281828459045"));
 
-        engine.getVariablesRegistry().add(CppVariable.builder("t2.718281828459045", 2).build().toJsclBuilder());
-        engine.getVariablesRegistry().add(CppVariable.builder("t").build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t2.718281828459045", 2).build().toJsclConstant());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t").build().toJsclConstant());
         //Assert.assertEquals("t2.718281828459045e", tp.process("t2.718281828459045*2.718281828459045"));
         //Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
         assertEquals("t×", tp.process("t*"));
         assertEquals("×t", tp.process("*t"));
         assertEquals("t2", tp.process("t*2"));
         assertEquals("2t", tp.process("2*t"));
-        engine.getVariablesRegistry().add(CppVariable.builder("t").build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t").build().toJsclConstant());
         assertEquals("t×", tp.process("t*"));
         assertEquals("×t", tp.process("*t"));
 
@@ -69,7 +69,7 @@ public class FromJsclSimplifyTextProcessorTest {
         assertEquals("t^[2×2t]", tp.process("t^[2*2*t]"));
         assertEquals("2t^2[2t]", tp.process("2*t^2[2*t]"));
 
-        engine.getVariablesRegistry().add(CppVariable.builder("k").build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("k").build().toJsclConstant());
         assertEquals("(t+2k)[k+2t]", tp.process("(t+2*k)*[k+2*t]"));
         assertEquals("(te+2k)e[k+2te]", tp.process("(t*e+2*k)*e*[k+2*t*e]"));
 

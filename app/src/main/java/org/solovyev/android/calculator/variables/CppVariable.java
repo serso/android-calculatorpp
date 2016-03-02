@@ -11,7 +11,6 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
-import org.solovyev.common.JBuilder;
 
 import javax.annotation.Nonnull;
 
@@ -114,14 +113,8 @@ public class CppVariable implements Jsonable, Parcelable {
     }
 
     @Nonnull
-    public JBuilder<? extends IConstant> toJsclBuilder() {
-        return new JBuilder<IConstant>() {
-            @Nonnull
-            @Override
-            public IConstant create() {
-                return new JsclConstant(CppVariable.this);
-            }
-        };
+    public IConstant toJsclConstant() {
+        return new JsclConstant(CppVariable.this);
     }
 
     @Override

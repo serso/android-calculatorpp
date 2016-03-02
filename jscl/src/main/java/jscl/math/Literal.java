@@ -1,10 +1,10 @@
 package jscl.math;
 
+import com.google.common.base.Function;
 import jscl.math.function.Fraction;
 import jscl.math.function.Pow;
 import jscl.math.polynomial.Monomial;
 import jscl.mathml.MathML;
-import org.solovyev.common.Converter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -381,11 +381,11 @@ public class Literal implements Comparable {
         }
     }
 
-    Map<Variable, Generic> content(@Nonnull Converter<Variable, Generic> c) {
+    Map<Variable, Generic> content(@Nonnull Function<Variable, Generic> c) {
         final Map<Variable, Generic> result = new TreeMap<Variable, Generic>();
 
         for (int i = 0; i < size; i++) {
-            result.put(variables[i], c.convert(variables[i]));
+            result.put(variables[i], c.apply(variables[i]));
         }
 
         return result;

@@ -1,7 +1,5 @@
 package jscl.math;
 
-import org.solovyev.common.Converter;
-
 import jscl.math.function.Constant;
 import jscl.math.function.Fraction;
 import jscl.math.function.Inverse;
@@ -16,38 +14,33 @@ import jscl.text.ParserUtils;
 import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.*;
 
 public class Expression extends Generic {
 
-    protected static final Converter<Variable, Generic> FACTORIZE_CONVERTER = new Converter<Variable, Generic>() {
+    protected static final com.google.common.base.Function<Variable, Generic> FACTORIZE_CONVERTER = new com.google.common.base.Function<Variable, Generic>() {
         @Nonnull
-        public Generic convert(@Nonnull Variable variable) {
+        public Generic apply(@Nonnull Variable variable) {
             return variable.factorize();
         }
     };
-    protected static final Converter<Variable, Generic> ELEMENTARY_CONVERTER = new Converter<Variable, Generic>() {
+    protected static final com.google.common.base.Function<Variable, Generic> ELEMENTARY_CONVERTER = new com.google.common.base.Function<Variable, Generic>() {
         @Nonnull
-        public Generic convert(@Nonnull Variable variable) {
+        public Generic apply(@Nonnull Variable variable) {
             return variable.elementary();
         }
     };
-    protected static final Converter<Variable, Generic> EXPAND_CONVERTER = new Converter<Variable, Generic>() {
+    protected static final com.google.common.base.Function<Variable, Generic> EXPAND_CONVERTER = new com.google.common.base.Function<Variable, Generic>() {
         @Nonnull
-        public Generic convert(@Nonnull Variable variable) {
+        public Generic apply(@Nonnull Variable variable) {
             return variable.expand();
         }
     };
-    protected static final Converter<Variable, Generic> NUMERIC_CONVERTER = new Converter<Variable, Generic>() {
+    protected static final com.google.common.base.Function<Variable, Generic> NUMERIC_CONVERTER = new com.google.common.base.Function<Variable, Generic>() {
         @Nonnull
-        public Generic convert(@Nonnull Variable variable) {
+        public Generic apply(@Nonnull Variable variable) {
             return variable.numeric();
         }
     };
@@ -495,9 +488,9 @@ public class Expression extends Generic {
     }
 
     public Generic substitute(@Nonnull final Variable variable, final Generic generic) {
-        final Map<Variable, Generic> content = literalScm().content(new Converter<Variable, Generic>() {
+        final Map<Variable, Generic> content = literalScm().content(new com.google.common.base.Function<Variable, Generic>() {
             @Nonnull
-            public Generic convert(@Nonnull Variable v) {
+            public Generic apply(@Nonnull Variable v) {
                 return v.substitute(variable, generic);
             }
         });

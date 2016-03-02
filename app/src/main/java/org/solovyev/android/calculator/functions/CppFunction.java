@@ -4,25 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
+import jscl.math.function.CustomFunction;
+import jscl.math.function.IFunction;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
-import org.solovyev.common.JBuilder;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
 
 import static java.util.Arrays.asList;
 
@@ -185,7 +180,7 @@ public class CppFunction implements Jsonable, Parcelable {
     }
 
     @Nonnull
-    public JBuilder<? extends Function> toJsclBuilder() {
+    public CustomFunction.Builder toJsclBuilder() {
         final CustomFunction.Builder builder = new CustomFunction.Builder(name, parameters, body);
         builder.setDescription(description);
         if (id != NO_ID) {

@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import com.google.common.collect.Iterables;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.math.MathType;
@@ -109,11 +110,11 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
             startsWithFinder.setI(i);
 
             int offset = 0;
-            String functionName = App.find(MathType.function.getTokens(engine), startsWithFinder);
+            String functionName = Iterables.find(MathType.function.getTokens(engine), startsWithFinder, null);
             if (functionName == null) {
-                String operatorName = App.find(MathType.operator.getTokens(engine), startsWithFinder);
+                String operatorName = Iterables.find(MathType.operator.getTokens(engine), startsWithFinder, null);
                 if (operatorName == null) {
-                    String varName = App.find(engine.getVariablesRegistry().getNames(), startsWithFinder);
+                    String varName = Iterables.find(engine.getVariablesRegistry().getNames(), startsWithFinder, null);
                     if (varName != null) {
                         final IConstant var = engine.getVariablesRegistry().get(varName);
                         if (var != null) {

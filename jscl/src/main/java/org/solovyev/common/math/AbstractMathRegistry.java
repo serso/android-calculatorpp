@@ -22,7 +22,6 @@
 
 package org.solovyev.common.math;
 
-import org.solovyev.common.JBuilder;
 import org.solovyev.common.collections.SortedList;
 
 import javax.annotation.Nonnull;
@@ -117,34 +116,23 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
         list.add(entity);
     }
 
-    public T add(@Nonnull JBuilder<? extends T> builder) {
+    public T addOrUpdate(@Nonnull T entity) {
         synchronized (this) {
-            final T entity = builder.create();
-
-            T varFromRegister;
-
-            if (entity.isIdDefined()) {
-                varFromRegister = getById(entity.getId());
-            } else {
-                varFromRegister = get(entity.getName());
-            }
-
-            if (varFromRegister == null) {
-                varFromRegister = entity;
-
-                addEntity(entity, this.entities);
-                this.entityNames.clear();
+            final T existingEntity = entity.isIdDefined() ? getById(entity.getId()) : get(entity.getName());
+            if (existingEntity == null) {
+                addEntity(entity, entities);
+                entityNames.clear();
                 if (entity.isSystem()) {
-                    this.systemEntities.add(entity);
+                    systemEntities.add(entity);
                 }
+                return entity;
             } else {
-                varFromRegister.copy(entity);
+                existingEntity.copy(entity);
                 this.entities.sort();
                 this.entityNames.clear();
                 this.systemEntities.sort();
+                return existingEntity;
             }
-
-            return varFromRegister;
         }
     }
 

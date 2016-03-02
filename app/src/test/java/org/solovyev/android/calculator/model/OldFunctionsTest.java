@@ -22,27 +22,18 @@
 
 package org.solovyev.android.calculator.model;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
+import jscl.util.ExpressionGenerator;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.android.calculator.functions.OldFunction;
 import org.solovyev.android.calculator.functions.OldFunctions;
-import org.solovyev.common.Objects;
-import org.solovyev.common.equals.CollectionEqualizer;
-
-import java.io.StringWriter;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.util.ExpressionGenerator;
+import java.io.StringWriter;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * User: serso
@@ -138,21 +129,4 @@ public class OldFunctionsTest {
         testXml(in, null);
     }
 
-    private void assertEquals(@Nonnull final OldFunction expected,
-                              @Nonnull OldFunction actual) {
-        //Assert.assertEquals(expected.getId(), actual.getId());
-        Assert.assertEquals(expected.content, actual.content);
-        Assert.assertEquals(expected.description, actual.description);
-        Assert.assertEquals(expected.name, actual.name);
-        Assert.assertThat(actual.parameterNames, new BaseMatcher<List<String>>() {
-            @Override
-            public boolean matches(Object item) {
-                return Objects.areEqual(expected.parameterNames, (List<String>) item, new CollectionEqualizer<String>(null));
-            }
-
-            @Override
-            public void describeTo(Description description) {
-            }
-        });
-    }
 }

@@ -107,7 +107,7 @@ public class EvaluateTest extends BaseCalculatorTest {
         assertError("(-1)i!");
         assertEval("24i", "4!i");
 
-        engine.getVariablesRegistry().add(CppVariable.builder("si", 5d).build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("si", 5d).build().toJsclConstant());
 
         try {
             cm.setAngleUnits(AngleUnit.rad);
@@ -121,14 +121,14 @@ public class EvaluateTest extends BaseCalculatorTest {
             cm.setAngleUnits(defaultAngleUnit);
         }
 
-        engine.getVariablesRegistry().add(CppVariable.builder("s", 1d).build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("s", 1d).build().toJsclConstant());
         assertEval("5", cm.evaluate("si"));
 
-        engine.getVariablesRegistry().add(CppVariable.builder("k", 3.5d).build().toJsclBuilder());
-        engine.getVariablesRegistry().add(CppVariable.builder("k1", 4d).build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("k", 3.5d).build().toJsclConstant());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("k1", 4d).build().toJsclConstant());
         assertEval("4", "k11");
 
-        engine.getVariablesRegistry().add(CppVariable.builder("t").build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t").build().toJsclConstant());
         assertEval("11t", "t11");
         assertEval("11et", "t11e");
         assertEval("∞", "∞");
@@ -174,10 +174,10 @@ public class EvaluateTest extends BaseCalculatorTest {
 			cm.setTimeout(3000);
 		}*/
 
-        engine.getVariablesRegistry().add(CppVariable.builder("t").build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t").build().toJsclConstant());
         assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
         assertEval("2t", "∂(t^2,t)");
-        engine.getVariablesRegistry().add(CppVariable.builder("t", 2d).build().toJsclBuilder());
+        engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t", 2d).build().toJsclConstant());
         assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
         assertEval("4", "∂(t^2,t)");
 

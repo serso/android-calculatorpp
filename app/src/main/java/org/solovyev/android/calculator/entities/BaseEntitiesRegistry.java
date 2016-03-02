@@ -28,25 +28,22 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.squareup.otto.Bus;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppModule;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.EntitiesRegistry;
-import org.solovyev.android.calculator.ErrorReporter;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.io.FileSaver;
 import org.solovyev.android.io.FileSystem;
-import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,11 +51,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 public abstract class BaseEntitiesRegistry<T extends MathEntity> implements EntitiesRegistry<T> {
 
@@ -181,8 +173,8 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     }
 
     @Override
-    public T add(@Nonnull JBuilder<? extends T> builder) {
-        final T entity = mathRegistry.add(builder);
+    public T addOrUpdate(@Nonnull T t) {
+        final T entity = mathRegistry.addOrUpdate(t);
         if (!entity.isSystem() && isInitialized()) {
             save();
         }
@@ -190,9 +182,9 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     }
 
     @Nullable
-    protected T addSafely(@Nonnull JBuilder<? extends T> builder) {
+    protected T addSafely(@Nonnull T entity) {
         try {
-            return add(builder);
+            return addOrUpdate(entity);
         } catch (Exception e) {
             errorReporter.onException(e);
         }

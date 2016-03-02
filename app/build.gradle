@@ -81,9 +81,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-base:8.4.0'
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile(name: 'plotter', ext: 'aar')
-    compile('com.google.guava:guava:11.0.2') {
-        exclude(module: 'jsr305')
-    }
+    compile 'com.google.guava:guava:19.0'
     compile('org.simpleframework:simple-xml:2.6.1') {
         exclude(module: 'stax-api')
         exclude(module: 'xpp3')

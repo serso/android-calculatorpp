@@ -16,7 +16,8 @@ public class CosTest {
     @Test
     public void testIntegral() throws Exception {
         final JsclMathEngine me = JsclMathEngine.getInstance();
-        me.getConstantsRegistry().add(new ExtendedConstant.Builder(new Constant("t"), 10d));
+        final ExtendedConstant.Builder t = new ExtendedConstant.Builder(new Constant("t"), 10d);
+        me.getConstantsRegistry().addOrUpdate(t.create());
         Assert.assertEquals("-sin(t)", me.simplify("∂(cos(t),t,t,1)"));
         Assert.assertEquals("∂(cos(t), t, t, 1°)", me.simplify("∂(cos(t),t,t,1°)"));
         Assert.assertEquals("-0.17364817766693033", me.evaluate("∂(cos(t),t,t,1)"));
