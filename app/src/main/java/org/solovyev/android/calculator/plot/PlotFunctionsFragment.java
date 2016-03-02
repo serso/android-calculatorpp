@@ -3,13 +3,12 @@ package org.solovyev.android.calculator.plot;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.TextView;
@@ -23,8 +22,7 @@ import org.solovyev.android.plotter.BasePlotterListener;
 import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.PlotIconView;
 import org.solovyev.android.plotter.Plotter;
-import org.solovyev.android.views.llm.DividerItemDecoration;
-import org.solovyev.android.views.llm.LinearLayoutManager;
+import org.solovyev.android.views.DividerItemDecoration;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -64,25 +62,13 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
 
     @NonNull
     protected RecyclerView onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, Bundle savedInstanceState) {
-        @SuppressLint("InflateParams") final RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_functions, null);
+        @SuppressLint("InflateParams") final RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_plot_functions, null);
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(context, VERTICAL, false);
-        final int itemHeight = context.getResources().getDimensionPixelSize(R.dimen.list_item_height);
-        layoutManager.setChildSize(itemHeight + getDividerHeight(context));
-        view.setLayoutManager(layoutManager);
-
+        view.setLayoutManager(new LinearLayoutManager(context, VERTICAL, false));
         view.addItemDecoration(new DividerItemDecoration(context, null));
         adapter = new Adapter(plotter.getPlotData().functions);
         view.setAdapter(adapter);
         return view;
-    }
-
-    private int getDividerHeight(@NonNull Context context) {
-        final TypedArray a = context.obtainStyledAttributes(null, new int[]{android.R.attr.listDivider});
-        final Drawable divider = a.getDrawable(0);
-        final int dividerHeight = divider == null ? 0 : divider.getIntrinsicHeight();
-        a.recycle();
-        return dividerHeight;
     }
 
     @Override

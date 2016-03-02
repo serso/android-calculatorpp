@@ -36,8 +36,11 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.views.llm.DividerItemDecoration;
+import org.solovyev.android.calculator.BaseFragment;
+import org.solovyev.android.calculator.CalculatorActivity;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.views.DividerItemDecoration;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 

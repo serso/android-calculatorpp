@@ -40,7 +40,7 @@ import com.squareup.otto.Subscribe;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.views.llm.DividerItemDecoration;
+import org.solovyev.android.views.DividerItemDecoration;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
