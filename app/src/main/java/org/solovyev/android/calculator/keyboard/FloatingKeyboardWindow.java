@@ -26,6 +26,7 @@ public class FloatingKeyboardWindow {
     private PopupWindow window;
     @Nullable
     private Dialog dialog;
+    private boolean tablet;
 
     public FloatingKeyboardWindow(@javax.annotation.Nullable PopupWindow.OnDismissListener dismissListener) {
         this.dismissListener = dismissListener;
@@ -41,7 +42,9 @@ public class FloatingKeyboardWindow {
     }
 
     private void onDismissed() {
-        moveDialog(Gravity.CENTER);
+        if (!tablet) {
+            moveDialog(Gravity.CENTER);
+        }
         window = null;
         dialog = null;
     }
@@ -53,9 +56,12 @@ public class FloatingKeyboardWindow {
             return;
         }
         this.dialog = dialog;
-        moveDialog(Gravity.TOP);
-        App.hideIme(editor);
         final Context context = editor.getContext();
+        this.tablet = App.isTablet(context);
+        if (!tablet) {
+            moveDialog(Gravity.TOP);
+        }
+        App.hideIme(editor);
         final LinearLayout view = new LinearLayout(context);
         view.setOrientation(LinearLayout.VERTICAL);
 
