@@ -38,8 +38,6 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
     private ViewPager pager;
     @Nonnull
     private WizardPagerAdapter pagerAdapter;
-    @Nonnull
-    private Wizards wizards = App.getWizards();
     @Nullable
     private AlertDialog dialog;
     
@@ -47,6 +45,8 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
     SharedPreferences preferences;
     @Inject
     Languages languages;
+    @Inject
+    Wizards wizards;
 
     public WizardActivity() {
         super(R.layout.cpp_activity_wizard, 0);

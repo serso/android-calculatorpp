@@ -29,6 +29,7 @@ import com.squareup.otto.Bus;
 import dagger.Lazy;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
+import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.math.MathType;
 
 import javax.annotation.Nonnull;
@@ -51,6 +52,8 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
     @Inject
     Engine engine;
     @Inject
+    Ga ga;
+    @Inject
     Lazy<Clipboard> clipboard;
     @Inject
     Lazy<Bus> bus;
@@ -72,7 +75,7 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         if (TextUtils.isEmpty(text)) {
             return false;
         }
-        App.getGa().onButtonPressed(text);
+        ga.onButtonPressed(text);
         if (!processSpecialAction(text)) {
             processText(prepareText(text));
         }

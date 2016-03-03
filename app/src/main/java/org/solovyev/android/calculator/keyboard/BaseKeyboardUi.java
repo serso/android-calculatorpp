@@ -4,17 +4,16 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
-import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
@@ -26,9 +25,9 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import static android.view.HapticFeedbackConstants.*;
 import static org.solovyev.android.calculator.App.cast;
-import static org.solovyev.android.calculator.App.getScreenMetrics;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
 
@@ -59,7 +58,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     ActivityLauncher launcher;
     @Inject
     PreferredPreferences preferredPreferences;
-    protected int orientation = Configuration.ORIENTATION_PORTRAIT;
+    protected int orientation = ORIENTATION_PORTRAIT;
     private int textSize;
     private Preferences.Gui.Layout layout;
     private final float textScale;
@@ -83,7 +82,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
 
         orientation = App.getScreenOrientation(activity);
         layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
-        textSize = calculateTextSize();
+        textSize = calculateTextSize(activity);
     }
 
     protected final void prepareButton(@Nullable ImageView button) {
@@ -141,12 +140,13 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    public static int calculateTextSize() {
-        final ScreenMetrics metrics = getScreenMetrics();
-        final boolean portrait = metrics.isInPortraitMode();
+    public static int calculateTextSize(@Nonnull Activity activity) {
+        final boolean portrait = App.getScreenOrientation(activity) == ORIENTATION_PORTRAIT;
+        final DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         final int buttonsCount = portrait ? 5 : 4;
         final int buttonsWeight = portrait ? (2 + 1 + buttonsCount) : (2 + buttonsCount);
-        final int buttonSize = metrics.getHeightPxs() / buttonsWeight;
+        final int buttonSize = metrics.heightPixels / buttonsWeight;
         return 5 * buttonSize / 12;
     }
 

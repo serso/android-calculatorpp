@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Application;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
@@ -54,8 +55,8 @@ public class Editor {
     Bus bus;
 
     @Inject
-    public Editor(@Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
-        textProcessor = new EditorTextProcessor(preferences, engine);
+    public Editor(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
+        textProcessor = new EditorTextProcessor(application, preferences, engine);
     }
 
     public void init() {

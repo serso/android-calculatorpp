@@ -88,7 +88,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
+        preferences.registerOnSharedPreferenceChangeListener(this);
 
         final Intent intent = getIntent();
         final int preferenceTitle = intent.getIntExtra(EXTRA_PREFERENCE_TITLE, 0);
@@ -139,7 +139,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     @Override
     protected void onDestroy() {
         checkout.stop();
-        App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
 

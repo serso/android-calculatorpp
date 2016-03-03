@@ -10,9 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ListView;
-
 import org.solovyev.android.calculator.AdView;
-import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
@@ -22,12 +20,14 @@ import org.solovyev.android.checkout.BillingRequests;
 import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.RequestListener;
-
-import java.util.List;
+import org.solovyev.android.wizard.Wizards;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import java.util.List;
 
+import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
@@ -38,6 +38,12 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
     private Preference buyPremiumPreference;
     @Nullable
     private AdView adView;
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    Languages languages;
+    @Inject
+    Wizards wizards;
 
     @Nonnull
     public static PreferencesFragment create(int preferencesResId, int layoutResId) {
@@ -49,8 +55,9 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cast(this).getComponent().inject(this);
 
-        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private void setPreferenceIntent(int xml, @Nonnull PreferencesActivity.PrefDef def) {
@@ -80,7 +87,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
             restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startWizard(App.getWizards(), DEFAULT_WIZARD_FLOW, getActivity());
+                    startWizard(wizards, DEFAULT_WIZARD_FLOW, getActivity());
                     return true;
                 }
             });
@@ -122,7 +129,6 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
             }
         });
 
-        final SharedPreferences preferences = App.getPreferences();
         onSharedPreferenceChanged(preferences, Engine.Preferences.Output.round.getKey());
     }
 
@@ -132,7 +138,6 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         }
 
         final ListPreference language = (ListPreference) preferenceManager.findPreference(Preferences.Gui.language.getKey());
-        final Languages languages = App.getLanguages();
         final List<Language> languagesList = languages.getList();
         final CharSequence[] entries = new CharSequence[languagesList.size()];
         final CharSequence[] entryValues = new CharSequence[languagesList.size()];
@@ -195,7 +200,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
     @Override
     public void onDestroy() {
-        App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
 

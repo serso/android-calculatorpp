@@ -1,8 +1,6 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.app.KeyguardManager;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -21,6 +19,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
@@ -51,6 +50,8 @@ public class BaseActivity extends AppCompatActivity {
     @Inject
     Calculator calculator;
     @Inject
+    Ga ga;
+    @Inject
     Typeface typeface;
     @Bind(R.id.main)
     ViewGroup mainView;
@@ -77,12 +78,12 @@ public class BaseActivity extends AppCompatActivity {
         this.tabs = new Tabs(this);
     }
 
-    public static void reportActivityStop(@Nonnull Activity activity) {
-        App.getGa().getAnalytics().reportActivityStop(activity);
+    public void reportActivityStop(@Nonnull Activity activity) {
+        ga.getAnalytics().reportActivityStop(activity);
     }
 
-    public static void reportActivityStart(@Nonnull Activity activity) {
-        App.getGa().getAnalytics().reportActivityStart(activity);
+    public void reportActivityStart(@Nonnull Activity activity) {
+        ga.getAnalytics().reportActivityStart(activity);
     }
 
     public static void setFont(@Nonnull TextView view, @Nonnull Typeface newTypeface) {

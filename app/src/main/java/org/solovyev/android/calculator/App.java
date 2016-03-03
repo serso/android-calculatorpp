@@ -41,114 +41,51 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import com.squareup.otto.Bus;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
-import org.solovyev.android.calculator.ga.Ga;
-import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.calculator.view.ScreenMetrics;
-import org.solovyev.android.calculator.wizard.CalculatorWizards;
-import org.solovyev.android.wizard.Wizards;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * This class aggregates several useful in any Android application interfaces and provides access to {@link android.app.Application} object from a static context.
- * NOTE: use this class only if you don't use and dependency injection library (if you use any you can directly set interfaces through it). <br/>
- * <p/>
- * Before first usage this class must be initialized by calling {@link App#init(android.app.Application)} method (for example, from {@link android.app.Application#onCreate()})
- */
 public final class App {
 
     public static final String TAG = "C++";
-
     @Nonnull
-    private static Languages languages;
-    @Nonnull
-    private static volatile Application application;
+    private static Application application;
     @Nonnull
     private static SharedPreferences preferences;
-    @Nonnull
-    private static volatile Ga ga;
-    @Nonnull
-    private static volatile ScreenMetrics screenMetrics;
-    @Nonnull
-    private static Wizards wizards;
-    @Nonnull
-    private static Editor editor;
-    @Nonnull
-    private static Bus bus;
-    @Nonnull
-    private static Display display;
 
     private App() {
         throw new AssertionError();
     }
 
-    public static void init(@Nonnull CalculatorApplication application,
-                            @Nonnull Languages languages) {
+    public static void init(@Nonnull CalculatorApplication application) {
         App.application = application;
         App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        App.ga = new Ga(application, preferences);
-        App.screenMetrics = new ScreenMetrics(application);
-        App.languages = languages;
-        App.languages.init();
-        App.wizards = new CalculatorWizards(application);
-        App.editor = application.editor;
-        App.display = application.display;
-        App.bus = application.bus;
-    }
-
-    /**
-     * @param <A> real type of application
-     * @return application instance which was provided in {@link App#init} method
-     */
-    @SuppressWarnings("unchecked")
-    @Nonnull
-    public static <A extends Application> A getApplication() {
-        return (A) application;
-    }
-
-    @Nonnull
-    public static Wizards getWizards() {
-        return wizards;
-    }
-
-    @Nonnull
-    public static Ga getGa() {
-        return ga;
-    }
-
-    @Nonnull
-    public static SharedPreferences getPreferences() {
-        return preferences;
     }
 
     @Nonnull
     public static Preferences.Gui.Theme getTheme() {
-        return Preferences.Gui.getTheme(getPreferences());
+        return Preferences.Gui.getTheme(preferences);
     }
 
     @Nonnull
     public static Preferences.SimpleTheme getWidgetTheme() {
-        return Preferences.Widget.getTheme(getPreferences());
+        return Preferences.Widget.getTheme(preferences);
     }
 
     @Nonnull
     public static Preferences.Gui.Theme getThemeFor(@Nonnull Context context) {
         if (isFloatingCalculator(context)) {
-            final SharedPreferences p = getPreferences();
+            final SharedPreferences p = preferences;
             final Preferences.SimpleTheme onscreenTheme = Preferences.Onscreen.getTheme(p);
             final Preferences.Gui.Theme appTheme = Preferences.Gui.getTheme(p);
             return onscreenTheme.resolveThemeFor(appTheme).getAppTheme();
@@ -163,16 +100,6 @@ public final class App {
             return unwrap(((ContextThemeWrapper) context).getBaseContext());
         }
         return context;
-    }
-
-    @Nonnull
-    public static Languages getLanguages() {
-        return languages;
-    }
-
-    @Nonnull
-    public static ScreenMetrics getScreenMetrics() {
-        return screenMetrics;
     }
 
     public static void showDialog(@Nonnull DialogFragment dialogFragment,
@@ -199,21 +126,6 @@ public final class App {
     @NonNull
     public static String unspan(@Nonnull CharSequence spannable) {
         return spannable.toString();
-    }
-
-    @Nonnull
-    public static Editor getEditor() {
-        return editor;
-    }
-
-    @Nonnull
-    public static Display getDisplay() {
-        return display;
-    }
-
-    @Nonnull
-    public static Bus getBus() {
-        return bus;
     }
 
     private static final AtomicInteger sNextViewId = new AtomicInteger(1);
@@ -389,14 +301,6 @@ public final class App {
         }
 
         pm.setComponentEnabledSetting(new ComponentName(context, componentClass), componentState, PackageManager.DONT_KILL_APP);
-    }
-
-    public static boolean isComponentEnabled(@Nonnull Context context,
-                                             @Nonnull Class<? extends Context> componentClass) {
-        final PackageManager pm = context.getPackageManager();
-
-        int componentEnabledSetting = pm.getComponentEnabledSetting(new ComponentName(context, componentClass));
-        return componentEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || componentEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
     }
 
     public static int toPixels(@Nonnull DisplayMetrics dm, float dps) {

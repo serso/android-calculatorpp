@@ -34,6 +34,7 @@ import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
 import org.solovyev.android.calculator.floating.FloatingCalculatorActivity;
+import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
@@ -96,6 +97,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
     @Inject
     ActivityLauncher launcher;
 
+    @Inject
+    Ga ga;
+
     @Nonnull
     private final TimingLogger timer = new TimingLogger("App", "onCreate");
 
@@ -104,7 +108,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         timer.reset();
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        final Languages languages = new Languages(preferences);
+        final Languages languages = new Languages(this, preferences);
         timer.addSplit("languages");
 
         onPreCreate(preferences, languages);
@@ -131,11 +135,12 @@ public class CalculatorApplication extends android.app.Application implements Sh
     }
 
     private void onPostCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
-        App.init(this, languages);
+        App.init(this);
+        languages.init();
 
         preferences.registerOnSharedPreferenceChangeListener(this);
         languages.updateContextLocale(this, true);
-        App.getGa().reportInitially(preferences);
+        ga.reportInitially(preferences);
 
         calculator.init(initThread);
 

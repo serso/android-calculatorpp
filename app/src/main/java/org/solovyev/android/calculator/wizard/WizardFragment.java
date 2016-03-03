@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator.wizard;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteFragment;
 import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteStep;
@@ -20,7 +22,9 @@ import org.solovyev.android.wizard.WizardStep;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
+import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.App.toPixels;
 
 public abstract class WizardFragment extends Fragment implements View.OnClickListener {
@@ -30,14 +34,20 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 
     @Nullable
     protected TextView prevButton;
-
+    @Inject
+    SharedPreferences preferences;
     private WizardStep step;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inject(cast(this).getComponent());
 
         step = findStepByClassName();
+    }
+
+    protected void inject(@Nonnull AppComponent component) {
+        component.inject(this);
     }
 
     @Nonnull

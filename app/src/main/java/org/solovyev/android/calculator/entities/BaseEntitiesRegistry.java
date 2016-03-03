@@ -107,7 +107,7 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
             stringName = prefix + substitute;
         }
 
-        return getDescription(App.getApplication(), stringName);
+        return getDescription(application, stringName);
     }
 
     @Override

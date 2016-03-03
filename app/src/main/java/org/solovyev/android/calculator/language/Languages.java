@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator.language;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -8,7 +9,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 
 import javax.annotation.Nonnull;
@@ -26,9 +26,12 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
     @Nonnull
     private final List<Language> list = new ArrayList<>();
     @Nonnull
+    private final Application application;
+    @Nonnull
     private final SharedPreferences preferences;
 
-    public Languages(@Nonnull SharedPreferences preferences) {
+    public Languages(@Nonnull Application application, @Nonnull SharedPreferences preferences) {
+        this.application = application;
         this.preferences = preferences;
     }
 
@@ -160,7 +163,7 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
     @Override
     public void onSharedPreferenceChanged(@Nonnull SharedPreferences p, String key) {
         if (Preferences.Gui.language.isSameKey(key)) {
-            updateContextLocale(App.getApplication(), false);
+            updateContextLocale(application, false);
         }
     }
 

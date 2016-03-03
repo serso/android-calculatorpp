@@ -1,8 +1,10 @@
 package org.solovyev.android.calculator;
 
+import dagger.Component;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.errors.FixableErrorFragment;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
+import org.solovyev.android.calculator.floating.FloatingCalculatorBroadcastReceiver;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 import org.solovyev.android.calculator.floating.FloatingCalculatorView;
 import org.solovyev.android.calculator.functions.BaseFunctionFragment;
@@ -17,6 +19,7 @@ import org.solovyev.android.calculator.plot.PlotDimensionsFragment;
 import org.solovyev.android.calculator.plot.PlotEditFunctionFragment;
 import org.solovyev.android.calculator.plot.PlotFunctionsFragment;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
+import org.solovyev.android.calculator.preferences.PreferencesFragment;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesFragment;
@@ -24,10 +27,9 @@ import org.solovyev.android.calculator.view.Tabs;
 import org.solovyev.android.calculator.widget.CalculatorWidget;
 import org.solovyev.android.calculator.wizard.DragButtonWizardStep;
 import org.solovyev.android.calculator.wizard.WizardActivity;
+import org.solovyev.android.calculator.wizard.WizardFragment;
 
 import javax.inject.Singleton;
-
-import dagger.Component;
 
 @Singleton
 @Component(modules = AppModule.class)
@@ -65,4 +67,7 @@ public interface AppComponent {
     void inject(CalculatorWidget widget);
     void inject(WizardActivity activity);
     void inject(BaseActivity activity);
+    void inject(PreferencesFragment fragment);
+    void inject(WizardFragment fragment);
+    void inject(FloatingCalculatorBroadcastReceiver receiver);
 }

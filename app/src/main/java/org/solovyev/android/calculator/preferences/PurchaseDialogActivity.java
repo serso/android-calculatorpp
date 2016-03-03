@@ -30,11 +30,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.checkout.*;
 
 import javax.annotation.Nonnull;
@@ -49,6 +48,8 @@ public class PurchaseDialogActivity extends AppCompatActivity implements Request
     Billing billing;
     @Inject
     Products products;
+    @Inject
+    Ga ga;
     ActivityCheckout checkout;
 
     @Override
@@ -69,12 +70,12 @@ public class PurchaseDialogActivity extends AppCompatActivity implements Request
     @Override
     protected void onStart() {
         super.onStart();
-        BaseActivity.reportActivityStart(this);
+        ga.getAnalytics().reportActivityStart(this);
     }
 
     @Override
     protected void onStop() {
-        BaseActivity.reportActivityStop(this);
+        ga.getAnalytics().reportActivityStop(this);
         super.onStop();
     }
 

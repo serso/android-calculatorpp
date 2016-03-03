@@ -2,8 +2,6 @@ package org.solovyev.android.calculator.view;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-
-import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -21,11 +19,14 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
     @Nullable
     private TextHighlighter textHighlighter;
     @Nonnull
+    private final Application application;
+    @Nonnull
     private final SharedPreferences preferences;
     @Nonnull
     private final Engine engine;
 
-    public EditorTextProcessor(@Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
+    public EditorTextProcessor(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
+        this.application = application;
         this.preferences = preferences;
         this.engine = engine;
         preferences.registerOnSharedPreferenceChangeListener(this);
@@ -66,7 +67,6 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
 
     private int getTextColor(@Nonnull SharedPreferences preferences) {
         final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
-        final Application application = App.getApplication();
         return theme.getTextColorFor(application).normal;
     }
 }

@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
@@ -52,7 +51,7 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final CalculatorMode mode = CalculatorMode.fromGuiLayout(Preferences.Gui.layout.getPreference(App.getPreferences()));
+        final CalculatorMode mode = CalculatorMode.fromGuiLayout(Preferences.Gui.layout.getPreference(preferences));
         final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_mode_spinner);
         spinner.setAdapter(WizardArrayAdapter.create(getActivity(), R.array.cpp_modes));
         spinner.setSelection(mode == simple ? 0 : 1);
@@ -80,7 +79,7 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final CalculatorMode mode = position == 0 ? simple : engineer;
-        mode.apply(App.getPreferences());
+        mode.apply(preferences);
         updateDescription(mode);
     }
 

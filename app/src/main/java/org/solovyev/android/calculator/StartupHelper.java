@@ -28,6 +28,8 @@ public class StartupHelper {
     SharedPreferences uiPreferences;
     @Inject
     SharedPreferences preferences;
+    @Inject
+    Wizards wizards;
 
     @Inject
     public StartupHelper() {
@@ -44,7 +46,6 @@ public class StartupHelper {
 
     private void handleOnMainActivityOpened(@NonNull final AppCompatActivity activity, @NonNull SharedPreferences.Editor editor, int opened) {
         final int currentVersion = App.getAppVersionCode(activity);
-        final Wizards wizards = App.getWizards();
         final Wizard wizard = wizards.getWizard(CalculatorWizards.FIRST_TIME_WIZARD);
         if (wizard.isStarted() && !wizard.isFinished()) {
             continueWizard(wizards, wizard.getName(), activity);

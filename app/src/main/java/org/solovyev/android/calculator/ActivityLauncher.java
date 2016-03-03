@@ -88,15 +88,10 @@ public final class ActivityLauncher {
         context.startActivity(intent);
     }
 
-    @Nonnull
-    private static Notifier getNotifier() {
-        return ((CalculatorApplication) App.getApplication()).notifier;
-    }
-
     public void plotDisplayedExpression() {
         final DisplayState state = display.get().getState();
         if (!state.valid) {
-            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+            notifier.showMessage(R.string.not_valid_result, MessageType.error);
             return;
         }
         plot(state.getResult());

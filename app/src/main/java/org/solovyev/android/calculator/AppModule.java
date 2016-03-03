@@ -15,9 +15,11 @@ import dagger.Module;
 import dagger.Provides;
 import jscl.JsclMathEngine;
 import org.solovyev.android.calculator.language.Languages;
+import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.checkout.*;
 import org.solovyev.android.plotter.Plot;
 import org.solovyev.android.plotter.Plotter;
+import org.solovyev.android.wizard.Wizards;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -135,6 +137,12 @@ public class AppModule {
     @Singleton
     ErrorReporter provideErrorReporter() {
         return new AcraErrorReporter();
+    }
+
+    @Provides
+    @Singleton
+    Wizards provideWizards(@Nonnull Application application) {
+        return new CalculatorWizards(application);
     }
 
     @Provides

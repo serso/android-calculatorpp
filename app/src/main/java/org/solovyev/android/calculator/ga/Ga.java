@@ -1,23 +1,20 @@
 package org.solovyev.android.calculator.ga;
 
-import android.content.Context;
+import android.app.Application;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.util.Log;
-
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int LAYOUT = 1;
@@ -29,22 +26,11 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
     @Nonnull
     private final Tracker tracker;
 
-    public Ga(@Nonnull Context context, @Nonnull SharedPreferences preferences) {
-        analytics = GoogleAnalytics.getInstance(context);
+    @Inject
+    public Ga(@Nonnull Application application, @Nonnull SharedPreferences preferences) {
+        analytics = GoogleAnalytics.getInstance(application);
         tracker = analytics.newTracker(R.xml.ga);
         preferences.registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Nonnull
-    private String getStackTrace(@Nonnull Exception e) {
-        try {
-            final ByteArrayOutputStream out = new ByteArrayOutputStream();
-            e.printStackTrace(new PrintStream(out));
-            return new String(out.toByteArray());
-        } catch (Exception e1) {
-            Log.e("Ga", e1.getMessage(), e1);
-        }
-        return "";
     }
 
     private void reportLayout(@Nonnull Preferences.Gui.Layout layout) {
@@ -58,11 +44,6 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
     @Nonnull
     public GoogleAnalytics getAnalytics() {
         return analytics;
-    }
-
-    @Nonnull
-    public Tracker getTracker() {
-        return tracker;
     }
 
     public void onButtonPressed(@Nullable String text) {

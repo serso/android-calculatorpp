@@ -55,7 +55,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(App.getPreferences());
+        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
         final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_theme_spinner);
         themes.clear();
         themes.add(new ThemeUi(Preferences.Gui.Theme.material_theme, R.string.cpp_theme_dark));
@@ -97,7 +97,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final ThemeUi theme = adapter.getItem(position);
-        Preferences.Gui.theme.putPreference(App.getPreferences(), theme.theme);
+        Preferences.Gui.theme.putPreference(preferences, theme.theme);
         updateImage(theme.theme);
     }
 
