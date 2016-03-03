@@ -50,7 +50,6 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.EnumMap;
 
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static org.solovyev.android.calculator.App.cast;
@@ -181,7 +180,7 @@ public class CalculatorWidget extends AppWidgetProvider {
             return getDefaultLayout(theme);
         }
 
-        final int widgetMinHeight = App.toPixels(resources.getDisplayMetrics(), options.getInt(OPTION_APPWIDGET_MIN_HEIGHT, 0));
+        final int widgetMinHeight = App.toPixels(resources.getDisplayMetrics(), options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0));
         final int lockScreenMinHeight = resources.getDimensionPixelSize(R.dimen.min_expanded_height_lock_screen);
         final boolean expanded = widgetMinHeight >= lockScreenMinHeight;
         if (expanded) {

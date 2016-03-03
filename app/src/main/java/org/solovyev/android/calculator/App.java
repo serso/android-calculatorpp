@@ -41,9 +41,12 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import com.squareup.otto.Bus;
@@ -397,7 +400,14 @@ public final class App {
     }
 
     public static int toPixels(@Nonnull DisplayMetrics dm, float dps) {
-        final float scale = dm.density;
-        return (int) (dps * scale + 0.5f);
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dps, dm);
+    }
+
+    public static int toPixels(@Nonnull Context context, float dps) {
+        return toPixels(context.getResources().getDisplayMetrics(), dps);
+    }
+
+    public static int toPixels(@Nonnull View view, float dps) {
+        return toPixels(view.getContext(), dps);
     }
 }

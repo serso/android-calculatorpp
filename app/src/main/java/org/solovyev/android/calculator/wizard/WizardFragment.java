@@ -8,18 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteFragment;
 import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteStep;
 import org.solovyev.android.calculator.release.ReleaseNoteFragment;
 import org.solovyev.android.calculator.release.ReleaseNoteStep;
+import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardFlow;
 import org.solovyev.android.wizard.WizardStep;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import static org.solovyev.android.calculator.App.toPixels;
 
 public abstract class WizardFragment extends Fragment implements View.OnClickListener {
 
@@ -63,6 +65,7 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 
         final ViewGroup content = (ViewGroup) view.findViewById(R.id.wizard_content);
         inflater.inflate(getViewResId(), content, true);
+        Adjuster.maxWidth(content, toPixels(view, 300));
 
         nextButton = (TextView) view.findViewById(R.id.wizard_next);
         if (nextButton != null) {
@@ -118,18 +121,21 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         final int id = v.getId();
         final WizardActivity activity = getWizardActivity();
-        if (id == R.id.wizard_next) {
-            if (activity.canGoNext()) {
-                activity.goNext();
-            } else {
-                activity.finishWizard();
-            }
-        } else if (id == R.id.wizard_prev) {
-            if (activity.canGoPrev()) {
-                activity.goPrev();
-            } else {
-                activity.finishWizardAbruptly();
-            }
+        switch (id) {
+            case R.id.wizard_next:
+                if (activity.canGoNext()) {
+                    activity.goNext();
+                } else {
+                    activity.finishWizard();
+                }
+                break;
+            case R.id.wizard_prev:
+                if (activity.canGoPrev()) {
+                    activity.goPrev();
+                } else {
+                    activity.finishWizardAbruptly();
+                }
+                break;
         }
     }
 

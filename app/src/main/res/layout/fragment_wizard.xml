@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    style="@style/WizardFragment"
-    a:orientation="vertical">
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:orientation="vertical"
+    a:gravity="center"
+    a:paddingLeft="10dp"
+    a:paddingRight="10dp">
 
     <ScrollView
         a:id="@+id/wizard_content"
@@ -14,6 +17,29 @@
         a:layout_weight="1"
         a:fillViewport="true" />
 
-    <include layout="@layout/fragment_wizard_buttons" />
+    <LinearLayout
+        a:layout_width="wrap_content"
+        a:layout_height="wrap_content"
+        a:layout_gravity="center_horizontal|bottom"
+        a:layout_marginTop="@dimen/control_margin"
+        a:orientation="horizontal">
+
+        <org.solovyev.android.material.MaterialButton
+            a:id="@+id/wizard_prev"
+            style="@style/MaterialButton.Wizard"
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:visibility="gone" />
+
+        <org.solovyev.android.material.MaterialButton
+            a:id="@+id/wizard_next"
+            style="@style/MaterialButton.Wizard"
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:visibility="gone" />
+
+    </LinearLayout>
 
 </LinearLayout>
