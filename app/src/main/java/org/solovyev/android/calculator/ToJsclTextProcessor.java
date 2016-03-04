@@ -22,13 +22,11 @@
 
 package org.solovyev.android.calculator;
 
-import com.google.common.collect.Iterables;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.search.StartsWithFinder;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -103,18 +101,14 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
             depth++;
         }
 
-        final StartsWithFinder startsWithFinder = StartsWithFinder.newInstance(s);
-
         final StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
-            startsWithFinder.setOffset(i);
-
             int offset = 0;
-            String functionName = Iterables.find(MathType.function.getTokens(engine), startsWithFinder, null);
+            String functionName = App.find(MathType.function.getTokens(engine), s, i);
             if (functionName == null) {
-                String operatorName = Iterables.find(MathType.operator.getTokens(engine), startsWithFinder, null);
+                String operatorName = App.find(MathType.operator.getTokens(engine), s, i);
                 if (operatorName == null) {
-                    String varName = Iterables.find(engine.getVariablesRegistry().getNames(), startsWithFinder, null);
+                    String varName = App.find(engine.getVariablesRegistry().getNames(), s, i);
                     if (varName != null) {
                         final IConstant var = engine.getVariablesRegistry().get(varName);
                         if (var != null) {
