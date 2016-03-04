@@ -37,7 +37,6 @@ import jscl.NumeralBase;
 import jscl.math.Generic;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.plotter.Plotter;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -86,8 +85,6 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     ActivityLauncher launcher;
     @Inject
     Bus bus;
-    @Inject
-    Plotter plotter;
     @Inject
     Calculator calculator;
     @Inject
