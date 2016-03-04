@@ -27,25 +27,22 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.AppModule;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.Engine.Preferences;
-import org.solovyev.android.calculator.ErrorReporter;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.io.FileSystem;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,12 +50,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -397,6 +388,7 @@ public class History {
 
     public void runWhenLoaded(@NonNull Runnable runnable) {
         Check.isTrue(!loaded);
+        Check.isMainThread();
         whenLoadedRunnables.add(runnable);
     }
 
