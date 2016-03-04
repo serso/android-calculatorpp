@@ -25,13 +25,12 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.history.RecentHistory;
+import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
 
@@ -53,6 +52,8 @@ public class Editor {
     private EditorState state = EditorState.empty();
     @Inject
     Bus bus;
+    @Inject
+    Engine engine;
 
     @Inject
     public Editor(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
@@ -176,9 +177,15 @@ public class Editor {
         if (selection <= 0 || text.length() <= 0 || selection > text.length()) {
             return state;
         }
-        final String newText = text.substring(0, selection - 1) + text.substring(selection,
-                text.length());
-        return onTextChanged(EditorState.create(newText, selection - 1));
+        int removeStart = selection - 1;
+        if (MathType.getType(text, selection - 1, false, engine).type == MathType.grouping_separator) {
+            // we shouldn't remove just separator as it will be re-added after the evaluation is done. Remove the digit
+            // before
+            removeStart -= 1;
+        }
+
+        final String newText = text.substring(0, removeStart) + text.substring(selection, text.length());
+        return onTextChanged(EditorState.create(newText, removeStart));
     }
 
     @Nonnull

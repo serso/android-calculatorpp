@@ -312,7 +312,9 @@ public enum MathType {
             }
 
             if (mathType == MathType.grouping_separator) {
-                if (i + 1 < text.length() && getType(text, i + 1, hexMode, result, engine).type == MathType.digit) {
+                if (i + 1 < text.length() &&
+                        getType(text, i + 1, hexMode, result, engine).type == MathType.digit &&
+                        i - 1 >= 0 && getType(text, i - 1, hexMode, result, engine).type == MathType.digit) {
                     return result.set(mathType, s);
                 }
                 continue;
