@@ -107,7 +107,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
         final StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
-            startsWithFinder.setI(i);
+            startsWithFinder.setOffset(i);
 
             int offset = 0;
             String functionName = Iterables.find(MathType.function.getTokens(engine), startsWithFinder, null);

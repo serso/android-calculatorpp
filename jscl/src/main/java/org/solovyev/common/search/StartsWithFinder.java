@@ -29,32 +29,31 @@ import javax.annotation.Nullable;
 
 public class StartsWithFinder implements Predicate<String> {
 
-	private int i;
+    @Nonnull
+    private final String string;
+    private int offset;
 
-	@Nonnull
-	private final String targetString;
+    private StartsWithFinder(@Nonnull String string, int offset) {
+        this.string = string;
+        this.offset = offset;
+    }
 
-	private StartsWithFinder(@Nonnull String targetString, int i) {
-		this.targetString = targetString;
-		this.i = i;
-	}
+    @Nonnull
+    public static StartsWithFinder newFrom(@Nonnull String targetString, int i) {
+        return new StartsWithFinder(targetString, i);
+    }
 
-	@Nonnull
-	public static StartsWithFinder newFrom(@Nonnull String targetString, int i) {
-		return new StartsWithFinder(targetString, i);
-	}
+    @Nonnull
+    public static StartsWithFinder newInstance(@Nonnull String targetString) {
+        return newFrom(targetString, 0);
+    }
 
-	@Nonnull
-	public static StartsWithFinder newInstance(@Nonnull String targetString) {
-		return newFrom(targetString, 0);
-	}
+    @Override
+    public boolean apply(@Nullable String prefix) {
+        return prefix != null && string.startsWith(prefix, offset);
+    }
 
-	@Override
-	public boolean apply(@Nullable String s) {
-		return s != null && targetString.startsWith(s, i);
-	}
-
-	public void setI(int i) {
-		this.i = i;
-	}
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
 }
