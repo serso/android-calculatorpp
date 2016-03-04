@@ -108,13 +108,7 @@ public class EditorView extends EditTextCompat {
     @Override
     protected void onSelectionChanged(int start, int end) {
         Check.isMainThread();
-        if (!editorChange) {
-            return;
-        }
-        // external text change => need to notify editor
         super.onSelectionChanged(start, end);
-
-        // only if cursor moving, if selection do nothing
         if (start != end) {
             return;
         }
