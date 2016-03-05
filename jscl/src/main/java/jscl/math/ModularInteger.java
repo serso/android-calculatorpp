@@ -152,6 +152,11 @@ public class ModularInteger extends Generic implements Field {
     }
 
     @Override
+    public double doubleValue() throws NotDoubleException {
+        return content;
+    }
+
+    @Override
     public boolean isInteger() {
         return true;
     }

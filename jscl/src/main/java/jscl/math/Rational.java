@@ -205,8 +205,13 @@ public final class Rational extends Generic implements Field {
         if (denominator.compareTo(BigInteger.ONE) == 0) {
             return new JsclInteger(numerator);
         } else {
-            throw new NotIntegerException();
+            throw NotIntegerException.get();
         }
+    }
+
+    @Override
+    public double doubleValue() throws NotDoubleException {
+        return numerator.doubleValue() / denominator.doubleValue();
     }
 
     @Override
@@ -317,10 +322,5 @@ public final class Rational extends Generic implements Field {
         } catch (NotIntegerException e) {
             return null;
         }
-    }
-
-    @Override
-    public Double toDouble() {
-        return numerator.doubleValue() / denominator.doubleValue();
     }
 }

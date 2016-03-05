@@ -6,15 +6,16 @@ import jscl.mathml.MathML;
 import jscl.util.ArrayComparator;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class Constant extends Variable {
 
     public static final int PRIME_CHARS = 3;
-    private int prime;
-    private Generic subscripts[];
+    private final int prime;
+    private final Generic subscripts[];
+    private Object[] hashArray;
 
     public Constant(String name) {
         this(name, 0, new Generic[0]);
@@ -148,7 +149,20 @@ public class Constant extends Variable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(Constant.class, name, subscripts, prime);
+        final Object[] hashArray = getHashArray();
+        hashArray[0] = Constant.class;
+        hashArray[1] = name;
+        hashArray[2] = subscripts;
+        hashArray[3] = prime;
+        return Arrays.deepHashCode(this.hashArray);
+    }
+
+    @Nonnull
+    private Object[] getHashArray() {
+        if(hashArray == null) {
+            hashArray = new Object[4];
+        }
+        return hashArray;
     }
 
     public String toString() {

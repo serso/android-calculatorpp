@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.Mockito.mock;
@@ -42,7 +43,7 @@ public class EditorTest {
 
     @Before
     public void setUp() throws Exception {
-        editor = new Editor(mock(SharedPreferences.class), Tests.makeEngine());
+        editor = new Editor(RuntimeEnvironment.application, mock(SharedPreferences.class), Tests.makeEngine());
         editor.bus = mock(Bus.class);
     }
 

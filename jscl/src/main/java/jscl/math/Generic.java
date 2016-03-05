@@ -39,10 +39,6 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
         return null;
     }
 
-    public Double toDouble() {
-        return null;
-    }
-
     @Nonnull
     public Generic subtract(@Nonnull Generic that) {
         return add(that.negate());
@@ -170,6 +166,8 @@ public abstract class Generic implements Arithmetic<Generic>, Comparable {
     public abstract boolean isInteger();
 
     public abstract JsclInteger integerValue() throws NotIntegerException;
+
+    public abstract double doubleValue() throws NotDoubleException;
 
     public abstract Variable variableValue() throws NotVariableException;
 

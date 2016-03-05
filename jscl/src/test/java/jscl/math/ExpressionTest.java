@@ -8,7 +8,7 @@ import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
 import jscl.text.ParseException;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
@@ -21,14 +21,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Set;
 
-import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-/**
- * User: serso
- * Date: 10/27/11
- * Time: 3:54 PM
- */
 public class ExpressionTest {
 
     private static final String expressions = "-24.37581129610191-((2699.798527427213-4032.781981216783)*√(4657.120529143301)/6202.47137988087-ln(4435.662292261872)*sin(5134.044125137488)-sin(5150.617980207194)+sin(1416.6029070906816))\n" +
@@ -111,11 +107,11 @@ public class ExpressionTest {
 
     @Test
     public void testConstants() throws Exception {
-        Assert.assertTrue(Expression.valueOf("3+4").getConstants().isEmpty());
+        assertTrue(Expression.valueOf("3+4").getConstants().isEmpty());
 
         Set<? extends Constant> constants = Expression.valueOf("3+4*t").getConstants();
-        Assert.assertTrue(constants.size() == 1);
-        Assert.assertTrue(constants.contains(new Constant("t")));
+        assertTrue(constants.size() == 1);
+        assertTrue(constants.contains(new Constant("t")));
 
         IConstant constant = null;
 
@@ -125,9 +121,9 @@ public class ExpressionTest {
             constant = me.getConstantsRegistry().addOrUpdate(t_0.create());
 
             constants = Expression.valueOf("3+4*t_0+t_0+t_1").getConstants();
-            Assert.assertTrue(constants.size() == 2);
-            Assert.assertTrue(constants.contains(new Constant("t_0")));
-            Assert.assertTrue(constants.contains(new Constant("t_1")));
+            assertTrue(constants.size() == 2);
+            assertTrue(constants.contains(new Constant("t_0")));
+            assertTrue(constants.contains(new Constant("t_1")));
 
             final Expression expression = Expression.valueOf("2*t_0+5*t_1");
 

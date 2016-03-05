@@ -178,7 +178,12 @@ final class PolynomialWrapper extends Generic {
     }
 
     public JsclInteger integerValue() throws NotIntegerException {
-        throw new NotIntegerException();
+        throw NotIntegerException.get();
+    }
+
+    @Override
+    public double doubleValue() throws NotDoubleException {
+        throw NotDoubleException.get();
     }
 
     @Override

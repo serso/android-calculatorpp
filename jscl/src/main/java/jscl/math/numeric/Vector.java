@@ -1,6 +1,7 @@
 package jscl.math.numeric;
 
 import jscl.math.NotDivisibleException;
+import jscl.math.NotDoubleException;
 import jscl.util.ArrayComparator;
 
 import javax.annotation.Nonnull;
@@ -161,6 +162,11 @@ public class Vector extends Numeric {
         } else {
             return compareTo(valueOf(numeric));
         }
+    }
+
+    @Override
+    public double doubleValue() {
+        throw NotDoubleException.get();
     }
 
     public String toString() {

@@ -128,7 +128,6 @@ public abstract class AbstractFunction extends Variable {
 
     public Generic numeric() {
         final AbstractFunction result = newNumericFunction();
-
         return result.selfNumeric();
     }
 

@@ -1,21 +1,16 @@
 package jscl.math;
 
-import java.math.BigInteger;
-import java.util.Collections;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.math.function.Constants;
 import jscl.math.function.IConstant;
-import jscl.math.numeric.Complex;
-import jscl.math.numeric.INumeric;
-import jscl.math.numeric.Numeric;
-import jscl.math.numeric.Real;
-import jscl.math.numeric.Vector;
+import jscl.math.numeric.*;
 import jscl.mathml.MathML;
+
+import javax.annotation.Nonnull;
+import java.math.BigInteger;
+import java.util.Collections;
+import java.util.Set;
 
 public final class NumericWrapper extends Generic implements INumeric<NumericWrapper> {
 
@@ -189,19 +184,19 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
     }
 
     public Generic expand() {
-        return null;
+        return this;
     }
 
     public Generic factorize() {
-        return null;
+        return this;
     }
 
     public Generic elementary() {
-        return null;
+        return this;
     }
 
     public Generic simplify() {
-        return null;
+        return this;
     }
 
     public Generic numeric() {
@@ -240,15 +235,20 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
     public JsclInteger integerValue() throws NotIntegerException {
         if (content instanceof Real) {
-            double doubleValue = ((Real) content).doubleValue();
+            double doubleValue = content.doubleValue();
             if (Math.floor(doubleValue) == doubleValue) {
                 return JsclInteger.valueOf((int) doubleValue);
             } else {
-                throw new NotIntegerException();
+                throw NotIntegerException.get();
             }
         } else {
-            throw new NotIntegerException();
+            throw NotIntegerException.get();
         }
+    }
+
+    @Override
+    public double doubleValue() throws NotDoubleException {
+        return content.doubleValue();
     }
 
     @Override
@@ -454,8 +454,13 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
         return content.toBigInteger();
     }
 
-    @Override
-    public Double toDouble() {
-        return content.toDouble();
+    @Nonnull
+    public static Generic valueOf(long value) {
+        return new NumericWrapper(new JsclInteger(BigInteger.valueOf(value)));
+    }
+
+    @Nonnull
+    public static Generic valueOf(double value) {
+        return new NumericWrapper(Real.valueOf(value));
     }
 }

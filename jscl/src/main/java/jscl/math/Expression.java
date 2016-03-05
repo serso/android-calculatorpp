@@ -626,17 +626,34 @@ public class Expression extends Generic {
         if (size == 0) {
             return JsclInteger.valueOf(0);
         } else if (size == 1) {
-
             final Literal l = literals[0];
             final JsclInteger c = coefficients[0];
 
             if (l.degree() == 0) {
                 return c;
             } else {
-                throw new NotIntegerException();
+                throw NotIntegerException.get();
             }
         } else {
-            throw new NotIntegerException();
+            throw NotIntegerException.get();
+        }
+    }
+
+    @Override
+    public double doubleValue() throws NotDoubleException {
+        if (size == 0) {
+            return 0f;
+        } else if (size == 1) {
+            final Literal l = literals[0];
+            final JsclInteger c = coefficients[0];
+
+            if (l.degree() == 0) {
+                return c.doubleValue();
+            } else {
+                throw NotDoubleException.get();
+            }
+        } else {
+            throw NotDoubleException.get();
         }
     }
 

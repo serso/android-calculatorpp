@@ -1,11 +1,18 @@
 package jscl.math;
 
+import javax.annotation.Nonnull;
+
 public class NotIntegerException extends ArithmeticException {
-    public NotIntegerException() {
-        this("Not integer!");
+
+    @SuppressWarnings("ThrowableInstanceNeverThrown")
+    private static final NotIntegerException INSTANCE = new NotIntegerException();
+
+    private NotIntegerException() {
+        super("Not integer!");
     }
 
-    public NotIntegerException(String s) {
-        super(s);
+    @Nonnull
+    public static NotIntegerException get() {
+        return INSTANCE;
     }
 }

@@ -4,12 +4,11 @@ import jscl.JsclMathEngine;
 import jscl.math.function.Constant;
 import jscl.mathml.MathML;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public final class JsclInteger extends Generic {
 
@@ -162,8 +161,8 @@ public final class JsclInteger extends Generic {
         return 0;
     }
 
-    public JsclInteger mod(JsclInteger integer) {
-        return new JsclInteger(content.mod(integer.content));
+    public JsclInteger mod(JsclInteger that) {
+        return new JsclInteger(content.mod(that.content));
     }
 
     public JsclInteger modPow(JsclInteger exponent, JsclInteger integer) {
@@ -372,7 +371,7 @@ public final class JsclInteger extends Generic {
     }
 
     @Override
-    public Double toDouble() {
+    public double doubleValue() throws NotDoubleException {
         return content.doubleValue();
     }
 }

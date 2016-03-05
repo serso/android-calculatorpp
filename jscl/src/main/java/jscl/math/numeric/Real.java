@@ -2,9 +2,8 @@ package jscl.math.numeric;
 
 import jscl.math.NotDivisibleException;
 
-import java.math.BigInteger;
-
 import javax.annotation.Nonnull;
+import java.math.BigInteger;
 
 public final class Real extends Numeric {
 
@@ -255,10 +254,6 @@ public final class Real extends Numeric {
         } else throw new ArithmeticException();
     }
 
-    public double doubleValue() {
-        return content;
-    }
-
     public int compareTo(@Nonnull Real that) {
         return Double.compare(this.content, that.content);
     }
@@ -289,7 +284,7 @@ public final class Real extends Numeric {
     }
 
     @Override
-    public Double toDouble() {
+    public double doubleValue() {
         return content;
     }
 }

@@ -66,11 +66,11 @@ public class DoubleFactorial extends PostfixFunction {
             if (result instanceof JsclInteger) {
                 return new NumericWrapper(((JsclInteger) result));
             } else {
-                throw new NotIntegerException();
+                throw NotIntegerException.get();
             }
 
         } else {
-            throw new NotIntegerException();
+            throw NotIntegerException.get();
         }
     }
 

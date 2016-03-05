@@ -3,6 +3,7 @@ package jscl.math.numeric;
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.math.NotDivisibleException;
+import jscl.math.NotDoubleException;
 import jscl.text.msg.JsclMessage;
 import jscl.text.msg.Messages;
 import org.solovyev.common.msg.MessageType;
@@ -205,6 +206,11 @@ public final class Complex extends Numeric {
         } else {
             return that.valueOf(this).compareTo(that);
         }
+    }
+
+    @Override
+    public double doubleValue() {
+        throw NotDoubleException.get();
     }
 
     public Complex copyOf(@Nonnull Complex complex) {

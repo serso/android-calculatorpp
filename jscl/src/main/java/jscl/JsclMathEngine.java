@@ -62,7 +62,7 @@ public class JsclMathEngine implements MathEngine {
         if (Math.floor(value) == value) {
             return (int) value;
         } else {
-            throw new NotIntegerException();
+            throw NotIntegerException.get();
         }
     }
 

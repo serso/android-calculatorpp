@@ -35,6 +35,7 @@ import butterknife.ButterKnife;
 import com.squareup.otto.Bus;
 import jscl.NumeralBase;
 import jscl.math.Generic;
+import jscl.math.NotDoubleException;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
@@ -134,8 +135,10 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
                         addMenu(menu, item.title, this);
                     }
                 }
-                if (result.toDouble() != null) {
+                try {
+                    result.doubleValue();
                     addMenu(menu, R.string.c_convert, this);
+                } catch (NotDoubleException ignored) {
                 }
             }
             if (launcher.canPlot(result)) {
@@ -207,10 +210,10 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
         if (result == null) {
             return 1d;
         }
-        final Double value = result.toDouble();
-        if (value == null) {
+        try {
+            return result.doubleValue();
+        } catch (NotDoubleException ignored) {
             return 1d;
         }
-        return value;
     }
 }

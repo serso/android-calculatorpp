@@ -7,6 +7,7 @@ import jscl.text.ParseException;
 import jscl.util.ExpressionGeneratorWithInput;
 import org.junit.Assert;
 import org.junit.Test;
+import org.solovyev.common.Functor;
 
 import javax.annotation.Nonnull;
 import java.io.InputStreamReader;
@@ -20,14 +21,14 @@ import java.util.List;
  */
 public class NumeralBaseConversionTest {
 
-    public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws ParseException {
+    public static void testExpression(@Nonnull String[] line, @Nonnull Functor<String, String> converter) throws ParseException {
         final String dec = line[0].toUpperCase();
         final String hex = "0x:" + line[1].toUpperCase();
         final String bin = "0b:" + line[2].toUpperCase();
 
-        final String decResult = Expression.valueOf(converter.convert(dec)).numeric().toString();
-        final String hexResult = Expression.valueOf(converter.convert(hex)).numeric().toString();
-        final String binResult = Expression.valueOf(converter.convert(bin)).numeric().toString();
+        final String decResult = Expression.valueOf(converter.apply(dec)).numeric().toString();
+        final String hexResult = Expression.valueOf(converter.apply(hex)).numeric().toString();
+        final String binResult = Expression.valueOf(converter.apply(bin)).numeric().toString();
 
         Assert.assertEquals(decResult, hexResult);
         Assert.assertEquals(decResult, binResult);
@@ -95,38 +96,38 @@ public class NumeralBaseConversionTest {
         }
     }
 
-    private static class DummyExpression implements Converter<String, String> {
+    private static class DummyExpression implements Functor<String, String> {
 
         @Nonnull
         @Override
-        public String convert(@Nonnull String s) {
+        public String apply(@Nonnull String s) {
             return s;
         }
     }
 
-    private static class Expression1 implements Converter<String, String> {
+    private static class Expression1 implements Functor<String, String> {
 
         @Nonnull
         @Override
-        public String convert(@Nonnull String s) {
+        public String apply(@Nonnull String s) {
             return s + "*" + s;
         }
     }
 
-    private static class Expression2 implements Converter<String, String> {
+    private static class Expression2 implements Functor<String, String> {
 
         @Nonnull
         @Override
-        public String convert(@Nonnull String s) {
+        public String apply(@Nonnull String s) {
             return s + "*" + s + " * sin(" + s + ") - 0b:1101";
         }
     }
 
-    private static class Expression3 implements Converter<String, String> {
+    private static class Expression3 implements Functor<String, String> {
 
         @Nonnull
         @Override
-        public String convert(@Nonnull String s) {
+        public String apply(@Nonnull String s) {
             return s + "*" + s + " * sin(" + s + ") - 0b:1101 + √(" + s + ") + exp ( " + s + ")";
         }
     }

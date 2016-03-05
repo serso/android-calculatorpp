@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,6 +37,8 @@ import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static org.mockito.Mockito.mock;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(value = RobolectricGradleTestRunner.class)
@@ -52,6 +55,7 @@ public class AndroidEditorViewTest {
         final int count = 10;
         final int maxTextLength = 100;
 
+        final Editor editor = new Editor(RuntimeEnvironment.application, mock(SharedPreferences.class), Tests.makeEngine());
         final Random random = new Random(new Date().getTime());
         final CountDownLatch startLatchLatch = new CountDownLatch(threadNum);
         final CountDownLatch finishLatch = new CountDownLatch(threadNum * count);
@@ -75,7 +79,7 @@ public class AndroidEditorViewTest {
                     for (int j = 0; j < count; j++) {
                         try {
                             int textLength = random.nextInt(maxTextLength);
-                            App.getEditor().insert(Strings.generateRandomString(textLength), textLength);
+                            editor.insert(Strings.generateRandomString(textLength), textLength);
                         } catch (Throwable e) {
                             System.out.println(e);
                             error.set(true);
