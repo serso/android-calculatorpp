@@ -512,7 +512,9 @@ public class Expression extends Generic {
             for (int j = 0; j < literal.size(); j++) {
                 final Variable variable = literal.getVariable(j);
 
-                Generic b = content.get(variable).pow(literal.getPower(j));
+                final int power = literal.getPower(j);
+                final Generic contentVariable = content.get(variable);
+                Generic b = pow(contentVariable, power);
 
                 if (Matrix.isMatrixProduct(sumElement, b)) {
                     throw new ArithmeticException("Should not be matrix!");
@@ -525,6 +527,18 @@ public class Expression extends Generic {
         }
 
         return sum;
+    }
+
+    @Nonnull
+    private Generic pow(@Nonnull Generic g, int power) {
+        switch (power) {
+            case 0:
+                return JsclInteger.valueOf(1);
+            case 1:
+                return g;
+            default:
+                return g.pow(power);
+        }
     }
 
     public Generic expand() {

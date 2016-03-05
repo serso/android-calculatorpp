@@ -1,5 +1,6 @@
 package jscl.math.function;
 
+import com.google.common.collect.Lists;
 import jscl.CustomFunctionCalculationException;
 import jscl.JsclMathEngine;
 import jscl.math.*;
@@ -15,18 +16,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CustomFunction extends Function implements IFunction {
 
-    private static final String LOCAL_VAR_POSTFIX = "_lv_09_03_1988_";
-
     private final static AtomicInteger counter = new AtomicInteger(0);
 
-    @Nonnull
-    private final Integer localVarId;
+    private final int id;
     @Nonnull
     private Expression content;
     @Nullable
     private String description;
     @Nonnull
     private List<String> parameterNames = Collections.emptyList();
+    @Nullable
+    private List<ConstantData> parameterConstants;
 
     private CustomFunction(@Nonnull String name,
                            @Nonnull List<String> parameterNames,
@@ -36,7 +36,18 @@ public class CustomFunction extends Function implements IFunction {
         this.parameterNames = parameterNames;
         this.content = content;
         this.description = description;
-        this.localVarId = counter.incrementAndGet();
+        this.id = counter.incrementAndGet();
+    }
+
+    @Nonnull
+    private List<ConstantData> makeParameterConstants(@Nonnull List<String> names) {
+        return new ArrayList<>(Lists.transform(names, new com.google.common.base.Function<String, ConstantData>() {
+            @Nullable
+            @Override
+            public ConstantData apply(@Nullable String name) {
+                return new ConstantData(name);
+            }
+        }));
     }
 
     private CustomFunction(@Nonnull String name,
@@ -51,7 +62,7 @@ public class CustomFunction extends Function implements IFunction {
             throw new CustomFunctionCalculationException(this, e);
         }
         this.description = description;
-        this.localVarId = counter.incrementAndGet();
+        this.id = counter.incrementAndGet();
     }
 
     @Override
@@ -91,29 +102,27 @@ public class CustomFunction extends Function implements IFunction {
 
     @Override
     public Generic selfExpand() {
-        Generic localContent = content;
-
-        try {
-            for (String parameterName : parameterNames) {
-                localContent = localContent.substitute(new Constant(parameterName), Expression.valueOf(new Constant(getParameterNameForConstant(parameterName))));
-            }
-
-            for (int i = 0; i < parameterNames.size(); i++) {
-                localContent = localContent.substitute(new Constant(getParameterNameForConstant(parameterNames.get(i))), parameters[i]);
-            }
-
-        } finally {
-            for (String parameterName : parameterNames) {
-                localContent = localContent.substitute(new Constant(getParameterNameForConstant(parameterName)), Expression.valueOf(new Constant(parameterName)));
-            }
+        Generic content = this.content;
+        final List<ConstantData> parameterConstants = getParameterConstants();
+        for (ConstantData cd : parameterConstants) {
+            content = content.substitute(cd.local, cd.globalExpression);
         }
-
-        return localContent;
+        for (int i = 0; i < parameterConstants.size(); i++) {
+            final ConstantData cd = parameterConstants.get(i);
+            content = content.substitute(cd.global, parameters[i]);
+        }
+        for (ConstantData cd : parameterConstants) {
+            content = content.substitute(cd.global, cd.localExpression);
+        }
+        return content;
     }
 
     @Nonnull
-    private String getParameterNameForConstant(@Nonnull String parameterName) {
-        return parameterName + LOCAL_VAR_POSTFIX + "_" + this.localVarId;
+    private List<ConstantData> getParameterConstants() {
+        if(parameterConstants == null) {
+            parameterConstants = makeParameterConstants(parameterNames);
+        }
+        return parameterConstants;
     }
 
     @Override
@@ -326,6 +335,24 @@ public class CustomFunction extends Function implements IFunction {
                 customFunction.setId(id);
             }
             return customFunction;
+        }
+    }
+
+    private final class ConstantData {
+        @Nonnull
+        final Constant global;
+        @Nonnull
+        final Constant local;
+        @Nonnull
+        final Generic globalExpression;
+        @Nonnull
+        final Generic localExpression;
+
+        public ConstantData(@Nonnull String name) {
+            global = new Constant(name + "#" + id);
+            globalExpression = Expression.valueOf(global);
+            local = new Constant(name);
+            localExpression = Expression.valueOf(local);
         }
     }
 }

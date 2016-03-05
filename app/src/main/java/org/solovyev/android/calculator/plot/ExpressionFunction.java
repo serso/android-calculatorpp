@@ -93,7 +93,7 @@ public class ExpressionFunction extends Function {
 
     public float unwrap(Numeric content) {
         if (content instanceof Real) {
-            return (float) ((Real) content).doubleValue();
+            return (float) content.doubleValue();
         }
         if (content instanceof Complex) {
             return (float) (imaginary ? ((Complex) content).imaginaryPart() : ((Complex) content).realPart());

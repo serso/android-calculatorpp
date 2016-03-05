@@ -46,6 +46,9 @@ public final class JsclInteger extends Generic {
 
     @Nonnull
     public Generic add(@Nonnull Generic that) {
+        if (isZero()) {
+            return that;
+        }
         if (that instanceof JsclInteger) {
             return add((JsclInteger) that);
         } else {
@@ -53,8 +56,15 @@ public final class JsclInteger extends Generic {
         }
     }
 
-    public JsclInteger subtract(JsclInteger integer) {
-        return new JsclInteger(content.subtract(integer.content));
+    private boolean isZero() {
+        return content.equals(ZERO.content);
+    }
+
+    public JsclInteger subtract(JsclInteger that) {
+        if(isZero()) {
+            return that.negate();
+        }
+        return new JsclInteger(content.subtract(that.content));
     }
 
     @Nonnull
@@ -72,6 +82,9 @@ public final class JsclInteger extends Generic {
 
     @Nonnull
     public Generic multiply(@Nonnull Generic that) {
+        if (isOne()) {
+            return that;
+        }
         if (that instanceof JsclInteger) {
             return multiply((JsclInteger) that);
         } else {
@@ -79,7 +92,14 @@ public final class JsclInteger extends Generic {
         }
     }
 
+    private boolean isOne() {
+        return content.equals(ONE.content);
+    }
+
     public JsclInteger divide(@Nonnull JsclInteger that) {
+        if (isZero()) {
+            return ZERO;
+        }
         JsclInteger e[] = divideAndRemainder(that);
         if (e[1].signum() == 0) {
             return e[0];
@@ -149,7 +169,7 @@ public final class JsclInteger extends Generic {
         return new JsclInteger(content.pow(exponent));
     }
 
-    public Generic negate() {
+    public JsclInteger negate() {
         return new JsclInteger(content.negate());
     }
 
