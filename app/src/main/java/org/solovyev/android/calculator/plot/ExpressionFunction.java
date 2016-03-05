@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.plot;
 
 import android.text.TextUtils;
+import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.math.NumericWrapper;
@@ -15,21 +16,18 @@ import javax.annotation.Nonnull;
 public class ExpressionFunction extends Function {
     @Nonnull
     public final jscl.math.function.Function function;
-    public final boolean imaginary;
     public final int arity;
     private final Generic[] parameters;
 
-    public ExpressionFunction(@Nonnull jscl.math.function.Function function,
-                              boolean imaginary) {
-        super(makeFunctionName(function, imaginary));
+    public ExpressionFunction(@Nonnull jscl.math.function.Function function) {
+        super(makeFunctionName(function));
         this.function = function;
-        this.imaginary = imaginary;
         this.arity = function.getMaxParameters();
         this.parameters = new Generic[this.arity];
     }
 
     @Nonnull
-    private static String makeFunctionName(@Nonnull jscl.math.function.Function function, boolean imaginary) {
+    private static String makeFunctionName(@Nonnull jscl.math.function.Function function) {
         String name = function.getName();
         if (TextUtils.isEmpty(name)) {
             if (function instanceof CustomFunction) {
@@ -41,7 +39,7 @@ public class ExpressionFunction extends Function {
                 name = name.substring(0, 10) + "…";
             }
         }
-        return imaginary ? "Im(" + name + ")" : name;
+        return name;
     }
 
     @Override
@@ -61,7 +59,7 @@ public class ExpressionFunction extends Function {
     @Override
     public float evaluate(float x) {
         try {
-            parameters[0] = new NumericWrapper(Real.valueOf(x));
+            parameters[0] = Expression.valueOf((double) x);
             function.setParameters(parameters);
             return unwrap(function.numeric());
         } catch (RuntimeException e) {
@@ -72,8 +70,8 @@ public class ExpressionFunction extends Function {
     @Override
     public float evaluate(float x, float y) {
         try {
-            parameters[0] = new NumericWrapper(Real.valueOf(x));
-            parameters[1] = new NumericWrapper(Real.valueOf(y));
+            parameters[0] = Expression.valueOf((double) x);
+            parameters[1] = Expression.valueOf((double) y);
             function.setParameters(parameters);
             return unwrap(function.numeric());
         } catch (RuntimeException e) {
@@ -96,7 +94,13 @@ public class ExpressionFunction extends Function {
             return (float) content.doubleValue();
         }
         if (content instanceof Complex) {
-            return (float) (imaginary ? ((Complex) content).imaginaryPart() : ((Complex) content).realPart());
+            final Complex complex = (Complex) content;
+            final double imag = complex.imaginaryPart();
+            final double real = complex.realPart();
+            if (real == 0f && imag != 0f) {
+                return Float.NaN;
+            }
+            return (float) real;
         }
         return Float.NaN;
     }

@@ -186,7 +186,7 @@ public final class ActivityLauncher {
 
         try {
             final CustomFunction f = new CustomFunction.Builder().setName("").setParameterNames(parameters).setContent(content).create();
-            final ExpressionFunction ef = new ExpressionFunction(f, false);
+            final ExpressionFunction ef = new ExpressionFunction(f);
             plotter.get().add(ef);
             showPlotter();
         } catch (RuntimeException e) {

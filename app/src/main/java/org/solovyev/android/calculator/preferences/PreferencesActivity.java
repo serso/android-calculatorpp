@@ -39,7 +39,6 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
         preferenceDefs.append(R.xml.preferences, new PrefDef("screen-main", R.string.cpp_settings));
         preferenceDefs.append(R.xml.preferences_calculations, new PrefDef("screen-calculations", R.string.c_prefs_calculations_category));
         preferenceDefs.append(R.xml.preferences_appearance, new PrefDef("screen-appearance", R.string.c_prefs_appearance_category));
-        preferenceDefs.append(R.xml.preferences_plot, new PrefDef("screen-plot", R.string.prefs_graph_screen_title));
         preferenceDefs.append(R.xml.preferences_other, new PrefDef("screen-other", R.string.c_prefs_other_category));
         preferenceDefs.append(R.xml.preferences_onscreen, new PrefDef("screen-onscreen", R.string.prefs_onscreen_title));
         preferenceDefs.append(R.xml.preferences_widget, new PrefDef("screen-widget", R.string.prefs_widget_title));
@@ -64,15 +63,6 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     @Nonnull
     static SparseArray<PrefDef> getPreferenceDefs() {
         return preferenceDefs;
-    }
-
-    public static void showPlotPreferences(@Nonnull Context context) {
-        start(context, R.xml.preferences_plot, R.string.prefs_graph_screen_title);
-    }
-
-    private static void start(@Nonnull Context context, @XmlRes int preference, @StringRes int title) {
-        final Intent intent = makeIntent(context, preference, title);
-        context.startActivity(intent);
     }
 
     @Nonnull

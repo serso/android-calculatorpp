@@ -42,9 +42,6 @@
         a:key="screen-appearance"
         a:title="@string/c_prefs_appearance_category" />
     <Preference
-        a:key="screen-plot"
-        a:title="@string/prefs_graph_screen_title" />
-    <Preference
         a:key="screen-other"
         a:title="@string/c_prefs_other_category" />
     <Preference

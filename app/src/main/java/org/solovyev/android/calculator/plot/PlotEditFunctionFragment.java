@@ -150,13 +150,15 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
     protected MeshSpec applyMeshSpec() {
         final Color color = Color.create(colorPicker.getColor());
         final int width = MeshSpec.MIN_WIDTH + lineWidthSeekBar.getProgress();
-        return MeshSpec.create(color, width);
+        final MeshSpec meshSpec = MeshSpec.create(color, width);
+        meshSpec.pointsCount = 100;
+        return meshSpec;
     }
 
     protected boolean applyData(@Nonnull CppFunction function) {
         try {
             final ExpressionFunction expressionFunction =
-                new ExpressionFunction(function.toJsclBuilder().create(), false);
+                new ExpressionFunction(function.toJsclBuilder().create());
             final PlotFunction plotFunction = PlotFunction.create(expressionFunction,
                 applyMeshSpec());
             final int id = function.getId();
