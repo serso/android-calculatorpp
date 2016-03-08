@@ -28,7 +28,7 @@
     a:id="@id/cpp_button_5"
     style="?attr/cpp_button_style_digit"
     a:text="5"
-    c:textDown="j"
-    c:textLeft="E"
-    c:textUp="t"
+    c:directionTextDown="j"
+    c:directionTextLeft="E"
+    c:directionTextUp="t"
     tools:ignore="HardcodedText" />

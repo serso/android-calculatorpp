@@ -8,8 +8,12 @@
     <dimen name="min_expanded_height_lock_screen">300dp</dimen>
     <dimen name="cpp_text_size">20sp</dimen>
     <dimen name="cpp_button_padding">1px</dimen>
+    <dimen name="cpp_direction_text_default_padding">2dp</dimen>
+    <dimen name="cpp_direction_text_min_size">9dp</dimen>
+    <item name="cpp_direction_text_scale" format="float" type="dimen">0.3</item>
     <dimen name="cpp_button_corner">1dp</dimen>
 
+    <dimen name="cpp_keyboard_button_direction_text_padding">4dp</dimen>
     <dimen name="cpp_keyboard_button_text_size">30dp</dimen>
     <dimen name="cpp_keyboard_simple_image_button_padding">12dp</dimen>
 

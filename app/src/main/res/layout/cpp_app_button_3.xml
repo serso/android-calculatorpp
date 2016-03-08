@@ -29,7 +29,7 @@
     a:id="@id/cpp_button_3"
     style="?attr/cpp_button_style_digit"
     a:text="3"
-    c:textDown="atan"
-    c:textLeft="C"
-    c:textUp="tan"
+    c:directionTextDown="atan"
+    c:directionTextLeft="C"
+    c:directionTextUp="tan"
     tools:ignore="HardcodedText" />

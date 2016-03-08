@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,7 +19,6 @@ import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.EditorLongClickEraser;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 
 import javax.annotation.Nonnull;
@@ -115,8 +112,8 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     }
 
     @Override
-    public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF point, @Nonnull MotionEvent event) {
-        switch (button.getId()) {
+    protected boolean onDrag(@NonNull View view, @NonNull DragDirection direction) {
+        switch (view.getId()) {
             case R.id.cpp_button_right:
                 editor.setCursorOnEnd();
                 return true;
@@ -134,7 +131,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
 
                 return false;
             case R.id.cpp_button_clear:
-                return processNumeralBaseButton(direction, (DirectionDragButton) button);
+                return processNumeralBaseButton(direction, (DirectionDragButton) view);
         }
         return false;
     }
@@ -159,7 +156,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     }
 
     private boolean processNumeralBaseButton(@Nonnull DragDirection direction, @Nonnull DirectionDragButton button) {
-        final String text = button.getText(direction);
+        final String text = button.getTextValue(direction);
         if (TextUtils.isEmpty(text)) {
             return false;
         }

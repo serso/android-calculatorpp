@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DirectionText">
+        <attr name="directionTextColor" format="color"/>
+        <attr name="directionTextAlpha" format="float"/>
+        <attr name="directionTextUp" format="string"/>
+        <attr name="directionTextDown" format="string"/>
+        <attr name="directionTextRight" format="string"/>
+        <attr name="directionTextLeft" format="string"/>
+        <attr name="directionTextScale" format="float"/>
+        <attr name="directionTextPadding" format="dimension"/>
+        <attr name="directionTextScaleUp" format="float"/>
+        <attr name="directionTextScaleDown" format="float"/>
+        <attr name="directionTextScaleRight" format="float"/>
+        <attr name="directionTextScaleLeft" format="float"/>
+    </declare-styleable>
+</resources>

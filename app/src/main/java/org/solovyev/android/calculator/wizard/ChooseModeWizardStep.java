@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
 
 import static org.solovyev.android.calculator.wizard.CalculatorMode.engineer;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.simple;
-import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.*;
+import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class ChooseModeWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
@@ -66,13 +66,13 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
         boolean simple = mode == CalculatorMode.simple;
         description.setText(simple ? R.string.cpp_wizard_mode_simple_description : R.string.cpp_wizard_mode_engineer_description);
         if (simple) {
-            button.setText("", up);
-            button.setText("", down);
-            button.setText("", left);
+            button.setText(up, "");
+            button.setText(down, "");
+            button.setText(left, "");
         } else {
-            button.setText("sin", up);
-            button.setText("ln", down);
-            button.setText("i", left);
+            button.setText(up, "sin");
+            button.setText(down, "ln");
+            button.setText(left, "i");
         }
     }
 

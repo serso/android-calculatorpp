@@ -29,7 +29,7 @@
     a:id="@id/cpp_button_1"
     style="?attr/cpp_button_style_digit"
     a:text="1"
-    c:textDown="asin"
-    c:textLeft="A"
-    c:textUp="sin"
+    c:directionTextDown="asin"
+    c:directionTextLeft="A"
+    c:directionTextUp="sin"
     tools:ignore="HardcodedText" />

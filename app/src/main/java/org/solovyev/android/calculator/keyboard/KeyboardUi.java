@@ -3,20 +3,15 @@ package org.solovyev.android.calculator.keyboard;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.graphics.PointF;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.calculator.ActivityLauncher;
-import org.solovyev.android.calculator.CppNumeralBase;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
@@ -29,8 +24,17 @@ import org.solovyev.android.views.dragbutton.DragDirection;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.Engine.Preferences.*;
-import static org.solovyev.android.views.dragbutton.DragDirection.*;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.AngleUnit;
+import jscl.NumeralBase;
+
+import static org.solovyev.android.calculator.Engine.Preferences.angleUnit;
+import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
+import static org.solovyev.android.views.dragbutton.DragDirection.down;
+import static org.solovyev.android.views.dragbutton.DragDirection.left;
+import static org.solovyev.android.views.dragbutton.DragDirection.up;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
@@ -97,17 +101,13 @@ public class KeyboardUi extends BaseKeyboardUi {
     }
 
     public void toggleNumericDigits() {
-        toggleNumericDigits(numeralBase.getPreference(preferences));
-    }
-
-    public void toggleNumericDigits(@Nonnull NumeralBase currentNumeralBase) {
-        for (NumeralBase numeralBase : NumeralBase.values()) {
-            if (currentNumeralBase != numeralBase) {
-                CppNumeralBase.valueOf(numeralBase).toggleButtons(false, this);
-            }
-        }
-
-        CppNumeralBase.valueOf(currentNumeralBase).toggleButtons(true, this);
+        final boolean hex = numeralBase.getPreference(preferences) == NumeralBase.hex;
+        button1.setShowDirectionText(left, hex);
+        button2.setShowDirectionText(left, hex);
+        button3.setShowDirectionText(left, hex);
+        button4.setShowDirectionText(left, hex);
+        button5.setShowDirectionText(left, hex);
+        button6.setShowDirectionText(left, hex);
     }
 
     public void onCreateView(@Nonnull Activity activity, @Nonnull View view) {
@@ -227,8 +227,8 @@ public class KeyboardUi extends BaseKeyboardUi {
     }
 
     @Override
-    public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF point, @Nonnull MotionEvent event) {
-        switch (button.getId()) {
+    protected boolean onDrag(@NonNull View view, @NonNull DragDirection direction) {
+        switch (view.getId()) {
             case R.id.cpp_button_vars:
                 launcher.showConstantEditor();
                 return true;
@@ -254,15 +254,15 @@ public class KeyboardUi extends BaseKeyboardUi {
                 }
                 return false;
             case R.id.cpp_button_6:
-                return processAngleUnitsButton(direction, (DirectionDragButton) button);
+                return processAngleUnitsButton(direction, (DirectionDragButton) view);
             case R.id.cpp_button_round_brackets:
                 if (direction == left) {
                     keyboard.roundBracketsButtonPressed();
                     return true;
                 }
-                return processDefault(direction, button);
+                return processDefault(direction, (DragButton) view);
             default:
-                return processDefault(direction, button);
+                return processDefault(direction, (DragButton) view);
         }
     }
 
@@ -270,7 +270,7 @@ public class KeyboardUi extends BaseKeyboardUi {
         if (direction == DragDirection.left) {
             return processDefault(direction, button);
         }
-        final String text = button.getText(direction);
+        final String text = button.getTextValue(direction);
         if (TextUtils.isEmpty(text)) {
             return processDefault(direction, button);
         }
@@ -288,7 +288,7 @@ public class KeyboardUi extends BaseKeyboardUi {
     }
 
     private boolean processDefault(@Nonnull DragDirection direction, @Nonnull DragButton button) {
-        final String text = ((DirectionDragButton) button).getText(direction);
+        final String text = ((DirectionDragButton) button).getTextValue(direction);
         return keyboard.buttonPressed(text);
     }
 }

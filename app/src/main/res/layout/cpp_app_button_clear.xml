@@ -29,6 +29,6 @@
     style="?attr/cpp_button_style_control_image"
     a:text="@string/c_clear"
     a:textStyle="bold"
-    c:textDown="bin"
-    c:textLeft="hex"
-    c:textUp="dec" />
+    c:directionTextDown="bin"
+    c:directionTextLeft="hex"
+    c:directionTextUp="dec" />

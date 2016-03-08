@@ -104,7 +104,6 @@ public abstract class BaseFloatingKeyboard implements FloatingKeyboard {
         final DirectionDragButton button = addButton(row, id, text);
         button.setBackgroundResource(R.drawable.material_button_light_primary);
         button.setTextColor(Color.WHITE);
-        button.setDirectionTextColor(Color.WHITE);
         return button;
     }
 

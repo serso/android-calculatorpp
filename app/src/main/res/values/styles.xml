@@ -39,7 +39,8 @@
         <item name="android:textColor">@color/cpp_button_text</item>
         <item name="android:scaleType">centerInside</item>
         <item name="directionTextColor">@color/cpp_button_text</item>
-        <item name="directionTextScale">@string/cpp_direction_text_size</item>
+        <item name="directionTextScale">@dimen/cpp_direction_text_scale</item>
+        <item name="directionTextPadding">@dimen/cpp_keyboard_button_direction_text_padding</item>
     </style>
 
     <style name="CppText.Editor.Onscreen.Light" parent="CppText.Editor.Onscreen">

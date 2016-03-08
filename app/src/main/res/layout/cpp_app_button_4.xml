@@ -28,7 +28,7 @@
     a:id="@id/cpp_button_4"
     style="?attr/cpp_button_style_digit"
     a:text="4"
-    c:textDown="y"
-    c:textLeft="D"
-    c:textUp="x"
+    c:directionTextDown="y"
+    c:directionTextLeft="D"
+    c:directionTextUp="x"
     tools:ignore="HardcodedText" />

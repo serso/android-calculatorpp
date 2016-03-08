@@ -29,7 +29,7 @@
     a:id="@id/cpp_button_8"
     style="?attr/cpp_button_style_digit"
     a:text="8"
-    c:textDown="lg"
-    c:textLeft="0d:"
-    c:textUp="ln"
+    c:directionTextDown="lg"
+    c:directionTextLeft="0d:"
+    c:directionTextUp="ln"
     tools:ignore="HardcodedText" />

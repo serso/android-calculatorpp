@@ -29,5 +29,5 @@
     a:id="@id/cpp_button_period"
     style="?attr/cpp_button_style_digit"
     a:text="."
-    c:textUp=","
+    c:directionTextUp=","
     tools:ignore="HardcodedText" />

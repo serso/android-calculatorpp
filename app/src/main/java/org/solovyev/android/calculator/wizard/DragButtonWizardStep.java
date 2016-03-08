@@ -22,12 +22,9 @@
 
 package org.solovyev.android.calculator.wizard;
 
-import static org.solovyev.android.calculator.App.cast;
-
-import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,15 +33,16 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragListener;
 import org.solovyev.android.views.dragbutton.DragDirection;
-import org.solovyev.android.views.dragbutton.SimpleDragListener;
+import org.solovyev.android.views.dragbutton.DragEvent;
 
 import java.util.Arrays;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+
+import static org.solovyev.android.calculator.App.cast;
 
 public class DragButtonWizardStep extends WizardFragment {
 
@@ -75,8 +73,16 @@ public class DragButtonWizardStep extends WizardFragment {
 
         final DirectionDragButton dragButton =(DirectionDragButton) root.findViewById(R.id.wizard_dragbutton);
         dragButton.setOnClickListener(this);
-        dragButton.setOnDragListener(
-                new SimpleDragListener(new DragButtonProcessor(), getActivity()));
+        dragButton.setOnDragListener(new DirectionDragListener(getActivity()) {
+            @Override
+            protected boolean onDrag(@NonNull View view, @NonNull DragEvent event, @NonNull DragDirection direction) {
+                if (action.dragDirection == direction) {
+                    setNextAction();
+                    return true;
+                }
+                return false;
+            }
+        });
         BaseActivity.setFont(dragButton, typeface);
         Adjuster.adjustText(dragButton, BaseKeyboardUi.getTextScale(getActivity()));
         actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
@@ -142,19 +148,5 @@ public class DragButtonWizardStep extends WizardFragment {
             return;
         }
         super.onClick(v);
-    }
-
-    private class DragButtonProcessor implements SimpleDragListener.DragProcessor {
-        @Override
-        public boolean processDragEvent(@Nonnull DragDirection dragDirection,
-                                        @Nonnull DragButton dragButton,
-                                        @Nonnull PointF startPoint,
-                                        @Nonnull MotionEvent motionEvent) {
-            if (action.dragDirection == dragDirection) {
-                setNextAction();
-                return true;
-            }
-            return false;
-        }
     }
 }

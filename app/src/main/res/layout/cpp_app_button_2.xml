@@ -29,7 +29,7 @@
     a:id="@id/cpp_button_2"
     style="?attr/cpp_button_style_digit"
     a:text="2"
-    c:textDown="acos"
-    c:textLeft="B"
-    c:textUp="cos"
+    c:directionTextDown="acos"
+    c:directionTextLeft="B"
+    c:directionTextUp="cos"
     tools:ignore="HardcodedText" />

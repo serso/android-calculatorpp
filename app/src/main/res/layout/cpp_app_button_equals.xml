@@ -28,6 +28,6 @@
     a:id="@id/cpp_button_equals"
     style="?attr/cpp_button_style_control"
     a:text="="
-    c:textDown="@string/cpp_plot_button_text"
-    c:textUp="≡"
+    c:directionTextDown="@string/cpp_plot_button_text"
+    c:directionTextUp="≡"
     tools:ignore="HardcodedText" />

@@ -29,5 +29,5 @@
     a:id="@id/cpp_button_right"
     style="?attr/cpp_button_style_control"
     a:text="▷"
-    c:textUp="▷▷"
+    c:directionTextUp="▷▷"
     tools:ignore="HardcodedText" />

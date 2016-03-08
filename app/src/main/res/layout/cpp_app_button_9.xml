@@ -29,7 +29,7 @@
     a:id="@id/cpp_button_9"
     style="?attr/cpp_button_style_digit"
     a:text="9"
-    c:textDown="e"
-    c:textLeft="0x:"
-    c:textUp="π"
+    c:directionTextDown="e"
+    c:directionTextLeft="0x:"
+    c:directionTextUp="π"
     tools:ignore="HardcodedText" />

@@ -23,15 +23,17 @@
 package org.solovyev.android.calculator.view;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
-import android.text.TextPaint;
 import android.util.AttributeSet;
-import jscl.AngleUnit;
+
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionTextView;
+import org.solovyev.android.views.dragbutton.DragDirection;
 
 import javax.annotation.Nonnull;
+
+import jscl.AngleUnit;
 
 public class AngleUnitsButton extends DirectionDragButton {
 
@@ -40,37 +42,29 @@ public class AngleUnitsButton extends DirectionDragButton {
 
     public AngleUnitsButton(Context context, @Nonnull AttributeSet attrs) {
         super(context, attrs);
-    }
-
-    @Override
-    protected void initDirectionTextPaint(@Nonnull Paint basePaint, @Nonnull DirectionTextData textData) {
-        super.initDirectionTextPaint(basePaint, textData);
-
-        final String text = textData.getText();
-        final TextPaint paint = textData.getPaint();
-
-        final int color = getDirectionTextColor(text);
-        paint.setColor(color);
-        if (!isCurrentAngleUnits(text)) {
-            paint.setAlpha(directionTextAlpha);
-        }
-    }
-
-    int getDirectionTextColor(@Nonnull String directionText) {
-        if (isCurrentAngleUnits(directionText)) {
-            return ContextCompat.getColor(getContext(), R.color.cpp_selected_angle_unit_text);
-        }
-        return ContextCompat.getColor(getContext(), R.color.cpp_text);
+        updateDirectionColors();
     }
 
     boolean isCurrentAngleUnits(@Nonnull String directionText) {
-        return this.angleUnit.name().equals(directionText);
+        return angleUnit.name().equals(directionText);
     }
 
     public void setAngleUnit(@Nonnull AngleUnit angleUnit) {
-        if (this.angleUnit != angleUnit) {
-            this.angleUnit = angleUnit;
-            invalidate();
+        if (this.angleUnit == angleUnit) {
+            return;
+        }
+        this.angleUnit = angleUnit;
+        updateDirectionColors();
+    }
+
+    private void updateDirectionColors() {
+        for (DragDirection direction : DragDirection.values()) {
+            final DirectionTextView.Text text = getText(direction);
+            if (isCurrentAngleUnits(text.getValue())) {
+                text.setColor(ContextCompat.getColor(getContext(), R.color.cpp_selected_angle_unit_text), 1f);
+            } else {
+                text.setColor(ContextCompat.getColor(getContext(), R.color.cpp_text), DirectionTextView.DEF_ALPHA);
+            }
         }
     }
 }

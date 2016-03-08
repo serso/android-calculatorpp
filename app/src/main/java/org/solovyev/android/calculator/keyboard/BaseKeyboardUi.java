@@ -12,26 +12,38 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.ActivityLauncher;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.PreferredPreferences;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragListener;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
-import org.solovyev.android.views.dragbutton.SimpleDragListener;
+import org.solovyev.android.views.dragbutton.DragEvent;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-import static android.view.HapticFeedbackConstants.*;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
+import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
 
-public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPreferenceChangeListener, SimpleDragListener.DragProcessor, View.OnClickListener {
+public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
     public static float getTextScale(@NonNull Context context) {
         return App.isTablet(context) ? 0.4f : 0.5f;
@@ -43,7 +55,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     @NonNull
     private final List<DragButton> dragButtons = new ArrayList<>();
     @NonNull
-    protected final SimpleDragListener listener;
+    protected final DirectionDragListener listener;
     @Inject
     SharedPreferences preferences;
     @Inject
@@ -64,7 +76,12 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     private final float textScale;
 
     public BaseKeyboardUi(@NonNull Application application) {
-        listener = new SimpleDragListener(this, application);
+        listener = new DirectionDragListener(application) {
+            @Override
+            protected boolean onDrag(@NonNull View view, @NonNull DragEvent event, @NonNull DragDirection direction) {
+                return BaseKeyboardUi.this.onDrag(view, direction);
+            }
+        };
         textScale = getTextScale(application);
     }
 
@@ -75,6 +92,8 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
             Adjuster.adjustImage((ImageView) button, IMAGE_SCALE);
         }
     }
+
+    protected abstract boolean onDrag(@NonNull View view, @NonNull DragDirection direction);
 
     public void onCreateView(@Nonnull Activity activity, @Nonnull View view) {
         cast(activity.getApplication()).getComponent().inject(this);
@@ -132,7 +151,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         if (button == null) {
             return;
         }
-        button.showDirectionText(false, direction);
+        button.setShowDirectionText(direction, false);
     }
 
     public void onDestroyView() {

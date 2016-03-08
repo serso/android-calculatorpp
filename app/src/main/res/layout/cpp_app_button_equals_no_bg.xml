@@ -31,6 +31,6 @@
     a:text="="
     a:textColor="?android:attr/textColorPrimary"
     c:directionTextColor="?android:attr/textColorPrimary"
-    c:textDown="@string/cpp_plot_button_text"
-    c:textUp="≡"
+    c:directionTextDown="@string/cpp_plot_button_text"
+    c:directionTextUp="≡"
     tools:ignore="HardcodedText" />

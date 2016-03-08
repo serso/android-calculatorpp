@@ -23,15 +23,17 @@
 package org.solovyev.android.calculator.view;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
-import android.text.TextPaint;
 import android.util.AttributeSet;
-import jscl.NumeralBase;
+
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionTextView;
+import org.solovyev.android.views.dragbutton.DragDirection;
 
 import javax.annotation.Nonnull;
+
+import jscl.NumeralBase;
 
 public class NumeralBasesButton extends DirectionDragButton {
 
@@ -40,31 +42,11 @@ public class NumeralBasesButton extends DirectionDragButton {
 
     public NumeralBasesButton(Context context, @Nonnull AttributeSet attrs) {
         super(context, attrs);
-    }
-
-    @Override
-    protected void initDirectionTextPaint(@Nonnull Paint basePaint, @Nonnull DirectionTextData textData) {
-        super.initDirectionTextPaint(basePaint, textData);
-
-        final String text = textData.getText();
-        final TextPaint paint = textData.getPaint();
-
-        final int color = getDirectionTextColor(text);
-        paint.setColor(color);
-        if (!isCurrentNumberBase(text)) {
-            paint.setAlpha(directionTextAlpha);
-        }
-    }
-
-    int getDirectionTextColor(@Nonnull String directionText) {
-        if (isCurrentNumberBase(directionText)) {
-            return ContextCompat.getColor(getContext(), R.color.cpp_selected_angle_unit_text);
-        }
-        return ContextCompat.getColor(getContext(), R.color.cpp_text);
+        updateDirectionColors();
     }
 
     boolean isCurrentNumberBase(@Nonnull String directionText) {
-        return this.numeralBase.name().equals(directionText);
+        return numeralBase.name().equals(directionText);
     }
 
     public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
@@ -72,6 +54,17 @@ public class NumeralBasesButton extends DirectionDragButton {
             return;
         }
         this.numeralBase = numeralBase;
-        invalidate();
+        updateDirectionColors();
+    }
+
+    private void updateDirectionColors() {
+        for (DragDirection direction : DragDirection.values()) {
+            final DirectionTextView.Text text = getText(direction);
+            if (isCurrentNumberBase(text.getValue())) {
+                text.setColor(ContextCompat.getColor(getContext(), R.color.cpp_selected_angle_unit_text), 1f);
+            } else {
+                text.setColor(ContextCompat.getColor(getContext(), R.color.cpp_text), DirectionTextView.DEF_ALPHA);
+            }
+        }
     }
 }
