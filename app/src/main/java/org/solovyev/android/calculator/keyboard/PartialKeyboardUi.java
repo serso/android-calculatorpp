@@ -9,9 +9,10 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.NumeralBase;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
@@ -19,30 +20,25 @@ import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.EditorLongClickEraser;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.NumeralBase;
-
 import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
 import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
-import static org.solovyev.android.views.dragbutton.DragDirection.down;
-import static org.solovyev.android.views.dragbutton.DragDirection.left;
-import static org.solovyev.android.views.dragbutton.DragDirection.up;
+import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class PartialKeyboardUi extends BaseKeyboardUi {
 
     @Nullable
     @Bind(R.id.cpp_button_right)
-    DirectionDragButton rightButton;
+    DirectionDragImageButton rightButton;
     @Nullable
     @Bind(R.id.cpp_button_left)
-    DirectionDragButton leftButton;
+    DirectionDragImageButton leftButton;
     @Nullable
     @Bind(R.id.cpp_button_clear)
     NumeralBasesButton clearButton;
@@ -140,8 +136,10 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cpp_button_left:
+                onClick(v, CppSpecialButton.cursor_left);
+                break;
             case R.id.cpp_button_right:
-                onClick(v, ((Button) v).getText().toString());
+                onClick(v, CppSpecialButton.cursor_right);
                 break;
             case R.id.cpp_button_clear:
                 onClick(v, CppSpecialButton.clear);
