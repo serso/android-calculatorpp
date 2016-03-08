@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.calculator.ActivityLauncher;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.R;
@@ -18,23 +21,15 @@ import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
-
-import static org.solovyev.android.calculator.Engine.Preferences.angleUnit;
-import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
-import static org.solovyev.android.views.dragbutton.DragDirection.down;
-import static org.solovyev.android.views.dragbutton.DragDirection.left;
-import static org.solovyev.android.views.dragbutton.DragDirection.up;
+import static org.solovyev.android.calculator.Engine.Preferences.*;
+import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
@@ -74,7 +69,7 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Bind(R.id.cpp_button_functions)
     DirectionDragButton functionsButton;
     @Bind(R.id.cpp_button_history)
-    DirectionDragButton historyButton;
+    DirectionDragImageButton historyButton;
     @Bind(R.id.cpp_button_multiplication)
     DirectionDragButton multiplicationButton;
     @Bind(R.id.cpp_button_plus)

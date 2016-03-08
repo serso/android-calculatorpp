@@ -7,28 +7,29 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.Button;
+import android.widget.ImageButton;
 
-public class DragButton extends Button implements DragView {
+public class DragImageButton extends ImageButton implements DragView {
     @NonNull
     private final DragGestureDetector dragDetector = new DragGestureDetector(this);
 
-    public DragButton(Context context) {
+    public DragImageButton(Context context) {
         super(context);
     }
 
-    public DragButton(Context context, AttributeSet attrs) {
+    public DragImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DragButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DragImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DragButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DragImageButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -41,12 +42,10 @@ public class DragButton extends Button implements DragView {
         return super.onTouchEvent(event);
     }
 
-    @Override
     public void setOnDragListener(@Nullable DragListener listener) {
         dragDetector.setListener(listener);
     }
 
-    @Override
     public void setVibrateOnDrag(boolean vibrateOnDrag) {
         dragDetector.setVibrateOnDrag(vibrateOnDrag);
     }

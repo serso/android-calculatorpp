@@ -12,33 +12,18 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.solovyev.android.calculator.ActivityLauncher;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.PreferredPreferences;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.views.Adjuster;
-import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DirectionDragListener;
-import org.solovyev.android.views.dragbutton.DragButton;
-import org.solovyev.android.views.dragbutton.DragDirection;
-import org.solovyev.android.views.dragbutton.DragEvent;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.solovyev.android.views.dragbutton.*;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
-import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
-import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
+import static android.view.HapticFeedbackConstants.*;
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
@@ -53,7 +38,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     public static final float IMAGE_SCALE_ERASE = 0.4f;
 
     @NonNull
-    private final List<DragButton> dragButtons = new ArrayList<>();
+    private final List<DragView> dragButtons = new ArrayList<>();
     @NonNull
     protected final DirectionDragListener listener;
     @Inject
@@ -125,6 +110,17 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         button.setOnClickListener(this);
     }
 
+    protected final void prepareButton(@Nullable DirectionDragImageButton button) {
+        if (button == null) {
+            return;
+        }
+        dragButtons.add(button);
+        button.setVibrateOnDrag(keyboard.isVibrateOnKeypress());
+        prepareButton((ImageView) button);
+        button.setOnDragListener(listener);
+        button.setTypeface(typeface);
+    }
+
     protected final void prepareButton(@Nullable DirectionDragButton button) {
         if (button == null) {
             return;
@@ -173,7 +169,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         if (Preferences.Gui.vibrateOnKeypress.isSameKey(key)) {
             final boolean vibrate = Preferences.Gui.vibrateOnKeypress.getPreference(preferences);
-            for (DragButton dragButton : dragButtons) {
+            for (DragView dragButton : dragButtons) {
                 dragButton.setVibrateOnDrag(vibrate);
             }
         }

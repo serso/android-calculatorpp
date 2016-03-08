@@ -12,9 +12,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.common.base.Strings;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.R;
 
@@ -178,25 +176,32 @@ public class DirectionTextView {
 
         private void calculatePosition() {
             paint.getTextBounds(value, 0, value.length(), bounds);
+
+            final int paddingLeft = padding;
+            final int paddingRight = padding;
+            final int paddingTop = padding;
+            final int paddingBottom = padding;
+            final int verticalPaddings = 0;
+
             switch (direction) {
                 case up:
                 case down:
-                    position.x = view.getWidth() - view.getPaddingLeft() - padding - bounds.width();
+                    position.x = view.getWidth() - paddingLeft - bounds.width();
                     if (direction == DragDirection.up) {
-                        position.y = view.getPaddingTop() + padding + bounds.height();
+                        position.y = paddingTop + bounds.height();
                     } else {
-                        position.y = view.getHeight() - view.getPaddingBottom() - padding;
+                        position.y = view.getHeight() - paddingBottom;
                     }
                     break;
                 case left:
                 case right:
                     if (direction == DragDirection.left) {
-                        position.x = view.getPaddingLeft() + padding;
+                        position.x = paddingLeft;
                     } else {
-                        position.x = view.getWidth() - view.getPaddingLeft() - padding - bounds.width();
+                        position.x = view.getWidth() - paddingRight - bounds.width();
                     }
-                    final int availableHeight = view.getHeight() - view.getPaddingTop() - view.getPaddingBottom();
-                    position.y = view.getPaddingTop() + padding + availableHeight / 2 + bounds.height() / 2;
+                    final int availableHeight = view.getHeight() - verticalPaddings;
+                    position.y = paddingTop + availableHeight / 2 + bounds.height() / 2;
                     break;
             }
         }
