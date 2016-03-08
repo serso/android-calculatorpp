@@ -26,15 +26,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.ContextMenu;
-
+import jscl.math.Generic;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.Generic;
 
 public class DisplayState implements Parcelable, ContextMenu.ContextMenuInfo {
 
@@ -50,6 +48,7 @@ public class DisplayState implements Parcelable, ContextMenu.ContextMenuInfo {
         }
     };
     private static final String JSON_TEXT = "t";
+    private static final String JSON_VALID = "v";
     @Nonnull
     public final String text;
     public final boolean valid;
@@ -66,7 +65,7 @@ public class DisplayState implements Parcelable, ContextMenu.ContextMenuInfo {
     }
 
     DisplayState(@Nonnull JSONObject json) {
-        this(json.optString(JSON_TEXT), true, Calculator.NO_SEQUENCE);
+        this(json.optString(JSON_TEXT), json.optBoolean(JSON_VALID, true), Calculator.NO_SEQUENCE);
     }
 
     private DisplayState(Parcel in) {
@@ -123,6 +122,7 @@ public class DisplayState implements Parcelable, ContextMenu.ContextMenuInfo {
     public JSONObject toJson() throws JSONException {
         final JSONObject json = new JSONObject();
         json.put(JSON_TEXT, text);
+        json.put(JSON_VALID, valid);
         return json;
     }
 
