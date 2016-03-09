@@ -31,6 +31,7 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.memory.Memory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,6 +48,8 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
     Editor editor;
     @Inject
     Display display;
+    @Inject
+    Lazy<Memory> memory;
     @Inject
     Calculator calculator;
     @Inject
@@ -147,6 +150,9 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
                 break;
             case like:
                 launcher.openFacebook();
+                break;
+            case memory:
+                editor.insert(memory.get().getValue());
                 break;
             case erase:
                 editor.erase();

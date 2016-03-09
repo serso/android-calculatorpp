@@ -69,7 +69,7 @@ public class History {
     @Nonnull
     private final List<HistoryState> saved = new ArrayList<>();
     @Nonnull
-    private final List<Runnable> whenLoadedRunnables = new ArrayList<>();
+    private final Runnables whenLoadedRunnables = new Runnables();
     private boolean loaded;
     @Inject
     Application application;
@@ -231,10 +231,7 @@ public class History {
             postRecentWrite();
         }
         loaded = true;
-        for (Runnable runnable : whenLoadedRunnables) {
-            runnable.run();
-        }
-        whenLoadedRunnables.clear();
+        whenLoadedRunnables.run();
     }
 
     @Nonnull
@@ -388,7 +385,6 @@ public class History {
 
     public void runWhenLoaded(@NonNull Runnable runnable) {
         Check.isTrue(!loaded);
-        Check.isMainThread();
         whenLoadedRunnables.add(runnable);
     }
 

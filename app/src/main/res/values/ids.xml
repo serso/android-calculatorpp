@@ -39,6 +39,7 @@
     <item name="cpp_button_settings_widget" type="id" />
     <item name="cpp_button_settings_onscreen" type="id" />
     <item name="cpp_button_like" type="id" />
+    <item name="cpp_button_memory" type="id" />
     <item name="cpp_button_left" type="id" />
     <item name="cpp_button_right" type="id" />
     <item name="cpp_button_vars" type="id" />

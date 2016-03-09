@@ -24,11 +24,10 @@ package org.solovyev.android.calculator.buttons;
 
 import org.solovyev.android.Check;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum CppSpecialButton {
 
@@ -38,6 +37,7 @@ public enum CppSpecialButton {
     settings("settings"),
     settings_widget("settings_widget"),
     like("like"),
+    memory("memory"),
     erase("erase"),
     paste("paste"),
     copy("copy"),

@@ -128,12 +128,11 @@ public class Expression extends Generic {
         return new Expression().init(generic);
     }
 
-    public static Expression init(@Nonnull NumericWrapper numericWrapper) {
-        final Expression expression = new Expression(1);
-        Literal literal = new Literal();
+    public Expression init(@Nonnull NumericWrapper numericWrapper) {
+        final Literal literal = new Literal();
         literal.init(new ExpressionVariable(numericWrapper), 1);
-        expression.init(literal, JsclInteger.ONE);
-        return expression;
+        init(literal, JsclInteger.ONE);
+        return this;
     }
 
     public static void separateSign(MathML element, Generic generic) {
@@ -561,21 +560,13 @@ public class Expression extends Generic {
         try {
             return integerValue().numeric();
         } catch (NotIntegerException ex) {
-            final Literal literal = literalScm();
-
-            final Map<Variable, Generic> content = literal.content(NUMERIC_CONVERTER);
-
-            return substitute(content);
+            return substitute(literalScm().content(NUMERIC_CONVERTER));
         }
     }
 
     @Nonnull
     public Generic valueOf(@Nonnull Generic generic) {
-        final Expression result = newInstance(0);
-
-        result.init(generic);
-
-        return result;
+        return newInstance(0).init(generic);
     }
 
     @Nonnull

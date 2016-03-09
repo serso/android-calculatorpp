@@ -5,6 +5,10 @@
     <string name="cpp_kb_operators" translatable="false">∂</string>
     <string name="cpp_kb_undo" translatable="false">↶</string>
     <string name="cpp_kb_redo" translatable="false">↷</string>
+    <string name="cpp_kb_memory_recall" translatable="false">M</string>
+    <string name="cpp_kb_memory_plus" translatable="false">M+</string>
+    <string name="cpp_kb_memory_minus" translatable="false">M-</string>
+    <string name="cpp_kb_memory_clear" translatable="false">MC</string>
     <string name="cpp_plot_add_function" translatable="false">+</string>
     <string name="cpp_plot_zoom_in" translatable="false">+</string>
     <string name="cpp_plot_zoom_reset" translatable="false">0</string>

@@ -12,13 +12,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import dagger.Lazy;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-import org.solovyev.android.calculator.ActivityLauncher;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.R;
+import jscl.math.Expression;
+import jscl.math.Generic;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.history.History;
+import org.solovyev.android.calculator.memory.Memory;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
@@ -60,6 +62,10 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Inject
     Engine engine;
     @Inject
+    Display display;
+    @Inject
+    Lazy<Memory> memory;
+    @Inject
     PartialKeyboardUi partialUi;
     @Bind(R.id.cpp_button_vars)
     DirectionDragButton variablesButton;
@@ -89,6 +95,9 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Nullable
     @Bind(R.id.cpp_button_like)
     ImageButton likeButton;
+    @Nullable
+    @Bind(R.id.cpp_button_memory)
+    DirectionDragButton memoryButton;
 
     @Inject
     public KeyboardUi(@Nonnull Application application) {
@@ -138,6 +147,7 @@ public class KeyboardUi extends BaseKeyboardUi {
         prepareButton(copyButton);
         prepareButton(pasteButton);
         prepareButton(likeButton);
+        prepareButton(memoryButton);
 
         if (isSimpleLayout()) {
             hideText(button1, up, down);
@@ -212,6 +222,9 @@ public class KeyboardUi extends BaseKeyboardUi {
             case R.id.cpp_button_like:
                 onClick(v, CppSpecialButton.like);
                 break;
+            case R.id.cpp_button_memory:
+                onClick(v, CppSpecialButton.memory);
+                break;
             case R.id.cpp_button_operators:
                 onClick(v, CppSpecialButton.operators);
                 break;
@@ -242,6 +255,8 @@ public class KeyboardUi extends BaseKeyboardUi {
                     return true;
                 }
                 return false;
+            case R.id.cpp_button_memory:
+                return processMemoryButton(direction);
             case R.id.cpp_button_subtraction:
                 if (direction == down) {
                     launcher.showOperators();
@@ -259,6 +274,36 @@ public class KeyboardUi extends BaseKeyboardUi {
             default:
                 return processDefault(direction, (DragButton) view);
         }
+    }
+
+    private boolean processMemoryButton(@NonNull DragDirection direction) {
+        final DisplayState state = display.getState();
+        if (!state.valid) {
+            return false;
+        }
+        Generic value = state.getResult();
+        if (value == null) {
+            try {
+                value = Expression.valueOf(state.text);
+            } catch (jscl.text.ParseException e) {
+                Log.w(App.TAG, e.getMessage(), e);
+            }
+        }
+        if (value == null) {
+            return false;
+        }
+        switch (direction) {
+            case up:
+                memory.get().add(value);
+                return true;
+            case down:
+                memory.get().subtract(value);
+                return true;
+            case left:
+                memory.get().clear();
+                return true;
+        }
+        return false;
     }
 
     private boolean processAngleUnitsButton(@Nonnull DragDirection direction, @Nonnull DirectionDragButton button) {
