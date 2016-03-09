@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 public class DirectionTextView {
 
-    public static final float DEF_ALPHA = 0.55f;
+    public static final float DEF_ALPHA = 0.4f;
     public static final float DEF_SCALE = 0.4f;
 
     @NonNull
@@ -89,6 +90,7 @@ public class DirectionTextView {
         @NonNull
         private final View view;
         private final float minTextSize;
+        private float fixedTextHeight = 0;
         @NonNull
         private final PointF position = new PointF(-1, -1);
         @NonNull
@@ -125,7 +127,16 @@ public class DirectionTextView {
             paint.set(base);
             paint.setColor(color);
             paint.setAlpha(intAlpha());
+            paint.setTypeface(Typeface.DEFAULT);
+
+            // pre-calculate fixed height
+            paint.setTextSize(Math.max(base.getTextSize() * DEF_SCALE, minTextSize));
+            paint.getTextBounds("|", 0, 1, bounds);
+            fixedTextHeight = bounds.height();
+
+            // set real text size value
             paint.setTextSize(Math.max(base.getTextSize() * scale, minTextSize));
+
             invalidate(true);
         }
 
@@ -188,7 +199,7 @@ public class DirectionTextView {
                 case down:
                     position.x = view.getWidth() - paddingLeft - bounds.width();
                     if (direction == DragDirection.up) {
-                        position.y = paddingTop + bounds.height();
+                        position.y = paddingTop + fixedTextHeight;
                     } else {
                         position.y = view.getHeight() - paddingBottom;
                     }
@@ -201,14 +212,14 @@ public class DirectionTextView {
                         position.x = view.getWidth() - paddingRight - bounds.width();
                     }
                     final int availableHeight = view.getHeight() - verticalPaddings;
-                    position.y = paddingTop + availableHeight / 2 + bounds.height() / 2;
+                    position.y = paddingTop + availableHeight / 2 + fixedTextHeight / 2;
                     break;
             }
         }
 
         @NonNull
         public String getValue() {
-            return value;
+            return visible ? value : "";
         }
 
         public void setValue(@NonNull String value) {
