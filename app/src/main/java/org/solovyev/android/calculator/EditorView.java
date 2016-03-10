@@ -79,10 +79,14 @@ public class EditorView extends EditTextCompat {
         if (this.editor == editor) {
             return;
         }
-        this.editor = editor;
         if (editor != null) {
+            // avoid losing cursor position on focus restore. First request focus, then set cursor
+            // position. Consequent requestFocus() should be no-op
+            requestFocus();
             setState(editor.getState());
         }
+        // update editor at the end to avoid side-effects of #requestFocus() and #setState()
+        this.editor = editor;
     }
 
     @Override
