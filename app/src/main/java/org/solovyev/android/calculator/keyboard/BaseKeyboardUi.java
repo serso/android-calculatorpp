@@ -12,18 +12,35 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.ActivityLauncher;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.PreferredPreferences;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.views.Adjuster;
-import org.solovyev.android.views.dragbutton.*;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
+import org.solovyev.android.views.dragbutton.DirectionDragListener;
+import org.solovyev.android.views.dragbutton.DirectionDragView;
+import org.solovyev.android.views.dragbutton.DragDirection;
+import org.solovyev.android.views.dragbutton.DragEvent;
+import org.solovyev.android.views.dragbutton.DragView;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-import static android.view.HapticFeedbackConstants.*;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
+import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
@@ -134,7 +151,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         Adjuster.adjustText(button, textScale);
     }
 
-    protected final void hideText(@Nullable DirectionDragButton button, @Nonnull DragDirection... directions) {
+    protected final void hideText(@Nullable DirectionDragView button, @Nonnull DragDirection... directions) {
         if (button == null) {
             return;
         }
@@ -143,11 +160,11 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         }
     }
 
-    protected final void hideText(@Nullable DirectionDragButton button, @Nonnull DragDirection direction) {
+    protected final void hideText(@Nullable DirectionDragView button, @Nonnull DragDirection direction) {
         if (button == null) {
             return;
         }
-        button.setShowDirectionText(direction, false);
+        button.getText(direction).setVisible(false);
     }
 
     public void onDestroyView() {

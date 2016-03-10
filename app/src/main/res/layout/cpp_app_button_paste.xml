@@ -22,8 +22,12 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ImageButton
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_paste"
+<org.solovyev.android.calculator.view.AngleUnitsButton
+    android:id="@id/cpp_button_paste"
     style="?attr/cpp_button_style_control_image"
-    a:src="@drawable/ic_content_paste_white_48dp" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:directionTextScale="@dimen/cpp_direction_text_scale_units"
+    android:src="@drawable/ic_content_paste_white_48dp"
+    app:directionTextDown="rad"
+    app:directionTextUp="deg"/>

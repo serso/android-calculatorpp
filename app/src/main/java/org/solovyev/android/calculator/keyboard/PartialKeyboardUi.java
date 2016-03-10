@@ -6,19 +6,14 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.NumeralBase;
-import org.solovyev.android.calculator.Engine;
+
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.EditorLongClickEraser;
-import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
@@ -26,10 +21,13 @@ import org.solovyev.android.views.dragbutton.DragDirection;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
 import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
-import static org.solovyev.android.views.dragbutton.DragDirection.*;
+import static org.solovyev.android.views.dragbutton.DragDirection.down;
+import static org.solovyev.android.views.dragbutton.DragDirection.up;
 
 public class PartialKeyboardUi extends BaseKeyboardUi {
 
@@ -41,7 +39,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     DirectionDragImageButton leftButton;
     @Nullable
     @Bind(R.id.cpp_button_clear)
-    NumeralBasesButton clearButton;
+    Button clearButton;
     @Nullable
     @Bind(R.id.cpp_button_erase)
     ImageButton eraseButton;
@@ -64,16 +62,10 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
         prepareButton(leftButton);
         prepareButton(equalsButton);
         prepareButton(clearButton);
-        if (clearButton != null) {
-            clearButton.setNumeralBase(numeralBase.getPreference(preferences));
-        }
         if (eraseButton != null) {
             // backspace button is too big, scale it more
             prepareButton(eraseButton, IMAGE_SCALE_ERASE);
             longClickEraser = EditorLongClickEraser.attachTo(eraseButton, keyboard.isVibrateOnKeypress(), editor, calculator);
-        }
-        if (isSimpleLayout()) {
-            hideText(clearButton, left, up, down);
         }
         toggleEqualsButton();
     }
@@ -96,9 +88,6 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         super.onSharedPreferenceChanged(preferences, key);
-        if (clearButton != null && numeralBase.isSameKey(key)) {
-            clearButton.setNumeralBase(numeralBase.getPreference(preferences));
-        }
         if (equalsButton != null && showEqualsButton.isSameKey(key)) {
             toggleEqualsButton();
         }
@@ -126,8 +115,6 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
                 }
 
                 return false;
-            case R.id.cpp_button_clear:
-                return processNumeralBaseButton(direction, (DirectionDragButton) view);
         }
         return false;
     }
@@ -151,23 +138,5 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
                 onClick(v, CppSpecialButton.equals);
                 break;
         }
-    }
-
-    private boolean processNumeralBaseButton(@Nonnull DragDirection direction, @Nonnull DirectionDragButton button) {
-        final String text = button.getTextValue(direction);
-        if (TextUtils.isEmpty(text)) {
-            return false;
-        }
-        try {
-            final NumeralBase newNumeralBase = NumeralBase.valueOf(text);
-            final NumeralBase oldNumeralBase = Engine.Preferences.numeralBase.getPreference(preferences);
-            if (oldNumeralBase != newNumeralBase) {
-                preferredPreferences.setNumeralBase(newNumeralBase);
-                return true;
-            }
-        } catch (IllegalArgumentException e) {
-            Log.d(this.getClass().getName(), "Unsupported numeral base: " + text);
-        }
-        return false;
     }
 }

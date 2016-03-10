@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import javax.annotation.Nonnull;
 
-public class DirectionDragImageButton extends DragImageButton {
+public class DirectionDragImageButton extends DragImageButton implements DirectionDragView {
     private final DirectionTextView textView = new DirectionTextView();
     private final TextPaint baseTextPaint = new TextPaint();
 
@@ -48,7 +48,7 @@ public class DirectionDragImageButton extends DragImageButton {
     }
 
     @Nonnull
-    protected DirectionTextView.Text getText(@NonNull DragDirection direction) {
+    public DirectionTextView.Text getText(@NonNull DragDirection direction) {
         return textView.getText(direction);
     }
 

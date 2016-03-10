@@ -10,6 +10,26 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import org.solovyev.android.calculator.ActivityLauncher;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.buttons.CppSpecialButton;
+import org.solovyev.android.calculator.history.History;
+import org.solovyev.android.calculator.memory.Memory;
+import org.solovyev.android.calculator.view.AngleUnitsButton;
+import org.solovyev.android.calculator.view.NumeralBasesButton;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
+import org.solovyev.android.views.dragbutton.DirectionDragView;
+import org.solovyev.android.views.dragbutton.DragDirection;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import dagger.Lazy;
@@ -17,21 +37,13 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.Generic;
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.buttons.CppSpecialButton;
-import org.solovyev.android.calculator.history.History;
-import org.solovyev.android.calculator.memory.Memory;
-import org.solovyev.android.calculator.view.AngleUnitsButton;
-import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
-import org.solovyev.android.views.dragbutton.DragButton;
-import org.solovyev.android.views.dragbutton.DragDirection;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-
-import static org.solovyev.android.calculator.Engine.Preferences.*;
-import static org.solovyev.android.views.dragbutton.DragDirection.*;
+import static org.solovyev.android.calculator.Engine.Preferences.angleUnit;
+import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
+import static org.solovyev.android.views.dragbutton.DragDirection.down;
+import static org.solovyev.android.views.dragbutton.DragDirection.left;
+import static org.solovyev.android.views.dragbutton.DragDirection.up;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
@@ -48,7 +60,7 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Bind(R.id.cpp_button_5)
     public DirectionDragButton button5;
     @Bind(R.id.cpp_button_6)
-    public AngleUnitsButton button6;
+    public DirectionDragButton button6;
     @Bind(R.id.cpp_button_7)
     public DirectionDragButton button7;
     @Bind(R.id.cpp_button_8)
@@ -89,9 +101,9 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Bind(R.id.cpp_button_round_brackets)
     DirectionDragButton bracketsButton;
     @Bind(R.id.cpp_button_copy)
-    ImageButton copyButton;
+    NumeralBasesButton copyButton;
     @Bind(R.id.cpp_button_paste)
-    ImageButton pasteButton;
+    AngleUnitsButton pasteButton;
     @Nullable
     @Bind(R.id.cpp_button_like)
     ImageButton likeButton;
@@ -139,13 +151,14 @@ public class KeyboardUi extends BaseKeyboardUi {
         prepareButton(button4);
         prepareButton(button5);
         prepareButton(button6);
-        button6.setAngleUnit(angleUnit.getPreference(preferences));
         prepareButton(button7);
         prepareButton(button8);
         prepareButton(button9);
 
         prepareButton(copyButton);
+        copyButton.setNumeralBase(numeralBase.getPreference(preferences));
         prepareButton(pasteButton);
+        pasteButton.setAngleUnit(angleUnit.getPreference(preferences));
         prepareButton(likeButton);
         prepareButton(memoryButton);
 
@@ -155,12 +168,13 @@ public class KeyboardUi extends BaseKeyboardUi {
             hideText(button3, up, down);
             hideText(button4, down);
             hideText(button5, down);
-            hideText(button6, up, down);
             hideText(button7, left, up, down);
             hideText(button8, left, up, down);
             hideText(button9, left);
             hideText(multiplicationButton, left);
             hideText(plusButton, up, down);
+            hideText(copyButton, left, up, down);
+            hideText(pasteButton, left, up, down);
         }
         multiplicationButton.setText(engine.getMultiplicationSign());
         toggleNumericDigits();
@@ -176,10 +190,11 @@ public class KeyboardUi extends BaseKeyboardUi {
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         super.onSharedPreferenceChanged(preferences, key);
         if (angleUnit.isSameKey(key)) {
-            button6.setAngleUnit(angleUnit.getPreference(preferences));
+            pasteButton.setAngleUnit(angleUnit.getPreference(preferences));
         }
         if (numeralBase.isSameKey(key)) {
             toggleNumericDigits();
+            copyButton.setNumeralBase(numeralBase.getPreference(preferences));
         }
         if (multiplicationSign.isSameKey(key)) {
             multiplicationButton.setText(multiplicationSign.getPreference(preferences));
@@ -263,16 +278,18 @@ public class KeyboardUi extends BaseKeyboardUi {
                     return true;
                 }
                 return false;
-            case R.id.cpp_button_6:
-                return processAngleUnitsButton(direction, (DirectionDragButton) view);
+            case R.id.cpp_button_copy:
+                return processNumeralBaseButton(direction, (DirectionDragView) view);
+            case R.id.cpp_button_paste:
+                return processAngleUnitsButton(direction, (DirectionDragView) view);
             case R.id.cpp_button_round_brackets:
                 if (direction == left) {
                     keyboard.roundBracketsButtonPressed();
                     return true;
                 }
-                return processDefault(direction, (DragButton) view);
+                return processDefault(direction, (DirectionDragView) view);
             default:
-                return processDefault(direction, (DragButton) view);
+                return processDefault(direction, (DirectionDragView) view);
         }
     }
 
@@ -306,11 +323,11 @@ public class KeyboardUi extends BaseKeyboardUi {
         return false;
     }
 
-    private boolean processAngleUnitsButton(@Nonnull DragDirection direction, @Nonnull DirectionDragButton button) {
+    private boolean processAngleUnitsButton(@Nonnull DragDirection direction, @Nonnull DirectionDragView button) {
         if (direction == DragDirection.left) {
             return processDefault(direction, button);
         }
-        final String text = button.getTextValue(direction);
+        final String text = button.getText(direction).getValue();
         if (TextUtils.isEmpty(text)) {
             return processDefault(direction, button);
         }
@@ -327,8 +344,26 @@ public class KeyboardUi extends BaseKeyboardUi {
         return false;
     }
 
-    private boolean processDefault(@Nonnull DragDirection direction, @Nonnull DragButton button) {
-        final String text = ((DirectionDragButton) button).getTextValue(direction);
+    private boolean processDefault(@Nonnull DragDirection direction, @Nonnull DirectionDragView button) {
+        final String text = button.getText(direction).getValue();
         return keyboard.buttonPressed(text);
+    }
+
+    private boolean processNumeralBaseButton(@Nonnull DragDirection direction, @Nonnull DirectionDragView button) {
+        final String text = button.getText(direction).getValue();
+        if (TextUtils.isEmpty(text)) {
+            return false;
+        }
+        try {
+            final NumeralBase newNumeralBase = NumeralBase.valueOf(text);
+            final NumeralBase oldNumeralBase = Engine.Preferences.numeralBase.getPreference(preferences);
+            if (oldNumeralBase != newNumeralBase) {
+                preferredPreferences.setNumeralBase(newNumeralBase);
+                return true;
+            }
+        } catch (IllegalArgumentException e) {
+            Log.d(this.getClass().getName(), "Unsupported numeral base: " + text);
+        }
+        return false;
     }
 }

@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 
 import javax.annotation.Nonnull;
 
-public class DirectionDragButton extends DragButton {
+public class DirectionDragButton extends DragButton implements DirectionDragView {
     private final DirectionTextView textView = new DirectionTextView();
     @NonNull
     private final TextPaint baseTextPaint = new TextPaint();
@@ -69,8 +69,9 @@ public class DirectionDragButton extends DragButton {
         return this;
     }
 
+    @Override
     @Nonnull
-    protected DirectionTextView.Text getText(@NonNull DragDirection direction) {
+    public DirectionTextView.Text getText(@NonNull DragDirection direction) {
         return textView.getText(direction);
     }
 
