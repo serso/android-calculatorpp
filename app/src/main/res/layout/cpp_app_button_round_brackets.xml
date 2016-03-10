@@ -30,6 +30,6 @@
     style="?attr/cpp_button_style_digit"
     a:text="( )"
     c:directionTextDown=")"
-    c:directionTextLeft="(∙)"
+    c:directionTextLeft="(.)"
     c:directionTextUp="("
     tools:ignore="HardcodedText" />
