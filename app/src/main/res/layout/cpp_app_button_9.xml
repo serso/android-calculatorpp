@@ -29,7 +29,5 @@
     a:id="@id/cpp_button_9"
     style="?attr/cpp_button_style_digit"
     a:text="9"
-    c:directionTextDown="e"
     c:directionTextLeft="0x:"
-    c:directionTextUp="π"
     tools:ignore="HardcodedText" />

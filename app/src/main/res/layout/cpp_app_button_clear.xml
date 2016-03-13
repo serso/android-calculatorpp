@@ -22,9 +22,12 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<Button
+<org.solovyev.android.views.dragbutton.DirectionDragButton
     a:id="@id/cpp_button_clear"
     style="?attr/cpp_button_style_control_image"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:a="http://schemas.android.com/apk/res/android"
+    a:background="@color/grey_850"
     a:text="@string/c_clear"
+    app:directionTextUp="MC"
     a:textStyle="bold"/>

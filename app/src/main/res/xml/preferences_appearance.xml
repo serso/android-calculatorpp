@@ -64,13 +64,6 @@
         a:key="autoOrientation"
         a:title="@string/cpp_prefs_auto_rotate_screen" />
 
-
-    <android.preference.CheckBoxPreference
-        a:defaultValue="true"
-        a:key="showEqualsButton"
-        a:summary="@string/c_show_equals_button_summary"
-        a:title="@string/c_show_equals_button_title" />
-
     <android.preference.CheckBoxPreference
         a:key="gui.keepScreenOn"
         a:title="@string/cpp_prefs_keep_screen_on" />

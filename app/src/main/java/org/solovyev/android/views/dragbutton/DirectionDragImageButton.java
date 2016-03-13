@@ -54,10 +54,19 @@ public class DirectionDragImageButton extends DragImageButton implements Directi
 
     public void setTypeface(@Nonnull Typeface newTypeface) {
         final Typeface oldTypeface = baseTextPaint.getTypeface();
-        if(oldTypeface == newTypeface) {
+        if (oldTypeface == newTypeface) {
             return;
         }
         baseTextPaint.setTypeface(newTypeface);
         textView.setBaseTextPaint(baseTextPaint);
+    }
+
+    public void setTextSize(float textSizePxs) {
+        baseTextPaint.setTextSize(textSizePxs);
+        textView.setBaseTextPaint(baseTextPaint);
+    }
+
+    public float getTextSize() {
+        return baseTextPaint.getTextSize();
     }
 }

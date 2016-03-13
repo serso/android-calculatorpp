@@ -29,8 +29,7 @@
     style="?attr/cpp_button_style_control"
     a:background="@drawable/button_no_bg"
     a:text="="
-    a:textColor="?android:attr/textColorPrimary"
-    c:directionTextColor="?android:attr/textColorPrimary"
+    a:textColor="?attr/cpp_text_color"
     c:directionTextDown="@string/cpp_plot_button_text"
     c:directionTextUp="≡"
     tools:ignore="HardcodedText" />

@@ -16,17 +16,33 @@ import static android.graphics.Matrix.MSCALE_Y;
 public class Adjuster {
 
     private static final float[] MATRIX = new float[9];
+    @NonNull
+    private static Helper<TextView> textViewHelper = new Helper<TextView>() {
+        @Override
+        public void apply(@NonNull TextView view, float textSize) {
+            view.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        }
+
+        @Override
+        public float getTextSize(@NonNull TextView view) {
+            return view.getTextSize();
+        }
+    };
 
     public static void adjustText(@NonNull final TextView view, final float percentage) {
-        adjustText(view, percentage, 0);
+        adjustText(view, textViewHelper, percentage, 0);
     }
 
-    public static void adjustText(@NonNull final TextView view, final float percentage, final float minTextSizePxs) {
+    public static void adjustText(@NonNull final TextView view, final float percentage, int minTextSizePxs) {
+        adjustText(view, textViewHelper, percentage, minTextSizePxs);
+    }
+
+    public static <V extends View> void adjustText(@NonNull final V view, @NonNull Helper<V> helper, final float percentage, final float minTextSizePxs) {
         ViewTreeObserver treeObserver = getTreeObserver(view);
         if (treeObserver == null) {
             return;
         }
-        treeObserver.addOnPreDrawListener(new TextViewAdjuster(view, percentage, minTextSizePxs));
+        treeObserver.addOnPreDrawListener(new TextViewAdjuster<V>(view, helper, percentage, minTextSizePxs));
     }
 
     @Nullable
@@ -57,6 +73,12 @@ public class Adjuster {
         treeObserver.addOnPreDrawListener(new MaxWidthAdjuster(view, maxWidth));
     }
 
+    public interface Helper<V extends View> {
+        void apply(@NonNull V view, float textSize);
+
+        float getTextSize(@NonNull V view);
+    }
+
     private static abstract class BaseViewAdjuster<V extends View> implements ViewTreeObserver.OnPreDrawListener {
         @NonNull
         protected final V view;
@@ -82,24 +104,26 @@ public class Adjuster {
         protected abstract boolean adjust(int width, int height);
     }
 
-    private static class TextViewAdjuster extends BaseViewAdjuster<TextView> {
+    private static class TextViewAdjuster<V extends View> extends BaseViewAdjuster<V> {
         private final float percentage;
         private final float minTextSizePxs;
+        private final Helper<V> helper;
 
-        public TextViewAdjuster(@NonNull TextView view, float percentage, float minTextSizePxs) {
+        public TextViewAdjuster(@NonNull V view, @NonNull Helper<V> helper, float percentage, float minTextSizePxs) {
             super(view);
+            this.helper = helper;
             this.percentage = percentage;
             this.minTextSizePxs = minTextSizePxs;
         }
 
         @Override
         protected boolean adjust(int width, int height) {
-            final float oldTextSize = Math.round(view.getTextSize());
+            final float oldTextSize = Math.round(helper.getTextSize(view));
             final float newTextSize = Math.max(minTextSizePxs, Math.round(height * percentage));
             if (oldTextSize == newTextSize) {
                 return true;
             }
-            view.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
+            helper.apply(view, newTextSize);
             return false;
         }
     }

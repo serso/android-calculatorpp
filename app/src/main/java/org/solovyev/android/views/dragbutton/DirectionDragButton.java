@@ -41,20 +41,16 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
     }
 
     @Override
-    public boolean onPreDraw() {
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         final TextPaint paint = getPaint();
         if (baseTextPaint.getTextSize() != paint.getTextSize() ||
+                baseTextPaint.getTypeface() != paint.getTypeface() ||
                 baseTextPaint.getColor() != paint.getColor() ||
                 baseTextPaint.getAlpha() != paint.getAlpha()) {
             baseTextPaint.set(paint);
             textView.setBaseTextPaint(paint);
         }
-        return super.onPreDraw();
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
         textView.draw(canvas);
     }
 

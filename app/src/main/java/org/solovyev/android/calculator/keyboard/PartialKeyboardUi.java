@@ -3,14 +3,12 @@ package org.solovyev.android.calculator.keyboard;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-
-import org.solovyev.android.calculator.Preferences;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.view.EditorLongClickEraser;
@@ -21,10 +19,6 @@ import org.solovyev.android.views.dragbutton.DragDirection;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
 import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
 import static org.solovyev.android.views.dragbutton.DragDirection.down;
 import static org.solovyev.android.views.dragbutton.DragDirection.up;
@@ -39,7 +33,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     DirectionDragImageButton leftButton;
     @Nullable
     @Bind(R.id.cpp_button_clear)
-    Button clearButton;
+    DirectionDragButton clearButton;
     @Nullable
     @Bind(R.id.cpp_button_erase)
     ImageButton eraseButton;
@@ -67,30 +61,14 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
             prepareButton(eraseButton, IMAGE_SCALE_ERASE);
             longClickEraser = EditorLongClickEraser.attachTo(eraseButton, keyboard.isVibrateOnKeypress(), editor, calculator);
         }
-        toggleEqualsButton();
-    }
-
-    public void toggleEqualsButton() {
-        if (equalsButton == null) {
-            return;
-        }
-        if (orientation != Configuration.ORIENTATION_PORTRAIT && Preferences.Gui.rotateScreen.getPreference(preferences)) {
-            return;
-        }
-
-        if (Preferences.Gui.showEqualsButton.getPreference(preferences)) {
-            equalsButton.setVisibility(View.VISIBLE);
-        } else {
-            equalsButton.setVisibility(View.GONE);
+        if(isSimpleLayout()) {
+            hideText(equalsButton, down);
         }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         super.onSharedPreferenceChanged(preferences, key);
-        if (equalsButton != null && showEqualsButton.isSameKey(key)) {
-            toggleEqualsButton();
-        }
         if (longClickEraser != null && vibrateOnKeypress.isSameKey(key)) {
             longClickEraser.setVibrateOnKeypress(vibrateOnKeypress.getPreference(preferences));
         }
@@ -105,6 +83,12 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
             case R.id.cpp_button_left:
                 editor.setCursorOnStart();
                 return true;
+            case R.id.cpp_button_clear:
+                if(direction == up) {
+                    memory.get().clear();
+                    return true;
+                }
+                return false;
             case R.id.cpp_button_equals:
                 if (direction == down) {
                     launcher.plotDisplayedExpression();

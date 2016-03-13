@@ -3,8 +3,9 @@ package org.solovyev.android.views.dragbutton;
 import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 
-final class Drag {
+public final class Drag {
 
     private Drag() {
     }
@@ -17,6 +18,13 @@ final class Drag {
     @NonNull
     public static PointF subtract(@NonNull PointF p1, @NonNull PointF p2) {
         return new PointF(p1.x - p2.x, p1.y - p2.y);
+    }
+
+    public static boolean hasDirectionText(@NonNull View view, @NonNull DragDirection direction) {
+        if (view instanceof DirectionDragView) {
+            return ((DirectionDragView) view).getText(direction).hasValue();
+        }
+        return false;
     }
 
     @NonNull

@@ -31,4 +31,5 @@
     a:text="@string/cpp_kb_functions"
     a:textStyle="italic"
     c:directionTextUp="+ƒ"
+    c:directionTextDown="+π"
     tools:ignore="HardcodedText" />

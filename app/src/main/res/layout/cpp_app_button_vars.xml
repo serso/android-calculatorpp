@@ -30,5 +30,6 @@
     style="?attr/cpp_button_style_control"
     a:text="@string/cpp_kb_variables"
     a:textStyle="italic"
-    c:directionTextUp="+π"
+    c:directionTextDown="e"
+    c:directionTextUp="π"
     tools:ignore="HardcodedText" />

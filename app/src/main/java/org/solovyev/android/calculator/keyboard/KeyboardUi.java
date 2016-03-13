@@ -10,16 +10,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
-import org.solovyev.android.calculator.ActivityLauncher;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.AngleUnit;
+import jscl.NumeralBase;
+import jscl.math.Expression;
+import jscl.math.Generic;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.history.History;
-import org.solovyev.android.calculator.memory.Memory;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
@@ -30,20 +29,8 @@ import org.solovyev.android.views.dragbutton.DragDirection;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import dagger.Lazy;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
-import jscl.math.Expression;
-import jscl.math.Generic;
-
-import static org.solovyev.android.calculator.Engine.Preferences.angleUnit;
-import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
-import static org.solovyev.android.views.dragbutton.DragDirection.down;
-import static org.solovyev.android.views.dragbutton.DragDirection.left;
-import static org.solovyev.android.views.dragbutton.DragDirection.up;
+import static org.solovyev.android.calculator.Engine.Preferences.*;
+import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
@@ -76,8 +63,6 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Inject
     Display display;
     @Inject
-    Lazy<Memory> memory;
-    @Inject
     PartialKeyboardUi partialUi;
     @Bind(R.id.cpp_button_vars)
     DirectionDragButton variablesButton;
@@ -107,6 +92,9 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Nullable
     @Bind(R.id.cpp_button_like)
     ImageButton likeButton;
+    @Nullable
+    @Bind(R.id.cpp_button_percent)
+    DirectionDragButton percentButton;
     @Nullable
     @Bind(R.id.cpp_button_memory)
     DirectionDragButton memoryButton;
@@ -143,6 +131,7 @@ public class KeyboardUi extends BaseKeyboardUi {
 
         prepareButton(periodButton);
         prepareButton(bracketsButton);
+        prepareButton(percentButton);
 
         prepareButton(button0);
         prepareButton(button1);
@@ -163,9 +152,9 @@ public class KeyboardUi extends BaseKeyboardUi {
         prepareButton(memoryButton);
 
         if (isSimpleLayout()) {
-            hideText(button1, up, down);
-            hideText(button2, up, down);
-            hideText(button3, up, down);
+            hideText(button1, down);
+            hideText(button2, down);
+            hideText(button3, down);
             hideText(button4, down);
             hideText(button5, down);
             hideText(button7, left, up, down);
@@ -175,6 +164,7 @@ public class KeyboardUi extends BaseKeyboardUi {
             hideText(plusButton, up, down);
             hideText(copyButton, left, up, down);
             hideText(pasteButton, left, up, down);
+            hideText(functionsButton, up, down);
         }
         multiplicationButton.setText(engine.getMultiplicationSign());
         toggleNumericDigits();
@@ -216,6 +206,7 @@ public class KeyboardUi extends BaseKeyboardUi {
             case R.id.cpp_button_9:
             case R.id.cpp_button_division:
             case R.id.cpp_button_period:
+            case R.id.cpp_button_percent:
             case R.id.cpp_button_subtraction:
             case R.id.cpp_button_multiplication:
             case R.id.cpp_button_plus:
@@ -252,12 +243,12 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Override
     protected boolean onDrag(@NonNull View view, @NonNull DragDirection direction) {
         switch (view.getId()) {
-            case R.id.cpp_button_vars:
-                launcher.showConstantEditor();
-                return true;
             case R.id.cpp_button_functions:
                 if (direction == up) {
                     launcher.showFunctionEditor();
+                    return true;
+                } else if (direction == down) {
+                    launcher.showConstantEditor();
                     return true;
                 }
                 return false;
@@ -272,12 +263,6 @@ public class KeyboardUi extends BaseKeyboardUi {
                 return false;
             case R.id.cpp_button_memory:
                 return processMemoryButton(direction);
-            case R.id.cpp_button_subtraction:
-                if (direction == down) {
-                    launcher.showOperators();
-                    return true;
-                }
-                return false;
             case R.id.cpp_button_copy:
                 return processNumeralBaseButton(direction, (DirectionDragView) view);
             case R.id.cpp_button_paste:
@@ -307,6 +292,7 @@ public class KeyboardUi extends BaseKeyboardUi {
             }
         }
         if (value == null) {
+            memory.get().show();
             return false;
         }
         switch (direction) {
@@ -315,9 +301,6 @@ public class KeyboardUi extends BaseKeyboardUi {
                 return true;
             case down:
                 memory.get().subtract(value);
-                return true;
-            case left:
-                memory.get().clear();
                 return true;
         }
         return false;

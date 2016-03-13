@@ -127,7 +127,10 @@ public class DirectionTextView {
             paint.set(base);
             paint.setColor(color);
             paint.setAlpha(intAlpha());
-            paint.setTypeface(Typeface.DEFAULT);
+            final Typeface typeface = base.getTypeface();
+            if (typeface != null && typeface.getStyle() != Typeface.NORMAL) {
+                paint.setTypeface(Typeface.create(typeface, Typeface.NORMAL));
+            }
 
             // pre-calculate fixed height
             paint.setTextSize(Math.max(base.getTextSize() * DEF_SCALE, minTextSize));
@@ -176,7 +179,7 @@ public class DirectionTextView {
         }
 
         public void draw(@NonNull Canvas canvas) {
-            if (!visible || TextUtils.isEmpty(value)) {
+            if (!hasValue()) {
                 return;
             }
             if (position.x < 0 || position.y < 0) {
@@ -220,6 +223,10 @@ public class DirectionTextView {
         @NonNull
         public String getValue() {
             return visible ? value : "";
+        }
+
+        public boolean hasValue() {
+            return visible && !TextUtils.isEmpty(value);
         }
 
         public void setValue(@NonNull String value) {

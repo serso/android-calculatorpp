@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="cpp_direction_text_scale" format="float" type="dimen">0.45</item>
+    <item name="cpp_direction_text_scale_units" format="float" type="dimen">0.45</item>
+</resources>

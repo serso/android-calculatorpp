@@ -12,35 +12,20 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.solovyev.android.calculator.ActivityLauncher;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.PreferredPreferences;
+import dagger.Lazy;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
+import org.solovyev.android.calculator.memory.Memory;
 import org.solovyev.android.views.Adjuster;
-import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
-import org.solovyev.android.views.dragbutton.DirectionDragListener;
-import org.solovyev.android.views.dragbutton.DirectionDragView;
-import org.solovyev.android.views.dragbutton.DragDirection;
-import org.solovyev.android.views.dragbutton.DragEvent;
-import org.solovyev.android.views.dragbutton.DragView;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.solovyev.android.views.dragbutton.*;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
-import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
-import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
+import static android.view.HapticFeedbackConstants.*;
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
@@ -71,6 +56,8 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     @Inject
     ActivityLauncher launcher;
     @Inject
+    Lazy<Memory> memory;
+    @Inject
     PreferredPreferences preferredPreferences;
     protected int orientation = ORIENTATION_PORTRAIT;
     private int textSize;
@@ -81,7 +68,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         listener = new DirectionDragListener(application) {
             @Override
             protected boolean onDrag(@NonNull View view, @NonNull DragEvent event, @NonNull DragDirection direction) {
-                return BaseKeyboardUi.this.onDrag(view, direction);
+                return Drag.hasDirectionText(view, direction) && BaseKeyboardUi.this.onDrag(view, direction);
             }
         };
         textScale = getTextScale(application);
@@ -136,6 +123,8 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         prepareButton((ImageView) button);
         button.setOnDragListener(listener);
         button.setTypeface(typeface);
+        button.setTextSize(textSize);
+        Adjuster.adjustText(button, AdjusterHelper.instance, textScale, 0);
     }
 
     protected final void prepareButton(@Nullable DirectionDragButton button) {
@@ -208,5 +197,20 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
 
     protected final void onClick(@Nonnull View v, @Nonnull CppSpecialButton b) {
         onClick(v, b.action);
+    }
+
+    private static class AdjusterHelper implements Adjuster.Helper<DirectionDragImageButton> {
+
+        public static AdjusterHelper instance = new AdjusterHelper();
+
+        @Override
+        public void apply(@NonNull DirectionDragImageButton view, float textSize) {
+            view.setTextSize(textSize);
+        }
+
+        @Override
+        public float getTextSize(@NonNull DirectionDragImageButton view) {
+            return view.getTextSize();
+        }
     }
 }

@@ -28,5 +28,4 @@
     a:id="@id/cpp_button_subtraction"
     style="?attr/cpp_button_style_operation"
     a:text="−"
-    c:directionTextDown="@string/cpp_kb_operators"
     tools:ignore="HardcodedText" />

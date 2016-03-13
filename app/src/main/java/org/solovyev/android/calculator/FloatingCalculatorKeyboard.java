@@ -9,10 +9,7 @@ import android.widget.LinearLayout;
 import org.solovyev.android.calculator.keyboard.BaseFloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.view.EditTextLongClickEraser;
-import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DirectionDragListener;
-import org.solovyev.android.views.dragbutton.DragDirection;
-import org.solovyev.android.views.dragbutton.DragEvent;
+import org.solovyev.android.views.dragbutton.*;
 
 import java.util.List;
 
@@ -35,7 +32,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         this.dragListener = new DirectionDragListener(user.getContext()) {
             @Override
             protected boolean onDrag(@NonNull View view, @NonNull DragEvent event, @NonNull DragDirection direction) {
-                return buttonHandler.onDrag(view, direction);
+                return Drag.hasDirectionText(view, direction) && buttonHandler.onDrag(view, direction);
             }
         };
     }

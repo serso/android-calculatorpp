@@ -83,7 +83,6 @@ public final class Preferences {
             migratePreference(preferences, editor, Gui.layout, Deleted.layout);
             migratePreference(preferences, editor, Gui.useBackAsPrevious, Deleted.usePrevAsBack);
             migratePreference(preferences, editor, Gui.showReleaseNotes, Deleted.showReleaseNotes);
-            migratePreference(preferences, editor, Gui.showEqualsButton, Deleted.showEqualsButton);
             migratePreference(preferences, editor, Gui.rotateScreen, Deleted.autoOrientation);
             final Gui.Layout layout = Deleted.layout.getPreference(preferences);
             if (layout == Gui.Layout.main_cellphone) {
@@ -137,7 +136,6 @@ public final class Preferences {
         Gui.layout.tryPutDefault(preferences, editor);
         Gui.showReleaseNotes.tryPutDefault(preferences, editor);
         Gui.useBackAsPrevious.tryPutDefault(preferences, editor);
-        Gui.showEqualsButton.tryPutDefault(preferences, editor);
         Gui.rotateScreen.tryPutDefault(preferences, editor);
         Gui.keepScreenOn.tryPutDefault(preferences, editor);
         Gui.language.tryPutDefault(preferences, editor);

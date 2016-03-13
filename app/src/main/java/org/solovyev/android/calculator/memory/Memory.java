@@ -156,6 +156,10 @@ public class Memory {
         value = numeric(newValue);
         handler.removeCallbacks(writeTask);
         handler.postDelayed(writeTask, 3000L);
+        show();
+    }
+
+    public void show() {
         notifier.showMessage(getValue());
     }
 
