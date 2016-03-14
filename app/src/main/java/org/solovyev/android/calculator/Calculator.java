@@ -197,6 +197,8 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
             bus.post(new CalculationCancelledEvent(o, e, sequence));
         } catch (ParseException exception) {
             onException(sequence, o, e, mr, pe, exception);
+        } catch (RuntimeException exception) {
+            onException(sequence, o, e, mr, pe, new ParseException(e, new CalculatorMessage(CalculatorMessages.syntax_error, MessageType.error)));
         }
     }
 
