@@ -26,7 +26,7 @@
     a:color="@color/ripple_material_dark">
     <item>
         <shape>
-            <solid a:color="@color/cpp_material_light" />
+            <solid a:color="@color/teal_400" />
         </shape>
     </item>
 </ripple>

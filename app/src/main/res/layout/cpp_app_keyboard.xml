@@ -102,11 +102,11 @@
         a:layout_height="0dp"
         a:layout_weight="1">
 
-        <include layout="@layout/cpp_app_button_round_brackets" />
-
         <include layout="@layout/cpp_app_button_0" />
 
         <include layout="@layout/cpp_app_button_dot" />
+
+        <include layout="@layout/cpp_app_button_round_brackets" />
 
         <include layout="@layout/cpp_app_button_plus" />
 

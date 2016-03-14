@@ -26,7 +26,7 @@
     a:insetRight="@dimen/cpp_button_padding"
     a:insetTop="@dimen/cpp_button_padding">
     <shape>
-        <solid a:color="@color/cpp_metro_green" />
+        <solid a:color="@color/green_800" />
         <corners a:radius="@dimen/cpp_button_corner" />
     </shape>
 </inset>

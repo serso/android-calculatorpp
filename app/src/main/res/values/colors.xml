@@ -35,33 +35,27 @@
     <color name="cpp_wizard_button_normal">#424242</color>
     <color name="cpp_wizard_button_disabled">#616161</color>
     <color name="cpp_wizard_button_pressed">#757575</color>
-    <color name="cpp_metro_button_dark">#ff000000</color>
-    <color name="cpp_metro_button">@color/grey_900</color>
-    <color name="cpp_metro_button_lighter">@color/grey_850</color>
-    <color name="cpp_metro_button_light">@color/grey_800</color>
-    <color name="cpp_metro_blue">#10648c</color>
-    <color name="cpp_material_blue">#0a4766</color>
-    <color name="cpp_material_blue_lighter">#0d5980</color>
-    <color name="cpp_material_blue_lighter_lighter">#0f6b99</color>
-    <color name="cpp_material_light">#ff37b295</color>
-    <color name="cpp_material_light_darker">#ff309e84</color>
-    <color name="cpp_material_light_disabled">#c1d2ef</color>
-    <color name="cpp_metro_green">#088e3a</color>
-    <color name="cpp_metro_purple">#651456</color>
     <color name="cpp_widget_cursor">#ff707070</color>
-    <color name="cpp_widget_ripple">#40ffffff</color>
 
     <color name="cpp_wizard_disabled_text">#66ffffff</color>
+    <color name="cpp_material_accent">#fafafa</color>
 
-    <color name="cpp_material_accent">#FAFAFA</color>
-    <color name="cpp_material_actionbar">@color/grey_900</color>
-    <color name="cpp_material_actionbar_light">@color/grey_800</color>
+    <color name="black">#000000</color>
 
-    <color name="cpp_pane_bg">@color/grey_900</color>
-    <color name="cpp_pane_bg_light">#ffeae5e3</color>
-    <color name="grey_900">#212121</color>
-    <color name="grey_950">#101010</color>
     <color name="grey_800">#424242</color>
     <color name="grey_850">#313131</color>
+    <color name="grey_900">#212121</color>
+    <color name="grey_950">#101010</color>
+
+    <color name="blue_900">#0D47A1</color>
+    <color name="blue_800">#1565C0</color>
+    <color name="blue_850">#1156B1</color>
+
+    <color name="teal_400">#26A69A</color>
+    <color name="teal_500">#009688</color>
+    <color name="teal_600">#00897B</color>
+
+    <color name="green_800">#2e7d32</color>
+    <color name="pink_900">#880e4f</color>
 
 </resources>

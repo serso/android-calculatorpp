@@ -23,15 +23,14 @@
 <resources>
 
     <style name="Cpp.Theme" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/cpp_metro_button</item>
-        <item name="colorPrimaryDark">@color/cpp_metro_button_dark</item>
+        <item name="colorPrimary">@color/grey_900</item>
+        <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
 
         <item name="android:windowBackground">@color/cpp_main_bg</item>
 
         <item name="cpp_main_bg">@color/cpp_main_bg</item>
-        <item name="cpp_pane_bg">@drawable/pane</item>
-        <item name="cpp_fab_bg">@color/grey_900</item>
+        <item name="cpp_fab_bg">@color/blue_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
         <item name="cpp_card_style">@style/CardView.Dark</item>
@@ -50,8 +49,8 @@
     <style name="Cpp.Theme.Dialog" parent="@style/Theme.AppCompat.DialogWhenLarge">
         <item name="android:windowBackground">@color/cpp_main_bg</item>
 
-        <item name="colorPrimary">@color/cpp_metro_button</item>
-        <item name="colorPrimaryDark">@color/cpp_metro_button_dark</item>
+        <item name="colorPrimary">@color/grey_900</item>
+        <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
 
         <item name="windowNoTitle">true</item>
@@ -60,8 +59,7 @@
         <item name="android:windowIsTranslucent">true</item>
 
         <item name="cpp_main_bg">@color/cpp_main_bg</item>
-        <item name="cpp_pane_bg">@drawable/pane</item>
-        <item name="cpp_fab_bg">@color/grey_900</item>
+        <item name="cpp_fab_bg">@color/blue_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
         <item name="cpp_toolbar_style">@style/CppToolbar</item>
@@ -70,13 +68,12 @@
     </style>
 
     <style name="Cpp.Theme.Dialog.Alert" parent="@style/Theme.AppCompat.Dialog.Alert">
-        <item name="colorPrimary">@color/cpp_metro_button</item>
-        <item name="colorPrimaryDark">@color/cpp_metro_button_dark</item>
+        <item name="colorPrimary">@color/grey_900</item>
+        <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
 
         <item name="cpp_main_bg">@color/cpp_main_bg</item>
-        <item name="cpp_pane_bg">@drawable/pane</item>
-        <item name="cpp_fab_bg">@color/grey_900</item>
+        <item name="cpp_fab_bg">@color/blue_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
         <item name="cpp_toolbar_style">@style/CppToolbar</item>
@@ -87,13 +84,12 @@
     <style name="Cpp.Theme.Light" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/cpp_main_bg_light</item>
 
-        <item name="colorPrimary">@color/cpp_material_light</item>
-        <item name="colorPrimaryDark">@color/cpp_material_light</item>
-        <item name="colorAccent">@color/cpp_material_light</item>
+        <item name="colorPrimary">@color/teal_400</item>
+        <item name="colorPrimaryDark">@color/teal_400</item>
+        <item name="colorAccent">@color/teal_400</item>
 
         <item name="cpp_main_bg">@color/cpp_main_bg_light</item>
-        <item name="cpp_pane_bg">@drawable/pane_light</item>
-        <item name="cpp_fab_bg">@color/cpp_material_light</item>
+        <item name="cpp_fab_bg">@color/teal_400</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
         <item name="cpp_card_style">@style/CardView.Light</item>
@@ -105,9 +101,9 @@
     <style name="Cpp.Theme.Light.Dialog" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
         <item name="android:windowBackground">@color/cpp_main_bg_light</item>
 
-        <item name="colorPrimary">@color/cpp_material_light</item>
-        <item name="colorPrimaryDark">@color/cpp_material_light</item>
-        <item name="colorAccent">@color/cpp_material_light</item>
+        <item name="colorPrimary">@color/teal_400</item>
+        <item name="colorPrimaryDark">@color/teal_400</item>
+        <item name="colorAccent">@color/teal_400</item>
 
         <item name="windowNoTitle">true</item>
         <item name="android:windowNoTitle">true</item>
@@ -115,8 +111,7 @@
         <item name="android:windowIsTranslucent">true</item>
 
         <item name="cpp_main_bg">@color/cpp_main_bg_light</item>
-        <item name="cpp_pane_bg">@drawable/pane_light</item>
-        <item name="cpp_fab_bg">@color/cpp_material_light</item>
+        <item name="cpp_fab_bg">@color/teal_400</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
         <item name="cpp_toolbar_style">@style/CppToolbar.Light</item>
@@ -125,13 +120,12 @@
     </style>
 
     <style name="Cpp.Theme.Light.Dialog.Alert" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorPrimary">@color/cpp_material_light</item>
-        <item name="colorPrimaryDark">@color/cpp_material_light</item>
-        <item name="colorAccent">@color/cpp_material_light</item>
+        <item name="colorPrimary">@color/teal_400</item>
+        <item name="colorPrimaryDark">@color/teal_400</item>
+        <item name="colorAccent">@color/teal_400</item>
 
         <item name="cpp_main_bg">@color/cpp_main_bg_light</item>
-        <item name="cpp_pane_bg">@drawable/pane_light</item>
-        <item name="cpp_fab_bg">@color/cpp_material_light</item>
+        <item name="cpp_fab_bg">@color/teal_400</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
         <item name="cpp_toolbar_style">@style/CppToolbar.Light</item>

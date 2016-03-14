@@ -27,7 +27,7 @@
 
     <item>
         <shape>
-            <solid a:color="@color/cpp_metro_button_light" />
+            <solid a:color="@color/grey_800" />
         </shape>
     </item>
 

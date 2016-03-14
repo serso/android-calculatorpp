@@ -26,13 +26,13 @@
 
     <item a:state_pressed="true">
         <shape>
-            <solid a:color="@color/cpp_material_light_darker" />
+            <solid a:color="@color/teal_600" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid a:color="@color/cpp_material_light" />
+            <solid a:color="@color/teal_400" />
         </shape>
     </item>
 

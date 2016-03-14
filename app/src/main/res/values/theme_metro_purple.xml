@@ -22,12 +22,14 @@
 
 <resources>
 
-    <style name="metro_purple_operation_button_style" parent="CppKeyboardButton.Metro.Blue.Digit">
+    <style name="CppKeyboardButton.Metro.Purple.Digit" parent="CppKeyboardButton.Metro.Blue.Digit">
         <item name="android:background">@drawable/metro_button_purple</item>
     </style>
 
     <style name="Cpp.Theme.Metro.Purple" parent="Cpp.Theme.Metro.Blue">
-        <item name="cpp_button_style_operation">@style/metro_purple_operation_button_style</item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Metro.Purple.Digit</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Metro.Purple.Digit</item>
+        <item name="cpp_fab_bg">@color/pink_900</item>
     </style>
 
 </resources>

@@ -26,9 +26,17 @@
         <item name="android:background">@drawable/material_button_light</item>
     </style>
 
+    <style name="CppKeyboardButton.Material.Light.Digit.Highlighted" parent="CppKeyboardButton">
+        <item name="android:background">@drawable/material_button_light_darker</item>
+    </style>
+
     <style name="CppKeyboardButton.Material.Light.Operation" parent="CppKeyboardButton.Material.Digit">
         <item name="android:background">@drawable/material_button_light_primary</item>
         <item name="directionTextAlpha">0.7</item>
+    </style>
+
+    <style name="CppKeyboardButton.Material.Light.Operation.Highlighted" parent="CppKeyboardButton.Material.Light.Operation">
+        <item name="android:background">@drawable/material_button_light_primary_darker</item>
     </style>
 
     <style name="CppKeyboardButton.Material.Light.Control" parent="CppKeyboardButton.Material.Light.Digit" />
@@ -60,21 +68,25 @@
     <style name="Cpp.Theme.Material.Light" parent="Cpp.Theme.Light">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Light.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Light.Digit</item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Light.Digit.Highlighted</item>
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Light.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Light.Operation.Highlighted</item>
     </style>
 
     <style name="Cpp.Theme.Material.Light.Dialog" parent="Cpp.Theme.Light.Dialog">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Light.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Light.Digit</item>
-        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Light.Operation
-        </item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Light.Digit.Highlighted</item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Light.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Light.Operation.Highlighted</item>
     </style>
 
     <style name="Cpp.Theme.Material.Light.Dialog.Alert" parent="Cpp.Theme.Light.Dialog.Alert">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Light.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Light.Digit</item>
-        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Light.Operation
-        </item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Light.Digit.Highlighted</item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Light.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Light.Operation.Highlighted</item>
     </style>
 
 </resources>

@@ -73,7 +73,7 @@
 
         <include layout="@layout/cpp_app_button_minus" />
 
-        <include layout="@layout/cpp_app_button_round_brackets" />
+        <include layout="@layout/cpp_app_button_history" />
 
     </LinearLayout>
 
@@ -98,7 +98,7 @@
 
         <include layout="@layout/cpp_app_button_dot" />
 
-        <include layout="@layout/cpp_app_button_history" />
+        <include layout="@layout/cpp_app_button_round_brackets" />
 
     </LinearLayout>
 

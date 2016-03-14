@@ -22,18 +22,11 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<selector xmlns:a="http://schemas.android.com/apk/res/android">
-
-    <item a:state_pressed="true">
-        <shape>
-            <solid a:color="@color/blue_800" />
-        </shape>
-    </item>
-
+<ripple xmlns:a="http://schemas.android.com/apk/res/android"
+    a:color="@color/ripple_material_dark">
     <item>
         <shape>
-            <solid a:color="@color/blue_900" />
+            <solid a:color="@color/teal_500" />
         </shape>
     </item>
-
-</selector>
+</ripple>
