@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import org.solovyev.android.calculator.R;
@@ -30,17 +31,20 @@ public abstract class DirectionDragListener implements DragListener {
     public boolean onDrag(@NonNull View view, @NonNull DragEvent e) {
         final long duration = e.motionEvent.getEventTime() - e.motionEvent.getDownTime();
         if (duration < 40 || duration > 2500) {
+            Log.v("DirectionDragListener", "Drag stopped: too fast movement, " + duration + "ms");
             return false;
         }
 
         final float distance = distance(e.start, e.end);
         if (distance < minDistancePxs) {
+            Log.v("DirectionDragListener", "Drag stopped: too short distance, " + distance + "pxs");
             return false;
         }
 
         final double angle = toDegrees(getAngle(e.start, sum(e.start, axis), e.end, right));
         final DragDirection direction = getDirection((float) angle, right[0]);
         if (direction == null) {
+            Log.v("DirectionDragListener", "Drag stopped: unknown direction");
             return false;
         }
 
