@@ -24,7 +24,6 @@
 
     <attr name="cpp_button_style_digit" format="reference" />
     <attr name="cpp_button_style_control" format="reference" />
-    <attr name="cpp_button_style_control_image" format="reference" />
     <attr name="cpp_button_style_operation" format="reference" />
     <attr name="cpp_main_bg" format="reference" />
     <attr name="cpp_pane_bg" format="reference" />

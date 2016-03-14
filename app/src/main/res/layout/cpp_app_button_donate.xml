@@ -25,5 +25,5 @@
 <ImageButton
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@id/cpp_button_like"
-    style="?attr/cpp_button_style_control_image"
+    style="?attr/cpp_button_style_control"
     a:src="@drawable/ic_share_white_48dp" />

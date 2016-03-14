@@ -43,8 +43,6 @@
         <item name="android:background">@drawable/metro_blue_button</item>
     </style>
 
-    <style name="CppKeyboardButton.Metro.Blue.Control.Image" parent="CppKeyboardButton.Metro.Blue.Control"/>
-
     <style name="CppKeyboardButton.Metro.Simple.Digit" parent="CppKeyboardButton.Metro.Blue.Digit">
         <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
         <item name="android:background">@drawable/metro_widget_button_dark</item>
@@ -60,7 +58,7 @@
         <item name="android:background">@drawable/metro_widget_button</item>
     </style>
 
-    <style name="CppKeyboardButton.Metro.Simple.Control.Image" parent="CppKeyboardButton.Metro.Blue.Control.Image">
+    <style name="CppKeyboardButton.Metro.Simple.Control.Image" parent="CppKeyboardButton.Metro.Blue.Control">
         <item name="android:background">@drawable/metro_widget_button_light</item>
         <item name="android:padding">@dimen/cpp_keyboard_simple_image_button_padding</item>
     </style>
@@ -68,7 +66,6 @@
     <style name="Cpp.Theme.Metro.Blue" parent="Cpp.Theme">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Metro.Blue.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Metro.Blue.Control</item>
-        <item name="cpp_button_style_control_image">@style/CppKeyboardButton.Metro.Blue.Control.Image</item>
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Metro.Blue.Operation</item>
     </style>
 
