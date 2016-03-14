@@ -292,7 +292,7 @@ public class KeyboardUi extends BaseKeyboardUi {
             }
         }
         if (value == null) {
-            memory.get().show();
+            memory.get().requestShow();
             return false;
         }
         switch (direction) {

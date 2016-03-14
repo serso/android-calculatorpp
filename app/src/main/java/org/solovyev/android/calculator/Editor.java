@@ -31,6 +31,7 @@ import org.solovyev.android.Check;
 import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.history.RecentHistory;
 import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.memory.Memory;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
 
@@ -215,6 +216,9 @@ public class Editor {
     @Nonnull
     public EditorState insert(@Nonnull String text, int selectionOffset) {
         Check.isMainThread();
+        if (TextUtils.isEmpty(text) && selectionOffset == 0) {
+            return state;
+        }
         final String oldText = state.getTextString();
         final int selection = clamp(state.selection, oldText);
         final int newTextLength = text.length() + oldText.length();
@@ -243,6 +247,11 @@ public class Editor {
         // this will effectively apply new formatting (if f.e. grouping separator has changed) and
         // will start new evaluation
         onTextChanged(getState(), true);
+    }
+
+    @Subscribe
+    public void onMemoryValueReady(@Nonnull Memory.ValueReadyEvent e) {
+        insert(e.value);
     }
 
     public void onHistoryLoaded(@Nonnull RecentHistory history) {

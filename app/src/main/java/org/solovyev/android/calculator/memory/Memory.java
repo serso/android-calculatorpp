@@ -4,15 +4,13 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+import com.squareup.otto.Bus;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.text.ParseException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppModule;
-import org.solovyev.android.calculator.Notifier;
-import org.solovyev.android.calculator.Runnables;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.io.FileSystem;
 
 import javax.annotation.Nonnull;
@@ -40,9 +38,13 @@ public class Memory {
     private final Handler handler;
     @Inject
     Notifier notifier;
+    @Inject
+    ToJsclTextProcessor jsclProcessor;
     @Named(AppModule.THREAD_BACKGROUND)
     @Inject
     Executor backgroundThread;
+    @Inject
+    Bus bus;
     @NonNull
     private Generic value = EMPTY;
     private boolean loaded;
@@ -143,7 +145,8 @@ public class Memory {
     }
 
     @NonNull
-    public String getValue() {
+    private String getValue() {
+        Check.isTrue(loaded);
         try {
             return value.toString();
         } catch (RuntimeException e) {
@@ -160,7 +163,7 @@ public class Memory {
         show();
     }
 
-    public void show() {
+    private void show() {
         notifier.showMessage(getValue());
     }
 
@@ -187,6 +190,49 @@ public class Memory {
         return new File(filesDir, "memory.txt");
     }
 
+    public void requestValue() {
+        if (!loaded) {
+            postValue();
+            return;
+        }
+        bus.post(new ValueReadyEvent(getValue()));
+    }
+
+    private void postValue() {
+        whenLoadedRunnables.add(new Runnable() {
+            @Override
+            public void run() {
+                requestValue();
+            }
+        });
+    }
+
+    public void requestShow() {
+        if (!loaded) {
+            postShow();
+            return;
+        }
+        show();
+    }
+
+    private void postShow() {
+        whenLoadedRunnables.add(new Runnable() {
+            @Override
+            public void run() {
+                requestShow();
+            }
+        });
+    }
+
+    public static final class ValueReadyEvent {
+        @NonNull
+        public final String value;
+
+        public ValueReadyEvent(@NonNull String value) {
+            this.value = value;
+        }
+    }
+
     private class WriteTask implements Runnable {
         @Override
         public void run() {
@@ -198,9 +244,18 @@ public class Memory {
             backgroundThread.execute(new Runnable() {
                 @Override
                 public void run() {
-                    fileSystem.writeSilently(getFile(), value);
+                    fileSystem.writeSilently(getFile(), prepareExpression(value));
                 }
             });
+        }
+
+        @NonNull
+        private String prepareExpression(@NonNull String value) {
+            try {
+                return jsclProcessor.process(value).getValue();
+            } catch (org.solovyev.android.calculator.ParseException ignored) {
+                return value;
+            }
         }
     }
 }

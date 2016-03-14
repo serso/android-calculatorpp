@@ -152,7 +152,7 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
                 launcher.openFacebook();
                 break;
             case memory:
-                editor.insert(memory.get().getValue());
+                memory.get().requestValue();
                 break;
             case erase:
                 editor.erase();
