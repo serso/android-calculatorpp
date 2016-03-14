@@ -90,9 +90,9 @@ public class DirectionTextView {
         @NonNull
         private final View view;
         private final float minTextSize;
-        private float fixedTextHeight = 0;
         @NonNull
-        private final PointF position = new PointF(-1, -1);
+        private final PointF offset = new PointF(0, 0);
+        private float fixedTextHeight = 0;
         @NonNull
         private String value = "";
         private float scale;
@@ -174,7 +174,7 @@ public class DirectionTextView {
             Check.isNotNull(view);
             view.invalidate();
             if (remeasure) {
-                position.set(-1, -1);
+                offset.set(0, 0);
             }
         }
 
@@ -182,10 +182,25 @@ public class DirectionTextView {
             if (!hasValue()) {
                 return;
             }
-            if (position.x < 0 || position.y < 0) {
+            if (offset.x == 0 && offset.y == 0) {
                 calculatePosition();
             }
-            canvas.drawText(value, position.x, position.y, paint);
+            final int width = view.getWidth();
+            final int height = view.getHeight();
+            switch (direction) {
+                case up:
+                    canvas.drawText(value, width + offset.x, offset.y, paint);
+                    break;
+                case down:
+                    canvas.drawText(value, width + offset.x, height + offset.y, paint);
+                    break;
+                case left:
+                    canvas.drawText(value, offset.x, height / 2 + offset.y, paint);
+                    break;
+                case right:
+                    canvas.drawText(value, width + offset.x, height / 2 + offset.y, paint);
+                    break;
+            }
         }
 
         private void calculatePosition() {
@@ -200,22 +215,21 @@ public class DirectionTextView {
             switch (direction) {
                 case up:
                 case down:
-                    position.x = view.getWidth() - paddingLeft - bounds.width();
+                    offset.x = -paddingLeft - bounds.width();
                     if (direction == DragDirection.up) {
-                        position.y = paddingTop + fixedTextHeight;
+                        offset.y = paddingTop + fixedTextHeight;
                     } else {
-                        position.y = view.getHeight() - paddingBottom;
+                        offset.y = -paddingBottom;
                     }
                     break;
                 case left:
                 case right:
                     if (direction == DragDirection.left) {
-                        position.x = paddingLeft;
+                        offset.x = paddingLeft;
                     } else {
-                        position.x = view.getWidth() - paddingRight - bounds.width();
+                        offset.x = -paddingRight - bounds.width();
                     }
-                    final int availableHeight = view.getHeight() - verticalPaddings;
-                    position.y = paddingTop + availableHeight / 2 + fixedTextHeight / 2;
+                    offset.y = paddingTop - verticalPaddings / 2 + fixedTextHeight / 2;
                     break;
             }
         }
@@ -225,16 +239,16 @@ public class DirectionTextView {
             return visible ? value : "";
         }
 
-        public boolean hasValue() {
-            return visible && !TextUtils.isEmpty(value);
-        }
-
         public void setValue(@NonNull String value) {
             if (TextUtils.equals(this.value, value)) {
                 return;
             }
             this.value = value;
             invalidate(true);
+        }
+
+        public boolean hasValue() {
+            return visible && !TextUtils.isEmpty(value);
         }
     }
 }
