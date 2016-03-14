@@ -36,21 +36,22 @@ public class Memory {
     private final WriteTask writeTask = new WriteTask();
     @NonNull
     private final Runnables whenLoadedRunnables = new Runnables();
+    @NonNull
+    private final Handler handler;
     @Inject
     Notifier notifier;
     @Named(AppModule.THREAD_BACKGROUND)
     @Inject
     Executor backgroundThread;
-    @Inject
-    Handler handler;
     @NonNull
     private Generic value = EMPTY;
     private boolean loaded;
 
     @Inject
-    public Memory(@NonNull @Named(AppModule.THREAD_INIT) Executor initThread, @NonNull FileSystem fileSystem, @NonNull @Named(AppModule.DIR_FILES) File filesDir) {
+    public Memory(@NonNull @Named(AppModule.THREAD_INIT) Executor initThread, @NonNull FileSystem fileSystem, @NonNull @Named(AppModule.DIR_FILES) File filesDir, @NonNull Handler handler) {
         this.fileSystem = fileSystem;
         this.filesDir = filesDir;
+        this.handler = handler;
         initThread.execute(new Runnable() {
             @Override
             public void run() {
