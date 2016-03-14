@@ -82,9 +82,13 @@ public class Adjuster {
     private static abstract class BaseViewAdjuster<V extends View> implements ViewTreeObserver.OnPreDrawListener {
         @NonNull
         protected final V view;
+        protected final boolean oneShot;
+        private int usedWidth;
+        private int usedHeight;
 
-        protected BaseViewAdjuster(@NonNull V view) {
+        protected BaseViewAdjuster(@NonNull V view, boolean oneShot) {
             this.view = view;
+            this.oneShot = oneShot;
         }
 
         @Override
@@ -94,9 +98,16 @@ public class Adjuster {
             if (!ViewCompat.isLaidOut(view) || height <= 0 || width <= 0) {
                 return true;
             }
-            final ViewTreeObserver treeObserver = getTreeObserver(view);
-            if (treeObserver != null) {
-                treeObserver.removeOnPreDrawListener(this);
+            if (usedWidth == width && usedHeight == height) {
+                return true;
+            }
+            usedWidth = width;
+            usedHeight = height;
+            if (oneShot) {
+                final ViewTreeObserver treeObserver = getTreeObserver(view);
+                if (treeObserver != null) {
+                    treeObserver.removeOnPreDrawListener(this);
+                }
             }
             return adjust(width, height);
         }
@@ -110,7 +121,7 @@ public class Adjuster {
         private final Helper<V> helper;
 
         public TextViewAdjuster(@NonNull V view, @NonNull Helper<V> helper, float percentage, float minTextSizePxs) {
-            super(view);
+            super(view, true);
             this.helper = helper;
             this.percentage = percentage;
             this.minTextSizePxs = minTextSizePxs;
@@ -133,7 +144,7 @@ public class Adjuster {
         private final int maxWidth;
 
         public MaxWidthAdjuster(@NonNull View view, int maxWidth) {
-            super(view);
+            super(view, true);
             this.maxWidth = maxWidth;
         }
 
@@ -153,7 +164,7 @@ public class Adjuster {
         private final float percentage;
 
         public ImageViewAdjuster(@NonNull ImageView view, float percentage) {
-            super(view);
+            super(view, false);
             this.percentage = percentage;
         }
 
