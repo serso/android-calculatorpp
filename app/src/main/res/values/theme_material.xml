@@ -28,8 +28,16 @@
 
     <style name="CppKeyboardButton.Material.Control" parent="CppKeyboardButton.Material.Digit" />
 
+    <style name="CppKeyboardButton.Material.Control.Highlighted" parent="CppKeyboardButton.Material.Digit" >
+        <item name="android:background">@drawable/material_button_dark_lighter</item>
+    </style>
+
     <style name="CppKeyboardButton.Material.Operation" parent="CppKeyboardButton.Material.Digit">
         <item name="android:background">@drawable/material_blue_button</item>
+    </style>
+
+    <style name="CppKeyboardButton.Material.Operation.Highlighted" parent="CppKeyboardButton.Material.Digit">
+        <item name="android:background">@drawable/material_blue_button_lighter</item>
     </style>
 
     <style name="CppHeaderButton.Material" parent="CppKeyboardButton.Material.Control">
@@ -59,19 +67,25 @@
     <style name="Cpp.Theme.Material" parent="Cpp.Theme">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Control.Highlighted</item>
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Operation.Highlighted</item>
     </style>
 
     <style name="Cpp.Theme.Material.Dialog" parent="Cpp.Theme.Dialog">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Control.Highlighted</item>
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Operation.Highlighted</item>
     </style>
 
     <style name="Cpp.Theme.Material.Dialog.Alert" parent="Cpp.Theme.Dialog.Alert">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Control.Highlighted</item>
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Operation.Highlighted</item>
     </style>
 
 </resources>

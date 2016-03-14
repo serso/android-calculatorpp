@@ -22,8 +22,18 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ImageButton
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_erase"
-    style="?attr/cpp_button_style_operation_highlighted"
-    a:src="@drawable/ic_backspace_white_48dp" />
+<selector xmlns:a="http://schemas.android.com/apk/res/android">
+
+    <item a:state_pressed="true">
+        <shape>
+            <solid a:color="@color/cpp_material_blue_lighter_lighter" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid a:color="@color/cpp_material_blue_lighter" />
+        </shape>
+    </item>
+
+</selector>
