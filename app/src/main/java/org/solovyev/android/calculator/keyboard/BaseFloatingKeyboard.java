@@ -60,6 +60,9 @@ public abstract class BaseFloatingKeyboard implements FloatingKeyboard {
     protected DirectionDragButton makeButton(@IdRes int id, @NonNull String text) {
         final DirectionDragButton button = new DirectionDragButton(user.getContext());
         fillButton(button, id);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            button.setAllCaps(false);
+        }
         button.setText(text);
         button.setTextColor(textColor);
         button.setDirectionTextColor(textColorSecondary);
@@ -104,6 +107,7 @@ public abstract class BaseFloatingKeyboard implements FloatingKeyboard {
         final DirectionDragButton button = addButton(row, id, text);
         button.setBackgroundResource(R.drawable.material_button_light_primary);
         button.setTextColor(Color.WHITE);
+        button.setDirectionTextAlpha(0.7f);
         return button;
     }
 

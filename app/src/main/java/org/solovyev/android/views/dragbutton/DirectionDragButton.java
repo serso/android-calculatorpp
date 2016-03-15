@@ -80,4 +80,10 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
             getText(direction).setColor(color);
         }
     }
+
+    public void setDirectionTextAlpha(float alpha) {
+        for (DragDirection direction : DragDirection.values()) {
+            getText(direction).setAlpha(alpha);
+        }
+    }
 }

@@ -156,7 +156,11 @@ public class DirectionTextView {
         }
 
         public void setColor(int color) {
-            setColor(color, this.alpha);
+            setColor(color, alpha);
+        }
+
+        public void setAlpha(float alpha) {
+            setColor(color, alpha);
         }
 
         public void setColor(int color, float alpha) {
