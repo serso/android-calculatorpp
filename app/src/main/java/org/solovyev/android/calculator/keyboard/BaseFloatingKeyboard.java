@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
@@ -75,6 +76,7 @@ public abstract class BaseFloatingKeyboard implements FloatingKeyboard {
     }
 
     protected void fillButton(@NonNull View button, @IdRes int id) {
+        BaseActivity.setFont(button, user.getTypeface());
         button.setId(id);
         button.setBackgroundResource(buttonBackground);
         button.setPadding(sidePadding, 1, sidePadding, 1);

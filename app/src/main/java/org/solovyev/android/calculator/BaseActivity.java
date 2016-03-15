@@ -24,6 +24,7 @@ import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.view.Tabs;
+import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -84,6 +85,14 @@ public class BaseActivity extends AppCompatActivity {
 
     public void reportActivityStart(@Nonnull Activity activity) {
         ga.getAnalytics().reportActivityStart(activity);
+    }
+
+    public static void setFont(@Nonnull View view, @Nonnull Typeface newTypeface) {
+        if (view instanceof TextView) {
+            setFont((TextView) view, newTypeface);
+        } else if (view instanceof DirectionDragImageButton) {
+            ((DirectionDragImageButton) view).setTypeface(newTypeface);
+        }
     }
 
     public static void setFont(@Nonnull TextView view, @Nonnull Typeface newTypeface) {
@@ -248,6 +257,4 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

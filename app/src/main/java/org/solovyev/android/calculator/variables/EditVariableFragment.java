@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -92,6 +93,8 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     Calculator calculator;
     @Inject
     Keyboard keyboard;
+    @Inject
+    Typeface typeface;
     @Inject
     FunctionsRegistry functionsRegistry;
     @Inject
@@ -420,6 +423,12 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         @Override
         public boolean isVibrateOnKeypress() {
             return keyboard.isVibrateOnKeypress();
+        }
+
+        @NonNull
+        @Override
+        public Typeface getTypeface() {
+            return typeface;
         }
     }
 }

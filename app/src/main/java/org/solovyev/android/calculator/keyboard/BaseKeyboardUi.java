@@ -115,6 +115,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         // we call android.view.View.performHapticFeedback(int, int) from #onClick
         button.setHapticFeedbackEnabled(false);
         button.setOnClickListener(this);
+        BaseActivity.setFont(button, typeface);
     }
 
     protected final void prepareButton(@Nullable DirectionDragImageButton button) {
@@ -125,7 +126,6 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         button.setVibrateOnDrag(keyboard.isVibrateOnKeypress());
         prepareButton((ImageView) button);
         button.setOnDragListener(listener);
-        button.setTypeface(typeface);
         button.setTextSize(textSize);
         Adjuster.adjustText(button, AdjusterHelper.instance, textScale, 0);
     }
@@ -138,7 +138,6 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         button.setVibrateOnDrag(keyboard.isVibrateOnKeypress());
         prepareButton((View) button);
         button.setOnDragListener(listener);
-        BaseActivity.setFont(button, typeface);
         button.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         Adjuster.adjustText(button, textScale);
     }

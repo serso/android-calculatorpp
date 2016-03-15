@@ -26,6 +26,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -82,6 +83,8 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
     Calculator calculator;
     @Inject
     Keyboard keyboard;
+    @Inject
+    Typeface typeface;
     @Inject
     FunctionsRegistry functionsRegistry;
     @Inject
@@ -495,6 +498,12 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
         @Override
         public boolean isVibrateOnKeypress() {
             return keyboard.isVibrateOnKeypress();
+        }
+
+        @NonNull
+        @Override
+        public Typeface getTypeface() {
+            return typeface;
         }
 
         @Override
