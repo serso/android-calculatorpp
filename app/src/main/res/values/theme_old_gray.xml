@@ -31,7 +31,7 @@
     </style>
 
     <style name="CppKeyboardButton.Gray.Operation" parent="CppKeyboardButton.Gray.Digit">
-        <item name="android:textColor">@color/cpp_button_text_operator</item>
+        <item name="android:textColor">@color/yellow_100</item>
     </style>
 
     <style name="Cpp.Theme.Gray" parent="Cpp.Theme">

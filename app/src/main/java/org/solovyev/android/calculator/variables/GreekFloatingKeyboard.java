@@ -57,17 +57,17 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
     private void makeLastColumnLand(@NonNull LinearLayout rowView, int row) {
         switch (row) {
             case 0:
-                final View backspace = addImageButton(rowView, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_grey300_24dp);
+                final View backspace = addImageButton(rowView, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_white_24dp);
                 EditTextLongClickEraser.attachTo(backspace, user.getEditor(), user.isVibrateOnKeypress());
                 break;
             case 1:
                 addButton(rowView, R.id.cpp_kb_button_change_case, "↑");
                 break;
             case 2:
-                addImageButton(rowView, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_grey300_24dp);
+                addImageButton(rowView, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_white_24dp);
                 break;
             case 3:
-                addImageButton(rowView, R.id.cpp_kb_button_close, R.drawable.ic_done_grey300_24dp);
+                addImageButton(rowView, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
                 break;
             default:
                 addButton(rowView, View.NO_ID, "");
@@ -81,17 +81,17 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
                 addButton(rowView, R.id.cpp_kb_button_clear, "C");
                 break;
             case 1:
-                final View backspace = addImageButton(rowView, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_grey300_24dp);
+                final View backspace = addImageButton(rowView, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_white_24dp);
                 EditTextLongClickEraser.attachTo(backspace, user.getEditor(), user.isVibrateOnKeypress());
                 break;
             case 2:
                 addButton(rowView, R.id.cpp_kb_button_change_case, "↑");
                 break;
             case 3:
-                addImageButton(rowView, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_grey300_24dp);
+                addImageButton(rowView, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_white_24dp);
                 break;
             case 4:
-                addImageButton(rowView, R.id.cpp_kb_button_close, R.drawable.ic_done_grey300_24dp);
+                addImageButton(rowView, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
                 break;
             default:
                 addButton(rowView, View.NO_ID, "");

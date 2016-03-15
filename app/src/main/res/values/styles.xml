@@ -109,13 +109,13 @@
     </style>
 
     <style name="CppMain.Widget" parent="CppMain">
-        <item name="android:background">@color/cpp_main_bg</item>
+        <item name="android:background">@color/cpp_bg</item>
         <item name="android:padding">1dp</item>
         <item name="android:layout_margin">@dimen/cpp_widget_margin</item>
     </style>
 
     <style name="CppMain.Widget.Light" parent="CppMain.Widget">
-        <item name="android:background">@color/cpp_main_bg_light</item>
+        <item name="android:background">@color/cpp_bg_light</item>
     </style>
 
     <style name="CppText.Editor.Widget" parent="CppText.Editor.BaseWidget"/>
@@ -140,12 +140,12 @@
     </style>
 
     <style name="CppMain.Onscreen" parent="CppMain">
-        <item name="android:background">@color/cpp_main_bg</item>
+        <item name="android:background">@color/cpp_bg</item>
         <item name="android:padding">@dimen/cpp_onscreen_main_padding</item>
     </style>
 
     <style name="CppMain.Onscreen.Light" parent="CppMain.Onscreen">
-        <item name="android:background">@color/cpp_main_bg_light</item>
+        <item name="android:background">@color/cpp_bg_light</item>
     </style>
 
     <style name="WizardLabel.Last" parent="WizardLabel">
