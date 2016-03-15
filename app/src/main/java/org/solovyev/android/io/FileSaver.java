@@ -24,6 +24,10 @@ public class FileSaver extends BaseIoSaver {
 
     @NonNull
     protected FileOutputStream getOutputStream() throws FileNotFoundException {
+        final File dir = file.getParentFile();
+        if (dir != null && !dir.exists()) {
+            dir.mkdirs();
+        }
         return new FileOutputStream(file);
     }
 }
