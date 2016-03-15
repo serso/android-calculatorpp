@@ -26,7 +26,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
@@ -35,6 +34,7 @@ import org.solovyev.android.calculator.operators.OperatorCategory;
 import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 
 public class FunctionsActivity extends BaseActivity {
 
@@ -76,6 +76,7 @@ public class FunctionsActivity extends BaseActivity {
         for (FunctionCategory category : FunctionCategory.values()) {
             tabs.addTab(category, FragmentTab.functions);
         }
+        tabs.setDefaultSelectedTab(Arrays.asList(FunctionCategory.values()).indexOf(FunctionCategory.trigonometric));
 
         for (OperatorCategory category : OperatorCategory.values()) {
             final String title;

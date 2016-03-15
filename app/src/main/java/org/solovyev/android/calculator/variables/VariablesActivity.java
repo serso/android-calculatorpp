@@ -26,7 +26,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
@@ -35,6 +34,7 @@ import org.solovyev.android.calculator.view.Tabs;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class VariablesActivity extends BaseActivity {
 
@@ -75,6 +75,7 @@ public class VariablesActivity extends BaseActivity {
         for (VariableCategory category : VariableCategory.values()) {
             tabs.addTab(category, FragmentTab.variables);
         }
+        tabs.setDefaultSelectedTab(Arrays.asList(VariableCategory.values()).indexOf(VariableCategory.system));
     }
 
     public static final class Dialog extends VariablesActivity {

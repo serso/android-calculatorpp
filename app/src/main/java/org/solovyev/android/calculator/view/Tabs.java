@@ -1,7 +1,5 @@
 package org.solovyev.android.calculator.view;
 
-import static org.solovyev.android.calculator.App.cast;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,22 +11,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.AppModule;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.BaseEntitiesFragment;
 import org.solovyev.android.calculator.entities.Category;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.solovyev.android.calculator.App.cast;
 
 public class Tabs {
 
@@ -45,10 +42,16 @@ public class Tabs {
     @Nullable
     @Bind(R.id.viewPager)
     ViewPager viewPager;
+    private int defaultSelectedTab = -1;
 
     public Tabs(@Nonnull AppCompatActivity activity) {
         this.activity = activity;
         this.adapter = new TabFragments(activity.getSupportFragmentManager());
+    }
+
+    @Nonnull
+    private static String makeTabKey(@Nonnull Activity activity) {
+        return activity.getClass().getSimpleName();
     }
 
     public void onCreate() {
@@ -102,6 +105,44 @@ public class Tabs {
         return viewPager.getCurrentItem();
     }
 
+    public int getTabCount() {
+        return adapter.getCount();
+    }
+
+    public void selectTab(int index) {
+        if (tabLayout == null) {
+            return;
+        }
+        final TabLayout.Tab tab = tabLayout.getTabAt(index);
+        if (tab != null) {
+            tab.select();
+        }
+    }
+
+    public void setDefaultSelectedTab(int defaultSelectedTab) {
+        this.defaultSelectedTab = defaultSelectedTab;
+    }
+
+    public void restoreSelectedTab() {
+        final int selectedTab = preferences.getInt(makeTabKey(activity), defaultSelectedTab);
+        if (selectedTab >= 0 && selectedTab < getTabCount()) {
+            selectTab(selectedTab);
+        }
+    }
+
+    public void onPause() {
+        saveSelectedTab();
+    }
+
+    private void saveSelectedTab() {
+        final int selectedTab = getCurrentTab();
+        if (selectedTab >= 0) {
+            final SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(makeTabKey(activity), selectedTab);
+            editor.apply();
+        }
+    }
+
     private final class TabFragments extends FragmentPagerAdapter {
 
         @Nonnull
@@ -150,44 +191,5 @@ public class Tabs {
         public Fragment makeFragment() {
             return Fragment.instantiate(activity, fragmentClass.getName(), fragmentArgs);
         }
-    }
-
-    public int getTabCount() {
-        return adapter.getCount();
-    }
-
-    public void selectTab(int index) {
-        if(tabLayout == null) {
-            return;
-        }
-        final TabLayout.Tab tab = tabLayout.getTabAt(index);
-        if (tab != null) {
-            tab.select();
-        }
-    }
-
-    public void restoreSelectedTab() {
-        final int selectedTab = preferences.getInt(makeTabKey(activity), -1);
-        if (selectedTab >= 0 && selectedTab < getTabCount()) {
-            selectTab(selectedTab);
-        }
-    }
-
-    public void onPause() {
-        saveSelectedTab();
-    }
-
-    private void saveSelectedTab() {
-        final int selectedTab = getCurrentTab();
-        if (selectedTab >= 0) {
-            final SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt(makeTabKey(activity), selectedTab);
-            editor.apply();
-        }
-    }
-
-    @Nonnull
-    private static String makeTabKey(@Nonnull Activity activity) {
-        return activity.getClass().getSimpleName();
     }
 }
