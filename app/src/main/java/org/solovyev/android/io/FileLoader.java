@@ -26,6 +26,9 @@ public class FileLoader extends BaseIoLoader {
     @Nullable
     @Override
     protected InputStream getInputStream() throws IOException {
+        if (!file.exists()) {
+            return null;
+        }
         return new FileInputStream(file);
     }
 }
