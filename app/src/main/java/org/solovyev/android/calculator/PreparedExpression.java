@@ -50,6 +50,11 @@ public class PreparedExpression implements CharSequence {
         return !undefinedVariables.isEmpty();
     }
 
+    @Nonnull
+    public List<IConstant> getUndefinedVariables() {
+        return undefinedVariables;
+    }
+
     @Override
     public int length() {
         return value.length();

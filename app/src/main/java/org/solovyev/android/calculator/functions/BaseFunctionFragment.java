@@ -38,6 +38,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jscl.math.function.IConstant;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
@@ -275,7 +276,17 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
             return false;
         }
         try {
-            calculator.prepare(body);
+            final PreparedExpression pe = calculator.prepare(body);
+            if (pe.hasUndefinedVariables()) {
+                // check that all undefined variables are actually function parameters
+                final List<String> parameters = collectParameters();
+                for (IConstant undefinedVariable : pe.getUndefinedVariables()) {
+                    if (!parameters.contains(undefinedVariable.getName())) {
+                        setError(bodyLabel, getString(R.string.c_error));
+                        return false;
+                    }
+                }
+            }
             clearError(bodyLabel);
             return true;
         } catch (ParseException e) {
@@ -470,6 +481,13 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
                 final int newSelection = selection + selectionOffset;
                 if (newSelection >= 0 && newSelection < e.length()) {
                     bodyView.setSelection(newSelection);
+                }
+            }
+            // if a parameter has been inserted - update the parameter's list
+            if (TextUtils.equals(text, "x") || TextUtils.equals(text, "y")) {
+                final String possibleParam = text.toString();
+                if (!collectParameters().contains(possibleParam)) {
+                    paramsView.addParam(possibleParam);
                 }
             }
         }
