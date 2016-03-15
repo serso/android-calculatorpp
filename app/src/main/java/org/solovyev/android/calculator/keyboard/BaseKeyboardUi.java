@@ -79,6 +79,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
             Adjuster.adjustText((TextView) button, getTextScale(button.getContext()));
         } else if (button instanceof DirectionDragImageButton) {
             Adjuster.adjustText(((DirectionDragImageButton) button), AdjusterHelper.instance, getTextScale(button.getContext()), 0);
+            Adjuster.adjustImage((ImageView) button, IMAGE_SCALE);
         } else if (button instanceof ImageView) {
             Adjuster.adjustImage((ImageView) button, IMAGE_SCALE);
         }
