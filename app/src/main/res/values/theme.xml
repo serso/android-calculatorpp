@@ -22,6 +22,10 @@
 
 <resources>
 
+    <style name="Cpp.Theme.Calculator" parent="@style/Cpp.Theme">
+        <item name="android:windowBackground">@color/cpp_editor_bg</item>
+    </style>
+
     <style name="Cpp.Theme" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/grey_900</item>
         <item name="colorPrimaryDark">@color/black</item>
@@ -29,7 +33,7 @@
 
         <item name="android:windowBackground">@color/cpp_bg</item>
 
-        <item name="cpp_main_bg">@color/cpp_bg</item>
+        <item name="cpp_editor_bg">@color/cpp_editor_bg</item>
         <item name="cpp_fab_bg">@color/blue_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
@@ -47,8 +51,6 @@
     </style>
 
     <style name="Cpp.Theme.Dialog" parent="@style/Theme.AppCompat.DialogWhenLarge">
-        <item name="android:windowBackground">@color/cpp_bg</item>
-
         <item name="colorPrimary">@color/grey_900</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
@@ -58,7 +60,7 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowIsTranslucent">true</item>
 
-        <item name="cpp_main_bg">@color/cpp_bg</item>
+        <item name="cpp_editor_bg">@color/cpp_bg</item>
         <item name="cpp_fab_bg">@color/blue_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
@@ -72,7 +74,7 @@
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
 
-        <item name="cpp_main_bg">@color/cpp_bg</item>
+        <item name="cpp_editor_bg">@color/cpp_bg</item>
         <item name="cpp_fab_bg">@color/blue_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
@@ -88,7 +90,7 @@
         <item name="colorPrimaryDark">@color/teal_400</item>
         <item name="colorAccent">@color/teal_400</item>
 
-        <item name="cpp_main_bg">@color/cpp_bg_light</item>
+        <item name="cpp_editor_bg">@color/cpp_bg_light</item>
         <item name="cpp_fab_bg">@color/teal_400</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
@@ -99,8 +101,6 @@
     </style>
 
     <style name="Cpp.Theme.Light.Dialog" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
-        <item name="android:windowBackground">@color/cpp_bg_light</item>
-
         <item name="colorPrimary">@color/teal_400</item>
         <item name="colorPrimaryDark">@color/teal_400</item>
         <item name="colorAccent">@color/teal_400</item>
@@ -110,7 +110,7 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowIsTranslucent">true</item>
 
-        <item name="cpp_main_bg">@color/cpp_bg_light</item>
+        <item name="cpp_editor_bg">@color/cpp_bg_light</item>
         <item name="cpp_fab_bg">@color/teal_400</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
@@ -124,7 +124,7 @@
         <item name="colorPrimaryDark">@color/teal_400</item>
         <item name="colorAccent">@color/teal_400</item>
 
-        <item name="cpp_main_bg">@color/cpp_bg_light</item>
+        <item name="cpp_editor_bg">@color/cpp_bg_light</item>
         <item name="cpp_fab_bg">@color/teal_400</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
@@ -134,6 +134,7 @@
     </style>
 
     <style name="Cpp.Theme.Wizard" parent="Cpp.Theme.Material">
+        <item name="android:windowBackground">@color/grey_950</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

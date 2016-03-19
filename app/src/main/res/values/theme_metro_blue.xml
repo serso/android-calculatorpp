@@ -69,6 +69,20 @@
         <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Metro.Blue.Control</item>
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Metro.Blue.Operation</item>
         <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Metro.Blue.Operation</item>
+        <item name="cpp_fab_bg">@color/blue_900</item>
+    </style>
+
+    <style name="Cpp.Theme.Metro.Blue.Dialog" parent="Cpp.Theme.Dialog">
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Metro.Blue.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Metro.Blue.Control</item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Metro.Blue.Control</item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Metro.Blue.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Metro.Blue.Operation</item>
+        <item name="cpp_fab_bg">@color/blue_900</item>
+    </style>
+
+    <style name="Cpp.Theme.Metro.Blue.Calculator" parent="Cpp.Theme.Metro.Blue">
+        <item name="android:windowBackground">@color/cpp_editor_bg</item>
     </style>
 
 </resources>

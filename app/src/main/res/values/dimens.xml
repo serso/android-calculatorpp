@@ -6,7 +6,6 @@
     <dimen name="cpp_widget_display_text_size">25sp</dimen>
     <dimen name="cpp_widget_margin">6dp</dimen>
     <dimen name="min_expanded_height_lock_screen">300dp</dimen>
-    <dimen name="cpp_text_size">20sp</dimen>
     <dimen name="cpp_button_padding">1px</dimen>
     <dimen name="cpp_direction_text_default_padding">2dp</dimen>
     <dimen name="cpp_direction_text_min_size">9dp</dimen>

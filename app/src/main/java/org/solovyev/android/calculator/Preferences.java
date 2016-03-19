@@ -303,16 +303,18 @@ public final class Preferences {
             default_theme(R.style.Cpp_Theme_Gray),
             violet_theme(R.style.Cpp_Theme_Violet),
             light_blue_theme(R.style.Cpp_Theme_Blue),
-            metro_blue_theme(R.style.Cpp_Theme_Metro_Blue),
-            metro_purple_theme(R.style.Cpp_Theme_Metro_Purple),
-            metro_green_theme(R.style.Cpp_Theme_Metro_Green),
-            material_theme(R.style.Cpp_Theme_Material),
-            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Material_Light_Dialog, R.style.Cpp_Theme_Material_Light_Dialog_Alert);
+            metro_blue_theme(R.style.Cpp_Theme_Metro_Blue, R.style.Cpp_Theme_Metro_Blue_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Blue_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
+            metro_purple_theme(R.style.Cpp_Theme_Metro_Purple, R.style.Cpp_Theme_Metro_Purple_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Purple_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
+            metro_green_theme(R.style.Cpp_Theme_Metro_Green, R.style.Cpp_Theme_Metro_Green_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Green_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
+            material_theme(R.style.Cpp_Theme_Material, R.style.Cpp_Theme_Material_Calculator),
+            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Material_Light_Dialog, R.style.Cpp_Theme_Material_Light_Dialog_Alert);
 
             private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
             @StyleRes
             public final int theme;
+            @StyleRes
+            public final int calculatorTheme;
             @StyleRes
             public final int wizardTheme;
             @StyleRes
@@ -322,11 +324,16 @@ public final class Preferences {
             public final boolean light;
 
             Theme(@StyleRes int theme) {
-                this(theme, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Material_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert);
+                this(theme, theme);
             }
 
-            Theme(@StyleRes int theme, @StyleRes int wizardTheme, @StyleRes int dialogTheme, @StyleRes int alertDialogTheme) {
+            Theme(@StyleRes int theme, @StyleRes int calculatorTheme) {
+                this(theme, calculatorTheme, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Material_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert);
+            }
+
+            Theme(@StyleRes int theme, @StyleRes int calculatorTheme, @StyleRes int wizardTheme, @StyleRes int dialogTheme, @StyleRes int alertDialogTheme) {
                 this.theme = theme;
+                this.calculatorTheme = calculatorTheme;
                 this.wizardTheme = wizardTheme;
                 this.dialogTheme = dialogTheme;
                 this.alertDialogTheme = alertDialogTheme;
@@ -334,6 +341,9 @@ public final class Preferences {
             }
 
             public int getThemeFor(@Nonnull Context context) {
+                if (context instanceof CalculatorActivity) {
+                    return calculatorTheme;
+                }
                 if (context instanceof WizardActivity) {
                     return wizardTheme;
                 }

@@ -53,7 +53,7 @@
             a:layout_width="wrap_content"
             a:layout_height="wrap_content"
             a:layout_marginBottom="10dp"
-            a:background="?attr/cpp_main_bg"
+            a:background="?attr/cpp_editor_bg"
             a:padding="3dp">
 
             <org.solovyev.android.views.dragbutton.DirectionDragButton

@@ -36,7 +36,8 @@
             android:clearTaskOnLaunch="true"
             android:label="@string/c_app_name"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:theme="@style/Cpp.Theme.Material.Calculator">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

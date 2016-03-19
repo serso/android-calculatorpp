@@ -26,7 +26,7 @@
         <item name="android:background">@drawable/material_button_light</item>
     </style>
 
-    <style name="CppKeyboardButton.Material.Light.Digit.Highlighted" parent="CppKeyboardButton">
+    <style name="CppKeyboardButton.Material.Light.Digit.Highlighted" parent="CppKeyboardButton.Material.Light.Digit">
         <item name="android:background">@drawable/material_button_light_darker</item>
     </style>
 

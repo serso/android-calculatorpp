@@ -26,7 +26,7 @@
     a:color="?attr/colorControlHighlight">
     <item>
         <shape>
-            <solid a:color="?attr/cpp_main_bg" />
+            <solid a:color="?attr/cpp_editor_bg" />
         </shape>
     </item>
 </ripple>

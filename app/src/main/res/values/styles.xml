@@ -22,10 +22,6 @@
 
 <resources>
 
-    <style name="cpp_default_text_size">
-        <item name="android:textSize">@dimen/cpp_text_size</item>
-    </style>
-
     <style name="CppKeyboardButton" parent="BaseCppKeyboardButton"/>
     <style name="BaseCppKeyboardButton">
         <item name="android:layout_width">0dp</item>
@@ -109,7 +105,7 @@
     </style>
 
     <style name="CppMain.Widget" parent="CppMain">
-        <item name="android:background">@color/cpp_bg</item>
+        <item name="android:background">@color/cpp_editor_bg</item>
         <item name="android:padding">1dp</item>
         <item name="android:layout_margin">@dimen/cpp_widget_margin</item>
     </style>
@@ -140,7 +136,7 @@
     </style>
 
     <style name="CppMain.Onscreen" parent="CppMain">
-        <item name="android:background">@color/cpp_bg</item>
+        <item name="android:background">@color/cpp_editor_bg</item>
         <item name="android:padding">@dimen/cpp_onscreen_main_padding</item>
     </style>
 
@@ -287,8 +283,6 @@
 
     <style name="CppListView">
         <item name="android:id">@android:id/list</item>
-        <item name="android:dividerHeight">1px</item>
-        <item name="android:divider">@drawable/divider</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>

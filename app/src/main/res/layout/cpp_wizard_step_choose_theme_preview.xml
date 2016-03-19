@@ -26,7 +26,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     a:layout_width="wrap_content"
     a:layout_height="wrap_content"
-    a:background="?attr/cpp_main_bg"
+    a:background="?attr/cpp_editor_bg"
     a:minWidth="200dp"
     a:orientation="vertical"
     a:padding="3dp"

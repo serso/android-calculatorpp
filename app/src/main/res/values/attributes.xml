@@ -27,7 +27,7 @@
     <attr name="cpp_button_style_control_highlighted" format="reference" />
     <attr name="cpp_button_style_operation" format="reference" />
     <attr name="cpp_button_style_operation_highlighted" format="reference" />
-    <attr name="cpp_main_bg" format="reference" />
+    <attr name="cpp_editor_bg" format="reference" />
     <attr name="cpp_fab_bg" format="reference" />
     <attr name="cpp_wizard_button_bg" format="reference" />
 

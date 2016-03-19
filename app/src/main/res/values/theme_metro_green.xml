@@ -32,4 +32,14 @@
         <item name="cpp_fab_bg">@color/green_800</item>
     </style>
 
+    <style name="Cpp.Theme.Metro.Green.Dialog" parent="Cpp.Theme.Metro.Blue.Dialog">
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Metro.Green.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Metro.Green.Operation</item>
+        <item name="cpp_fab_bg">@color/green_800</item>
+    </style>
+
+    <style name="Cpp.Theme.Metro.Green.Calculator" parent="Cpp.Theme.Metro.Green">
+        <item name="android:windowBackground">@color/cpp_editor_bg</item>
+    </style>
+
 </resources>

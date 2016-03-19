@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -171,6 +172,14 @@ public class BaseActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         Check.isNotNull(actionBar);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        if (App.isTablet(this)) {
+            final ViewGroup.LayoutParams lp = toolbar.getLayoutParams();
+            if (lp instanceof AppBarLayout.LayoutParams) {
+                ((AppBarLayout.LayoutParams) lp).setScrollFlags(0);
+                toolbar.setLayoutParams(lp);
+            }
+        }
     }
 
     private void onPreCreate() {
