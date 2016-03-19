@@ -22,17 +22,23 @@
 
 package org.solovyev.android.calculator.wizard;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
+import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 
+import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.engineer;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.simple;
 import static org.solovyev.android.views.dragbutton.DragDirection.*;
@@ -42,9 +48,18 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
     private DirectionDragButton button;
     private TextView description;
 
+    @Inject
+    Typeface typeface;
+
     @Override
     protected int getViewResId() {
         return R.layout.cpp_wizard_step_choose_mode;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        cast(this).getComponent().inject(this);
     }
 
     @Override
@@ -58,6 +73,8 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
         spinner.setOnItemSelectedListener(this);
 
         button = (DirectionDragButton) root.findViewById(R.id.wizard_mode_button);
+        BaseActivity.setFont(button, typeface);
+        Adjuster.adjustText(button, BaseKeyboardUi.getTextScale(getActivity()));
         description = (TextView) root.findViewById(R.id.wizard_mode_description);
         updateDescription(mode);
     }

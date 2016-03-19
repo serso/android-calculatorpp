@@ -9,6 +9,10 @@
         <attr name="directionTextLeft" format="string"/>
         <attr name="directionTextScale" format="float"/>
         <attr name="directionTextPadding" format="dimension"/>
+        <attr name="directionTextPaddingUp" format="dimension"/>
+        <attr name="directionTextPaddingDown" format="dimension"/>
+        <attr name="directionTextPaddingRight" format="dimension"/>
+        <attr name="directionTextPaddingLeft" format="dimension"/>
         <attr name="directionTextScaleUp" format="float"/>
         <attr name="directionTextScaleDown" format="float"/>
         <attr name="directionTextScaleRight" format="float"/>

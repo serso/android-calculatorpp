@@ -13,7 +13,8 @@
     <item name="cpp_direction_text_scale_units" format="float" type="dimen">0.3</item>
     <dimen name="cpp_button_corner">1dp</dimen>
 
-    <dimen name="cpp_keyboard_button_direction_text_padding">4dp</dimen>
+    <dimen name="cpp_keyboard_button_direction_text_padding_updown">4dp</dimen>
+    <dimen name="cpp_keyboard_button_direction_text_padding_left">2dp</dimen>
     <dimen name="cpp_keyboard_button_text_size">30dp</dimen>
     <dimen name="cpp_keyboard_simple_image_button_padding">12dp</dimen>
 
@@ -27,6 +28,7 @@
     <!--only for not multipane-->
     <dimen name="cpp_editor_padding">5dp</dimen>
     <dimen name="cpp_display_padding">3dp</dimen>
+    <dimen name="cpp_display_padding_side">10dp</dimen>
 
     <dimen name="cpp_widget_keyboard_button_text_size">20dp</dimen>
 
@@ -46,4 +48,8 @@
     <dimen name="cpp_card_margin">4dp</dimen>
 
     <dimen name="list_item_height">48dp</dimen>
+    <dimen name="cpp_wizard_preview_width">200dp</dimen>
+    <dimen name="cpp_wizard_preview_row_height">64dp</dimen>
+    <dimen name="cpp_wizard_max_width">300dp</dimen>
+    <dimen name="cpp_wizard_preview_button_size">100dp</dimen>
 </resources>

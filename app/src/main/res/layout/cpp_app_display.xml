@@ -25,5 +25,6 @@
 <org.solovyev.android.calculator.DisplayView
     android:id="@+id/calculator_display"
     style="@style/CppText.Display"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="@dimen/cpp_display_padding" />
+    android:paddingLeft="@dimen/cpp_display_padding_side"
+    android:paddingRight="@dimen/cpp_display_padding_side"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

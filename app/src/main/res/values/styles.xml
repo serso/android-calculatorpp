@@ -36,7 +36,10 @@
         <item name="android:scaleType">centerInside</item>
         <item name="directionTextColor">@color/cpp_button_text</item>
         <item name="directionTextScale">@dimen/cpp_direction_text_scale</item>
-        <item name="directionTextPadding">@dimen/cpp_keyboard_button_direction_text_padding</item>
+        <item name="directionTextPaddingUp">@dimen/cpp_keyboard_button_direction_text_padding_updown</item>
+        <item name="directionTextPaddingDown">@dimen/cpp_keyboard_button_direction_text_padding_updown</item>
+        <item name="directionTextPaddingRight">@dimen/cpp_keyboard_button_direction_text_padding_updown</item>
+        <item name="directionTextPaddingLeft">@dimen/cpp_keyboard_button_direction_text_padding_left</item>
     </style>
 
     <style name="CppText.Editor.Onscreen.Light" parent="CppText.Editor.Onscreen">
@@ -75,6 +78,10 @@
         <item name="android:textSize">@dimen/cpp_display_text_size</item>
         <item name="android:scrollHorizontally">false</item>
         <item name="android:scrollbars">none</item>
+        <item name="android:paddingRight">@dimen/cpp_display_padding</item>
+        <item name="android:paddingLeft">@dimen/cpp_display_padding</item>
+        <item name="android:paddingTop">@dimen/cpp_display_padding</item>
+        <item name="android:paddingBottom">@dimen/cpp_display_padding</item>
     </style>
 
     <style name="CppImageButton">

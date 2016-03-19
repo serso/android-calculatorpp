@@ -25,7 +25,6 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import static org.solovyev.android.calculator.App.cast;
-import static org.solovyev.android.calculator.App.toPixels;
 
 public abstract class WizardFragment extends Fragment implements View.OnClickListener {
 
@@ -75,7 +74,7 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 
         final ViewGroup content = (ViewGroup) view.findViewById(R.id.wizard_content);
         inflater.inflate(getViewResId(), content, true);
-        Adjuster.maxWidth(content, toPixels(view, 300));
+        Adjuster.maxWidth(content, getResources().getDimensionPixelSize(R.dimen.cpp_wizard_max_width));
 
         nextButton = (TextView) view.findViewById(R.id.wizard_next);
         if (nextButton != null) {

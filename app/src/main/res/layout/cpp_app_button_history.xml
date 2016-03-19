@@ -27,5 +27,6 @@
     a:id="@id/cpp_button_history"
     style="?attr/cpp_button_style_control"
     a:src="@drawable/ic_history_white_48dp"
+    app:directionTextScale="0.5"
     app:directionTextDown="@string/cpp_kb_redo"
     app:directionTextUp="@string/cpp_kb_undo" />

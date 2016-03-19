@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cpp_keyboard_button_direction_text_padding_updown">16dp</dimen>
+    <dimen name="cpp_keyboard_button_direction_text_padding_left">16dp</dimen>
+    <dimen name="cpp_display_padding_side">16dp</dimen>
+    <dimen name="cpp_wizard_preview_width">400dp</dimen>
+    <dimen name="cpp_wizard_preview_row_height">133dp</dimen>
+    <dimen name="cpp_wizard_max_width">400dp</dimen>
+    <dimen name="cpp_wizard_preview_button_size">150dp</dimen>
+
+</resources>

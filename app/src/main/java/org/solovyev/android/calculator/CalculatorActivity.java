@@ -23,20 +23,17 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
@@ -44,9 +41,6 @@ import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
@@ -76,9 +70,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     Toolbar toolbar;
     @Bind(R.id.editor)
     FrameLayout editor;
-    @Nullable
-    @Bind(R.id.card)
-    CardView card;
     private boolean useBackAsPrevious;
 
     public CalculatorActivity() {
@@ -112,8 +103,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
             startupHelper.onMainActivityOpened(this);
         }
 
-        toggleOrientationChange();
-        prepareCardAndToolbar();
+        updateOrientation();
 
         preferences.registerOnSharedPreferenceChangeListener(this);
         preferredPreferences.check(this, false);
@@ -172,11 +162,11 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         }
 
         if (Preferences.Gui.rotateScreen.getKey().equals(key)) {
-            toggleOrientationChange();
+            updateOrientation();
         }
     }
 
-    private void toggleOrientationChange() {
+    private void updateOrientation() {
         if (Preferences.Gui.rotateScreen.getPreference(preferences)) {
             setRequestedOrientation(SCREEN_ORIENTATION_UNSPECIFIED);
         } else {
@@ -204,27 +194,5 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
                 return true;
         }
         return false;
-    }
-
-    private void prepareCardAndToolbar() {
-        if (card == null) {
-            return;
-        }
-        final Resources resources = getResources();
-        final int cardTopMargin = resources.getDimensionPixelSize(R.dimen.cpp_card_margin);
-        final int preLollipopCardTopPadding = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? card.getPaddingTop() : 0;
-
-        {
-            final ViewGroup.LayoutParams lp = toolbar.getLayoutParams();
-            lp.height += cardTopMargin + preLollipopCardTopPadding;
-            toolbar.setLayoutParams(lp);
-            // center icons in toolbar
-            toolbar.setPadding(toolbar.getPaddingLeft(), toolbar.getPaddingTop() + cardTopMargin / 2 + preLollipopCardTopPadding, toolbar.getPaddingRight(), toolbar.getPaddingBottom() + cardTopMargin / 2);
-        }
-        final ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) card.getLayoutParams();
-        final int actionWidth = resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) + 2 * resources.getDimensionPixelSize(R.dimen.abc_action_bar_overflow_padding_start_material);
-        lp.leftMargin = actionWidth + 2 * toolbar.getPaddingLeft();
-        lp.rightMargin = actionWidth + 2 * toolbar.getPaddingRight();
-        card.setLayoutParams(lp);
     }
 }

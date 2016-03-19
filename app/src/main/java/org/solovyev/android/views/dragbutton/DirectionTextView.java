@@ -2,10 +2,7 @@ package org.solovyev.android.views.dragbutton;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.PointF;
-import android.graphics.Rect;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
@@ -112,14 +109,15 @@ public class DirectionTextView {
                 if (array.hasValue(direction.textAttr)) {
                     value = Strings.nullToEmpty(array.getString(direction.textAttr));
                 }
+                padding = array.getDimensionPixelSize(direction.paddingAttr, defPadding);
                 scale = array.getFloat(direction.scaleAttr, defScale);
             } else {
                 value = "";
                 scale = defScale;
+                padding = defPadding;
             }
             alpha = defAlpha;
             color = defColor;
-            padding = defPadding;
             initPaint(base);
         }
 
@@ -214,12 +212,11 @@ public class DirectionTextView {
             final int paddingRight = padding;
             final int paddingTop = padding;
             final int paddingBottom = padding;
-            final int verticalPaddings = 0;
 
             switch (direction) {
                 case up:
                 case down:
-                    offset.x = -paddingLeft - bounds.width();
+                    offset.x = -paddingLeft - bounds.width() - bounds.left;
                     if (direction == DragDirection.up) {
                         offset.y = paddingTop + fixedTextHeight;
                     } else {
@@ -233,7 +230,7 @@ public class DirectionTextView {
                     } else {
                         offset.x = -paddingRight - bounds.width();
                     }
-                    offset.y = paddingTop - verticalPaddings / 2 + fixedTextHeight / 2;
+                    offset.y = (paddingTop - paddingBottom) / 2 + fixedTextHeight / 2;
                     break;
             }
         }

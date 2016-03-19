@@ -28,6 +28,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     a:id="@id/cpp_button_period"
     style="?attr/cpp_button_style_digit"
+    c:directionTextScale="0.6"
     a:text="."
     c:directionTextUp=","
     tools:ignore="HardcodedText" />

@@ -27,14 +27,14 @@
     a:layout_width="wrap_content"
     a:layout_height="wrap_content"
     a:background="?attr/cpp_editor_bg"
-    a:minWidth="200dp"
+    a:minWidth="@dimen/cpp_wizard_preview_width"
     a:orientation="vertical"
     a:padding="3dp"
     tools:ignore="Overdraw">
 
     <LinearLayout
         a:layout_width="match_parent"
-        a:layout_height="60dp"
+        a:layout_height="@dimen/cpp_wizard_preview_row_height"
         a:orientation="horizontal">
 
         <include layout="@layout/cpp_app_button_equals_no_bg" />
@@ -51,27 +51,27 @@
 
     <LinearLayout
         a:layout_width="match_parent"
-        a:layout_height="60dp"
+        a:layout_height="@dimen/cpp_wizard_preview_row_height"
         a:orientation="horizontal">
 
-        <include layout="@layout/cpp_app_button_0" />
-
-        <include layout="@layout/cpp_app_button_copy" />
+        <include layout="@layout/cpp_app_button_1" />
 
         <include layout="@layout/cpp_app_button_plus" />
+
+        <include layout="@layout/cpp_app_button_clear" />
 
     </LinearLayout>
 
     <LinearLayout
         a:layout_width="match_parent"
-        a:layout_height="60dp"
+        a:layout_height="@dimen/cpp_wizard_preview_row_height"
         a:orientation="horizontal">
 
-        <include layout="@layout/cpp_app_button_1" />
-
-        <include layout="@layout/cpp_app_button_paste" />
+        <include layout="@layout/cpp_app_button_0" />
 
         <include layout="@layout/cpp_app_button_minus" />
+
+        <include layout="@layout/cpp_app_button_memory" />
 
     </LinearLayout>
 </LinearLayout>

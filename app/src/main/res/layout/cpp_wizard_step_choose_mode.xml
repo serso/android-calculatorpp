@@ -59,8 +59,8 @@
             <org.solovyev.android.views.dragbutton.DirectionDragButton
                 a:id="@+id/wizard_mode_button"
                 style="?attr/cpp_button_style_operation"
-                a:layout_width="100dp"
-                a:layout_height="100dp"
+                a:layout_width="@dimen/cpp_wizard_preview_button_size"
+                a:layout_height="@dimen/cpp_wizard_preview_button_size"
                 a:text="7" />
         </FrameLayout>
 

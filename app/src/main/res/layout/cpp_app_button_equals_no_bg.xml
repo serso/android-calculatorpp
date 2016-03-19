@@ -30,6 +30,7 @@
     a:background="@drawable/button_no_bg"
     a:text="="
     a:textColor="?attr/cpp_text_color"
+    c:directionTextColor="?attr/cpp_text_color"
     c:directionTextDown="@string/cpp_plot_button_text"
     c:directionTextUp="≡"
     tools:ignore="HardcodedText" />
