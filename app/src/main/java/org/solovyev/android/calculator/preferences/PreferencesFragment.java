@@ -244,6 +244,9 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         if (!supportsHeaders()) {
             return;
         }
+        if (getView() == null) {
+            return;
+        }
 
         final ListView listView = getListView();
         if (show) {
