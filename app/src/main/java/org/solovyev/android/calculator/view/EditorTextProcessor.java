@@ -14,8 +14,6 @@ import static org.solovyev.android.calculator.Preferences.Gui.theme;
 
 public final class EditorTextProcessor implements TextProcessor<TextProcessorEditorResult, String>, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private boolean highlightText = true;
-
     @Nullable
     private TextHighlighter textHighlighter;
     @Nonnull
@@ -30,15 +28,11 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
         this.preferences = preferences;
         this.engine = engine;
         preferences.registerOnSharedPreferenceChangeListener(this);
-        onSharedPreferenceChanged(preferences, Preferences.Gui.highlightText.getKey());
     }
 
     @Nonnull
     @Override
     public TextProcessorEditorResult process(@Nonnull String text) {
-        if (!highlightText) {
-            return new TextProcessorEditorResult(text, 0);
-        }
         final TextProcessorEditorResult processesText = getTextHighlighter().process(text);
         return new TextProcessorEditorResult(processesText.getCharSequence(), processesText.getOffset());
     }
@@ -51,15 +45,9 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
         return textHighlighter;
     }
 
-    public void setHighlightText(boolean highlightText) {
-        this.highlightText = highlightText;
-    }
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (Preferences.Gui.highlightText.isSameKey(key)) {
-            setHighlightText(Preferences.Gui.highlightText.getPreference(preferences));
-        } else if (theme.isSameKey(key)) {
+        if (theme.isSameKey(key)) {
             final int color = getTextColor(preferences);
             textHighlighter = new TextHighlighter(color, true, engine);
         }

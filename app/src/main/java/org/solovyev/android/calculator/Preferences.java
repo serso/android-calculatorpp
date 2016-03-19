@@ -29,10 +29,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.provider.Settings;
-import android.support.annotation.ColorRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
+import android.support.annotation.*;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.SparseArray;
 import jscl.AngleUnit;
@@ -77,7 +74,6 @@ public final class Preferences {
             if (!Gui.vibrateOnKeypress.isSet(preferences)) {
                 Gui.vibrateOnKeypress.putPreference(editor, Deleted.hapticFeedback.getPreference(preferences) > 0);
             }
-            migratePreference(preferences, editor, Gui.highlightText, Deleted.colorDisplay);
             migratePreference(preferences, editor, Gui.keepScreenOn, Deleted.preventScreenFromFading);
             migratePreference(preferences, editor, Gui.theme, Deleted.theme);
             migratePreference(preferences, editor, Gui.layout, Deleted.layout);
@@ -282,10 +278,8 @@ public final class Preferences {
         public static final Preference<String> language = StringPreference.of("gui.language", Languages.SYSTEM_LANGUAGE_CODE);
         public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("gui.showReleaseNotes", true);
         public static final Preference<Boolean> useBackAsPrevious = BooleanPreference.of("gui.useBackAsPrevious", false);
-        public static final Preference<Boolean> showEqualsButton = BooleanPreference.of("gui.showEqualsButton", true);
         public static final Preference<Boolean> rotateScreen = BooleanPreference.of("gui.rotateScreen", true);
         public static final Preference<Boolean> keepScreenOn = BooleanPreference.of("gui.keepScreenOn", true);
-        public static final Preference<Boolean> highlightText = BooleanPreference.of("gui.highlightText", true);
         public static final Preference<Boolean> vibrateOnKeypress = BooleanPreference.of("gui.vibrateOnKeypress", true);
 
         @Nonnull
@@ -303,14 +297,16 @@ public final class Preferences {
             default_theme(R.style.Cpp_Theme_Gray),
             violet_theme(R.style.Cpp_Theme_Violet),
             light_blue_theme(R.style.Cpp_Theme_Blue),
-            metro_blue_theme(R.style.Cpp_Theme_Metro_Blue, R.style.Cpp_Theme_Metro_Blue_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Blue_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
-            metro_purple_theme(R.style.Cpp_Theme_Metro_Purple, R.style.Cpp_Theme_Metro_Purple_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Purple_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
-            metro_green_theme(R.style.Cpp_Theme_Metro_Green, R.style.Cpp_Theme_Metro_Green_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Green_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
-            material_theme(R.style.Cpp_Theme_Material, R.style.Cpp_Theme_Material_Calculator),
-            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Material_Light_Dialog, R.style.Cpp_Theme_Material_Light_Dialog_Alert);
+            metro_blue_theme(R.string.p_metro_blue_theme, R.style.Cpp_Theme_Metro_Blue, R.style.Cpp_Theme_Metro_Blue_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Blue_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
+            metro_purple_theme(R.string.p_metro_purple_theme, R.style.Cpp_Theme_Metro_Purple, R.style.Cpp_Theme_Metro_Purple_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Purple_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
+            metro_green_theme(R.string.p_metro_green_theme, R.style.Cpp_Theme_Metro_Green, R.style.Cpp_Theme_Metro_Green_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Green_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
+            material_theme(R.string.cpp_theme_dark, R.style.Cpp_Theme_Material, R.style.Cpp_Theme_Material_Calculator),
+            material_light_theme(R.string.cpp_theme_light, R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Material_Light_Dialog, R.style.Cpp_Theme_Material_Light_Dialog_Alert);
 
             private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
+            @StringRes
+            public final int name;
             @StyleRes
             public final int theme;
             @StyleRes
@@ -324,14 +320,15 @@ public final class Preferences {
             public final boolean light;
 
             Theme(@StyleRes int theme) {
-                this(theme, theme);
+                this(R.string.cpp_theme_dark, theme, theme);
             }
 
-            Theme(@StyleRes int theme, @StyleRes int calculatorTheme) {
-                this(theme, calculatorTheme, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Material_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert);
+            Theme(@StringRes int name, @StyleRes int theme, @StyleRes int calculatorTheme) {
+                this(name, theme, calculatorTheme, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Material_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert);
             }
 
-            Theme(@StyleRes int theme, @StyleRes int calculatorTheme, @StyleRes int wizardTheme, @StyleRes int dialogTheme, @StyleRes int alertDialogTheme) {
+            Theme(@StringRes int name, @StyleRes int theme, @StyleRes int calculatorTheme, @StyleRes int wizardTheme, @StyleRes int dialogTheme, @StyleRes int alertDialogTheme) {
+                this.name = name;
                 this.theme = theme;
                 this.calculatorTheme = calculatorTheme;
                 this.wizardTheme = wizardTheme;
@@ -386,18 +383,25 @@ public final class Preferences {
         }
 
         public enum Layout {
-            main_calculator,
-            simple,
+            main_calculator(R.string.p_layout_calculator),
+            simple(R.string.p_layout_simple),
 
             // not used anymore
             @Deprecated
-            main_cellphone,
+            main_cellphone(R.string.p_layout_simple),
             // not used anymore
             @Deprecated
-            main_calculator_mobile,
+            main_calculator_mobile(R.string.p_layout_simple),
             // not used anymore
             @Deprecated
-            simple_mobile;
+            simple_mobile(R.string.p_layout_simple);
+
+            @StringRes
+            public final int name;
+
+            Layout(@StringRes int name) {
+                this.name = name;
+            }
         }
 
         public static final class TextColor {

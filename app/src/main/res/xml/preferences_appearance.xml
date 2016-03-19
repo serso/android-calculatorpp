@@ -31,11 +31,6 @@
         m:materialColor="@color/material_text_selector" />
 
     <android.preference.CheckBoxPreference
-        a:key="gui.highlightText"
-        a:summary="@string/c_calc_color_display_summary"
-        a:title="@string/c_calc_color_display_title" />
-
-    <android.preference.CheckBoxPreference
         a:key="gui.vibrateOnKeypress"
         a:title="@string/cpp_prefs_vibrate_on_keypress" />
 

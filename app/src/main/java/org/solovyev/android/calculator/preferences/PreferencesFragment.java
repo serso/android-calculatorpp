@@ -107,6 +107,8 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         }
 
         prepareLanguagePreference(preference);
+        prepareLayoutPreference(preference);
+        prepareThemePreference(preference);
 
         getCheckout().whenReady(new Checkout.ListenerAdapter() {
             @Override
@@ -130,6 +132,36 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         });
 
         onSharedPreferenceChanged(preferences, Engine.Preferences.Output.round.getKey());
+    }
+
+    private void prepareLayoutPreference(int preference) {
+        if (preference != R.xml.preferences_appearance) {
+            return;
+        }
+        final ListPreference layout = (ListPreference) preferenceManager.findPreference(Preferences.Gui.layout.getKey());
+        layout.setSummary(Preferences.Gui.getLayout(preferences).name);
+        layout.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                layout.setSummary(Preferences.Gui.Layout.valueOf((String) newValue).name);
+                return true;
+            }
+        });
+    }
+
+    private void prepareThemePreference(int preference) {
+        if (preference != R.xml.preferences_appearance) {
+            return;
+        }
+        final ListPreference theme = (ListPreference) preferenceManager.findPreference(Preferences.Gui.theme.getKey());
+        theme.setSummary(Preferences.Gui.getTheme(preferences).name);
+        theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                theme.setSummary(Preferences.Gui.Theme.valueOf((String) newValue).name);
+                return true;
+            }
+        });
     }
 
     private void prepareLanguagePreference(int preference) {
