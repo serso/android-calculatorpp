@@ -34,6 +34,7 @@
     <android.support.v7.widget.RecyclerView
         a:id="@+id/history_recyclerview"
         a:layout_width="match_parent"
-        a:layout_height="match_parent" />
+        a:layout_height="match_parent"
+        a:scrollbars="vertical" />
 
 </LinearLayout>
