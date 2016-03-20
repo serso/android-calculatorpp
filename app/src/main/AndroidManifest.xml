@@ -179,10 +179,10 @@
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE_OPTIONS" />
                 <action android:name="org.solovyev.android.calculator.INIT" />
                 <action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED" />
                 <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED" />
-                <action android:name="org.solovyev.android.calculator.BUTTON_PRESSED" />
                 <action android:name="org.solovyev.android.calculator.THEME_CHANGED" />
             </intent-filter>
 
