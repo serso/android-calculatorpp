@@ -57,8 +57,21 @@
         <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
     </style>
 
+    <style name="CppKeyboardButton.Material.Light.Simple.Control.Highlighted" parent="CppKeyboardButton.Material.Light.Simple.Control">
+        <item name="android:background">@drawable/material_button_light_darker</item>
+    </style>
+
+    <style name="CppKeyboardButton.Material.Light.Simple.NoBg" parent="CppKeyboardButton.Material.Light.Control">
+        <item name="android:background">@drawable/widget_button_no_bg_light</item>
+        <item name="android:textColor">@color/cpp_text_inverse</item>
+    </style>
+
     <style name="CppKeyboardButton.Material.Light.Simple.Control.Image" parent="CppKeyboardButton.Material.Light.Control">
         <item name="android:padding">@dimen/cpp_keyboard_simple_image_button_padding</item>
+    </style>
+
+    <style name="CppKeyboardButton.Material.Light.Simple.Control.Image.Highlighted" parent="CppKeyboardButton.Material.Light.Simple.Control.Image">
+        <item name="android:background">@drawable/material_button_light_primary_darker</item>
     </style>
 
     <style name="CppKeyboardButton.Material.Light.Simple.Operation" parent="CppKeyboardButton.Material.Light.Operation">

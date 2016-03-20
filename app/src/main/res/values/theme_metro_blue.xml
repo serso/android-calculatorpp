@@ -53,9 +53,18 @@
         <item name="android:background">@drawable/metro_widget_button_light</item>
     </style>
 
+    <style name="CppKeyboardButton.Metro.Simple.NoBg" parent="CppKeyboardButton.Metro.Simple.Control">
+        <item name="android:background">@drawable/widget_button_no_bg</item>
+    </style>
+
     <style name="CppKeyboardButton.Metro.Simple.Operation" parent="CppKeyboardButton.Metro.Blue.Operation">
         <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
         <item name="android:background">@drawable/metro_widget_button</item>
+    </style>
+
+    <style name="CppKeyboardButton.Metro.Simple.Operation.Image" parent="CppKeyboardButton.Metro.Simple.Operation">
+        <item name="android:background">@drawable/metro_widget_button</item>
+        <item name="android:padding">@dimen/cpp_keyboard_simple_image_button_padding</item>
     </style>
 
     <style name="CppKeyboardButton.Metro.Simple.Control.Image" parent="CppKeyboardButton.Metro.Blue.Control">

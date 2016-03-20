@@ -25,6 +25,6 @@
 <ImageButton
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@id/cpp_button_erase"
-    style="@style/CppKeyboardButton.Material.Light.Simple.Control.Image"
+    style="@style/CppKeyboardButton.Material.Light.Simple.Control.Image.Highlighted"
     a:contentDescription="Erase"
     a:src="@drawable/ic_backspace_white_48dp" />

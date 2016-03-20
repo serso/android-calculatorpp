@@ -22,8 +22,11 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<Button
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_percent"
-    style="@style/CppKeyboardButton.Material.Simple.Digit"
-    a:text="%" />
+<ripple xmlns:a="http://schemas.android.com/apk/res/android"
+    a:color="@color/button_material_dark">
+    <item>
+        <shape>
+            <solid a:color="@color/cpp_editor_bg" />
+        </shape>
+    </item>
+</ripple>

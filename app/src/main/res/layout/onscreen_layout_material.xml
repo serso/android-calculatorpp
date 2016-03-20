@@ -36,15 +36,15 @@
                 layout="@layout/onscreen_display"
                 a:layout_width="0dp"
                 a:layout_height="match_parent"
-                a:layout_weight="4" />
+                a:layout_weight="5" />
 
         </LinearLayout>
 
         <include
-            layout="@layout/onscreen_keyboard_material"
+            layout="@layout/widget_keyboard_material"
             a:layout_width="match_parent"
             a:layout_height="0dp"
-            a:layout_weight="4" />
+            a:layout_weight="5" />
     </LinearLayout>
 
 </LinearLayout>

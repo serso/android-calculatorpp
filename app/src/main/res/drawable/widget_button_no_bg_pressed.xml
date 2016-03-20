@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 serso aka se.solovyev
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,8 +20,6 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<Button
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_percent"
-    style="@style/CppKeyboardButton.Material.Simple.Digit"
-    a:text="%" />
+<shape xmlns:a="http://schemas.android.com/apk/res/android">
+    <solid a:color="#664d4d4d" />
+</shape>

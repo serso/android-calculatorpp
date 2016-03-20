@@ -25,6 +25,6 @@
 <Button
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@id/cpp_button_clear"
-    style="@style/CppKeyboardButton.Material.Light.Simple.Control"
+    style="@style/CppKeyboardButton.Material.Light.Simple.Control.Highlighted"
     a:text="@string/c_clear"
     a:textStyle="bold" />

@@ -22,8 +22,13 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<Button
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_percent"
-    style="@style/CppKeyboardButton.Material.Simple.Digit"
-    a:text="%" />
+<selector xmlns:a="http://schemas.android.com/apk/res/android">
+
+    <item a:drawable="@drawable/widget_button_no_bg_pressed" a:state_pressed="true" />
+    <item>
+        <shape>
+            <solid a:color="@android:color/transparent" />
+        </shape>
+    </item>
+
+</selector>

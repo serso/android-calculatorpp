@@ -12,7 +12,8 @@
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
+  ~ See the Licens        <item name="android:background">@drawable/material_button_light_darker</item>
+e for the specific language governing permissions and
   ~ limitations under the License.
   ~
   ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,15 +33,15 @@
         a:layout_height="0dp"
         a:layout_weight="1">
 
-        <include layout="@layout/cpp_simple_button_7_material" />
-
-        <include layout="@layout/cpp_simple_button_8_material" />
-
-        <include layout="@layout/cpp_simple_button_9_material" />
-
-        <include layout="@layout/cpp_simple_button_multiplication_material" />
-
         <include layout="@layout/cpp_simple_button_percent_material" />
+
+        <include layout="@layout/cpp_simple_button_left_material" />
+
+        <include layout="@layout/cpp_simple_button_right_material" />
+
+        <include layout="@layout/cpp_simple_button_settings_material" />
+
+        <include layout="@layout/cpp_simple_button_erase_material" />
 
         <include layout="@layout/cpp_simple_button_clear_material" />
 
@@ -51,34 +52,15 @@
         a:layout_height="0dp"
         a:layout_weight="1">
 
-        <include layout="@layout/cpp_simple_button_4_material" />
+        <include layout="@layout/cpp_simple_button_functions_material" />
 
-        <include layout="@layout/cpp_simple_button_5_material" />
+        <include layout="@layout/cpp_simple_button_7_material" />
 
-        <include layout="@layout/cpp_simple_button_6_material" />
+        <include layout="@layout/cpp_simple_button_8_material" />
+
+        <include layout="@layout/cpp_simple_button_9_material" />
 
         <include layout="@layout/cpp_simple_button_division_material" />
-
-        <include layout="@layout/cpp_simple_button_power_material" />
-
-        <include layout="@layout/cpp_simple_button_erase_material" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1">
-
-        <include layout="@layout/cpp_simple_button_1_material" />
-
-        <include layout="@layout/cpp_simple_button_2_material" />
-
-        <include layout="@layout/cpp_simple_button_3_material" />
-
-        <include layout="@layout/cpp_simple_button_plus_material" />
-
-        <include layout="@layout/cpp_simple_button_settings_material" />
 
         <include layout="@layout/cpp_simple_button_copy_material" />
 
@@ -89,35 +71,53 @@
         a:layout_height="0dp"
         a:layout_weight="1">
 
-        <include layout="@layout/cpp_simple_button_round_brackets_material" />
+        <include layout="@layout/cpp_simple_button_vars_material" />
 
-        <include layout="@layout/cpp_simple_button_0_material" />
+        <include layout="@layout/cpp_simple_button_4_material" />
 
-        <include layout="@layout/cpp_simple_button_dot_material" />
+        <include layout="@layout/cpp_simple_button_5_material" />
 
-        <include layout="@layout/cpp_simple_button_minus_material" />
+        <include layout="@layout/cpp_simple_button_6_material" />
 
-        <include layout="@layout/cpp_simple_button_app_material" />
+        <include layout="@layout/cpp_simple_button_multiplication_material" />
 
         <include layout="@layout/cpp_simple_button_paste_material" />
 
     </LinearLayout>
-
 
     <LinearLayout
         a:layout_width="match_parent"
         a:layout_height="0dp"
         a:layout_weight="1">
 
-        <include layout="@layout/cpp_simple_button_left_material" />
-
-        <include layout="@layout/cpp_simple_button_right_material" />
-
-        <include layout="@layout/cpp_simple_button_vars_material" />
-
-        <include layout="@layout/cpp_simple_button_functions_material" />
-
         <include layout="@layout/cpp_simple_button_operators_material" />
+
+        <include layout="@layout/cpp_simple_button_1_material" />
+
+        <include layout="@layout/cpp_simple_button_2_material" />
+
+        <include layout="@layout/cpp_simple_button_3_material" />
+
+        <include layout="@layout/cpp_simple_button_minus_material" />
+
+        <include layout="@layout/cpp_simple_button_app_material" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="0dp"
+        a:layout_weight="1">
+
+        <include layout="@layout/cpp_simple_button_power_material" />
+
+        <include layout="@layout/cpp_simple_button_0_material" />
+
+        <include layout="@layout/cpp_simple_button_dot_material" />
+
+        <include layout="@layout/cpp_simple_button_round_brackets_material" />
+
+        <include layout="@layout/cpp_simple_button_plus_material" />
 
         <include layout="@layout/cpp_simple_button_history_material" />
 
