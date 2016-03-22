@@ -24,6 +24,7 @@
 
     <style name="Cpp.Theme.Calculator" parent="@style/Cpp.Theme">
         <item name="android:windowBackground">@color/cpp_editor_bg</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
     <style name="Cpp.Theme" parent="@style/Theme.AppCompat.NoActionBar">

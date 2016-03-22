@@ -78,6 +78,7 @@
 
     <style name="Cpp.Theme.Material.Calculator" parent="Cpp.Theme.Material">
         <item name="android:windowBackground">@color/cpp_editor_bg</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
     <style name="Cpp.Theme.Material" parent="Cpp.Theme">

@@ -102,4 +102,9 @@
         <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Light.Operation.Highlighted</item>
     </style>
 
+    <style name="Cpp.Theme.Material.Light.Calculator" parent="Cpp.Theme.Material.Light">
+        <item name="android:windowBackground">@color/cpp_bg_light</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
 </resources>

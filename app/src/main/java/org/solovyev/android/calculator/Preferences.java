@@ -29,11 +29,14 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.provider.Settings;
-import android.support.annotation.*;
+import android.support.annotation.ColorRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.SparseArray;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -44,14 +47,22 @@ import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.*;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.NumberToStringPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
 import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
@@ -301,7 +312,7 @@ public final class Preferences {
             metro_purple_theme(R.string.p_metro_purple_theme, R.style.Cpp_Theme_Metro_Purple, R.style.Cpp_Theme_Metro_Purple_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Purple_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
             metro_green_theme(R.string.p_metro_green_theme, R.style.Cpp_Theme_Metro_Green, R.style.Cpp_Theme_Metro_Green_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Green_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
             material_theme(R.string.cpp_theme_dark, R.style.Cpp_Theme_Material, R.style.Cpp_Theme_Material_Calculator),
-            material_light_theme(R.string.cpp_theme_light, R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Material_Light_Dialog, R.style.Cpp_Theme_Material_Light_Dialog_Alert);
+            material_light_theme(R.string.cpp_theme_light, R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Material_Light_Calculator, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Material_Light_Dialog, R.style.Cpp_Theme_Material_Light_Dialog_Alert);
 
             private static final SparseArray<TextColor> textColors = new SparseArray<>();
 

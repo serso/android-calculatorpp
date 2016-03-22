@@ -40,6 +40,7 @@
 
     <style name="Cpp.Theme.Metro.Green.Calculator" parent="Cpp.Theme.Metro.Green">
         <item name="android:windowBackground">@color/cpp_editor_bg</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
 </resources>
