@@ -29,14 +29,12 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.provider.Settings;
-import android.support.annotation.ColorRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.annotation.StyleRes;
+import android.support.annotation.*;
 import android.support.v7.view.ContextThemeWrapper;
+import android.text.TextUtils;
 import android.util.SparseArray;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -47,22 +45,14 @@ import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.NumberToStringPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.prefs.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 
 import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
@@ -87,17 +77,16 @@ public final class Preferences {
             }
             migratePreference(preferences, editor, Gui.keepScreenOn, Deleted.preventScreenFromFading);
             migratePreference(preferences, editor, Gui.theme, Deleted.theme);
-            migratePreference(preferences, editor, Gui.layout, Deleted.layout);
             migratePreference(preferences, editor, Gui.useBackAsPrevious, Deleted.usePrevAsBack);
             migratePreference(preferences, editor, Gui.showReleaseNotes, Deleted.showReleaseNotes);
             migratePreference(preferences, editor, Gui.rotateScreen, Deleted.autoOrientation);
-            final Gui.Layout layout = Deleted.layout.getPreference(preferences);
-            if (layout == Gui.Layout.main_cellphone) {
-                Gui.layout.putDefault(editor);
-            } else if (layout == Gui.Layout.main_calculator_mobile) {
-                Gui.layout.putPreference(editor, Gui.Layout.main_calculator);
-            } else if (layout == Gui.Layout.simple_mobile) {
-                Gui.layout.putPreference(editor, Gui.Layout.simple);
+            final String layout = Deleted.layout.getPreference(preferences);
+            if (TextUtils.equals(layout, "main_calculator")) {
+                Gui.mode.putPreference(editor, Gui.Mode.engineer);
+            } else if (TextUtils.equals(layout, "simple")) {
+                Gui.mode.putPreference(editor, Gui.Mode.simple);
+            } else if (!Gui.mode.isSet(preferences)) {
+                Gui.mode.putDefault(editor);
             }
             version.putDefault(editor);
             editor.apply();
@@ -140,7 +129,7 @@ public final class Preferences {
         Engine.Preferences.numeralBase.tryPutDefault(preferences, editor);
 
         Gui.theme.tryPutDefault(preferences, editor);
-        Gui.layout.tryPutDefault(preferences, editor);
+        Gui.mode.tryPutDefault(preferences, editor);
         Gui.showReleaseNotes.tryPutDefault(preferences, editor);
         Gui.useBackAsPrevious.tryPutDefault(preferences, editor);
         Gui.rotateScreen.tryPutDefault(preferences, editor);
@@ -285,7 +274,7 @@ public final class Preferences {
     public static class Gui {
 
         public static final Preference<Theme> theme = StringPreference.ofEnum("gui.theme", Theme.material_theme, Theme.class);
-        public static final Preference<Layout> layout = StringPreference.ofEnum("gui.layout", Layout.simple, Layout.class);
+        public static final Preference<Mode> mode = StringPreference.ofEnum("gui.mode", Mode.simple, Mode.class);
         public static final Preference<String> language = StringPreference.of("gui.language", Languages.SYSTEM_LANGUAGE_CODE);
         public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("gui.showReleaseNotes", true);
         public static final Preference<Boolean> useBackAsPrevious = BooleanPreference.of("gui.useBackAsPrevious", false);
@@ -299,8 +288,8 @@ public final class Preferences {
         }
 
         @Nonnull
-        public static Layout getLayout(@Nonnull SharedPreferences preferences) {
-            return layout.getPreferenceNoError(preferences);
+        public static Mode getMode(@Nonnull SharedPreferences preferences) {
+            return mode.getPreferenceNoError(preferences);
         }
 
         public enum Theme {
@@ -393,25 +382,18 @@ public final class Preferences {
             }
         }
 
-        public enum Layout {
-            main_calculator(R.string.p_layout_calculator),
-            simple(R.string.p_layout_simple),
-
-            // not used anymore
-            @Deprecated
-            main_cellphone(R.string.p_layout_simple),
-            // not used anymore
-            @Deprecated
-            main_calculator_mobile(R.string.p_layout_simple),
-            // not used anymore
-            @Deprecated
-            simple_mobile(R.string.p_layout_simple);
+        public enum Mode {
+            engineer(R.string.p_layout_calculator, R.string.cpp_wizard_mode_engineer),
+            simple(R.string.p_layout_simple, R.string.cpp_wizard_mode_simple);
 
             @StringRes
             public final int name;
+            @StringRes
+            public final int menuName;
 
-            Layout(@StringRes int name) {
+            Mode(@StringRes int name, @StringRes int menuName) {
                 this.name = name;
+                this.menuName = menuName;
             }
         }
 
@@ -438,7 +420,7 @@ public final class Preferences {
         static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
         static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
         static final Preference<Gui.Theme> theme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Gui.Theme.material_theme, Gui.Theme.class);
-        static final Preference<Gui.Layout> layout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Gui.Layout.simple, Gui.Layout.class);
+        static final StringPreference<String> layout = StringPreference.of("org.solovyev.android.calculator.CalculatorActivity_calc_layout", "simple");
         static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
         static final Preference<Boolean> usePrevAsBack = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
         static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);

@@ -33,8 +33,8 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
         preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
-    private void reportLayout(@Nonnull Preferences.Gui.Layout layout) {
-        tracker.send(new HitBuilders.EventBuilder().setCustomDimension(LAYOUT, layout.name()).build());
+    private void reportLayout(@Nonnull Preferences.Gui.Mode mode) {
+        tracker.send(new HitBuilders.EventBuilder().setCustomDimension(LAYOUT, mode.name()).build());
     }
 
     private void reportTheme(@Nonnull Preferences.Gui.Theme theme) {
@@ -60,15 +60,15 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (TextUtils.equals(key, Preferences.Gui.layout.getKey())) {
-            reportLayout(Preferences.Gui.layout.getPreferenceNoError(preferences));
+        if (TextUtils.equals(key, Preferences.Gui.mode.getKey())) {
+            reportLayout(Preferences.Gui.mode.getPreferenceNoError(preferences));
         } else if (TextUtils.equals(key, Preferences.Gui.theme.getKey())) {
             reportTheme(Preferences.Gui.theme.getPreferenceNoError(preferences));
         }
     }
 
     public void reportInitially(@Nonnull SharedPreferences preferences) {
-        reportLayout(Preferences.Gui.layout.getPreferenceNoError(preferences));
+        reportLayout(Preferences.Gui.mode.getPreferenceNoError(preferences));
         reportTheme(Preferences.Gui.theme.getPreferenceNoError(preferences));
     }
 

@@ -27,8 +27,7 @@ import java.util.List;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import static android.view.HapticFeedbackConstants.*;
 import static org.solovyev.android.calculator.App.cast;
-import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
-import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
+import static org.solovyev.android.calculator.Preferences.Gui.Mode.simple;
 
 public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
@@ -61,7 +60,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     PreferredPreferences preferredPreferences;
     protected int orientation = ORIENTATION_PORTRAIT;
     private int textSize;
-    private Preferences.Gui.Layout layout;
+    private Preferences.Gui.Mode mode;
     private final float textScale;
 
     public BaseKeyboardUi(@NonNull Application application) {
@@ -92,7 +91,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         preferences.registerOnSharedPreferenceChangeListener(this);
 
         orientation = App.getScreenOrientation(activity);
-        layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
+        mode = Preferences.Gui.mode.getPreferenceNoError(preferences);
         textSize = calculateTextSize(activity);
     }
 
@@ -183,8 +182,8 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         }
     }
 
-    protected boolean isSimpleLayout() {
-        return layout == simple || layout == simple_mobile;
+    protected boolean isSimpleMode() {
+        return mode == simple;
     }
 
     protected final void onClick(@Nonnull View v, @Nonnull String s) {

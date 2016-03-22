@@ -66,7 +66,7 @@ public class BaseActivity extends AppCompatActivity {
     @Nonnull
     private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;
     @Nonnull
-    private Preferences.Gui.Layout layout = Preferences.Gui.Layout.main_calculator;
+    private Preferences.Gui.Mode mode = Preferences.Gui.Mode.engineer;
     @Nonnull
     private Language language = Languages.SYSTEM_LANGUAGE;
 
@@ -96,6 +96,16 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Nonnull
+    public Preferences.Gui.Theme getActivityTheme() {
+        return theme;
+    }
+
+    @Nonnull
+    public Preferences.Gui.Mode getActivityMode() {
+        return mode;
+    }
+
     public static void setFont(@Nonnull TextView view, @Nonnull Typeface newTypeface) {
         final Typeface oldTypeface = view.getTypeface();
         if (oldTypeface == newTypeface) {
@@ -105,9 +115,9 @@ public class BaseActivity extends AppCompatActivity {
         view.setTypeface(newTypeface, style);
     }
 
-    public boolean restartIfLayoutChanged() {
-        final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
-        if (newLayout != layout) {
+    public boolean restartIfModeChanged() {
+        final Preferences.Gui.Mode newMode = Preferences.Gui.mode.getPreference(preferences);
+        if (newMode != mode) {
             App.restartActivity(this);
             return true;
         }
@@ -188,7 +198,7 @@ public class BaseActivity extends AppCompatActivity {
         theme = Preferences.Gui.getTheme(preferences);
         setTheme(theme.getThemeFor(this));
 
-        layout = Preferences.Gui.getLayout(preferences);
+        mode = Preferences.Gui.getMode(preferences);
         language = languages.getCurrent();
     }
 

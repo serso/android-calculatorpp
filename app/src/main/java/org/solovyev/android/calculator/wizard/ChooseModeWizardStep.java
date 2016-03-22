@@ -66,7 +66,7 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final CalculatorMode mode = CalculatorMode.fromGuiLayout(Preferences.Gui.layout.getPreference(preferences));
+        final CalculatorMode mode = CalculatorMode.fromGuiLayout(Preferences.Gui.mode.getPreference(preferences));
         final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_mode_spinner);
         spinner.setAdapter(WizardArrayAdapter.create(getActivity(), R.array.cpp_modes));
         spinner.setSelection(mode == simple ? 0 : 1);

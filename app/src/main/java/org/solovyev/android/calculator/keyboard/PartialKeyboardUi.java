@@ -61,7 +61,7 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
             prepareButton(eraseButton, IMAGE_SCALE_ERASE);
             longClickEraser = EditorLongClickEraser.attachTo(eraseButton, keyboard.isVibrateOnKeypress(), editor, calculator);
         }
-        if(isSimpleLayout()) {
+        if(isSimpleMode()) {
             hideText(equalsButton, down);
         }
     }

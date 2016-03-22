@@ -241,4 +241,6 @@
     <string name="cpp_missing_permission_msg">Please enable \"%1$s\" permission in system settings</string>
     <string name="fn_line_width">Line width</string>
     <string name="fn_line_color">Line color</string>
+    <string name="cpp_mode">Mode</string>
+    <string name="cpp_mode_status">Mode: %1$s</string>
 </resources>

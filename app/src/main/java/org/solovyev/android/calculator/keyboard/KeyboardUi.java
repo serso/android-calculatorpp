@@ -151,7 +151,7 @@ public class KeyboardUi extends BaseKeyboardUi {
         prepareButton(likeButton);
         prepareButton(memoryButton);
 
-        if (isSimpleLayout()) {
+        if (isSimpleMode()) {
             hideText(button1, down);
             hideText(button2, down);
             hideText(button3, down);

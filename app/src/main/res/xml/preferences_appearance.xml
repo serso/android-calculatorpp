@@ -43,9 +43,8 @@
     <ListPreference
         a:entries="@array/p_layout_names"
         a:entryValues="@array/p_layout_values"
-        a:key="gui.layout"
-        a:summary="@string/c_calc_layout_summary"
-        a:title="@string/c_calc_layout" />
+        a:key="gui.mode"
+        a:title="@string/cpp_mode" />
 
     <android.preference.CheckBoxPreference
         a:defaultValue="true"

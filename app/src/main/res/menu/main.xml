@@ -3,6 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_mode"
+        android:title="@string/cpp_mode"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/menu_mode_engineer"
+                android:title="@string/cpp_wizard_mode_engineer" />
+            <item
+                android:id="@+id/menu_mode_simple"
+                android:title="@string/cpp_wizard_mode_simple" />
+        </menu>
+    </item>
+
+    <item
         android:id="@+id/menu_settings"
         android:title="@string/cpp_settings"
         app:showAsAction="never" />

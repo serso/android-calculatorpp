@@ -27,10 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
+import android.view.*;
 import android.widget.FrameLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -97,6 +94,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
         toolbar.inflateMenu(R.menu.main);
         toolbar.setOnMenuItemClickListener(this);
+        updateModeMenuItem();
 
         useBackAsPrevious = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
         if (savedInstanceState == null) {
@@ -107,6 +105,12 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
         preferences.registerOnSharedPreferenceChangeListener(this);
         preferredPreferences.check(this, false);
+    }
+
+    private void updateModeMenuItem() {
+        final Menu menu = toolbar.getMenu();
+        final MenuItem modeMenuItem = menu.findItem(R.id.menu_mode);
+        modeMenuItem.setTitle(getString(R.string.cpp_mode_status, getString(getActivityMode().menuName)));
     }
 
     @Override
@@ -128,7 +132,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     protected void onResume() {
         super.onResume();
         launcher.setActivity(this);
-        if (restartIfLayoutChanged()) {
+        if (restartIfModeChanged()) {
             return;
         }
 
@@ -156,12 +160,12 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-        if (Preferences.Gui.useBackAsPrevious.getKey().equals(key)) {
+    public void onSharedPreferenceChanged(SharedPreferences preferences, @Nonnull String key) {
+        if (Preferences.Gui.useBackAsPrevious.isSameKey(key)) {
             useBackAsPrevious = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
         }
 
-        if (Preferences.Gui.rotateScreen.getKey().equals(key)) {
+        if (Preferences.Gui.rotateScreen.isSameKey(key)) {
             updateOrientation();
         }
     }
@@ -191,6 +195,14 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
                 return true;
             case R.id.menu_about:
                 launcher.showAbout();
+                return true;
+            case R.id.menu_mode_engineer:
+                Preferences.Gui.mode.putPreference(preferences, Preferences.Gui.Mode.engineer);
+                restartIfModeChanged();
+                return true;
+            case R.id.menu_mode_simple:
+                Preferences.Gui.mode.putPreference(preferences, Preferences.Gui.Mode.simple);
+                restartIfModeChanged();
                 return true;
         }
         return false;

@@ -138,12 +138,12 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         if (preference != R.xml.preferences_appearance) {
             return;
         }
-        final ListPreference layout = (ListPreference) preferenceManager.findPreference(Preferences.Gui.layout.getKey());
-        layout.setSummary(Preferences.Gui.getLayout(preferences).name);
+        final ListPreference layout = (ListPreference) preferenceManager.findPreference(Preferences.Gui.mode.getKey());
+        layout.setSummary(Preferences.Gui.getMode(preferences).name);
         layout.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                layout.setSummary(Preferences.Gui.Layout.valueOf((String) newValue).name);
+                layout.setSummary(Preferences.Gui.Mode.valueOf((String) newValue).name);
                 return true;
             }
         });

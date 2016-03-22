@@ -29,8 +29,6 @@ import org.solovyev.android.calculator.Preferences;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator;
-
 enum CalculatorMode {
 
     simple() {
@@ -38,7 +36,7 @@ enum CalculatorMode {
         protected void apply(@Nonnull SharedPreferences preferences) {
             final SharedPreferences.Editor editor = preferences.edit();
 
-            Preferences.Gui.layout.putPreference(editor, Preferences.Gui.Layout.simple);
+            Preferences.Gui.mode.putPreference(editor, Preferences.Gui.Mode.simple);
             Preferences.Calculations.preferredAngleUnits.putPreference(editor, AngleUnit.deg);
             Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.deg);
             Engine.Preferences.Output.scientificNotation.putPreference(editor, false);
@@ -53,7 +51,7 @@ enum CalculatorMode {
         protected void apply(@Nonnull SharedPreferences preferences) {
             final SharedPreferences.Editor editor = preferences.edit();
 
-            Preferences.Gui.layout.putPreference(editor, main_calculator);
+            Preferences.Gui.mode.putPreference(editor, Preferences.Gui.Mode.engineer);
             Preferences.Calculations.preferredAngleUnits.putPreference(editor, AngleUnit.rad);
             Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.rad);
             Engine.Preferences.Output.scientificNotation.putPreference(editor, true);
@@ -69,14 +67,11 @@ enum CalculatorMode {
     }
 
     @Nonnull
-    static CalculatorMode fromGuiLayout(@Nonnull Preferences.Gui.Layout layout) {
-        switch (layout) {
-            case main_calculator:
-            case main_cellphone:
-            case main_calculator_mobile:
+    static CalculatorMode fromGuiLayout(@Nonnull Preferences.Gui.Mode mode) {
+        switch (mode) {
+            case engineer:
                 return engineer;
             case simple:
-            case simple_mobile:
                 return simple;
             default:
                 return getDefaultMode();
