@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="4dp"
                     android:paddingLeft="4dp"
-                    android:text="@string/fn_line_width"
+                    android:text="@string/cpp_plot_function_line_width"
                     tools:ignore="RtlSymmetry"/>
 
                 <SeekBar
@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="4dp"
                     android:paddingLeft="4dp"
-                    android:text="@string/fn_line_color"
+                    android:text="@string/cpp_plot_function_line_color"
                     tools:ignore="RtlSymmetry"/>
 
                 <uz.shift.colorpicker.LineColorPicker

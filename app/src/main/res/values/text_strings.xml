@@ -147,8 +147,6 @@
     <string name="cpp_system_language">System language</string>
     <string name="cpp_missing_permission_title">Missing permission</string>
     <string name="cpp_missing_permission_msg">Please enable \"%1$s\" permission in system settings</string>
-    <string name="fn_line_width">Line width</string>
-    <string name="fn_line_color">Line color</string>
     <string name="cpp_mode">Mode</string>
     <string name="cpp_mode_status">Mode: %1$s</string>
     <string name="cpp_units_from" comment="Hint to be used in 'From' input field in unit converter window">From</string>
