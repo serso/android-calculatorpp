@@ -7,12 +7,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- for onscreen -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <supports-screens android:smallScreens="true" />
     <supports-screens android:normalScreens="true" />
@@ -159,16 +157,15 @@
             android:name=".floating.FloatingCalculatorService"
             android:exported="false">
             <intent-filter>
-                <action android:name="org.solovyev.android.calculator.onscreen.SHOW_WINDOW" />
-                <action android:name="org.solovyev.android.calculator.onscreen.SHOW_NOTIFICATION" />
+                <action android:name="org.solovyev.android.calculator.floating.SHOW_WINDOW" />
+                <action android:name="org.solovyev.android.calculator.floating.SHOW_NOTIFICATION" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".floating.FloatingCalculatorBroadcastReceiver">
+        <receiver android:name=".floating.FloatingCalculatorBroadcastReceiver" android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="org.solovyev.android.calculator.onscreen.SHOW_WINDOW" />
-                <action android:name="org.solovyev.android.calculator.onscreen.SHOW_NOTIFICATION" />
+                <action android:name="org.solovyev.android.calculator.floating.SHOW_WINDOW" />
+                <action android:name="org.solovyev.android.calculator.floating.SHOW_NOTIFICATION" />
             </intent-filter>
         </receiver>
 

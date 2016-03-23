@@ -31,11 +31,6 @@
         a:title="@string/c_calc_theme" />
 
     <android.preference.CheckBoxPreference
-        a:key="onscreen_start_on_boot"
-        a:summary="@string/prefs_onscreen_start_on_boot_summary"
-        a:title="@string/prefs_onscreen_start_on_boot_title" />
-
-    <android.preference.CheckBoxPreference
         a:key="onscreen_show_app_icon"
         a:summary="@string/prefs_onscreen_show_app_icon_summary"
         a:title="@string/prefs_onscreen_show_app_icon_title" />

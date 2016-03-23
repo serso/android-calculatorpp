@@ -25,22 +25,10 @@ package org.solovyev.android.calculator.floating;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.ga.Ga;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-
-import static org.solovyev.android.calculator.App.cast;
 
 public final class FloatingCalculatorBroadcastReceiver extends BroadcastReceiver {
-
-    @Inject
-    SharedPreferences preferences;
-    @Inject
-    Ga ga;
 
     public FloatingCalculatorBroadcastReceiver() {
     }
@@ -48,16 +36,8 @@ public final class FloatingCalculatorBroadcastReceiver extends BroadcastReceiver
     @Override
     public void onReceive(@Nonnull Context context,
                           @Nonnull Intent intent) {
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-            cast(context).getComponent().inject(this);
-            if (Preferences.Onscreen.startOnBoot.getPreferenceNoError(preferences)) {
-                FloatingCalculatorService.showNotification(context);
-                ga.onBootStart();
-            }
-        } else {
-            final Intent newIntent = new Intent(intent);
-            newIntent.setClass(context, FloatingCalculatorService.class);
-            context.startService(newIntent);
-        }
+        final Intent newIntent = new Intent(intent);
+        newIntent.setClass(context, FloatingCalculatorService.class);
+        context.startService(newIntent);
     }
 }

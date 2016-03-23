@@ -142,7 +142,6 @@ public final class Preferences {
         Calculations.preferredNumeralBase.tryPutDefault(preferences, editor);
 
         Onscreen.showAppIcon.tryPutDefault(preferences, editor);
-        Onscreen.startOnBoot.tryPutDefault(preferences, editor);
         Onscreen.theme.tryPutDefault(preferences, editor);
 
         Widget.theme.tryPutDefault(preferences, editor);
@@ -252,7 +251,6 @@ public final class Preferences {
     }
 
     public static class Onscreen {
-        public static final Preference<Boolean> startOnBoot = BooleanPreference.of("onscreen_start_on_boot", false);
         public static final Preference<Boolean> showAppIcon = BooleanPreference.of("onscreen_show_app_icon", true);
         public static final Preference<SimpleTheme> theme = StringPreference.ofEnum("onscreen.theme", SimpleTheme.default_theme, SimpleTheme.class);
 
@@ -425,5 +423,6 @@ public final class Preferences {
         static final Preference<Boolean> usePrevAsBack = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
         static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
         static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
+        static final Preference<Boolean> startOnBoot = BooleanPreference.of("onscreen_start_on_boot", false);
     }
 }

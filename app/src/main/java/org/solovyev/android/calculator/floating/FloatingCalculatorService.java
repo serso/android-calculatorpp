@@ -46,8 +46,8 @@ import static org.solovyev.android.calculator.App.cast;
 
 public class FloatingCalculatorService extends Service implements FloatingViewListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String SHOW_WINDOW_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_WINDOW";
-    private static final String SHOW_NOTIFICATION_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_NOTIFICATION";
+    private static final String SHOW_WINDOW_ACTION = "org.solovyev.android.calculator.floating.SHOW_WINDOW";
+    private static final String SHOW_NOTIFICATION_ACTION = "org.solovyev.android.calculator.floating.SHOW_NOTIFICATION";
     private static final int NOTIFICATION_ID = 9031988; // my birthday =)
 
     private FloatingCalculatorView view;
@@ -62,12 +62,6 @@ public class FloatingCalculatorService extends Service implements FloatingViewLi
     Ga ga;
     @Inject
     SharedPreferences preferences;
-
-    public static void showNotification(@Nonnull Context context) {
-        final Intent intent = new Intent(SHOW_NOTIFICATION_ACTION);
-        intent.setClass(context, FloatingCalculatorBroadcastReceiver.class);
-        context.sendBroadcast(intent);
-    }
 
     public static void show(@Nonnull Context context) {
         context.sendBroadcast(createShowWindowIntent(context));
