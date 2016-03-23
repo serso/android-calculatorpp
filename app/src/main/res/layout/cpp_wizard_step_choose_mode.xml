@@ -23,6 +23,7 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     a:layout_width="match_parent"
     a:layout_height="match_parent"
     a:gravity="center"
@@ -61,7 +62,8 @@
                 style="?attr/cpp_button_style_operation"
                 a:layout_width="@dimen/cpp_wizard_preview_button_size"
                 a:layout_height="@dimen/cpp_wizard_preview_button_size"
-                a:text="7" />
+                a:text="7"
+                tools:ignore="HardcodedText" />
         </FrameLayout>
 
         <TextView

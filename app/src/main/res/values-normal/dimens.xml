@@ -21,7 +21,6 @@
   -->
 
 <resources>
-    <dimen name="cpp_fragment_text_size">15sp</dimen>
     <dimen name="cpp_min_editor_text_size">24sp</dimen>
     <dimen name="cpp_display_text_size">30sp</dimen>
 </resources>

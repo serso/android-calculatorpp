@@ -20,7 +20,10 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="cpp_ripple_material_dark" tools:ignore="PrivateResource">@color/ripple_material_dark</color>
+    <color name="cpp_ripple_material_light" tools:ignore="PrivateResource">@color/ripple_material_light</color>
+
     <color name="cpp_text">@color/grey_300</color>
     <color name="cpp_text_error">@color/cpp_text_inverse</color>
     <color name="cpp_text_inverse">@color/grey_800</color>

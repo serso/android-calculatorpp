@@ -2,22 +2,14 @@
 <resources>
     <string name="c_app_name">Калькулятор++</string>
     <string name="c_app_name_on_screen">Калькулятор + + (віконний режим)</string>
-    <string name="c_app_settings">Налаштування</string>
     <string name="c_result_copied">Результат був скопійований до буферу обміну!</string>
-    <string name="c_settings">Налаштування</string>
-    <string name="c_help">Допомога</string>
     <string name="c_vars_and_constants">Змінні та константи</string>
     <string name="c_prefs_calculations_category">Налаштування обчислень</string>
     <string name="c_prefs_appearance_category">Налаштування вигляду</string>
     <string name="c_prefs_other_category">Інші налаштування</string>
-    <string name="c_undo">назад</string>
-    <string name="c_redo">повторити</string>
     <string name="c_clear">C</string>
     <string name="c_vars">змінні</string>
-    <string name="c_copy">Копіювати</string>
     <string name="c_plot">Побудувати графік</string>
-    <string name="c_graph">Графік</string>
-    <string name="c_calc_color_display_title">Підсвітка виразів</string>
     <string name="c_calc_round_result_title">Округлювати результат</string>
     <string name="c_calc_round_result_summary">Увімкнути/вимкнути округлення результату</string>
     <string name="c_calc_science_notation_title">Завжди експоненціальна форма</string>
@@ -25,14 +17,7 @@
 		формі (12.34E-12)
 	</string>
     <string name="p_calc_result_precision_title">Точність результату</string>
-    <string name="p_calc_max_calculation_time_title">Максимальний час обчислень</string>
-  <string name="p_calc_max_calculation_time_summary">Якщо тривалість обчислень перевищить встановлену межу, то
-		калькулятор зупиниться з помилкою
-	</string>
-    <string name="c_exit">Вийти</string>
-    <string name="c_cancel">Скасувати</string>
     <string name="c_save">Зберегти</string>
-    <string name="c_remove">Вилучити</string>
     <string name="c_yes">Так</string>
     <string name="c_no">Ні</string>
     <string name="removal_confirmation">Підтвердження вилучення</string>
@@ -46,9 +31,7 @@
     <string name="c_var_name_clashes">Ім’я змінної не може бути зарезервованим системним ім’ям!</string>
     <string name="c_var_already_exists">Змінна з таким іменем вже існує!</string>
     <string name="c_name_is_not_valid">Неприпустиме ім\'я змінної: ім\'я має починатися з літери, може містити літери, цифри та знак підкреслення(_).</string>
-    <string name="c_calc_editor_hint">Введіть новий вираз</string>
     <string name="c_history">Історія</string>
-    <string name="c_history_button">M</string>
     <string name="c_char_is_not_accepted">Символ \'%s\' не допустимий у імені змінної!</string>
     <string name="c_calc_angle_units">Поточні одиниці виміру кутів</string>
     <string name="p_deg">Градуси</string>
@@ -67,54 +50,22 @@
     <string name="p_metro_green_theme">Метро Зелена</string>
     <string name="p_metro_purple_theme">Метро Пурпурова</string>
     <string name="p_use_app_theme">App theme</string>
-    <string name="p_material_theme">Матеріал</string>
-    <string name="p_material_light_theme">Світлий матеріал</string>
   <string name="c_calc_result_precision_summary">Точність відображення результату (усі обчислення проводяться максимально точно, незалежно від цього параметру)
 	</string>
-    <string name="c_calc_color_display_summary">Увімкнути/вимкнути підсвітку у редакторі калькулятора</string>
-    <string name="c_calc_theme_summary">Встановити тему калькулятора</string>
-    <string name="c_toggle_datetime">Відображення дати</string>
     <string name="p_grouping_separator_no">Не використовувати роздільник розрядів</string>
     <string name="p_grouping_separator_apostrophe">Апостроф (\')</string>
     <string name="p_grouping_separator_space">Пробіл ( )</string>
     <string name="c_calc_grouping_separator">Роздільник розрядів</string>
     <string name="c_calc_grouping_separator_summary">Задає роздільник розрядів</string>
-    <string name="c_calc_multiplication_sign">Знак множення</string>
-    <string name="c_calc_multiplication_sign_summary">Задає вигляд знаку множення</string>
-    <string name="c_calc_layout">Розкладка</string>
     <string name="p_layout_calculator">Наукова</string>
-    <string name="p_layout_calculator_mobile">Науковий (великі кнопки)</string>
     <string name="p_layout_simple">Проста</string>
-    <string name="p_layout_simple_mobile">Простий (великі кнопки)</string>
-    <string name="c_calc_layout_summary">Задає розкладку кнопок</string>
-    <string name="c_calc_haptic_feedback_title">Вібрація при натисканні</string>
-    <string name="c_calc_haptic_feedback_summary">Увімкнути/вимкнути вібрацію при натисканні</string>
-    <string name="p_calc_haptic_feedback_strength_disabled">Вимкнено</string>
-    <string name="p_calc_haptic_feedback_strength_short">Коротка</string>
-    <string name="p_calc_haptic_feedback_strength_middle">Середня</string>
-    <string name="p_calc_haptic_feedback_strength_long">Велика</string>
-    <string name="empty_var_error">Не можна створити порожню константу!</string>
     <string name="not_valid_result">Поточний результат не допустимий!</string>
-    <string name="c_plot_graph">Графік</string>
-    <string name="c_min_x_value">Від</string>
-    <string name="c_max_x_value">До</string>
-    <string name="c_expression_copied">Вираз скопійовано до буфера!</string>
     <string name="c_use">Використовувати</string>
-    <string name="c_use_short">Вик.</string>
     <string name="c_copy_expression">Копіювати вираз</string>
     <string name="c_copy_result">Копіювати результат</string>
     <string name="c_history_expression">Значення</string>
     <string name="c_history_comment">Коментар</string>
-    <string name="c_save_history">Зберегти історію</string>
-    <string name="c_edit_history">Змінити історію</string>
-    <string name="c_edit">Змінити</string>
     <string name="cpp_history_tab_saved">Збережена історія</string>
-    <string name="c_history_already_saved">Історія вже збережена!</string>
-    <string name="c_history_must_be_saved">Історію необхідно зберегти перед редагуванням!</string>
-    <string name="c_history_was_removed">Історія успішно видалена!</string>
-    <string name="c_history_saved">Історія успішно збережена!</string>
-    <string name="c_copy_description">Копіювати опис</string>
-    <string name="c_copy_value">Копіювати значення</string>
   <string name="c_first_start_text">Дякуємо вам за вибір Калькулятор++!\n\nКалькулятор++ - це потужний інструмент для
 		проведення щоденних розрахунків.</string>
     <string name="c_calc_show_release_notes_title">Показувати замітки до випуску</string>
@@ -123,21 +74,9 @@
 	</string>
     <string name="c_calc_use_back_button_as_prev_summary">Визначити поведінку кнопку Назад</string>
     <string name="c_calc_use_back_button_as_prev_title">Кнопка Назад як крок назад по історії</string>
-    <string name="c_warning">Увага</string>
     <string name="c_error">Помилка</string>
-  <string name="c_billing_error">Біллінг не підтримується: ви повинні мати обліковий запис Google Checkout, пов’язаний
-		з вашим обліковим записом Google і мати підключення до Інтернету.
-	</string>
     <string name="c_calc_ad_free_title">Підтримайте проект</string>
     <string name="c_calc_ad_free_summary">і позбудьтеся реклами!</string>
-    <string name="c_calc_already_purchased">Опція вже куплена!</string>
-  <string name="c_feedback_text">Ви вже використовуєте Калькулятор++ деякий час \n
-		і для нас важливо знати вашу думку про програму.\n\n
-		Будь ласка, оцініть Калькулятор++ \nна
-		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n залиште
-		коментар або \nобговоріть програму \nна
-		<a href="http://facebook.com/calculatorpp">Facebook</a>
-	</string>
     <string name="c_angle_units_changed_to">Одиниці виміру кутів змінено на \'%s\'!</string>
     <string name="c_numeral_base_changed_to">Система числення змінена на \'%s\'!</string>
     <string name="c_conversion_tool">Перетворення чисел</string>
@@ -145,33 +84,15 @@
     <string name="convert_to_hex">Перетворити в hex</string>
     <string name="convert_to_bin">Перетворити в bin</string>
     <string name="convert_to_dec">Перетворити в dec</string>
-    <string name="editor">Редактор</string>
-    <string name="result">Результат</string>
     <string name="other">Інші</string>
     <string name="derivatives">Похідні/Інтеграли</string>
-    <string name="crashed">Калькулятор++ аварійно завершив роботу&#8230;</string>
-    <string name="prefs_graph_screen_title">Налаштування графіків</string>
-    <string name="p_white_line_color">Білий</string>
-    <string name="p_grey_line_color">Сірий</string>
-    <string name="p_red_line_color">Червоний</string>
-    <string name="p_blue_line_color">Синій</string>
-    <string name="p_green_line_color">Зелений</string>
     <string name="c_function_name">Ім’я</string>
-    <string name="c_function_value">Значення</string>
-    <string name="c_function_description">Опис</string>
-    <string name="c_function_parameters">Параметри</string>
     <string name="function_create_function">Визначити функцію</string>
     <string name="function_edit_function">Змінити функцію</string>
     <string name="function_name_is_not_valid">Неприпустиме ім\'я функції: ім\'я має починатися з літери, може містити літери, цифри та знак підкреслення (_).</string>
     <string name="function_already_exists">Функція з таким ім\'ям вже існує!</string>
     <string name="function_is_empty">Тіло функції не може бути відсутнім!</string>
     <string name="function_removal_confirmation_question">Ви дійсно хочете видалити функцію \'%s\'?</string>
-    <string name="empty_function_error">Не вдалося створити порожню функцію!</string>
-    <string name="do_not_show_messages_in_session">Не показувати це повідомлення до наступної сесії</string>
-    <string name="calculation_messages_dialog_title">Попередження Калькулятор++</string>
-    <string name="ok">OK</string>
-    <string name="p_show_calculation_messages_dialog_title">Повідомлення розрахунків у діалозі</string>
-    <string name="p_show_calculation_messages_dialog_summary">Якщо увімкнено, то будь-які повідомлення, виниклі під час обчислень, будуть показані у відповідному діалоговому вікні</string>
     <string name="fix">Виправити</string>
     <string name="p_preferred_numeral_base_title">Типова система числення</string>
     <string name="p_preferred_numeral_base_summary">Визначає типову систему числення</string>
@@ -180,10 +101,6 @@
     <string name="p_preferred_angle_units_summary">Визначає типові одиниці вимірювання кутів</string>
     <string name="preferred_angle_units_message">Типові одиниці виміру кутів - \'%1$s\' відрізняються від поточних - \'%2$s\'. Забули змінити?</string>
     <string name="close">Закрити</string>
-    <string name="c_app_widget_3x3_name">Калькулятор++ віджет (3х3)</string>
-    <string name="c_app_widget_3x4_name">Калькулятор++ віджет (3х4)</string>
-    <string name="c_app_widget_4x4_name">Калькулятор++ віджет (4х4)</string>
-    <string name="c_app_widget_4x5_name">Калькулятор++ віджет (4х5)</string>
     <string name="open_onscreen_calculator">Клацніть, щоб відкрити калькулятор у віконному режимі</string>
     <string name="prefs_onscreen_title">Параметри Калькулятор++ (в окремому вікні)</string>
     <string name="prefs_widget_title">Widget settings</string>
@@ -192,22 +109,7 @@
     <string name="prefs_onscreen_show_app_icon_title">Показувати окрему піктограму (потрібне перевантаження)</string>
     <string name="prefs_onscreen_show_app_icon_summary">Якщо увімкнено, то окрема піктограма появиться у списку програм</string>
     <string name="cpp_this_change_may_require_reboot">Ця зміна може вимагати перезавантаження</string>
-    <string name="cpp_plot_2d">2D графік</string>
-    <string name="cpp_plot_3d">3D графік</string>
-    <string name="cpp_plot_functions">Функції на графіку</string>
-    <string name="cpp_prefs_graph_plot_imag_title">Будувати уявну частину функції</string>
-    <string name="cpp_prefs_graph_plot_imag_summary">Якщо позначено, то буде відображатися уявна частина функції на графіку</string>
-    <string name="cpp_monochrome_line_color_type">Монотонний</string>
-    <string name="cpp_color_map_line_color_type">Карта кольорів (тільки 3D)</string>
-    <string name="cpp_solid_line_style">Неперервна (-----)</string>
-    <string name="cpp_dashed_line_style">Штрихова (- - -)</string>
-    <string name="cpp_dotted_line_style">Пунктирна (. . .)</string>
-    <string name="cpp_dash_dotted_line_style">Штрих-пунктирна (-.-.-)</string>
     <string name="cpp_plotter">Графобудівник функцій</string>
-    <string name="cpp_plot_screenshot">Зробити знімок екрана</string>
-    <string name="cpp_plot_screenshot_saved">Знімок екрану успішно збережено: %1$s!</string>
-    <string name="cpp_plot_unable_to_save_screenshot">Знімок екрану не може бути збережений через те, що SD-карта не змонтована. Змонтуйте SD-карту та спробуйте ще!</string>
-    <string name="cpp_plot_function_line_color_type">Тип кольору лінії</string>
     <string name="cpp_plot_function_line_color">Колір лінії</string>
     <string name="cpp_plot_function_line_style">Стиль лінії</string>
     <string name="cpp_plot_function_line_width">Ширина лінії</string>

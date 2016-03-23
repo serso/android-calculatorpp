@@ -23,16 +23,17 @@
 package org.solovyev.android.calculator.entities;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import com.squareup.otto.Bus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.EntitiesRegistry;
+import org.solovyev.android.calculator.ErrorReporter;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.io.FileSaver;
@@ -46,10 +47,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executor;
 
 public abstract class BaseEntitiesRegistry<T extends MathEntity> implements EntitiesRegistry<T> {
@@ -58,8 +56,6 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     protected final Object lock = this;
     @Nonnull
     private final MathRegistry<T> mathRegistry;
-    @Nonnull
-    private final String prefix;
     @NonNull
     private final WriteTask writeTask = new WriteTask();
     @Inject
@@ -81,50 +77,34 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     @Named(AppModule.DIR_FILES)
     public File filesDir;
 
+    @Nonnull
+    private final Map<String, Integer> descriptions = new HashMap<>();
+
     // synchronized on lock
     private boolean initialized;
 
-    protected BaseEntitiesRegistry(@Nonnull MathRegistry<T> mathRegistry,
-                                   @Nonnull String prefix) {
+    protected BaseEntitiesRegistry(@Nonnull MathRegistry<T> mathRegistry) {
         this.mathRegistry = mathRegistry;
-        this.prefix = prefix;
     }
 
-
-    @Nonnull
-    protected abstract Map<String, String> getSubstitutes();
+    protected void addDescription(@Nonnull String name, @StringRes int description) {
+        descriptions.put(name, description);
+    }
 
     @Nullable
     @Override
     public String getDescription(@Nonnull String name) {
-        final String stringName;
-
-        final Map<String, String> substitutes = getSubstitutes();
-        final String substitute = substitutes.get(name);
-        if (substitute == null) {
-            stringName = prefix + name;
-        } else {
-            stringName = prefix + substitute;
+        final Integer description = descriptions.get(name);
+        if (description == null || description == 0) {
+            return null;
         }
 
-        return getDescription(application, stringName);
+        return application.getResources().getString(description);
     }
 
     @Override
     public void init() {
         setInitialized();
-    }
-
-    @Nullable
-    public String getDescription(@Nonnull Context context, @Nonnull String descriptionId) {
-        final Resources resources = context.getResources();
-
-        final int stringId = resources.getIdentifier(descriptionId, "string", CalculatorApplication.class.getPackage().getName());
-        try {
-            return resources.getString(stringId);
-        } catch (Resources.NotFoundException e) {
-            return null;
-        }
     }
 
     @NonNull

@@ -6,12 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.google.common.base.Strings;
-
-import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.TextHelper;
 import org.solovyev.android.calculator.wizard.WizardFragment;
 
 import javax.annotation.Nonnull;
@@ -33,25 +28,14 @@ public class ReleaseNoteFragment extends WizardFragment {
         version = getArguments().getInt(ARG_VERSION, 0);
     }
 
+    @Nonnull
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
         final TextView title = (TextView) view.findViewById(R.id.release_note_title);
-        final TextHelper textHelper = new TextHelper(getActivity().getResources(), CalculatorApplication.class.getPackage().getName());
-        title.setText(getString(R.string.cpp_new_in_version, getReleaseNoteVersion(textHelper)));
+        title.setText(getString(R.string.cpp_new_in_version, ReleaseNotes.getReleaseNoteVersion(version)));
         final TextView message = (TextView) view.findViewById(R.id.release_note_message);
-        message.setText(Html.fromHtml(getReleaseNote(textHelper)));
+        message.setText(Html.fromHtml(ReleaseNotes.getReleaseNoteDescription(getActivity(), version)));
         return view;
-    }
-
-    @Nonnull
-    private String getReleaseNoteVersion(@Nonnull TextHelper textHelper) {
-        return ReleaseNotes.getVersionName(textHelper, version);
-    }
-
-    @Nonnull
-    private String getReleaseNote(@Nonnull TextHelper textHelper) {
-        final String resourceId = ReleaseNotes.makeReleaseNotesResourceId(version);
-        return Strings.nullToEmpty(textHelper.getText(resourceId)).replace("\n", "<br/>");
     }
 }

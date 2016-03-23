@@ -68,6 +68,7 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
         throw new AssertionError("Wizard step for class " + getClass() + " was not found");
     }
 
+    @Nonnull
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_wizard, container, false);

@@ -23,7 +23,7 @@
   -->
 
 <ripple xmlns:a="http://schemas.android.com/apk/res/android"
-    a:color="@color/button_material_dark">
+    a:color="@color/cpp_ripple_material_dark">
     <item>
         <shape>
             <solid a:color="@color/cpp_editor_bg" />

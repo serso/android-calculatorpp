@@ -390,7 +390,7 @@ public class ConverterFragment extends BaseDialogFragment
         ELECTRIC_CURRENT(Dimension.ELECTRIC_CURRENT, R.string.cpp_converter_electric_current),
         LENGTH(Dimension.LENGTH, R.string.cpp_converter_length),
         MASS(Dimension.MASS, R.string.cpp_converter_mass),
-        TEMPERATURE(Dimension.TEMPERATURE, R.string.cpp_converter_termperature);
+        TEMPERATURE(Dimension.TEMPERATURE, R.string.cpp_converter_temperature);
 
         @NonNull
         public final Dimension dimension;

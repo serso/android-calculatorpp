@@ -44,27 +44,27 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Singleton
 public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
-
-    @Nonnull
-    private static final Map<String, String> substitutes = new HashMap<>();
-
-    static {
-        substitutes.put("π", "pi");
-        substitutes.put("Π", "PI");
-        substitutes.put("∞", "inf");
-        substitutes.put("h", "h_reduced");
-        substitutes.put("NaN", "nan");
+    {
+        addDescription("Π", R.string.c_var_description_PI);
+        addDescription("π", R.string.c_var_description_pi);
+        addDescription("e", R.string.c_var_description_e);
+        addDescription("i", R.string.c_var_description_i);
+        addDescription("c", R.string.c_var_description_c);
+        addDescription("G", R.string.c_var_description_G);
+        addDescription("h", R.string.c_var_description_h_reduced);
+        addDescription("∞", R.string.c_var_description_inf);
+        addDescription("inf", R.string.c_var_description_inf);
+        addDescription("nan", R.string.c_var_description_nan);
+        addDescription("NaN", R.string.c_var_description_nan);
     }
 
     @Inject
     public VariablesRegistry(@Nonnull JsclMathEngine mathEngine) {
-        super(mathEngine.getConstantsRegistry(), "c_var_description_");
+        super(mathEngine.getConstantsRegistry());
     }
 
     public void addOrUpdate(@Nonnull IConstant newVariable, @Nullable IConstant oldVariable) {
@@ -80,12 +80,6 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
     public void remove(@Nonnull IConstant variable) {
         super.remove(variable);
         bus.post(new RemovedEvent(variable));
-    }
-
-    @Nonnull
-    @Override
-    protected Map<String, String> getSubstitutes() {
-        return substitutes;
     }
 
     public void init() {

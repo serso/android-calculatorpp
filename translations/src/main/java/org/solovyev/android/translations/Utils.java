@@ -84,6 +84,7 @@ public class Utils {
         languageLocales.add("vi");
         languageLocales.add("ja");
         languageLocales.add("ja");
+        languageLocales.add("uk");
         languageLocales.add("zh-rCN");
         languageLocales.add("zh-rTW");
     }

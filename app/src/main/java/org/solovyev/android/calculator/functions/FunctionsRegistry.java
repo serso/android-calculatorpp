@@ -30,6 +30,7 @@ import jscl.math.function.IFunction;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.BaseEntitiesRegistry;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.Entities;
@@ -43,23 +44,47 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static android.text.TextUtils.isEmpty;
 
 @Singleton
 public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
 
-    @Nonnull
-    private static final Map<String, String> substitutes = new HashMap<>();
-
-    static {
-        substitutes.put("√", "sqrt");
+    {
+        addDescription("sin", R.string.c_fun_description_sin);
+        addDescription("cos", R.string.c_fun_description_cos);
+        addDescription("tan", R.string.c_fun_description_tan);
+        addDescription("cot", R.string.c_fun_description_cot);
+        addDescription("asin", R.string.c_fun_description_asin);
+        addDescription("acos", R.string.c_fun_description_acos);
+        addDescription("atan", R.string.c_fun_description_atan);
+        addDescription("acot", R.string.c_fun_description_acot);
+        addDescription("ln", R.string.c_fun_description_ln);
+        addDescription("lg", R.string.c_fun_description_lg);
+        addDescription("log", R.string.c_fun_description_log);
+        addDescription("exp", R.string.c_fun_description_exp);
+        addDescription("√", R.string.c_fun_description_sqrt);
+        addDescription("sqrt", R.string.c_fun_description_sqrt);
+        addDescription("cubic", R.string.c_fun_description_cubic);
+        addDescription("abs", R.string.c_fun_description_abs);
+        addDescription("sgn", R.string.c_fun_description_sgn);
+        addDescription("eq", R.string.c_fun_description_eq);
+        addDescription("le", R.string.c_fun_description_le);
+        addDescription("ge", R.string.c_fun_description_ge);
+        addDescription("ne", R.string.c_fun_description_ne);
+        addDescription("lt", R.string.c_fun_description_lt);
+        addDescription("gt", R.string.c_fun_description_gt);
+        addDescription("rad", R.string.c_fun_description_rad);
+        addDescription("dms", R.string.c_fun_description_dms);
+        addDescription("deg", R.string.c_fun_description_deg);
     }
 
     @Inject
     public FunctionsRegistry(@Nonnull JsclMathEngine mathEngine) {
-        super(mathEngine.getFunctionsRegistry(), "c_fun_description_");
+        super(mathEngine.getFunctionsRegistry());
     }
 
     public void addOrUpdate(@Nonnull Function newFunction, @Nullable Function oldFunction) {
@@ -91,6 +116,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
             setInitialized();
         }
     }
+
     @Nullable
     protected Function addSafely(@Nonnull CustomFunction.Builder builder) {
         try {
@@ -139,12 +165,6 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
     @NonNull
     protected File getEntitiesFile() {
         return new File(filesDir, "functions.json");
-    }
-
-    @Nonnull
-    @Override
-    protected Map<String, String> getSubstitutes() {
-        return substitutes;
     }
 
     @Override

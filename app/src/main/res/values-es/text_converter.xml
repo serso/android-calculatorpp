@@ -5,5 +5,5 @@
    <string name="cpp_converter_electric_current">Corriente eléctrica</string>
    <string name="cpp_converter_length">Longitud</string>
    <string name="cpp_converter_mass">Masa</string>
-   <string name="cpp_converter_termperature">Temperatura</string>
+   <string name="cpp_converter_temperature">Temperatura</string>
 </resources>

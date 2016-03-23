@@ -20,7 +20,6 @@
 
     <dimen name="cpp_display_text_size">25sp</dimen>
     <dimen name="cpp_min_editor_text_size">24sp</dimen>
-    <dimen name="cpp_pane_margin">2dp</dimen>
 
     <dimen name="cpp_onscreen_display_text_size">20sp</dimen>
     <dimen name="cpp_onscreen_header_button_text_size">10dp</dimen>
@@ -44,8 +43,6 @@
     <!-- 3 * cpp_image_button_size - 2 * cpp_plot_icon_margin -->
     <dimen name="cpp_plot_icon_size">70dp</dimen>
     <dimen name="cpp_plot_icon_margin">10dp</dimen>
-    <dimen name="cpp_dialog_width_max">400dp</dimen>
-    <dimen name="cpp_card_margin">4dp</dimen>
 
     <dimen name="list_item_height">48dp</dimen>
     <dimen name="cpp_wizard_preview_width">200dp</dimen>

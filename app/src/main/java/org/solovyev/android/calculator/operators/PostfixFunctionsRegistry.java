@@ -25,6 +25,7 @@ package org.solovyev.android.calculator.operators;
 import android.support.annotation.NonNull;
 import jscl.JsclMathEngine;
 import jscl.math.operator.Operator;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.BaseEntitiesRegistry;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.Entities;
@@ -35,31 +36,20 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 @Singleton
 public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator> {
 
-    @Nonnull
-    private static final Map<String, String> substitutes = new HashMap<String, String>();
-
-    static {
-        substitutes.put("%", "percent");
-        substitutes.put("!", "factorial");
-        substitutes.put("!!", "double_factorial");
-        substitutes.put("°", "degree");
+    {
+        addDescription("%", R.string.c_pf_description_percent);
+        addDescription("!", R.string.c_pf_description_factorial);
+        addDescription("!!", R.string.c_pf_description_double_factorial);
+        addDescription("°", R.string.c_pf_description_degree);
     }
 
     @Inject
     public PostfixFunctionsRegistry(@Nonnull JsclMathEngine mathEngine) {
-        super(mathEngine.getPostfixFunctionsRegistry(), "c_pf_description_");
-    }
-
-    @Nonnull
-    @Override
-    protected Map<String, String> getSubstitutes() {
-        return substitutes;
+        super(mathEngine.getPostfixFunctionsRegistry());
     }
 
     @Nullable

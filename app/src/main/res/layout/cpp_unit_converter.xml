@@ -23,6 +23,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -70,7 +71,7 @@
                         android:id="@+id/converter_edittext_from"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="From"
+                        android:hint="@string/cpp_units_from"
                         android:inputType="numberDecimal"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
@@ -101,9 +102,10 @@
                         android:editable="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:hint="To"
+                        android:hint="@string/cpp_units_to"
                         android:inputType="none"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        tools:ignore="Deprecated" />
                 </android.support.design.widget.TextInputLayout>
 
                 <Spinner

@@ -5,5 +5,5 @@
    <string name="cpp_converter_electric_current">Электрический ток</string>
    <string name="cpp_converter_length">Длина</string>
    <string name="cpp_converter_mass">Масса</string>
-   <string name="cpp_converter_termperature">Температура</string>
+   <string name="cpp_converter_temperature">Температура</string>
 </resources>

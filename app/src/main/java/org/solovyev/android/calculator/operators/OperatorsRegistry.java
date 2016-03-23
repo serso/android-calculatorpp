@@ -25,6 +25,7 @@ package org.solovyev.android.calculator.operators;
 import android.support.annotation.NonNull;
 import jscl.JsclMathEngine;
 import jscl.math.operator.Operator;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.BaseEntitiesRegistry;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.Entities;
@@ -35,33 +36,23 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 @Singleton
 public class OperatorsRegistry extends BaseEntitiesRegistry<Operator> {
 
-    @Nonnull
-    private static final Map<String, String> substitutes = new HashMap<String, String>();
-
-    static {
-        substitutes.put("Σ", "sum");
-        substitutes.put("∏", "product");
-        substitutes.put("∂", "derivative");
-        substitutes.put("∫ab", "integral_ab");
-        substitutes.put("∫", "integral");
-        substitutes.put("Σ", "sum");
+    {
+        addDescription("mod", R.string.c_op_description_mod);
+        addDescription("Σ", R.string.c_op_description_sum);
+        addDescription("∏", R.string.c_op_description_product);
+        addDescription("∂", R.string.c_op_description_derivative);
+        addDescription("∫ab", R.string.c_op_description_integral_ab);
+        addDescription("∫", R.string.c_op_description_integral);
+        addDescription("Σ", R.string.c_op_description_sum);
     }
 
     @Inject
     public OperatorsRegistry(@Nonnull JsclMathEngine mathEngine) {
-        super(mathEngine.getOperatorsRegistry(), "c_op_description_");
-    }
-
-    @Nonnull
-    @Override
-    protected Map<String, String> getSubstitutes() {
-        return substitutes;
+        super(mathEngine.getOperatorsRegistry());
     }
 
     @Nullable

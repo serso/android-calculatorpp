@@ -5,5 +5,5 @@
    <string name="cpp_converter_electric_current">電流</string>
    <string name="cpp_converter_length">長さ</string>
    <string name="cpp_converter_mass">質量</string>
-   <string name="cpp_converter_termperature">温度</string>
+   <string name="cpp_converter_temperature">温度</string>
 </resources>

@@ -26,5 +26,4 @@
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@id/cpp_button_copy"
     style="@style/CppKeyboardButton.Metro.Simple.Control.Image"
-    a:contentDescription="Copy"
     a:src="@drawable/ic_content_copy_white_48dp" />

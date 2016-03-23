@@ -50,6 +50,9 @@ android {
     lintOptions {
         abortOnError false
         warning 'MissingTranslation'
+        disable 'ContentDescription'
+        // floating icon is semi-transparent
+        disable 'IconLauncherShape'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7

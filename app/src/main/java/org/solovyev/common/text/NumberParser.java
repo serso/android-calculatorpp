@@ -22,6 +22,8 @@
 
 package org.solovyev.common.text;
 
+import org.solovyev.android.Check;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -50,7 +52,7 @@ public class NumberParser<N extends Number> implements Parser<N> {
 
     @Nonnull
     public static <N extends Number> Parser<N> of(@Nonnull Class<N> clazz) {
-        assert supportedClasses.contains(clazz) : "Class " + clazz + " is not supported by " + NumberParser.class;
+        Check.isTrue(supportedClasses.contains(clazz), "Class " + clazz + " is not supported by " + NumberParser.class);
         return (Parser<N>) parsers.get(clazz);
     }
 

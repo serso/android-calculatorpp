@@ -31,6 +31,8 @@ import android.widget.TextView;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
 
+import javax.annotation.Nonnull;
+
 public final class WelcomeWizardStep extends WizardFragment {
 
     @Override
@@ -38,6 +40,7 @@ public final class WelcomeWizardStep extends WizardFragment {
         return R.layout.cpp_wizard_step_welcome;
     }
 
+    @Nonnull
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);

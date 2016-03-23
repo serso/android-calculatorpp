@@ -48,7 +48,7 @@
 
     <android.preference.CheckBoxPreference
         a:defaultValue="true"
-        a:key="autoOrientation"
+        a:key="gui.rotateScreen"
         a:title="@string/cpp_prefs_auto_rotate_screen" />
 
     <android.preference.CheckBoxPreference

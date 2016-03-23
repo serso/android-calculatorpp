@@ -5,5 +5,5 @@
    <string name="cpp_converter_electric_current">تيار كهربائي</string>
    <string name="cpp_converter_length">طول</string>
    <string name="cpp_converter_mass">كتلة</string>
-   <string name="cpp_converter_termperature">درجة حرارة</string>
+   <string name="cpp_converter_temperature">درجة حرارة</string>
 </resources>

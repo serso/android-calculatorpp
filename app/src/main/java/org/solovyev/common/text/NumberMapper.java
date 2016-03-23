@@ -22,6 +22,8 @@
 
 package org.solovyev.common.text;
 
+import org.solovyev.android.Check;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -74,7 +76,7 @@ public class NumberMapper<N extends Number> implements Mapper<N> {
 
     @Nonnull
     public static <N extends Number> Mapper<N> of(@Nonnull Class<? extends N> clazz) {
-        assert supportedClasses.contains(clazz) : "Class " + clazz + " is not supported by " + NumberMapper.class;
+        Check.isTrue(supportedClasses.contains(clazz), "Class " + clazz + " is not supported by " + NumberMapper.class);
         return (Mapper<N>) mappers.get(clazz);
     }
 

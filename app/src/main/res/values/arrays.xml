@@ -20,7 +20,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string-array name="p_theme_names">
         <item>@string/cpp_theme_dark</item>
         <item>@string/cpp_theme_light</item>
@@ -58,12 +58,6 @@
         <item>""</item>
         <item>\'</item>
         <item>" "</item>
-    </string-array>
-
-    <string-array name="p_multiplication_sign_values" translatable="false">
-        <item>"*"</item>
-        <item>"×"</item>
-        <item>"∙"</item>
     </string-array>
 
     <string-array name="p_layout_names">

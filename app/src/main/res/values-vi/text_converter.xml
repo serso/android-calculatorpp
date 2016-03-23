@@ -4,5 +4,5 @@
    <string name="cpp_converter_electric_current">Dòng điện</string>
    <string name="cpp_converter_length">Chiều dài</string>
    <string name="cpp_converter_mass">Khối lượng</string>
-   <string name="cpp_converter_termperature">Nhiệt độ</string>
+   <string name="cpp_converter_temperature">Nhiệt độ</string>
 </resources>

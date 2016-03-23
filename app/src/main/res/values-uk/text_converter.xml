@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_converter_time">Час</string>
+   <string name="cpp_converter_amount_of_substance">Кількість речовини</string>
+   <string name="cpp_converter_electric_current">Електричний струм</string>
+   <string name="cpp_converter_length">Довжина</string>
+   <string name="cpp_converter_mass">Маса</string>
+   <string name="cpp_converter_temperature">Температура</string>
+</resources>

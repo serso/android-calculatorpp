@@ -1,10 +1,9 @@
 package org.solovyev.android.calculator.release;
 
 import android.content.Context;
+import android.util.SparseArray;
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.TextHelper;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
@@ -13,9 +12,28 @@ import java.util.List;
 
 public final class ReleaseNotes {
 
+    private static final SparseArray<ReleaseNote> map = new SparseArray<>();
+    static {
+        map.put(118, ReleaseNote.make("2.0.0", R.string.c_release_notes_for_118));
+        map.put(141, ReleaseNote.make("2.1.2", R.string.c_release_notes_for_141));
+        map.put(143, ReleaseNote.make("2.1.4", R.string.c_release_notes_for_143));
+    }
+
     @Nonnull
     public static String getReleaseNotes(@Nonnull Context context) {
         return getReleaseNotesString(context, 0);
+    }
+
+    @Nonnull
+    public static String getReleaseNoteVersion(int version) {
+        final ReleaseNote releaseNote = map.get(version);
+        return releaseNote == null ? String.valueOf(version) : releaseNote.versionName;
+    }
+
+    @Nonnull
+    public static String getReleaseNoteDescription(@Nonnull Context context, int version) {
+        final ReleaseNote releaseNote = map.get(version);
+        return releaseNote == null ? "" : context.getString(releaseNote.description);
     }
 
     @Nonnull
@@ -25,22 +43,21 @@ public final class ReleaseNotes {
         final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);
         final int currentVersionCode = App.getAppVersionCode(context);
 
-        final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
-
         boolean first = true;
         for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
-            final String versionName = getVersionName(textHelper, versionCode);
-            String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
-            if (!Strings.isEmpty(releaseNotesForVersion)) {
-                if (!first) {
-                    result.append("<br/><br/>");
-                } else {
-                    first = false;
-                }
-                releaseNotesForVersion = releaseNotesForVersion.replace("\n", "<br/>");
-                result.append("<b>").append(releaseNotesForTitle).append(versionName).append("</b><br/><br/>");
-                result.append(releaseNotesForVersion);
+            final ReleaseNote releaseNote = map.get(versionCode);
+            if (releaseNote == null) {
+                continue;
             }
+            if (!first) {
+                result.append("<br/><br/>");
+            } else {
+                first = false;
+            }
+            final String description = context.getResources().getString(releaseNote.description);
+            final String descriptionHtml = description.replace("\n", "<br/>");
+            result.append("<b>").append(releaseNotesForTitle).append(releaseNote.versionName).append("</b><br/><br/>");
+            result.append(descriptionHtml);
         }
 
         return result.toString();
@@ -51,14 +68,17 @@ public final class ReleaseNotes {
         final List<Integer> releaseNotes = new ArrayList<>();
 
         final int currentVersionCode = App.getAppVersionCode(context);
-        final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
         for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
             if (versionCode == ChooseThemeReleaseNoteStep.VERSION_CODE) {
                 releaseNotes.add(ChooseThemeReleaseNoteStep.VERSION_CODE);
             }
-            final String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
-            if (!Strings.isEmpty(releaseNotesForVersion)) {
+            final ReleaseNote releaseNote = map.get(versionCode);
+            if (releaseNote == null) {
+                continue;
+            }
+            final String description = context.getString(releaseNote.description);
+            if (!Strings.isEmpty(description)) {
                 releaseNotes.add(versionCode);
             }
         }
@@ -68,36 +88,20 @@ public final class ReleaseNotes {
 
     public static boolean hasReleaseNotes(@Nonnull Context context, int minVersion) {
         final int currentVersionCode = App.getAppVersionCode(context);
-        final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
         for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
             if (versionCode == ChooseThemeReleaseNoteStep.VERSION_CODE) {
                 return true;
             }
-            String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
-            if (!Strings.isEmpty(releaseNotesForVersion)) {
+            final ReleaseNote releaseNote = map.get(versionCode);
+            if (releaseNote == null) {
+                continue;
+            }
+            if (!Strings.isEmpty(context.getString(releaseNote.description))) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    @Nonnull
-    public static String getVersionName(@Nonnull TextHelper textHelper, int versionCode) {
-        final String versionName = textHelper.getText(makeVersionResourceId(versionCode));
-        if (versionName != null) {
-            return versionName;
-        } else {
-            return String.valueOf(versionCode);
-        }
-    }
-
-    public static String makeReleaseNotesResourceId(int versionCode) {
-        return "c_release_notes_for_" + versionCode;
-    }
-
-    private static String makeVersionResourceId(int versionCode) {
-        return "c_release_notes_for_" + versionCode + "_version";
     }
 }

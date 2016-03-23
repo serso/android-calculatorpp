@@ -5,5 +5,5 @@
    <string name="cpp_converter_electric_current">Sähkövirta</string>
    <string name="cpp_converter_length">Pituus</string>
    <string name="cpp_converter_mass">Massa</string>
-   <string name="cpp_converter_termperature">Lämpötila</string>
+   <string name="cpp_converter_temperature">Lämpötila</string>
 </resources>

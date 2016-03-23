@@ -24,6 +24,7 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     xmlns:c="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     a:layout_width="match_parent"
     a:layout_height="match_parent"
     a:gravity="center"
@@ -52,6 +53,7 @@
         a:layout_margin="0dp"
         a:text="9"
         c:directionTextDown="^2"
-        c:directionTextUp="%" />
+        c:directionTextUp="%"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

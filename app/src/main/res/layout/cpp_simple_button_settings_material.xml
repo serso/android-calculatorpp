@@ -26,5 +26,4 @@
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@id/cpp_button_settings"
     style="@style/CppKeyboardButton.Material.Simple.Control.Image"
-    a:contentDescription="Settings"
     a:src="@drawable/ic_settings_white_48dp" />

@@ -4,5 +4,5 @@
    <string name="cpp_converter_electric_current">Elektrik akımı</string>
    <string name="cpp_converter_length">Uzunluk</string>
    <string name="cpp_converter_mass">Kütle</string>
-   <string name="cpp_converter_termperature">Sıcaklık</string>
+   <string name="cpp_converter_temperature">Sıcaklık</string>
 </resources>
