@@ -110,7 +110,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     private void updateModeMenuItem() {
         final Menu menu = toolbar.getMenu();
         final MenuItem modeMenuItem = menu.findItem(R.id.menu_mode);
-        modeMenuItem.setTitle(getString(R.string.cpp_mode_status, getString(getActivityMode().menuName)));
+        modeMenuItem.setTitle(getString(R.string.cpp_mode_status, getString(getActivityMode().name)));
     }
 
     @Override

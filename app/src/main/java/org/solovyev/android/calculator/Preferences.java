@@ -136,7 +136,6 @@ public final class Preferences {
         Gui.keepScreenOn.tryPutDefault(preferences, editor);
         Gui.language.tryPutDefault(preferences, editor);
 
-        Graph.plotImag.tryPutDefault(preferences, editor);
         Calculations.calculateOnFly.tryPutDefault(preferences, editor);
         Calculations.preferredAngleUnits.tryPutDefault(preferences, editor);
         Calculations.preferredNumeralBase.tryPutDefault(preferences, editor);
@@ -381,17 +380,14 @@ public final class Preferences {
         }
 
         public enum Mode {
-            engineer(R.string.p_layout_calculator, R.string.cpp_wizard_mode_engineer),
-            simple(R.string.p_layout_simple, R.string.cpp_wizard_mode_simple);
+            engineer(R.string.cpp_wizard_mode_engineer),
+            simple(R.string.cpp_wizard_mode_simple);
 
             @StringRes
             public final int name;
-            @StringRes
-            public final int menuName;
 
-            Mode(@StringRes int name, @StringRes int menuName) {
+            Mode(@StringRes int name) {
                 this.name = name;
-                this.menuName = menuName;
             }
         }
 
@@ -406,10 +402,7 @@ public final class Preferences {
         }
     }
 
-    public static class Graph {
-        public static final Preference<Boolean> plotImag = BooleanPreference.of("graph_plot_imag", false);
-    }
-
+    @SuppressWarnings("unused")
     static class Deleted {
         static final Preference<Integer> appVersion = IntegerPreference.of("application.version", DEF_VALUE);
         static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
@@ -424,5 +417,6 @@ public final class Preferences {
         static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
         static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
         static final Preference<Boolean> startOnBoot = BooleanPreference.of("onscreen_start_on_boot", false);
+        static final Preference<Boolean> plotImag = BooleanPreference.of("graph_plot_imag", false);
     }
 }
