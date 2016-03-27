@@ -5,23 +5,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import org.solovyev.android.calculator.R;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
+import java.util.List;
 
 final class WizardArrayAdapter<T> extends ArrayAdapter<T> {
 
     public WizardArrayAdapter(@Nonnull Context context, @Nonnull T[] items) {
         super(context, R.layout.support_simple_spinner_dropdown_item, items);
-        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     public WizardArrayAdapter(@Nonnull Context context, @Nonnull List<T> items) {
         super(context, R.layout.support_simple_spinner_dropdown_item, items);
-        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     @Nonnull
