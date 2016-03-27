@@ -71,7 +71,7 @@
                         android:id="@+id/converter_edittext_from"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="numberDecimal"
+                        android:inputType="numberDecimal|numberSigned"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
 

@@ -75,7 +75,7 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:hint="@string/c_var_value"
-                a:inputType="numberDecimal" />
+                a:inputType="numberDecimal|numberSigned" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
