@@ -6,7 +6,6 @@
     <string name="c_var_description_i">Đơn vị ảo, được định nghĩa như i^ 2 = −1</string>
     <string name="c_var_description_c">Tốc độ của ánh sáng trong chân không, m·s</string>
     <string name="c_var_description_G">Hằng số hấp dẫn là một hằng số vật lý thực nghiệm liên quan đến việc tính hấp dẫn giữa các đối tượng với khối lượng, m ^ 3·kg ^ −1·s ^ −2</string>
-    <string name="c_var_description_h">Hằng số vật lý phản ánh các kích thước của lượng tử trong cơ học lượng tử, J·s</string>
     <string name="c_var_description_h_reduced">Hằng số giảm Planck, J·s</string>
     <string name="c_var_description_nan">Không phải một số</string>
     <string name="c_var_description_inf">Vô cực</string>

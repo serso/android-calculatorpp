@@ -135,7 +135,7 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
             }
 
             final AlertDialog.Builder b = new AlertDialog.Builder(this, App.getTheme().alertDialogTheme);
-            b.setTitle(getString(R.string.cpp_wizard_finish_confirmation_title)).
+            b.setTitle(R.string.cpp_wizard_finish_confirmation_title).
                     setMessage(R.string.cpp_wizard_finish_confirmation).
                     setNegativeButton(R.string.c_no, dialogListener).
                     setPositiveButton(R.string.c_yes, dialogListener).

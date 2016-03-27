@@ -6,7 +6,6 @@
     <string name="c_var_description_i">Jednostka urojona, zdefiniowana, tak że i^2 = -1</string>
     <string name="c_var_description_c">Prędkość światła w próżni, [m·s]</string>
     <string name="c_var_description_G">Stała grawitacji jest empiryczną stałą fizyczną służącą do obliczeń przyciągania grawitacyjnego między obiektami posiadającymi masę, [m^3·kg^−1·s^−2]</string>
-    <string name="c_var_description_h">Stała Plancka to stała fizyczna, która opisuje wielkość kwantów energii w mechanice kwantowej, [J·s]</string>
     <string name="c_var_description_h_reduced">Zredukowana stała Plancka, [J·s]</string>
     <string name="c_var_description_nan">Nie jest liczbą</string>
     <string name="c_var_description_inf">Nieskończoność</string>

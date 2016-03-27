@@ -54,8 +54,6 @@
     <string name="p_grouping_separator_space">Espace ( )</string>
     <string name="c_calc_grouping_separator">Séparateur de classe</string>
     <string name="c_calc_grouping_separator_summary">Configure les éléments de séparation</string>
-    <string name="p_layout_calculator">Scientifique</string>
-    <string name="p_layout_simple">Simple</string>
     <string name="not_valid_result">Le résultat actuel n\'est pas valide !</string>
     <string name="c_use">Utilisation</string>
     <string name="c_copy_expression">Copier l\'expression</string>
@@ -98,40 +96,22 @@
     <string name="open_onscreen_calculator">Cliquez pour ouvrir la calculatrice en mode fenêtré</string>
     <string name="prefs_onscreen_title">Paramètres de la calculatrice (dans une fenêtre séparée)</string>
     <string name="prefs_widget_title">Widget settings</string>
-    <string name="prefs_onscreen_start_on_boot_title">Lancer au démarrage</string>
-    <string name="prefs_onscreen_start_on_boot_summary">Si coché, Calculator++ apparaîtra dans la barre de notification après redémarrage de l’appareil</string>
     <string name="prefs_onscreen_show_app_icon_title">Afficher l\'icône séparée (nécessite un redémarrage)</string>
     <string name="prefs_onscreen_show_app_icon_summary">Si coché, la seconde icône s\'affichera dans la liste des applications</string>
     <string name="cpp_this_change_may_require_reboot">Cette modification peut nécessiter le redémarrage</string>
     <string name="cpp_plotter">Traceur de fonctions</string>
     <string name="cpp_plot_function_line_color">Couleur de ligne</string>
-    <string name="cpp_plot_function_line_style">Style de ligne</string>
     <string name="cpp_plot_function_line_width">Epaisseur de ligne</string>
-    <string name="cpp_plot_function_settings">Paramètres de fonction</string>
-    <string name="cpp_function">Fonction</string>
-    <string name="cpp_pinned">Épinglé</string>
-    <string name="cpp_visible">Visible</string>
     <string name="cpp_plot_button_text">+tracer</string>
     <string name="cpp_plot_empty_function_error">Impossible de tracer une fonction vide !</string>
     <string name="cpp_plot_too_many_variables">Impossible à tracer : trop de variables !</string>
     <string name="cpp_plot_range">Intervalle de traçage</string>
-    <string name="cpp_fullscreen">Plein écran</string>
-    <string name="cpp_plot_range_x_min">X Min</string>
-    <string name="cpp_plot_range_x_max">X Max</string>
-    <string name="cpp_plot_range_y_min">Y Min</string>
-    <string name="cpp_plot_range_y_max">Y Max</string>
-    <string name="cpp_invalid_number">Nombre invalide !</string>
-    <string name="cpp_plot_boundaries_should_differ">Les limites du graphique ne peuvent pas être les mêmes !</string>
-    <string name="cpp_apply">Appliquer</string>
-    <string name="cpp_message">Message</string>
     <string name="cpp_continue">Continuer</string>
   <string name="cpp_purchase_text">Soutenir le projet est simple et sécurisé : la procédure d\'achat est assurée par Google
 et tout ce dont vous avez besoin est un compte Google correctement configuré.\n\n
 Les informations de paiement sont stockées sur les serveurs Google avec votre compte Google et vous pouvez facilement utiliser cette application sur plusieurs appareils.\n\n
 En cliquant sur le bouton \'Continuer\' vous serez redirigés vers l\'application Google Play afin de réaliser le paiement.</string>
     <string name="cpp_purchase_title">Acheter</string>
-    <string name="cpp_var_show_greek_keyboard">Afficher les lettres Grecques</string>
-    <string name="cpp_var_hide_greek_keyboard">Cacher les lettres Grecques</string>
     <string name="cpp_clear_history_title">Effacer l\'historique ?</string>
     <string name="cpp_clear_history_message">L\'intégralité de l\'historique sera supprimée.</string>
     <string name="cpp_clear_history">Effacer</string>

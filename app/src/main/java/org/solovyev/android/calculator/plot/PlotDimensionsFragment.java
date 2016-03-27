@@ -144,7 +144,7 @@ public class PlotDimensionsFragment extends BaseDialogFragment
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        builder.setTitle("Dimensions");
+        builder.setTitle(R.string.cpp_plot_range);
         builder.setPositiveButton(R.string.cpp_done, null);
     }
 

@@ -10,8 +10,6 @@
     <string name="c_var_description_c">真空中の光の速さ(m·s)</string>
   <string name="c_var_description_G">万有引力定数は実験によって求められた物理定数で、物体間に働く引力の計算に関係します(m^3·kg^−1·s^−2)
 	</string>
-  <string name="c_var_description_h">量子力学におけるエネルギー量子の大きさを表す物理定数(J·s)
-	</string>
     <string name="c_var_description_h_reduced">減らされたプランク定数(J·s)</string>
     <string name="c_var_description_nan">数値ではない</string>
     <string name="c_var_description_inf">無限</string>

@@ -4,8 +4,6 @@
     <string name="cpp_wizard_back">Wstecz</string>
     <string name="cpp_wizard_start">Rozpocznij konfigurację</string>
     <string name="cpp_wizard_finish">Gotowe</string>
-    <string name="cpp_wizard_layout_optimized">Zoptymalizowany</string>
-    <string name="cpp_wizard_layout_big_buttons">Duże przyciski</string>
     <string name="cpp_wizard_mode_simple">Prosty</string>
   <string name="cpp_wizard_mode_simple_description">W trybie prostym tylko podstawowe funkcje będą dostępne na ekranie głównym.
 Wynik jest zaokrąglony do 5 cyfr, a domyślną jednostką wielkości kąta są stopnie.</string>
@@ -16,22 +14,14 @@ Wynik nie jest zaokrąglony i jest przedstawiony w postaci inżynierskiej, a dom
     <string name="cpp_wizard_dragbutton_action_end">Świetnie! Stuknij w przycisk jeszcze raz, aby spróbować ponownie</string>
     <string name="cpp_wizard_dragbutton_action_center">Stuknij raz w przycisk poniżej, aby użyć 9</string>
     <string name="cpp_wizard_dragbutton_action_up">Przesuń palcem z centrum przycisku w górę, aby użyć %</string>
-    <string name="cpp_wizard_dragbutton_action_left">Przesuń palcem z centrum przycisku w lewo, aby użyć sinus</string>
     <string name="cpp_wizard_dragbutton_action_down">Przesuń palcem z centrum przycisku w dół, aby użyć ^2</string>
     <string name="cpp_wizard_welcome_title">Witaj</string>
-    <string name="cpp_wizard_layout_title">Wybierz styl</string>
     <string name="cpp_wizard_mode_title">Wybierz tryb</string>
     <string name="cpp_wizard_theme_title">Wybierz motyw</string>
     <string name="cpp_wizard_onscreen_calculator_title">Kalkulator w osobnym oknie</string>
     <string name="cpp_wizard_dragbutton_title">Podstawy przesuwania palcem po przycisku</string>
     <string name="cpp_wizard_final_done">Aplikacja jest ustawiona i gotowa do użycia.</string>
     <string name="cpp_wizard_final_title">Prawie gotowe!</string>
-  <string name="cpp_wizard_final_free_and_opensource">Calculator++ jest darmowym i otwartym oprogramowaniem: wszystkie opcje są bezpłatne, a kod źródłowy można znaleźć w serwisie github.
-	</string>
-    <string name="cpp_wizard_final_ways_to_help">Istnieje kilka sposobów poprzez które możesz pomóc ulepszyć aplikację:</string>
-    <string name="cpp_wizard_final_donate">Wsparcie finansowe</string>
-    <string name="cpp_wizard_final_translate">Tłumaczenie</string>
-    <string name="cpp_wizard_final_contribute">Rozwijanie kodu źródłowego</string>
     <string name="cpp_wizard_onscreen_description">Kalkulator w osobnym oknie pozwoli Ci wykonywać obliczenia w trakcie korzystania z innych aplikacji na Twoim urządzeniu</string>
     <string name="cpp_wizard_onscreen_checkbox">Włącz</string>
     <string name="cpp_wizard_dragbutton_description">Przeciąganie po przycisku jest wyjątkowym rozwiązaniem w programie Calculator++, które zapewnia szybki dostęp do alternatywnych funkcji</string>

@@ -6,7 +6,6 @@
     <string name="c_var_description_i">Unité imaginaire telle que i^2 = -1</string>
     <string name="c_var_description_c">Vitesse de la lumière dans le vide, m.s^ -1</string>
     <string name="c_var_description_G">La constante gravitationnelle est une constante physique empirique impliquée dans le calcul de l\'attraction gravitationnelle entre les objets avec la masse, m^3·kg^−1·s^−2</string>
-    <string name="c_var_description_h">Constante physique décrivant un quanta d\'énergie en mécanique quantique, J·s</string>
     <string name="c_var_description_h_reduced">Constante réduite de Planck, J·s</string>
     <string name="c_var_description_nan">Pas un nombre</string>
     <string name="c_var_description_inf">Infini</string>

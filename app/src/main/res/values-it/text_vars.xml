@@ -14,9 +14,6 @@
   <string name="c_var_description_G">La costante gravitazionale è una costante fisica empirica coinvolta nel calcolo
 		dell\' attrazione gravitazionale tra gli oggetti con massa, m^3·kg^−1·s^−2
 	</string>
-  <string name="c_var_description_h">Costante fisica che riflette la dimensione dei quanti di energia in meccanica
-		quantistica, J·s
-	</string>
     <string name="c_var_description_h_reduced">Costante di riduzione di Planck, J·s</string>
     <string name="c_var_description_nan">Non è un numero</string>
     <string name="c_var_description_inf">Infinito</string>

@@ -21,7 +21,7 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     a:id="@+id/main"
     style="@style/CppMain"
     xmlns:a="http://schemas.android.com/apk/res/android"
@@ -41,7 +41,8 @@
             layout="@layout/cpp_app_button_equals_no_bg"
             a:layout_width="0dp"
             a:layout_height="match_parent"
-            a:layout_weight="1" />
+            a:layout_weight="1"
+            tools:ignore="NestedWeights" />
 
         <FrameLayout
             a:id="@+id/display"

@@ -56,8 +56,6 @@
     <string name="p_grouping_separator_space">スペース( )</string>
     <string name="c_calc_grouping_separator">グループの区切り</string>
     <string name="c_calc_grouping_separator_summary">グループの区切りを設定します</string>
-    <string name="p_layout_calculator">科学</string>
-    <string name="p_layout_simple">シンプル</string>
     <string name="not_valid_result">現在の結果が正しくありません!</string>
     <string name="c_use">使う</string>
     <string name="c_copy_expression">式をコピー</string>
@@ -100,40 +98,22 @@
     <string name="open_onscreen_calculator">クリックしてウィンドウモードで電卓を開きます</string>
     <string name="prefs_onscreen_title">電卓(ウィンドウモード)の設定</string>
     <string name="prefs_widget_title">Widget settings</string>
-    <string name="prefs_onscreen_start_on_boot_title">起動時に自動で開始する</string>
-    <string name="prefs_onscreen_start_on_boot_summary">有効にするとCalculator++はデバイスの起動時に通知バーに自動で現れます</string>
     <string name="prefs_onscreen_show_app_icon_title">ウィンドウモードのアイコンを表示(再起動が必要)</string>
     <string name="prefs_onscreen_show_app_icon_summary">有効にするとアプリケーションのリストに2つ目のアイコンを表示します</string>
     <string name="cpp_this_change_may_require_reboot">この変更は再起動を必要とします</string>
     <string name="cpp_plotter">関数プロッター</string>
     <string name="cpp_plot_function_line_color">線の色</string>
-    <string name="cpp_plot_function_line_style">線のスタイル</string>
     <string name="cpp_plot_function_line_width">線の幅</string>
-    <string name="cpp_plot_function_settings">関数の設定</string>
-    <string name="cpp_function">関数</string>
-    <string name="cpp_pinned">固定</string>
-    <string name="cpp_visible">可視</string>
     <string name="cpp_plot_button_text">+プロット</string>
     <string name="cpp_plot_empty_function_error">空の関数をプロットすることはできません</string>
     <string name="cpp_plot_too_many_variables">プロットすることができません: 変数が多すぎます！</string>
     <string name="cpp_plot_range">グラフの範囲</string>
-    <string name="cpp_fullscreen">全画面表示</string>
-    <string name="cpp_plot_range_x_min">Xの最小</string>
-    <string name="cpp_plot_range_x_max">Xの最大</string>
-    <string name="cpp_plot_range_y_min">Yの最小</string>
-    <string name="cpp_plot_range_y_max">Yの最大</string>
-    <string name="cpp_invalid_number">数が無効です!</string>
-    <string name="cpp_plot_boundaries_should_differ">グラフの境界を同じにしないでください！</string>
-    <string name="cpp_apply">適用</string>
-    <string name="cpp_message">メッセージ</string>
     <string name="cpp_continue">続行</string>
   <string name="cpp_purchase_text">プロジェクトへの支援は簡単で安全です: 購入プロセスはGoogleより提供されます。そのため、必要なものは適切に設定されたGoogleアカウントのみです。\n\n
 		あなたのアカウントで購入したという情報はGoogleのサーバーに保存され、るため、簡単にこのアプリを別のデバイスで利用できます。\n\n
 		 \'続ける\'を選択すると、Google Playストアに接続され、支払いを行うことが出来ます。
 	</string>
     <string name="cpp_purchase_title">購入</string>
-    <string name="cpp_var_show_greek_keyboard">ギリシャ語の文字を表示します。</string>
-    <string name="cpp_var_hide_greek_keyboard">ギリシャ文字を非表示します。</string>
     <string name="cpp_clear_history_title">履歴を消去しますか？</string>
     <string name="cpp_clear_history_message">すべての履歴が消去されます。</string>
     <string name="cpp_clear_history">消去</string>

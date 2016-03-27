@@ -4,8 +4,6 @@
     <string name="cpp_wizard_back">Geri</string>
     <string name="cpp_wizard_start">Sihirbazı Başlat</string>
     <string name="cpp_wizard_finish">Tamamlandı</string>
-    <string name="cpp_wizard_layout_optimized">Optimize edildi</string>
-    <string name="cpp_wizard_layout_big_buttons">Büyük butonlar</string>
     <string name="cpp_wizard_mode_simple">Basit</string>
   <string name="cpp_wizard_mode_simple_description">Temel modda ana ekranda sadece temel işlevler kullanılabilir.
 Sonuç 5 basamağa kadar yuvarlandı, varsayılan açı birimi olarak derece kullanıldı.</string>
@@ -15,21 +13,14 @@ Sonuç 5 basamağa kadar yuvarlandı, varsayılan açı birimi olarak derece kul
     <string name="cpp_wizard_dragbutton_action_end">Mükemmel! Yeniden denemek için bir kez daha dokunun</string>
     <string name="cpp_wizard_dragbutton_action_center">9 için bir kez dokunun</string>
     <string name="cpp_wizard_dragbutton_action_up">%\'yi kullanmak için butonun merkezinden yukarı sürükleyin</string>
-    <string name="cpp_wizard_dragbutton_action_left">sin\'i kullanmak için butonun merkezinden sola sürükleyin</string>
     <string name="cpp_wizard_dragbutton_action_down">^2\'yi kullanmak için butonun merkezinden aşağı sürükleyin</string>
     <string name="cpp_wizard_welcome_title">Hoş geldiniz</string>
-    <string name="cpp_wizard_layout_title">Yerleşim planı seç</string>
     <string name="cpp_wizard_mode_title">Modu seçin</string>
     <string name="cpp_wizard_theme_title">tema seç</string>
     <string name="cpp_wizard_onscreen_calculator_title">Ayrı bir pencerede hesap makinesi</string>
     <string name="cpp_wizard_dragbutton_title">Buton kaydırma temelleri</string>
     <string name="cpp_wizard_final_done">Bu program ayarlandı ve kullanıma hazır.</string>
     <string name="cpp_wizard_final_title">Neredeyse bitti!</string>
-    <string name="cpp_wizard_final_free_and_opensource">Calculator++ ücretsiz ve açık kaynaklı bir uygulamadır: hiç bir özellik ücret talep etmez ve kaynak kodları github üzerinden bulunabilir.</string>
-    <string name="cpp_wizard_final_ways_to_help">Bu uygulamayı daha iyi bir hale getirmek için birkaç yol mevcut:</string>
-    <string name="cpp_wizard_final_donate">Para bağışlama</string>
-    <string name="cpp_wizard_final_translate">Çevriliyor</string>
-    <string name="cpp_wizard_final_contribute">Kaynak kodlarına katkıda bulunmak için</string>
     <string name="cpp_wizard_onscreen_description">Ayrı pencerede açılabilen hesap makinesi size diğer uygulamaları kullanırken de hesap yapabilme imkanı tanır</string>
     <string name="cpp_wizard_onscreen_checkbox">Etkinleştir</string>
     <string name="cpp_wizard_dragbutton_description">Swipe butonu, Calculator++\'ın ikincil fonksiyonlara hızlı erişim sağlayan seçkin bir özelliğidir</string>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/CppMain.Onscreen"
     a:orientation="vertical">
 
@@ -29,7 +30,8 @@
                 layout="@layout/cpp_simple_button_equals"
                 a:layout_width="0dp"
                 a:layout_height="match_parent"
-                a:layout_weight="1" />
+                a:layout_weight="1"
+                tools:ignore="NestedWeights" />
 
             <include
                 layout="@layout/onscreen_display"

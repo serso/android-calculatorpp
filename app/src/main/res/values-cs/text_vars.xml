@@ -6,7 +6,6 @@
     <string name="c_var_description_i">Imaginární jednotka, je definovaná jako: i² = −1</string>
     <string name="c_var_description_c">Rychlost světla ve vakuu, m/s</string>
     <string name="c_var_description_G">Gravitační konstanta je konstanta úměrnosti v Newtonově gravitačním zákoně mezi gravitační silou a součinem hmotností interagujících těles děleným kvadrátem jejich vzdálenosti, m^3·kg^−1·s^−2</string>
-    <string name="c_var_description_h">Planckova konstanta h je jedna ze základních fyzikálních konstant. Jako fyzikální veličina má rozměr momentu hybnosti nebo akce, J·s</string>
     <string name="c_var_description_h_reduced">Redukovaná Planckova konstanta, J·s</string>
     <string name="c_var_description_nan">Není číslo</string>
     <string name="c_var_description_inf">Nekonečno</string>

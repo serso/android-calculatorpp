@@ -6,7 +6,6 @@
     <string name="c_var_description_i">Imaginary unit, defined such as i^2 = −1</string>
     <string name="c_var_description_c">Speed of the light in vacuum, m/s</string>
     <string name="c_var_description_G">The gravitational constant is an empirical physical constant involved in the calculation of the gravitational attraction between objects with mass, m^3·kg^−1·s^−2</string>
-    <string name="c_var_description_h">Physical constant reflecting the sizes of energy quanta in quantum mechanics, J·s</string>
     <string name="c_var_description_h_reduced">Reduced Planck constant, J·s</string>
     <string name="c_var_description_nan">Not a number</string>
     <string name="c_var_description_inf">Infinity</string>

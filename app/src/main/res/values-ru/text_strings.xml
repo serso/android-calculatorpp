@@ -64,8 +64,6 @@
     <string name="p_grouping_separator_space">Пробел ( )</string>
     <string name="c_calc_grouping_separator">Разделитель разрядов</string>
     <string name="c_calc_grouping_separator_summary">Устанавливает разделитель разрядов числа</string>
-    <string name="p_layout_calculator">Научная</string>
-    <string name="p_layout_simple">Простая</string>
     <string name="not_valid_result">Результат не допустим!</string>
     <string name="c_use">Использовать</string>
     <string name="c_copy_expression">Копировать выражение</string>
@@ -116,10 +114,6 @@
     <string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор в отдельном окне</string>
     <string name="prefs_onscreen_title">Настройки калькулятора в отдельном окне</string>
     <string name="prefs_widget_title">Настройки виджета</string>
-    <string name="prefs_onscreen_start_on_boot_title">Запуск после загрузки устройства</string>
-  <string name="prefs_onscreen_start_on_boot_summary">Если включено, то кнопка Калькулятора++ будет доступна в панели
-		уведомлений после загрузки устройства
-	</string>
   <string name="prefs_onscreen_show_app_icon_title">Показывать отдельную иконку (может потребовать перезагрузки)
 	</string>
   <string name="prefs_onscreen_show_app_icon_summary">Если включено, то вторая иконка будет добавлена в список
@@ -128,25 +122,11 @@
     <string name="cpp_this_change_may_require_reboot">Это изменение может потребовать перезагрузки</string>
     <string name="cpp_plotter">Графопостроитель</string>
     <string name="cpp_plot_function_line_color">Цвет линии</string>
-    <string name="cpp_plot_function_line_style">Тип линии</string>
     <string name="cpp_plot_function_line_width">Толщина линии</string>
-    <string name="cpp_plot_function_settings">Настройки функции</string>
-    <string name="cpp_function">Функция</string>
-    <string name="cpp_pinned">Закреплена</string>
-    <string name="cpp_visible">Видна</string>
     <string name="cpp_plot_button_text">+граф</string>
     <string name="cpp_plot_empty_function_error">Невозможно построить пустую функцию!</string>
     <string name="cpp_plot_too_many_variables">Невозможно построить функцию: слишком много переменных!</string>
     <string name="cpp_plot_range">Интервал построения</string>
-    <string name="cpp_fullscreen">Полноэкранный режим</string>
-    <string name="cpp_plot_range_x_min">X мин</string>
-    <string name="cpp_plot_range_x_max">X макс</string>
-    <string name="cpp_plot_range_y_min">Y мин</string>
-    <string name="cpp_plot_range_y_max">Y макс</string>
-    <string name="cpp_invalid_number">Неправильное число!</string>
-    <string name="cpp_plot_boundaries_should_differ">Границы графика не могут быть равны!</string>
-    <string name="cpp_apply">Применить</string>
-    <string name="cpp_message">Сообщение</string>
     <string name="cpp_continue">Продолжить</string>
   <string name="cpp_purchase_text">Поддержать проект очень легко и безопасно: процесс покупки проводится Google и всё
 		что вам нужно - это настроенный Google аккаунт.\n\n
@@ -155,8 +135,6 @@
 		По нажатию кнопки \'Продолжить\' вы будете перенаправлены в приложение Google Play для совершения покупки.
 	</string>
     <string name="cpp_purchase_title">Покупка</string>
-    <string name="cpp_var_show_greek_keyboard">Показать греческий алфавит</string>
-    <string name="cpp_var_hide_greek_keyboard">Скрыть греческий алфавит</string>
     <string name="cpp_clear_history_title">Очистить историю?</string>
     <string name="cpp_clear_history_message">Вся история будет очищена.</string>
     <string name="cpp_clear_history">Очистить</string>

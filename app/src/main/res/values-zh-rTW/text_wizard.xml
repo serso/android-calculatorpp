@@ -4,8 +4,6 @@
     <string name="cpp_wizard_back">返回</string>
     <string name="cpp_wizard_start">啟動精靈</string>
     <string name="cpp_wizard_finish">完成</string>
-    <string name="cpp_wizard_layout_optimized">最佳化</string>
-    <string name="cpp_wizard_layout_big_buttons">大型按鍵</string>
     <string name="cpp_wizard_mode_simple">簡單模式</string>
   <string name="cpp_wizard_mode_simple_description">在簡單模式下，主畫面上只有基本功能可以使用。
 計算結果四捨五入，角度單位預設為 度(Degrees)。
@@ -18,23 +16,14 @@
     <string name="cpp_wizard_dragbutton_action_end">非常好！再點擊一次按鍵來重試</string>
     <string name="cpp_wizard_dragbutton_action_center">點擊一次下面的按鍵來使用 9</string>
     <string name="cpp_wizard_dragbutton_action_up">從按鍵中央向上滑動來使用 %</string>
-    <string name="cpp_wizard_dragbutton_action_left">從按鍵中央向左滑動來使用 sin</string>
     <string name="cpp_wizard_dragbutton_action_down">從按鍵中央向下滑動來使用 ^2</string>
     <string name="cpp_wizard_welcome_title">歡迎</string>
-    <string name="cpp_wizard_layout_title">選擇版面配置</string>
     <string name="cpp_wizard_mode_title">選擇模式</string>
     <string name="cpp_wizard_theme_title">選擇主題風格</string>
     <string name="cpp_wizard_onscreen_calculator_title">獨立視窗的計算機</string>
     <string name="cpp_wizard_dragbutton_title">滑動按鍵基礎教學</string>
     <string name="cpp_wizard_final_done">這個應用程式設定完成並且準備好來使用。</string>
     <string name="cpp_wizard_final_title">快要完成了！</string>
-  <string name="cpp_wizard_final_free_and_opensource">Calculator++ 是免費且開源的：所有功能都是免费的，而且可以在 github 上找到原始碼。
-	</string>
-  <string name="cpp_wizard_final_ways_to_help">有一些方式你可以協助讓這個應用程式更好：
-	</string>
-    <string name="cpp_wizard_final_donate">捐款</string>
-    <string name="cpp_wizard_final_translate">翻譯</string>
-    <string name="cpp_wizard_final_contribute">貢獻原始碼</string>
   <string name="cpp_wizard_onscreen_description">獨立視窗的計算機讓你在使用其他應用程式時能夠同時計算。
 	</string>
     <string name="cpp_wizard_onscreen_checkbox">啟用</string>

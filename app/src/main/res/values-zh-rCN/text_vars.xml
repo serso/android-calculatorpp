@@ -6,7 +6,6 @@
     <string name="c_var_description_i">虚数单位，定义为 i^2=-1</string>
     <string name="c_var_description_c">真空中的光速，单位为m·s</string>
     <string name="c_var_description_G">万有引力常数是一个经验物理常数，用来计算有质量的物体之间的引力，单位为m^3·kg^-1·s^-2</string>
-    <string name="c_var_description_h">普朗克常数, 用来描述量子大小的物理常数, 单位为 J·s</string>
     <string name="c_var_description_h_reduced">约化普朗克常数，单位为J·s</string>
     <string name="c_var_description_nan">非数字</string>
     <string name="c_var_description_inf">无穷大</string>

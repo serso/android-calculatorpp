@@ -14,9 +14,6 @@
   <string name="c_var_description_G">Гравітаційна константа - емпірична фізична стала, необхідна для розрахунку сили
 		гравітаційної взаємодії між двома об’єктами з масою, м^3·кг^−1·с^−2
 	</string>
-  <string name="c_var_description_h">Константа Планка - коефіцієнт, який пов’язує величину енергії електромагнітного
-		випромінюювання з його частотою, Дж·с
-	</string>
     <string name="c_var_description_h_reduced">Зведена константа Планка, Дж·с</string>
     <string name="c_var_description_nan">Не число</string>
     <string name="c_var_description_inf">Нескінченність</string>

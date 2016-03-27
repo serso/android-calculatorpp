@@ -4,8 +4,6 @@
     <string name="cpp_wizard_back">戻る</string>
     <string name="cpp_wizard_start">ウィザードを開始</string>
     <string name="cpp_wizard_finish">完了</string>
-    <string name="cpp_wizard_layout_optimized">最適化</string>
-    <string name="cpp_wizard_layout_big_buttons">大アイコン</string>
     <string name="cpp_wizard_mode_simple">シンプル</string>
   <string name="cpp_wizard_mode_simple_description">シンプルモードでは基本的な関数のみが利用可能です。
 結果は5桁でまるめられ、角度の単位は初期設定のものが用いられます。</string>
@@ -17,22 +15,14 @@
     <string name="cpp_wizard_dragbutton_action_end">お見事！まだ試したい場合は、ボタンをもう一度押してください。</string>
     <string name="cpp_wizard_dragbutton_action_center">9を入力するにはボタンを一度タップします</string>
     <string name="cpp_wizard_dragbutton_action_up">ボタンの中心から上にスワイプすると%を使用できます</string>
-    <string name="cpp_wizard_dragbutton_action_left">ボタンの中心から左にスワイプするとsinを使用できます</string>
     <string name="cpp_wizard_dragbutton_action_down">ボタンの中心から下にスワイプすると^2を使用できます</string>
     <string name="cpp_wizard_welcome_title">ようこそ</string>
-    <string name="cpp_wizard_layout_title">レイアウトを選択してください</string>
     <string name="cpp_wizard_mode_title">モードを選択してください</string>
     <string name="cpp_wizard_theme_title">テーマを選択してください</string>
     <string name="cpp_wizard_onscreen_calculator_title">分離したウィンドウでの電卓の利用</string>
     <string name="cpp_wizard_dragbutton_title">スワイプボタンの基本</string>
     <string name="cpp_wizard_final_done">アプリのセットアップが完了して、使用する準備ができました。</string>
     <string name="cpp_wizard_final_title">ほぼ完了です！</string>
-  <string name="cpp_wizard_final_free_and_opensource">Calculator++は無料でオープンソースです: すべての機能が無料で使え、ソースコードはgithubにて見ることができます。
-	</string>
-    <string name="cpp_wizard_final_ways_to_help">このアプリをより良いものにしたいとお思いの方には、していただきたいことがいくつかあります:</string>
-    <string name="cpp_wizard_final_donate">開発者に寄付する</string>
-    <string name="cpp_wizard_final_translate">アプリの翻訳をする</string>
-    <string name="cpp_wizard_final_contribute">ソースコードに貢献する</string>
   <string name="cpp_wizard_onscreen_description">別窓での電卓の利用を有効にすると、お使いのデバイスで別のアプリを利用中に電卓を利用することが出来ます
 	</string>
     <string name="cpp_wizard_onscreen_checkbox">有効化</string>

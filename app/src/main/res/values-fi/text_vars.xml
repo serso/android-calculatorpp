@@ -6,7 +6,6 @@
     <string name="c_var_description_i">Määritetty kuten minä kuvitteellinen yksikköä ^ 2 = −1</string>
     <string name="c_var_description_c">Valonnopeus tyhjiössä, m·s</string>
     <string name="c_var_description_G">Painovoimavakio on empiirinen Luonnonvakio laskennassa painovoiman vetovoima sekä objektien massan m ^ 3·kg ^ −1·s ^ −2  </string>
-    <string name="c_var_description_h">Luonnonvakio heijastaa Prahassa Kvanttimekaniikassa, J·s koot  </string>
     <string name="c_var_description_h_reduced">Redusoitu Planckin vakio, J·s</string>
     <string name="c_var_description_nan">Ei ole numero</string>
     <string name="c_var_description_inf">Loputtomuus</string>

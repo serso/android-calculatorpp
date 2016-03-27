@@ -54,6 +54,6 @@
         a:text="9"
         c:directionTextDown="^2"
         c:directionTextUp="%"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,InefficientWeight" />
 
 </LinearLayout>

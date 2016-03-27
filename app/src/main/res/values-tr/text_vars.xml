@@ -6,7 +6,6 @@
     <string name="c_var_description_i">i^2=-1 ile  tanımlanan sanal birim</string>
     <string name="c_var_description_c">Işığın boşluktaki (uzay boşluğu) hızı, m/s</string>
     <string name="c_var_description_G">Yer çekimi sabiti kütlesi bulunan iki cismin arasındaki kütlesel çekimi hesaplamakta kullanılan deneysel bir fizik sabitidir, m^3.kg^-1.s^-2</string>
-    <string name="c_var_description_h">Kuantum mekaniğinde kuanta enerji boyutlarını temsil eden fiziksel sabit, J.s</string>
     <string name="c_var_description_h_reduced">İndirgenmiş Planck sabiti, J.s</string>
     <string name="c_var_description_nan">Bir sayı değil</string>
     <string name="c_var_description_inf">Sonsuz</string>

@@ -54,8 +54,6 @@
     <string name="p_grouping_separator_space">Space ( )</string>
     <string name="c_calc_grouping_separator">Grouping separator</string>
     <string name="c_calc_grouping_separator_summary">Sets grouping separator</string>
-    <string name="p_layout_calculator">Scientific</string>
-    <string name="p_layout_simple">Simple</string>
     <string name="not_valid_result">Current result is not valid!</string>
     <string name="c_use">Use</string>
     <string name="c_copy_expression">Copy expression</string>
@@ -102,32 +100,16 @@
     <string name="open_onscreen_calculator">Click to open calculator in window mode</string>
     <string name="prefs_onscreen_title">Calculator (in separate window) settings</string>
     <string name="prefs_widget_title">Widget settings</string>
-    <string name="prefs_onscreen_start_on_boot_title">Start on boot</string>
-    <string name="prefs_onscreen_start_on_boot_summary">If turned on Calculator++ will appear in notification bar after device boot</string>
     <string name="prefs_onscreen_show_app_icon_title">Show separate icon (require reboot)</string>
     <string name="prefs_onscreen_show_app_icon_summary">If turned on second icon will be shown in applications\' list</string>
     <string name="cpp_this_change_may_require_reboot">This change may require reboot</string>
     <string name="cpp_plotter">Function plotter</string>
     <string name="cpp_plot_function_line_color">Line color</string>
-    <string name="cpp_plot_function_line_style">Line style</string>
     <string name="cpp_plot_function_line_width">Line width</string>
-    <string name="cpp_plot_function_settings">Function settings</string>
-    <string name="cpp_function">Function</string>
-    <string name="cpp_pinned">Pinned</string>
-    <string name="cpp_visible">Visible</string>
     <string name="cpp_plot_button_text">+plot</string>
     <string name="cpp_plot_empty_function_error">Unable to plot empty function!</string>
     <string name="cpp_plot_too_many_variables">Unable to plot: too many variables!</string>
     <string name="cpp_plot_range">Graph range</string>
-    <string name="cpp_fullscreen">Fullscreen</string>
-    <string name="cpp_plot_range_x_min">X Min</string>
-    <string name="cpp_plot_range_x_max">X Max</string>
-    <string name="cpp_plot_range_y_min">Y Min</string>
-    <string name="cpp_plot_range_y_max">Y Max</string>
-    <string name="cpp_invalid_number">Invalid number!</string>
-    <string name="cpp_plot_boundaries_should_differ">Graph boundaries should not be the same!</string>
-    <string name="cpp_apply">Apply</string>
-    <string name="cpp_message">Message</string>
     <string name="cpp_continue">Continue</string>
   <string name="cpp_purchase_text">Supporting the project is easy and secure: purchase process is provided by Google
 		and all you need is a properly configured Google account.\n\n
@@ -136,8 +118,6 @@
 		By clicking \'Continue\' button you will be redirected to the Google Play app to make the payment.</string>
     <string name="cpp_purchase_title">Purchase</string>
     <string name="cpp_show_greek_keyboard" translatable="false">αβγ</string>
-    <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-    <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
     <string name="cpp_clear_history_title">Clear history?</string>
     <string name="cpp_clear_history_message">All history will be cleared.</string>
     <string name="cpp_clear_history">Clear</string>
