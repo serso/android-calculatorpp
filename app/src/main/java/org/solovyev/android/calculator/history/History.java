@@ -175,6 +175,10 @@ public class History {
         });
     }
 
+    void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
     @NonNull
     File getSavedHistoryFile() {
         return new File(filesDir, "history-saved.json");

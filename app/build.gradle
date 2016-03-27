@@ -31,8 +31,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 143
-        versionName '2.1.4'
+        versionCode 144
+        versionName '2.2.0b'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         generatedDensities = []
     }

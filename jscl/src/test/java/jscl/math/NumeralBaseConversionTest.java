@@ -1,13 +1,13 @@
 package jscl.math;
 
 import au.com.bytecode.opencsv.CSVReader;
+import com.google.common.base.Function;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.text.ParseException;
 import jscl.util.ExpressionGeneratorWithInput;
 import org.junit.Assert;
 import org.junit.Test;
-import org.solovyev.common.Functor;
 
 import javax.annotation.Nonnull;
 import java.io.InputStreamReader;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class NumeralBaseConversionTest {
 
-    public static void testExpression(@Nonnull String[] line, @Nonnull Functor<String, String> converter) throws ParseException {
+    public static void testExpression(@Nonnull String[] line, @Nonnull Function<String, String> converter) throws ParseException {
         final String dec = line[0].toUpperCase();
         final String hex = "0x:" + line[1].toUpperCase();
         final String bin = "0b:" + line[2].toUpperCase();
@@ -96,7 +96,7 @@ public class NumeralBaseConversionTest {
         }
     }
 
-    private static class DummyExpression implements Functor<String, String> {
+    private static class DummyExpression implements Function<String, String> {
 
         @Nonnull
         @Override
@@ -105,7 +105,7 @@ public class NumeralBaseConversionTest {
         }
     }
 
-    private static class Expression1 implements Functor<String, String> {
+    private static class Expression1 implements Function<String, String> {
 
         @Nonnull
         @Override
@@ -114,7 +114,7 @@ public class NumeralBaseConversionTest {
         }
     }
 
-    private static class Expression2 implements Functor<String, String> {
+    private static class Expression2 implements Function<String, String> {
 
         @Nonnull
         @Override
@@ -123,7 +123,7 @@ public class NumeralBaseConversionTest {
         }
     }
 
-    private static class Expression3 implements Functor<String, String> {
+    private static class Expression3 implements Function<String, String> {
 
         @Nonnull
         @Override
