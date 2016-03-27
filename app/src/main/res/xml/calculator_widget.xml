@@ -25,7 +25,7 @@
 <appwidget-provider xmlns:a="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
                     a:initialKeyguardLayout="@layout/widget_layout_lockscreen"
-                    a:initialLayout="@layout/widget_layout"
+                    a:initialLayout="@layout/widget_layout_material"
                     a:minHeight="250dp"
                     a:minResizeHeight="180dp"
                     a:minResizeWidth="180dp"
