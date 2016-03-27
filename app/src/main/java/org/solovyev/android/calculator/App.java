@@ -24,6 +24,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -179,6 +180,18 @@ public final class App {
         }
         Check.shouldNotHappen();
         return (CalculatorApplication) application;
+    }
+
+    public static void hideIme(@NonNull DialogFragment fragment) {
+        final Dialog dialog = fragment.getDialog();
+        if (dialog == null) {
+            return;
+        }
+        final View focusedView = dialog.getCurrentFocus();
+        if (focusedView == null) {
+            return;
+        }
+        hideIme(focusedView);
     }
 
     public static void hideIme(@NonNull View view) {

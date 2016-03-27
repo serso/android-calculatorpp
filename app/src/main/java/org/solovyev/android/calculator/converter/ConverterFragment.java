@@ -108,16 +108,12 @@ public class ConverterFragment extends BaseDialogFragment
         final Bundle args = new Bundle(1);
         args.putDouble(EXTRA_VALUE, value);
         fragment.setArguments(args);
-        App.showDialog(fragment, "converter",
-                activity.getSupportFragmentManager());
+        App.showDialog(fragment, "converter", activity.getSupportFragmentManager());
     }
 
     @Nonnull
     private static <T> ArrayAdapter<T> makeAdapter(@NonNull Context context) {
-        final ArrayAdapter<T> adapter =
-                new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        return adapter;
+        return new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
     }
 
     @Override
@@ -382,6 +378,12 @@ public class ConverterFragment extends BaseDialogFragment
     @Override
     public void afterTextChanged(Editable s) {
         convert(false);
+    }
+
+    @Override
+    public void dismiss() {
+        App.hideIme(this);
+        super.dismiss();
     }
 
     private enum MyDimension {
