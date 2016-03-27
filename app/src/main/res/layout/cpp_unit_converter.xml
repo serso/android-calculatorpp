@@ -71,7 +71,6 @@
                         android:id="@+id/converter_edittext_from"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="@string/cpp_units_from"
                         android:inputType="numberDecimal"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
@@ -102,7 +101,6 @@
                         android:editable="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:hint="@string/cpp_units_to"
                         android:inputType="none"
                         android:singleLine="true"
                         tools:ignore="Deprecated" />

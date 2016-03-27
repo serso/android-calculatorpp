@@ -115,6 +115,4 @@ Qua việc click nút \'Tiếp tục\' bạn được chuyển qua úng dụng G
     <string name="cpp_new_in_version">Mới trong phiên bản %1$s</string>
     <string name="cpp_release_notes_choose_theme">Bạn có muốn thử chủ đề Material mới? Chọn chúng từ danh sách:</string>
     <string name="cpp_system_language">System language</string>
-    <string name="cpp_missing_permission_title">Thiếu quyền</string>
-    <string name="cpp_missing_permission_msg">Vui lòng cho bật \"%1$s\" Quyền trong thiết lập hệ thống</string>
 </resources>

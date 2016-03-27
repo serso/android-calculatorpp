@@ -14,6 +14,7 @@
    <string name="cpp_close">Schließen</string>
    <string name="cpp_switch">Wechseln</string>
    <string name="cpp_add">Hinzufügen</string>
+   <string name="cpp_mode">Modus</string>
    <string name="cpp_edit">Bearbeiten</string>
    <string name="cpp_delete">Löschen</string>
    <string name="cpp_done">Fertig</string>

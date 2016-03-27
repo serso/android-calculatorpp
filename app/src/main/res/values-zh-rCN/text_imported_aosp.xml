@@ -14,6 +14,7 @@
    <string name="cpp_close">关闭</string>
    <string name="cpp_switch">切换</string>
    <string name="cpp_add">添加</string>
+   <string name="cpp_mode">模式</string>
    <string name="cpp_edit">编辑</string>
    <string name="cpp_delete">删除</string>
    <string name="cpp_done">完成</string>

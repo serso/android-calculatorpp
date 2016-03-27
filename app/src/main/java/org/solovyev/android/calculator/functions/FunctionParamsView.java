@@ -200,7 +200,7 @@ public class FunctionParamsView extends LinearLayout {
         paramView.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         paramView.setId(id);
         paramView.setTag(PARAM_VIEW_TAG);
-        paramView.setHint(R.string.c_function_parameter);
+        paramView.setHint(R.string.cpp_fn_parameter);
         paramLabel.addView(paramView, new TextInputLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
 
         rowView.addView(paramLabel, new LayoutParams(0, WRAP_CONTENT, 1));

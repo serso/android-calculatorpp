@@ -120,6 +120,4 @@ premendo \'continua\' sarai indirizzato all\'applicazione Google play per effett
     <string name="cpp_new_in_version">Novità nella versione %1$s</string>
     <string name="cpp_release_notes_choose_theme">Vuoi provare nuove temi Material design? Selezionali dalla lista:</string>
     <string name="cpp_system_language">System language</string>
-    <string name="cpp_missing_permission_title">Permesso assente</string>
-    <string name="cpp_missing_permission_msg">Per favore garantisci il permesso: \"%1$s\" nelle impostazioni</string>
 </resources>

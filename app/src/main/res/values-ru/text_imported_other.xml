@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">Если вам нравится %1$s, отвлекитесь на минутку и поставьте нам 5 звездочек в Google Play.</string>
    <string name="cpp_rateus_ok">Оценить</string>
    <string name="cpp_rateus_cancel">Нет, спасибо</string>
+   <string name="cpp_dont_show_again">Не показывать снова</string>
+   <string name="cpp_missing_permission_title">Отсутствует разрешение</string>
+   <string name="cpp_missing_permission_message">В системных настройках разрешите приложению доступ к следующему компоненту:%1$s</string>
 </resources>

@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">Jos pidät %1$s -sovelluksesta, anna meille viiden tähden arvostelu Google Play -palvelussa.</string>
    <string name="cpp_rateus_ok">Arvostele nyt</string>
    <string name="cpp_rateus_cancel">Ei kiitos</string>
+   <string name="cpp_dont_show_again">Älä näytä uudelleen</string>
+   <string name="cpp_missing_permission_title">Käyttöoikeus puuttuu</string>
+   <string name="cpp_missing_permission_message">Salli kohteen %1$s käyttöoikeus järjestelmäasetuksissa</string>
 </resources>

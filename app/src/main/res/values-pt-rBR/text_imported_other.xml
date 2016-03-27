@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">Se você gosta do %1$s, atribua a classificação de cinco estrelas no Google Play.</string>
    <string name="cpp_rateus_ok">Classificar agora</string>
    <string name="cpp_rateus_cancel">Não, obrigado</string>
+   <string name="cpp_dont_show_again">Não mostrar novamente</string>
+   <string name="cpp_missing_permission_title">Sem permissão</string>
+   <string name="cpp_missing_permission_message">Habilite a permissão de %1$s nas configurações do sistema</string>
 </resources>

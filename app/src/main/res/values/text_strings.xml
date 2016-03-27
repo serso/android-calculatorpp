@@ -78,14 +78,14 @@
     <string name="other">Other</string>
     <string name="derivatives">Derivatives/Integrals</string>
     <string name="c_function_name">Name</string>
-    <string name="c_function_parameter">Parameter</string>
+    <string name="cpp_fn_parameter">Parameter</string>
     <string name="function_create_function">Create function</string>
     <string name="function_edit_function">Edit function</string>
     <string name="function_name_is_not_valid">Name of function is not valid: name must start with a letter, can contain letters, digits and underscore.</string>
     <string name="function_already_exists">Function with the same name already exists!</string>
     <string name="function_is_empty">Function body could not be empty!</string>
-    <string name="invalid_name">Invalid name</string>
-    <string name="function_duplicate_parameter">There is already a parameter with the same name</string>
+    <string name="cpp_invalid_name">Name contains an illegal character</string>
+    <string name="cpp_fn_duplicate_parameter">There is already a parameter with the same name</string>
     <string name="function_removal_confirmation_question">Do you really want to delete \'%s\' function?</string>
     <string name="fix">Fix</string>
     <string name="p_preferred_numeral_base_title">Default numeral system</string>
@@ -121,12 +121,5 @@
     <string name="cpp_clear_history">Clear</string>
     <string name="cpp_new_in_version">New in %1$s version</string>
     <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
-    <string name="cpp_dont_show_again">Don\'t show again</string>
     <string name="cpp_system_language">System language</string>
-    <string name="cpp_missing_permission_title">Missing permission</string>
-    <string name="cpp_missing_permission_msg">Please enable \"%1$s\" permission in system settings</string>
-    <string name="cpp_mode">Mode</string>
-    <string name="cpp_mode_status">Mode: %1$s</string>
-    <string name="cpp_units_from" comment="Hint to be used in 'From' input field in unit converter window">From</string>
-    <string name="cpp_units_to" comment="Hint to be used in 'To' input field in unit converter window">To</string>
 </resources>

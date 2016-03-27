@@ -14,6 +14,7 @@ package org.solovyev.android.views; /**
  * 0. You just DO WHAT YOU WANT TO.
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
@@ -223,6 +224,7 @@ public class AutoResizeTextView extends TextView {
     /**
      * Resize the text size with specified width and height
      */
+    @SuppressLint("SetTextI18n")
     public void resizeText(int width, int height) {
         mTimer.reset(TAG, "resizeText");
         CharSequence text = getText();

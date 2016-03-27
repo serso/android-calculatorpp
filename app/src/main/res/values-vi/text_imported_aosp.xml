@@ -14,6 +14,7 @@
    <string name="cpp_close">Đóng</string>
    <string name="cpp_switch">Chuyển đổi</string>
    <string name="cpp_add">Thêm</string>
+   <string name="cpp_mode">Chế độ</string>
    <string name="cpp_edit">Chỉnh sửa</string>
    <string name="cpp_delete">Xóa</string>
    <string name="cpp_done">Xong</string>

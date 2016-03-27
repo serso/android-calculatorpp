@@ -113,6 +113,4 @@
     <string name="cpp_new_in_version">Nowści w wersji %1$s</string>
     <string name="cpp_release_notes_choose_theme">Czy chcesz wypróbować nowe motywy Material? Wybierz je z listy:</string>
     <string name="cpp_system_language">System language</string>
-    <string name="cpp_missing_permission_title">Brak uprawnienia</string>
-    <string name="cpp_missing_permission_msg">Włącz uprawnienie „\"%1$s\"” w ustawieniach systemu</string>
 </resources>

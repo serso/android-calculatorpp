@@ -68,7 +68,8 @@
     <string name="c_copy_result">Копировать результат</string>
     <string name="c_history_expression">Значение</string>
     <string name="c_history_comment">Комментарий</string>
-    <string name="cpp_history_tab_saved">Сохранённая история</string>
+    <string name="cpp_history_tab_saved">Сохранённая</string>
+    <string name="cpp_history_tab_recent">Недавняя</string>
     <string name="c_first_start_text">Спасибо за выбор Калькулятора++!\n\nКалькулятор++ - это мощный инструмент для проведения ежедневных расчётов.</string>
     <string name="c_calc_show_release_notes_title">Показывать примечания к выпуску</string>
   <string name="c_calc_show_release_notes_summary">Определяет показывать или нет всплывающее окно с примечаниями к
@@ -139,6 +140,7 @@
     <string name="cpp_new_in_version">Новое в версии %1$s</string>
     <string name="cpp_release_notes_choose_theme">Хотите попробовать новые темы в стиле Матириал? Выберите их из списка:</string>
     <string name="cpp_system_language">Язык системы</string>
-  <string name="cpp_missing_permission_title">Отсутствует разрешение</string>
-  <string name="cpp_missing_permission_msg">В системных настройках разрешите приложению доступ к следующему компоненту:\"%1$s\"</string>
+  <string name="cpp_fn_parameter">Параметр</string>
+  <string name="cpp_fn_duplicate_parameter">Параметр с таким именем уже существует</string>
+  <string name="cpp_invalid_name">Имя содержит недопустимые символы</string>
 </resources>

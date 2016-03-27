@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">If you enjoy %1$s, please take a moment and give us a five-star rating in Google Play.</string>
    <string name="cpp_rateus_ok">Rate it now</string>
    <string name="cpp_rateus_cancel">No, thanks</string>
+   <string name="cpp_dont_show_again">Do not show again</string>
+   <string name="cpp_missing_permission_title">Missing permission</string>
+   <string name="cpp_missing_permission_message">Please enable %1$s permission in system settings</string>
 </resources>

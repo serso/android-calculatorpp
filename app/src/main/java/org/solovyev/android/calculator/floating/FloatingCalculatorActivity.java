@@ -45,7 +45,7 @@ public class FloatingCalculatorActivity extends AppCompatActivity {
         @Override
         protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
             final String permission = getString(R.string.cpp_permission_overlay);
-            builder.setMessage(getString(R.string.cpp_missing_permission_msg, permission));
+            builder.setMessage(getString(R.string.cpp_missing_permission_message, permission));
             builder.setTitle(R.string.cpp_missing_permission_title);
             builder.setPositiveButton(android.R.string.ok, null);
         }

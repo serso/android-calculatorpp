@@ -115,6 +115,4 @@
     <string name="cpp_new_in_version">%1$s 版本的新功能</string>
     <string name="cpp_release_notes_choose_theme">你想要嘗試新的 Material 主題風格嗎？ 從清單中選擇：</string>
     <string name="cpp_system_language">System language</string>
-    <string name="cpp_missing_permission_title">缺少權限</string>
-    <string name="cpp_missing_permission_msg">請在系統設定中啟用 \"%1$s\" 權限</string>
 </resources>

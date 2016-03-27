@@ -14,6 +14,7 @@
    <string name="cpp_close">Kapat</string>
    <string name="cpp_switch">Değiştir</string>
    <string name="cpp_add">Ekle</string>
+   <string name="cpp_mode">Mod</string>
    <string name="cpp_edit">Düzenle</string>
    <string name="cpp_delete">Sil</string>
    <string name="cpp_done">Bitti</string>

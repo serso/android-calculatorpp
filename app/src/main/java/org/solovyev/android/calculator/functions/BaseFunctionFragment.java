@@ -309,10 +309,10 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
                 clearError(paramLabel);
             } else if (!Engine.isValidName(parameter)) {
                 valid = false;
-                setError(paramLabel, getString(R.string.invalid_name));
+                setError(paramLabel, getString(R.string.cpp_invalid_name));
             } else if (usedParameters.contains(parameter)) {
                 valid = false;
-                setError(paramLabel, getString(R.string.function_duplicate_parameter));
+                setError(paramLabel, getString(R.string.cpp_fn_duplicate_parameter));
             } else {
                 usedParameters.add(parameter);
                 clearError(paramLabel);

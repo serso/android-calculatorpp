@@ -114,6 +114,4 @@
     <string name="cpp_new_in_version">%1$s 版本的新功能</string>
     <string name="cpp_release_notes_choose_theme">你想尝试新的Material Design主题吗？请从列表中选择：</string>
     <string name="cpp_system_language">System language</string>
-    <string name="cpp_missing_permission_title">缺失许可</string>
-    <string name="cpp_missing_permission_msg">请在系统设置中启用 \"%1$s\" 许可</string>
 </resources>

@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">Pokud se vám aplikace %1$s líbí, prosím věnujte nám okamžik a udělte nám pětihvězdičkové hodnocení na Google Play.</string>
    <string name="cpp_rateus_ok">Ohodnotit nyní</string>
    <string name="cpp_rateus_cancel">Ne, díky</string>
+   <string name="cpp_dont_show_again">Již nezobrazovat</string>
+   <string name="cpp_missing_permission_title">Chybějící oprávnění</string>
+   <string name="cpp_missing_permission_message">Prosím, povolte v nastaveních systému oprávnění pro %1$s</string>
 </resources>

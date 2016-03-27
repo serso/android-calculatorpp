@@ -114,6 +114,4 @@ Platební informace jsou uloženy na serveru společně s vaším účtem.\n\n K
     <string name="cpp_new_in_version">Nové ve verzi %1$s</string>
     <string name="cpp_release_notes_choose_theme">Chcete vyzkoušet nové Material témata? Vyberte je ze seznamu:</string>
     <string name="cpp_system_language">System language</string>
-    <string name="cpp_missing_permission_title">Chybějící oprávnění</string>
-    <string name="cpp_missing_permission_msg">Prosím, povolte v nastaveních systému oprávnění pro \"%1$s\"</string>
 </resources>

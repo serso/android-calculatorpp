@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">Якщо вам подобається %1$s, будь ласка, приділіть секундочку часу і поставте нам оцінку у п’ять зірочок на Google Play.</string>
    <string name="cpp_rateus_ok">Оцінити зараз</string>
    <string name="cpp_rateus_cancel">Ні, дякую</string>
+   <string name="cpp_dont_show_again">Більше не показувати</string>
+   <string name="cpp_missing_permission_title">Бракує дозволу</string>
+   <string name="cpp_missing_permission_message">Будь ласка, відкрийте доступ до додатка %1$s у параметрах системи</string>
 </resources>

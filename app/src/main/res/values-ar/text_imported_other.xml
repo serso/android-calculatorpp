@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">إذا كنت تستمتع بـ %1$s، يرجى أن تستغرق لحظة وتعطينا تقييمًا بخمس نجوم في Google Play.</string>
    <string name="cpp_rateus_ok">ضع تقييمًا الآن</string>
    <string name="cpp_rateus_cancel">لا، شكرًا</string>
+   <string name="cpp_dont_show_again">عدم الإظهار مرة أخرى</string>
+   <string name="cpp_missing_permission_title">إذن مفقود</string>
+   <string name="cpp_missing_permission_message">يرجى تمكين إذن %1$s في إعدادات النظام</string>
 </resources>

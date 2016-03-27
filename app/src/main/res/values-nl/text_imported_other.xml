@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">Als je %1$s leuk vindt, neem dan even de tijd en geef ons een beoordeling van vijf sterren bij Google Play.</string>
    <string name="cpp_rateus_ok">Nu beoordelen</string>
    <string name="cpp_rateus_cancel">Nee, bedankt</string>
+   <string name="cpp_dont_show_again">Niet meer laten zien</string>
+   <string name="cpp_missing_permission_title">Toestemming ontbreekt</string>
+   <string name="cpp_missing_permission_message">Schakel %1$s toestemming in in systeeminstellingen</string>
 </resources>

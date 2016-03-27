@@ -14,6 +14,7 @@
    <string name="cpp_close">Sulje</string>
    <string name="cpp_switch">Vaihda</string>
    <string name="cpp_add">Lisää</string>
+   <string name="cpp_mode">Tila</string>
    <string name="cpp_edit">Muokkaa</string>
    <string name="cpp_delete">Poista</string>
    <string name="cpp_done">Valmis</string>

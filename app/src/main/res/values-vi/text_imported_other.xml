@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">Nếu bạn thích %1$s, vui lòng dành thời gian và xếp hạng chúng tôi 5 sao trong Google Play.</string>
    <string name="cpp_rateus_ok">Xếp hạng nó bây giờ</string>
    <string name="cpp_rateus_cancel">Không, cảm ơn</string>
+   <string name="cpp_dont_show_again">Không hiển thị lại</string>
+   <string name="cpp_missing_permission_title">Thiếu quyền</string>
+   <string name="cpp_missing_permission_message">Vui lòng cho bật %1$s Quyền trong thiết lập hệ thống</string>
 </resources>

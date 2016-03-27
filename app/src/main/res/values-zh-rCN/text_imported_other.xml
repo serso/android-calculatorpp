@@ -4,4 +4,7 @@
    <string name="cpp_rateus_message">如果您喜欢 %1$s，请抽出片刻在 Google Play 中给我们五星评分。</string>
    <string name="cpp_rateus_ok">立即给它评分</string>
    <string name="cpp_rateus_cancel">忍泪拒绝</string>
+   <string name="cpp_dont_show_again">不再显示</string>
+   <string name="cpp_missing_permission_title">缺失许可</string>
+   <string name="cpp_missing_permission_message">请在系统设置中启用 %1$s 许可</string>
 </resources>

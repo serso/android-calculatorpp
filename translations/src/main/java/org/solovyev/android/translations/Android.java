@@ -30,6 +30,7 @@ public class Android {
         settingsLinks.add(new TranslationLink("dlg_close", "cpp_close"));
         settingsLinks.add(new TranslationLink("dlg_switch", "cpp_switch"));
         settingsLinks.add(new TranslationLink("user_dict_settings_add_menu_title", "cpp_add"));
+        settingsLinks.add(new TranslationLink("location_mode_title", "cpp_mode"));
 
         calendarLinks.add(new TranslationLink("edit_label", "cpp_edit"));
         calendarLinks.add(new TranslationLink("delete_label", "cpp_delete"));
