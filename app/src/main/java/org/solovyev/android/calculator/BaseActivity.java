@@ -12,10 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,9 +28,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.App.cast;
+import static org.solovyev.android.calculator.Preferences.Gui.keepScreenOn;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Nonnull
     protected final Tabs tabs;
@@ -69,6 +70,7 @@ public class BaseActivity extends AppCompatActivity {
     private Preferences.Gui.Mode mode = Preferences.Gui.Mode.engineer;
     @Nonnull
     private Language language = Languages.SYSTEM_LANGUAGE;
+    private boolean paused = true;
 
     public BaseActivity(@StringRes int titleId) {
         this(R.layout.activity_tabs, titleId);
@@ -94,11 +96,6 @@ public class BaseActivity extends AppCompatActivity {
         } else if (view instanceof DirectionDragImageButton) {
             ((DirectionDragImageButton) view).setTypeface(newTypeface);
         }
-    }
-
-    @Nonnull
-    public Preferences.Gui.Theme getActivityTheme() {
-        return theme;
     }
 
     @Nonnull
@@ -154,6 +151,11 @@ public class BaseActivity extends AppCompatActivity {
         languages.updateContextLocale(this, false);
 
         createView();
+
+        updateOrientation();
+        updateKeepScreenOn();
+
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private void createView() {
@@ -236,13 +238,27 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        paused = false;
         if (!restartIfThemeChanged()) {
             restartIfLanguageChanged();
         }
     }
 
+    private void updateKeepScreenOn() {
+        final Window window = getWindow();
+        if (window == null) {
+            return;
+        }
+        if (keepScreenOn.getPreference(preferences)) {
+            window.addFlags(FLAG_KEEP_SCREEN_ON);
+        } else {
+            window.clearFlags(FLAG_KEEP_SCREEN_ON);
+        }
+    }
+
     @Override
     protected void onPause() {
+        paused = true;
         tabs.onPause();
         super.onPause();
     }
@@ -275,5 +291,37 @@ public class BaseActivity extends AppCompatActivity {
                 setFont(view, typeface);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (Preferences.Gui.rotateScreen.isSameKey(key)) {
+            updateOrientation();
+        } else if (Preferences.Gui.keepScreenOn.isSameKey(key)) {
+            updateKeepScreenOn();
+        }
+
+        if (paused) {
+            return;
+        }
+        if (Preferences.Gui.theme.isSameKey(key)) {
+            restartIfThemeChanged();
+        } else if (Preferences.Gui.language.isSameKey(key)) {
+            restartIfLanguageChanged();
+        }
+    }
+
+    private void updateOrientation() {
+        if (Preferences.Gui.rotateScreen.getPreference(preferences)) {
+            setRequestedOrientation(SCREEN_ORIENTATION_UNSPECIFIED);
+        } else {
+            setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 }

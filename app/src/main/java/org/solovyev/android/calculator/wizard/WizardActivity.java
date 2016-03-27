@@ -195,15 +195,6 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
         }
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (Preferences.Gui.theme.isSameKey(key)) {
-            restartIfThemeChanged();
-        } else if (Preferences.Gui.language.isSameKey(key)) {
-            restartIfLanguageChanged();
-        }
-    }
-
     private class WizardPagerAdapter extends FragmentStatePagerAdapter {
         @Nonnull
         private final ListWizardFlow flow;

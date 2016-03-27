@@ -27,7 +27,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,17 +42,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import static org.solovyev.android.calculator.Preferences.Gui.keepScreenOn;
-
-public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, Toolbar.OnMenuItemClickListener {
+public class CalculatorActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener {
 
     @Inject
     PreferredPreferences preferredPreferences;
-    @Inject
-    SharedPreferences preferences;
     @Inject
     Keyboard keyboard;
     @Inject
@@ -101,9 +97,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
             startupHelper.onMainActivityOpened(this);
         }
 
-        updateOrientation();
-
-        preferences.registerOnSharedPreferenceChangeListener(this);
         preferredPreferences.check(this, false);
     }
 
@@ -133,16 +126,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     protected void onResume() {
         super.onResume();
         launcher.setActivity(this);
-        if (restartIfModeChanged()) {
-            return;
-        }
-
-        final Window window = getWindow();
-        if (keepScreenOn.getPreference(preferences)) {
-            window.addFlags(FLAG_KEEP_SCREEN_ON);
-        } else {
-            window.clearFlags(FLAG_KEEP_SCREEN_ON);
-        }
+        restartIfModeChanged();
     }
 
     @Override
@@ -153,7 +137,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Override
     protected void onDestroy() {
-        preferences.unregisterOnSharedPreferenceChangeListener(this);
         if (partialKeyboard != null) {
             partialKeyboardUi.onDestroyView();
         }
@@ -162,20 +145,9 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, @Nonnull String key) {
+        super.onSharedPreferenceChanged(preferences, key);
         if (Preferences.Gui.useBackAsPrevious.isSameKey(key)) {
             useBackAsPrevious = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
-        }
-
-        if (Preferences.Gui.rotateScreen.isSameKey(key)) {
-            updateOrientation();
-        }
-    }
-
-    private void updateOrientation() {
-        if (Preferences.Gui.rotateScreen.getPreference(preferences)) {
-            setRequestedOrientation(SCREEN_ORIENTATION_UNSPECIFIED);
-        } else {
-            setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 

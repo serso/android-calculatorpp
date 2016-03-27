@@ -8,11 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.util.SparseArray;
-
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.ActivityCheckout;
@@ -45,14 +43,11 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     }
 
     ActivityCheckout checkout;
-    private boolean paused = true;
 
     @Inject
     Billing billing;
     @Inject
     Products products;
-    @Inject
-    SharedPreferences preferences;
     @Inject
     Languages languages;
 
@@ -78,7 +73,6 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferences.registerOnSharedPreferenceChangeListener(this);
 
         final Intent intent = getIntent();
         final int preferenceTitle = intent.getIntExtra(EXTRA_PREFERENCE_TITLE, 0);
@@ -104,32 +98,8 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (!paused) {
-            if (Preferences.Gui.theme.isSameKey(key)) {
-                restartIfThemeChanged();
-            } else if (Preferences.Gui.language.isSameKey(key)) {
-                restartIfLanguageChanged();
-            }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        paused = false;
-    }
-
-    @Override
-    protected void onPause() {
-        paused = true;
-        super.onPause();
-    }
-
-    @Override
     protected void onDestroy() {
         checkout.stop();
-        preferences.unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
 
