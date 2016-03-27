@@ -2,7 +2,6 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
@@ -32,6 +31,9 @@ final class UiPreferences {
     }
 
     private static <T> void migratePreference(@NonNull SharedPreferences uiPreferences, @Nonnull SharedPreferences preferences, @NonNull SharedPreferences.Editor uiEditor, @NonNull Preference<T> uiPreference, @NonNull Preference<T> preference) {
+        if (!preference.isSet(preferences)) {
+            return;
+        }
         if (!uiPreference.isSet(uiPreferences)) {
             uiPreference.putPreference(uiEditor, preference.getPreferenceNoError(preferences));
         }
