@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">Wenn eingeschaltet, zwingend wissenschaftliche Notation für Ergebnisse verwenden (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Genauigkeit des Ergebnisses</string>
     <string name="c_save">Speichern</string>
-    <string name="c_yes">Ja</string>
-    <string name="c_no">Nein</string>
     <string name="removal_confirmation">Löschbestätigung</string>
     <string name="c_var_removal_confirmation_question">Möchten Sie die Variable \'%s\' wirklich löschen?</string>
     <string name="c_var_name">Name</string>

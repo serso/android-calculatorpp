@@ -38,8 +38,8 @@ public class RemovalConfirmationDialog {
                 .setCancelable(true)
                 .setTitle(R.string.removal_confirmation)
                 .setMessage(activity.getString(message, name))
-                .setNegativeButton(R.string.c_no, null)
-                .setPositiveButton(R.string.c_yes, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cpp_no, null)
+                .setPositiveButton(R.string.cpp_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         listener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);

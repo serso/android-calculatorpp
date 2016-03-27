@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">Si coché force la sortie en notation scientifique (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Précision du résultat</string>
     <string name="c_save">Enregistrer</string>
-    <string name="c_yes">Oui</string>
-    <string name="c_no">Non</string>
     <string name="removal_confirmation">Confirmation de suppression</string>
     <string name="c_var_removal_confirmation_question">Voulez-vous vraiment supprimer la variable « %s » ?</string>
     <string name="c_var_name">Nom</string>

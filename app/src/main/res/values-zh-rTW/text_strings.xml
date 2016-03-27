@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">如果啟用，強制只用科學記號表示 (12.34E-12)</string>
     <string name="p_calc_result_precision_title">計算結果精確度</string>
     <string name="c_save">儲存</string>
-    <string name="c_yes">是</string>
-    <string name="c_no">否</string>
     <string name="removal_confirmation">刪除確認</string>
     <string name="c_var_removal_confirmation_question">你確定要刪除變數 \'%s\' 嗎？</string>
     <string name="c_var_name">名稱</string>

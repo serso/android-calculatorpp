@@ -17,8 +17,6 @@
 (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Precisión del resultado</string>
     <string name="c_save">Grabar</string>
-    <string name="c_yes">Si</string>
-    <string name="c_no">No</string>
     <string name="removal_confirmation">Confirmación de Borrado</string>
     <string name="c_var_removal_confirmation_question">¿Realmente desea borrar la variable \'%s\'?</string>
     <string name="c_var_name">Nombre</string>

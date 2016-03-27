@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">Je-li zapnuto, používá se pouze vědecký zápis výstupu (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Přesnost výsledku</string>
     <string name="c_save">Uložit</string>
-    <string name="c_yes">Ano</string>
-    <string name="c_no">Ne</string>
     <string name="removal_confirmation">Potvrzení odebrání</string>
     <string name="c_var_removal_confirmation_question">Opravdu chcete odstranit proměnnou \'%s\'?</string>
     <string name="c_var_name">Jméno</string>

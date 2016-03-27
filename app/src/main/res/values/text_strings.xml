@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">If turned on forces to use only scientific notation of output (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Precision of result</string>
     <string name="c_save">Save</string>
-    <string name="c_yes">Yes</string>
-    <string name="c_no">No</string>
     <string name="removal_confirmation">Removal confirmation</string>
     <string name="c_var_removal_confirmation_question">Do you really want to delete \'%s\' variable?</string>
     <string name="c_var_name">Name</string>

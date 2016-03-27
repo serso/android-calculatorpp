@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">Indien ingeschakeld uitsluitend wetenschappelijke notatie voor output gebruiken (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Nauwkeurigheid van resultaat</string>
     <string name="c_save">Opslaan</string>
-    <string name="c_yes">Ja</string>
-    <string name="c_no">Nee</string>
     <string name="removal_confirmation">Verwijderen bevestigen</string>
     <string name="c_var_removal_confirmation_question">Wilt u echt \'%s\' variabele verwijderen?</string>
     <string name="c_var_name">Naam</string>

@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">开启此选项，则答案将永远使用科学计数法表示 (例: 12.34E-12)</string>
     <string name="p_calc_result_precision_title">保留小数点后位数</string>
     <string name="c_save">保存</string>
-    <string name="c_yes">是</string>
-    <string name="c_no">否</string>
     <string name="removal_confirmation">确认移除</string>
     <string name="c_var_removal_confirmation_question">您真的要移除变量 \'%s\' 吗?</string>
     <string name="c_var_name">名称</string>

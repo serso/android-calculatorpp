@@ -17,8 +17,6 @@
 (12.34E-12)</string>
     <string name="p_calc_result_precision_title">دقة النتيجة</string>
     <string name="c_save">حفظ</string>
-    <string name="c_yes">نعم</string>
-    <string name="c_no">لا</string>
     <string name="removal_confirmation">تأكيد الإزالة</string>
     <string name="c_var_removal_confirmation_question">هل تريد حقاً حذف المتغير \'%s\'؟</string>
     <string name="c_var_name">الاسم</string>

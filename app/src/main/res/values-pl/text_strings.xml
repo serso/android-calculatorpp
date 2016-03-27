@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">Wymusza użycie notacji naukowej na wyjściu (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Dokładność wyniku</string>
     <string name="c_save">Zapisz</string>
-    <string name="c_yes">Tak</string>
-    <string name="c_no">Nie</string>
     <string name="removal_confirmation">Potwierdzenie usunięcia</string>
     <string name="c_var_removal_confirmation_question">Czy na pewno chcesz usunąć zmienną \'%s\'?</string>
     <string name="c_var_name">Nazwa</string>

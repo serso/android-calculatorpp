@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">Se ligado, usa somente a notação científica para apresentar o resultado (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Precisão do resultado</string>
     <string name="c_save">Salvar</string>
-    <string name="c_yes">Sim</string>
-    <string name="c_no">Não</string>
     <string name="removal_confirmation">Confirmação de remoção</string>
     <string name="c_var_removal_confirmation_question">Você quer realmente excluir a variável \'%s\'?</string>
     <string name="c_var_name">Nome</string>

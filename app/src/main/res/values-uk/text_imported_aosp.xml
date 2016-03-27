@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_prefs_vibrate_on_keypress">Вібрація під час дотику</string>
+   <string name="cpp_prefs_auto_rotate_screen">Автоповорот екрана</string>
+   <string name="cpp_language">Мова</string>
+   <string name="cpp_theme">Тема</string>
+   <string name="cpp_theme_light">Світла</string>
+   <string name="cpp_theme_dark">Темна</string>
+   <string name="cpp_prefs_keep_screen_on">Залишати активним</string>
+   <string name="cpp_permission_overlay">Відображати поверх додатків</string>
+   <string name="cpp_yes">Так</string>
+   <string name="cpp_no">Ні</string>
+   <string name="cpp_create">Створити</string>
+   <string name="cpp_close">Закрити</string>
+   <string name="cpp_switch">Змінити користувача</string>
+   <string name="cpp_add">Додати</string>
+   <string name="cpp_edit">Редагувати</string>
+   <string name="cpp_delete">Видалити</string>
+   <string name="cpp_done">Готово</string>
+   <string name="cpp_cancel">Скасувати</string>
+   <string name="cpp_description">Опис</string>
+   <string name="cpp_about">Про</string>
+   <string name="cpp_copy_text">Копіювати в буфер обміну</string>
+   <string name="cpp_text_copied">Текст скопійовано</string>
+   <string name="cpp_name">Ім’я</string>
+   <string name="cpp_settings">Налаштування</string>
+   <string name="cpp_nan">Не число</string>
+   <string name="cpp_error">Помилка</string>
+   <string name="cpp_copy">Копіюв.</string>
+</resources>

@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">Seçilirse çıkışın sadece bilimsel gösterimini kullanmaya zorlar (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Sonuç hassasiyeti</string>
     <string name="c_save">Kaydet</string>
-    <string name="c_yes">Evet</string>
-    <string name="c_no">Hayır</string>
     <string name="removal_confirmation">Silme onayı</string>
     <string name="c_var_removal_confirmation_question">%s değişkenini silmek istiyor musunuz?</string>
     <string name="c_var_name">İsim</string>

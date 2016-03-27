@@ -18,8 +18,6 @@
 	</string>
     <string name="p_calc_result_precision_title">計算結果の有効桁数</string>
     <string name="c_save">保存</string>
-    <string name="c_yes">はい</string>
-    <string name="c_no">いいえ</string>
     <string name="removal_confirmation">削除の確認</string>
     <string name="c_var_removal_confirmation_question">本当に変数 \'%s\' を削除しますか？</string>
     <string name="c_var_name">名前</string>

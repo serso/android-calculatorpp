@@ -18,8 +18,6 @@
 	</string>
     <string name="p_calc_result_precision_title">Точність результату</string>
     <string name="c_save">Зберегти</string>
-    <string name="c_yes">Так</string>
-    <string name="c_no">Ні</string>
     <string name="removal_confirmation">Підтвердження вилучення</string>
     <string name="c_var_removal_confirmation_question">Ви дійсно хочете вилучити змінну \'%s\'?</string>
     <string name="c_var_name">Ім’я</string>

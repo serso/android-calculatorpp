@@ -16,8 +16,6 @@
     <string name="c_calc_science_notation_summary">Nếu bật cưỡng bức sử dụng ký hiệu khoa học (12.34E-12)</string>
     <string name="p_calc_result_precision_title">Độ chính xác của kết quả</string>
     <string name="c_save">Lưu</string>
-    <string name="c_yes">Có</string>
-    <string name="c_no">Không</string>
     <string name="removal_confirmation">Xác nhận xoá</string>
     <string name="c_var_removal_confirmation_question">Bạn có thực sự muốn xóa \'%s\' biến?</string>
     <string name="c_var_name">Tên</string>
