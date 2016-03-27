@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.*;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -156,6 +157,14 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     @NonNull
     @Override
     protected String getName(@Nonnull IConstant variable) {
-        return variable.getName();
+        final String name = variable.getName();
+        if (!variable.isDefined()) {
+            return name;
+        }
+        final String value = variable.getValue();
+        if(TextUtils.isEmpty(value)) {
+           return name;
+        }
+        return name + " = " + value;
     }
 }
