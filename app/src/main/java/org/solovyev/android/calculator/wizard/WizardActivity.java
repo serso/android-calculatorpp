@@ -8,22 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-
 import com.viewpagerindicator.PageIndicator;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.wizard.ListWizardFlow;
-import org.solovyev.android.wizard.Wizard;
-import org.solovyev.android.wizard.WizardFlow;
-import org.solovyev.android.wizard.WizardStep;
-import org.solovyev.android.wizard.WizardUi;
-import org.solovyev.android.wizard.Wizards;
-import org.solovyev.android.wizard.WizardsAware;
+import org.solovyev.android.wizard.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,7 +28,7 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
     private WizardPagerAdapter pagerAdapter;
     @Nullable
     private AlertDialog dialog;
-    
+
     @Inject
     SharedPreferences preferences;
     @Inject
@@ -124,7 +112,8 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
     }
 
     public void finishWizardAbruptly() {
-        final boolean confirmed = wizardUi.getWizard().getName().equals(CalculatorWizards.RELEASE_NOTES);
+        final String wizardName = wizardUi.getWizard().getName();
+        final boolean confirmed = wizardName.equals(CalculatorWizards.RELEASE_NOTES) || wizardName.equals(CalculatorWizards.DEFAULT_WIZARD_FLOW);
         finishWizardAbruptly(confirmed);
     }
 
