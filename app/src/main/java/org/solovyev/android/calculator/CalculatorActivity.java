@@ -26,14 +26,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.PopupMenu;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
@@ -42,8 +41,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-public class CalculatorActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener {
+public class CalculatorActivity extends BaseActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
+    @Nonnull
+    private final MainMenu mainMenu = new MainMenu(this);
     @Inject
     PreferredPreferences preferredPreferences;
     @Inject
@@ -59,10 +60,10 @@ public class CalculatorActivity extends BaseActivity implements Toolbar.OnMenuIt
     @Nullable
     @Bind(R.id.partial_keyboard)
     View partialKeyboard;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
     @Bind(R.id.editor)
     FrameLayout editor;
+    @Bind(R.id.main_menu)
+    ImageButton mainMenuButton;
     private boolean useBackAsPrevious;
 
     public CalculatorActivity() {
@@ -72,8 +73,6 @@ public class CalculatorActivity extends BaseActivity implements Toolbar.OnMenuIt
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
             final FragmentManager fm = getSupportFragmentManager();
@@ -88,9 +87,7 @@ public class CalculatorActivity extends BaseActivity implements Toolbar.OnMenuIt
             partialKeyboardUi.onCreateView(this, partialKeyboard);
         }
 
-        toolbar.inflateMenu(R.menu.main);
-        toolbar.setOnMenuItemClickListener(this);
-        updateModeMenuItem();
+        mainMenuButton.setOnClickListener(this);
 
         useBackAsPrevious = Preferences.Gui.useBackAsPrevious.getPreference(preferences);
         if (savedInstanceState == null) {
@@ -98,13 +95,6 @@ public class CalculatorActivity extends BaseActivity implements Toolbar.OnMenuIt
         }
 
         preferredPreferences.check(this, false);
-    }
-
-    private void updateModeMenuItem() {
-        final Menu menu = toolbar.getMenu();
-        final MenuItem modeMenuItem = menu.findItem(R.id.menu_mode);
-        final String modeName = getString(getActivityMode().name);
-        modeMenuItem.setTitle(getString(R.string.cpp_mode) + ": " + modeName);
     }
 
     @Override
@@ -169,15 +159,24 @@ public class CalculatorActivity extends BaseActivity implements Toolbar.OnMenuIt
             case R.id.menu_about:
                 launcher.showAbout();
                 return true;
-            case R.id.menu_mode_engineer:
+/*            case R.id.menu_mode_engineer:
                 Preferences.Gui.mode.putPreference(preferences, Preferences.Gui.Mode.engineer);
                 restartIfModeChanged();
                 return true;
             case R.id.menu_mode_simple:
                 Preferences.Gui.mode.putPreference(preferences, Preferences.Gui.Mode.simple);
                 restartIfModeChanged();
-                return true;
+                return true;*/
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.main_menu:
+                mainMenu.toggle();
+                break;
+        }
     }
 }

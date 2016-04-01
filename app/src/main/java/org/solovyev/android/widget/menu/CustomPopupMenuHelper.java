@@ -20,6 +20,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcelable;
+import android.support.v4.view.ActionProvider;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.appcompat.R;
 import android.support.v7.view.menu.*;
 import android.support.v7.widget.ListPopupWindow;
@@ -27,6 +29,7 @@ import android.view.*;
 import android.view.View.MeasureSpec;
 import android.widget.*;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 /**
@@ -37,6 +40,9 @@ import java.util.ArrayList;
 public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, View.OnKeyListener,
         ViewTreeObserver.OnGlobalLayoutListener, PopupWindow.OnDismissListener,
         MenuPresenter {
+
+    private static final int DEFAULT_VIEW_TAG_KEY = org.solovyev.android.calculator.R.id.cpm_default_view_tag_key;
+    private static final Object DEFAULT_VIEW_TAG = new Object();
 
     private final Context mContext;
     private final LayoutInflater mInflater;
@@ -63,7 +69,9 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
      */
     private int mContentWidth;
 
-    private int mDropDownGravity = Gravity.NO_GRAVITY;
+    private int mGravity = Gravity.NO_GRAVITY;
+    private int mVerticalOffset;
+    private int mHorizontalOffset;
 
     public CustomPopupMenuHelper(Context context, MenuBuilder menu) {
         this(context, menu, null, false, R.attr.popupMenuStyle);
@@ -107,11 +115,27 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
     }
 
     public int getGravity() {
-        return mDropDownGravity;
+        return mGravity;
     }
 
     public void setGravity(int gravity) {
-        mDropDownGravity = gravity;
+        mGravity = gravity;
+    }
+
+    public void setVerticalOffset(int offset) {
+        mVerticalOffset = offset;
+    }
+
+    public int getVerticalOffset() {
+        return mVerticalOffset;
+    }
+
+    public void setHorizontalOffset(int offset) {
+        mHorizontalOffset = offset;
+    }
+
+    public int getHorizontalOffset() {
+        return mHorizontalOffset;
     }
 
     public void show() {
@@ -137,7 +161,9 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
             mTreeObserver = anchor.getViewTreeObserver(); // Refresh to latest
             if (addGlobalListener) mTreeObserver.addOnGlobalLayoutListener(this);
             mPopup.setAnchorView(anchor);
-            mPopup.setDropDownGravity(mDropDownGravity);
+            mPopup.setDropDownGravity(mGravity);
+            mPopup.setHorizontalOffset(mHorizontalOffset);
+            mPopup.setVerticalOffset(mVerticalOffset);
         } else {
             return false;
         }
@@ -361,15 +387,31 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
+            final MenuItemImpl item = getItem(position);
+            final ActionProvider actionProvider = MenuItemCompat.getActionProvider(item);
+            if (actionProvider != null) {
+                return actionProvider.onCreateActionView(item);
+            }
+            final View actionView = MenuItemCompat.getActionView(item);
+            if (actionView != null) {
+                ((MenuView.ItemView) actionView).initialize(item, 0);
+                return actionView;
+            }
+            return getDefaultView(item, convertView, parent);
+        }
+
+        @Nonnull
+        private View getDefaultView(MenuItemImpl item, View convertView, ViewGroup parent) {
+            if (convertView == null || convertView.getTag(DEFAULT_VIEW_TAG_KEY) == DEFAULT_VIEW_TAG) {
                 convertView = mInflater.inflate(R.layout.abc_popup_menu_item_layout, parent, false);
+                convertView.setTag(DEFAULT_VIEW_TAG_KEY, DEFAULT_VIEW_TAG);
             }
 
-            MenuView.ItemView itemView = (MenuView.ItemView) convertView;
+            final MenuView.ItemView itemView = (MenuView.ItemView) convertView;
             if (mForceShowIcon) {
                 ((ListMenuItemView) convertView).setForceShowIcon(true);
             }
-            itemView.initialize(getItem(position), 0);
+            itemView.initialize(item, 0);
             return convertView;
         }
 

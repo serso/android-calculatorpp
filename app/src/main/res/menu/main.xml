@@ -5,16 +5,8 @@
     <item
         android:id="@+id/menu_mode"
         android:title="@string/cpp_mode"
-        app:showAsAction="never">
-        <menu>
-            <item
-                android:id="@+id/menu_mode_engineer"
-                android:title="@string/cpp_wizard_mode_engineer" />
-            <item
-                android:id="@+id/menu_mode_simple"
-                android:title="@string/cpp_wizard_mode_simple" />
-        </menu>
-    </item>
+        app:actionProviderClass="org.solovyev.android.calculator.MainMenu$ViewProvider"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_settings"
