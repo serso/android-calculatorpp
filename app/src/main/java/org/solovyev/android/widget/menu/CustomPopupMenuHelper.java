@@ -16,6 +16,7 @@
 
 package org.solovyev.android.widget.menu;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcelable;
@@ -31,11 +32,11 @@ import java.util.ArrayList;
 /**
  * Presents a menu as a small, simple popup anchored to another view.
  */
+@SuppressWarnings("unused")
+@SuppressLint("PrivateResource")
 public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, View.OnKeyListener,
         ViewTreeObserver.OnGlobalLayoutListener, PopupWindow.OnDismissListener,
         MenuPresenter {
-
-    static final int ITEM_LAYOUT = R.layout.abc_popup_menu_item_layout;
 
     private final Context mContext;
     private final LayoutInflater mInflater;
@@ -164,6 +165,7 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         mMenu.close();
         if (mTreeObserver != null) {
             if (!mTreeObserver.isAlive()) mTreeObserver = mAnchorView.getViewTreeObserver();
+            //noinspection deprecation
             mTreeObserver.removeGlobalOnLayoutListener(this);
             mTreeObserver = null;
         }
@@ -224,14 +226,15 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
 
     @Override
     public void onGlobalLayout() {
-        if (isShowing()) {
-            final View anchor = mAnchorView;
-            if (anchor == null || !anchor.isShown()) {
-                dismiss();
-            } else if (isShowing()) {
-                // Recompute window size and position
-                mPopup.show();
-            }
+        if (!isShowing()) {
+            return;
+        }
+        final View anchor = mAnchorView;
+        if (anchor == null || !anchor.isShown()) {
+            dismiss();
+        } else {
+            // Recompute window size and position
+            mPopup.show();
         }
     }
 
@@ -359,7 +362,7 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
 
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = mInflater.inflate(ITEM_LAYOUT, parent, false);
+                convertView = mInflater.inflate(R.layout.abc_popup_menu_item_layout, parent, false);
             }
 
             MenuView.ItemView itemView = (MenuView.ItemView) convertView;
