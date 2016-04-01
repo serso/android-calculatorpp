@@ -27,7 +27,7 @@
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:orientation="vertical">
 
-    <include layout="@layout/activity_main_editor_with_toolbar" />
+    <include layout="@layout/activity_main_editor_with_overflow_menu" />
 
     <LinearLayout
         a:id="@+id/partial_keyboard"

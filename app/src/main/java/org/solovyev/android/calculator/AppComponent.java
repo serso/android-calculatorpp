@@ -70,4 +70,5 @@ public interface AppComponent {
     void inject(PreferencesFragment fragment);
     void inject(WizardFragment fragment);
     void inject(FloatingCalculatorBroadcastReceiver receiver);
+    void inject(MainMenu.ViewProvider viewProvider);
 }

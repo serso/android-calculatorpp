@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    a:layout_width="match_parent"
+    a:layout_height="0dp"
+    a:layout_weight="2"
+    a:orientation="horizontal"
+    tools:ignore="MergeRootFrame">
+
+    <FrameLayout
+        a:id="@+id/editor"
+        a:layout_width="0dp"
+        a:layout_height="match_parent"
+        a:layout_weight="1" />
+
+    <ImageButton
+        style="?attr/actionOverflowButtonStyle"
+        a:id="@+id/main_menu"
+        a:layout_width="wrap_content"
+        a:layout_height="?actionBarSize"
+        a:layout_gravity="top|end" />
+</LinearLayout>

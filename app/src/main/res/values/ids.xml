@@ -76,4 +76,6 @@
 
     <item name="function_params_add" type="id" />
 
+    <!-- tag key to be used in CustomPopupMenu to identify default views -->
+    <item name="cpm_default_view_tag_key" type="id"/>
 </resources>

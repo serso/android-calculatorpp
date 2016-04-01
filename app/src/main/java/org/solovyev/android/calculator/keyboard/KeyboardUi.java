@@ -85,8 +85,10 @@ public class KeyboardUi extends BaseKeyboardUi {
     DirectionDragButton periodButton;
     @Bind(R.id.cpp_button_round_brackets)
     DirectionDragButton bracketsButton;
+    @Nullable
     @Bind(R.id.cpp_button_copy)
     NumeralBasesButton copyButton;
+    @Nullable
     @Bind(R.id.cpp_button_paste)
     AngleUnitsButton pasteButton;
     @Nullable
@@ -144,10 +146,14 @@ public class KeyboardUi extends BaseKeyboardUi {
         prepareButton(button8);
         prepareButton(button9);
 
-        prepareButton(copyButton);
-        copyButton.setNumeralBase(numeralBase.getPreference(preferences));
-        prepareButton(pasteButton);
-        pasteButton.setAngleUnit(angleUnit.getPreference(preferences));
+        if (copyButton != null) {
+            prepareButton(copyButton);
+            copyButton.setNumeralBase(numeralBase.getPreference(preferences));
+        }
+        if (pasteButton != null) {
+            prepareButton(pasteButton);
+            pasteButton.setAngleUnit(angleUnit.getPreference(preferences));
+        }
         prepareButton(likeButton);
         prepareButton(memoryButton);
 
@@ -179,12 +185,14 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         super.onSharedPreferenceChanged(preferences, key);
-        if (angleUnit.isSameKey(key)) {
+        if (angleUnit.isSameKey(key) && pasteButton != null) {
             pasteButton.setAngleUnit(angleUnit.getPreference(preferences));
         }
         if (numeralBase.isSameKey(key)) {
             toggleNumericDigits();
-            copyButton.setNumeralBase(numeralBase.getPreference(preferences));
+            if (copyButton != null) {
+                copyButton.setNumeralBase(numeralBase.getPreference(preferences));
+            }
         }
         if (multiplicationSign.isSameKey(key)) {
             multiplicationButton.setText(multiplicationSign.getPreference(preferences));

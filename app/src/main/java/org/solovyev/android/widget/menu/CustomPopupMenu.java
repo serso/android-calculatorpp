@@ -25,6 +25,7 @@ import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.view.menu.MenuPresenter;
 import android.support.v7.view.menu.SubMenuBuilder;
 import android.support.v7.widget.ListPopupWindow;
+import android.support.v7.widget.PopupMenu;
 import android.view.*;
 
 /**
@@ -40,8 +41,8 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
     private MenuBuilder mMenu;
     private View mAnchor;
     private CustomPopupMenuHelper mPopup;
-    private OnMenuItemClickListener mMenuItemClickListener;
-    private OnDismissListener mDismissListener;
+    private PopupMenu.OnMenuItemClickListener mMenuItemClickListener;
+    private PopupMenu.OnDismissListener mDismissListener;
     private View.OnTouchListener mDragListener;
 
     /**
@@ -117,6 +118,22 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
      */
     public void setGravity(int gravity) {
         mPopup.setGravity(gravity);
+    }
+
+    public int getHorizontalOffset() {
+        return mPopup.getHorizontalOffset();
+    }
+
+    public void setVerticalOffset(int offset) {
+        mPopup.setVerticalOffset(offset);
+    }
+
+    public int getVerticalOffset() {
+        return mPopup.getVerticalOffset();
+    }
+
+    public void setHorizontalOffset(int offset) {
+        mPopup.setHorizontalOffset(offset);
     }
 
     /**
@@ -209,11 +226,18 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
     }
 
     /**
+     * @return {@code true} if the popup is currently showing, {@code false} otherwise.
+     */
+    public boolean isShowing() {
+        return mPopup.isShowing();
+    }
+
+    /**
      * Set a listener that will be notified when the user selects an item from the menu.
      *
      * @param listener Listener to notify
      */
-    public void setOnMenuItemClickListener(OnMenuItemClickListener listener) {
+    public void setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener listener) {
         mMenuItemClickListener = listener;
     }
 
@@ -222,7 +246,7 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
      *
      * @param listener Listener to notify
      */
-    public void setOnDismissListener(OnDismissListener listener) {
+    public void setOnDismissListener(PopupMenu.OnDismissListener listener) {
         mDismissListener = listener;
     }
 
@@ -235,7 +259,7 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
 
     public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
         if (mDismissListener != null) {
-            mDismissListener.onDismiss(this);
+            mDismissListener.onDismiss(null);
         }
     }
 
@@ -255,32 +279,5 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
     }
 
     public void onMenuModeChange(MenuBuilder menu) {
-    }
-
-    /**
-     * Callback interface used to notify the application that the menu has closed.
-     */
-    public interface OnDismissListener {
-        /**
-         * Called when the associated menu has been dismissed.
-         *
-         * @param menu The PopupMenu that was dismissed.
-         */
-        void onDismiss(CustomPopupMenu menu);
-    }
-
-    /**
-     * Interface responsible for receiving menu item click events if the items themselves
-     * do not have individual item click listeners.
-     */
-    public interface OnMenuItemClickListener {
-        /**
-         * This method will be invoked when a menu item is clicked if the item itself did
-         * not already handle the event.
-         *
-         * @param item {@link MenuItem} that was clicked
-         * @return <code>true</code> if the event was handled, <code>false</code> otherwise.
-         */
-        boolean onMenuItemClick(MenuItem item);
     }
 }

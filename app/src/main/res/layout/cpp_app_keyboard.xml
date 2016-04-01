@@ -32,9 +32,9 @@
         a:layout_height="0dp"
         a:layout_weight="1">
 
-        <include layout="@layout/cpp_app_button_vars" />
+        <include layout="@layout/cpp_app_button_left" />
 
-        <include layout="@layout/cpp_app_button_functions" />
+        <include layout="@layout/cpp_app_button_right" />
 
         <include layout="@layout/cpp_app_button_percent" />
 
@@ -75,7 +75,7 @@
 
         <include layout="@layout/cpp_app_button_multiplication" />
 
-        <include layout="@layout/cpp_app_button_copy" />
+        <include layout="@layout/cpp_app_button_vars" />
 
     </LinearLayout>
 
@@ -92,7 +92,7 @@
 
         <include layout="@layout/cpp_app_button_minus" />
 
-        <include layout="@layout/cpp_app_button_paste" />
+        <include layout="@layout/cpp_app_button_functions" />
 
     </LinearLayout>
 
