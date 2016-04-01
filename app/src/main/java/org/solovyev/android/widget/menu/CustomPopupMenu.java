@@ -34,6 +34,7 @@ import android.view.*;
  * to switch to the framework's implementation. See the framework SDK
  * documentation for a class overview.
  */
+@SuppressWarnings("unused")
 public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Callback {
     private Context mContext;
     private MenuBuilder mMenu;
@@ -265,7 +266,7 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
          *
          * @param menu The PopupMenu that was dismissed.
          */
-        public void onDismiss(CustomPopupMenu menu);
+        void onDismiss(CustomPopupMenu menu);
     }
 
     /**
@@ -280,6 +281,6 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
          * @param item {@link MenuItem} that was clicked
          * @return <code>true</code> if the event was handled, <code>false</code> otherwise.
          */
-        public boolean onMenuItemClick(MenuItem item);
+        boolean onMenuItemClick(MenuItem item);
     }
 }
