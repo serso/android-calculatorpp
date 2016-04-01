@@ -45,20 +45,21 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
     private final int mPopupMaxWidth;
     private final int mPopupStyleAttr;
     private final int mPopupStyleRes;
-
+    boolean mForceShowIcon;
     private View mAnchorView;
     private ListPopupWindow mPopup;
     private ViewTreeObserver mTreeObserver;
     private Callback mPresenterCallback;
-
-    boolean mForceShowIcon;
-
     private ViewGroup mMeasureParent;
 
-    /** Whether the cached content width value is valid. */
+    /**
+     * Whether the cached content width value is valid.
+     */
     private boolean mHasContentWidth;
 
-    /** Cached content width from {@link #measureContentWidth}. */
+    /**
+     * Cached content width from {@link #measureContentWidth}.
+     */
     private int mContentWidth;
 
     private int mDropDownGravity = Gravity.NO_GRAVITY;
@@ -104,12 +105,12 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         mForceShowIcon = forceShow;
     }
 
-    public void setGravity(int gravity) {
-        mDropDownGravity = gravity;
-    }
-
     public int getGravity() {
         return mDropDownGravity;
+    }
+
+    public void setGravity(int gravity) {
+        mDropDownGravity = gravity;
     }
 
     public void show() {
