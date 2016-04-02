@@ -8,7 +8,6 @@ import jscl.mathml.MathML;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -383,7 +382,7 @@ public class Literal implements Comparable {
     }
 
     Map<Variable, Generic> content(@Nonnull Function<Variable, Generic> c) {
-        final Map<Variable, Generic> result = new HashMap<>(size);
+        final Map<Variable, Generic> result = new TreeMap<>();
 
         for (int i = 0; i < size; i++) {
             result.put(variables[i], c.apply(variables[i]));
