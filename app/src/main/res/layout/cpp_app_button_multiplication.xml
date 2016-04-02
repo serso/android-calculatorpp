@@ -24,9 +24,11 @@
 
 <org.solovyev.android.views.dragbutton.DirectionDragButton
     xmlns:a="http://schemas.android.com/apk/res/android"
-    xmlns:c="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     a:id="@id/cpp_button_multiplication"
     style="?attr/cpp_button_style_operation"
     a:text="×"
+    app:directionTextDown="^2"
+    app:directionTextUp="^"
     tools:ignore="HardcodedText" />

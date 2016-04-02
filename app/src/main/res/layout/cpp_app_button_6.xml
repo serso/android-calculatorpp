@@ -29,6 +29,5 @@
     a:id="@id/cpp_button_6"
     style="?attr/cpp_button_style_digit"
     a:text="6"
-    c:directionTextUp="√"
     c:directionTextLeft="F"
     tools:ignore="HardcodedText" />

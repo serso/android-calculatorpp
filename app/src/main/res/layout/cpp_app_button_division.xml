@@ -28,5 +28,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     a:id="@id/cpp_button_division"
     style="?attr/cpp_button_style_operation"
+    c:directionTextUp="√"
     a:text="/"
     tools:ignore="HardcodedText" />

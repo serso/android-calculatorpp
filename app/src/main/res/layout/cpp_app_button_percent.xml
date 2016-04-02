@@ -26,9 +26,6 @@
     a:id="@id/cpp_button_percent"
     style="?attr/cpp_button_style_control"
     xmlns:a="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     a:text="%"
-    app:directionTextDown="^2"
-    app:directionTextUp="^"
     tools:ignore="HardcodedText" />
