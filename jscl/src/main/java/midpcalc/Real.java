@@ -6599,7 +6599,7 @@ public final class Real {
                 width -= prefix;
             ftoaExp.setLength(0);
             if (useExp) {
-                ftoaExp.append('e');
+                ftoaExp.append('E');
                 ftoaExp.append(tmp4.exponent - pointPos);
                 width -= ftoaExp.length();
             }

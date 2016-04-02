@@ -798,12 +798,18 @@ public class ExpressionTest {
 
             me.setScienceNotation(true);
             Assert.assertEquals("0", Expression.valueOf("0.0").simplify().toString());
-            Assert.assertEquals("1E0", Expression.valueOf("1.0").simplify().toString());
-            Assert.assertEquals("100E0", Expression.valueOf("100.0").simplify().toString());
+            Assert.assertEquals("1", Expression.valueOf("1.0").simplify().toString());
+            Assert.assertEquals("100", Expression.valueOf("100.0").simplify().toString());
 
+            me.setScienceNotation(false);
             me.setRoundResult(true);
             me.setPrecision(5);
             Assert.assertEquals("0", Expression.valueOf("1222/(10^9)").numeric().toString());
+
+            me.setScienceNotation(true);
+            me.setRoundResult(true);
+            me.setPrecision(5);
+            Assert.assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
 
             me.setRoundResult(true);
             me.setPrecision(10);
@@ -816,11 +822,11 @@ public class ExpressionTest {
             Assert.assertEquals("0.3333333333333333", Expression.valueOf("1/3").numeric().toString());
 
             me.setScienceNotation(true);
-            Assert.assertEquals("333.33333E-3", Expression.valueOf("1/3").numeric().toString());
+            Assert.assertEquals("0.3333333333333333", Expression.valueOf("1/3").numeric().toString());
 
             me.setRoundResult(true);
             me.setPrecision(10);
-            Assert.assertEquals("333.33333E-3", Expression.valueOf("1/3").numeric().toString());
+            Assert.assertEquals("0.3333333333", Expression.valueOf("1/3").numeric().toString());
 
             me.setScienceNotation(false);
             me.setRoundResult(true);

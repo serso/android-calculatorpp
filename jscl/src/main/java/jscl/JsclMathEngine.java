@@ -9,6 +9,7 @@ import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
+import midpcalc.Real;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.Messages;
@@ -29,7 +30,22 @@ public class JsclMathEngine implements MathEngine {
     public static final int MAX_FRACTION_DIGITS = 20;
     @Nonnull
     private static JsclMathEngine instance = new JsclMathEngine();
-
+    @Nonnull
+    private final ConstantsRegistry constantsRegistry = new ConstantsRegistry();
+    @Nonnull
+    private final ThreadLocal<DecimalFormat> defaultNumbersFormat = new ThreadLocal<DecimalFormat>() {
+        @Override
+        protected DecimalFormat initialValue() {
+            return new DecimalFormat();
+        }
+    };
+    @Nonnull
+    private final ThreadLocal<DecimalFormat> smallNumbersFormat = new ThreadLocal<DecimalFormat>() {
+        @Override
+        protected DecimalFormat initialValue() {
+            return new DecimalFormat("##0.#####E0");
+        }
+    };
     @Nonnull
     private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
     private boolean roundResult = false;
@@ -40,8 +56,6 @@ public class JsclMathEngine implements MathEngine {
     private AngleUnit angleUnits = DEFAULT_ANGLE_UNITS;
     @Nonnull
     private NumeralBase numeralBase = DEFAULT_NUMERAL_BASE;
-    @Nonnull
-    private final ConstantsRegistry constantsRegistry = new ConstantsRegistry();
     @Nonnull
     private MessageRegistry messageRegistry = Messages.synchronizedMessageRegistry(new FixedCapacityListMessageRegistry(10));
 
@@ -150,71 +164,128 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     public String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException {
         if (value.isInfinite()) {
-            // return predefined constant for infinity
-            if (value >= 0) {
-                return Constants.INF.getName();
-            } else {
-                return Constants.INF.expressionValue().negate().toString();
-            }
+            return formatInfinity(value);
+        } else if (value.isNaN()) {
+            // return "NaN"
+            return String.valueOf(value);
+        } else if (nb == NumeralBase.dec) {
+            return formatDec(value);
         } else {
-            if (value.isNaN()) {
-                // return "NaN"
-                return String.valueOf(value);
-            } else {
-                if (nb == NumeralBase.dec) {
-                    // decimal numeral base => do specific formatting
+            return convert(value, nb);
+        }
+    }
 
-                    // detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
-                    IConstant constant = findConstant(getConstantsRegistry().getSystemEntities(), value);
+    private String formatDec(@Nonnull Double value) {
+        if (value == 0d) {
+            return "0";
+        }
+        // detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
+        final IConstant constant = findConstant(value);
+        if (constant != null) {
+            return constant.getName();
+        }
 
-                    if (constant == null) {
-                        final IConstant piInv = this.getConstantsRegistry().get(Constants.PI_INV.getName());
-                        if (piInv != null && value.equals(piInv.getDoubleValue())) {
-                            constant = piInv;
-                        }
-                    }
+        if (scienceNotation) {
+            return formatDecEngineering(value);
+        }
 
-                    if (constant == null) {
-                        // prepare decimal format
-                        final DecimalFormat df;
+        return formatDecDefault(value);
+    }
 
-                        if (roundResult) {
-                            value = new BigDecimal(value).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue();
-                        }
+    @Nonnull
+    private String formatDecEngineering(@Nonnull Double value) {
+        final double absValue = Math.abs(value);
+        final boolean smallNumber = absValue < 1 && absValue >= 0.001;
+        final Real.NumberFormat nf = new Real.NumberFormat();
+        nf.fse = smallNumber ? Real.NumberFormat.FSE_FIX : Real.NumberFormat.FSE_ENG;
+        if (useGroupingSeparator) {
+            nf.thousand = decimalGroupSymbols.getGroupingSeparator();
+        }
+        if (roundResult) {
+            nf.precision = precision;
+        }
+        final Real real = new Real(Double.toString(value));
+        return stripTrailingZeros(real.toString(nf));
+    }
 
-                        if (value != 0d && value != -0d) {
-                            if (Math.abs(value) < Math.pow(10, -5) || scienceNotation) {
-                                df = new DecimalFormat("##0.#####E0");
-                            } else {
-                                df = new DecimalFormat();
-                            }
-                        } else {
-                            df = new DecimalFormat();
-                        }
-
-                        df.setDecimalFormatSymbols(decimalGroupSymbols);
-                        df.setGroupingUsed(useGroupingSeparator);
-                        df.setGroupingSize(nb.getGroupingSize());
-
-                        if (!scienceNotation) {
-                            // using default round logic => try roundResult variable
-                            if (!roundResult) {
-                                // set maximum fraction digits high enough to show all fraction digits in case of no rounding
-                                df.setMaximumFractionDigits(MAX_FRACTION_DIGITS);
-                            } else {
-                                df.setMaximumFractionDigits(precision);
-                            }
-                        }
-
-                        return df.format(value);
-
-                    } else {
-                        return constant.getName();
-                    }
-                } else {
-                    return convert(value, nb);
-                }
+    @Nonnull
+    private String stripTrailingZeros(@Nonnull String s) {
+        final int dot = s.indexOf('.');
+        if (dot < 0) {
+            // no dot - no trailing zeros
+            return s;
+        }
+        final int e = s.lastIndexOf('E');
+        final int start;
+        String exponent = "";
+        if (e > 0) {
+            exponent = s.substring(e);
+            if (exponent.length() == 2 && exponent.charAt(1) == '0') {
+                exponent = "";
             }
+            start = e - 1;
+        } else {
+            start = s.length() - 1;
+        }
+        final int i = findLastNonZero(s, start);
+        return s.substring(0, i == dot ? i : i + 1) + exponent;
+    }
+
+    private int findLastNonZero(String s, int start) {
+        int i = start;
+        for (; i >= 0; i--) {
+            if (s.charAt(i) != '0') {
+                break;
+            }
+        }
+        return i;
+    }
+
+    @Nonnull
+    private String formatDecDefault(@Nonnull Double value) {
+        final BigDecimal bd;
+        if (roundResult) {
+            bd = BigDecimal.valueOf(value).setScale(precision, BigDecimal.ROUND_HALF_UP);
+        } else {
+            bd = BigDecimal.valueOf(value);
+        }
+        value = bd.doubleValue();
+        if (value == 0) {
+            return "0";
+        }
+
+        final DecimalFormat df = Math.abs(value) < Math.pow(10, -5) ? smallNumbersFormat.get() : defaultNumbersFormat.get();
+        df.setDecimalFormatSymbols(decimalGroupSymbols);
+        df.setGroupingUsed(useGroupingSeparator);
+        df.setGroupingSize(NumeralBase.dec.getGroupingSize());
+        if (roundResult) {
+            df.setMaximumFractionDigits(precision);
+        } else {
+            // set maximum fraction digits high enough to show all fraction digits in case of no rounding
+            df.setMaximumFractionDigits(MAX_FRACTION_DIGITS);
+        }
+        return df.format(value);
+    }
+
+    @Nullable
+    private IConstant findConstant(@Nonnull Double value) {
+        final IConstant constant = findConstant(constantsRegistry.getSystemEntities(), value);
+        if (constant != null) {
+            return constant;
+        }
+        final IConstant piInv = constantsRegistry.get(Constants.PI_INV.getName());
+        if (piInv != null && value.equals(piInv.getDoubleValue())) {
+            return piInv;
+        }
+        return null;
+    }
+
+    private String formatInfinity(@Nonnull Double value) {
+        // return predefined constant for infinity
+        if (value >= 0) {
+            return Constants.INF.getName();
+        } else {
+            return Constants.INF.expressionValue().negate().toString();
         }
     }
 
