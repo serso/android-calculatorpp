@@ -5,7 +5,10 @@ import jscl.CustomFunctionCalculationException;
 import jscl.JsclMathEngine;
 import jscl.math.*;
 import jscl.text.ParseException;
+import jscl.text.msg.JsclMessage;
+import jscl.text.msg.Messages;
 import org.solovyev.common.math.MathEntity;
+import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -58,11 +61,24 @@ public class CustomFunction extends Function implements IFunction {
         this.parameterNames = parameterNames;
         try {
             this.content = Expression.valueOf(content);
+            ensureNoImplicitFunctions();
         } catch (ParseException e) {
             throw new CustomFunctionCalculationException(this, e);
         }
         this.description = description;
         this.id = counter.incrementAndGet();
+    }
+
+    private void ensureNoImplicitFunctions() {
+        for (int i = 0; i < this.content.size(); i++) {
+            final Literal literal = this.content.literal(i);
+            for (int j = 0; j < literal.size(); j++) {
+                final Variable variable = literal.getVariable(j);
+                if (variable instanceof ImplicitFunction) {
+                    throw new CustomFunctionCalculationException(this, new JsclMessage(Messages.msg_13, MessageType.error, variable.getName()));
+                }
+            }
+        }
     }
 
     @Override
