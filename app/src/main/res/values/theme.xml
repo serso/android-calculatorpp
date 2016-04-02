@@ -41,6 +41,7 @@
         <item name="cpp_toolbar_style">@style/CppToolbar</item>
 
         <item name="android:listDivider">@drawable/divider_dark</item>
+        <item name="actionOverflowMenuStyle">@style/Cpp.Widget.AppCompat.PopupMenu.Overflow</item>
     </style>
 
     <style name="Cpp.Theme.Translucent" parent="@style/Theme.AppCompat.Dialog">
@@ -97,6 +98,7 @@
         <item name="cpp_toolbar_style">@style/CppToolbar.Light</item>
 
         <item name="android:listDivider">@drawable/divider</item>
+        <item name="actionOverflowMenuStyle">@style/Cpp.Widget.AppCompat.Light.PopupMenu.Overflow</item>
     </style>
 
     <style name="Cpp.Theme.Light.Dialog" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
@@ -145,6 +147,14 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="cpp_wizard_button_bg">@color/cpp_wizard_button_selector_light</item>
+    </style>
+
+    <style name="Cpp.Widget.AppCompat.PopupMenu.Overflow" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:dropDownVerticalOffset">4dip</item>
+    </style>
+
+    <style name="Cpp.Widget.AppCompat.Light.PopupMenu.Overflow" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:dropDownVerticalOffset">4dip</item>
     </style>
 
 </resources>

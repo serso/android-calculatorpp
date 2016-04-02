@@ -29,7 +29,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.PreferredPreferences;
+import org.solovyev.android.calculator.UiPreferences;
 import org.solovyev.common.msg.Message;
 
 import javax.annotation.Nonnull;
@@ -46,7 +46,7 @@ public class FixableErrorsActivity extends AppCompatActivity {
     @Inject
     SharedPreferences preferences;
     @Inject
-    PreferredPreferences preferredPreferences;
+    UiPreferences uiPreferences;
     private ArrayList<FixableError> errors;
 
     public static void show(@Nonnull Context context, @Nonnull List<Message> messages) {
@@ -96,7 +96,7 @@ public class FixableErrorsActivity extends AppCompatActivity {
             finish();
             return;
         }
-        if (!preferredPreferences.isShowWarningDialog()) {
+        if (!uiPreferences.isShowFixableErrorDialog()) {
             finish();
             return;
         }

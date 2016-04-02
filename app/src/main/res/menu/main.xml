@@ -5,7 +5,75 @@
     <item
         android:id="@+id/menu_mode"
         android:title="@string/cpp_mode"
-        app:actionProviderClass="org.solovyev.android.calculator.MainMenu$ViewProvider"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:icon="@drawable/ic_chevron_left_24dp"
+                android:title="@string/cpp_mode"
+                app:showAsAction="never" />
+            <item
+                android:title=""
+                app:actionViewClass="org.solovyev.android.widget.menu.MenuItemDivider"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_mode_engineer"
+                android:title="@string/cpp_wizard_mode_engineer" />
+            <item
+                android:id="@+id/menu_mode_simple"
+                android:title="@string/cpp_wizard_mode_simple" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_angle_units"
+        android:title="@string/cpp_angles"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:icon="@drawable/ic_chevron_left_24dp"
+                android:title="@string/cpp_angles"
+                app:showAsAction="never" />
+            <item
+                android:title=""
+                app:actionViewClass="org.solovyev.android.widget.menu.MenuItemDivider"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_au_deg"
+                android:title="@string/p_deg" />
+            <item
+                android:id="@+id/menu_au_rad"
+                android:title="@string/p_rad" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_numeral_base"
+        android:title="@string/cpp_radix"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:icon="@drawable/ic_chevron_left_24dp"
+                android:title="@string/cpp_radix"
+                app:showAsAction="never" />
+            <item
+                android:title=""
+                app:actionViewClass="org.solovyev.android.widget.menu.MenuItemDivider"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_nb_bin"
+                android:title="@string/p_bin" />
+            <item
+                android:id="@+id/menu_nb_dec"
+                android:title="@string/p_dec" />
+            <item
+                android:id="@+id/menu_nb_hex"
+                android:title="@string/p_hex" />
+        </menu>
+    </item>
+
+    <item
+        android:title=""
+        app:actionViewClass="org.solovyev.android.widget.menu.MenuItemDivider"
         app:showAsAction="never" />
 
     <item

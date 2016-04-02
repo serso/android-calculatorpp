@@ -56,8 +56,6 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     ActivityLauncher launcher;
     @Inject
     Lazy<Memory> memory;
-    @Inject
-    PreferredPreferences preferredPreferences;
     protected int orientation = ORIENTATION_PORTRAIT;
     private int textSize;
     private Preferences.Gui.Mode mode;

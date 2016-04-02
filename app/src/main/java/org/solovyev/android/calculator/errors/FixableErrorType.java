@@ -22,9 +22,11 @@
 
 package org.solovyev.android.calculator.errors;
 
+import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.text.msg.Messages;
-import org.solovyev.android.calculator.PreferredPreferences;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Preferences;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,22 +37,8 @@ public enum FixableErrorType {
 
     must_be_rad(Messages.msg_23, Messages.msg_24, Messages.msg_25) {
         @Override
-        public void fix(@Nonnull PreferredPreferences preferences) {
-            preferences.setAngleUnits(AngleUnit.rad);
-        }
-    },
-
-    preferred_numeral_base() {
-        @Override
-        public void fix(@Nonnull PreferredPreferences preferences) {
-            preferences.setPreferredNumeralBase();
-        }
-    },
-
-    preferred_angle_units() {
-        @Override
-        public void fix(@Nonnull PreferredPreferences preferences) {
-            preferences.setPreferredAngleUnits();
+        public void fix(@Nonnull SharedPreferences preferences) {
+            Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
         }
     };
 
@@ -71,5 +59,5 @@ public enum FixableErrorType {
         return null;
     }
 
-    public abstract void fix(@Nonnull PreferredPreferences preferences);
+    public abstract void fix(@Nonnull SharedPreferences preferences);
 }

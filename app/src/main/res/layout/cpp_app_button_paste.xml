@@ -26,8 +26,4 @@
     android:id="@id/cpp_button_paste"
     style="?attr/cpp_button_style_control"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:directionTextScale="@dimen/cpp_direction_text_scale_units"
-    android:src="@drawable/ic_content_paste_white_48dp"
-    app:directionTextDown="rad"
-    app:directionTextUp="deg"/>
+    android:src="@drawable/ic_content_paste_white_48dp" />

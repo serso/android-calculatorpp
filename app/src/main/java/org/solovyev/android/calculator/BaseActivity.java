@@ -224,15 +224,22 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0 && toolbar != null) {
-            if (toolbar.isOverflowMenuShowing()) {
-                toolbar.hideOverflowMenu();
-            } else {
-                toolbar.showOverflowMenu();
-            }
-            return true;
+        if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0) {
+            return toggleMenu();
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    protected boolean toggleMenu() {
+        if (toolbar == null) {
+            return false;
+        }
+        if (toolbar.isOverflowMenuShowing()) {
+            toolbar.hideOverflowMenu();
+        } else {
+            toolbar.showOverflowMenu();
+        }
+        return true;
     }
 
     @Override

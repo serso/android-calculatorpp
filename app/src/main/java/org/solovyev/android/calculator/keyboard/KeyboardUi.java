@@ -5,14 +5,12 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jscl.AngleUnit;
 import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.Generic;
@@ -271,10 +269,6 @@ public class KeyboardUi extends BaseKeyboardUi {
                 return false;
             case R.id.cpp_button_memory:
                 return processMemoryButton(direction);
-            case R.id.cpp_button_copy:
-                return processNumeralBaseButton(direction, (DirectionDragView) view);
-            case R.id.cpp_button_paste:
-                return processAngleUnitsButton(direction, (DirectionDragView) view);
             case R.id.cpp_button_round_brackets:
                 if (direction == left) {
                     keyboard.roundBracketsButtonPressed();
@@ -314,47 +308,8 @@ public class KeyboardUi extends BaseKeyboardUi {
         return false;
     }
 
-    private boolean processAngleUnitsButton(@Nonnull DragDirection direction, @Nonnull DirectionDragView button) {
-        if (direction == DragDirection.left) {
-            return processDefault(direction, button);
-        }
-        final String text = button.getText(direction).getValue();
-        if (TextUtils.isEmpty(text)) {
-            return processDefault(direction, button);
-        }
-        try {
-            final AngleUnit newAngleUnits = AngleUnit.valueOf(text);
-            final AngleUnit oldAngleUnits = Engine.Preferences.angleUnit.getPreference(preferences);
-            if (oldAngleUnits != newAngleUnits) {
-                preferredPreferences.setAngleUnits(newAngleUnits);
-                return true;
-            }
-        } catch (IllegalArgumentException e) {
-            Log.d(this.getClass().getName(), "Unsupported angle units: " + text);
-        }
-        return false;
-    }
-
     private boolean processDefault(@Nonnull DragDirection direction, @Nonnull DirectionDragView button) {
         final String text = button.getText(direction).getValue();
         return keyboard.buttonPressed(text);
-    }
-
-    private boolean processNumeralBaseButton(@Nonnull DragDirection direction, @Nonnull DirectionDragView button) {
-        final String text = button.getText(direction).getValue();
-        if (TextUtils.isEmpty(text)) {
-            return false;
-        }
-        try {
-            final NumeralBase newNumeralBase = NumeralBase.valueOf(text);
-            final NumeralBase oldNumeralBase = Engine.Preferences.numeralBase.getPreference(preferences);
-            if (oldNumeralBase != newNumeralBase) {
-                preferredPreferences.setNumeralBase(newNumeralBase);
-                return true;
-            }
-        } catch (IllegalArgumentException e) {
-            Log.d(this.getClass().getName(), "Unsupported numeral base: " + text);
-        }
-        return false;
     }
 }

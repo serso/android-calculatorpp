@@ -67,7 +67,10 @@
         <item name="android:textColor">?attr/cpp_text_color</item>
         <item name="android:inputType">textMultiLine|textNoSuggestions</item>
         <item name="android:scrollbars">vertical</item>
-        <item name="android:padding">@dimen/cpp_editor_padding</item>
+        <item name="android:paddingRight">3dp</item>
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
     </style>
 
     <style name="CppText.Display" parent="CppText">
@@ -78,10 +81,10 @@
         <item name="android:textSize">@dimen/cpp_display_text_size</item>
         <item name="android:scrollHorizontally">false</item>
         <item name="android:scrollbars">none</item>
-        <item name="android:paddingRight">@dimen/cpp_display_padding</item>
-        <item name="android:paddingLeft">@dimen/cpp_display_padding</item>
-        <item name="android:paddingTop">@dimen/cpp_display_padding</item>
-        <item name="android:paddingBottom">@dimen/cpp_display_padding</item>
+        <item name="android:paddingRight">3dp</item>
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
     </style>
 
     <style name="CppImageButton">

@@ -21,7 +21,6 @@ import android.support.annotation.MenuRes;
 import android.support.v7.appcompat.R;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.view.menu.MenuPresenter;
 import android.support.v7.view.menu.SubMenuBuilder;
 import android.support.v7.widget.ListPopupWindow;
@@ -120,20 +119,8 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
         mPopup.setGravity(gravity);
     }
 
-    public int getHorizontalOffset() {
-        return mPopup.getHorizontalOffset();
-    }
-
-    public void setVerticalOffset(int offset) {
-        mPopup.setVerticalOffset(offset);
-    }
-
-    public int getVerticalOffset() {
-        return mPopup.getVerticalOffset();
-    }
-
-    public void setHorizontalOffset(int offset) {
-        mPopup.setHorizontalOffset(offset);
+    public void setForceShowIcon(boolean forceShow) {
+        mPopup.setForceShowIcon(forceShow);
     }
 
     /**
@@ -194,7 +181,14 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
      * @see #getMenu()
      */
     public MenuInflater getMenuInflater() {
-        return new SupportMenuInflater(mContext);
+        return new SupportMenuInflater(mContext) {
+            @Override
+            public void inflate(int menuRes, Menu menu) {
+                final int sizeBefore = menu.size();
+                super.inflate(menuRes, menu);
+                CustomPopupMenuHelper.tintMenuItems(mContext, menu, sizeBefore, menu.size());
+            }
+        };
     }
 
     /**
@@ -223,6 +217,10 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
      */
     public void dismiss() {
         mPopup.dismiss();
+    }
+
+    public void setKeepOnSubMenu(boolean keepOnSubMenu) {
+        mPopup.setKeepOnSubMenu(keepOnSubMenu);
     }
 
     /**
@@ -270,8 +268,6 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
             return true;
         }
 
-        // Current menu will be dismissed by the normal helper, submenu will be shown in its place.
-        new MenuPopupHelper(mContext, subMenu, mAnchor).show();
         return true;
     }
 

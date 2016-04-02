@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:a="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     a:layout_width="match_parent"
     a:layout_height="0dp"
     a:layout_weight="2"
-    a:orientation="horizontal"
     tools:ignore="MergeRootFrame">
 
     <FrameLayout
         a:id="@+id/editor"
-        a:layout_width="0dp"
-        a:layout_height="match_parent"
-        a:layout_weight="1" />
+        a:layout_width="match_parent"
+        a:layout_height="match_parent" />
 
-    <ImageButton
-        style="?attr/actionOverflowButtonStyle"
+    <!-- make clickable area bigger -->
+    <FrameLayout
         a:id="@+id/main_menu"
-        a:layout_width="wrap_content"
-        a:layout_height="?actionBarSize"
-        a:layout_gravity="top|end" />
-</LinearLayout>
+        style="?attr/actionOverflowButtonStyle"
+        a:layout_width="40dp"
+        a:paddingLeft="0dp"
+        a:paddingRight="0dp"
+        a:layout_height="?attr/actionBarSize"
+        a:layout_gravity="top|end">
+
+        <ImageButton
+            style="?attr/actionOverflowButtonStyle"
+            a:paddingLeft="0dp"
+            a:paddingRight="0dp"
+            a:layout_width="20dp"
+            a:layout_height="36dp"
+            a:clickable="false"
+            a:focusable="false"
+            a:focusableInTouchMode="false"
+            a:layout_gravity="top|end" />
+    </FrameLayout>
+</FrameLayout>

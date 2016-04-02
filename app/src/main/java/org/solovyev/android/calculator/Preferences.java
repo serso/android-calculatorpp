@@ -137,8 +137,6 @@ public final class Preferences {
         Gui.language.tryPutDefault(preferences, editor);
 
         Calculations.calculateOnFly.tryPutDefault(preferences, editor);
-        Calculations.preferredAngleUnits.tryPutDefault(preferences, editor);
-        Calculations.preferredNumeralBase.tryPutDefault(preferences, editor);
 
         Onscreen.showAppIcon.tryPutDefault(preferences, editor);
         Onscreen.theme.tryPutDefault(preferences, editor);
@@ -261,8 +259,6 @@ public final class Preferences {
 
     public static class Calculations {
         public static final Preference<Boolean> calculateOnFly = BooleanPreference.of("calculations_calculate_on_fly", true);
-        public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.ofEnum("preferred_numeral_base", Engine.Preferences.numeralBase.getDefaultValue(), NumeralBase.class);
-        public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.ofEnum("preferred_angle_units", Engine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
     }
 
     public static class App {
