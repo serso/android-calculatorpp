@@ -7,8 +7,11 @@ import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-final class UiPreferences {
+@Singleton
+public final class UiPreferences {
     @NonNull
     public static final Preference<Integer> opened = IntegerPreference.of("opened", 0);
     @NonNull
@@ -17,6 +20,11 @@ final class UiPreferences {
     public static final Preference<Integer> appVersion = IntegerPreference.of("appVersion", IntegerPreference.DEF_VALUE);
     @NonNull
     public static final Preference<Boolean> rateUsShown = BooleanPreference.of("rateUsShown", false);
+    public boolean showFixableErrorDialog = true;
+
+    @Inject
+    public UiPreferences() {
+    }
 
     public static void init(@NonNull SharedPreferences preferences, @NonNull SharedPreferences uiPreferences) {
         final int currentVersion = getVersion(uiPreferences);
@@ -44,5 +52,13 @@ final class UiPreferences {
             return version.getPreference(uiPreferences);
         }
         return 0;
+    }
+
+    public boolean isShowFixableErrorDialog() {
+        return showFixableErrorDialog;
+    }
+
+    public void setShowFixableErrorDialog(boolean showFixableErrorDialog) {
+        this.showFixableErrorDialog = showFixableErrorDialog;
     }
 }

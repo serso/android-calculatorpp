@@ -53,23 +53,9 @@
     <ListPreference
         a:entries="@array/p_angle_units_names"
         a:entryValues="@array/p_angle_units"
-        a:key="preferred_angle_units"
-        a:summary="@string/p_preferred_angle_units_summary"
-        a:title="@string/p_preferred_angle_units_title" />
-
-    <ListPreference
-        a:entries="@array/p_angle_units_names"
-        a:entryValues="@array/p_angle_units"
         a:key="engine.angleUnit"
         a:summary="@string/c_angle_units_summary"
         a:title="@string/c_calc_angle_units" />
-
-    <ListPreference
-        a:entries="@array/p_numeral_bases_names"
-        a:entryValues="@array/p_numeral_bases"
-        a:key="preferred_numeral_base"
-        a:summary="@string/p_preferred_numeral_base_summary"
-        a:title="@string/p_preferred_numeral_base_title" />
 
     <ListPreference
         a:entries="@array/p_numeral_bases_names"

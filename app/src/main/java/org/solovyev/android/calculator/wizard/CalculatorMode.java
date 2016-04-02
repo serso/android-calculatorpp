@@ -37,7 +37,6 @@ enum CalculatorMode {
             final SharedPreferences.Editor editor = preferences.edit();
 
             Preferences.Gui.mode.putPreference(editor, Preferences.Gui.Mode.simple);
-            Preferences.Calculations.preferredAngleUnits.putPreference(editor, AngleUnit.deg);
             Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.deg);
             Engine.Preferences.Output.scientificNotation.putPreference(editor, false);
             Engine.Preferences.Output.round.putPreference(editor, true);
@@ -52,7 +51,6 @@ enum CalculatorMode {
             final SharedPreferences.Editor editor = preferences.edit();
 
             Preferences.Gui.mode.putPreference(editor, Preferences.Gui.Mode.engineer);
-            Preferences.Calculations.preferredAngleUnits.putPreference(editor, AngleUnit.rad);
             Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.rad);
             Engine.Preferences.Output.scientificNotation.putPreference(editor, true);
             Engine.Preferences.Output.round.putPreference(editor, false);

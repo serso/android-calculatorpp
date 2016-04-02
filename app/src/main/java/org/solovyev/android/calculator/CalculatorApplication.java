@@ -92,9 +92,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
     Notifier notifier;
 
     @Inject
-    PreferredPreferences preferredPreferences;
-
-    @Inject
     ActivityLauncher launcher;
 
     @Inject

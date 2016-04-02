@@ -26,9 +26,4 @@
     android:id="@id/cpp_button_copy"
     style="?attr/cpp_button_style_control"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:src="@drawable/ic_content_copy_white_48dp"
-    app:directionTextScale="@dimen/cpp_direction_text_scale_units"
-    app:directionTextDown="bin"
-    app:directionTextLeft="hex"
-    app:directionTextUp="dec"/>
+    android:src="@drawable/ic_content_copy_white_48dp" />

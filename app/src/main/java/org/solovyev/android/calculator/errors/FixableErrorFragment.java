@@ -7,13 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.PreferredPreferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -24,7 +19,7 @@ public class FixableErrorFragment extends BaseDialogFragment {
     @Nonnull
     private static final String ARG_ERROR = "error";
     @Inject
-    PreferredPreferences preferredPreferences;
+    UiPreferences uiPreferences;
     private FixableError error;
     @Nullable
     private FixableErrorsActivity activity;
@@ -75,12 +70,12 @@ public class FixableErrorFragment extends BaseDialogFragment {
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_NEUTRAL:
-                preferredPreferences.dontShowWarningDialog();
+                uiPreferences.setShowFixableErrorDialog(false);
                 dismiss();
                 break;
             case DialogInterface.BUTTON_POSITIVE:
                 assert error.error != null;
-                error.error.fix(preferredPreferences);
+                error.error.fix(preferences);
                 dismiss();
                 break;
             default:

@@ -143,4 +143,6 @@
   <string name="cpp_fn_parameter">Параметр</string>
   <string name="cpp_fn_duplicate_parameter">Параметр с таким именем уже существует</string>
   <string name="cpp_invalid_name">Имя содержит недопустимые символы</string>
+    <string name="cpp_angles">Углы</string>
+    <string name="cpp_radix">Система</string>
 </resources>

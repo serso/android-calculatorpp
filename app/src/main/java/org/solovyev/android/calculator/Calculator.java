@@ -76,8 +76,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     private volatile boolean calculateOnFly = true;
 
     @Inject
-    PreferredPreferences preferredPreferences;
-    @Inject
     Editor editor;
     @Inject
     Engine engine;
@@ -162,7 +160,6 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
             return;
         }
 
-        preferredPreferences.check(false);
         PreparedExpression pe = null;
         try {
             pe = prepare(e);

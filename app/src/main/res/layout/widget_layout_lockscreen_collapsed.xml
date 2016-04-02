@@ -38,7 +38,6 @@
             a:layout_width="0dp"
             a:layout_height="wrap_content"
             a:layout_weight="2"
-            a:padding="@dimen/cpp_display_padding"
             a:scrollbars="vertical"
             a:textIsSelectable="true"
             a:textSize="@dimen/cpp_widget_display_text_size_collapsed" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cpp_kb_variables" translatable="false">π…</string>
+    <string name="cpp_kb_variables" translatable="false">π</string>
     <string name="cpp_kb_functions" translatable="false">ƒ</string>
     <string name="cpp_kb_operators" translatable="false">∂</string>
     <string name="cpp_kb_undo" translatable="false">↶</string>

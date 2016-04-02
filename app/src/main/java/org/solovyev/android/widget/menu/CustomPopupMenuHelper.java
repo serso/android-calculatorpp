@@ -18,8 +18,12 @@ package org.solovyev.android.widget.menu;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ActionProvider;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.appcompat.R;
@@ -30,7 +34,9 @@ import android.view.View.MeasureSpec;
 import android.widget.*;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Presents a menu as a small, simple popup anchored to another view.
@@ -42,6 +48,7 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         MenuPresenter {
 
     private static final int DEFAULT_VIEW_TAG_KEY = org.solovyev.android.calculator.R.id.cpm_default_view_tag_key;
+    private static final int[] COLOR_ATTRS = new int[]{R.attr.colorControlNormal};
     private static final Object DEFAULT_VIEW_TAG = new Object();
 
     private final Context mContext;
@@ -58,6 +65,7 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
     private ViewTreeObserver mTreeObserver;
     private Callback mPresenterCallback;
     private ViewGroup mMeasureParent;
+    private boolean mKeepOnSubMenu;
 
     /**
      * Whether the cached content width value is valid.
@@ -70,8 +78,6 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
     private int mContentWidth;
 
     private int mGravity = Gravity.NO_GRAVITY;
-    private int mVerticalOffset;
-    private int mHorizontalOffset;
 
     public CustomPopupMenuHelper(Context context, MenuBuilder menu) {
         this(context, menu, null, false, R.attr.popupMenuStyle);
@@ -106,6 +112,47 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         menu.addMenuPresenter(this, context);
     }
 
+    static void tintMenuItem(@Nonnull MenuItemImpl item, @Nonnull ColorStateList tintColorStateList) {
+        Drawable icon = item.getIcon();
+        if (icon != null) {
+            icon = DrawableCompat.wrap(icon);
+            DrawableCompat.setTintList(icon, tintColorStateList);
+            item.setIcon(icon);
+        }
+        if (item.hasSubMenu()) {
+            final SubMenu subMenu = item.getSubMenu();
+            for (int i = 0; i < subMenu.size(); i++) {
+                final MenuItem subItem = subMenu.getItem(i);
+                if (subItem instanceof MenuItemImpl) {
+                    tintMenuItem((MenuItemImpl) subItem, tintColorStateList);
+                }
+            }
+        }
+    }
+
+    @Nullable
+    static ColorStateList getTintColorStateList(Context context) {
+        final TypedArray a = context.obtainStyledAttributes(null, COLOR_ATTRS);
+        try {
+            return a.getColorStateList(0);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    static void tintMenuItems(Context context, Menu menu, int from, int to) {
+        final ColorStateList tintColorStateList = getTintColorStateList(context);
+        if (tintColorStateList == null) {
+            return;
+        }
+        for (int i = from; i < to; i++) {
+            final MenuItem item = menu.getItem(i);
+            if (item instanceof MenuItemImpl) {
+                tintMenuItem((MenuItemImpl) item, tintColorStateList);
+            }
+        }
+    }
+
     public void setAnchorView(View anchor) {
         mAnchorView = anchor;
     }
@@ -122,20 +169,12 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         mGravity = gravity;
     }
 
-    public void setVerticalOffset(int offset) {
-        mVerticalOffset = offset;
+    public boolean isKeepOnSubMenu() {
+        return mKeepOnSubMenu;
     }
 
-    public int getVerticalOffset() {
-        return mVerticalOffset;
-    }
-
-    public void setHorizontalOffset(int offset) {
-        mHorizontalOffset = offset;
-    }
-
-    public int getHorizontalOffset() {
-        return mHorizontalOffset;
+    public void setKeepOnSubMenu(boolean keepOnSubMenu) {
+        mKeepOnSubMenu = keepOnSubMenu;
     }
 
     public void show() {
@@ -162,8 +201,6 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
             if (addGlobalListener) mTreeObserver.addOnGlobalLayoutListener(this);
             mPopup.setAnchorView(anchor);
             mPopup.setDropDownGravity(mGravity);
-            mPopup.setHorizontalOffset(mHorizontalOffset);
-            mPopup.setVerticalOffset(mVerticalOffset);
         } else {
             return false;
         }
@@ -291,8 +328,10 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
     @Override
     public boolean onSubMenuSelected(SubMenuBuilder subMenu) {
         if (subMenu.hasVisibleItems()) {
-            CustomPopupMenuHelper subPopup = new CustomPopupMenuHelper(mContext, subMenu, mAnchorView);
+            CustomPopupMenuHelper subPopup = new CustomPopupMenuHelper(mContext, subMenu, mAnchorView, false, mPopupStyleAttr, mPopupStyleRes);
+            subPopup.setGravity(mGravity);
             subPopup.setCallback(mPresenterCallback);
+            subPopup.setKeepOnSubMenu(mKeepOnSubMenu);
 
             boolean preserveIconSpacing = false;
             final int count = subMenu.size();
@@ -320,6 +359,9 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         // Only care about the (sub)menu we're presenting.
         if (menu != mMenu) return;
 
+        if (isKeepOnSubMenu() && !allMenusAreClosing) {
+            return;
+        }
         dismiss();
         if (mPresenterCallback != null) {
             mPresenterCallback.onCloseMenu(menu, allMenusAreClosing);
@@ -402,14 +444,17 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
 
         @Nonnull
         private View getDefaultView(MenuItemImpl item, View convertView, ViewGroup parent) {
-            if (convertView == null || convertView.getTag(DEFAULT_VIEW_TAG_KEY) == DEFAULT_VIEW_TAG) {
+            if (convertView == null || convertView.getTag(DEFAULT_VIEW_TAG_KEY) != DEFAULT_VIEW_TAG) {
                 convertView = mInflater.inflate(R.layout.abc_popup_menu_item_layout, parent, false);
                 convertView.setTag(DEFAULT_VIEW_TAG_KEY, DEFAULT_VIEW_TAG);
             }
 
             final MenuView.ItemView itemView = (MenuView.ItemView) convertView;
             if (mForceShowIcon) {
-                ((ListMenuItemView) convertView).setForceShowIcon(true);
+                final ListMenuItemView listItemView = (ListMenuItemView) convertView;
+                final boolean preserveIconSpacing = ListMenuItemViewCompat.getPreserveIconSpacing(listItemView);
+                listItemView.setForceShowIcon(true);
+                ListMenuItemViewCompat.setPreserveIconSpacing(listItemView, preserveIconSpacing);
             }
             itemView.initialize(item, 0);
             return convertView;
@@ -435,6 +480,17 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         public void notifyDataSetChanged() {
             findExpandedIndex();
             super.notifyDataSetChanged();
+        }
+
+        public int indexOf(MenuItem item) {
+            final List<MenuItemImpl> visibleItems = mMenu.getVisibleItems();
+            for (int i = 0; i < visibleItems.size(); i++) {
+                MenuItemImpl candidate = visibleItems.get(i);
+                if (candidate == item) {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

@@ -26,7 +26,6 @@ public abstract class BaseCalculatorTest {
         engine = Tests.makeEngine();
         engine.variablesRegistry.bus = bus;
         calculator.engine = engine;
-        calculator.preferredPreferences = mock(PreferredPreferences.class);
         final ToJsclTextProcessor processor = new ToJsclTextProcessor();
         processor.engine = engine;
         calculator.preprocessor = processor;
