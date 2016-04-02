@@ -44,9 +44,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -102,29 +100,59 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
         try {
             migrateOldFunctions();
 
-            addSafely(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
-            addSafely(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"), "x^(1/3)"));
-            addSafely(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"), "x^(1/4)"));
-            addSafely(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
-            addSafely(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
-            addSafely(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
+            final List<CustomFunction.Builder> functions = new ArrayList<>();
+            functions.add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
+            functions.add(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"), "x^(1/3)"));
+            functions.add(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"), "x^(1/4)"));
+            functions.add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
+            functions.add(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
+            functions.add(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
 
             for (CppFunction function : loadEntities(CppFunction.JSON_CREATOR)) {
-                addSafely(function.toJsclBuilder());
+                functions.add(function.toJsclBuilder());
             }
+            addSafely(functions);
         } finally {
             setInitialized();
         }
     }
 
-    @Nullable
-    protected Function addSafely(@Nonnull CustomFunction.Builder builder) {
-        try {
-            return addSafely(builder.create());
-        } catch (Exception e) {
-            errorReporter.onException(e);
+    /**
+     * As some functions might depend on not-yet-loaded functions we need to try to add all functions first and then
+     * re-run again if there are functions left. This process should continue until we can't add more functions
+     * @param functions functions to add
+     */
+    private void addSafely(@Nonnull List<CustomFunction.Builder> functions) {
+        final List<Exception> exceptions = new ArrayList<>();
+        while (functions.size() > 0) {
+            final int sizeBefore = functions.size();
+            // prepare exceptions list for new round
+            exceptions.clear();
+            addSafely(functions, exceptions);
+            final int sizeAfter = functions.size();
+            if (sizeBefore == sizeAfter) {
+                break;
+            }
         }
-        return null;
+
+        if (functions.size() > 0) {
+            // report exceptions
+            for (Exception exception : exceptions) {
+                errorReporter.onException(exception);
+            }
+        }
+    }
+
+    private void addSafely(@Nonnull List<CustomFunction.Builder> functions, @Nonnull List<Exception> exceptions) {
+        for (Iterator<CustomFunction.Builder> iterator = functions.iterator(); iterator.hasNext(); ) {
+            final CustomFunction.Builder function = iterator.next();
+            try {
+                addSafely(function.create());
+                iterator.remove();
+            } catch (Exception e) {
+                exceptions.add(e);
+            }
+        }
     }
 
     @Override
@@ -152,7 +180,6 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
             final OldFunctions oldFunctions = serializer.read(OldFunctions.class, xml);
             if (oldFunctions != null) {
                 List<CppFunction> functions = OldFunctions.toCppFunctions(oldFunctions);
-                // todo serso: fix multiplication sign issue
                 FileSaver.save(getEntitiesFile(), Json.toJson(functions).toString());
             }
             preferences.edit().remove(OldFunctions.PREFS_KEY).apply();
