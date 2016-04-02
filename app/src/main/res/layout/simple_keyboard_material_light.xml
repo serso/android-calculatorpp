@@ -111,11 +111,11 @@ e for the specific language governing permissions and
 
         <include layout="@layout/cpp_simple_button_power_material_light" />
 
+        <include layout="@layout/cpp_simple_button_round_brackets_material_light" />
+
         <include layout="@layout/cpp_simple_button_0_material_light" />
 
         <include layout="@layout/cpp_simple_button_dot_material_light" />
-
-        <include layout="@layout/cpp_simple_button_round_brackets_material_light" />
 
         <include layout="@layout/cpp_simple_button_plus_material_light" />
 

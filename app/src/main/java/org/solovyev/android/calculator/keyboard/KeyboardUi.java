@@ -161,13 +161,12 @@ public class KeyboardUi extends BaseKeyboardUi {
             hideText(button3, down);
             hideText(button4, down);
             hideText(button5, down);
+            hideText(button6, up);
             hideText(button7, left, up, down);
             hideText(button8, left, up, down);
             hideText(button9, left);
             hideText(multiplicationButton, left);
-            hideText(plusButton, up, down);
-            hideText(copyButton, left, up, down);
-            hideText(pasteButton, left, up, down);
+            hideText(plusButton, up);
             hideText(functionsButton, up, down);
         }
         multiplicationButton.setText(engine.getMultiplicationSign());

@@ -95,7 +95,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "1");
         addButton(row, 0, "2");
         addButton(row, 0, "3");
-        addButton(row, 0, "0").setText(up, "00").setText(down, "000");
+        addButton(row, 0, "0").setText(up, "000").setText(down, "00");
         addButton(row, 0, ".").setText(up, ",");
         addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
     }
@@ -133,9 +133,9 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addImageButton(row, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_white_24dp);
 
         row = makeRow();
-        addButton(row, 0, "0").setText(up, "00").setText(down, "000");
-        addButton(row, 0, ".").setText(up, ",");
         addButton(row, R.id.cpp_kb_button_brackets, "( )").setText(up, "(").setText(down, ")");
+        addButton(row, 0, "0").setText(up, "000").setText(down, "00");
+        addButton(row, 0, ".").setText(up, ",");
         addOperationButton(row, R.id.cpp_kb_button_plus, "+");
         addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
     }

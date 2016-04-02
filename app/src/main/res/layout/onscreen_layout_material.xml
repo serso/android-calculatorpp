@@ -43,7 +43,7 @@
         </LinearLayout>
 
         <include
-            layout="@layout/widget_keyboard_material"
+            layout="@layout/simple_keyboard_material"
             a:layout_width="match_parent"
             a:layout_height="0dp"
             a:layout_weight="5" />

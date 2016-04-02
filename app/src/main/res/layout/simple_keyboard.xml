@@ -110,11 +110,11 @@
 
         <include layout="@layout/cpp_simple_button_power" />
 
+        <include layout="@layout/cpp_simple_button_round_brackets" />
+
         <include layout="@layout/cpp_simple_button_0" />
 
         <include layout="@layout/cpp_simple_button_dot" />
-
-        <include layout="@layout/cpp_simple_button_round_brackets" />
 
         <include layout="@layout/cpp_simple_button_plus" />
 

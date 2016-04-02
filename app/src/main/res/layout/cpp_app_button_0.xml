@@ -29,6 +29,6 @@
     a:id="@id/cpp_button_0"
     style="?attr/cpp_button_style_digit"
     a:text="0"
-    c:directionTextDown="000"
-    c:directionTextUp="00"
+    c:directionTextDown="00"
+    c:directionTextUp="000"
     tools:ignore="HardcodedText" />
