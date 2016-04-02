@@ -74,8 +74,8 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "7");
         addButton(row, 0, "8");
         addButton(row, 0, "9").setText(up, "π").setText(down, "e");
-        addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText(up, "%").setText(down, "sqrt");
-        addOperationButton(row, R.id.cpp_kb_button_multiply, "×").setText(up, "^n").setText(down, "^2");
+        addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText(up, "√").setText(down, "%");
+        addOperationButton(row, R.id.cpp_kb_button_multiply, "×").setText(up, "^").setText(down, "^2");
         addButton(row, R.id.cpp_kb_button_clear, "C");
 
         row = makeRow();
@@ -115,14 +115,14 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
         addButton(row, 0, "7");
         addButton(row, 0, "8");
         addButton(row, 0, "9").setText(up, "π").setText(down, "e");
-        addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText(up, "%").setText(down, "sqrt");
+        addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText(up, "√").setText(down, "%");
         addButton(row, 0, parametersCount > 0 ? parameterNames.get(0) : "x");
 
         row = makeRow();
         addButton(row, 0, "4");
         addButton(row, 0, "5");
         addButton(row, 0, "6");
-        addOperationButton(row, R.id.cpp_kb_button_multiply, "×").setText(up, "^n").setText(down, "^2");
+        addOperationButton(row, R.id.cpp_kb_button_multiply, "×").setText(up, "^").setText(down, "^2");
         addButton(row, 0, parametersCount > 1 ? parameterNames.get(1) : "y");
 
         row = makeRow();
@@ -229,13 +229,13 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
                 return false;
             }
             switch (text) {
-                case "sqrt":
-                    user.insertText("sqrt()", -1);
+                case "√":
+                    user.insertText("√()", -1);
                     break;
                 case ",":
                     user.insertText(", ", 0);
                     break;
-                case "^n":
+                case "^":
                     user.insertOperator('^');
                     break;
                 case "^2":
