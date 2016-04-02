@@ -46,7 +46,7 @@ public abstract class Variable implements Comparable, MathEntity {
             return generic.numeric();
         }
     };
-    static final Map<String, String> special = new HashMap<String, String>();
+    static final Map<String, String> special = new HashMap<>();
 
     static {
         special.put("Alpha", "\u0391");
