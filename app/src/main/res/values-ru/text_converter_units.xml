@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cpp_units_time_seconds">с</string>
+    <string name="cpp_units_time_weeks">нед</string>
+    <string name="cpp_units_time_days">дни</string>
+    <string name="cpp_units_time_minutes">мин</string>
+    <string name="cpp_units_time_years">г</string>
+    <string name="cpp_units_time_hours">ч</string>
+    <string name="cpp_units_time_months">мес</string>
+    <string name="cpp_units_aos_mol">моль</string>
+    <string name="cpp_units_aos_atoms">аотмы</string>
+    <string name="cpp_units_ec_a">A</string>
+    <string name="cpp_units_ec_gi">Gi</string>
+    <string name="cpp_units_length_meters">м</string>
+    <string name="cpp_units_length_nautical_miles">мили (морские)</string>
+    <string name="cpp_units_length_inches">дюймы</string>
+    <string name="cpp_units_length_astronomical_units">au</string>
+    <string name="cpp_units_length_angstroms">Å</string>
+    <string name="cpp_units_length_light_years">св г</string>
+    <string name="cpp_units_length_pixels">пиксели</string>
+    <string name="cpp_units_length_feet">футы</string>
+    <string name="cpp_units_length_parsecs">парсеки</string>
+    <string name="cpp_units_length_points">pt</string>
+    <string name="cpp_units_length_miles">мили</string>
+    <string name="cpp_units_length_yards">ярды</string>
+    <string name="cpp_units_mass_kg">кг</string>
+    <string name="cpp_units_mass_lb">фунты</string>
+    <string name="cpp_units_mass_oz">унции</string>
+    <string name="cpp_units_mass_t">т</string>
+    <string name="cpp_units_mass_tons_uk">т (СК)</string>
+    <string name="cpp_units_mass_tons_us">т (США)</string>
+</resources>

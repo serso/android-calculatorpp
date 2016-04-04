@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cpp_units_time_seconds">s</string>
+    <string name="cpp_units_time_weeks">weeks</string>
+    <string name="cpp_units_time_days">days</string>
+    <string name="cpp_units_time_minutes">min</string>
+    <string name="cpp_units_time_years">years</string>
+    <string name="cpp_units_time_hours">hours</string>
+    <string name="cpp_units_time_months">months</string>
+    <string name="cpp_units_aos_mol">mol</string>
+    <string name="cpp_units_aos_atoms">atoms</string>
+    <string name="cpp_units_ec_a">A</string>
+    <string name="cpp_units_ec_gi">Gi</string>
+    <string name="cpp_units_length_meters">m</string>
+    <string name="cpp_units_length_nautical_miles">miles (nau)</string>
+    <string name="cpp_units_length_inches">in</string>
+    <string name="cpp_units_length_astronomical_units">au</string>
+    <string name="cpp_units_length_angstroms">Å</string>
+    <string name="cpp_units_length_light_years">light years</string>
+    <string name="cpp_units_length_pixels">px</string>
+    <string name="cpp_units_length_feet">ft</string>
+    <string name="cpp_units_length_parsecs">pc</string>
+    <string name="cpp_units_length_points">pt</string>
+    <string name="cpp_units_length_miles">miles</string>
+    <string name="cpp_units_length_yards">yards</string>
+    <string name="cpp_units_mass_kg">kg</string>
+    <string name="cpp_units_mass_lb">lb</string>
+    <string name="cpp_units_mass_oz">oz</string>
+    <string name="cpp_units_mass_t">t</string>
+    <string name="cpp_units_mass_tons_uk">t (UK)</string>
+    <string name="cpp_units_mass_tons_us">t (US)</string>
+</resources>

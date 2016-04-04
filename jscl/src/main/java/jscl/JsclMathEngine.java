@@ -175,7 +175,8 @@ public class JsclMathEngine implements MathEngine {
         }
     }
 
-    private String formatDec(@Nonnull Double value) {
+    @Nonnull
+    public String formatDec(@Nonnull Double value) {
         if (value == 0d) {
             return "0";
         }
