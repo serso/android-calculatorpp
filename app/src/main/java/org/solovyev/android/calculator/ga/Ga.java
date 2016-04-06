@@ -46,6 +46,11 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
         return analytics;
     }
 
+    @Nonnull
+    public Tracker getTracker() {
+        return tracker;
+    }
+
     public void onButtonPressed(@Nullable String text) {
         if (TextUtils.isEmpty(text)) {
             return;
@@ -70,13 +75,6 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
     public void reportInitially(@Nonnull SharedPreferences preferences) {
         reportLayout(Preferences.Gui.mode.getPreferenceNoError(preferences));
         reportTheme(Preferences.Gui.theme.getPreferenceNoError(preferences));
-    }
-
-    public void onBootStart() {
-        final HitBuilders.EventBuilder b = new HitBuilders.EventBuilder();
-        b.setCategory("lifecycle");
-        b.setAction("boot");
-        tracker.send(b.build());
     }
 
     public void onFloatingCalculatorOpened() {

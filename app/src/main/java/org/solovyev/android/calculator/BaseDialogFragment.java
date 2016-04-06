@@ -1,7 +1,5 @@
 package org.solovyev.android.calculator;
 
-import static org.solovyev.android.calculator.App.cast;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -17,13 +15,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import org.solovyev.android.calculator.ga.Ga;
 
 import javax.inject.Inject;
+
+import static org.solovyev.android.calculator.App.cast;
 
 public abstract class BaseDialogFragment extends DialogFragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
     @Inject
     protected SharedPreferences preferences;
+    @Inject
+    Ga ga;
     @Nullable
     private Button positiveButton;
     @Nullable
@@ -65,6 +70,14 @@ public abstract class BaseDialogFragment extends DialogFragment implements View.
             }
         });
         return dialog;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final Tracker tracker = ga.getTracker();
+        tracker.setScreenName(getClass().getSimpleName());
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     protected void onShowDialog(@NonNull AlertDialog dialog, boolean firstTime) {
