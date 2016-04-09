@@ -32,6 +32,7 @@ import android.support.v7.widget.ListPopupWindow;
 import android.view.*;
 import android.view.View.MeasureSpec;
 import android.widget.*;
+import org.solovyev.android.Check;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -432,14 +433,30 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
             final MenuItemImpl item = getItem(position);
             final ActionProvider actionProvider = MenuItemCompat.getActionProvider(item);
             if (actionProvider != null) {
-                return actionProvider.onCreateActionView(item);
+                final View actionView = actionProvider.onCreateActionView(item);
+                fixLayoutParams(actionView, parent);
+                return actionView;
             }
             final View actionView = MenuItemCompat.getActionView(item);
             if (actionView != null) {
                 ((MenuView.ItemView) actionView).initialize(item, 0);
+                fixLayoutParams(actionView, parent);
                 return actionView;
             }
             return getDefaultView(item, convertView, parent);
+        }
+
+        private void fixLayoutParams(View actionView, ViewGroup parent) {
+            if (parent instanceof FrameLayout) {
+                // width measure pass, nothing to be done
+                return;
+            }
+            Check.isTrue(parent instanceof AbsListView);
+            final ViewGroup.LayoutParams lp = actionView.getLayoutParams();
+            if (lp != null && !(lp instanceof AbsListView.LayoutParams)) {
+                // see android.widget.AbsListView.generateDefaultLayoutParams()
+                actionView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
         }
 
         @Nonnull
