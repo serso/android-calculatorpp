@@ -36,23 +36,17 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -115,7 +109,7 @@ public class FunctionParamsView extends LinearLayout {
         });
         headerView.addView(addButton, makeButtonParams());
         headerView.addView(new View(context), new LayoutParams(3 * clickableAreaSize, WRAP_CONTENT));
-        addView(headerView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        addView(headerView, new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
     }
 
     @Nullable
@@ -206,7 +200,7 @@ public class FunctionParamsView extends LinearLayout {
         rowView.addView(paramLabel, new LayoutParams(0, WRAP_CONTENT, 1));
 
         // for row is added at 0 position, the consequent rows
-        addView(rowView, Math.max(0, getChildCount() - 1), new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        addView(rowView, Math.max(0, getChildCount() - 1), new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
         onParamsChanged();
         return rowView;
     }
