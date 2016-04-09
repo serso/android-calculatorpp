@@ -109,8 +109,8 @@ public abstract class BaseDialogFragment extends DialogFragment implements View.
     }
 
     protected void clearError(@NonNull TextInputLayout textInput) {
-        textInput.setError(null);
         textInput.setErrorEnabled(false);
+        textInput.setError(null);
     }
 
     protected final void showIme(@NonNull View view) {
