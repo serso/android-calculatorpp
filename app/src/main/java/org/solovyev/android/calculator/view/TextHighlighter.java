@@ -174,7 +174,7 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
     }
 
     private int highlightGroup(SpannableStringBuilder sb, int start, int group, int groupsCount, @Nonnull List<GroupSpan> spans) {
-        final int end = fillGroupSpans(sb, start + 1, group, groupsCount, spans);
+        final int end = Math.min(sb.length(), fillGroupSpans(sb, start + 1, group, groupsCount, spans));
         if (start + 1 < end) {
             spans.add(new GroupSpan(start + 1, end, group));
         }
