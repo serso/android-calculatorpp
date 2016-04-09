@@ -46,6 +46,7 @@ import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.CppVariable;
 import org.solovyev.android.calculator.variables.EditVariableFragment;
 import org.solovyev.android.calculator.variables.VariablesActivity;
+import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.Plotter;
 import org.solovyev.common.msg.MessageType;
 
@@ -187,7 +188,9 @@ public final class ActivityLauncher {
         try {
             final CustomFunction f = new CustomFunction.Builder().setName("").setParameterNames(parameters).setContent(content).create();
             final ExpressionFunction ef = new ExpressionFunction(f);
-            plotter.get().add(ef);
+            final PlotFunction pf = PlotFunction.create(ef, application);
+            pf.meshSpec.pointsCount = 100;
+            plotter.get().add(pf);
             showPlotter();
         } catch (RuntimeException e) {
             errorReporter.get().onException(e);
