@@ -29,9 +29,9 @@ public class TanTest {
             me.setAngleUnits(AngleUnit.rad);
             assertEquals("-2*ln(2)-ln(cos(x))", me.simplify("∫(tan(x), x)"));
             assertEquals("-(2*ln(2)+ln(cos(x*π)))/π", me.simplify("∫(tan(π*x), x)"));
-            assertEquals("-0.015308831465985804", me.evaluate("ln(cos(10*π/180))"));
+            assertEquals("-0.0153088314659858", me.evaluate("ln(cos(10*π/180))"));
             assertEquals("-0.1438410362258904", me.evaluate("ln(cos(30*π/180))"));
-            assertEquals("0.12853220475990468", me.evaluate("∫ab(tan(x), x, 10*π/180, 30*π/180)"));
+            assertEquals("0.1285322047599047", me.evaluate("∫ab(tan(x), x, 10*π/180, 30*π/180)"));
         } finally {
             me.setAngleUnits(AngleUnit.deg);
         }

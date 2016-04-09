@@ -1,6 +1,5 @@
 package midpcalc;
 
-
 /**
  * <b>Java integer implementation of 63-bit precision floating point.</b>
  * <br><i>Version 1.13</i>
@@ -60,7 +59,7 @@ package midpcalc;
  * accuracy. Error bounds are for "typical arguments" and may increase when
  * results approach zero or
  * infinity. The abbreviation {@link Math#ulp(double) ULP} means Unit in the
- * Last Place. An error bound of � ULP means that the result is correctly
+ * Last Place. An error bound of œ ULP means that the result is correctly
  * rounded. The relative execution time listed under each method is the
  * average from running on SonyEricsson T610 (R3C), K700i, and Nokia 6230i.
  * <p/>
@@ -261,23 +260,9 @@ public final class Real {
      * Initialized to mantissa of e.
      */
     public static long randSeedB = 0x56fc2a2c515da54dL;
-    // Temporary values used by functions (to avoid "new" inside functions)
-    private static Real tmp0 = new Real(); // tmp for basic functions
-    private static Real recipTmp = new Real();
-    private static Real recipTmp2 = new Real();
-    private static Real sqrtTmp = new Real();
-    private static Real expTmp = new Real();
-    private static Real expTmp2 = new Real();
-    private static Real expTmp3 = new Real();
-    private static Real tmp1 = new Real();
-    private static Real tmp2 = new Real();
-    private static Real tmp3 = new Real();
-    private static Real tmp4 = new Real();
-    private static Real tmp5 = new Real();
-    private static byte[] ftoaDigits = new byte[65];
-    private static StringBuffer ftoaBuf = new StringBuffer(40);
-    private static StringBuffer ftoaExp = new StringBuffer(15);
-    private static NumberFormat tmpFormat = new NumberFormat();
+    private final byte[] digits = new byte[65];
+    private final StringBuilder buf = new StringBuilder(40);
+    private final StringBuilder exp = new StringBuilder(15);
     /**
      * The mantissa of a <code>Real</code>. <i>To maintain numbers in a
      * normalized state and to preserve the integrity of abnormal numbers, it
@@ -285,7 +270,7 @@ public final class Real {
      * <code>Real</code> directly.</i>
      * <p/>
      * <p>The number represented by a <code>Real</code> equals:<br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1<sup>sign</sup>&nbsp;�&nbsp;mantissa&nbsp;�&nbsp;2<sup>-62</sup>&nbsp;�&nbsp;2<sup>exponent-0x40000000</sup>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1<sup>sign</sup>&nbsp;·&nbsp;mantissa&nbsp;·&nbsp;2<sup>-62</sup>&nbsp;·&nbsp;2<sup>exponent-0x40000000</sup>
      * <p/>
      * <p>The normalized mantissa of a finite <code>Real</code> must be
      * between <code>0x4000000000000000L</code> and
@@ -330,6 +315,18 @@ public final class Real {
      * extensions.
      */
     public byte sign;
+    private Real tmp0;
+    private Real tmp1;
+    private Real tmp2;
+    private Real tmp3;
+    private Real tmp4;
+    private Real tmp5;
+    private Real recipTmp;
+    private Real recipTmp2;
+    private Real sqrtTmp;
+    private Real expTmp;
+    private Real expTmp2;
+    private Real expTmp3;
 
     /**
      * Creates a new <code>Real</code> with a value of zero.
@@ -562,6 +559,66 @@ public final class Real {
         nextBits(63);
     }
 
+    private Real tmp0() {
+        if (tmp0 == null) tmp0 = new Real();
+        return tmp0;
+    }
+
+    private Real tmp1() {
+        if (tmp1 == null) tmp1 = new Real();
+        return tmp1;
+    }
+
+    private Real tmp2() {
+        if (tmp2 == null) tmp2 = new Real();
+        return tmp2;
+    }
+
+    private Real tmp3() {
+        if (tmp3 == null) tmp3 = new Real();
+        return tmp3;
+    }
+
+    private Real tmp4() {
+        if (tmp4 == null) tmp4 = new Real();
+        return tmp4;
+    }
+
+    private Real tmp5() {
+        if (tmp5 == null) tmp5 = new Real();
+        return tmp5;
+    }
+
+    private Real recipTmp() {
+        if (recipTmp == null) recipTmp = new Real();
+        return recipTmp;
+    }
+
+    private Real recipTmp2() {
+        if (recipTmp2 == null) recipTmp2 = new Real();
+        return recipTmp2;
+    }
+
+    private Real sqrtTmp() {
+        if (sqrtTmp == null) sqrtTmp = new Real();
+        return sqrtTmp;
+    }
+
+    private Real expTmp() {
+        if (expTmp == null) expTmp = new Real();
+        return expTmp;
+    }
+
+    private Real expTmp2() {
+        if (expTmp2 == null) expTmp2 = new Real();
+        return expTmp2;
+    }
+
+    private Real expTmp3() {
+        if (expTmp3 == null) expTmp3 = new Real();
+        return expTmp3;
+    }
+
     /**
      * Assigns this <code>Real</code> the value of another <code>Real</code>.
      * <p/>
@@ -667,7 +724,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this = Double.{@link Double#valueOf(String) valueOf}(a);</code>
      * </td></tr><tr><td><i>Approximate&nbsp;error&nbsp;bound:</i></td><td>
-     * �-1 ULPs
+     * œ-1 ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -728,9 +785,9 @@ public final class Real {
      * </td></tr><tr><td valign="top" rowspan="2"><i>
      * Approximate&nbsp;error&nbsp;bound:</i>
      * </td><td width="1%">base-10</td><td>
-     * �-1 ULPs
+     * œ-1 ULPs
      * </td></tr><tr><td>2/8/16</td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td valign="top" rowspan="4"><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;</i>
      * </td><td width="1%">base-2</td><td>
@@ -1319,7 +1376,7 @@ public final class Real {
      * <p><table border="1" width="100%" cellpadding="3" cellspacing="0"
      * bgcolor="#e8d0ff"><tr><td width="1%"><i>
      * Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -1443,7 +1500,7 @@ public final class Real {
      * <p><table border="1" width="100%" cellpadding="3" cellspacing="0"
      * bgcolor="#e8d0ff"><tr><td width="1%"><i>
      * Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -1541,6 +1598,7 @@ public final class Real {
      * otherwise.
      */
     public boolean equalTo(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         return equalTo(tmp0);
     }
@@ -1597,6 +1655,7 @@ public final class Real {
      * otherwise, or if this <code>Real</code> is NaN.
      */
     public boolean notEqualTo(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         return notEqualTo(tmp0);
     }
@@ -1649,6 +1708,7 @@ public final class Real {
      * or if this <code>Real</code> is NaN.
      */
     public boolean lessThan(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         return lessThan(tmp0);
     }
@@ -1701,6 +1761,7 @@ public final class Real {
      * otherwise, or if this <code>Real</code> is NaN.
      */
     public boolean lessEqual(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         return lessEqual(tmp0);
     }
@@ -1753,6 +1814,7 @@ public final class Real {
      * <code>false</code> otherwise, or if this <code>Real</code> is NaN.
      */
     public boolean greaterThan(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         return greaterThan(tmp0);
     }
@@ -1805,6 +1867,7 @@ public final class Real {
      * <code>false</code> otherwise, or if this <code>Real</code> is NaN.
      */
     public boolean greaterEqual(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         return greaterEqual(tmp0);
     }
@@ -2275,11 +2338,11 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this += a;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
-     * �� 1.0 ��
+     * «« 1.0 »»
      * </td></tr></table>
      *
      * @param a the <code>Real</code> to add to this.
@@ -2388,7 +2451,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this += a;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2398,6 +2461,7 @@ public final class Real {
      * @param a the <code>int</code> to add to this.
      */
     public void add(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         add(tmp0);
     }
@@ -2532,7 +2596,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this -= a;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2542,6 +2606,7 @@ public final class Real {
      * @param a the <code>Real</code> to subtract from this.
      */
     public void sub(Real a) {
+        final Real tmp0 = tmp0();
         tmp0.mantissa = a.mantissa;
         tmp0.exponent = a.exponent;
         tmp0.sign = (byte) (a.sign ^ 1);
@@ -2558,7 +2623,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this -= a;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2568,6 +2633,7 @@ public final class Real {
      * @param a the <code>int</code> to subtract from this.
      */
     public void sub(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         sub(tmp0);
     }
@@ -2581,7 +2647,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this *= a;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2648,7 +2714,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this *= a;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2812,7 +2878,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this = this*this;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2861,7 +2927,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this /= a;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2921,7 +2987,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this /= a;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2983,7 +3049,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this = a/this;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -2993,17 +3059,10 @@ public final class Real {
      * @param a the <code>Real</code> to be divided by this.
      */
     public void rdiv(Real a) {
-        {
-            recipTmp.mantissa = a.mantissa;
-            recipTmp.exponent = a.exponent;
-            recipTmp.sign = a.sign;
-        }
+        final Real recipTmp = recipTmp();
+        recipTmp.assign(a);
         recipTmp.div(this);
-        {
-            this.mantissa = recipTmp.mantissa;
-            this.exponent = recipTmp.exponent;
-            this.sign = recipTmp.sign;
-        }
+        assign(recipTmp);
     }
 
     /**
@@ -3016,7 +3075,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this = a/this;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -3026,6 +3085,7 @@ public final class Real {
      * @param a the <code>int</code> to be divided by this.
      */
     public void rdiv(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         rdiv(tmp0);
     }
@@ -3039,7 +3099,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this = 1/this;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -3118,22 +3178,16 @@ public final class Real {
         int exp = 0x40000000 - exponent;
         exponent = 0x40000000;
         // Save -A
-        {
-            recipTmp.mantissa = this.mantissa;
-            recipTmp.exponent = this.exponent;
-            recipTmp.sign = this.sign;
-        }
+        final Real recipTmp = recipTmp();
+        recipTmp.assign(this);
         long recipTmpExtra = extra;
         recipTmp.neg();
         // First establish approximate result (actually 63 bit accurate)
         recip();
         // Perform one Newton-Raphson iteration
         // Xn+1 = Xn + Xn*(1-A*Xn)
-        {
-            recipTmp2.mantissa = this.mantissa;
-            recipTmp2.exponent = this.exponent;
-            recipTmp2.sign = this.sign;
-        }
+        final Real recipTmp2 = recipTmp2();
+        recipTmp2.assign(this);
         extra = mul128(0, recipTmp, recipTmpExtra);
         extra = add128(extra, ONE, 0);
         extra = mul128(extra, recipTmp2, 0);
@@ -3188,11 +3242,8 @@ public final class Real {
             makeInfinity(sign);
             return;
         }
-        {
-            tmp0.mantissa = a.mantissa;
-            tmp0.exponent = a.exponent;
-            tmp0.sign = a.sign;
-        }
+        final Real tmp0 = tmp0();
+        tmp0.assign(a);
         // tmp0 should be free
         // Perform same division as with mod, and don't round up
         long extra = tmp0.recip128(0);
@@ -3207,11 +3258,8 @@ public final class Real {
     }
 
     private void modInternal(/*long thisExtra,*/ Real a, long aExtra) {
-        {
-            tmp0.mantissa = a.mantissa;
-            tmp0.exponent = a.exponent;
-            tmp0.sign = a.sign;
-        }
+        final Real tmp0 = tmp0();
+        tmp0.assign(a);
         // tmp0 should be free
         long extra = tmp0.recip128(aExtra);
         extra = tmp0.mul128(extra, this, 0/*thisExtra*/); // tmp0 == this/a
@@ -3622,6 +3670,7 @@ public final class Real {
     }
 
     private int compare(int a) {
+        final Real tmp0 = tmp0();
         tmp0.assign(a);
         return compare(tmp0);
     }
@@ -3665,20 +3714,15 @@ public final class Real {
         if ((this.exponent < 0 && this.mantissa == 0))
             return;
         // Save X
-        {
-            recipTmp.mantissa = this.mantissa;
-            recipTmp.exponent = this.exponent;
-            recipTmp.sign = this.sign;
-        }
+        final Real recipTmp = recipTmp();
+        recipTmp.assign(this);
         // normalize to range [0.5, 1)
         int e = exponent - 0x3fffffff;
         exponent = 0x3fffffff;
         // quadratic approximation, relative error 6.45e-4
-        {
-            recipTmp2.mantissa = this.mantissa;
-            recipTmp2.exponent = this.exponent;
-            recipTmp2.sign = this.sign;
-        }
+        final Real recipTmp2 = recipTmp2();
+        recipTmp2.assign(this);
+        final Real sqrtTmp = sqrtTmp();
         {
             sqrtTmp.sign = (byte) 1;
             sqrtTmp.exponent = 0x3ffffffd;
@@ -3709,11 +3753,7 @@ public final class Real {
         // Newton iteratios:
         //   Yn+1 = (Yn + X/Yn)/2
         for (int i = 0; i < 3; i++) {
-            {
-                recipTmp2.mantissa = recipTmp.mantissa;
-                recipTmp2.exponent = recipTmp.exponent;
-                recipTmp2.sign = recipTmp.sign;
-            }
+            recipTmp2.assign(recipTmp);
             recipTmp2.div(this);
             add(recipTmp2);
             scalbn(-1);
@@ -3768,17 +3808,15 @@ public final class Real {
         // not zero, nan or infinity
         final long start = 0x5120000000000000L;
         // Save -A
-        {
-            recipTmp.mantissa = this.mantissa;
-            recipTmp.exponent = this.exponent;
-            recipTmp.sign = this.sign;
-        }
+        final Real recipTmp = recipTmp();
+        recipTmp.assign(this);
         recipTmp.neg();
         // First establish approximate result
         mantissa = start - (mantissa >>> 2);
         int expRmd = exponent == 0 ? 2 : (exponent - 1) % 3;
         exponent = 0x40000000 - (exponent - 0x40000000 - expRmd) / 3;
         normalize();
+        final Real recipTmp2 = recipTmp2();
         if (expRmd > 0) {
             {
                 recipTmp2.sign = (byte) 0;
@@ -3793,11 +3831,7 @@ public final class Real {
         // Now perform Newton-Raphson iteration
         // Xn+1 = (4*Xn - A*Xn**4)/3
         for (int i = 0; i < 4; i++) {
-            {
-                recipTmp2.mantissa = this.mantissa;
-                recipTmp2.exponent = this.exponent;
-                recipTmp2.sign = this.sign;
-            }
+            recipTmp2.assign(this);
             sqr();
             sqr();
             mul(recipTmp);
@@ -3848,11 +3882,8 @@ public final class Real {
             negative = true;
             abs();
         }
-        {
-            tmp2.mantissa = n.mantissa;
-            tmp2.exponent = n.exponent;
-            tmp2.sign = n.sign;
-        }
+        final Real tmp2 = tmp2();
+        tmp2.assign(n);
         // Copy to temporary location in case of x.nroot(x)
         tmp2.recip();
         pow(tmp2);
@@ -3880,11 +3911,8 @@ public final class Real {
      * @param a the <code>Real</code> argument.
      */
     public void hypot(Real a) {
-        {
-            tmp1.mantissa = a.mantissa;
-            tmp1.exponent = a.exponent;
-            tmp1.sign = a.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         // Copy to temporary location in case of x.hypot(x)
         tmp1.sqr();
         sqr();
@@ -3909,11 +3937,8 @@ public final class Real {
             return;
         }
         // Extract integer part
-        {
-            expTmp.mantissa = this.mantissa;
-            expTmp.exponent = this.exponent;
-            expTmp.sign = this.sign;
-        }
+        final Real expTmp = expTmp();
+        expTmp.assign(this);
         expTmp.add(HALF);
         expTmp.floor();
         int exp = expTmp.toInteger();
@@ -3939,14 +3964,11 @@ public final class Real {
          */
         // Now -0.5<X<0.5
         // rational approximation
-        // exp2(x) = 1 + 2x P(x�)/(Q(x�) - x P(x�))
-        {
-            expTmp2.mantissa = this.mantissa;
-            expTmp2.exponent = this.exponent;
-            expTmp2.sign = this.sign;
-        }
+        // exp2(x) = 1 + 2x P(x²)/(Q(x²) - x P(x²))
+        final Real expTmp2 = expTmp2();
+        expTmp2.assign(this);
         expTmp2.sqr();
-        // P(x�)
+        // P(x²)
         {
             expTmp.sign = (byte) 0;
             expTmp.exponent = 0x40000005;
@@ -3954,6 +3976,7 @@ public final class Real {
         }
         //60.614853552242266094567
         expTmp.mul(expTmp2);
+        final Real expTmp3 = expTmp3();
         {
             expTmp3.sign = (byte) 0;
             expTmp3.exponent = 0x4000000e;
@@ -3970,7 +3993,7 @@ public final class Real {
         //2080384.3631901852422887
         expTmp.add(expTmp3);
         mul(expTmp);
-        // Q(x�)
+        // Q(x²)
         expTmp.assign(expTmp2);
         {
             expTmp3.sign = (byte) 0;
@@ -4020,6 +4043,7 @@ public final class Real {
      * </td></tr></table>
      */
     public void exp() {
+        final Real expTmp = expTmp();
         {
             expTmp.sign = (byte) 0;
             expTmp.exponent = 0x40000000;
@@ -4069,6 +4093,7 @@ public final class Real {
      * </td></tr></table>
      */
     public void exp10() {
+        final Real expTmp = expTmp();
         {
             expTmp.sign = (byte) 0;
             expTmp.exponent = 0x40000001;
@@ -4105,17 +4130,14 @@ public final class Real {
         int e = exponent - 0x3fffffff;
         exponent = 0x3fffffff;
         // rational appriximation
-        // log(1+x) = x - x�/2 + x� P(x)/Q(x)
+        // log(1+x) = x - x²/2 + x³ P(x)/Q(x)
         if (this.compare(SQRT1_2) < 0) {
             e--;
             exponent++;
         }
         sub(ONE);
-        {
-            expTmp2.mantissa = this.mantissa;
-            expTmp2.exponent = this.exponent;
-            expTmp2.sign = this.sign;
-        }
+        final Real expTmp2 = expTmp2();
+        expTmp2.assign(this);
         // P(x)
         {
             this.sign = (byte) 0;
@@ -4124,6 +4146,7 @@ public final class Real {
         }
         //4.5270000862445199635215E-5
         mul(expTmp2);
+        final Real expTmp3 = expTmp3();
         {
             expTmp3.sign = (byte) 0;
             expTmp3.exponent = 0x3ffffffe;
@@ -4172,11 +4195,8 @@ public final class Real {
         //20.039553499201281259648
         add(expTmp3);
         // Q(x)
-        {
-            expTmp.mantissa = expTmp2.mantissa;
-            expTmp.exponent = expTmp2.exponent;
-            expTmp.sign = expTmp2.sign;
-        }
+        final Real expTmp = expTmp();
+        expTmp.assign(expTmp2);
         {
             expTmp3.sign = (byte) 0;
             expTmp3.exponent = 0x40000003;
@@ -4258,6 +4278,7 @@ public final class Real {
      */
     public void ln() {
         int exp = lnInternal();
+        final Real expTmp = expTmp();
         expTmp.assign(exp);
         expTmp.mul(LN2);
         add(expTmp);
@@ -4304,6 +4325,7 @@ public final class Real {
      */
     public void log10() {
         int exp = lnInternal();
+        final Real expTmp = expTmp();
         expTmp.assign(exp);
         expTmp.mul(LN2);
         add(expTmp);
@@ -4324,7 +4346,7 @@ public final class Real {
      * <br>this = Math.{@link Math#pow(double, double) pow}(10, exp);<br>
      * return exp;</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -4336,11 +4358,8 @@ public final class Real {
     public int lowPow10() {
         if (!(this.exponent >= 0 && this.mantissa != 0))
             return 0;
-        {
-            tmp2.mantissa = this.mantissa;
-            tmp2.exponent = this.exponent;
-            tmp2.sign = this.sign;
-        }
+        final Real tmp2 = tmp2();
+        tmp2.assign(this);
         // Approximate log10 using exponent only
         int e = exponent - 0x40000000;
         if (e < 0) // it's important to achieve floor(exponent*ln2/ln10)
@@ -4354,29 +4373,18 @@ public final class Real {
             this.sign = TEN.sign;
         }
         pow(e);
+        final Real tmp3 = tmp3();
         if ((this.exponent == 0 && this.mantissa == 0)) { // A *really* small number, then
-            {
-                tmp3.mantissa = TEN.mantissa;
-                tmp3.exponent = TEN.exponent;
-                tmp3.sign = TEN.sign;
-            }
+            tmp3.assign(TEN);
             tmp3.pow(e + 1);
         } else {
-            {
-                tmp3.mantissa = this.mantissa;
-                tmp3.exponent = this.exponent;
-                tmp3.sign = this.sign;
-            }
+            tmp3.assign(this);
             tmp3.mul10();
         }
         if (tmp3.compare(tmp2) <= 0) {
             // First estimate of log10 was too low
             e++;
-            {
-                this.mantissa = tmp3.mantissa;
-                this.exponent = tmp3.exponent;
-                this.sign = tmp3.sign;
-            }
+            assign(tmp3);
         }
         return e;
     }
@@ -4396,7 +4404,7 @@ public final class Real {
      * <li> if |this| < 1.0 and a is -Infinity then result is +Infinity
      * <li> if |this| > 1.0 and a is -Infinity then result is +0
      * <li> if |this| < 1.0 and a is +Infinity then result is +0
-     * <li> if |this| = 1.0 and a is �Infinity then result is NaN
+     * <li> if |this| = 1.0 and a is ±Infinity then result is NaN
      * <li> if this = +0 and a > 0 then result is +0
      * <li> if this = +0 and a < 0 then result is +Inf
      * <li> if this = -0 and a > 0, and odd integer then result is -0
@@ -4445,12 +4453,9 @@ public final class Real {
         }
         if (a.compare(ONE) == 0)
             return;
+        final Real tmp1 = tmp1();
         if ((a.exponent < 0 && a.mantissa == 0)) {
-            {
-                tmp1.mantissa = this.mantissa;
-                tmp1.exponent = this.exponent;
-                tmp1.sign = this.sign;
-            }
+            tmp1.assign(this);
             tmp1.abs();
             int test = tmp1.compare(ONE);
             if (test > 0) {
@@ -4529,34 +4534,20 @@ public final class Real {
             }
             sign = 0;
         }
-        {
-            tmp1.mantissa = a.mantissa;
-            tmp1.exponent = a.exponent;
-            tmp1.sign = a.sign;
-        }
+        tmp1.assign(a);
+        final Real tmp2 = tmp2();
+        final Real tmp3 = tmp3();
         if (tmp1.exponent <= 0x4000001e) {
             // For increased accuracy, exponentiate with integer part of
             // exponent by successive squaring
             // (I really don't know why this works)
-            {
-                tmp2.mantissa = tmp1.mantissa;
-                tmp2.exponent = tmp1.exponent;
-                tmp2.sign = tmp1.sign;
-            }
+            tmp2.assign(tmp1);
             tmp2.floor();
-            {
-                tmp3.mantissa = this.mantissa;
-                tmp3.exponent = this.exponent;
-                tmp3.sign = this.sign;
-            }
+            tmp3.assign(this);
             tmp3.pow(tmp2.toInteger());
             tmp1.sub(tmp2);
         } else {
-            {
-                tmp3.mantissa = ONE.mantissa;
-                tmp3.exponent = ONE.exponent;
-                tmp3.sign = ONE.sign;
-            }
+            tmp3.assign(ONE);
         }
         // Do log2 and maintain accuracy
         int e = lnInternal();
@@ -4592,7 +4583,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <code>this = Math.{@link Math#pow(double, double) pow}(this, a);</code>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -4609,16 +4600,9 @@ public final class Real {
             recp = true;
         }
         long extra = 0, expTmpExtra = 0;
-        {
-            expTmp.mantissa = this.mantissa;
-            expTmp.exponent = this.exponent;
-            expTmp.sign = this.sign;
-        }
-        {
-            this.mantissa = ONE.mantissa;
-            this.exponent = ONE.exponent;
-            this.sign = ONE.sign;
-        }
+        final Real expTmp = expTmp();
+        expTmp.assign(this);
+        assign(ONE);
         for (; a != 0; a >>>= 1) {
             if ((a & 1) != 0)
                 extra = mul128(extra, expTmp, expTmpExtra);
@@ -4641,17 +4625,11 @@ public final class Real {
          */
         // X<PI/4
         // polynomial approximation
-        // sin(x) = x + x� P(x�)
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
-        {
-            tmp2.mantissa = this.mantissa;
-            tmp2.exponent = this.exponent;
-            tmp2.sign = this.sign;
-        }
+        // sin(x) = x + x³ P(x²)
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
+        final Real tmp2 = tmp2();
+        tmp2.assign(this);
         tmp2.sqr();
         {
             this.sign = (byte) 1;
@@ -4660,6 +4638,7 @@ public final class Real {
         }
         //-7.578540409484280575629E-13
         mul(tmp2);
+        final Real tmp3 = tmp3();
         {
             tmp3.sign = (byte) 0;
             tmp3.exponent = 0x3fffffdf;
@@ -4724,17 +4703,13 @@ public final class Real {
          */
         // X<PI/4
         // polynomial approximation
-        // cos(x) = 1 - x�/2 + x**4 Q(x�)
+        // cos(x) = 1 - x²/2 + x**4 Q(x²)
         {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
+            final Real tmp1 = tmp1();
+            tmp1.assign(this);
         }
-        {
-            tmp2.mantissa = this.mantissa;
-            tmp2.exponent = this.exponent;
-            tmp2.sign = this.sign;
-        }
+        final Real tmp2 = tmp2();
+        tmp2.assign(this);
         tmp2.sqr();
         {
             this.sign = (byte) 0;
@@ -4743,6 +4718,7 @@ public final class Real {
         }
         //4.7377507964246204691685E-14
         mul(tmp2);
+        final Real tmp3 = tmp3();
         {
             tmp3.sign = (byte) 1;
             tmp3.exponent = 0x3fffffdb;
@@ -4907,11 +4883,8 @@ public final class Real {
      * </td></tr></table>
      */
     public void tan() {
-        {
-            tmp4.mantissa = this.mantissa;
-            tmp4.exponent = this.exponent;
-            tmp4.sign = this.sign;
-        }
+        final Real tmp4 = tmp4();
+        tmp4.assign(this);
         tmp4.cos();
         sin();
         div(tmp4);
@@ -4935,11 +4908,8 @@ public final class Real {
      * </td></tr></table>
      */
     public void asin() {
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         sqr();
         neg();
         add(ONE);
@@ -4968,11 +4938,8 @@ public final class Real {
     public void acos() {
         boolean negative = (this.sign != 0);
         abs();
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         sqr();
         neg();
         add(ONE);
@@ -5029,11 +4996,8 @@ public final class Real {
         // range reduction
         boolean addPI_2 = false;
         boolean addPI_4 = false;
-        {
-            tmp1.mantissa = SQRT2.mantissa;
-            tmp1.exponent = SQRT2.exponent;
-            tmp1.sign = SQRT2.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(SQRT2);
         tmp1.add(ONE);
         if (this.compare(tmp1) > 0) {
             addPI_2 = true;
@@ -5043,11 +5007,7 @@ public final class Real {
             tmp1.sub(TWO);
             if (this.compare(tmp1) > 0) {
                 addPI_4 = true;
-                {
-                    tmp1.mantissa = this.mantissa;
-                    tmp1.exponent = this.exponent;
-                    tmp1.sign = this.sign;
-                }
+                tmp1.assign(this);
                 tmp1.add(ONE);
                 sub(ONE);
                 div(tmp1);
@@ -5055,19 +5015,13 @@ public final class Real {
         }
         // Now |X|<sqrt(2)-1
         // rational approximation
-        // atan(x) = x + x� P(x�)/Q(x�)
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
-        {
-            tmp2.mantissa = this.mantissa;
-            tmp2.exponent = this.exponent;
-            tmp2.sign = this.sign;
-        }
+        // atan(x) = x + x³ P(x²)/Q(x²)
+        tmp1.assign(this);
+        final Real tmp2 = tmp2();
+        tmp2.assign(this);
         tmp2.sqr();
         mul(tmp2);
+        final Real tmp3 = tmp3();
         {
             tmp3.sign = (byte) 1;
             tmp3.exponent = 0x3fffffff;
@@ -5075,6 +5029,7 @@ public final class Real {
         }
         //-0.8686381817809218753544
         tmp3.mul(tmp2);
+        final Real tmp4 = tmp4();
         {
             tmp4.sign = (byte) 1;
             tmp4.exponent = 0x40000003;
@@ -5107,11 +5062,7 @@ public final class Real {
         //-50.894116899623603312185
         tmp3.add(tmp4);
         mul(tmp3);
-        {
-            tmp3.mantissa = tmp2.mantissa;
-            tmp3.exponent = tmp2.exponent;
-            tmp3.sign = tmp2.sign;
-        }
+        tmp3.assign(tmp2);
         {
             tmp4.sign = (byte) 0;
             tmp4.exponent = 0x40000004;
@@ -5220,11 +5171,8 @@ public final class Real {
      * </td></tr></table>
      */
     public void sinh() {
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1.neg();
         tmp1.exp();
         exp();
@@ -5249,11 +5197,8 @@ public final class Real {
      * </td></tr></table>
      */
     public void cosh() {
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1.neg();
         tmp1.exp();
         exp();
@@ -5278,19 +5223,13 @@ public final class Real {
      * </td></tr></table>
      */
     public void tanh() {
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1.neg();
         tmp1.exp();
         exp();
-        {
-            tmp2.mantissa = this.mantissa;
-            tmp2.exponent = this.exponent;
-            tmp2.sign = this.sign;
-        }
+        final Real tmp2 = tmp2();
+        tmp2.assign(this);
         tmp2.add(tmp1);
         sub(tmp1);
         div(tmp2);
@@ -5319,11 +5258,8 @@ public final class Real {
         // values
         byte s = sign;
         sign = 0;
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1.sqr();
         tmp1.add(ONE);
         tmp1.sqrt();
@@ -5350,11 +5286,8 @@ public final class Real {
      * </td></tr></table>
      */
     public void acosh() {
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1.sqr();
         tmp1.sub(ONE);
         tmp1.sqrt();
@@ -5379,11 +5312,8 @@ public final class Real {
      * </td></tr></table>
      */
     public void atanh() {
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1.neg();
         tmp1.add(ONE);
         add(ONE);
@@ -5420,11 +5350,8 @@ public final class Real {
             gamma();
             return;
         }
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         {
             this.mantissa = ONE.mantissa;
             this.exponent = ONE.exponent;
@@ -5458,45 +5385,30 @@ public final class Real {
         // x<0: gamma(-x) = -pi/(x*gamma(x)*sin(pi*x))
         boolean negative = (this.sign != 0);
         abs();
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         // x<n: gamma(x) = gamma(x+m)/x*(x+1)*(x+2)*...*(x+m-1)
         // n=20
-        {
-            tmp2.mantissa = ONE.mantissa;
-            tmp2.exponent = ONE.exponent;
-            tmp2.sign = ONE.sign;
-        }
+        final Real tmp2 = tmp2();
+        tmp2.assign(ONE);
         boolean divide = false;
         while (this.compare(20) < 0) {
             divide = true;
             tmp2.mul(this);
             add(ONE);
         }
-        // x>n: gamma(x) = exp((x-1/2)*ln(x) - x + ln(2*pi)/2 + 1/12x - 1/360x�
+        // x>n: gamma(x) = exp((x-1/2)*ln(x) - x + ln(2*pi)/2 + 1/12x - 1/360x³
         //                     + 1/1260x**5 - 1/1680x**7+1/1188x**9)
-        {
-            tmp3.mantissa = this.mantissa;
-            tmp3.exponent = this.exponent;
-            tmp3.sign = this.sign;
-        }
+        final Real tmp3 = tmp3();
+        tmp3.assign(this);
         // x
-        {
-            tmp4.mantissa = this.mantissa;
-            tmp4.exponent = this.exponent;
-            tmp4.sign = this.sign;
-        }
-        tmp4.sqr(); // x�
+        final Real tmp4 = tmp4();
+        tmp4.assign(this);
+        tmp4.sqr(); // x²
         // (x-1/2)*ln(x)-x
         ln();
-        {
-            tmp5.mantissa = tmp3.mantissa;
-            tmp5.exponent = tmp3.exponent;
-            tmp5.sign = tmp3.sign;
-        }
+        final Real tmp5 = tmp5();
+        tmp5.assign(tmp3);
         tmp5.sub(HALF);
         mul(tmp5);
         sub(tmp3);
@@ -5513,7 +5425,7 @@ public final class Real {
         tmp5.recip();
         add(tmp5);
         tmp3.mul(tmp4);
-        // - 1/360x�
+        // - 1/360x³
         tmp5.assign(360);
         tmp5.mul(tmp3);
         tmp5.recip();
@@ -5565,26 +5477,18 @@ public final class Real {
         //              sqrt(pi)\        3      2!*5     3!*7     4!*9        /
         //
         long extra = 0, tmp1Extra, tmp2Extra, tmp3Extra, tmp4Extra;
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1Extra = 0;
-        {
-            tmp2.mantissa = this.mantissa;
-            tmp2.exponent = this.exponent;
-            tmp2.sign = this.sign;
-        }
+        final Real tmp2 = tmp2();
+        tmp2.assign(this);
         tmp2Extra = tmp2.mul128(0, tmp2, 0);
         tmp2.neg();
-        {
-            tmp3.mantissa = ONE.mantissa;
-            tmp3.exponent = ONE.exponent;
-            tmp3.sign = ONE.sign;
-        }
+        final Real tmp3 = tmp3();
+        tmp3.assign(ONE);
         tmp3Extra = 0;
         int i = 1;
+        final Real tmp4 = tmp4();
         do {
             tmp1Extra = tmp1.mul128(tmp1Extra, tmp2, tmp2Extra);
             tmp4.assign(i);
@@ -5608,17 +5512,15 @@ public final class Real {
     }
 
     private void erfc2Internal() {
-        //             -x� -1
+        //             -x² -1
         //            e   x   /      1      3       3*5     3*5*7                // erfc(x) = -------- | 1 - --- + ------ - ------ + ------ - ... |
-        //           sqrt(pi) \     2x�        2        3        4       /
-        //                                (2x�)    (2x�)    (2x�)
+        //           sqrt(pi) \     2x²        2        3        4       /
+        //                                (2x²)    (2x²)    (2x²)
         // Calculate iteration stop criteria
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1.sqr();
+        final Real tmp2 = tmp2();
         {
             tmp2.sign = (byte) 0;
             tmp2.exponent = 0x40000000;
@@ -5632,35 +5534,17 @@ public final class Real {
             digits = 64;
         tmp1.scalbn(1);
         int dxq = tmp1.toInteger() + 1;
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        tmp1.assign(this);
         recip();
-        {
-            tmp2.mantissa = this.mantissa;
-            tmp2.exponent = this.exponent;
-            tmp2.sign = this.sign;
-        }
-        {
-            tmp3.mantissa = this.mantissa;
-            tmp3.exponent = this.exponent;
-            tmp3.sign = this.sign;
-        }
+        tmp2.assign(this);
+        final Real tmp3 = tmp3();
+        tmp3.assign(this);
         tmp3.sqr();
         tmp3.neg();
         tmp3.scalbn(-1);
-        {
-            this.mantissa = ONE.mantissa;
-            this.exponent = ONE.exponent;
-            this.sign = ONE.sign;
-        }
-        {
-            tmp4.mantissa = ONE.mantissa;
-            tmp4.exponent = ONE.exponent;
-            tmp4.sign = ONE.sign;
-        }
+        assign(ONE);
+        final Real tmp4 = tmp4();
+        tmp4.assign(ONE);
         int i = 1;
         do {
             tmp4.mul(2 * i - 1);
@@ -5688,7 +5572,7 @@ public final class Real {
      * <p/>
      * <p>The complementary error function is defined as the integral from
      * x to infinity of 2/&#8730;<span style="text-decoration:
-     * overline;">&pi;</span>&nbsp;�<i>e</i><sup>-t�</sup>&nbsp;dt. It is
+     * overline;">&pi;</span>&nbsp;·<i>e</i><sup>-t²</sup>&nbsp;dt. It is
      * related to the error function, <i>erf</i>, by the formula
      * erfc(x)=1-erf(x).
      * <p/>
@@ -5728,6 +5612,7 @@ public final class Real {
         }
         byte s = sign;
         sign = 0;
+        final Real tmp1 = tmp1();
         {
             tmp1.sign = (byte) 0;
             tmp1.exponent = 0x40000002;
@@ -5791,16 +5676,14 @@ public final class Real {
         // Part 1: Numerical Approximation Method for Inverse Phi
         // This accepts input of P and outputs approximate Z as Y
         // Source:Odeh & Evans. 1974. AS 70. Applied Statistics.
-        // R = sqrt(Ln(1/(Q�)))
-        {
-            tmp1.mantissa = this.mantissa;
-            tmp1.exponent = this.exponent;
-            tmp1.sign = this.sign;
-        }
+        // R = sqrt(Ln(1/(Q²)))
+        final Real tmp1 = tmp1();
+        tmp1.assign(this);
         tmp1.ln();
         tmp1.mul(-2);
         tmp1.sqrt();
         // Y = -(R+((((P4*R+P3)*R+P2)*R+P1)*R+P0)/((((Q4*R+Q3)*R*Q2)*R+Q1)*R+Q0))
+        final Real tmp2 = tmp2();
         {
             tmp2.sign = (byte) 1;
             tmp2.exponent = 0x3ffffff1;
@@ -5808,6 +5691,7 @@ public final class Real {
         }
         // P4=-0.0000453642210148
         tmp2.mul(tmp1);
+        final Real tmp3 = tmp3();
         {
             tmp3.sign = (byte) 1;
             tmp3.exponent = 0x3ffffffa;
@@ -5840,6 +5724,7 @@ public final class Real {
         }
         // Q4=0.0038560700634
         tmp3.mul(tmp1);
+        final Real tmp4 = tmp4();
         {
             tmp4.sign = (byte) 0;
             tmp4.exponent = 0x3ffffffc;
@@ -5874,32 +5759,22 @@ public final class Real {
         tmp2.div(tmp3);
         tmp1.add(tmp2);
         tmp1.neg();
-        {
-            sqrtTmp.mantissa = tmp1.mantissa;
-            sqrtTmp.exponent = tmp1.exponent;
-            sqrtTmp.sign = tmp1.sign;
-        }
+        final Real sqrtTmp = sqrtTmp();
+        sqrtTmp.assign(tmp1);
         // sqrtTmp and tmp5 not used by erfc() and exp()
         // Part 2: Refine to accuracy of erfc Function
         // This accepts inputs Y and P (from above) and outputs Z
         // (Using Halley's third order method for finding roots of equations)
         // Q = erfc(-Y/sqrt(2))/2-P
-        {
-            tmp5.mantissa = sqrtTmp.mantissa;
-            tmp5.exponent = sqrtTmp.exponent;
-            tmp5.sign = sqrtTmp.sign;
-        }
+        final Real tmp5 = tmp5();
+        tmp5.assign(sqrtTmp);
         tmp5.mul(SQRT1_2);
         tmp5.neg();
         tmp5.erfc();
         tmp5.scalbn(-1);
         tmp5.sub(this);
-        // R = Q*sqrt(2*pi)*e^(Y�/2)
-        {
-            tmp3.mantissa = sqrtTmp.mantissa;
-            tmp3.exponent = sqrtTmp.exponent;
-            tmp3.sign = sqrtTmp.sign;
-        }
+        // R = Q*sqrt(2*pi)*e^(Y²/2)
+        tmp3.assign(sqrtTmp);
         tmp3.sqr();
         tmp3.scalbn(-1);
         tmp3.exp();
@@ -5912,11 +5787,7 @@ public final class Real {
         // sqrt(2*pi)
         tmp5.mul(tmp3);
         // Z = Y-R/(1+R*Y/2)
-        {
-            this.mantissa = sqrtTmp.mantissa;
-            this.exponent = sqrtTmp.exponent;
-            this.sign = sqrtTmp.sign;
-        }
+        assign(sqrtTmp);
         mul(tmp5);
         scalbn(-1);
         add(ONE);
@@ -5972,6 +5843,7 @@ public final class Real {
         long h;
         h = toLong();
         frac();
+        final Real tmp1 = tmp1();
         tmp1.assign(60);
         mul(tmp1);
         m = toInteger();
@@ -5979,11 +5851,8 @@ public final class Real {
         mul(tmp1);
         // MAGIC ROUNDING: Check if we are 2**-16 sec short of a whole minute
         // i.e. "seconds" > 59.999985
-        {
-            tmp2.mantissa = ONE.mantissa;
-            tmp2.exponent = ONE.exponent;
-            tmp2.sign = ONE.sign;
-        }
+        final Real tmp2 = tmp2();
+        tmp2.assign(ONE);
         tmp2.scalbn(-16);
         add(tmp2);
         if (this.compare(tmp1) >= 0) {
@@ -6059,6 +5928,7 @@ public final class Real {
         long h;
         h = toLong();
         frac();
+        final Real tmp1 = tmp1();
         tmp1.assign(100);
         mul(tmp1);
         m = toInteger();
@@ -6066,11 +5936,8 @@ public final class Real {
         mul(tmp1);
         // MAGIC ROUNDING: Check if we are 2**-10 second short of 100 seconds
         // i.e. "seconds" > 99.999
-        {
-            tmp2.mantissa = ONE.mantissa;
-            tmp2.exponent = ONE.exponent;
-            tmp2.sign = ONE.sign;
-        }
+        final Real tmp2 = tmp2();
+        tmp2.assign(ONE);
         tmp2.scalbn(-10);
         add(tmp2);
         if (this.compare(tmp1) >= 0) {
@@ -6120,7 +5987,7 @@ public final class Real {
      * Equivalent&nbsp;</i><code>double</code><i>&nbsp;code:</i></td><td>
      * <i>none</i>
      * </td></tr><tr><td><i>Error&nbsp;bound:</i></td><td>
-     * � ULPs
+     * œ ULPs
      * </td></tr><tr><td><i>
      * Execution&nbsp;time&nbsp;relative&nbsp;to&nbsp;add:&nbsp;&nbsp;
      * </i></td><td>
@@ -6293,14 +6160,11 @@ public final class Real {
         else if (base == 16)
             scalbn(exp * 4);
         else {
+            final Real tmp1 = tmp1();
             if (exp > 300000000 || exp < -300000000) {
                 // Kludge to be able to enter very large and very small
                 // numbers without causing over/underflows
-                {
-                    tmp1.mantissa = TEN.mantissa;
-                    tmp1.exponent = TEN.exponent;
-                    tmp1.sign = TEN.sign;
-                }
+                tmp1.assign(TEN);
                 if (exp < 0) {
                     tmp1.pow(-exp / 2);
                     div(tmp1);
@@ -6310,11 +6174,7 @@ public final class Real {
                 }
                 exp -= exp / 2;
             }
-            {
-                tmp1.mantissa = TEN.mantissa;
-                tmp1.exponent = TEN.exponent;
-                tmp1.sign = TEN.sign;
-            }
+            tmp1.assign(TEN);
             if (exp < 0) {
                 tmp1.pow(-exp);
                 div(tmp1);
@@ -6364,17 +6224,11 @@ public final class Real {
 
     private int getDigits(byte[] digits, int base) {
         if (base == 10) {
-            {
-                tmp1.mantissa = this.mantissa;
-                tmp1.exponent = this.exponent;
-                tmp1.sign = this.sign;
-            }
+            final Real tmp1 = tmp1();
+            tmp1.assign(this);
             tmp1.abs();
-            {
-                tmp2.mantissa = tmp1.mantissa;
-                tmp2.exponent = tmp1.exponent;
-                tmp2.sign = tmp1.sign;
-            }
+            final Real tmp2 = tmp2();
+            tmp2.assign(tmp1);
             int exp = exponent = tmp1.lowPow10();
             exp -= 18;
             boolean exp_neg = exp <= 0;
@@ -6497,7 +6351,7 @@ public final class Real {
         }
     }
 
-    private String align(StringBuffer s, NumberFormat format) {
+    private String align(StringBuilder s, NumberFormat format) {
         if (format.align == NumberFormat.ALIGN_LEFT) {
             while (s.length() < format.maxwidth)
                 s.append(' ');
@@ -6515,39 +6369,20 @@ public final class Real {
     }
 
     private String ftoa(NumberFormat format) {
-        ftoaBuf.setLength(0);
-        if ((this.exponent < 0 && this.mantissa != 0)) {
-            ftoaBuf.append("nan");
-            return align(ftoaBuf, format);
+        buf.setLength(0);
+        if (this.exponent < 0 && this.mantissa != 0) {
+            buf.append("NaN");
+            return align(buf, format);
         }
-        if ((this.exponent < 0 && this.mantissa == 0)) {
-            ftoaBuf.append((this.sign != 0) ? "-inf" : "inf");
-            return align(ftoaBuf, format);
+        if (this.exponent < 0 && this.mantissa == 0) {
+            buf.append((this.sign != 0) ? "-∞" : "∞");
+            return align(buf, format);
         }
-        int digitsPerThousand;
-        switch (format.base) {
-            case 2:
-                digitsPerThousand = 8;
-                break;
-            case 8:
-                digitsPerThousand = 1000; // Disable thousands separator
-                break;
-            case 16:
-                digitsPerThousand = 4;
-                break;
-            case 10:
-            default:
-                digitsPerThousand = 3;
-                break;
-        }
-        if (format.thousand == 0)
-            digitsPerThousand = 1000; // Disable thousands separator
-        {
-            tmp4.mantissa = this.mantissa;
-            tmp4.exponent = this.exponent;
-            tmp4.sign = this.sign;
-        }
-        int accurateDigits = tmp4.getDigits(ftoaDigits, format.base);
+
+        final int digitsPerThousand = digitsPerThousand(format);
+        final Real tmp = new Real();
+        tmp.assign(this);
+        int accurateDigits = tmp.getDigits(digits, format.base);
         if (format.base == 10 && (exponent > 0x4000003e || !isIntegral()))
             accurateDigits = 16; // Only display 16 digits for non-integers
         int precision;
@@ -6557,7 +6392,7 @@ public final class Real {
             int prefix = 0;
             if (format.base != 10)
                 prefix = 1; // want room for at least one "0" or "f/7/1"
-            else if ((tmp4.sign != 0))
+            else if ((tmp.sign != 0))
                 width--; // subtract 1 for sign
             boolean useExp = false;
             switch (format.fse) {
@@ -6566,7 +6401,7 @@ public final class Real {
                     useExp = true;
                     break;
                 case NumberFormat.FSE_ENG:
-                    pointPos = floorMod(tmp4.exponent, 3);
+                    pointPos = floorMod(tmp.exponent, 3);
                     precision = format.precision + 1 + pointPos;
                     useExp = true;
                     break;
@@ -6576,19 +6411,19 @@ public final class Real {
                     precision = 1000;
                     if (format.fse == NumberFormat.FSE_FIX)
                         precision = format.precision + 1;
-                    if (tmp4.exponent + 1 >
-                            width - (tmp4.exponent + prefix) / digitsPerThousand - prefix +
+                    if (tmp.exponent + 1 >
+                            width - (tmp.exponent + prefix) / digitsPerThousand - prefix +
                                     (format.removePoint ? 1 : 0) ||
-                            tmp4.exponent + 1 > accurateDigits ||
-                            -tmp4.exponent >= width ||
-                            -tmp4.exponent >= precision) {
+                            tmp.exponent + 1 > accurateDigits ||
+                            -tmp.exponent >= width ||
+                            -tmp.exponent >= precision) {
                         useExp = true;
                     } else {
-                        pointPos = tmp4.exponent;
-                        precision += tmp4.exponent;
-                        if (tmp4.exponent > 0)
-                            width -= (tmp4.exponent + prefix) / digitsPerThousand;
-                        if (format.removePoint && tmp4.exponent == width - prefix) {
+                        pointPos = tmp.exponent;
+                        precision += tmp.exponent;
+                        if (tmp.exponent > 0)
+                            width -= (tmp.exponent + prefix) / digitsPerThousand;
+                        if (format.removePoint && tmp.exponent == width - prefix) {
                             // Add 1 for the decimal point that will be removed
                             width++;
                         }
@@ -6597,11 +6432,11 @@ public final class Real {
             }
             if (prefix != 0 && pointPos >= 0)
                 width -= prefix;
-            ftoaExp.setLength(0);
+            exp.setLength(0);
             if (useExp) {
-                ftoaExp.append('E');
-                ftoaExp.append(tmp4.exponent - pointPos);
-                width -= ftoaExp.length();
+                exp.append('e');
+                exp.append(tmp.exponent - pointPos);
+                width -= exp.length();
             }
             if (precision > accurateDigits)
                 precision = accurateDigits;
@@ -6612,58 +6447,75 @@ public final class Real {
             if (precision <= 0)
                 precision = 1;
         }
-        while (tmp4.carryWhenRounded(ftoaDigits, precision, format.base));
-        tmp4.round(ftoaDigits, precision, format.base);
+        while (tmp.carryWhenRounded(digits, precision, format.base));
+        tmp.round(digits, precision, format.base);
         // Start generating the string. First the sign
-        if ((tmp4.sign != 0) && format.base == 10)
-            ftoaBuf.append('-');
+        if ((tmp.sign != 0) && format.base == 10)
+            buf.append('-');
         // Save pointPos for hex/oct/bin prefixing with thousands-sep
         int pointPos2 = pointPos < 0 ? 0 : pointPos;
         // Add leading zeros (or f/7/1)
-        char prefixChar = (format.base == 10 || (tmp4.sign == 0)) ? '0' :
+        char prefixChar = (format.base == 10 || (tmp.sign == 0)) ? '0' :
                 hexChar.charAt(format.base - 1);
         if (pointPos < 0) {
-            ftoaBuf.append(prefixChar);
-            ftoaBuf.append(format.point);
+            buf.append(prefixChar);
+            buf.append(format.point);
             while (pointPos < -1) {
-                ftoaBuf.append(prefixChar);
+                buf.append(prefixChar);
                 pointPos++;
             }
         }
         // Add fractional part
         for (int i = 0; i < precision; i++) {
-            ftoaBuf.append(hexChar.charAt(ftoaDigits[i]));
+            buf.append(hexChar.charAt(digits[i]));
             if (pointPos > 0 && pointPos % digitsPerThousand == 0)
-                ftoaBuf.append(format.thousand);
+                buf.append(format.thousand);
             if (pointPos == 0)
-                ftoaBuf.append(format.point);
+                buf.append(format.point);
             pointPos--;
         }
         if (format.fse == NumberFormat.FSE_NONE) {
             // Remove trailing zeros
-            while (ftoaBuf.charAt(ftoaBuf.length() - 1) == '0')
-                ftoaBuf.setLength(ftoaBuf.length() - 1);
+            while (buf.charAt(buf.length() - 1) == '0')
+                buf.setLength(buf.length() - 1);
         }
         if (format.removePoint) {
             // Remove trailing point
-            if (ftoaBuf.charAt(ftoaBuf.length() - 1) == format.point)
-                ftoaBuf.setLength(ftoaBuf.length() - 1);
+            if (buf.charAt(buf.length() - 1) == format.point)
+                buf.setLength(buf.length() - 1);
         }
         // Add exponent
-        ftoaBuf.append(ftoaExp.toString());
+        buf.append(exp);
         // In case hex/oct/bin number, prefix with 0's or f/7/1's
         if (format.base != 10) {
-            while (ftoaBuf.length() < format.maxwidth) {
+            while (buf.length() < format.maxwidth) {
                 pointPos2++;
                 if (pointPos2 > 0 && pointPos2 % digitsPerThousand == 0)
-                    ftoaBuf.insert(0, format.thousand);
-                if (ftoaBuf.length() < format.maxwidth)
-                    ftoaBuf.insert(0, prefixChar);
+                    buf.insert(0, format.thousand);
+                if (buf.length() < format.maxwidth)
+                    buf.insert(0, prefixChar);
             }
-            if (ftoaBuf.charAt(0) == format.thousand)
-                ftoaBuf.deleteCharAt(0);
+            if (buf.charAt(0) == format.thousand)
+                buf.deleteCharAt(0);
         }
-        return align(ftoaBuf, format);
+        return align(buf, format);
+    }
+
+    private int digitsPerThousand(NumberFormat format) {
+        if (format.thousand == 0) {
+            return 1000; // Disable thousands separator
+        }
+        switch (format.base) {
+            case 2:
+                return 4;
+            case 8:
+                return 4;
+            case 16:
+                return 2;
+            case 10:
+            default:
+                return 3;
+        }
     }
 
     /**
@@ -6686,8 +6538,9 @@ public final class Real {
      * @return a <code>String</code> representation of this <code>Real</code>.
      */
     public String toString() {
-        tmpFormat.base = 10;
-        return ftoa(tmpFormat);
+        final NumberFormat format = new NumberFormat();
+        format.base = 10;
+        return ftoa(format);
     }
 
     /**
@@ -6720,8 +6573,9 @@ public final class Real {
      * @return a <code>String</code> representation of this <code>Real</code>.
      */
     public String toString(int base) {
-        tmpFormat.base = base;
-        return ftoa(tmpFormat);
+        final NumberFormat format = new NumberFormat();
+        format.base = base;
+        return ftoa(format);
     }
 
     /**

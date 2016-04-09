@@ -21,6 +21,7 @@ import android.widget.*;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.JsclMathEngine;
+import jscl.NumeralBase;
 import midpcalc.Real;
 import org.solovyev.android.calculator.*;
 
@@ -310,12 +311,13 @@ public class ConverterFragment extends BaseDialogFragment
         if (!TextUtils.isEmpty(groupingSeparator)) {
             value = value.replace(groupingSeparator, "");
         }
-        return Double.longBitsToDouble(new Real(value).toDoubleBits());
+        final long bits = new Real(value).toDoubleBits();
+        return Double.longBitsToDouble(bits);
     }
 
     @Nonnull
     private String formatDouble(double toValue) {
-        return JsclMathEngine.getInstance().formatDec(toValue);
+        return JsclMathEngine.getInstance().format(toValue, NumeralBase.dec);
     }
 
     @Override

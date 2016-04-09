@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * User: serso
  * Date: 11/15/11
@@ -20,20 +22,20 @@ public class CustomFunctionTest {
     public void testLog() throws Exception {
         JsclMathEngine mathEngine = JsclMathEngine.getInstance();
 
-        Assert.assertEquals("∞", Expression.valueOf("1/0").numeric().toString());
-        Assert.assertEquals("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
+        assertEquals("∞", Expression.valueOf("1/0").numeric().toString());
+        assertEquals("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
 
         // logarithm
         final CustomFunction.Builder jBuilder = new CustomFunction.Builder(true, "log", Arrays.asList("a", "b"), "ln(b)/ln(a)");
         Function function = mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder.create());
-        Assert.assertEquals("log(a, b)", function.toString());
-        Assert.assertEquals("ln(b)/ln(a)", ((CustomFunction) mathEngine.getFunctionsRegistry().get("log")).getContent());
-        Assert.assertEquals("∞", Expression.valueOf("log(1, 10)").numeric().toString());
-        Assert.assertEquals("3.3219280948873626", Expression.valueOf("log(2, 10)").numeric().toString());
-        Assert.assertEquals("1.4306765580733933", Expression.valueOf("log(5, 10)").numeric().toString());
-        Assert.assertEquals("0.9602525677891275", Expression.valueOf("log(11, 10)").numeric().toString());
-        Assert.assertEquals("1/b*1/ln(a)", Expression.valueOf("∂(log(a, b), b)").expand().toString());
-        Assert.assertEquals("-1/a*(1/ln(a))^2*ln(b)", Expression.valueOf("∂(log(a, b), a)").expand().toString());
+        assertEquals("log(a, b)", function.toString());
+        assertEquals("ln(b)/ln(a)", ((CustomFunction) mathEngine.getFunctionsRegistry().get("log")).getContent());
+        assertEquals("∞", Expression.valueOf("log(1, 10)").numeric().toString());
+        assertEquals("3.321928094887363", Expression.valueOf("log(2, 10)").numeric().toString());
+        assertEquals("1.430676558073393", Expression.valueOf("log(5, 10)").numeric().toString());
+        assertEquals("0.9602525677891275", Expression.valueOf("log(11, 10)").numeric().toString());
+        assertEquals("1/b*1/ln(a)", Expression.valueOf("∂(log(a, b), b)").expand().toString());
+        assertEquals("-1/a*(1/ln(a))^2*ln(b)", Expression.valueOf("∂(log(a, b), a)").expand().toString());
 
     }
 
@@ -43,15 +45,15 @@ public class CustomFunctionTest {
 
         final CustomFunction.Builder jBuilder = new CustomFunction.Builder("t1", Arrays.asList("a"), "sin(a)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder.create());
-        Assert.assertEquals("1", Expression.valueOf("t1(90)").numeric().toString());
-        Assert.assertEquals("cos(t)", Expression.valueOf("∂(t1(t), t)").expand().toString());
-        Assert.assertEquals("0", Expression.valueOf("∂(t1(t), t2)").expand().toString());
-        Assert.assertEquals("cos(a)", Expression.valueOf("∂(t1(a), a)").expand().toString());
-        Assert.assertEquals("1", Expression.valueOf("∂(t1(a), t1(a))").expand().toString());
+        assertEquals("1", Expression.valueOf("t1(90)").numeric().toString());
+        assertEquals("cos(t)", Expression.valueOf("∂(t1(t), t)").expand().toString());
+        assertEquals("0", Expression.valueOf("∂(t1(t), t2)").expand().toString());
+        assertEquals("cos(a)", Expression.valueOf("∂(t1(a), a)").expand().toString());
+        assertEquals("1", Expression.valueOf("∂(t1(a), t1(a))").expand().toString());
         final CustomFunction.Builder jBuilder1 = new CustomFunction.Builder("t2", Arrays.asList("a", "b"), "b*sin(a)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder1.create());
-        Assert.assertEquals("y*cos(x)", Expression.valueOf("∂(t2(x, y), x)").expand().toString());
-        Assert.assertEquals("sin(x)", Expression.valueOf("∂(t2(x, y), y)").expand().toString());
+        assertEquals("y*cos(x)", Expression.valueOf("∂(t2(x, y), x)").expand().toString());
+        assertEquals("sin(x)", Expression.valueOf("∂(t2(x, y), y)").expand().toString());
     }
 
     @Test
@@ -60,19 +62,19 @@ public class CustomFunctionTest {
 
         final CustomFunction.Builder jBuilder = new CustomFunction.Builder("t1", Arrays.asList("a"), "sin(a)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder.create());
-        Assert.assertEquals("1", Expression.valueOf("t1(90)").numeric().toString());
+        assertEquals("1", Expression.valueOf("t1(90)").numeric().toString());
 
 
         try {
             mathEngine.setAngleUnits(AngleUnit.rad);
-            Assert.assertEquals("-cos(t)", Expression.valueOf("∫(t1(t), t)").expand().toString());
-            Assert.assertEquals("t2*sin(t)", Expression.valueOf("∫(t1(t), t2)").expand().toString());
-            Assert.assertEquals("-cos(a)", Expression.valueOf("∫(t1(a), a)").expand().toString());
-            Assert.assertEquals("1/2*sin(a)^2", Expression.valueOf("∫(t1(a), t1(a))").expand().toString());
+            assertEquals("-cos(t)", Expression.valueOf("∫(t1(t), t)").expand().toString());
+            assertEquals("t2*sin(t)", Expression.valueOf("∫(t1(t), t2)").expand().toString());
+            assertEquals("-cos(a)", Expression.valueOf("∫(t1(a), a)").expand().toString());
+            assertEquals("1/2*sin(a)^2", Expression.valueOf("∫(t1(a), t1(a))").expand().toString());
             final CustomFunction.Builder jBuilder1 = new CustomFunction.Builder("t2", Arrays.asList("a", "b"), "b*sin(a)");
             mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder1.create());
-            Assert.assertEquals("-y*cos(x)", Expression.valueOf("∫(t2(x, y), x)").expand().toString());
-            Assert.assertEquals("1/2*y^2*sin(x)", Expression.valueOf("∫(t2(x, y), y)").expand().toString());
+            assertEquals("-y*cos(x)", Expression.valueOf("∫(t2(x, y), x)").expand().toString());
+            assertEquals("1/2*y^2*sin(x)", Expression.valueOf("∫(t2(x, y), y)").expand().toString());
         } finally {
             mathEngine.setAngleUnits(AngleUnit.deg);
         }
@@ -85,16 +87,16 @@ public class CustomFunctionTest {
 
         final CustomFunction.Builder jBuilder = new CustomFunction.Builder("testFunction", Arrays.asList("a", "b", "c", "d"), "b*cos(a)/c+d");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder.create());
-        Assert.assertEquals("6.749543120264322", Expression.valueOf("testFunction(2, 3, 4, 6)").numeric().toString());
-        Assert.assertEquals("7.749543120264322", Expression.valueOf("testFunction(2, 3, 4, 7)").numeric().toString());
-        Assert.assertEquals("6.749543120264322", Expression.valueOf("testFunction(2*1, 3, 4, 6)").numeric().toString());
-        Assert.assertEquals("6.749543120264322", Expression.valueOf("testFunction(2*1, 3, 4, 3!)").numeric().toString());
-        Assert.assertEquals("6.749543120264322", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)").numeric().toString());
-        Assert.assertEquals("testFunction(2, 3, 4, 3!)", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)").simplify().toString());
-        Assert.assertEquals("3*cos(2)/4+3!", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)").expand().toString());
-        Assert.assertEquals("3*(1/2*1/exp(2*i)+1/2*exp(2*i))/4+3!", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)").elementary().toString());
-        Assert.assertEquals("sin(t)^2*testFunction(2, 3, 4, 3!)", Expression.valueOf("sin(t)*testFunction(2*1, 3, 2^2-1+e^0, 3!)*sin(t)").simplify().toString());
-        Assert.assertEquals("testFunction(2, 3, 4, 3!)^2", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)*testFunction(2, 3, 4, 3!)").simplify().toString());
+        assertEquals("6.749543120264322", Expression.valueOf("testFunction(2, 3, 4, 6)").numeric().toString());
+        assertEquals("7.749543120264322", Expression.valueOf("testFunction(2, 3, 4, 7)").numeric().toString());
+        assertEquals("6.749543120264322", Expression.valueOf("testFunction(2*1, 3, 4, 6)").numeric().toString());
+        assertEquals("6.749543120264322", Expression.valueOf("testFunction(2*1, 3, 4, 3!)").numeric().toString());
+        assertEquals("6.749543120264322", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)").numeric().toString());
+        assertEquals("testFunction(2, 3, 4, 3!)", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)").simplify().toString());
+        assertEquals("3*cos(2)/4+3!", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)").expand().toString());
+        assertEquals("3*(1/2*1/exp(2*i)+1/2*exp(2*i))/4+3!", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)").elementary().toString());
+        assertEquals("sin(t)^2*testFunction(2, 3, 4, 3!)", Expression.valueOf("sin(t)*testFunction(2*1, 3, 2^2-1+e^0, 3!)*sin(t)").simplify().toString());
+        assertEquals("testFunction(2, 3, 4, 3!)^2", Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)*testFunction(2, 3, 4, 3!)").simplify().toString());
         try {
             Expression.valueOf("testFunction(2*1, 3, 2^2-1+e^0, 3!)*testFunction(2, 3, 4)");
             Assert.fail();
@@ -106,31 +108,31 @@ public class CustomFunctionTest {
         mathEngine.getConstantsRegistry().addOrUpdate(a.create());
         final CustomFunction.Builder jBuilder1 = new CustomFunction.Builder("testFunction2", Arrays.asList("a", "b", "c", "d"), "b*cos(a)/c+d");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder1.create());
-        Assert.assertEquals("6.749543120264322", Expression.valueOf("testFunction2(2, 3, 4, 6)").numeric().toString());
-        Assert.assertEquals("7.749543120264322", Expression.valueOf("testFunction2(2, 3, 4, 7)").numeric().toString());
-        Assert.assertEquals("6.749543120264322", Expression.valueOf("testFunction2(2*1, 3, 4, 6)").numeric().toString());
-        Assert.assertEquals("6.749543120264322", Expression.valueOf("testFunction2(2*1, 3, 2^2-1+e^0, 3!)").numeric().toString());
+        assertEquals("6.749543120264322", Expression.valueOf("testFunction2(2, 3, 4, 6)").numeric().toString());
+        assertEquals("7.749543120264322", Expression.valueOf("testFunction2(2, 3, 4, 7)").numeric().toString());
+        assertEquals("6.749543120264322", Expression.valueOf("testFunction2(2*1, 3, 4, 6)").numeric().toString());
+        assertEquals("6.749543120264322", Expression.valueOf("testFunction2(2*1, 3, 2^2-1+e^0, 3!)").numeric().toString());
 
         final CustomFunction.Builder jBuilder2 = new CustomFunction.Builder("testFunction3", Arrays.asList("a", "b", "c", "d"), "testFunction2(a, b, c, d) - testFunction(a, b, c, d)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder2.create());
-        Assert.assertEquals("0", Expression.valueOf("testFunction3(2, 3, 4, 6)").numeric().toString());
-        Assert.assertEquals("0", Expression.valueOf("testFunction3(2, 3, 4, 7)").numeric().toString());
-        Assert.assertEquals("0", Expression.valueOf("testFunction3(2*1, 3, 4, 6)").numeric().toString());
-        Assert.assertEquals("0", Expression.valueOf("testFunction3(2*1, 3, 2^2-1+e^0, 3!)").numeric().toString());
+        assertEquals("0", Expression.valueOf("testFunction3(2, 3, 4, 6)").numeric().toString());
+        assertEquals("0", Expression.valueOf("testFunction3(2, 3, 4, 7)").numeric().toString());
+        assertEquals("0", Expression.valueOf("testFunction3(2*1, 3, 4, 6)").numeric().toString());
+        assertEquals("0", Expression.valueOf("testFunction3(2*1, 3, 2^2-1+e^0, 3!)").numeric().toString());
 
         final CustomFunction.Builder jBuilder3 = new CustomFunction.Builder("testFunction4", Arrays.asList("a", "b", "c", "d"), "testFunction2(a, b/2, c/3, d/4) - testFunction(a, b!, c, d)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder3.create());
-        Assert.assertEquals("-4.874771560132161", Expression.valueOf("testFunction4(2, 3, 4, 6)").numeric().toString());
-        Assert.assertEquals("-5.624771560132161", Expression.valueOf("testFunction4(2, 3, 4, 7)").numeric().toString());
-        Assert.assertEquals("-4.874771560132161", Expression.valueOf("testFunction4(2*1, 3, 4, 6)").numeric().toString());
-        Assert.assertEquals("-4.874771560132161", Expression.valueOf("testFunction4(2*1, 3, 2^2-1+e^0, 3!)").numeric().toString());
+        assertEquals("-4.874771560132161", Expression.valueOf("testFunction4(2, 3, 4, 6)").numeric().toString());
+        assertEquals("-5.624771560132161", Expression.valueOf("testFunction4(2, 3, 4, 7)").numeric().toString());
+        assertEquals("-4.874771560132161", Expression.valueOf("testFunction4(2*1, 3, 4, 6)").numeric().toString());
+        assertEquals("-4.874771560132161", Expression.valueOf("testFunction4(2*1, 3, 2^2-1+e^0, 3!)").numeric().toString());
 
         final CustomFunction.Builder jBuilder4 = new CustomFunction.Builder("testFunction5", Arrays.asList("a", "b"), "testFunction2(a, b/2, 2, 1) - testFunction(a, b!, 4!, 1)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder4.create());
-        Assert.assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
-        Assert.assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
-        Assert.assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2*1, 3)").numeric().toString());
-        Assert.assertEquals("-111.02230246251565E-18", Expression.valueOf("testFunction5(2*1, 2^2-1+e^0)").numeric().toString());
+        assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
+        assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
+        assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2*1, 3)").numeric().toString());
+        assertEquals("-0.0000000000000001", Expression.valueOf("testFunction5(2*1, 2^2-1+e^0)").numeric().toString());
 
         try {
             Expression.valueOf("testFunction5(2, 3.5)").numeric();
@@ -141,19 +143,19 @@ public class CustomFunctionTest {
 
         final CustomFunction.Builder jBuilder5 = new CustomFunction.Builder("testFunction6", Arrays.asList("a", "b"), "testFunction(a, b!, 4!, Π)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder5.create());
-        Assert.assertEquals("180.24984770675476", Expression.valueOf("testFunction6(2, 3)").numeric().toString());
+        assertEquals("180.2498477067548", Expression.valueOf("testFunction6(2, 3)").numeric().toString());
 
         final ExtendedConstant.Builder e = new ExtendedConstant.Builder(new Constant("e"), 181d);
         mathEngine.getConstantsRegistry().addOrUpdate(e.create());
         final CustomFunction.Builder jBuilder6 = new CustomFunction.Builder("testFunction7", Arrays.asList("a", "b"), "testFunction(a, b!, 4!, e)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder6.create());
-        Assert.assertEquals("181.24984770675476", Expression.valueOf("testFunction7(2, 3)").numeric().toString());
+        assertEquals("181.2498477067548", Expression.valueOf("testFunction7(2, 3)").numeric().toString());
 
         final ExtendedConstant.Builder e1 = new ExtendedConstant.Builder(new Constant("e"), 181d);
         mathEngine.getConstantsRegistry().addOrUpdate(e1.create());
         final CustomFunction.Builder jBuilder7 = new CustomFunction.Builder("testFunction8", Arrays.asList("a", "b"), "testFunction(sin(a), b!, 4!, e)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder7.create());
-        Assert.assertEquals("181.24999995362296", Expression.valueOf("testFunction8(2, 3)").numeric().toString());
+        assertEquals("181.249999953623", Expression.valueOf("testFunction8(2, 3)").numeric().toString());
 
     }
 
@@ -169,17 +171,17 @@ public class CustomFunctionTest {
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder2.create());
 
         try {
-            Assert.assertEquals("1", Expression.valueOf("f(1, 1)").numeric().toString());
+            assertEquals("1", Expression.valueOf("f(1, 1)").numeric().toString());
             Assert.fail();
         } catch (ArithmeticException e) {
             //ok
         }
 
-        Assert.assertEquals("1.4142135623730951", Expression.valueOf("f2(1, 1)").numeric().toString());
-        Assert.assertEquals("5", Expression.valueOf("f2(4, 3)").numeric().toString());
+        assertEquals("1.414213562373095", Expression.valueOf("f2(1, 1)").numeric().toString());
+        assertEquals("5", Expression.valueOf("f2(4, 3)").numeric().toString());
 
-        Assert.assertEquals("2*z1", Expression.valueOf("∂(f3(z1, z2), z1)").expand().toString());
-        Assert.assertEquals("2*z2", Expression.valueOf("∂(f3(z1, z2), z2)").expand().toString());
+        assertEquals("2*z1", Expression.valueOf("∂(f3(z1, z2), z1)").expand().toString());
+        assertEquals("2*z2", Expression.valueOf("∂(f3(z1, z2), z2)").expand().toString());
 
         // test symbols
         final CustomFunction.Builder jBuilder3 = new CustomFunction.Builder("f4", Arrays.asList("x", "y"), "2 000*x^2+y^2");

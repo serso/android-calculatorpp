@@ -28,7 +28,7 @@ public class SinTest {
             me.setAngleUnits(AngleUnit.rad);
             Assert.assertEquals("0.5403023058681398", me.evaluate("cos(1)"));
             Assert.assertEquals("0.3623577544766736", me.evaluate("cos(1.2)"));
-            Assert.assertEquals("0.17794455139146614", me.evaluate("∫ab(sin(x), x, 1, 1.2)"));
+            Assert.assertEquals("0.1779445513914661", me.evaluate("∫ab(sin(x), x, 1, 1.2)"));
         } finally {
             me.setAngleUnits(AngleUnit.deg);
         }

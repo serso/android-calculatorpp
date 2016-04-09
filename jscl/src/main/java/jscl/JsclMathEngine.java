@@ -9,7 +9,7 @@ import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
-import midpcalc.Real;
+import org.solovyev.common.NumberFormatter;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.Messages;
@@ -17,7 +17,6 @@ import org.solovyev.common.msg.Messages;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
@@ -33,17 +32,10 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     private final ConstantsRegistry constantsRegistry = new ConstantsRegistry();
     @Nonnull
-    private final ThreadLocal<DecimalFormat> defaultNumbersFormat = new ThreadLocal<DecimalFormat>() {
+    private final ThreadLocal<NumberFormatter> numberFormatter = new ThreadLocal<NumberFormatter>() {
         @Override
-        protected DecimalFormat initialValue() {
-            return new DecimalFormat();
-        }
-    };
-    @Nonnull
-    private final ThreadLocal<DecimalFormat> smallNumbersFormat = new ThreadLocal<DecimalFormat>() {
-        @Override
-        protected DecimalFormat initialValue() {
-            return new DecimalFormat("##0.#####E0");
+        protected NumberFormatter initialValue() {
+            return new NumberFormatter();
         }
     };
     @Nonnull
@@ -165,107 +157,30 @@ public class JsclMathEngine implements MathEngine {
     public String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException {
         if (value.isInfinite()) {
             return formatInfinity(value);
-        } else if (value.isNaN()) {
+        }
+        if (value.isNaN()) {
             // return "NaN"
             return String.valueOf(value);
-        } else if (nb == NumeralBase.dec) {
-            return formatDec(value);
-        } else {
-            return convert(value, nb);
         }
-    }
-
-    @Nonnull
-    public String formatDec(@Nonnull Double value) {
-        if (value == 0d) {
-            return "0";
+        if (nb == NumeralBase.dec) {
+            if (value == 0d) {
+                return "0";
+            }
+            // detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
+            final IConstant constant = findConstant(value);
+            if (constant != null) {
+                return constant.getName();
+            }
         }
-        // detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
-        final IConstant constant = findConstant(value);
-        if (constant != null) {
-            return constant.getName();
-        }
-
+        final NumberFormatter nf = numberFormatter.get();
+        nf.setGroupingSeparator(useGroupingSeparator ? decimalGroupSymbols.getGroupingSeparator() : NumberFormatter.NO_GROUPING);
+        nf.setPrecision(roundResult ? precision : NumberFormatter.DEFAULT_PRECISION);
         if (scienceNotation) {
-            return formatDecEngineering(value);
-        }
-
-        return formatDecDefault(value);
-    }
-
-    @Nonnull
-    private String formatDecEngineering(@Nonnull Double value) {
-        final double absValue = Math.abs(value);
-        final boolean smallNumber = absValue < 1 && absValue >= 0.001;
-        final Real.NumberFormat nf = new Real.NumberFormat();
-        nf.fse = smallNumber ? Real.NumberFormat.FSE_FIX : Real.NumberFormat.FSE_ENG;
-        if (useGroupingSeparator) {
-            nf.thousand = decimalGroupSymbols.getGroupingSeparator();
-        }
-        if (roundResult) {
-            nf.precision = precision;
-        }
-        final Real real = new Real(Double.toString(value));
-        return stripTrailingZeros(real.toString(nf));
-    }
-
-    @Nonnull
-    private String stripTrailingZeros(@Nonnull String s) {
-        final int dot = s.indexOf('.');
-        if (dot < 0) {
-            // no dot - no trailing zeros
-            return s;
-        }
-        final int e = s.lastIndexOf('E');
-        final int start;
-        String exponent = "";
-        if (e > 0) {
-            exponent = s.substring(e);
-            if (exponent.length() == 2 && exponent.charAt(1) == '0') {
-                exponent = "";
-            }
-            start = e - 1;
+            nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
         } else {
-            start = s.length() - 1;
+            nf.useSimpleFormat();
         }
-        final int i = findLastNonZero(s, start);
-        return s.substring(0, i == dot ? i : i + 1) + exponent;
-    }
-
-    private int findLastNonZero(String s, int start) {
-        int i = start;
-        for (; i >= 0; i--) {
-            if (s.charAt(i) != '0') {
-                break;
-            }
-        }
-        return i;
-    }
-
-    @Nonnull
-    private String formatDecDefault(@Nonnull Double value) {
-        final BigDecimal bd;
-        if (roundResult) {
-            bd = BigDecimal.valueOf(value).setScale(precision, BigDecimal.ROUND_HALF_UP);
-        } else {
-            bd = BigDecimal.valueOf(value);
-        }
-        value = bd.doubleValue();
-        if (value == 0) {
-            return "0";
-        }
-
-        final DecimalFormat df = Math.abs(value) < Math.pow(10, -5) ? smallNumbersFormat.get() : defaultNumbersFormat.get();
-        df.setDecimalFormatSymbols(decimalGroupSymbols);
-        df.setGroupingUsed(useGroupingSeparator);
-        df.setGroupingSize(NumeralBase.dec.getGroupingSize());
-        if (roundResult) {
-            df.setMaximumFractionDigits(precision);
-        } else {
-            // set maximum fraction digits high enough to show all fraction digits in case of no rounding
-            df.setMaximumFractionDigits(MAX_FRACTION_DIGITS);
-        }
-        return df.format(value);
+        return nf.format(value, nb.radix).toString();
     }
 
     @Nullable
