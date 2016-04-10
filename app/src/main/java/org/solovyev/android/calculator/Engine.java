@@ -238,7 +238,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     public static class Preferences {
-        public static final StringPreference<String> groupingSeparator = StringPreference.of("engine.groupingSeparator", JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
+        public static final StringPreference<String> groupingSeparator = StringPreference.of("engine.groupingSeparator", String.valueOf(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT));
         public static final StringPreference<String> multiplicationSign = StringPreference.of("engine.multiplicationSign", "×");
         public static final StringPreference<NumeralBase> numeralBase = StringPreference.ofTypedValue("engine.numeralBase", "dec", EnumMapper.of(NumeralBase.class));
         public static final StringPreference<AngleUnit> angleUnit = StringPreference.ofTypedValue("engine.angleUnit", "deg", EnumMapper.of(AngleUnit.class));

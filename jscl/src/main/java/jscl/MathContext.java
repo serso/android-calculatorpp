@@ -6,7 +6,6 @@ import jscl.math.operator.Operator;
 import org.solovyev.common.math.MathRegistry;
 
 import javax.annotation.Nonnull;
-import java.text.DecimalFormatSymbols;
 
 public interface MathContext {
 
@@ -35,8 +34,6 @@ public interface MathContext {
     // todo serso: maybe gather all formatting data in one object?
 
     void setNumeralBase(@Nonnull NumeralBase numeralBase);
-
-    void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols);
 
     void setRoundResult(boolean roundResult);
 

@@ -36,9 +36,6 @@ import org.solovyev.android.calculator.BaseCalculatorTest;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.variables.CppVariable;
 
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-
 import static org.junit.Assert.fail;
 
 public class AndroidEngineTest extends BaseCalculatorTest {
@@ -134,10 +131,7 @@ public class AndroidEngineTest extends BaseCalculatorTest {
         final MathEngine me = engine.getMathEngine();
 
         try {
-            DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
-            decimalGroupSymbols.setDecimalSeparator('.');
-            decimalGroupSymbols.setGroupingSeparator('\'');
-            me.setDecimalGroupSymbols(decimalGroupSymbols);
+            me.setGroupingSeparator('\'');
             me.setPrecision(2);
             assertEval("12'345'678.9", me.evaluate("1.23456789E7"));
             me.setPrecision(10);
@@ -146,10 +140,7 @@ public class AndroidEngineTest extends BaseCalculatorTest {
             assertEval("1'234'567'890.1", me.evaluate("1.2345678901E9"));
         } finally {
             me.setPrecision(3);
-            DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
-            decimalGroupSymbols.setDecimalSeparator('.');
-            decimalGroupSymbols.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT.charAt(0));
-            me.setDecimalGroupSymbols(decimalGroupSymbols);
+            me.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
         }
     }
 

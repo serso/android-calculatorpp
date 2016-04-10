@@ -17,15 +17,13 @@ import org.solovyev.common.msg.Messages;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
-import java.text.DecimalFormatSymbols;
 import java.util.List;
-import java.util.Locale;
 
 public class JsclMathEngine implements MathEngine {
 
     public static final AngleUnit DEFAULT_ANGLE_UNITS = AngleUnit.deg;
     public static final NumeralBase DEFAULT_NUMERAL_BASE = NumeralBase.dec;
-    public static final String GROUPING_SEPARATOR_DEFAULT = " ";
+    public static final char GROUPING_SEPARATOR_DEFAULT = ' ';
     public static final int MAX_FRACTION_DIGITS = 20;
     @Nonnull
     private static JsclMathEngine instance = new JsclMathEngine();
@@ -38,8 +36,7 @@ public class JsclMathEngine implements MathEngine {
             return new NumberFormatter();
         }
     };
-    @Nonnull
-    private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
+    private char groupingSeparator = GROUPING_SEPARATOR_DEFAULT;
     private boolean roundResult = false;
     private boolean scienceNotation = false;
     private int precision = 5;
@@ -50,11 +47,6 @@ public class JsclMathEngine implements MathEngine {
     private NumeralBase numeralBase = DEFAULT_NUMERAL_BASE;
     @Nonnull
     private MessageRegistry messageRegistry = Messages.synchronizedMessageRegistry(new FixedCapacityListMessageRegistry(10));
-
-    {
-        decimalGroupSymbols.setDecimalSeparator('.');
-        decimalGroupSymbols.setGroupingSeparator(GROUPING_SEPARATOR_DEFAULT.charAt(0));
-    }
 
     public JsclMathEngine() {
     }
@@ -173,7 +165,7 @@ public class JsclMathEngine implements MathEngine {
             }
         }
         final NumberFormatter nf = numberFormatter.get();
-        nf.setGroupingSeparator(useGroupingSeparator ? decimalGroupSymbols.getGroupingSeparator() : NumberFormatter.NO_GROUPING);
+        nf.setGroupingSeparator(useGroupingSeparator ? groupingSeparator : NumberFormatter.NO_GROUPING);
         nf.setPrecision(roundResult ? precision : NumberFormatter.DEFAULT_PRECISION);
         if (scienceNotation) {
             nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
@@ -250,7 +242,7 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     public String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedDoubleValue) {
         if (useGroupingSeparator) {
-            String groupingSeparator = nb == NumeralBase.dec ? String.valueOf(decimalGroupSymbols.getGroupingSeparator()) : " ";
+            final String groupingSeparator = nb == NumeralBase.dec ? String.valueOf(this.groupingSeparator) : " ";
 
             final int dotIndex = ungroupedDoubleValue.indexOf(".");
 
@@ -302,10 +294,6 @@ public class JsclMathEngine implements MathEngine {
         return result;
     }
 
-    public void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols) {
-        this.decimalGroupSymbols = decimalGroupSymbols;
-    }
-
     public void setRoundResult(boolean roundResult) {
         this.roundResult = roundResult;
     }
@@ -323,10 +311,10 @@ public class JsclMathEngine implements MathEngine {
     }
 
     public char getGroupingSeparator() {
-        return this.decimalGroupSymbols.getGroupingSeparator();
+        return this.groupingSeparator;
     }
 
     public void setGroupingSeparator(char groupingSeparator) {
-        this.decimalGroupSymbols.setGroupingSeparator(groupingSeparator);
+        this.groupingSeparator = groupingSeparator;
     }
 }
