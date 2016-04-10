@@ -9,6 +9,7 @@ import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
+import midpcalc.Real;
 import org.solovyev.common.NumberFormatter;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
@@ -18,6 +19,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.util.List;
+
+import static midpcalc.Real.NumberFormat.*;
 
 public class JsclMathEngine implements MathEngine {
 
@@ -38,7 +41,7 @@ public class JsclMathEngine implements MathEngine {
     };
     private char groupingSeparator = GROUPING_SEPARATOR_DEFAULT;
     private boolean roundResult = false;
-    private boolean scienceNotation = false;
+    private int numberFormat = FSE_NONE;
     private int precision = 5;
     private boolean useGroupingSeparator = false;
     @Nonnull
@@ -166,11 +169,17 @@ public class JsclMathEngine implements MathEngine {
         }
         final NumberFormatter nf = numberFormatter.get();
         nf.setGroupingSeparator(useGroupingSeparator ? groupingSeparator : NumberFormatter.NO_GROUPING);
-        nf.setPrecision(roundResult ? precision : NumberFormatter.DEFAULT_PRECISION);
-        if (scienceNotation) {
-            nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
-        } else {
-            nf.useSimpleFormat();
+        nf.setPrecision(roundResult ? precision : NumberFormatter.NO_ROUNDING);
+        switch (numberFormat) {
+            case Real.NumberFormat.FSE_ENG:
+                nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
+                break;
+            case FSE_SCI:
+                nf.useScientificFormat(NumberFormatter.DEFAULT_MAGNITUDE);
+                break;
+            default:
+                nf.useSimpleFormat();
+                break;
         }
         return nf.format(value, nb.radix).toString();
     }
@@ -307,7 +316,14 @@ public class JsclMathEngine implements MathEngine {
     }
 
     public void setScienceNotation(boolean scienceNotation) {
-        this.scienceNotation = scienceNotation;
+        setNumberFormat(scienceNotation ? FSE_SCI : FSE_NONE);
+    }
+
+    public void setNumberFormat(int numberFormat) {
+        if (numberFormat != FSE_SCI && numberFormat != FSE_ENG && numberFormat != FSE_NONE) {
+            throw new IllegalArgumentException("Unsupported format: " + numberFormat);
+        }
+        this.numberFormat = numberFormat;
     }
 
     public char getGroupingSeparator() {

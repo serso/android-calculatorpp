@@ -1,5 +1,6 @@
 package jscl;
 
+import midpcalc.Real;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -85,7 +86,7 @@ public class JsclMathEngineTest {
     @Test
     public void testEngineeringNotationWithRounding() throws Exception {
         final JsclMathEngine me = JsclMathEngine.getInstance();
-        me.setScienceNotation(true);
+        me.setNumberFormat(Real.NumberFormat.FSE_ENG);
         me.setRoundResult(true);
         me.setPrecision(5);
 
@@ -141,7 +142,7 @@ public class JsclMathEngineTest {
     @Test
     public void testEngineeringNotationWithoutRounding() throws Exception {
         final JsclMathEngine me = JsclMathEngine.getInstance();
-        me.setScienceNotation(true);
+        me.setNumberFormat(Real.NumberFormat.FSE_ENG);
         me.setRoundResult(false);
 
         assertEquals("10E6", me.format(10000000d));

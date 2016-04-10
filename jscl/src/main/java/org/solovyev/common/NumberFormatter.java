@@ -5,20 +5,27 @@ import midpcalc.Real;
 import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 
+import static java.lang.Math.pow;
 import static midpcalc.Real.NumberFormat.*;
 
 public class NumberFormatter {
 
     public static final int NO_GROUPING = 0;
-    public static final int DEFAULT_PRECISION = 16;
+    public static final int NO_ROUNDING = -1;
     public static final int DEFAULT_MAGNITUDE = 5;
+    public static final int MAX_PRECISION = 16;
 
     private final Real.NumberFormat numberFormat = new Real.NumberFormat();
     private final Real real = new Real();
     private int format = FSE_NONE;
     private int simpleFormatMagnitude = DEFAULT_MAGNITUDE;
-    private int precision = DEFAULT_PRECISION;
+    private int precision = MAX_PRECISION;
     private char groupingSeparator;
+
+    public void useScientificFormat(int simpleFormatMagnitude) {
+        this.format = FSE_SCI;
+        this.simpleFormatMagnitude = simpleFormatMagnitude;
+    }
 
     public void useEngineeringFormat(int simpleFormatMagnitude) {
         this.format = FSE_ENG;
@@ -49,24 +56,49 @@ public class NumberFormatter {
             throw new IllegalArgumentException("Unsupported radix: " + radix);
         }
         double absValue = Math.abs(value);
-        final boolean dec = radix == 10;
-        final boolean fixedFormat = !dec || format == FSE_NONE || Math.pow(10, -simpleFormatMagnitude) <= absValue && absValue < Math.pow(10, simpleFormatMagnitude);
+        final boolean simpleFormat = useSimpleFormat(radix, absValue);
 
-        if (fixedFormat) {
-            final int newScale = (int) (precision * Math.max(1, radix / 10f));
+        final int effectivePrecision = precision == NO_ROUNDING ? MAX_PRECISION : precision;
+        if (simpleFormat) {
+            final int newScale = (int) (effectivePrecision * Math.max(1, radix / 10f));
             value = BigDecimal.valueOf(value).setScale(newScale, BigDecimal.ROUND_HALF_UP).doubleValue();
             absValue = Math.abs(value);
         }
-        numberFormat.fse = fixedFormat ? FSE_FIX : FSE_ENG;
+        if (simpleFormat) {
+            numberFormat.fse = FSE_FIX;
+        } else if (format == FSE_NONE) {
+            // originally, a simple format was requested but we have to use something more appropriate, f.e. scientific
+            // format
+            numberFormat.fse = FSE_SCI;
+        } else {
+            numberFormat.fse = format;
+        }
         numberFormat.thousand = groupingSeparator;
-        numberFormat.precision = precision;
+        numberFormat.precision = effectivePrecision;
         numberFormat.base = radix;
-        numberFormat.maxwidth = fixedFormat ? 100 : 30;
+        numberFormat.maxwidth = simpleFormat ? 100 : 30;
 
         if (radix == 2 && value < 0) {
             return "-" + prepare(absValue);
         }
         return prepare(value);
+    }
+
+    private boolean useSimpleFormat(int radix, double absValue) {
+        if (radix != 10) {
+            return true;
+        }
+        if (absValue < pow(10, -MAX_PRECISION)) {
+            // should never use simple format for small numbers
+            return false;
+        }
+        if (format == FSE_NONE) {
+            return true;
+        }
+        if (pow(10, -simpleFormatMagnitude) <= absValue && absValue < pow(10, simpleFormatMagnitude)) {
+            return true;
+        }
+        return false;
     }
 
     @Nonnull
