@@ -65,18 +65,36 @@
                 tools:ignore="UnusedAttribute" />
         </FrameLayout>
 
-        <android.support.design.widget.TextInputLayout
-            a:id="@+id/variable_value_label"
+        <FrameLayout
             a:layout_width="match_parent"
             a:layout_height="wrap_content">
 
-            <org.solovyev.android.calculator.view.EditTextCompat
-                a:id="@+id/variable_value"
+            <android.support.design.widget.TextInputLayout
+                a:id="@+id/variable_value_label"
                 a:layout_width="match_parent"
+                a:layout_height="wrap_content">
+
+                <EditText
+                    a:id="@+id/variable_value"
+                    a:layout_width="match_parent"
+                    a:layout_height="wrap_content"
+                    a:hint="@string/c_var_value"
+                    a:inputType="numberDecimal|numberSigned" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                a:id="@+id/variable_exponent_button"
+                a:layout_width="wrap_content"
                 a:layout_height="wrap_content"
-                a:hint="@string/c_var_value"
-                a:inputType="numberDecimal|numberSigned" />
-        </android.support.design.widget.TextInputLayout>
+                a:layout_gravity="end|top"
+                a:background="?attr/selectableItemBackgroundBorderless"
+                a:minWidth="0dp"
+                a:padding="@dimen/cpp_image_button_padding"
+                a:text="@string/cpp_exponent"
+                a:textAllCaps="false"
+                a:textAppearance="?android:attr/textAppearanceSmall"
+                tools:ignore="UnusedAttribute" />
+        </FrameLayout>
 
         <android.support.design.widget.TextInputLayout
             a:layout_width="match_parent"

@@ -34,6 +34,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,10 +48,11 @@ import android.widget.PopupWindow;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import dagger.Lazy;
+import jscl.JsclMathEngine;
 import jscl.math.function.IConstant;
+import midpcalc.Real;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.RemovalConfirmationDialog;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
@@ -87,6 +91,8 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     TextInputLayout valueLabel;
     @Bind(R.id.variable_value)
     EditText valueView;
+    @Bind(R.id.variable_exponent_button)
+    Button exponentButton;
     @Bind(R.id.variable_description)
     EditText descriptionView;
     @Inject
@@ -304,6 +310,13 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         nameView.setOnFocusChangeListener(this);
         nameView.setOnKeyListener(this);
         valueView.setOnFocusChangeListener(this);
+        valueView.setEditableFactory(new Editable.Factory() {
+            @Override
+            public Editable newEditable(CharSequence source) {
+                return new NoFiltersEditable(source);
+            }
+        });
+        exponentButton.setOnClickListener(this);
         descriptionView.setOnFocusChangeListener(this);
         keyboardButton.setOnClickListener(this);
 
@@ -352,6 +365,11 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
                     showKeyboard();
                 }
                 break;
+            case R.id.variable_exponent_button:
+                final int start = Math.max(valueView.getSelectionStart(), 0);
+                final int end = Math.max(valueView.getSelectionEnd(), 0);
+                valueView.getText().replace(Math.min(start, end), Math.max(start, end), "E", 0, 1);
+                break;
             default:
                 super.onClick(v);
                 break;
@@ -377,6 +395,17 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     private void showKeyboard() {
         nameView.dontShowSoftInputOnFocusCompat();
         keyboardWindow.show(new GreekFloatingKeyboard(keyboardUser), getDialog());
+    }
+
+    private static class NoFiltersEditable extends SpannableStringBuilder {
+        public NoFiltersEditable(CharSequence source) {
+            super(source);
+        }
+
+        @Override
+        public void setFilters(InputFilter[] filters) {
+            // we don't want filters as we want to support numbers in scientific notation
+        }
     }
 
     private class KeyboardUser implements FloatingKeyboard.User {

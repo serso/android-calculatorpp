@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.design.widget.TextInputEditText;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,7 +12,7 @@ import org.solovyev.android.Check;
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 
-public class EditTextCompat extends EditText {
+public class EditTextCompat extends TextInputEditText {
 
     @Nullable
     private static Method setShowSoftInputOnFocusMethod;
@@ -28,11 +28,6 @@ public class EditTextCompat extends EditText {
 
     public EditTextCompat(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public EditTextCompat(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     public void dontShowSoftInputOnFocusCompat() {

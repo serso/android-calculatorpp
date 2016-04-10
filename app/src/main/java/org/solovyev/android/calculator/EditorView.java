@@ -22,14 +22,11 @@
 
 package org.solovyev.android.calculator;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.android.views.Adjuster;
@@ -55,12 +52,6 @@ public class EditorView extends EditTextCompat {
 
     public EditorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public EditorView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
