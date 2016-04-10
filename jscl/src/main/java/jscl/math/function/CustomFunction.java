@@ -3,6 +3,7 @@ package jscl.math.function;
 import com.google.common.collect.Lists;
 import jscl.CustomFunctionCalculationException;
 import jscl.JsclMathEngine;
+import jscl.NumeralBase;
 import jscl.math.*;
 import jscl.text.ParseException;
 import jscl.text.msg.JsclMessage;
@@ -59,11 +60,21 @@ public class CustomFunction extends Function implements IFunction {
                            @Nullable String description) throws CustomFunctionCalculationException {
         super(name, new Generic[parameterNames.size()]);
         this.parameterNames = parameterNames;
+        final JsclMathEngine engine = JsclMathEngine.getInstance();
+        final NumeralBase nb = engine.getNumeralBase();
+        if (nb != NumeralBase.dec) {
+            // numbers in functions are only supported in decimal base
+            engine.setNumeralBase(NumeralBase.dec);
+        }
         try {
             this.content = Expression.valueOf(content);
             ensureNoImplicitFunctions();
         } catch (ParseException e) {
             throw new CustomFunctionCalculationException(this, e);
+        } finally {
+            if (nb != NumeralBase.dec) {
+                engine.setNumeralBase(nb);
+            }
         }
         this.description = description;
         this.id = counter.incrementAndGet();
