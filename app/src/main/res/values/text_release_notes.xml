@@ -22,27 +22,28 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-	<string name="c_release_notes_for_118">
-		★ German and Polish translations\n
-		★ Wizard\n
-		★ Graph improvements\n
-		★ Asin(i) problem fix\n
-		★ Greek letters for variable names\n
-		★ Other fixes
-	</string>
+    <string name="cpp_release_notes_141">
+        ★ Improved button gesture detection\n
+        ★ Fast text removal by long pressing "Erase" button\n
+        ★ "Equals" button now copies result to the editor\n
+        ★ Various bugfixes, stability and usability improvements
+    </string>
 
-	<string name="c_release_notes_for_141">
-		★ Improved button gesture detection\n
-		★ Fast text removal by long pressing "Erase" button\n
-		★ "Equals" button now copies result to the editor\n
-		★ Various bugfixes, stability and usability improvements
-	</string>
+    <string name="cpp_release_notes_143">
+        ★ App language can be changed in settings\n
+        ★ Floating calculator themes\n
+        ★ Widget themes\n
+        ★ Various bugfixes, stability and usability improvements
+    </string>
 
-	<string name="c_release_notes_for_143">
-		★ App language can be changed in settings\n
-		★ Floating calculator themes\n
-		★ Widget themes\n
-		★ Various bugfixes, stability and usability improvements
-	</string>
+    <string name="cpp_release_notes_148">
+        ★ New graph plotter\n
+        ★ Improved user interface: main and additional screens, dialogs, menus, etc\n
+        ★ Redesigned unit converter\n
+        ★ Memory button (MC, M+, M-, M)\n
+        ★ Floating calculator for Android M\n
+        ★ Auto-save of recent history\n
+        ★ Faster start-ups, less memory consumption
+    </string>
 
 </resources>

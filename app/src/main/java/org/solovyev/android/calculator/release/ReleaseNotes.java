@@ -14,9 +14,9 @@ public final class ReleaseNotes {
 
     private static final SparseArray<ReleaseNote> map = new SparseArray<>();
     static {
-        map.put(118, ReleaseNote.make("2.0.0", R.string.c_release_notes_for_118));
-        map.put(141, ReleaseNote.make("2.1.2", R.string.c_release_notes_for_141));
-        map.put(143, ReleaseNote.make("2.1.4", R.string.c_release_notes_for_143));
+        map.put(141, ReleaseNote.make("2.1.2", R.string.cpp_release_notes_141));
+        map.put(143, ReleaseNote.make("2.1.4", R.string.cpp_release_notes_143));
+        map.put(148, ReleaseNote.make("2.2.1", R.string.cpp_release_notes_148));
     }
 
     @Nonnull
@@ -33,7 +33,7 @@ public final class ReleaseNotes {
     @Nonnull
     public static String getReleaseNoteDescription(@Nonnull Context context, int version) {
         final ReleaseNote releaseNote = map.get(version);
-        return releaseNote == null ? "" : context.getString(releaseNote.description);
+        return releaseNote == null ? "" : getDescription(context, releaseNote.description);
     }
 
     @Nonnull
@@ -54,13 +54,17 @@ public final class ReleaseNotes {
             } else {
                 first = false;
             }
-            final String description = context.getResources().getString(releaseNote.description);
-            final String descriptionHtml = description.replace("\n", "<br/>");
+            final String descriptionHtml = getDescription(context, releaseNote.description);
             result.append("<b>").append(releaseNotesForTitle).append(releaseNote.versionName).append("</b><br/><br/>");
             result.append(descriptionHtml);
         }
 
         return result.toString();
+    }
+
+    @Nonnull
+    private static String getDescription(@Nonnull Context context, int description) {
+        return context.getResources().getString(description).replace("\n", "<br/>");
     }
 
     @Nonnull
