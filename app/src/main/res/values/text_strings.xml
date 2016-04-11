@@ -115,7 +115,6 @@
 		several devices.\n\n
 		By clicking \'Continue\' button you will be redirected to the Google Play app to make the payment.</string>
     <string name="cpp_purchase_title">Purchase</string>
-    <string name="cpp_show_greek_keyboard" translatable="false">αβγ</string>
     <string name="cpp_clear_history_title">Clear history?</string>
     <string name="cpp_clear_history_message">All history will be cleared.</string>
     <string name="cpp_clear_history">Clear</string>
