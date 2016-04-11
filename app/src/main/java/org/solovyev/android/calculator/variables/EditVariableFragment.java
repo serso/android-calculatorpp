@@ -48,9 +48,7 @@ import android.widget.PopupWindow;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import dagger.Lazy;
-import jscl.JsclMathEngine;
 import jscl.math.function.IConstant;
-import midpcalc.Real;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
@@ -58,6 +56,7 @@ import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.view.EditTextCompat;
+import org.solovyev.android.text.method.NumberInputFilter;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
@@ -313,7 +312,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         valueView.setEditableFactory(new Editable.Factory() {
             @Override
             public Editable newEditable(CharSequence source) {
-                return new NoFiltersEditable(source);
+                return new NumberEditable(source);
             }
         });
         exponentButton.setOnClickListener(this);
@@ -397,9 +396,10 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         keyboardWindow.show(new GreekFloatingKeyboard(keyboardUser), getDialog());
     }
 
-    private static class NoFiltersEditable extends SpannableStringBuilder {
-        public NoFiltersEditable(CharSequence source) {
+    private static class NumberEditable extends SpannableStringBuilder {
+        public NumberEditable(CharSequence source) {
             super(source);
+            super.setFilters(new InputFilter[]{NumberInputFilter.getInstance()});
         }
 
         @Override
