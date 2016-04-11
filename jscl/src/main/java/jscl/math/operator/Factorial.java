@@ -39,7 +39,7 @@ public class Factorial extends PostfixFunction {
             }
 
             Generic result = JsclInteger.valueOf(1);
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n && i < 200; i++) {
                 ParserUtils.checkInterruption();
                 result = result.multiply(JsclInteger.valueOf(i + 1));
             }
