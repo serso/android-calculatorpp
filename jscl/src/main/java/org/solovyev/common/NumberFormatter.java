@@ -1,12 +1,16 @@
 package org.solovyev.common;
 
-import midpcalc.Real;
-
-import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 
+import javax.annotation.Nonnull;
+
+import midpcalc.Real;
+
 import static java.lang.Math.pow;
-import static midpcalc.Real.NumberFormat.*;
+import static midpcalc.Real.NumberFormat.FSE_ENG;
+import static midpcalc.Real.NumberFormat.FSE_FIX;
+import static midpcalc.Real.NumberFormat.FSE_NONE;
+import static midpcalc.Real.NumberFormat.FSE_SCI;
 
 public class NumberFormatter {
 
@@ -88,12 +92,10 @@ public class NumberFormatter {
         if (radix != 10) {
             return true;
         }
-        if (absValue < pow(10, -MAX_PRECISION)) {
-            // should never use simple format for small numbers
-            return false;
-        }
         if (format == FSE_NONE) {
-            return true;
+            // simple format should be used only if rounding is on or if number is big enough
+            final boolean round = precision != NO_ROUNDING;
+            return round || absValue >= pow(10, -MAX_PRECISION);
         }
         if (pow(10, -simpleFormatMagnitude) <= absValue && absValue < pow(10, simpleFormatMagnitude)) {
             return true;

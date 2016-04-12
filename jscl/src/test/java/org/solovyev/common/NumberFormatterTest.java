@@ -69,6 +69,10 @@ public class NumberFormatterTest {
         assertEquals("3.333333333333333E-19", numberFormatter.format(pow(10, -18) / 3));
         assertEquals("1234567890000000000", numberFormatter.format(123456789 * pow(10, 10)));
         assertEquals("0.0000000000000001", numberFormatter.format(pow(10, -16)));
+        assertEquals("1E-17", numberFormatter.format(pow(10, -17)));
+        assertEquals("1E-18", numberFormatter.format(pow(10, -18)));
+        assertEquals("1.5E-18", numberFormatter.format(1.5 * pow(10, -18)));
+        assertEquals("1E-100", numberFormatter.format(pow(10, -100)));
 
         testSimpleFormat();
     }
@@ -81,9 +85,13 @@ public class NumberFormatterTest {
         assertEquals("1", numberFormatter.format(1d));
         assertEquals("0", numberFormatter.format(pow(10, -6)));
         assertEquals("0.33333", numberFormatter.format(1d / 3));
-        assertEquals("3.33333E-19", numberFormatter.format(pow(10, -18) / 3));
+        assertEquals("0", numberFormatter.format(pow(10, -18) / 3));
         assertEquals("1234567890000000000", numberFormatter.format(123456789 * pow(10, 10)));
         assertEquals("0", numberFormatter.format(pow(10, -16)));
+        assertEquals("0", numberFormatter.format(pow(10, -17)));
+        assertEquals("0", numberFormatter.format(pow(10, -18)));
+        assertEquals("0", numberFormatter.format(1.5 * pow(10, -18)));
+        assertEquals("0", numberFormatter.format(pow(10, -100)));
 
         testSimpleFormat();
     }
@@ -98,10 +106,6 @@ public class NumberFormatterTest {
         assertEquals("1E100", numberFormatter.format(pow(10, 100)));
 
         assertEquals("0.01", numberFormatter.format(pow(10, -2)));
-        assertEquals("1E-17", numberFormatter.format(pow(10, -17)));
-        assertEquals("1E-18", numberFormatter.format(pow(10, -18)));
-        assertEquals("1.5E-18", numberFormatter.format(1.5 * pow(10, -18)));
-        assertEquals("1E-100", numberFormatter.format(pow(10, -100)));
 
         assertEquals("5000000000000000000", numberFormatter.format(5000000000000000000d));
         assertEquals("5000000000000000000", numberFormatter.format(5000000000000000001d));
