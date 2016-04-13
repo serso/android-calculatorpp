@@ -196,7 +196,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
                 }
                 return true;
             case R.string.c_convert:
-                ConverterFragment.show(getActivity(), getValue(result));
+                ConverterFragment.create(getValue(result));
                 return true;
             case R.string.c_plot:
                 launcher.plot(result);

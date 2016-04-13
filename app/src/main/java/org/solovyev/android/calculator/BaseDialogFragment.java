@@ -100,17 +100,8 @@ public abstract class BaseDialogFragment extends DialogFragment implements View.
         return null;
     }
 
-    protected void setError(@NonNull TextInputLayout textInput, @StringRes int error, Object... errorArgs) {
-        setError(textInput, getString(error, errorArgs));
-    }
-    protected void setError(@NonNull TextInputLayout textInput, @NonNull String error) {
-        textInput.setError(error);
-        textInput.setErrorEnabled(true);
-    }
-
-    protected void clearError(@NonNull TextInputLayout textInput) {
-        textInput.setErrorEnabled(false);
-        textInput.setError(null);
+    public void setError(@NonNull TextInputLayout textInput, @StringRes int error, Object... errorArgs) {
+        BaseFragment.setError(textInput, getString(error, errorArgs));
     }
 
     protected final void showIme(@NonNull View view) {

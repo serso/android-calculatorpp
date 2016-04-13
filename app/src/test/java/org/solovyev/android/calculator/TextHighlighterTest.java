@@ -99,7 +99,7 @@ public class TextHighlighterTest {
                 "        check привиденная FIXED\n" +
                 "        set display result only if text in editor was not changed FIXED\n" +
                 "        shift M text to the left\n" +
-                "        do not show SYNTAX ERROR always (may be show send clock?q) FIXED\n" +
+                "        do not show SYNTAX ERROR always (may be create send clock?q) FIXED\n" +
                 "        ln(8)*log(8) =>  ln(8)*og(8) FIXED\n" +
                 "        copy/paste ln(8)*log(8)\n" +
                 "        6!^2 ERROR");

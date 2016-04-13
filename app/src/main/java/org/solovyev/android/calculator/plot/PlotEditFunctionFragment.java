@@ -13,10 +13,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import jscl.math.function.CustomFunction;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.RemovalConfirmationDialog;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.functions.BaseFunctionFragment;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.plotter.Color;
@@ -169,7 +166,7 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
             }
             return true;
         } catch (RuntimeException e) {
-            setError(bodyLabel, e.getLocalizedMessage());
+            BaseFragment.setError(bodyLabel, e.getLocalizedMessage());
         }
         return false;
     }

@@ -124,6 +124,14 @@
         </activity>
 
         <activity
+            android:name=".converter.ConverterActivity"
+            android:label="@string/c_conversion_tool">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".wizard.WizardActivity"
             android:launchMode="singleTop"
             android:theme="@style/Cpp.Theme.Wizard">

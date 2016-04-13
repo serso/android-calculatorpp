@@ -150,7 +150,7 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
             final ViewParent parentView = v.getParent();
             if (parentView instanceof TextInputLayout) {
                 if (hasFocus) {
-                    clearError((TextInputLayout) parentView);
+                    BaseFragment.clearError((TextInputLayout) parentView);
                 } else {
                     validateParameters();
                 }
@@ -162,14 +162,14 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
         switch (id) {
             case R.id.function_name:
                 if (hasFocus) {
-                    clearError(nameLabel);
+                    BaseFragment.clearError(nameLabel);
                 } else {
                     validateName();
                 }
                 break;
             case R.id.function_body:
                 if (hasFocus) {
-                    clearError(bodyLabel);
+                    BaseFragment.clearError(bodyLabel);
                     showKeyboard();
                 } else {
                     keyboardWindow.hide();
@@ -259,7 +259,7 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
                 .withParameters(collectParameters())
                 .withDescription(descriptionView.getText().toString()).build();
         } catch (RuntimeException e) {
-            setError(bodyLabel, e.getLocalizedMessage());
+            BaseFragment.setError(bodyLabel, e.getLocalizedMessage());
         }
         return null;
     }
@@ -275,7 +275,7 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
     private boolean validateBody() {
         final String body = bodyView.getText().toString();
         if (TextUtils.isEmpty(body)) {
-            setError(bodyLabel, getString(R.string.function_is_empty));
+            BaseFragment.setError(bodyLabel, getString(R.string.function_is_empty));
             return false;
         }
         try {
@@ -285,15 +285,15 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
                 final List<String> parameters = collectParameters();
                 for (IConstant undefinedVariable : pe.getUndefinedVariables()) {
                     if (!parameters.contains(undefinedVariable.getName())) {
-                        setError(bodyLabel, getString(R.string.c_error));
+                        BaseFragment.setError(bodyLabel, getString(R.string.c_error));
                         return false;
                     }
                 }
             }
-            clearError(bodyLabel);
+            BaseFragment.clearError(bodyLabel);
             return true;
         } catch (ParseException e) {
-            setError(bodyLabel, e.getLocalizedMessage());
+            BaseFragment.setError(bodyLabel, e.getLocalizedMessage());
             return false;
         }
     }
@@ -306,16 +306,16 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
             final String parameter = parameters.get(i);
             final TextInputLayout paramLabel = paramsView.getParamLabel(i);
             if (TextUtils.isEmpty(parameter)) {
-                clearError(paramLabel);
+                BaseFragment.clearError(paramLabel);
             } else if (!Engine.isValidName(parameter)) {
                 valid = false;
-                setError(paramLabel, getString(R.string.cpp_invalid_name));
+                BaseFragment.setError(paramLabel, getString(R.string.cpp_invalid_name));
             } else if (usedParameters.contains(parameter)) {
                 valid = false;
-                setError(paramLabel, getString(R.string.cpp_fn_duplicate_parameter));
+                BaseFragment.setError(paramLabel, getString(R.string.cpp_fn_duplicate_parameter));
             } else {
                 usedParameters.add(parameter);
-                clearError(paramLabel);
+                BaseFragment.clearError(paramLabel);
             }
         }
         return valid;

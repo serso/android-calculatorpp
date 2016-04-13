@@ -207,12 +207,12 @@ public class PlotDimensionsFragment extends BaseDialogFragment
             return false;
         }
         if (bounds.top >= bounds.bottom) {
-            setError(yMinLabel, " ");
-            setError(yMaxLabel, "max ≯ min");
+            BaseFragment.setError(yMinLabel, " ");
+            BaseFragment.setError(yMaxLabel, "max ≯ min");
             return false;
         }
-        clearError(yMinLabel);
-        clearError(yMaxLabel);
+        BaseFragment.clearError(yMinLabel);
+        BaseFragment.clearError(yMaxLabel);
         return true;
     }
 
@@ -221,12 +221,12 @@ public class PlotDimensionsFragment extends BaseDialogFragment
             return false;
         }
         if (bounds.left >= bounds.right) {
-            setError(xMinLabel, " ");
-            setError(xMaxLabel, "max ≯ min");
+            BaseFragment.setError(xMinLabel, " ");
+            BaseFragment.setError(xMaxLabel, "max ≯ min");
             return false;
         }
-        clearError(xMinLabel);
-        clearError(xMaxLabel);
+        BaseFragment.clearError(xMinLabel);
+        BaseFragment.clearError(xMaxLabel);
         return true;
     }
 
@@ -238,12 +238,12 @@ public class PlotDimensionsFragment extends BaseDialogFragment
             if (nanLeft) {
                 setError(lInput, R.string.cpp_nan);
             } else {
-                clearError(lInput);
+                BaseFragment.clearError(lInput);
             }
             if (nanRight) {
                 setError(rInput, R.string.cpp_nan);
             } else {
-                clearError(rInput);
+                BaseFragment.clearError(rInput);
             }
             return true;
         }

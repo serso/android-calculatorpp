@@ -9,10 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import jscl.math.function.Function;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.RemovalConfirmationDialog;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -60,7 +57,7 @@ public class EditFunctionFragment extends BaseFunctionFragment {
             functionsRegistry.addOrUpdate(function.toJsclBuilder().create(), oldFunction);
             return true;
         } catch (RuntimeException e) {
-            setError(bodyLabel, e.getLocalizedMessage());
+            BaseFragment.setError(bodyLabel, e.getLocalizedMessage());
         }
         return false;
     }
@@ -69,29 +66,29 @@ public class EditFunctionFragment extends BaseFunctionFragment {
     protected boolean validateName() {
         final String name = nameView.getText().toString();
         if (!Engine.isValidName(name)) {
-            setError(nameLabel, getString(R.string.function_name_is_not_valid));
+            BaseFragment.setError(nameLabel, getString(R.string.function_name_is_not_valid));
             return false;
         }
         final Function existingFunction = functionsRegistry.get(name);
         if (existingFunction != null) {
             if (!existingFunction.isIdDefined()) {
                 Check.shouldNotHappen();
-                setError(nameLabel, getString(R.string.function_already_exists));
+                BaseFragment.setError(nameLabel, getString(R.string.function_already_exists));
                 return false;
             }
             if (isNewFunction()) {
                 // trying to create a new function with existing name
-                setError(nameLabel, getString(R.string.function_already_exists));
+                BaseFragment.setError(nameLabel, getString(R.string.function_already_exists));
                 return false;
             }
             Check.isNotNull(function);
             if (!existingFunction.getId().equals(function.getId())) {
                 // trying ti change the name of existing function to some other function's name
-                setError(nameLabel, getString(R.string.function_already_exists));
+                BaseFragment.setError(nameLabel, getString(R.string.function_already_exists));
                 return false;
             }
         }
-        clearError(nameLabel);
+        BaseFragment.clearError(nameLabel);
         return true;
     }
 

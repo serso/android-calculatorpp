@@ -268,7 +268,7 @@ public class CalculatorActivity extends BaseActivity implements View.OnClickList
                     launcher.showPlotter();
                     return true;
                 case R.id.menu_conversion_tool:
-                    ConverterFragment.show(CalculatorActivity.this);
+                    launcher.showUnitConverter();
                     return true;
                 case R.id.menu_about:
                     launcher.showAbout();

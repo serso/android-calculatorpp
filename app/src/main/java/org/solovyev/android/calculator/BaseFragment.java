@@ -1,25 +1,21 @@
 package org.solovyev.android.calculator;
 
-import static android.view.Menu.NONE;
-import static org.solovyev.android.calculator.App.cast;
-
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
+import android.view.*;
 import org.solovyev.android.calculator.ads.AdUi;
 import org.solovyev.android.plotter.Check;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import static android.view.Menu.NONE;
+import static org.solovyev.android.calculator.App.cast;
 
 public abstract class BaseFragment extends Fragment {
 
@@ -43,6 +39,16 @@ public abstract class BaseFragment extends Fragment {
         final P parcelable = bundle.getParcelable(key);
         Check.isNotNull(parcelable);
         return parcelable;
+    }
+
+    public static void setError(@NonNull TextInputLayout textInput, @NonNull String error) {
+        textInput.setError(error);
+        textInput.setErrorEnabled(true);
+    }
+
+    public static void clearError(@NonNull TextInputLayout textInput) {
+        textInput.setErrorEnabled(false);
+        textInput.setError(null);
     }
 
     @Override

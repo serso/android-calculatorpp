@@ -1,21 +1,18 @@
 package org.solovyev.android.calculator.converter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import butterknife.Bind;
@@ -32,7 +29,7 @@ import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
 import java.util.*;
 
-public class ConverterFragment extends BaseDialogFragment
+public class ConverterFragment extends BaseFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
 
     // todo serso: better to provide a dimension-id pair as units might not be unique in different dimensions
@@ -81,6 +78,10 @@ public class ConverterFragment extends BaseDialogFragment
     private int pendingFromSelection = View.NO_ID;
     private int pendingToSelection = View.NO_ID;
 
+    public ConverterFragment() {
+        super(R.layout.cpp_unit_converter);
+    }
+
     private static void addUnit(@NonNull Unit<?> unit) {
         if (excludedUnits.contains(unit.toString())) {
             return;
@@ -99,16 +100,18 @@ public class ConverterFragment extends BaseDialogFragment
         unitsInDimension.add(unit);
     }
 
-    public static void show(@Nonnull FragmentActivity activity) {
-        show(activity, 1d);
+    @NonNull
+    public static ConverterFragment create() {
+        return create(1d);
     }
 
-    public static void show(@Nonnull FragmentActivity activity, double value) {
+    @NonNull
+    public static ConverterFragment create(double value) {
         final ConverterFragment fragment = new ConverterFragment();
         final Bundle args = new Bundle(1);
         args.putDouble(EXTRA_VALUE, value);
         fragment.setArguments(args);
-        App.showDialog(fragment, "converter", activity.getSupportFragmentManager());
+        return fragment;
     }
 
     @Nonnull
@@ -117,25 +120,16 @@ public class ConverterFragment extends BaseDialogFragment
     }
 
     @Override
-    protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        builder.setPositiveButton(R.string.c_use, null);
-        builder.setNegativeButton(R.string.cpp_cancel, null);
-        builder.setNeutralButton(R.string.cpp_copy, null);
-    }
-
-    @Override
     protected void inject(@NonNull AppComponent component) {
         super.inject(component);
         component.inject(this);
     }
 
-    @SuppressLint("InflateParams")
-    @Nullable
     @Override
-    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater,
-                                      @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.cpp_unit_converter, null);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
+        final Context context = getContext();
 
         dimensionsAdapter = makeAdapter(context);
         for (NamedDimension dimension : NamedDimension.values()) {
@@ -341,15 +335,13 @@ public class ConverterFragment extends BaseDialogFragment
                 swap();
                 break;
             default:
-                super.onClick(v);
                 break;
         }
     }
 
-    @Override
     public void onClick(DialogInterface dialog, int which) {
         if (which == DialogInterface.BUTTON_NEGATIVE) {
-            dismiss();
+            //dismiss();
             return;
         }
         final String text = editTextTo.getText().toString();
@@ -358,7 +350,7 @@ public class ConverterFragment extends BaseDialogFragment
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     editor.insert(String.valueOf(value));
-                    dismiss();
+                    //dismiss();
                     break;
                 case DialogInterface.BUTTON_NEUTRAL:
                     clipboard.setText(String.valueOf(value));
@@ -408,12 +400,6 @@ public class ConverterFragment extends BaseDialogFragment
     @Override
     public void afterTextChanged(Editable s) {
         convert(false);
-    }
-
-    @Override
-    public void dismiss() {
-        App.hideIme(this);
-        super.dismiss();
     }
 
     @Nonnull

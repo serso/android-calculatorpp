@@ -228,7 +228,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
             variablesRegistry.addOrUpdate(newVariable.toJsclConstant(), oldVariable);
             return true;
         } catch (RuntimeException e) {
-            setError(valueLabel, e.getLocalizedMessage());
+            BaseFragment.setError(valueLabel, e.getLocalizedMessage());
         }
         return false;
     }
@@ -247,20 +247,20 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
             }
         }
 
-        clearError(valueLabel);
+        BaseFragment.clearError(valueLabel);
         return true;
     }
 
     private boolean validateName() {
         final String name = nameView.getText().toString();
         if (!Engine.isValidName(name)) {
-            setError(nameLabel, getString(R.string.c_name_is_not_valid));
+            BaseFragment.setError(nameLabel, getString(R.string.c_name_is_not_valid));
             return false;
         }
         for (int i = 0; i < name.length(); i++) {
             final char c = name.charAt(i);
             if (!ACCEPTABLE_CHARACTERS.contains(Character.toLowerCase(c))) {
-                setError(nameLabel, getString(R.string.c_char_is_not_accepted, c));
+                BaseFragment.setError(nameLabel, getString(R.string.c_char_is_not_accepted, c));
                 return false;
             }
         }
@@ -268,29 +268,29 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         if (existingVariable != null) {
             if (!existingVariable.isIdDefined()) {
                 Check.shouldNotHappen();
-                setError(nameLabel, getString(R.string.c_var_already_exists));
+                BaseFragment.setError(nameLabel, getString(R.string.c_var_already_exists));
                 return false;
             }
             if (isNewVariable()) {
                 // trying to create a new variable with existing name
-                setError(nameLabel, getString(R.string.c_var_already_exists));
+                BaseFragment.setError(nameLabel, getString(R.string.c_var_already_exists));
                 return false;
             }
             Check.isNotNull(variable);
             if (!existingVariable.getId().equals(variable.id)) {
                 // trying to change the name of existing variable to some other variable's name
-                setError(nameLabel, getString(R.string.c_var_already_exists));
+                BaseFragment.setError(nameLabel, getString(R.string.c_var_already_exists));
                 return false;
             }
         }
 
         final MathType.Result type = MathType.getType(name, 0, false, engine);
         if (type.type != MathType.text && type.type != MathType.constant) {
-            setError(nameLabel, getString(R.string.c_var_name_clashes));
+            BaseFragment.setError(nameLabel, getString(R.string.c_var_name_clashes));
             return false;
         }
 
-        clearError(nameLabel);
+        BaseFragment.clearError(nameLabel);
         return true;
     }
 
@@ -327,14 +327,14 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         switch (v.getId()) {
             case R.id.variable_name:
                 if (hasFocus) {
-                    clearError(nameLabel);
+                    BaseFragment.clearError(nameLabel);
                 } else {
                     keyboardUser.done();
                 }
                 break;
             case R.id.variable_value:
                 if (hasFocus) {
-                    clearError(valueLabel);
+                    BaseFragment.clearError(valueLabel);
                 } else {
                     validateValue();
                 }

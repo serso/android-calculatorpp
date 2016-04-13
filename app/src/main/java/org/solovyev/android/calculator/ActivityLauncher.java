@@ -35,6 +35,7 @@ import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
+import org.solovyev.android.calculator.converter.ConverterActivity;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -231,5 +232,9 @@ public final class ActivityLauncher {
             }
         }
         EditFunctionFragment.show(builder.build(), getContext());
+    }
+
+    public void showUnitConverter() {
+        show(getContext(), ConverterActivity.class);
     }
 }
