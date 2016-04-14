@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import javax.measure.unit.Unit;
 
 final class Converter {
-    static int unitName(@Nonnull Unit unit, @Nonnull NamedDimension dimension) {
+    static int unitName(@Nonnull Unit unit, @Nonnull UnitDimension dimension) {
         final String id = Strings.nullToEmpty(unit.toString());
         switch (dimension) {
             case TIME:
