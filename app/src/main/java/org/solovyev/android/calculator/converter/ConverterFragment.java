@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -20,40 +19,19 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import midpcalc.Real;
 import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.measure.converter.UnitConverter;
-import javax.measure.unit.NonSI;
-import javax.measure.unit.SI;
-import javax.measure.unit.Unit;
-import java.util.*;
+import java.util.Comparator;
 
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
 
-    // todo serso: better to provide a dimension-id pair as units might not be unique in different dimensions
-    @NonNull
-    private static final Set<String> excludedUnits = new HashSet<>(Arrays.asList("year_sidereal", "year_calendar", "day_sidereal", "foot_survey_us", "me", "u"));
-    @NonNull
-    private static final Map<NamedDimension, List<MyUnit>> units = new HashMap<>();
     private static final String STATE_SELECTION_FROM = "selection.from";
     private static final String STATE_SELECTION_TO = "selection.to";
     private static final String EXTRA_VALUE = "value";
     private static final NamedItemComparator COMPARATOR = new NamedItemComparator();
-
-    static {
-        for (Unit<?> unit : SI.getInstance().getUnits()) {
-            addUnit(unit);
-        }
-        for (Unit<?> unit : NonSI.getInstance().getUnits()) {
-            addUnit(unit);
-        }
-    }
 
     @Inject
     Clipboard clipboard;
@@ -75,30 +53,12 @@ public class ConverterFragment extends BaseDialogFragment
     EditText editTextTo;
     @Bind(R.id.converter_swap_button)
     ImageButton swapButton;
-    private ArrayAdapter<NamedItem<NamedDimension>> dimensionsAdapter;
-    private ArrayAdapter<NamedItem<MyUnit>> adapterFrom;
-    private ArrayAdapter<NamedItem<MyUnit>> adapterTo;
+    private ArrayAdapter<Named<ConvertibleDimension>> dimensionsAdapter;
+    private ArrayAdapter<Named<Convertible>> adapterFrom;
+    private ArrayAdapter<Named<Convertible>> adapterTo;
 
     private int pendingFromSelection = View.NO_ID;
     private int pendingToSelection = View.NO_ID;
-
-    private static void addUnit(@NonNull Unit<?> unit) {
-        if (excludedUnits.contains(unit.toString())) {
-            return;
-        }
-
-        final NamedDimension dimension = NamedDimension.of(unit);
-        if (dimension == null) {
-            return;
-        }
-
-        List<MyUnit> unitsInDimension = units.get(dimension);
-        if (unitsInDimension == null) {
-            unitsInDimension = new ArrayList<>();
-            units.put(dimension, unitsInDimension);
-        }
-        unitsInDimension.add(MeasureUnit.create(unit));
-    }
 
     public static void show(@Nonnull FragmentActivity activity) {
         show(activity, 1d);
@@ -115,11 +75,6 @@ public class ConverterFragment extends BaseDialogFragment
     @Nonnull
     private static <T> ArrayAdapter<T> makeAdapter(@NonNull Context context) {
         return new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
-    }
-
-    @Nonnull
-    private static <T> NamedItem<T> createNamedItem(@NonNull T item, @StringRes int name, @NonNull Context context) {
-        return new NamedItem<>(item, name == 0 ? item.toString() : context.getString(name));
     }
 
     @Override
@@ -144,9 +99,10 @@ public class ConverterFragment extends BaseDialogFragment
         ButterKnife.bind(this, view);
 
         dimensionsAdapter = makeAdapter(context);
-        for (NamedDimension dimension : NamedDimension.values()) {
-            dimensionsAdapter.add(named(dimension));
+        for (ConvertibleDimension dimension : UnitDimension.values()) {
+            dimensionsAdapter.add(dimension.named(context));
         }
+        dimensionsAdapter.add(NumeralBaseDimension.get().named(context));
         adapterFrom = makeAdapter(context);
         adapterTo = makeAdapter(context);
 
@@ -176,11 +132,6 @@ public class ConverterFragment extends BaseDialogFragment
         return view;
     }
 
-    @Nonnull
-    private NamedItem<NamedDimension> named(@Nonnull NamedDimension dimension) {
-        return createNamedItem(dimension, dimension.name);
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -203,22 +154,22 @@ public class ConverterFragment extends BaseDialogFragment
         }
     }
 
-    private void onUnitFromChanged(@NonNull MyUnit unit) {
+    private void onUnitFromChanged(@NonNull Convertible unit) {
         final int dimensionPosition = dimensionsSpinner.getSelectedItemPosition();
         updateUnitsTo(dimensionsAdapter.getItem(dimensionPosition).item, unit);
         convert();
     }
 
-    private void onDimensionChanged(@NonNull NamedDimension dimension) {
+    private void onDimensionChanged(@NonNull ConvertibleDimension dimension) {
         updateUnitsFrom(dimension);
         updateUnitsTo(dimension, adapterFrom.getItem(spinnerFrom.getSelectedItemPosition()).item);
         convert();
     }
 
-    private void updateUnitsFrom(@NonNull NamedDimension dimension) {
+    private void updateUnitsFrom(@NonNull ConvertibleDimension dimension) {
         adapterFrom.setNotifyOnChange(false);
         adapterFrom.clear();
-        for (MyUnit unit : units.get(dimension)) {
+        for (Convertible unit : dimension.getUnits()) {
             adapterFrom.add(unit.named(getActivity()));
         }
         adapterFrom.sort(COMPARATOR);
@@ -228,8 +179,8 @@ public class ConverterFragment extends BaseDialogFragment
         pendingFromSelection = View.NO_ID;
     }
 
-    private void updateUnitsTo(@NonNull NamedDimension dimension, @NonNull MyUnit except) {
-        final MyUnit selectedUnit;
+    private void updateUnitsTo(@NonNull ConvertibleDimension dimension, @NonNull Convertible except) {
+        final Convertible selectedUnit;
         if (pendingToSelection > View.NO_ID) {
             selectedUnit = null;
         } else {
@@ -238,7 +189,7 @@ public class ConverterFragment extends BaseDialogFragment
         }
         adapterTo.setNotifyOnChange(false);
         adapterTo.clear();
-        for (MyUnit unit : units.get(dimension)) {
+        for (Convertible unit : dimension.getUnits()) {
             if (!except.equals(unit)) {
                 adapterTo.add(unit.named(getActivity()));
             }
@@ -248,7 +199,7 @@ public class ConverterFragment extends BaseDialogFragment
         adapterTo.notifyDataSetChanged();
         if (selectedUnit != null && !except.equals(selectedUnit)) {
             for (int i = 0; i < adapterTo.getCount(); i++) {
-                final MyUnit unit = adapterTo.getItem(i).item;
+                final Convertible unit = adapterTo.getItem(i).item;
                 if (unit.equals(selectedUnit)) {
                     spinnerTo.setSelection(i);
                     return;
@@ -290,11 +241,9 @@ public class ConverterFragment extends BaseDialogFragment
         }
 
         try {
-            final MyUnit from = adapterFrom.getItem(spinnerFrom.getSelectedItemPosition()).item;
-            final Object fromValue = from.parse(value);
-            final MyUnit to = adapterTo.getItem(spinnerTo.getSelectedItemPosition()).item;
-            final Object toValue = from.getConverterTo(to).convert(fromValue);
-            editTextTo.setText(to.format(toValue));
+            final Convertible from = adapterFrom.getItem(spinnerFrom.getSelectedItemPosition()).item;
+            final Convertible to = adapterTo.getItem(spinnerTo.getSelectedItemPosition()).item;
+            editTextTo.setText(from.convert(to, value));
             clearError(labelFrom);
         } catch (RuntimeException e) {
             if (validate) {
@@ -354,13 +303,13 @@ public class ConverterFragment extends BaseDialogFragment
 
     private void swap() {
         editTextFrom.setText(editTextTo.getText());
-        final MyUnit oldFromUnit = adapterFrom.getItem(spinnerFrom.getSelectedItemPosition()).item;
-        final MyUnit oldToUnit = adapterTo.getItem(spinnerTo.getSelectedItemPosition()).item;
+        final Convertible oldFromUnit = adapterFrom.getItem(spinnerFrom.getSelectedItemPosition()).item;
+        final Convertible oldToUnit = adapterTo.getItem(spinnerTo.getSelectedItemPosition()).item;
 
         pendingToSelection = -1;
         for (int i = 0; i < adapterFrom.getCount(); i++) {
             pendingToSelection++;
-            final MyUnit unit = adapterFrom.getItem(i).item;
+            final Convertible unit = adapterFrom.getItem(i).item;
             if (unit.equals(oldToUnit)) {
                 pendingToSelection--;
             } else if (unit.equals(oldFromUnit)) {
@@ -369,7 +318,7 @@ public class ConverterFragment extends BaseDialogFragment
         }
 
         for (int i = 0; i < adapterFrom.getCount(); i++) {
-            final MyUnit unit = adapterFrom.getItem(i).item;
+            final Convertible unit = adapterFrom.getItem(i).item;
             if (unit.equals(oldToUnit)) {
                 spinnerFrom.setSelection(i);
                 break;
@@ -398,122 +347,10 @@ public class ConverterFragment extends BaseDialogFragment
         super.dismiss();
     }
 
-    @Nonnull
-    private <T> NamedItem<T> createNamedItem(@NonNull T item, @StringRes int name) {
-        return createNamedItem(item, name, getActivity());
-    }
-
-    private interface MyUnit {
-        @NonNull
-        Object parse(@NonNull String value);
-
-        @NonNull
-        String format(@NonNull Object value);
-
-        @NonNull
-        MyConverter getConverterTo(@NonNull MyUnit to);
-
-        @NonNull
-        NamedItem<MyUnit> named(@NonNull Context context);
-    }
-
-    private interface MyConverter {
-        Object convert(Object value);
-    }
-
-    private static class NamedItem<T> {
-        @NonNull
-        public final T item;
-        @NonNull
-        public final CharSequence name;
-
-        private NamedItem(@NonNull T item, @Nonnull String name) {
-            this.item = item;
-            this.name = name;
-        }
-
+    private static class NamedItemComparator implements Comparator<Named<Convertible>> {
         @Override
-        public String toString() {
-            return name.toString();
-        }
-    }
-
-    private static class NamedItemComparator implements Comparator<NamedItem<MyUnit>> {
-        @Override
-        public int compare(NamedItem<MyUnit> lhs, NamedItem<MyUnit> rhs) {
+        public int compare(Named<Convertible> lhs, Named<Convertible> rhs) {
             return lhs.toString().compareTo(rhs.toString());
-        }
-    }
-
-    private static final class MeasureUnit implements MyUnit {
-        @NonNull
-        final Unit unit;
-
-        private MeasureUnit(@NonNull Unit unit) {
-            this.unit = unit;
-        }
-
-        private static MeasureUnit create(@NonNull Unit unit) {
-            return new MeasureUnit(unit);
-        }
-
-        @Override
-        public String toString() {
-            return unit.toString();
-        }
-
-        @NonNull
-        @Override
-        public Object parse(@NonNull String value) {
-            final String groupingSeparator = String.valueOf(JsclMathEngine.getInstance().getGroupingSeparator());
-            if (!TextUtils.isEmpty(groupingSeparator)) {
-                value = value.replace(groupingSeparator, "");
-            }
-            final long bits = new Real(value).toDoubleBits();
-            return Double.longBitsToDouble(bits);
-        }
-
-        @NonNull
-        @Override
-        public String format(@NonNull Object value) {
-            return JsclMathEngine.getInstance().format((Double) value, NumeralBase.dec);
-        }
-
-        @NonNull
-        @Override
-        public MyConverter getConverterTo(@NonNull final MyUnit to) {
-            return new MyConverter() {
-                @Override
-                public Object convert(Object value) {
-                    final UnitConverter converter = unit.getConverterTo(((MeasureUnit) to).unit);
-                    return converter.convert((Double) value);
-                }
-            };
-        }
-
-        @NonNull
-        @Override
-        public NamedItem<MyUnit> named(@Nonnull Context context) {
-            final NamedDimension dimension = NamedDimension.of(unit);
-            if (dimension == null) {
-                return createNamedItem((MyUnit) MeasureUnit.create(unit), 0, context);
-            }
-            return createNamedItem((MyUnit) MeasureUnit.create(unit), Converter.unitName(unit, dimension), context);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            final MeasureUnit that = (MeasureUnit) o;
-            return unit.equals(that.unit);
-
-        }
-
-        @Override
-        public int hashCode() {
-            return unit.hashCode();
         }
     }
 }
