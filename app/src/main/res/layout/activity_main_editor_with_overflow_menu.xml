@@ -15,6 +15,7 @@
     <FrameLayout
         a:id="@+id/main_menu"
         style="?attr/actionOverflowButtonStyle"
+        a:background="@null"
         a:layout_width="40dp"
         a:paddingLeft="0dp"
         a:paddingRight="0dp"
