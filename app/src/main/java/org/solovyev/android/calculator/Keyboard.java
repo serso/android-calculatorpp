@@ -25,8 +25,9 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.squareup.otto.Bus;
-import dagger.Lazy;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.ga.Ga;
@@ -37,6 +38,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import dagger.Lazy;
 
 @Singleton
 public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -82,6 +85,12 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         if (!processSpecialAction(text)) {
             processText(prepareText(text));
         }
+        return true;
+    }
+
+    public boolean buttonPressed(@NonNull CppSpecialButton button) {
+        ga.onButtonPressed(button.action);
+        onSpecialButtonPressed(button);
         return true;
     }
 
@@ -181,6 +190,9 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
             case operators:
                 launcher.showOperators();
                 break;
+            case parentheses_dotted:
+                roundBracketsButtonPressed();
+                break;
             default:
                 Check.shouldNotHappen();
         }
@@ -200,7 +212,7 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         editor.setText(state.text);
     }
 
-    public void roundBracketsButtonPressed() {
+    private void roundBracketsButtonPressed() {
         EditorState viewState = editor.getState();
 
         final int cursorPosition = viewState.selection;
@@ -209,26 +221,26 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         editor.setText("(" + oldText.subSequence(0, cursorPosition) + ")" + oldText.subSequence(cursorPosition, oldText.length()), cursorPosition + 2);
     }
 
-    public void pasteButtonPressed() {
+    private void pasteButtonPressed() {
         final String text = clipboard.get().getText();
         if (!TextUtils.isEmpty(text)) {
             editor.insert(text);
         }
     }
 
-    public void clearButtonPressed() {
+    private void clearButtonPressed() {
         editor.clear();
     }
 
-    public void copyButtonPressed() {
+    private void copyButtonPressed() {
         bus.get().post(new Display.CopyOperation());
     }
 
-    public void moveCursorLeft() {
+    private void moveCursorLeft() {
         editor.moveCursorLeft();
     }
 
-    public void moveCursorRight() {
+    private void moveCursorRight() {
         editor.moveCursorRight();
     }
 

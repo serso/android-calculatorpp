@@ -46,4 +46,6 @@
     <dimen name="cpp_wizard_preview_row_height">64dp</dimen>
     <dimen name="cpp_wizard_max_width">300dp</dimen>
     <dimen name="cpp_wizard_preview_button_size">100dp</dimen>
+    <dimen name="cpp_overflow_button_width">20dp</dimen>
+    <dimen name="cpp_overflow_button_padding">6dp</dimen>
 </resources>

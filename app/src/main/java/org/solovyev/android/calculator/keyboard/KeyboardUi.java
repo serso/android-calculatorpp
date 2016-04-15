@@ -9,12 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.NumeralBase;
-import jscl.math.Expression;
-import jscl.math.Generic;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.ActivityLauncher;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
@@ -27,8 +28,18 @@ import org.solovyev.android.views.dragbutton.DragDirection;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.Engine.Preferences.*;
-import static org.solovyev.android.views.dragbutton.DragDirection.*;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.NumeralBase;
+import jscl.math.Expression;
+import jscl.math.Generic;
+
+import static org.solovyev.android.calculator.Engine.Preferences.angleUnit;
+import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
+import static org.solovyev.android.views.dragbutton.DragDirection.down;
+import static org.solovyev.android.views.dragbutton.DragDirection.left;
+import static org.solovyev.android.views.dragbutton.DragDirection.up;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
@@ -270,7 +281,7 @@ public class KeyboardUi extends BaseKeyboardUi {
                 return processMemoryButton(direction);
             case R.id.cpp_button_round_brackets:
                 if (direction == left) {
-                    keyboard.roundBracketsButtonPressed();
+                    keyboard.buttonPressed(CppSpecialButton.parentheses_dotted);
                     return true;
                 }
                 return processDefault(direction, (DirectionDragView) view);

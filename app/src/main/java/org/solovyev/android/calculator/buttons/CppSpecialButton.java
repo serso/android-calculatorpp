@@ -24,10 +24,11 @@ package org.solovyev.android.calculator.buttons;
 
 import org.solovyev.android.Check;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public enum CppSpecialButton {
 
@@ -46,6 +47,7 @@ public enum CppSpecialButton {
     functions("functions"),
     open_app("open_app"),
     vars("vars"),
+    parentheses_dotted("(…)"),
     operators("operators");
 
     @Nonnull

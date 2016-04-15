@@ -30,14 +30,17 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.view.*;
+import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.squareup.otto.Bus;
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.NotDoubleException;
+import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.graphics.Drawables;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -76,12 +79,18 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
 
     @Bind(R.id.calculator_display)
     DisplayView displayView;
+    @Bind(R.id.display_copy_button)
+    View copyButton;
+    @Bind(R.id.display_copy_icon)
+    ImageView copyIcon;
     @Inject
     SharedPreferences preferences;
     @Inject
     ErrorReporter errorReporter;
     @Inject
     Display display;
+    @Inject
+    Keyboard keyboard;
     @Inject
     ActivityLauncher launcher;
     @Inject
@@ -108,6 +117,8 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
         ButterKnife.bind(this, view);
         display.setView(displayView);
         displayView.setOnClickListener(this);
+        copyButton.setOnClickListener(this);
+        copyIcon.setImageDrawable(Drawables.tint(getActivity(), copyIcon.getDrawable()));
         return view;
     }
 
@@ -159,13 +170,20 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        final DisplayState state = display.getState();
-        if (state.valid) {
-            v.setOnCreateContextMenuListener(this);
-            v.showContextMenu();
-            v.setOnCreateContextMenuListener(null);
-        } else {
-            showEvaluationError(v.getContext(), state.text);
+        switch (v.getId()) {
+            case R.id.calculator_display:
+                final DisplayState state = display.getState();
+                if (state.valid) {
+                    v.setOnCreateContextMenuListener(this);
+                    v.showContextMenu();
+                    v.setOnCreateContextMenuListener(null);
+                } else {
+                    showEvaluationError(v.getContext(), state.text);
+                }
+                break;
+            case R.id.display_copy_button:
+                keyboard.buttonPressed(CppSpecialButton.copy);
+                break;
         }
     }
 
