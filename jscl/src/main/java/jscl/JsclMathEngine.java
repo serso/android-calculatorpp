@@ -143,16 +143,16 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Nonnull
-    public String format(@Nonnull Double value) throws NumeralBaseException {
+    public String format(double value) throws NumeralBaseException {
         return format(value, numeralBase);
     }
 
     @Nonnull
-    public String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException {
-        if (value.isInfinite()) {
+    public String format(double value, @Nonnull NumeralBase nb) throws NumeralBaseException {
+        if (Double.isInfinite(value)) {
             return formatInfinity(value);
         }
-        if (value.isNaN()) {
+        if (Double.isNaN(value)) {
             // return "NaN"
             return String.valueOf(value);
         }
@@ -184,14 +184,17 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Nullable
-    private IConstant findConstant(@Nonnull Double value) {
+    private IConstant findConstant(double value) {
         final IConstant constant = findConstant(constantsRegistry.getSystemEntities(), value);
         if (constant != null) {
             return constant;
         }
         final IConstant piInv = constantsRegistry.get(Constants.PI_INV.getName());
-        if (piInv != null && value.equals(piInv.getDoubleValue())) {
-            return piInv;
+        if (piInv != null) {
+            final Double piInvValue = piInv.getDoubleValue();
+            if (piInvValue != null && piInvValue == value) {
+                return piInv;
+            }
         }
         return null;
     }
