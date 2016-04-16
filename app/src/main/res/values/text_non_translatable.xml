@@ -16,6 +16,7 @@
     <string name="cpp_function_body" translatable="false">f(x, y)</string>
     <string name="cpp_show_greek_keyboard" translatable="false">αβγ</string>
     <string name="cpp_exponent" translatable="false">E</string>
+    <string name="cpp_theme_black" translatable="false">%1$s (AMOLED)</string>
     <string-array name="cpp_prefs_precisions" translatable="false">
         <item>0</item>
         <item>1</item>

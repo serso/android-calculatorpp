@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator.preferences;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import org.solovyev.android.calculator.AdView;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.Preferences.Gui.Theme;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
@@ -25,6 +27,7 @@ import org.solovyev.android.wizard.Wizards;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.solovyev.android.calculator.App.cast;
@@ -154,14 +157,41 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
             return;
         }
         final ListPreference theme = (ListPreference) preferenceManager.findPreference(Preferences.Gui.theme.getKey());
-        theme.setSummary(Preferences.Gui.getTheme(preferences).name);
+        final FragmentActivity context = getActivity();
+        populate(theme,
+                Theme.material_theme,
+                Theme.material_black_theme,
+                Theme.material_light_theme,
+                Theme.metro_blue_theme,
+                Theme.metro_green_theme,
+                Theme.metro_purple_theme);
+        theme.setSummary(Preferences.Gui.getTheme(preferences).getName(context));
         theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                theme.setSummary(Preferences.Gui.Theme.valueOf((String) newValue).name);
+                final Theme newTheme = Theme.valueOf((String) newValue);
+                theme.setSummary(newTheme.getName(context));
                 return true;
             }
         });
+    }
+
+    private static void populate(@Nonnull ListPreference preference, @Nonnull PreferenceEntry... entries) {
+        populate(preference, Arrays.asList(entries));
+    }
+
+    private static void populate(@Nonnull ListPreference preference, @Nonnull List<? extends PreferenceEntry> entries) {
+        final int size = entries.size();
+        final CharSequence[] e = new CharSequence[size];
+        final CharSequence[] v = new CharSequence[size];
+        final Context context = preference.getContext();
+        for (int i = 0; i < size; i++) {
+            final PreferenceEntry entry = entries.get(i);
+            e[i] = entry.getName(context);
+            v[i] = entry.getId();
+        }
+        preference.setEntries(e);
+        preference.setEntryValues(v);
     }
 
     private void prepareLanguagePreference(int preference) {
@@ -170,16 +200,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         }
 
         final ListPreference language = (ListPreference) preferenceManager.findPreference(Preferences.Gui.language.getKey());
-        final List<Language> languagesList = languages.getList();
-        final CharSequence[] entries = new CharSequence[languagesList.size()];
-        final CharSequence[] entryValues = new CharSequence[languagesList.size()];
-        for (int i = 0; i < languagesList.size(); i++) {
-            final Language l = languagesList.get(i);
-            entries[i] = l.getName(getActivity());
-            entryValues[i] = l.code;
-        }
-        language.setEntries(entries);
-        language.setEntryValues(entryValues);
+        populate(language, languages.getList());
         language.setSummary(languages.getCurrent().getName(getActivity()));
         language.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

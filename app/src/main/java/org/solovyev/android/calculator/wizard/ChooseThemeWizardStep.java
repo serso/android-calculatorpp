@@ -23,7 +23,6 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,11 +57,12 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
         final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
         final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_theme_spinner);
         themes.clear();
-        themes.add(new ThemeUi(Preferences.Gui.Theme.material_theme, R.string.cpp_theme_dark));
-        themes.add(new ThemeUi(Preferences.Gui.Theme.material_light_theme, R.string.cpp_theme_light));
-        themes.add(new ThemeUi(Preferences.Gui.Theme.metro_blue_theme, R.string.p_metro_blue_theme));
-        themes.add(new ThemeUi(Preferences.Gui.Theme.metro_green_theme, R.string.p_metro_green_theme));
-        themes.add(new ThemeUi(Preferences.Gui.Theme.metro_purple_theme, R.string.p_metro_purple_theme));
+        themes.add(new ThemeUi(Preferences.Gui.Theme.material_theme));
+        themes.add(new ThemeUi(Preferences.Gui.Theme.material_black_theme));
+        themes.add(new ThemeUi(Preferences.Gui.Theme.material_light_theme));
+        themes.add(new ThemeUi(Preferences.Gui.Theme.metro_blue_theme));
+        themes.add(new ThemeUi(Preferences.Gui.Theme.metro_green_theme));
+        themes.add(new ThemeUi(Preferences.Gui.Theme.metro_purple_theme));
         adapter = new WizardArrayAdapter<>(getActivity(), themes);
         spinner.setAdapter(adapter);
         spinner.setSelection(findPosition(theme));
@@ -111,9 +111,9 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
         @Nonnull
         final String name;
 
-        public ThemeUi(@Nonnull Preferences.Gui.Theme theme, @StringRes int name) {
+        public ThemeUi(@Nonnull Preferences.Gui.Theme theme) {
             this.theme = theme;
-            this.name = getString(name);
+            this.name = theme.getName(getActivity());
         }
 
         @Override

@@ -35,8 +35,6 @@
         a:title="@string/cpp_prefs_vibrate_on_keypress" />
 
     <ListPreference
-        a:entries="@array/p_theme_names"
-        a:entryValues="@array/p_theme_values"
         a:key="gui.theme"
         a:title="@string/cpp_theme" />
 
