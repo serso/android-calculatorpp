@@ -9,7 +9,6 @@ import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
-import midpcalc.Real;
 import org.solovyev.common.NumberFormatter;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
@@ -168,10 +167,10 @@ public class JsclMathEngine implements MathEngine {
             }
         }
         final NumberFormatter nf = numberFormatter.get();
-        nf.setGroupingSeparator(useGroupingSeparator ? groupingSeparator : NumberFormatter.NO_GROUPING);
+        nf.setGroupingSeparator(useGroupingSeparator ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
         nf.setPrecision(roundResult ? precision : NumberFormatter.NO_ROUNDING);
         switch (numberFormat) {
-            case Real.NumberFormat.FSE_ENG:
+            case FSE_ENG:
                 nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
                 break;
             case FSE_SCI:
@@ -251,7 +250,7 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     public String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedDoubleValue) {
         if (useGroupingSeparator) {
-            final String groupingSeparator = nb == NumeralBase.dec ? String.valueOf(this.groupingSeparator) : " ";
+            final String groupingSeparator = getGroupingSeparator(nb);
 
             final int dotIndex = ungroupedDoubleValue.indexOf(".");
 
@@ -275,6 +274,15 @@ public class JsclMathEngine implements MathEngine {
         } else {
             return ungroupedDoubleValue;
         }
+    }
+
+    @Nonnull
+    private String getGroupingSeparator(@Nonnull NumeralBase nb) {
+        return nb == NumeralBase.dec ? String.valueOf(groupingSeparator) : " ";
+    }
+
+    private char getGroupingSeparatorChar(@Nonnull NumeralBase nb) {
+        return nb == NumeralBase.dec ? groupingSeparator : ' ';
     }
 
     @Nonnull
