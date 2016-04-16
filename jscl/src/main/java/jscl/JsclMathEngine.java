@@ -17,6 +17,7 @@ import org.solovyev.common.msg.Messages;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import static midpcalc.Real.NumberFormat.*;
@@ -166,6 +167,10 @@ public class JsclMathEngine implements MathEngine {
                 return constant.getName();
             }
         }
+        return prepareNumberFormatter(nb).format(value, nb.radix).toString();
+    }
+
+    private NumberFormatter prepareNumberFormatter(@Nonnull NumeralBase nb) {
         final NumberFormatter nf = numberFormatter.get();
         nf.setGroupingSeparator(useGroupingSeparator ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
         nf.setPrecision(roundResult ? precision : NumberFormatter.NO_ROUNDING);
@@ -180,7 +185,22 @@ public class JsclMathEngine implements MathEngine {
                 nf.useSimpleFormat();
                 break;
         }
-        return nf.format(value, nb.radix).toString();
+        return nf;
+    }
+
+    @Override
+    public String format(@Nonnull BigInteger value) throws NumeralBaseException {
+        return format(value, numeralBase);
+    }
+
+    @Nonnull
+    public String format(@Nonnull BigInteger value, @Nonnull NumeralBase nb) throws NumeralBaseException {
+        if (nb == NumeralBase.dec) {
+            if (BigInteger.ZERO.equals(value)) {
+                return "0";
+            }
+        }
+        return prepareNumberFormatter(nb).format(value, nb.radix).toString();
     }
 
     @Nullable

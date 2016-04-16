@@ -6,6 +6,7 @@ import jscl.math.operator.Operator;
 import org.solovyev.common.math.MathRegistry;
 
 import javax.annotation.Nonnull;
+import java.math.BigInteger;
 
 public interface MathContext {
 
@@ -45,6 +46,8 @@ public interface MathContext {
 
     @Nonnull
     String format(double value) throws NumeralBaseException;
+
+    String format(@Nonnull BigInteger value) throws NumeralBaseException;
 
     @Nonnull
     String format(double value, @Nonnull NumeralBase nb) throws NumeralBaseException;

@@ -1,16 +1,13 @@
 package org.solovyev.common;
 
-import java.math.BigDecimal;
-
-import javax.annotation.Nonnull;
-
 import midpcalc.Real;
 
+import javax.annotation.Nonnull;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import static java.lang.Math.pow;
-import static midpcalc.Real.NumberFormat.FSE_ENG;
-import static midpcalc.Real.NumberFormat.FSE_FIX;
-import static midpcalc.Real.NumberFormat.FSE_NONE;
-import static midpcalc.Real.NumberFormat.FSE_SCI;
+import static midpcalc.Real.NumberFormat.*;
 
 public class NumberFormatter {
 
@@ -55,10 +52,13 @@ public class NumberFormatter {
     }
 
     @Nonnull
+    public CharSequence format(@Nonnull  BigInteger value) {
+        return format(value, 10);
+    }
+
+    @Nonnull
     public CharSequence format(double value, int radix) {
-        if (radix != 2 && radix != 8 && radix != 10 && radix != 16) {
-            throw new IllegalArgumentException("Unsupported radix: " + radix);
-        }
+        checkRadix(radix);
         double absValue = Math.abs(value);
         final boolean simpleFormat = useSimpleFormat(radix, absValue);
 
@@ -88,6 +88,39 @@ public class NumberFormatter {
         return prepare(value);
     }
 
+    @Nonnull
+    public CharSequence format(@Nonnull BigInteger value, int radix) {
+        checkRadix(radix);
+        final BigInteger absValue = value.abs();
+        final boolean simpleFormat = useSimpleFormat(radix, absValue);
+
+        final int effectivePrecision = precision == NO_ROUNDING ? MAX_PRECISION : precision;
+        if (simpleFormat) {
+            numberFormat.fse = FSE_FIX;
+        } else if (format == FSE_NONE) {
+            // originally, a simple format was requested but we have to use something more appropriate, f.e. scientific
+            // format
+            numberFormat.fse = FSE_SCI;
+        } else {
+            numberFormat.fse = format;
+        }
+        numberFormat.thousand = groupingSeparator;
+        numberFormat.precision = effectivePrecision;
+        numberFormat.base = radix;
+        numberFormat.maxwidth = simpleFormat ? 100 : 30;
+
+        if (radix == 2 && value.compareTo(BigInteger.ZERO) < 0) {
+            return "-" + prepare(absValue);
+        }
+        return prepare(value);
+    }
+
+    private void checkRadix(int radix) {
+        if (radix != 2 && radix != 8 && radix != 10 && radix != 16) {
+            throw new IllegalArgumentException("Unsupported radix: " + radix);
+        }
+    }
+
     private boolean useSimpleFormat(int radix, double absValue) {
         if (radix != 10) {
             return true;
@@ -103,14 +136,38 @@ public class NumberFormatter {
         return false;
     }
 
+    private boolean useSimpleFormat(int radix, @Nonnull BigInteger absValue) {
+        if (radix != 10) {
+            return true;
+        }
+        if (format == FSE_NONE) {
+            return true;
+        }
+        if (absValue.compareTo(BigInteger.valueOf((long) pow(10, simpleFormatMagnitude))) < 0) {
+            return true;
+        }
+        return false;
+    }
+
     @Nonnull
     private CharSequence prepare(double value) {
         return stripZeros(realFormat(value)).replace('e', 'E');
     }
 
     @Nonnull
+    private CharSequence prepare(@Nonnull  BigInteger value) {
+        return stripZeros(realFormat(value)).replace('e', 'E');
+    }
+
+    @Nonnull
     private String realFormat(double value) {
         real.assign(Double.toString(value));
+        return real.toString(numberFormat);
+    }
+
+    @Nonnull
+    private String realFormat(@Nonnull  BigInteger value) {
+        real.assign(value.toString());
         return real.toString(numberFormat);
     }
 
