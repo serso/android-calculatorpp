@@ -65,7 +65,10 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         listener = new DirectionDragListener(application) {
             @Override
             protected boolean onDrag(@NonNull View view, @NonNull DragEvent event, @NonNull DragDirection direction) {
-                return Drag.hasDirectionText(view, direction) && BaseKeyboardUi.this.onDrag(view, direction);
+                if (!Drag.hasDirectionText(view, direction)) {
+                    return false;
+                }
+                return BaseKeyboardUi.this.onDrag(view, direction, ((DirectionDragView) view).getText(direction).getValue());
             }
         };
         textScale = getTextScale(application);
@@ -82,7 +85,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         }
     }
 
-    protected abstract boolean onDrag(@NonNull View view, @NonNull DragDirection direction);
+    protected abstract boolean onDrag(@NonNull View view, @NonNull DragDirection direction, @Nonnull String value);
 
     public void onCreateView(@Nonnull Activity activity, @Nonnull View view) {
         cast(activity.getApplication()).getComponent().inject(this);

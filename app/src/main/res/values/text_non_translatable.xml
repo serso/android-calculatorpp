@@ -17,6 +17,8 @@
     <string name="cpp_show_greek_keyboard" translatable="false">αβγ</string>
     <string name="cpp_exponent" translatable="false">E</string>
     <string name="cpp_theme_black" translatable="false">%1$s (AMOLED)</string>
+    <string name="cpp_glyph_paste">"\ue000"</string>
+    <string name="cpp_glyph_copy">"\ue001"</string>
     <string-array name="cpp_prefs_precisions" translatable="false">
         <item>0</item>
         <item>1</item>

@@ -246,7 +246,7 @@ public class KeyboardUi extends BaseKeyboardUi {
     }
 
     @Override
-    protected boolean onDrag(@NonNull View view, @NonNull DragDirection direction) {
+    protected boolean onDrag(@NonNull View view, @NonNull DragDirection direction, @Nonnull String value) {
         switch (view.getId()) {
             case R.id.cpp_button_functions:
                 if (direction == up) {

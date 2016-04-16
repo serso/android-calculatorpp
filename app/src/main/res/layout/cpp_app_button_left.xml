@@ -29,4 +29,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     a:src="@drawable/ic_keyboard_arrow_left_white_48dp"
     c:directionTextUp="&lt;&lt;"
+    c:directionTextDown="@string/cpp_glyph_copy"
     tools:ignore="HardcodedText" />

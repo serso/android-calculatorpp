@@ -75,13 +75,11 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     }
 
     @Override
-    protected boolean onDrag(@NonNull View view, @NonNull DragDirection direction) {
+    protected boolean onDrag(@NonNull View view, @NonNull DragDirection direction, @Nonnull String value) {
         switch (view.getId()) {
             case R.id.cpp_button_right:
-                editor.setCursorOnEnd();
-                return true;
             case R.id.cpp_button_left:
-                editor.setCursorOnStart();
+                keyboard.buttonPressed(value);
                 return true;
             case R.id.cpp_button_clear:
                 if(direction == up) {

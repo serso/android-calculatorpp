@@ -43,6 +43,10 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
 
     @Nonnull
     private final MathType.Result mathType = new MathType.Result();
+    @Nonnull
+    private static final String GLYPH_PASTE = "\uE000";
+    @Nonnull
+    private static final String GLYPH_COPY = "\uE001";
 
     @Inject
     Editor editor;
@@ -74,10 +78,17 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         return vibrateOnKeypress;
     }
 
-    public boolean buttonPressed(@Nullable final String text) {
+    public boolean buttonPressed(@Nullable String text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
+
+        if (text.equals(GLYPH_COPY)) {
+            text = CppSpecialButton.copy.action;
+        } else if (text.equals(GLYPH_PASTE)) {
+            text = CppSpecialButton.paste.action;
+        }
+
         ga.onButtonPressed(text);
         if (!processSpecialAction(text)) {
             processText(prepareText(text));
@@ -137,10 +148,16 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
                 launcher.showHistory();
                 break;
             case cursor_right:
-                moveCursorRight();
+                editor.moveCursorRight();
+                break;
+            case cursor_to_end:
+                editor.setCursorOnEnd();
                 break;
             case cursor_left:
-                moveCursorLeft();
+                editor.moveCursorLeft();
+                break;
+            case cursor_to_start:
+                editor.setCursorOnStart();
                 break;
             case settings:
                 launcher.showSettings();
@@ -158,16 +175,19 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
                 editor.erase();
                 break;
             case paste:
-                pasteButtonPressed();
+                final String text = clipboard.get().getText();
+                if (!TextUtils.isEmpty(text)) {
+                    editor.insert(text);
+                }
                 break;
             case copy:
-                copyButtonPressed();
+                bus.get().post(new Display.CopyOperation());
                 break;
             case equals:
                 equalsButtonPressed();
                 break;
             case clear:
-                clearButtonPressed();
+                editor.clear();
                 break;
             case functions:
                 launcher.showFunctions();
@@ -207,29 +227,6 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         final CharSequence oldText = viewState.text;
 
         editor.setText("(" + oldText.subSequence(0, cursorPosition) + ")" + oldText.subSequence(cursorPosition, oldText.length()), cursorPosition + 2);
-    }
-
-    public void pasteButtonPressed() {
-        final String text = clipboard.get().getText();
-        if (!TextUtils.isEmpty(text)) {
-            editor.insert(text);
-        }
-    }
-
-    public void clearButtonPressed() {
-        editor.clear();
-    }
-
-    public void copyButtonPressed() {
-        bus.get().post(new Display.CopyOperation());
-    }
-
-    public void moveCursorLeft() {
-        editor.moveCursorLeft();
-    }
-
-    public void moveCursorRight() {
-        editor.moveCursorRight();
     }
 
     @Override

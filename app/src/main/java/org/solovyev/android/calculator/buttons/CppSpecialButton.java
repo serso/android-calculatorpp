@@ -33,7 +33,9 @@ public enum CppSpecialButton {
 
     history("history"),
     cursor_right("▷"),
+    cursor_to_end(">>"),
     cursor_left("◁"),
+    cursor_to_start("<<"),
     settings("settings"),
     settings_widget("settings_widget"),
     like("like"),
