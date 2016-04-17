@@ -25,11 +25,15 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import com.squareup.otto.Bus;
 import dagger.Lazy;
+import jscl.math.Expression;
+import jscl.math.Generic;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.ga.Ga;
+import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.memory.Memory;
 
@@ -43,15 +47,13 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
 
     @Nonnull
     private final MathType.Result mathType = new MathType.Result();
-    @Nonnull
-    private static final String GLYPH_PASTE = "\uE000";
-    @Nonnull
-    private static final String GLYPH_COPY = "\uE001";
 
     @Inject
     Editor editor;
     @Inject
     Display display;
+    @Inject
+    History history;
     @Inject
     Lazy<Memory> memory;
     @Inject
@@ -83,10 +85,14 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
             return false;
         }
 
-        if (text.equals(GLYPH_COPY)) {
-            text = CppSpecialButton.copy.action;
-        } else if (text.equals(GLYPH_PASTE)) {
-            text = CppSpecialButton.paste.action;
+        if (text.length() == 1) {
+            final char glyph = text.charAt(0);
+            final CppSpecialButton button = CppSpecialButton.getByGlyph(glyph);
+            if (button != null) {
+                ga.onButtonPressed(button.action);
+                handleSpecialAction(button);
+                return true;
+            }
         }
 
         ga.onButtonPressed(text);
@@ -138,14 +144,20 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         if (button == null) {
             return false;
         }
-        onSpecialButtonPressed(button);
+        handleSpecialAction(button);
         return true;
     }
 
-    private void onSpecialButtonPressed(@NonNull CppSpecialButton button) {
+    private void handleSpecialAction(@NonNull CppSpecialButton button) {
         switch (button) {
             case history:
                 launcher.showHistory();
+                break;
+            case history_undo:
+                history.undo();
+                break;
+            case history_redo:
+                history.redo();
                 break;
             case cursor_right:
                 editor.moveCursorRight();
@@ -171,6 +183,15 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
             case memory:
                 memory.get().requestValue();
                 break;
+            case memory_plus:
+                handleMemoryButton(true);
+                break;
+            case memory_minus:
+                handleMemoryButton(false);
+                break;
+            case memory_clear:
+                memory.get().clear();
+                break;
             case erase:
                 editor.erase();
                 break;
@@ -183,6 +204,9 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
             case copy:
                 bus.get().post(new Display.CopyOperation());
                 break;
+            case brackets_wrap:
+                handleBracketsWrap();
+                break;
             case equals:
                 equalsButtonPressed();
                 break;
@@ -192,6 +216,15 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
             case functions:
                 launcher.showFunctions();
                 break;
+            case function_add:
+                launcher.showFunctionEditor();
+                break;
+            case var_add:
+                launcher.showConstantEditor();
+                break;
+            case plot_add:
+                launcher.plotDisplayedExpression();
+                break;
             case open_app:
                 launcher.openApp();
                 break;
@@ -200,6 +233,9 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
                 break;
             case operators:
                 launcher.showOperators();
+                break;
+            case simplify:
+                calculator.simplify();
                 break;
             default:
                 Check.shouldNotHappen();
@@ -220,13 +256,36 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
         editor.setText(state.text);
     }
 
-    public void roundBracketsButtonPressed() {
-        EditorState viewState = editor.getState();
-
-        final int cursorPosition = viewState.selection;
-        final CharSequence oldText = viewState.text;
-
+    public void handleBracketsWrap() {
+        final EditorState state = editor.getState();
+        final int cursorPosition = state.selection;
+        final CharSequence oldText = state.text;
         editor.setText("(" + oldText.subSequence(0, cursorPosition) + ")" + oldText.subSequence(cursorPosition, oldText.length()), cursorPosition + 2);
+    }
+
+    private boolean handleMemoryButton(boolean plus) {
+        final DisplayState state = display.getState();
+        if (!state.valid) {
+            return false;
+        }
+        Generic value = state.getResult();
+        if (value == null) {
+            try {
+                value = Expression.valueOf(state.text);
+            } catch (jscl.text.ParseException e) {
+                Log.w(App.TAG, e.getMessage(), e);
+            }
+        }
+        if (value == null) {
+            memory.get().requestShow();
+            return false;
+        }
+        if (plus) {
+            memory.get().add(value);
+        } else {
+            memory.get().subtract(value);
+        }
+        return true;
     }
 
     @Override

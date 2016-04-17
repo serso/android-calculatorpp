@@ -23,7 +23,7 @@
   -->
 
 <org.solovyev.android.views.dragbutton.DirectionDragImageButton
-    android:id="@id/cpp_button_paste"
+    android:id="@id/cpp_button_like"
     style="?attr/cpp_button_style_control"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/ic_content_paste_white_48dp" />
+    android:src="@drawable/ic_favorite_border_white_48dp" />

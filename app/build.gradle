@@ -34,7 +34,6 @@ android {
         versionCode 148
         versionName '2.2.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        generatedDensities = []
     }
     buildTypes {
         release {
@@ -57,10 +56,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
-    }
-    // This is handled for you by the 2.0+ Gradle Plugin
-    aaptOptions {
-        additionalParameters "--no-version-vectors"
     }
 }
 

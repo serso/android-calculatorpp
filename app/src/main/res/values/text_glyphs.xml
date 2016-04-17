@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cpp_glyph_paste" translatable="false">"\ue000"</string>
+    <string name="cpp_glyph_copy" translatable="false">"\ue001"</string>
+    <string name="cpp_glyph_left" translatable="false">"\ue002"</string>
+    <string name="cpp_glyph_right" translatable="false">"\ue003"</string>
+    <string name="cpp_glyph_backspace" translatable="false">"\ue004"</string>
+    <string name="cpp_glyph_history" translatable="false">"\ue005"</string>
+    <string name="cpp_glyph_heart" translatable="false">"\ue006"</string>
+    <string name="cpp_glyph_undo" translatable="false">"\ue007"</string>
+    <string name="cpp_glyph_redo" translatable="false">"\ue008"</string>
+    <string name="cpp_glyph_graph" translatable="false">"\ue009"</string>
+</resources>

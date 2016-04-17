@@ -3,31 +3,23 @@ package org.solovyev.android.calculator.keyboard;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.NumeralBase;
-import jscl.math.Expression;
-import jscl.math.Generic;
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.buttons.CppSpecialButton;
-import org.solovyev.android.calculator.history.History;
-import org.solovyev.android.calculator.view.AngleUnitsButton;
-import org.solovyev.android.calculator.view.NumeralBasesButton;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
-import org.solovyev.android.views.dragbutton.DirectionDragView;
-import org.solovyev.android.views.dragbutton.DragDirection;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.Engine.Preferences.*;
+import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class KeyboardUi extends BaseKeyboardUi {
@@ -52,10 +44,6 @@ public class KeyboardUi extends BaseKeyboardUi {
     public DirectionDragButton button8;
     @Bind(R.id.cpp_button_9)
     public DirectionDragButton button9;
-    @Inject
-    History history;
-    @Inject
-    ActivityLauncher launcher;
     @Inject
     Engine engine;
     @Inject
@@ -85,10 +73,10 @@ public class KeyboardUi extends BaseKeyboardUi {
     DirectionDragButton bracketsButton;
     @Nullable
     @Bind(R.id.cpp_button_copy)
-    NumeralBasesButton copyButton;
+    DirectionDragImageButton copyButton;
     @Nullable
     @Bind(R.id.cpp_button_paste)
-    AngleUnitsButton pasteButton;
+    DirectionDragImageButton pasteButton;
     @Nullable
     @Bind(R.id.cpp_button_like)
     ImageButton likeButton;
@@ -146,11 +134,9 @@ public class KeyboardUi extends BaseKeyboardUi {
 
         if (copyButton != null) {
             prepareButton(copyButton);
-            copyButton.setNumeralBase(numeralBase.getPreference(preferences));
         }
         if (pasteButton != null) {
             prepareButton(pasteButton);
-            pasteButton.setAngleUnit(angleUnit.getPreference(preferences));
         }
         prepareButton(likeButton);
         prepareButton(memoryButton);
@@ -182,133 +168,11 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         super.onSharedPreferenceChanged(preferences, key);
-        if (angleUnit.isSameKey(key) && pasteButton != null) {
-            pasteButton.setAngleUnit(angleUnit.getPreference(preferences));
-        }
         if (numeralBase.isSameKey(key)) {
             toggleNumericDigits();
-            if (copyButton != null) {
-                copyButton.setNumeralBase(numeralBase.getPreference(preferences));
-            }
         }
         if (multiplicationSign.isSameKey(key)) {
             multiplicationButton.setText(multiplicationSign.getPreference(preferences));
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cpp_button_0:
-            case R.id.cpp_button_1:
-            case R.id.cpp_button_2:
-            case R.id.cpp_button_3:
-            case R.id.cpp_button_4:
-            case R.id.cpp_button_5:
-            case R.id.cpp_button_6:
-            case R.id.cpp_button_7:
-            case R.id.cpp_button_8:
-            case R.id.cpp_button_9:
-            case R.id.cpp_button_division:
-            case R.id.cpp_button_period:
-            case R.id.cpp_button_percent:
-            case R.id.cpp_button_subtraction:
-            case R.id.cpp_button_multiplication:
-            case R.id.cpp_button_plus:
-            case R.id.cpp_button_round_brackets:
-                onClick(v, ((Button) v).getText().toString());
-                break;
-            case R.id.cpp_button_functions:
-                onClick(v, CppSpecialButton.functions);
-                break;
-            case R.id.cpp_button_history:
-                onClick(v, CppSpecialButton.history);
-                break;
-            case R.id.cpp_button_paste:
-                onClick(v, CppSpecialButton.paste);
-                break;
-            case R.id.cpp_button_copy:
-                onClick(v, CppSpecialButton.copy);
-                break;
-            case R.id.cpp_button_like:
-                onClick(v, CppSpecialButton.like);
-                break;
-            case R.id.cpp_button_memory:
-                onClick(v, CppSpecialButton.memory);
-                break;
-            case R.id.cpp_button_operators:
-                onClick(v, CppSpecialButton.operators);
-                break;
-            case R.id.cpp_button_vars:
-                onClick(v, CppSpecialButton.vars);
-                break;
-        }
-    }
-
-    @Override
-    protected boolean onDrag(@NonNull View view, @NonNull DragDirection direction, @Nonnull String value) {
-        switch (view.getId()) {
-            case R.id.cpp_button_functions:
-                if (direction == up) {
-                    launcher.showFunctionEditor();
-                    return true;
-                } else if (direction == down) {
-                    launcher.showConstantEditor();
-                    return true;
-                }
-                return false;
-            case R.id.cpp_button_history:
-                if (direction == up) {
-                    history.undo();
-                    return true;
-                } else if (direction == down) {
-                    history.redo();
-                    return true;
-                }
-                return false;
-            case R.id.cpp_button_memory:
-                return processMemoryButton(direction);
-            case R.id.cpp_button_round_brackets:
-                if (direction == left) {
-                    keyboard.roundBracketsButtonPressed();
-                    return true;
-                }
-                return processDefault(direction, (DirectionDragView) view);
-            default:
-                return processDefault(direction, (DirectionDragView) view);
-        }
-    }
-
-    private boolean processMemoryButton(@NonNull DragDirection direction) {
-        final DisplayState state = display.getState();
-        if (!state.valid) {
-            return false;
-        }
-        Generic value = state.getResult();
-        if (value == null) {
-            try {
-                value = Expression.valueOf(state.text);
-            } catch (jscl.text.ParseException e) {
-                Log.w(App.TAG, e.getMessage(), e);
-            }
-        }
-        if (value == null) {
-            memory.get().requestShow();
-            return false;
-        }
-        switch (direction) {
-            case up:
-                memory.get().add(value);
-                return true;
-            case down:
-                memory.get().subtract(value);
-                return true;
-        }
-        return false;
-    }
-
-    private boolean processDefault(@Nonnull DragDirection direction, @Nonnull DirectionDragView button) {
-        final String text = button.getText(direction).getValue();
-        return keyboard.buttonPressed(text);
     }
 }
