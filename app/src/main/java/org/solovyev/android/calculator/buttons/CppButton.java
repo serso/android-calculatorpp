@@ -51,6 +51,7 @@ public enum CppButton {
     period(R.id.cpp_button_period, "."),
     brackets(R.id.cpp_button_round_brackets, "()"),
 
+    memory(R.id.cpp_button_memory, CppSpecialButton.memory),
     settings(R.id.cpp_button_settings, CppSpecialButton.settings),
     settings_widget(R.id.cpp_button_settings_widget, CppSpecialButton.settings_widget),
     like(R.id.cpp_button_like, CppSpecialButton.like),
@@ -65,7 +66,7 @@ public enum CppButton {
     history(R.id.cpp_button_history, CppSpecialButton.history),
 
     /*operations*/
-    multiplication(R.id.cpp_button_multiplication, "*"),
+    multiplication(R.id.cpp_button_multiplication, "×"),
     division(R.id.cpp_button_division, "/"),
     plus(R.id.cpp_button_plus, "+"),
     subtraction(R.id.cpp_button_subtraction, "−"),

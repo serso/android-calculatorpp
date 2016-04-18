@@ -22,8 +22,14 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.views.dragbutton.DirectionDragImageButton
-    android:id="@id/cpp_button_paste"
-    style="?attr/cpp_button_style_control"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/ic_content_paste_white_48dp" />
+<selector xmlns:a="http://schemas.android.com/apk/res/android">
+
+    <item a:drawable="@drawable/material_button_pressed" a:state_pressed="true" />
+
+    <item>
+        <shape>
+            <solid a:color="@color/grey_950" />
+        </shape>
+    </item>
+
+</selector>

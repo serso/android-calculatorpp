@@ -33,8 +33,6 @@ import android.support.annotation.*;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.util.SparseArray;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -42,6 +40,7 @@ import org.solovyev.android.calculator.history.HistoryActivity;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.operators.OperatorsActivity;
+import org.solovyev.android.calculator.preferences.PreferenceEntry;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
@@ -285,7 +284,7 @@ public final class Preferences {
             return mode.getPreferenceNoError(preferences);
         }
 
-        public enum Theme {
+        public enum Theme implements PreferenceEntry {
 
             default_theme(R.style.Cpp_Theme_Gray),
             violet_theme(R.style.Cpp_Theme_Violet),
@@ -294,12 +293,19 @@ public final class Preferences {
             metro_purple_theme(R.string.p_metro_purple_theme, R.style.Cpp_Theme_Metro_Purple, R.style.Cpp_Theme_Metro_Purple_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Purple_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
             metro_green_theme(R.string.p_metro_green_theme, R.style.Cpp_Theme_Metro_Green, R.style.Cpp_Theme_Metro_Green_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Green_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
             material_theme(R.string.cpp_theme_dark, R.style.Cpp_Theme_Material, R.style.Cpp_Theme_Material_Calculator),
+            material_black_theme(R.string.cpp_theme_black, R.style.Cpp_Theme_Material_Black, R.style.Cpp_Theme_Material_Black_Calculator) {
+                @NonNull
+                @Override
+                public String getName(@NonNull Context context) {
+                    return context.getString(name, material_theme.getName(context));
+                }
+            },
             material_light_theme(R.string.cpp_theme_light, R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Material_Light_Calculator, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Material_Light_Dialog, R.style.Cpp_Theme_Material_Light_Dialog_Alert);
 
             private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
             @StringRes
-            public final int name;
+            protected final int name;
             @StyleRes
             public final int theme;
             @StyleRes
@@ -372,6 +378,18 @@ public final class Preferences {
                     textColors.append(themeId, textColor);
                 }
                 return textColor;
+            }
+
+            @Override
+            @NonNull
+            public String getName(@NonNull Context context) {
+                return context.getString(name);
+            }
+
+            @NonNull
+            @Override
+            public CharSequence getId() {
+                return name();
             }
         }
 

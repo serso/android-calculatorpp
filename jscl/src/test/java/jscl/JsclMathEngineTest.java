@@ -77,10 +77,29 @@ public class JsclMathEngineTest {
         assertEquals("13D", me.format(317d, NumeralBase.hex));
     }
 
+
     @Test
     public void testPiComputation() throws Exception {
         final JsclMathEngine me = JsclMathEngine.getInstance();
         assertEquals("-1+0.0000000000000001*i", me.evaluate("exp(√(-1)*Π)"));
+    }
+
+    @Test
+    public void testBinShouldAlwaysUseSpaceAsGroupingSeparator() throws Exception {
+        final JsclMathEngine me = new JsclMathEngine();
+        me.setGroupingSeparator('\'');
+        me.setUseGroupingSeparator(true);
+
+        assertEquals("100 0000 0000", me.format(1024d, NumeralBase.bin));
+    }
+
+    @Test
+    public void testHexShouldAlwaysUseSpaceAsGroupingSeparator() throws Exception {
+        final JsclMathEngine me = new JsclMathEngine();
+        me.setGroupingSeparator('\'');
+        me.setUseGroupingSeparator(true);
+
+        assertEquals("4 00", me.format(1024d, NumeralBase.hex));
     }
 
     @Test
@@ -114,6 +133,7 @@ public class JsclMathEngineTest {
         assertEquals("-999", me.format(-999d));
         assertEquals("-999.99", me.format(-999.99d));
         assertEquals("-0.1", me.format(-0.1d));
+
         assertEquals("-0.12", me.format(-0.12d));
         assertEquals("-0.123", me.format(-0.123d));
         assertEquals("-0.1234", me.format(-0.1234d));

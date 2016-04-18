@@ -6,6 +6,7 @@ import jscl.math.operator.Operator;
 import org.solovyev.common.math.MathRegistry;
 
 import javax.annotation.Nonnull;
+import java.math.BigInteger;
 
 public interface MathContext {
 
@@ -44,10 +45,12 @@ public interface MathContext {
     void setGroupingSeparator(char groupingSeparator);
 
     @Nonnull
-    String format(@Nonnull Double value) throws NumeralBaseException;
+    String format(double value) throws NumeralBaseException;
+
+    String format(@Nonnull BigInteger value) throws NumeralBaseException;
 
     @Nonnull
-    String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException;
+    String format(double value, @Nonnull NumeralBase nb) throws NumeralBaseException;
 
     @Nonnull
     String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedIntValue);

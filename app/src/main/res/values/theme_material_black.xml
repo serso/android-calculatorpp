@@ -1,0 +1,79 @@
+<!--
+  ~ Copyright 2013 serso aka se.solovyev
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Contact details
+  ~
+  ~ Email: se.solovyev@gmail.com
+  ~ Site:  http://se.solovyev.org
+  -->
+
+<resources>
+
+    <style name="CppKeyboardButton.Material.Black.Digit" parent="CppKeyboardButton">
+        <item name="android:background">@drawable/material_button_black</item>
+    </style>
+
+    <style name="CppKeyboardButton.Material.Black.Digit.Highlighted" parent="CppKeyboardButton.Material.Black.Digit">
+        <item name="android:background">@drawable/material_button_black_lighter</item>
+    </style>
+
+    <style name="CppKeyboardButton.Material.Black.Operation" parent="CppKeyboardButton.Material.Digit">
+        <item name="android:background">@drawable/material_button_deep_blue</item>
+        <item name="directionTextAlpha">0.7</item>
+    </style>
+
+    <style name="CppKeyboardButton.Material.Black.Operation.Highlighted" parent="CppKeyboardButton.Material.Black.Operation">
+        <item name="android:background">@drawable/material_button_deep_blue_lighter</item>
+    </style>
+
+    <style name="CppKeyboardButton.Material.Black.Control" parent="CppKeyboardButton.Material.Black.Digit" />
+
+    <style name="Cpp.Theme.Material.Black" parent="Cpp.Theme">
+        <item name="android:windowBackground">@color/grey_965</item>
+        <item name="cpp_editor_bg">@color/grey_965</item>
+        <item name="cpp_fab_bg">@color/deep_blue_900</item>
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Black.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Black.Digit</item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Black.Digit.Highlighted</item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Black.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Black.Operation.Highlighted</item>
+    </style>
+
+    <style name="Cpp.Theme.Material.Black.Dialog" parent="Cpp.Theme.Dialog">
+        <item name="cpp_editor_bg">@color/grey_965</item>
+        <item name="cpp_fab_bg">@color/deep_blue_900</item>
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Black.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Black.Digit</item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Black.Digit.Highlighted</item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Black.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Black.Operation.Highlighted</item>
+    </style>
+
+    <style name="Cpp.Theme.Material.Black.Dialog.Alert" parent="Cpp.Theme.Dialog.Alert">
+        <item name="cpp_editor_bg">@color/grey_965</item>
+        <item name="cpp_fab_bg">@color/deep_blue_900</item>
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Black.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Black.Digit</item>
+        <item name="cpp_button_style_control_highlighted">@style/CppKeyboardButton.Material.Black.Digit.Highlighted</item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Black.Operation</item>
+        <item name="cpp_button_style_operation_highlighted">@style/CppKeyboardButton.Material.Black.Operation.Highlighted</item>
+    </style>
+
+    <style name="Cpp.Theme.Material.Black.Calculator" parent="Cpp.Theme.Material.Black">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+</resources>

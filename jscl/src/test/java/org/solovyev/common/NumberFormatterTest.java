@@ -3,7 +3,10 @@ package org.solovyev.common;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigInteger;
+
 import static java.lang.Math.pow;
+import static java.math.BigInteger.TEN;
 import static org.junit.Assert.assertEquals;
 import static org.solovyev.common.NumberFormatter.DEFAULT_MAGNITUDE;
 import static org.solovyev.common.NumberFormatter.NO_ROUNDING;
@@ -99,32 +102,66 @@ public class NumberFormatterTest {
     // testing simple format with and without rounding
     private void testSimpleFormat() {
         assertEquals("0.00001", numberFormatter.format(pow(10, -5)));
+
         assertEquals("100", numberFormatter.format(pow(10, 2)));
+        assertEquals("1", numberFormatter.format(BigInteger.ONE));
+        assertEquals("1000", numberFormatter.format(BigInteger.valueOf(1000)));
+
         assertEquals("1000000000000000000", numberFormatter.format(pow(10, 18)));
+        assertEquals("1000000000000000000", numberFormatter.format(BigInteger.valueOf(10).pow(18)));
+
         assertEquals("1E19", numberFormatter.format(pow(10, 19)));
+        assertEquals("1E19", numberFormatter.format(BigInteger.valueOf(10).pow(19)));
+
         assertEquals("1E20", numberFormatter.format(pow(10, 20)));
+        assertEquals("1E20", numberFormatter.format(BigInteger.valueOf(10).pow(20)));
+
         assertEquals("1E100", numberFormatter.format(pow(10, 100)));
+        assertEquals("1E100", numberFormatter.format(BigInteger.valueOf(10).pow(100)));
 
         assertEquals("0.01", numberFormatter.format(pow(10, -2)));
 
         assertEquals("5000000000000000000", numberFormatter.format(5000000000000000000d));
+        assertEquals("5000000000000000000", numberFormatter.format(BigInteger.valueOf(5000000000000000000L)));
+
         assertEquals("5000000000000000000", numberFormatter.format(5000000000000000001d));
+        assertEquals("5000000000000000001", numberFormatter.format(BigInteger.valueOf(5000000000000000001L)));
+
         assertEquals("5999999999999994900", numberFormatter.format(5999999999999994999d));
+        assertEquals("5999999999999994999", numberFormatter.format(BigInteger.valueOf(5999999999999994999L)));
+
         assertEquals("5E19", numberFormatter.format(50000000000000000000d));
+        assertEquals("5E19", numberFormatter.format(BigInteger.valueOf(5L).multiply(TEN.pow(19))));
+
         assertEquals("5E40", numberFormatter.format(50000000000000000000000000000000000000000d));
+        assertEquals("5E40", numberFormatter.format(BigInteger.valueOf(5L).multiply(TEN.pow(40))));
     }
 
     // testing scientific format with and without rounding
     private void testScientificFormat() {
         assertEquals("0.00001", numberFormatter.format(pow(10, -5)));
         assertEquals("1E-6", numberFormatter.format(pow(10, -6)));
+
         assertEquals("100", numberFormatter.format(pow(10, 2)));
+        assertEquals("100", numberFormatter.format(TEN.pow(2)));
+
         assertEquals("10000", numberFormatter.format(pow(10, 4)));
+        assertEquals("10000", numberFormatter.format(TEN.pow(4)));
+
         assertEquals("1E5", numberFormatter.format(pow(10, 5)));
+        assertEquals("1E5", numberFormatter.format(TEN.pow(5)));
+
         assertEquals("1E18", numberFormatter.format(pow(10, 18)));
+        assertEquals("1E18", numberFormatter.format(TEN.pow(18)));
+
         assertEquals("1E19", numberFormatter.format(pow(10, 19)));
+        assertEquals("1E19", numberFormatter.format(TEN.pow( 19)));
+
         assertEquals("1E20", numberFormatter.format(pow(10, 20)));
+        assertEquals("1E20", numberFormatter.format(TEN.pow(20)));
+
         assertEquals("1E100", numberFormatter.format(pow(10, 100)));
+        assertEquals("1E100", numberFormatter.format(TEN.pow(100)));
 
         assertEquals("0.01", numberFormatter.format(pow(10, -2)));
         assertEquals("1E-17", numberFormatter.format(pow(10, -17)));

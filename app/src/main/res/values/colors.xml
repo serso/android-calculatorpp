@@ -47,6 +47,11 @@
     <color name="grey_850">#313131</color>
     <color name="grey_900">#212121</color>
     <color name="grey_950">#101010</color>
+    <color name="grey_965">#0a0a0a</color>
+
+    <color name="deep_blue_900">#06224d</color>
+    <color name="deep_blue_850">#082a5e</color>
+    <color name="deep_blue_800">#0a3980</color>
 
     <color name="blue_900">#0D47A1</color>
     <color name="blue_800">#1565C0</color>

@@ -84,7 +84,7 @@
         a:baselineAligned="false"
         a:orientation="horizontal">
 
-        <include layout="@layout/cpp_app_button_paste" />
+        <include layout="@layout/cpp_app_button_like" />
 
         <include layout="@layout/cpp_app_button_percent" />
 

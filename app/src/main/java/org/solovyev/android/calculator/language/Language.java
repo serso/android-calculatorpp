@@ -1,15 +1,15 @@
 package org.solovyev.android.calculator.language;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 import org.solovyev.android.calculator.R;
-
-import java.util.Locale;
+import org.solovyev.android.calculator.preferences.PreferenceEntry;
 
 import javax.annotation.Nonnull;
+import java.util.Locale;
 
-public final class Language {
+public final class Language implements PreferenceEntry{
     @Nonnull
     public final String code;
 
@@ -39,6 +39,7 @@ public final class Language {
         return locale.getDisplayName(locale);
     }
 
+    @Override
     @Nonnull
     public String getName(@Nonnull Context context) {
         if (!isSystem()) {
@@ -46,6 +47,12 @@ public final class Language {
         } else {
             return context.getString(R.string.cpp_system_language) + " (" + locale.getDisplayLanguage(locale) + ")";
         }
+    }
+
+    @NonNull
+    @Override
+    public CharSequence getId() {
+        return code;
     }
 
     public boolean isSystem() {

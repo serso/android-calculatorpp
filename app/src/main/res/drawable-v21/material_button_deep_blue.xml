@@ -22,8 +22,11 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.views.dragbutton.DirectionDragImageButton
-    android:id="@id/cpp_button_paste"
-    style="?attr/cpp_button_style_control"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/ic_content_paste_white_48dp" />
+<ripple xmlns:a="http://schemas.android.com/apk/res/android"
+    a:color="@color/cpp_ripple_material_dark">
+    <item>
+        <shape>
+            <solid a:color="@color/deep_blue_900" />
+        </shape>
+    </item>
+</ripple>

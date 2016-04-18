@@ -324,7 +324,7 @@ public abstract class Numeric implements Arithmetic<Numeric>, INumeric<Numeric>,
 
     @Nonnull
     protected String toString(final double value) {
-        return JsclMathEngine.getInstance().format(value, JsclMathEngine.getInstance().getNumeralBase());
+        return JsclMathEngine.getInstance().format(value);
     }
 
     public BigInteger toBigInteger() {

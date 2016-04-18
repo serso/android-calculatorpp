@@ -61,7 +61,7 @@ public class NumberInputFilter implements InputFilter {
         findChars(dest, dend, dest.length(), end - start, CHARS);
 
         SpannableStringBuilder filtered = null;
-        for (int i = end - 1; i >= start; i--) {
+        for (int i = start; i < end; i++) {
             final char c = source.charAt(i);
 
             boolean filter = false;
@@ -92,6 +92,9 @@ public class NumberInputFilter implements InputFilter {
                     filter = true;
                 } else if (CHARS[CHAR_POINT] >= 0 && CHARS[CHAR_POINT] > i + dstart) {
                     // no exponent before decimal point
+                    filter = true;
+                } else if (i + dstart == 0) {
+                    // exponent can't be first
                     filter = true;
                 } else {
                     CHARS[CHAR_EXP] = i + dstart;

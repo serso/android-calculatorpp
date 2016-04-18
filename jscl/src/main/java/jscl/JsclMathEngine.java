@@ -9,7 +9,6 @@ import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
-import midpcalc.Real;
 import org.solovyev.common.NumberFormatter;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
@@ -18,6 +17,7 @@ import org.solovyev.common.msg.Messages;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import static midpcalc.Real.NumberFormat.*;
@@ -144,16 +144,16 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Nonnull
-    public String format(@Nonnull Double value) throws NumeralBaseException {
+    public String format(double value) throws NumeralBaseException {
         return format(value, numeralBase);
     }
 
     @Nonnull
-    public String format(@Nonnull Double value, @Nonnull NumeralBase nb) throws NumeralBaseException {
-        if (value.isInfinite()) {
+    public String format(double value, @Nonnull NumeralBase nb) throws NumeralBaseException {
+        if (Double.isInfinite(value)) {
             return formatInfinity(value);
         }
-        if (value.isNaN()) {
+        if (Double.isNaN(value)) {
             // return "NaN"
             return String.valueOf(value);
         }
@@ -167,11 +167,15 @@ public class JsclMathEngine implements MathEngine {
                 return constant.getName();
             }
         }
+        return prepareNumberFormatter(nb).format(value, nb.radix).toString();
+    }
+
+    private NumberFormatter prepareNumberFormatter(@Nonnull NumeralBase nb) {
         final NumberFormatter nf = numberFormatter.get();
-        nf.setGroupingSeparator(useGroupingSeparator ? groupingSeparator : NumberFormatter.NO_GROUPING);
+        nf.setGroupingSeparator(useGroupingSeparator ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
         nf.setPrecision(roundResult ? precision : NumberFormatter.NO_ROUNDING);
         switch (numberFormat) {
-            case Real.NumberFormat.FSE_ENG:
+            case FSE_ENG:
                 nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
                 break;
             case FSE_SCI:
@@ -181,18 +185,36 @@ public class JsclMathEngine implements MathEngine {
                 nf.useSimpleFormat();
                 break;
         }
-        return nf.format(value, nb.radix).toString();
+        return nf;
+    }
+
+    @Override
+    public String format(@Nonnull BigInteger value) throws NumeralBaseException {
+        return format(value, numeralBase);
+    }
+
+    @Nonnull
+    public String format(@Nonnull BigInteger value, @Nonnull NumeralBase nb) throws NumeralBaseException {
+        if (nb == NumeralBase.dec) {
+            if (BigInteger.ZERO.equals(value)) {
+                return "0";
+            }
+        }
+        return prepareNumberFormatter(nb).format(value, nb.radix).toString();
     }
 
     @Nullable
-    private IConstant findConstant(@Nonnull Double value) {
+    private IConstant findConstant(double value) {
         final IConstant constant = findConstant(constantsRegistry.getSystemEntities(), value);
         if (constant != null) {
             return constant;
         }
         final IConstant piInv = constantsRegistry.get(Constants.PI_INV.getName());
-        if (piInv != null && value.equals(piInv.getDoubleValue())) {
-            return piInv;
+        if (piInv != null) {
+            final Double piInvValue = piInv.getDoubleValue();
+            if (piInvValue != null && piInvValue == value) {
+                return piInv;
+            }
         }
         return null;
     }
@@ -251,7 +273,7 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     public String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedDoubleValue) {
         if (useGroupingSeparator) {
-            final String groupingSeparator = nb == NumeralBase.dec ? String.valueOf(this.groupingSeparator) : " ";
+            final String groupingSeparator = getGroupingSeparator(nb);
 
             final int dotIndex = ungroupedDoubleValue.indexOf(".");
 
@@ -275,6 +297,15 @@ public class JsclMathEngine implements MathEngine {
         } else {
             return ungroupedDoubleValue;
         }
+    }
+
+    @Nonnull
+    private String getGroupingSeparator(@Nonnull NumeralBase nb) {
+        return nb == NumeralBase.dec ? String.valueOf(groupingSeparator) : " ";
+    }
+
+    private char getGroupingSeparatorChar(@Nonnull NumeralBase nb) {
+        return nb == NumeralBase.dec ? groupingSeparator : ' ';
     }
 
     @Nonnull

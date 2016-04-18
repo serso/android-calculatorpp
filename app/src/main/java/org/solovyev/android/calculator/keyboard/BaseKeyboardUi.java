@@ -7,14 +7,16 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import dagger.Lazy;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.buttons.CppSpecialButton;
+import org.solovyev.android.calculator.buttons.CppButton;
 import org.solovyev.android.calculator.memory.Memory;
 import org.solovyev.android.views.Adjuster;
 import org.solovyev.android.views.dragbutton.*;
@@ -65,7 +67,18 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         listener = new DirectionDragListener(application) {
             @Override
             protected boolean onDrag(@NonNull View view, @NonNull DragEvent event, @NonNull DragDirection direction) {
-                return Drag.hasDirectionText(view, direction) && BaseKeyboardUi.this.onDrag(view, direction);
+                if (!Drag.hasDirectionText(view, direction)) {
+                    return false;
+                }
+                final DirectionDragView dragView = (DirectionDragView) view;
+                final String text = dragView.getText(direction).getValue();
+                if (TextUtils.isEmpty(text)) {
+                    // hasDirectionText should return false for empty text
+                    Check.shouldNotHappen();
+                    return false;
+                }
+                keyboard.buttonPressed(text);
+                return true;
             }
         };
         textScale = getTextScale(application);
@@ -82,7 +95,15 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         }
     }
 
-    protected abstract boolean onDrag(@NonNull View view, @NonNull DragDirection direction);
+    @Override
+    public void onClick(View v) {
+        final CppButton button = CppButton.getById(v.getId());
+        if (button == null) {
+            Check.shouldNotHappen();
+            return;
+        }
+        onClick(v, button.action);
+    }
 
     public void onCreateView(@Nonnull Activity activity, @Nonnull View view) {
         cast(activity.getApplication()).getComponent().inject(this);
@@ -192,10 +213,6 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
             return;
         }
         v.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
-    }
-
-    protected final void onClick(@Nonnull View v, @Nonnull CppSpecialButton b) {
-        onClick(v, b.action);
     }
 
     private static class AdjusterHelper implements Adjuster.Helper<DirectionDragImageButton> {

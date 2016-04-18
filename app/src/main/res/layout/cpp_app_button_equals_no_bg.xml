@@ -31,6 +31,6 @@
     a:text="="
     a:textColor="?attr/cpp_text_color"
     c:directionTextColor="?attr/cpp_text_color"
-    c:directionTextDown="@string/cpp_plot_button_text"
+    c:directionTextDown="@string/cpp_glyph_graph"
     c:directionTextUp="≡"
     tools:ignore="HardcodedText" />

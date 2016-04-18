@@ -22,7 +22,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.calculator.view.NumeralBasesButton
+<org.solovyev.android.views.dragbutton.DirectionDragImageButton
     android:id="@id/cpp_button_copy"
     style="?attr/cpp_button_style_control"
     xmlns:android="http://schemas.android.com/apk/res/android"
