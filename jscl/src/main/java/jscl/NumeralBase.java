@@ -6,24 +6,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.util.Arrays.asList;
 
 public enum NumeralBase {
 
     dec(10, 3) {
 
-        private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        private final Set<Character> characters = new HashSet<>(asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
 
         @Nonnull
         @Override
         public Double toDouble(@Nonnull String doubleString) {
             return Double.valueOf(doubleString);
-        }
-
-        @Nonnull
-        public String toString(@Nonnull Double value) {
-            return value.toString();
         }
 
         @Nonnull
@@ -34,14 +31,14 @@ public enum NumeralBase {
 
         @Nonnull
         @Override
-        public List<Character> getAcceptableCharacters() {
+        public Set<Character> getAcceptableCharacters() {
             return characters;
         }
     },
 
     hex(16, 2) {
 
-        private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
+        private final Set<Character> characters = new HashSet<>(asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'));
 
         @Nonnull
         @Override
@@ -51,14 +48,14 @@ public enum NumeralBase {
 
         @Nonnull
         @Override
-        public List<Character> getAcceptableCharacters() {
+        public Set<Character> getAcceptableCharacters() {
             return characters;
         }
     },
 
     oct(8, 4) {
 
-        private final List<Character> characters = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7');
+        private final Set<Character> characters = new HashSet<>(asList('0', '1', '2', '3', '4', '5', '6', '7'));
 
         @Nonnull
         @Override
@@ -68,14 +65,14 @@ public enum NumeralBase {
 
         @Nonnull
         @Override
-        public List<Character> getAcceptableCharacters() {
+        public Set<Character> getAcceptableCharacters() {
             return characters;
         }
     },
 
     bin(2, 4) {
 
-        private final List<Character> characters = Arrays.asList('0', '1');
+        private final Set<Character> characters = new HashSet<>(asList('0', '1'));
 
         @Nonnull
         @Override
@@ -85,7 +82,7 @@ public enum NumeralBase {
 
         @Nonnull
         @Override
-        public List<Character> getAcceptableCharacters() {
+        public Set<Character> getAcceptableCharacters() {
             return characters;
         }
     };
@@ -157,7 +154,7 @@ public enum NumeralBase {
     public abstract String getJsclPrefix();
 
     @Nonnull
-    public abstract List<Character> getAcceptableCharacters();
+    public abstract Set<Character> getAcceptableCharacters();
 
     public int getGroupingSize() {
         return groupingSize;
