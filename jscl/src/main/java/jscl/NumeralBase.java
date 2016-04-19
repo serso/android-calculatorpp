@@ -90,8 +90,8 @@ public enum NumeralBase {
         }
     };
 
-    protected final int radix;
-    protected final int groupingSize;
+    public final int radix;
+    public final int groupingSize;
 
     NumeralBase(int radix, int groupingSize) {
         this.radix = radix;
