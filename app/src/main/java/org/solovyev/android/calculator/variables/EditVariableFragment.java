@@ -26,7 +26,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -413,12 +412,6 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         @Override
         public Context getContext() {
             return getActivity();
-        }
-
-        @NonNull
-        @Override
-        public Resources getResources() {
-            return EditVariableFragment.this.getResources();
         }
 
         @NonNull

@@ -31,7 +31,6 @@ import com.squareup.otto.Subscribe;
 import jscl.JsclArithmeticException;
 import jscl.MathEngine;
 import jscl.NumeralBase;
-import jscl.NumeralBaseException;
 import jscl.math.Generic;
 import jscl.math.function.Constants;
 import jscl.math.function.IConstant;
@@ -178,11 +177,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
                 bus.post(new CalculationFinishedEvent(o, e, sequence, result, stringResult, collectMessages(mr)));
 
             } catch (JsclArithmeticException exception) {
-                if (o == JsclOperation.numeric && exception.getCause() instanceof NumeralBaseException) {
-                    evaluateAsync(sequence, JsclOperation.simplify, e, mr);
-                } else {
-                    bus.post(new CalculationFailedEvent(o, e, sequence, exception));
-                }
+                bus.post(new CalculationFailedEvent(o, e, sequence, exception));
             }
         } catch (ArithmeticException exception) {
             onException(sequence, o, e, mr, pe, new ParseException(e, new CalculatorMessage(CalculatorMessages.msg_001, MessageType.error, exception.getMessage())));

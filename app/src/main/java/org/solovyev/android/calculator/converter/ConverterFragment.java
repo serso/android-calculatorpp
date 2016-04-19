@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.converter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,16 +11,23 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
+import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
+import org.solovyev.android.calculator.keyboard.FloatingNumberKeyboard;
+import org.solovyev.android.calculator.view.EditTextCompat;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -28,13 +36,20 @@ import java.util.Comparator;
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
 
+    private static final int NUMBER_INPUT_TYPE = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED;
     private static final String STATE_SELECTION_FROM = "selection.from";
     private static final String STATE_SELECTION_TO = "selection.to";
     private static final String EXTRA_VALUE = "value";
     private static final NamedItemComparator COMPARATOR = new NamedItemComparator();
 
+    @NonNull
+    private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(null);
+    @Inject
+    Typeface typeface;
     @Inject
     Clipboard clipboard;
+    @Inject
+    Keyboard keyboard;
     @Inject
     Editor editor;
     @Bind(R.id.converter_dimensions_spinner)
@@ -44,7 +59,7 @@ public class ConverterFragment extends BaseDialogFragment
     @Bind(R.id.converter_label_from)
     TextInputLayout labelFrom;
     @Bind(R.id.converter_edittext_from)
-    EditText editTextFrom;
+    EditTextCompat editTextFrom;
     @Bind(R.id.converter_spinner_to)
     Spinner spinnerTo;
     @Bind(R.id.converter_label_to)
@@ -59,6 +74,7 @@ public class ConverterFragment extends BaseDialogFragment
 
     private int pendingFromSelection = View.NO_ID;
     private int pendingToSelection = View.NO_ID;
+    private boolean useSystemKeyboard = true;
 
     public static void show(@Nonnull FragmentActivity activity) {
         show(activity, 1d);
@@ -75,6 +91,14 @@ public class ConverterFragment extends BaseDialogFragment
     @Nonnull
     private static <T> ArrayAdapter<T> makeAdapter(@NonNull Context context) {
         return new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
+    }
+
+    @NonNull
+    @Override
+    public AlertDialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        final AlertDialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
 
     @Override
@@ -117,6 +141,8 @@ public class ConverterFragment extends BaseDialogFragment
         editTextFrom.setOnFocusChangeListener(this);
         editTextFrom.setOnEditorActionListener(this);
         editTextFrom.addTextChangedListener(this);
+        editTextFrom.setOnClickListener(this);
+        onKeyboardTypeChanged();
 
         swapButton.setOnClickListener(this);
         swapButton.setImageResource(App.getTheme().light ? R.drawable.ic_swap_vert_black_24dp : R.drawable.ic_swap_vert_white_24dp);
@@ -164,6 +190,19 @@ public class ConverterFragment extends BaseDialogFragment
         updateUnitsFrom(dimension);
         updateUnitsTo(dimension, adapterFrom.getItem(spinnerFrom.getSelectedItemPosition()).item);
         convert();
+
+        checkKeyboardType(dimension);
+    }
+
+    private void checkKeyboardType(@NonNull ConvertibleDimension dimension) {
+        keyboardWindow.hide();
+        useSystemKeyboard = !(dimension instanceof NumeralBaseDimension);
+        onKeyboardTypeChanged();
+    }
+
+    private void onKeyboardTypeChanged() {
+        editTextFrom.setInputType(useSystemKeyboard ? NUMBER_INPUT_TYPE : InputType.TYPE_CLASS_TEXT);
+        editTextFrom.setShowSoftInputOnFocusCompat(useSystemKeyboard);
     }
 
     private void updateUnitsFrom(@NonNull ConvertibleDimension dimension) {
@@ -222,9 +261,17 @@ public class ConverterFragment extends BaseDialogFragment
                     convert();
                 } else {
                     clearError(labelFrom);
+                    showKeyboard();
                 }
                 break;
         }
+    }
+
+    private void showKeyboard() {
+        if (useSystemKeyboard) {
+            return;
+        }
+        keyboardWindow.show(new FloatingNumberKeyboard(new KeyboardUser()), null);
     }
 
     private void convert() {
@@ -246,6 +293,7 @@ public class ConverterFragment extends BaseDialogFragment
             editTextTo.setText(from.convert(to, value));
             clearError(labelFrom);
         } catch (RuntimeException e) {
+            editTextTo.setText("");
             if (validate) {
                 setError(labelFrom, e.getLocalizedMessage());
             }
@@ -270,7 +318,11 @@ public class ConverterFragment extends BaseDialogFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.converter_swap_button:
+                keyboardWindow.hide();
                 swap();
+                break;
+            case R.id.converter_edittext_from:
+                showKeyboard();
                 break;
             default:
                 super.onClick(v);
@@ -351,6 +403,51 @@ public class ConverterFragment extends BaseDialogFragment
         @Override
         public int compare(Named<Convertible> lhs, Named<Convertible> rhs) {
             return lhs.toString().compareTo(rhs.toString());
+        }
+    }
+
+    private class KeyboardUser implements FloatingKeyboard.User {
+        @NonNull
+        @Override
+        public Context getContext() {
+            return getActivity();
+        }
+
+        @NonNull
+        @Override
+        public EditText getEditor() {
+            return editTextFrom;
+        }
+
+        @NonNull
+        @Override
+        public ViewGroup getKeyboard() {
+            return keyboardWindow.getContentView();
+        }
+
+        @Override
+        public void done() {
+            keyboardWindow.hide();
+            convert();
+        }
+
+        @Override
+        public void showIme() {
+            final InputMethodManager keyboard = (InputMethodManager)
+                    getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(getEditor(), InputMethodManager.SHOW_FORCED);
+            keyboardWindow.hide();
+        }
+
+        @Override
+        public boolean isVibrateOnKeypress() {
+            return keyboard.isVibrateOnKeypress();
+        }
+
+        @NonNull
+        @Override
+        public Typeface getTypeface() {
+            return typeface;
         }
     }
 }

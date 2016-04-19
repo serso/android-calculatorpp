@@ -122,5 +122,5 @@
     <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
     <string name="cpp_system_language">System language</string>
     <string name="cpp_angles">Angles</string>
-    <string name="cpp_radix">Radix</string>
+    <string name="cpp_numeral_system">Numeral system</string>
 </resources>

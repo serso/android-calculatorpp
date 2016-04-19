@@ -45,12 +45,12 @@ public interface MathContext {
     void setGroupingSeparator(char groupingSeparator);
 
     @Nonnull
-    String format(double value) throws NumeralBaseException;
+    String format(double value);
 
-    String format(@Nonnull BigInteger value) throws NumeralBaseException;
+    String format(@Nonnull BigInteger value);
 
     @Nonnull
-    String format(double value, @Nonnull NumeralBase nb) throws NumeralBaseException;
+    String format(double value, @Nonnull NumeralBase nb);
 
     @Nonnull
     String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedIntValue);

@@ -34,7 +34,7 @@ public abstract class BaseFloatingKeyboard implements FloatingKeyboard {
     @SuppressWarnings("deprecation")
     protected BaseFloatingKeyboard(@NonNull User user) {
         this.user = user;
-        final Resources resources = user.getResources();
+        final Resources resources = user.getContext().getResources();
         textColor = resources.getColor(R.color.cpp_button_text);
         textColorSecondary = resources.getColor(R.color.cpp_button_text);
         sidePadding = resources.getDimensionPixelSize(R.dimen.cpp_button_padding);

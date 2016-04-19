@@ -144,12 +144,12 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Nonnull
-    public String format(double value) throws NumeralBaseException {
+    public String format(double value) {
         return format(value, numeralBase);
     }
 
     @Nonnull
-    public String format(double value, @Nonnull NumeralBase nb) throws NumeralBaseException {
+    public String format(double value, @Nonnull NumeralBase nb) {
         if (Double.isInfinite(value)) {
             return formatInfinity(value);
         }
@@ -189,12 +189,12 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Override
-    public String format(@Nonnull BigInteger value) throws NumeralBaseException {
+    public String format(@Nonnull BigInteger value) {
         return format(value, numeralBase);
     }
 
     @Nonnull
-    public String format(@Nonnull BigInteger value, @Nonnull NumeralBase nb) throws NumeralBaseException {
+    public String format(@Nonnull BigInteger value, @Nonnull NumeralBase nb) {
         if (nb == NumeralBase.dec) {
             if (BigInteger.ZERO.equals(value)) {
                 return "0";

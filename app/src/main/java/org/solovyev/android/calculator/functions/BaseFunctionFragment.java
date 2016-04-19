@@ -25,7 +25,6 @@ package org.solovyev.android.calculator.functions;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -354,12 +353,6 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
 
         @NonNull
         @Override
-        public Resources getResources() {
-            return BaseFunctionFragment.this.getResources();
-        }
-
-        @NonNull
-        @Override
         public EditText getEditor() {
             return bodyView;
         }
@@ -475,14 +468,11 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
 
         @Override
         public void insertText(@NonNull CharSequence text, int selectionOffset) {
-            final int start = clampSelection(bodyView.getSelectionStart());
-            final int end = clampSelection(bodyView.getSelectionEnd());
-            final Editable e = bodyView.getText();
-            e.replace(start, end, text);
+            EditTextCompat.insert(text, bodyView);
             if (selectionOffset != 0) {
                 final int selection = clampSelection(bodyView.getSelectionEnd());
                 final int newSelection = selection + selectionOffset;
-                if (newSelection >= 0 && newSelection < e.length()) {
+                if (newSelection >= 0 && newSelection < bodyView.getText().length()) {
                     bodyView.setSelection(newSelection);
                 }
             }

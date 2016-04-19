@@ -2,10 +2,8 @@ package org.solovyev.android.calculator.converter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
-import midpcalc.Real;
 
 import javax.annotation.Nonnull;
 import javax.measure.unit.Unit;
@@ -28,15 +26,6 @@ final class UnitConvertible implements Convertible {
         return unit.toString();
     }
 
-    public double parse(@NonNull String value) {
-        final String groupingSeparator = String.valueOf(JsclMathEngine.getInstance().getGroupingSeparator());
-        if (!TextUtils.isEmpty(groupingSeparator)) {
-            value = value.replace(groupingSeparator, "");
-        }
-        final long bits = new Real(value).toDoubleBits();
-        return Double.longBitsToDouble(bits);
-    }
-
     @NonNull
     public String format(double value) {
         return JsclMathEngine.getInstance().format(value, NumeralBase.dec);
@@ -45,7 +34,7 @@ final class UnitConvertible implements Convertible {
     @NonNull
     @Override
     public String convert(@NonNull Convertible to, @NonNull String value) {
-        final double from = parse(value);
+        final double from = Converter.parse(value);
         final double converted = unit.getConverterTo(((UnitConvertible) to).unit).convert(from);
         return format(converted);
     }

@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.view;
 import android.content.Context;
 import android.os.Build;
 import android.support.design.widget.TextInputEditText;
+import android.text.Editable;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -28,6 +29,13 @@ public class EditTextCompat extends TextInputEditText {
 
     public EditTextCompat(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public static void insert(CharSequence text, EditText view) {
+        final Editable e = view.getText();
+        final int start = Math.max(0, view.getSelectionStart());
+        final int end = Math.max(0, view.getSelectionEnd());
+        e.replace(Math.min(start, end), Math.max(start, end), text);
     }
 
     public void dontShowSoftInputOnFocusCompat() {

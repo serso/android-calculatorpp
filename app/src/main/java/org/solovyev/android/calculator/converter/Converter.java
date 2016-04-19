@@ -1,7 +1,11 @@
 package org.solovyev.android.calculator.converter;
 
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import com.google.common.base.Strings;
+import jscl.JsclMathEngine;
+import midpcalc.Real;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
@@ -95,5 +99,19 @@ final class Converter {
         }
         Log.w("Converter", "Unit translation is missing for unit=" + id + " in dimension=" + dimension);
         return 0;
+    }
+
+    public static double parse(@NonNull String value) {
+        return parse(value, 10);
+    }
+
+    public static double parse(@NonNull String value, int base) {
+        final String groupingSeparator = String.valueOf(JsclMathEngine.getInstance().getGroupingSeparator());
+        if (!TextUtils.isEmpty(groupingSeparator)) {
+            value = value.replace(groupingSeparator, "");
+        }
+        final Real real = new Real(value, base);
+        final long bits = real.toDoubleBits();
+        return Double.longBitsToDouble(bits);
     }
 }

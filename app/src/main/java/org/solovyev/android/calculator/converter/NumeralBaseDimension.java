@@ -32,7 +32,7 @@ public class NumeralBaseDimension implements ConvertibleDimension {
     @NonNull
     @Override
     public Named<ConvertibleDimension> named(@NonNull Context context) {
-        return Named.<ConvertibleDimension>create(this, R.string.cpp_radix, context);
+        return Named.<ConvertibleDimension>create(this, R.string.cpp_numeral_system, context);
     }
 
     @NonNull
