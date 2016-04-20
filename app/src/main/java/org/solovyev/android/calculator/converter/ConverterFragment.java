@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.converter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,18 +21,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import org.solovyev.android.calculator.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Clipboard;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.keyboard.FloatingNumberKeyboard;
+import org.solovyev.android.calculator.math.MathUtils;
 import org.solovyev.android.calculator.view.EditTextCompat;
+
+import java.util.Comparator;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.util.Comparator;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import static org.solovyev.android.calculator.UiPreferences.Converter.lastDimension;
+import static org.solovyev.android.calculator.UiPreferences.Converter.lastUnitsFrom;
+import static org.solovyev.android.calculator.UiPreferences.Converter.lastUnitsTo;
 
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
@@ -41,6 +63,7 @@ public class ConverterFragment extends BaseDialogFragment
     private static final String STATE_SELECTION_TO = "selection.to";
     private static final String EXTRA_VALUE = "value";
     private static final NamedItemComparator COMPARATOR = new NamedItemComparator();
+    public static final int NONE = -1;
 
     @NonNull
     private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(null);
@@ -50,6 +73,9 @@ public class ConverterFragment extends BaseDialogFragment
     Clipboard clipboard;
     @Inject
     Keyboard keyboard;
+    @javax.inject.Named(AppModule.PREFS_UI)
+    @Inject
+    SharedPreferences uiPreferences;
     @Inject
     Editor editor;
     @Bind(R.id.converter_dimensions_spinner)
@@ -72,8 +98,8 @@ public class ConverterFragment extends BaseDialogFragment
     private ArrayAdapter<Named<Convertible>> adapterFrom;
     private ArrayAdapter<Named<Convertible>> adapterTo;
 
-    private int pendingFromSelection = View.NO_ID;
-    private int pendingToSelection = View.NO_ID;
+    private int pendingFromSelection = NONE;
+    private int pendingToSelection = NONE;
     private boolean useSystemKeyboard = true;
 
     public static void show(@Nonnull FragmentActivity activity) {
@@ -149,10 +175,12 @@ public class ConverterFragment extends BaseDialogFragment
 
         if (savedInstanceState == null) {
             editTextFrom.setText(String.valueOf(getArguments().getDouble(EXTRA_VALUE, 1f)));
-            dimensionsSpinner.setSelection(0);
+            pendingFromSelection = lastUnitsFrom.getPreference(uiPreferences);
+            pendingToSelection = lastUnitsTo.getPreference(uiPreferences);
+            dimensionsSpinner.setSelection(MathUtils.clamp(lastDimension.getPreference(uiPreferences), 0, dimensionsAdapter.getCount() - 1));
         } else {
-            pendingFromSelection = savedInstanceState.getInt(STATE_SELECTION_FROM, View.NO_ID);
-            pendingToSelection = savedInstanceState.getInt(STATE_SELECTION_TO, View.NO_ID);
+            pendingFromSelection = savedInstanceState.getInt(STATE_SELECTION_FROM, NONE);
+            pendingToSelection = savedInstanceState.getInt(STATE_SELECTION_TO, NONE);
         }
 
         return view;
@@ -163,6 +191,20 @@ public class ConverterFragment extends BaseDialogFragment
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_SELECTION_FROM, spinnerFrom.getSelectedItemPosition());
         outState.putInt(STATE_SELECTION_TO, spinnerTo.getSelectedItemPosition());
+    }
+
+    @Override
+    public void onPause() {
+        saveLastUsedValues();
+        super.onPause();
+    }
+
+    private void saveLastUsedValues() {
+        final SharedPreferences.Editor editor = uiPreferences.edit();
+        lastDimension.putPreference(editor, dimensionsSpinner.getSelectedItemPosition());
+        lastUnitsFrom.putPreference(editor, spinnerFrom.getSelectedItemPosition());
+        lastUnitsTo.putPreference(editor, spinnerTo.getSelectedItemPosition());
+        editor.apply();
     }
 
     @Override
@@ -214,13 +256,17 @@ public class ConverterFragment extends BaseDialogFragment
         adapterFrom.sort(COMPARATOR);
         adapterFrom.setNotifyOnChange(true);
         adapterFrom.notifyDataSetChanged();
-        spinnerFrom.setSelection(Math.max(0, Math.min(pendingFromSelection, adapterFrom.getCount() - 1)));
-        pendingFromSelection = View.NO_ID;
+        if (pendingFromSelection != NONE) {
+            spinnerFrom.setSelection(MathUtils.clamp(pendingFromSelection, 0, adapterFrom.getCount() - 1));
+            pendingFromSelection = NONE;
+        } else {
+            spinnerFrom.setSelection(MathUtils.clamp(spinnerFrom.getSelectedItemPosition(), 0, adapterFrom.getCount() - 1));
+        }
     }
 
     private void updateUnitsTo(@NonNull ConvertibleDimension dimension, @NonNull Convertible except) {
         final Convertible selectedUnit;
-        if (pendingToSelection > View.NO_ID) {
+        if (pendingToSelection > NONE) {
             selectedUnit = null;
         } else {
             final int selectedPosition = spinnerTo.getSelectedItemPosition();
@@ -245,8 +291,12 @@ public class ConverterFragment extends BaseDialogFragment
                 }
             }
         }
-        spinnerTo.setSelection(Math.max(0, Math.min(pendingToSelection, adapterTo.getCount() - 1)));
-        pendingToSelection = View.NO_ID;
+        if (pendingToSelection != NONE) {
+            spinnerTo.setSelection(MathUtils.clamp(pendingToSelection, 0, adapterTo.getCount() - 1));
+            pendingToSelection = NONE;
+        } else {
+            spinnerTo.setSelection(MathUtils.clamp(spinnerTo.getSelectedItemPosition(), 0, adapterTo.getCount() - 1));
+        }
     }
 
     @Override
@@ -358,7 +408,7 @@ public class ConverterFragment extends BaseDialogFragment
         final Convertible oldFromUnit = adapterFrom.getItem(spinnerFrom.getSelectedItemPosition()).item;
         final Convertible oldToUnit = adapterTo.getItem(spinnerTo.getSelectedItemPosition()).item;
 
-        pendingToSelection = -1;
+        pendingToSelection = NONE;
         for (int i = 0; i < adapterFrom.getCount(); i++) {
             pendingToSelection++;
             final Convertible unit = adapterFrom.getItem(i).item;

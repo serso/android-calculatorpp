@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
@@ -60,5 +61,14 @@ public final class UiPreferences {
 
     public void setShowFixableErrorDialog(boolean showFixableErrorDialog) {
         this.showFixableErrorDialog = showFixableErrorDialog;
+    }
+
+    public static final class Converter {
+        @NonNull
+        public static final Preference<Integer> lastDimension = IntegerPreference.of("converter.lastDimension", -1);
+        @NonNull
+        public static final Preference<Integer> lastUnitsFrom = IntegerPreference.of("converter.lastUnitsFrom", -1);
+        @NonNull
+        public static final Preference<Integer> lastUnitsTo = IntegerPreference.of("converter.lastUnitsTo", -1);
     }
 }
