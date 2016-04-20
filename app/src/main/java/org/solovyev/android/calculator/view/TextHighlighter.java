@@ -23,19 +23,26 @@
 package org.solovyev.android.calculator.view;
 
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+
 import com.google.common.collect.Lists;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.BaseNumberBuilder;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.LiteNumberBuilder;
+import org.solovyev.android.calculator.NumberBuilder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class TextHighlighter implements TextProcessor<TextProcessorEditorResult, String> {
 
@@ -149,15 +156,24 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
     }
 
     private static void makeItalic(@Nonnull SpannableStringBuilder t, int start, int end) {
-        t.setSpan(new StyleSpan(Typeface.ITALIC), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+        setSpan(t, new StyleSpan(Typeface.ITALIC), start, end);
     }
 
     private static void makeBold(@Nonnull SpannableStringBuilder t, int start, int end) {
-        t.setSpan(new StyleSpan(Typeface.BOLD), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+        setSpan(t, new StyleSpan(Typeface.BOLD), start, end);
     }
 
     private static void makeColor(@Nonnull SpannableStringBuilder t, int start, int end, int color) {
-        t.setSpan(new ForegroundColorSpan(color), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+        setSpan(t, new ForegroundColorSpan(color), start, end);
+    }
+
+    private static void setSpan(@Nonnull SpannableStringBuilder t, @NonNull Object span, int start, int end) {
+        start = Math.max(0, Math.min(start, t.length()));
+        end = Math.max(0, Math.min(end, t.length()));
+        if (start >= end) {
+            return;
+        }
+        t.setSpan(span, start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     private int fillGroupSpans(@Nonnull SpannableStringBuilder sb, int start, int group, int groupsCount, @Nonnull List<GroupSpan> spans) {
