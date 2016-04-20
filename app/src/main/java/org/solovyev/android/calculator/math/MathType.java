@@ -23,20 +23,23 @@
 package org.solovyev.android.calculator.math;
 
 import android.support.annotation.NonNull;
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.Constants;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.ParseException;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+import jscl.math.function.Constants;
 
 
 public enum MathType {
@@ -313,8 +316,8 @@ public enum MathType {
 
             if (mathType == MathType.grouping_separator) {
                 if (i + 1 < text.length() &&
-                        getType(text, i + 1, hexMode, result, engine).type == MathType.digit &&
-                        i - 1 >= 0 && getType(text, i - 1, hexMode, result, engine).type == MathType.digit) {
+                        MathType.digit.getTokens().contains(text.substring(i + 1, i + 2)) &&
+                        i - 1 >= 0 && MathType.digit.getTokens().contains(text.substring(i - 1, i))) {
                     return result.set(mathType, s);
                 }
                 continue;
