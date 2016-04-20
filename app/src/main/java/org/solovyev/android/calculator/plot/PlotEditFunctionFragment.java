@@ -10,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import butterknife.Bind;
-import jscl.math.function.CustomFunction;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
@@ -24,13 +23,17 @@ import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.PlotIconView;
 import org.solovyev.android.plotter.Plotter;
 import org.solovyev.android.plotter.meshes.MeshSpec;
-import uz.shift.colorpicker.LineColorPicker;
-import uz.shift.colorpicker.OnColorChangedListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+
+import butterknife.Bind;
+import jscl.math.function.CustomFunction;
+import uz.shift.colorpicker.LineColorPicker;
+import uz.shift.colorpicker.OnColorChangedListener;
 
 public class PlotEditFunctionFragment extends BaseFunctionFragment
     implements SeekBar.OnSeekBarChangeListener {
@@ -151,7 +154,7 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
         final Color color = Color.create(colorPicker.getColor());
         final int width = MeshSpec.MIN_WIDTH + lineWidthSeekBar.getProgress();
         final MeshSpec meshSpec = MeshSpec.create(color, width);
-        meshSpec.pointsCount = 100;
+        meshSpec.pointsCount = PlotActivity.POINTS_COUNT;
         return meshSpec;
     }
 

@@ -26,6 +26,8 @@ import butterknife.ButterKnife;
 
 public class PlotActivity extends BaseActivity {
 
+    public static final int POINTS_COUNT = 100;
+
     public static class MyFragment extends BaseFragment implements PlotViewFrame.Listener {
 
         @Inject

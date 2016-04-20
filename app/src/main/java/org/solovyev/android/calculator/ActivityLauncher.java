@@ -29,10 +29,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import dagger.Lazy;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.math.function.CustomFunction;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.CppFunction;
@@ -50,12 +47,18 @@ import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.Plotter;
 import org.solovyev.common.msg.MessageType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
+
+import dagger.Lazy;
+import jscl.math.Generic;
+import jscl.math.function.Constant;
+import jscl.math.function.CustomFunction;
 
 @Singleton
 public final class ActivityLauncher {
@@ -189,7 +192,7 @@ public final class ActivityLauncher {
             final CustomFunction f = new CustomFunction.Builder().setName("").setParameterNames(parameters).setContent(content).create();
             final ExpressionFunction ef = new ExpressionFunction(f);
             final PlotFunction pf = PlotFunction.create(ef, application);
-            pf.meshSpec.pointsCount = 100;
+            pf.meshSpec.pointsCount = PlotActivity.POINTS_COUNT;
             plotter.get().add(pf);
             showPlotter();
         } catch (RuntimeException e) {

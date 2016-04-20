@@ -1,5 +1,14 @@
 package jscl.math;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.math.function.Constant;
 import jscl.math.function.Fraction;
 import jscl.math.function.Inverse;
@@ -13,10 +22,6 @@ import jscl.text.Parser;
 import jscl.text.ParserUtils;
 import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
 
 public class Expression extends Generic {
 
@@ -105,7 +110,7 @@ public class Expression extends Generic {
         return expression;
     }
 
-    public static Expression valueOf(@Nonnull Double value) {
+    public static Expression valueOf(double value) {
         final Expression expression = new Expression(1);
         Literal literal = new Literal();
         literal.init(new DoubleVariable(new NumericWrapper(Real.valueOf(value))), 1);
