@@ -46,4 +46,13 @@
         ★ Faster start-ups, less memory consumption
     </string>
 
+    <string name="cpp_release_notes_150">
+        ★ Copy/paste buttons\n
+        ★ AMOLED theme\n
+        ★ Fixed formatting of small numbers\n
+        ★ Faster graph plotter\n
+        ★ Numeral base conversion\n
+        ★ E button in Variables Editor
+    </string>
+
 </resources>
