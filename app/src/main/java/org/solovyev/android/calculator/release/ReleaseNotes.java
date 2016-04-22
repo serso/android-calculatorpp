@@ -17,6 +17,7 @@ public final class ReleaseNotes {
         map.put(141, ReleaseNote.make("2.1.2", R.string.cpp_release_notes_141));
         map.put(143, ReleaseNote.make("2.1.4", R.string.cpp_release_notes_143));
         map.put(148, ReleaseNote.make("2.2.1", R.string.cpp_release_notes_148));
+        map.put(150, ReleaseNote.make("2.2.2", R.string.cpp_release_notes_150));
     }
 
     @Nonnull
