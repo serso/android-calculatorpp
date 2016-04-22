@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 interface Convertible {
     @NonNull
-    String convert(@NonNull Convertible to, @NonNull String value);
+    String convert(@NonNull Convertible to, @NonNull String value) throws NumberFormatException;
 
     @NonNull
     Named<Convertible> named(@NonNull Context context);

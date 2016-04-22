@@ -34,7 +34,7 @@ final class UnitConvertible implements Convertible {
     @NonNull
     @Override
     public String convert(@NonNull Convertible to, @NonNull String value) {
-        final double from = Converter.parse(value);
+        final double from = Converter.parse(value).toDouble();
         final double converted = unit.getConverterTo(((UnitConvertible) to).unit).convert(from);
         return format(converted);
     }

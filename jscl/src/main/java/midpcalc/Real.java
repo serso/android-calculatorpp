@@ -771,8 +771,8 @@ public final class Real {
      * &nbsp;&nbsp;&nbsp;&nbsp;base-16: <code>"/FFF800C.CCCE e64"</code>
      * <p/>
      * <p>The number is parsed until the end of the string or an unknown
-     * character is encountered, then silently returns even if the whole
-     * string has not been parsed. Please note that specifying an
+     * character is encountered. Note that in case of latter this Real becomes
+     * NAN. Please note that specifying an
      * excessive number of digits in base-10 may in fact decrease the
      * accuracy of the result because of the extra multiplications performed.
      * <p/>
@@ -2241,6 +2241,10 @@ public final class Real {
             // 0x8000000000000001L, so that you can take -x.toLong()
         }
         return (this.sign == 0) ? (mantissa >>> shift) : -(mantissa >>> shift);
+    }
+
+    public double toDouble() {
+        return Double.longBitsToDouble(toDoubleBits());
     }
 
     /**
@@ -6184,6 +6188,10 @@ public final class Real {
             }
         }
         sign = tmpSign;
+        if (index != length) {
+            // signal error
+            assign(NAN);
+        }
     }
 
     //*************************************************************************

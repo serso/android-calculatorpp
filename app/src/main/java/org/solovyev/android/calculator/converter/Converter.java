@@ -1,7 +1,6 @@
 package org.solovyev.android.calculator.converter;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 import com.google.common.base.Strings;
 import jscl.JsclMathEngine;
@@ -101,17 +100,21 @@ final class Converter {
         return 0;
     }
 
-    public static double parse(@NonNull String value) {
+    @NonNull
+    public static Real parse(@NonNull String value) throws NumberFormatException {
         return parse(value, 10);
     }
 
-    public static double parse(@NonNull String value, int base) {
+    @NonNull
+    public static Real parse(@NonNull String value, int base) throws NumberFormatException {
         final String groupingSeparator = String.valueOf(JsclMathEngine.getInstance().getGroupingSeparator());
-        if (!TextUtils.isEmpty(groupingSeparator)) {
+        if (groupingSeparator.length() > 0) {
             value = value.replace(groupingSeparator, "");
         }
         final Real real = new Real(value, base);
-        final long bits = real.toDoubleBits();
-        return Double.longBitsToDouble(bits);
+        if (real.isNan()) {
+            throw new NumberFormatException();
+        }
+        return real;
     }
 }

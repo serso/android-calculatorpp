@@ -21,39 +21,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.AppModule;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.Clipboard;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.R;
+import android.widget.*;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.keyboard.FloatingNumberKeyboard;
 import org.solovyev.android.calculator.math.MathUtils;
 import org.solovyev.android.calculator.view.EditTextCompat;
 
-import java.util.Comparator;
-
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.Comparator;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-import static org.solovyev.android.calculator.UiPreferences.Converter.lastDimension;
-import static org.solovyev.android.calculator.UiPreferences.Converter.lastUnitsFrom;
-import static org.solovyev.android.calculator.UiPreferences.Converter.lastUnitsTo;
+import static org.solovyev.android.calculator.UiPreferences.Converter.*;
 
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
@@ -332,7 +314,7 @@ public class ConverterFragment extends BaseDialogFragment
         final String value = editTextFrom.getText().toString();
         if (TextUtils.isEmpty(value)) {
             if (validate) {
-                setError(labelFrom, "Empty");
+                setError(labelFrom, R.string.cpp_nan);
             }
             return;
         }
@@ -345,7 +327,7 @@ public class ConverterFragment extends BaseDialogFragment
         } catch (RuntimeException e) {
             editTextTo.setText("");
             if (validate) {
-                setError(labelFrom, e.getLocalizedMessage());
+                setError(labelFrom, R.string.cpp_nan);
             }
         }
     }

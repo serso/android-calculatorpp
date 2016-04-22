@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
+import midpcalc.Real;
 
 import java.math.BigInteger;
 
@@ -20,15 +21,16 @@ public class NumeralBaseConvertible implements Convertible {
 
     @NonNull
     @Override
-    public String convert(@NonNull Convertible to, @NonNull String value) {
+    public String convert(@NonNull Convertible to, @NonNull String value) throws NumberFormatException {
         final NumeralBase baseTo = ((NumeralBaseConvertible) to).base;
-        try {
-            final BigInteger integer = base.toBigInteger(value);
-            return mathEngine.format(integer, baseTo);
-        } catch (NumberFormatException e) {
-            final double d = Converter.parse(value, base.radix);
-            return mathEngine.format(d, baseTo);
+        final Real real = Converter.parse(value, base.radix);
+        if (real.isIntegral()) {
+            final long l = real.toLong();
+            if (l != Long.MAX_VALUE && l != -Long.MAX_VALUE) {
+                return mathEngine.format(BigInteger.valueOf(l), baseTo);
+            }
         }
+        return mathEngine.format(real.toDouble(), baseTo);
     }
 
     @NonNull
