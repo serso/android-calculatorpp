@@ -23,7 +23,7 @@
 package org.solovyev.android.calculator;
 
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
+import com.google.common.base.Strings;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
 
@@ -60,7 +60,7 @@ public abstract class BaseNumberBuilder {
     }
 
     private boolean spaceBefore(@Nonnull MathType.Result mathTypeResult) {
-        return numberBuilder == null && TextUtils.isEmpty(mathTypeResult.match.trim());
+        return numberBuilder == null && Strings.isNullOrEmpty(mathTypeResult.match.trim());
     }
 
     private boolean numeralBaseInTheStart(@Nonnull MathType mathType) {

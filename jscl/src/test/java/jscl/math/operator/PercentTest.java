@@ -2,81 +2,78 @@ package jscl.math.operator;
 
 import jscl.JsclMathEngine;
 import jscl.text.ParseException;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * User: serso
- * Date: 11/14/11
- * Time: 2:10 PM
- */
+import static org.junit.Assert.assertEquals;
+
 public class PercentTest {
 
     @Test
     public void testNumeric() throws Exception {
-        final JsclMathEngine mathEngine = JsclMathEngine.getInstance();
+        final JsclMathEngine me = new JsclMathEngine();
 
-        Assert.assertEquals("150", mathEngine.evaluate("100+50%"));
-        Assert.assertEquals("0", mathEngine.evaluate("100-100%"));
-        Assert.assertEquals("50", mathEngine.evaluate("100*50%"));
-        Assert.assertEquals("150", mathEngine.evaluate("100+100*50%"));
-        Assert.assertEquals("125", mathEngine.evaluate("100+100*50%*50%"));
-        Assert.assertEquals("125", mathEngine.evaluate("100+100*50%*(25+25)%"));
-        Assert.assertEquals("250", mathEngine.evaluate("100+100*50%*(25+25)%+100%"));
-        Assert.assertEquals("150", mathEngine.evaluate("100+(100*50%*(25+25)%+100%)"));
-        Assert.assertEquals("140", mathEngine.evaluate("100+(20+20)%"));
-        // todo serso: think about such behaviour
-        Assert.assertEquals("124", mathEngine.evaluate("100+(20%+20%)"));
+        assertEquals("150", me.evaluate("100+50%"));
+        assertEquals("0", me.evaluate("100-100%"));
+        assertEquals("50", me.evaluate("100*50%"));
+        assertEquals("150", me.evaluate("100+100*50%"));
+        assertEquals("125", me.evaluate("100+100*50%*50%"));
+        assertEquals("125", me.evaluate("100+100*50%*(25+25)%"));
+        assertEquals("250", me.evaluate("100+100*50%*(25+25)%+100%"));
+        assertEquals("150", me.evaluate("100+(100*50%*(25+25)%+100%)"));
+        assertEquals("140", me.evaluate("100+(20+20)%"));
+        assertEquals("124", me.evaluate("100+(20%+20%)"));
 
-        Assert.assertEquals("100+50%-50%", mathEngine.simplify("100+50%-50%"));
+        assertEquals("100+50%-50%", me.simplify("100+50%-50%"));
 
-        Assert.assertEquals("100+(100*50%*(50)%+100%)", mathEngine.simplify("100+(100*50%*(25+25)%+100%)"));
+        assertEquals("100+(100*50%*(50)%+100%)", me.simplify("100+(100*50%*(25+25)%+100%)"));
 
+        assertEquals("450", me.evaluate("((100+100*50%)+50%)*200%"));
+        assertEquals("150", me.evaluate("((100+100*50%)*50%)+100%"));
+        assertEquals("150", me.evaluate("100*50%+100"));
+        assertEquals("75", me.evaluate("100+50%-50%"));
+        assertEquals("75", me.evaluate("100+50%+(-50%)"));
+        assertEquals("0", me.evaluate("0+(-50%)"));
+        assertEquals("0", me.evaluate("0+(50%)"));
+        assertEquals("0", me.evaluate("0+50%"));
+        assertEquals("-150", me.evaluate("-100+50%"));
+        assertEquals("-148.5", me.evaluate("1-100+50%"));
+        assertEquals("-49.5", me.evaluate("1-100-50%"));
+        assertEquals("-49.5", me.evaluate("(1-100)-50%"));
+        assertEquals("-49", me.evaluate("1-(100-50%)"));
+        assertEquals("50", me.evaluate("100-50%"));
+        assertEquals("2600", me.evaluate("100+50%^2"));
+        assertEquals("101.0813826568003", me.evaluate("100+50^2%"));
+        assertEquals("22500", me.evaluate("(100+50%)^2"));
+        assertEquals("225", me.evaluate("(100+50%)+50%"));
+        assertEquals("225", me.evaluate("(100+50%)+(abs(-50)+10-10)%"));
 
-        Assert.assertEquals("450", mathEngine.evaluate("((100+100*50%)+50%)*200%"));
-        Assert.assertEquals("150", mathEngine.evaluate("((100+100*50%)*50%)+100%"));
-        Assert.assertEquals("150", mathEngine.evaluate("100*50%+100"));
-        Assert.assertEquals("75", mathEngine.evaluate("100+50%-50%"));
-        Assert.assertEquals("75", mathEngine.evaluate("100+50%+(-50%)"));
-        Assert.assertEquals("0", mathEngine.evaluate("0+(-50%)"));
-        Assert.assertEquals("0", mathEngine.evaluate("0+(50%)"));
-        Assert.assertEquals("0", mathEngine.evaluate("0+50%"));
-        Assert.assertEquals("-150", mathEngine.evaluate("-100+50%"));
-        Assert.assertEquals("-148.5", mathEngine.evaluate("1-100+50%"));
-        Assert.assertEquals("-49.5", mathEngine.evaluate("1-100-50%"));
-        Assert.assertEquals("-49.5", mathEngine.evaluate("(1-100)-50%"));
-        Assert.assertEquals("-49", mathEngine.evaluate("1-(100-50%)"));
-        Assert.assertEquals("50", mathEngine.evaluate("100-50%"));
-        Assert.assertEquals("2600", mathEngine.evaluate("100+50%^2"));
-        Assert.assertEquals("101.0813826568003", mathEngine.evaluate("100+50^2%"));
-        Assert.assertEquals("22500", mathEngine.evaluate("(100+50%)^2"));
-        Assert.assertEquals("225", mathEngine.evaluate("(100+50%)+50%"));
-        Assert.assertEquals("225", mathEngine.evaluate("(100+50%)+(abs(-50)+10-10)%"));
+        assertEquals("0", me.evaluate("100-(10+2*40+10)%"));
+        assertEquals("3", me.evaluate("100-(10+2*40+10)%+3"));
 
-        Assert.assertEquals("0", mathEngine.evaluate("100-(10+2*40+10)%"));
-        Assert.assertEquals("3", mathEngine.evaluate("100-(10+2*40+10)%+3"));
+        assertEquals("0", me.evaluate("100-(200/2)%"));
+        assertEquals("3", me.evaluate("100-(200/2)%+3"));
 
-        Assert.assertEquals("0", mathEngine.evaluate("100-(200/2)%"));
-        Assert.assertEquals("3", mathEngine.evaluate("100-(200/2)%+3"));
+        assertEquals("99", me.evaluate("100-2*50%"));
+        assertEquals("102", me.evaluate("100-2*50%+3"));
 
-        Assert.assertEquals("99", mathEngine.evaluate("100-2*50%"));
-        Assert.assertEquals("102", mathEngine.evaluate("100-2*50%+3"));
+        assertEquals("84", me.evaluate("20+2^3!"));
+        assertEquals("21.0471285480509", me.evaluate("20+10^2%"));
+        assertEquals("20.48", me.evaluate("20+4!*2%"));
 
-        Assert.assertEquals("84", mathEngine.evaluate("20+2^3!"));
-        Assert.assertEquals("21.0471285480509", mathEngine.evaluate("20+10^2%"));
-        Assert.assertEquals("20.48", mathEngine.evaluate("20+4!*2%"));
-
-        Assert.assertEquals("120", mathEngine.evaluate("100-20+50%"));
+        assertEquals("120", me.evaluate("100-20+50%"));
 
         try {
-            mathEngine.evaluate("+50%");
+            me.evaluate("+50%");
             Assert.fail();
         } catch (ParseException e) {
         }
 
-        Assert.assertEquals("0.5", mathEngine.evaluate("50%"));
-        Assert.assertEquals("-0.5", mathEngine.evaluate("-50%"));
-        Assert.assertEquals("225", mathEngine.evaluate("(100+50%)+50%"));
+        assertEquals("0.5", me.evaluate("50%"));
+        assertEquals("-0.5", me.evaluate("-50%"));
+        assertEquals("225", me.evaluate("(100+50%)+50%"));
 
+        // undefined behavior, percent function always uses preceding number ignoring multiplier after
+        assertEquals("10100", me.evaluate("100+100%*100"));
     }
 }
