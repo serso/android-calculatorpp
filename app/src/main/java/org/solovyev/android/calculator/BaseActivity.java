@@ -12,16 +12,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.*;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.ga.Ga;
-import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.view.Tabs;
@@ -30,9 +26,6 @@ import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
@@ -52,10 +45,6 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
     Languages languages;
     @Inject
     Editor editor;
-    @Inject
-    History history;
-    @Inject
-    Keyboard keyboard;
     @Inject
     Calculator calculator;
     @Inject
