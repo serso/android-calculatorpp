@@ -32,5 +32,14 @@ dependencies {
     testCompile 'net.sf.opencsv:opencsv:2.0'
 }
 
+sourceSets {
+    main {
+        output.resourcesDir = "build/classes/main"
+    }
+    test {
+        output.resourcesDir = "build/classes/test"
+    }
+}
+
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7

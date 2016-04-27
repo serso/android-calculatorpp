@@ -40,7 +40,7 @@ public class NumeralBaseConversionTest {
         try {
             final MathEngine me = JsclMathEngine.getInstance();
 
-            reader = new CSVReader(new InputStreamReader(NumeralBaseConversionTest.class.getResourceAsStream("/jscl/math/nb_table.csv")), '\t');
+            reader = new CSVReader(new InputStreamReader(NumeralBaseConversionTest.class.getResourceAsStream("nb_table.csv")), '\t');
 
             // skip first line
             reader.readNext();

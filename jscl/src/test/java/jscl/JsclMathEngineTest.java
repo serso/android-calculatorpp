@@ -1,6 +1,7 @@
 package jscl;
 
 import midpcalc.Real;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,10 +12,16 @@ import static org.junit.Assert.assertEquals;
  * Time: 11:25 AM
  */
 public class JsclMathEngineTest {
+
+    private JsclMathEngine me;
+
+    @Before
+    public void setUp() throws Exception {
+        me = new JsclMathEngine();
+    }
+
     @Test
     public void testFormat() throws Exception {
-        final MathContext me = JsclMathEngine.getInstance();
-
         try {
             me.setUseGroupingSeparator(true);
             assertEquals("1", me.format(1d, NumeralBase.bin));
@@ -80,13 +87,11 @@ public class JsclMathEngineTest {
 
     @Test
     public void testPiComputation() throws Exception {
-        final JsclMathEngine me = JsclMathEngine.getInstance();
         assertEquals("-1+0.0000000000000001*i", me.evaluate("exp(√(-1)*Π)"));
     }
 
     @Test
     public void testBinShouldAlwaysUseSpaceAsGroupingSeparator() throws Exception {
-        final JsclMathEngine me = new JsclMathEngine();
         me.setGroupingSeparator('\'');
         me.setUseGroupingSeparator(true);
 
@@ -95,7 +100,6 @@ public class JsclMathEngineTest {
 
     @Test
     public void testHexShouldAlwaysUseSpaceAsGroupingSeparator() throws Exception {
-        final JsclMathEngine me = new JsclMathEngine();
         me.setGroupingSeparator('\'');
         me.setUseGroupingSeparator(true);
 
@@ -104,7 +108,6 @@ public class JsclMathEngineTest {
 
     @Test
     public void testEngineeringNotationWithRounding() throws Exception {
-        final JsclMathEngine me = JsclMathEngine.getInstance();
         me.setNumberFormat(Real.NumberFormat.FSE_ENG);
         me.setRoundResult(true);
         me.setPrecision(5);
@@ -161,7 +164,6 @@ public class JsclMathEngineTest {
 
     @Test
     public void testEngineeringNotationWithoutRounding() throws Exception {
-        final JsclMathEngine me = JsclMathEngine.getInstance();
         me.setNumberFormat(Real.NumberFormat.FSE_ENG);
         me.setRoundResult(false);
 

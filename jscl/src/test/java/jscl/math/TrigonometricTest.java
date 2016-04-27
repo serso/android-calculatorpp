@@ -31,7 +31,7 @@ public class TrigonometricTest {
         try {
             final MathEngine me = JsclMathEngine.getInstance();
 
-            reader = new CSVReader(new InputStreamReader(TrigonometricTest.class.getResourceAsStream("/jscl/math/trig_table.csv")), '\t');
+            reader = new CSVReader(new InputStreamReader(TrigonometricTest.class.getResourceAsStream("./trig_table.csv")), '\t');
 
             // skip first line
             reader.readNext();
