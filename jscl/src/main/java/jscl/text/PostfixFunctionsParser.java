@@ -1,23 +1,21 @@
 package jscl.text;
 
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.math.Generic;
 import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
 import jscl.math.operator.TripleFactorial;
 import jscl.text.msg.Messages;
 
-/**
- * User: serso
- * Date: 10/31/11
- * Time: 11:20 PM
- */
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
+
 public class PostfixFunctionsParser implements Parser<Generic> {
+
+    private static final PostfixFunctionsRegistry registry = PostfixFunctionsRegistry.getInstance();
+    private static final PostfixFunctionParser tripleFactorialParser = new PostfixFunctionParser(TripleFactorial.NAME);
 
     @Nonnull
     private final Generic content;
@@ -27,39 +25,36 @@ public class PostfixFunctionsParser implements Parser<Generic> {
     }
 
     private static Generic parsePostfix(@Nonnull List<String> names,
-                                        Generic content,
+                                        final Generic content,
                                         @Nullable final Generic previousSumElement,
                                         @Nonnull final Parameters p) throws ParseException {
-        Generic result = content;
+        checkTripleFactorial(previousSumElement, p);
 
-        for (String name : names) {
-            final PostfixFunctionParser parser = new PostfixFunctionParser(name);
-            final PostfixFunctionParser.Result postfixResult = parser.parse(p, previousSumElement);
-            if (postfixResult.isPostfixFunction()) {
-                final Operator postfixFunction;
-
-                if (previousSumElement == null) {
-                    postfixFunction = PostfixFunctionsRegistry.getInstance().get(postfixResult.getPostfixFunctionName(), new Generic[]{content});
-                } else {
-                    postfixFunction = PostfixFunctionsRegistry.getInstance().get(postfixResult.getPostfixFunctionName(), new Generic[]{content, previousSumElement});
-                }
-
-                if (postfixFunction == null) {
-                    if (TripleFactorial.NAME.equals(postfixResult.getPostfixFunctionName())) {
-                        throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_18);
-                    } else {
-                        throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_4, Collections.singletonList(postfixResult.getPostfixFunctionName()));
-                    }
-                }
-
-                result = parsePostfix(names, postfixFunction.expressionValue(), previousSumElement, p);
+        for (int i = 0; i < names.size(); i++) {
+            final PostfixFunctionParser parser = new PostfixFunctionParser(names.get(i));
+            final String functionName = parser.parse(p, previousSumElement);
+            if (functionName == null) {
+                continue;
             }
-        }
+            final Generic[] parameters = previousSumElement == null ? new Generic[]{content} : new Generic[]{content, previousSumElement};
+            final Operator function = registry.get(functionName, parameters);
 
-        return result;
+            if (function != null) {
+                return parsePostfix(names, function.expressionValue(), previousSumElement, p);
+            }
+
+            throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_4, singletonList(functionName));
+        }
+        return content;
+    }
+
+    private static void checkTripleFactorial(@Nullable Generic previousSumElement, @Nonnull Parameters p) throws ParseException {
+        if (tripleFactorialParser.parse(p, previousSumElement) != null) {
+            throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_18);
+        }
     }
 
     public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        return parsePostfix(PostfixFunctionsRegistry.getInstance().getNames(), content, previousSumElement, p);
+        return parsePostfix(registry.getNames(), content, previousSumElement, p);
     }
 }
