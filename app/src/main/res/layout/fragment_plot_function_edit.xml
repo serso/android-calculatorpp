@@ -59,11 +59,9 @@
 
                 <TextView
                     android:id="@+id/fn_linewidth_label"
-                    style="@style/TextAppearance.AppCompat.Caption"
+                    style="@style/CppLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="4dp"
-                    android:paddingLeft="4dp"
                     android:text="@string/cpp_plot_function_line_width"
                     tools:ignore="RtlSymmetry"/>
 
@@ -74,11 +72,9 @@
 
                 <TextView
                     android:id="@+id/fn_color_label"
-                    style="@style/TextAppearance.AppCompat.Caption"
+                    style="@style/CppLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="4dp"
-                    android:paddingLeft="4dp"
                     android:text="@string/cpp_plot_function_line_color"
                     tools:ignore="RtlSymmetry"/>
 

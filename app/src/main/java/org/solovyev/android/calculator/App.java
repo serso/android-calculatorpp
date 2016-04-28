@@ -25,7 +25,11 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
-import android.content.*;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -48,13 +52,16 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public final class App {
 
@@ -274,6 +281,11 @@ public final class App {
 
     public static <T> void processViewsOfType(@Nonnull View view, @Nonnull Class<T> viewClass, @Nonnull ViewProcessor<T> viewProcessor) {
         processViewsOfType0(view, viewClass, viewProcessor);
+    }
+
+    @Nonnull
+    public static <T> ArrayAdapter<T> makeSimpleSpinnerAdapter(@NonNull Context context) {
+        return new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
     }
 
     public interface ViewProcessor<V> {

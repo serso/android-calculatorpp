@@ -56,7 +56,11 @@
 
         <activity
             android:name=".preferences.PreferencesActivity"
-            android:label="@string/cpp_settings" />
+            android:label="@string/cpp_settings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".preferences.PreferencesActivity$Dialog"

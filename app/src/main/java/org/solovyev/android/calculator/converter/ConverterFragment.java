@@ -21,21 +21,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import org.solovyev.android.calculator.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Clipboard;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.keyboard.FloatingNumberKeyboard;
 import org.solovyev.android.calculator.math.MathUtils;
+import org.solovyev.android.calculator.text.NaturalComparator;
 import org.solovyev.android.calculator.view.EditTextCompat;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.util.Comparator;
 
-import static org.solovyev.android.calculator.UiPreferences.Converter.*;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import static org.solovyev.android.calculator.UiPreferences.Converter.lastDimension;
+import static org.solovyev.android.calculator.UiPreferences.Converter.lastUnitsFrom;
+import static org.solovyev.android.calculator.UiPreferences.Converter.lastUnitsTo;
 
 public class ConverterFragment extends BaseDialogFragment
         implements AdapterView.OnItemSelectedListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, View.OnClickListener, TextWatcher {
@@ -44,7 +61,6 @@ public class ConverterFragment extends BaseDialogFragment
     private static final String STATE_SELECTION_FROM = "selection.from";
     private static final String STATE_SELECTION_TO = "selection.to";
     private static final String EXTRA_VALUE = "value";
-    private static final NamedItemComparator COMPARATOR = new NamedItemComparator();
     public static final int NONE = -1;
 
     @NonNull
@@ -96,11 +112,6 @@ public class ConverterFragment extends BaseDialogFragment
         App.showDialog(fragment, "converter", activity.getSupportFragmentManager());
     }
 
-    @Nonnull
-    private static <T> ArrayAdapter<T> makeAdapter(@NonNull Context context) {
-        return new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
-    }
-
     @NonNull
     @Override
     public AlertDialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -130,13 +141,13 @@ public class ConverterFragment extends BaseDialogFragment
         final View view = inflater.inflate(R.layout.cpp_unit_converter, null);
         ButterKnife.bind(this, view);
 
-        dimensionsAdapter = makeAdapter(context);
+        dimensionsAdapter = App.makeSimpleSpinnerAdapter(context);
         for (ConvertibleDimension dimension : UnitDimension.values()) {
             dimensionsAdapter.add(dimension.named(context));
         }
         dimensionsAdapter.add(NumeralBaseDimension.get().named(context));
-        adapterFrom = makeAdapter(context);
-        adapterTo = makeAdapter(context);
+        adapterFrom = App.makeSimpleSpinnerAdapter(context);
+        adapterTo = App.makeSimpleSpinnerAdapter(context);
 
         dimensionsSpinner.setAdapter(dimensionsAdapter);
         spinnerFrom.setAdapter(adapterFrom);
@@ -235,7 +246,7 @@ public class ConverterFragment extends BaseDialogFragment
         for (Convertible unit : dimension.getUnits()) {
             adapterFrom.add(unit.named(getActivity()));
         }
-        adapterFrom.sort(COMPARATOR);
+        adapterFrom.sort(NaturalComparator.INSTANCE);
         adapterFrom.setNotifyOnChange(true);
         adapterFrom.notifyDataSetChanged();
         if (pendingFromSelection != NONE) {
@@ -261,7 +272,7 @@ public class ConverterFragment extends BaseDialogFragment
                 adapterTo.add(unit.named(getActivity()));
             }
         }
-        adapterTo.sort(COMPARATOR);
+        adapterTo.sort(NaturalComparator.INSTANCE);
         adapterTo.setNotifyOnChange(true);
         adapterTo.notifyDataSetChanged();
         if (selectedUnit != null && !except.equals(selectedUnit)) {
@@ -429,13 +440,6 @@ public class ConverterFragment extends BaseDialogFragment
     public void dismiss() {
         App.hideIme(this);
         super.dismiss();
-    }
-
-    private static class NamedItemComparator implements Comparator<Named<Convertible>> {
-        @Override
-        public int compare(Named<Convertible> lhs, Named<Convertible> rhs) {
-            return lhs.toString().compareTo(rhs.toString());
-        }
     }
 
     private class KeyboardUser implements FloatingKeyboard.User {

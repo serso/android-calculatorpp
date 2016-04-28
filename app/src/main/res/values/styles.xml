@@ -319,6 +319,11 @@
         <item name="android:visibility">gone</item>
     </style>
 
+    <style name="CppLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
     <dimen name="list_item_text_size">16sp</dimen>
     <dimen name="list_item_text_size_small">14sp</dimen>
 </resources>

@@ -23,15 +23,11 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
+
 import com.squareup.otto.Bus;
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.operator.Operator;
-import jscl.text.Identifier;
-import jscl.text.Parser;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.operators.OperatorsRegistry;
@@ -43,14 +39,24 @@ import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.operator.Operator;
+import jscl.text.Identifier;
+import jscl.text.Parser;
+import midpcalc.Real;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -231,8 +237,24 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         }
     }
 
+    public enum Notation {
+        simple(Real.NumberFormat.FSE_NONE, R.string.cpp_number_format_simple),
+        eng(Real.NumberFormat.FSE_ENG, R.string.cpp_number_format_eng),
+        sci(Real.NumberFormat.FSE_SCI, R.string.cpp_number_format_sci);
+
+        public final int id;
+        @StringRes
+        public final int name;
+
+        Notation(int id, @StringRes int name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+
     public static class ChangedEvent {
         static final ChangedEvent INSTANCE = new ChangedEvent();
+
         private ChangedEvent() {
         }
     }
@@ -264,6 +286,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             public static final StringPreference<Integer> precision = StringPreference.ofTypedValue("engine.output.precision", "5", NumberMapper.of(Integer.class));
             public static final BooleanPreference scientificNotation = BooleanPreference.of("engine.output.scientificNotation", false);
             public static final BooleanPreference round = BooleanPreference.of("engine.output.round", true);
+            public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.simple, Notation.class);
         }
     }
 }

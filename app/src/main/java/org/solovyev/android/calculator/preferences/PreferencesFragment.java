@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ListView;
+
 import org.solovyev.android.calculator.AdView;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
@@ -24,11 +25,12 @@ import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.RequestListener;
 import org.solovyev.android.wizard.Wizards;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
