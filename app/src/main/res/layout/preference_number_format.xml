@@ -31,4 +31,15 @@
         app:labelsSize="12sp"
         app:values="@array/cpp_prefs_precisions"/>
 
+    <TextView
+        style="@style/CppLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Separator"/>
+
+    <Spinner
+        android:id="@+id/nf_separator_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

@@ -9,22 +9,29 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Named;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.text.NaturalComparator;
+import org.solovyev.android.views.DiscreteSeekBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static org.solovyev.android.calculator.Engine.Preferences.Output;
+
 public class NumberFormatPreference extends DialogPreference {
     @Bind(R.id.nf_notation_spinner)
     Spinner notationSpinner;
+    ArrayAdapter<Named<Engine.Notation>> notationAdapter;
     @Bind(R.id.nf_precision_seekbar)
-    SeekBar precisionSeekBar;
+    DiscreteSeekBar precisionSeekBar;
+    @Bind(R.id.nf_separator_spinner)
+    Spinner separatorSpinner;
+    ArrayAdapter<Named<String>> separatorAdapter;
 
     {
         setPersistent(false);
@@ -55,16 +62,34 @@ public class NumberFormatPreference extends DialogPreference {
         ButterKnife.bind(this, view);
 
         final SharedPreferences preferences = getSharedPreferences();
-        precisionSeekBar.setMax(15);
-        precisionSeekBar.setProgress(Math.max(0, Math.min(15, Engine.Preferences.Output.precision.getPreference(preferences))));
-        final ArrayAdapter<NotationItem> adapter = makeNumberFormatAdapter();
-        notationSpinner.setAdapter(adapter);
-        notationSpinner.setSelection(indexOf(adapter, Engine.Preferences.Output.notation.getPreference(preferences)));
+        final int maxPrecision = precisionSeekBar.getMaxTick();
+        precisionSeekBar.setMax(maxPrecision);
+        precisionSeekBar.setCurrentTick(Math.max(0, Math.min(maxPrecision, Output.precision.getPreference(preferences))));
+        notationAdapter = makeNotationAdapter();
+        notationSpinner.setAdapter(notationAdapter);
+        notationSpinner.setSelection(indexOf(notationAdapter, Output.notation.getPreference(preferences)));
+
+        separatorAdapter = makeSeparatorAdapter();
+        separatorSpinner.setAdapter(separatorAdapter);
+        separatorSpinner.setSelection(indexOf(separatorAdapter, Engine.Preferences.groupingSeparator.getPreference(preferences)));
     }
 
-    private int indexOf(ArrayAdapter<NotationItem> adapter, Engine.Notation notation) {
+    @Override
+    protected void onDialogClosed(boolean save) {
+        super.onDialogClosed(save);
+        if (!save) {
+            return;
+        }
+        final SharedPreferences.Editor editor = getSharedPreferences().edit();
+        Output.precision.putPreference(editor, precisionSeekBar.getCurrentTick());
+        Output.notation.putPreference(editor, notationAdapter.getItem(notationSpinner.getSelectedItemPosition()).item);
+        Engine.Preferences.groupingSeparator.putPreference(editor, separatorAdapter.getItem(separatorSpinner.getSelectedItemPosition()).item);
+        editor.apply();
+    }
+
+    private <T> int indexOf(ArrayAdapter<Named<T>> adapter, T item) {
         for (int i = 0; i < adapter.getCount(); i++) {
-            if (adapter.getItem(i).notation == notation) {
+            if (adapter.getItem(i).item.equals(item)) {
                 return i;
             }
         }
@@ -72,29 +97,23 @@ public class NumberFormatPreference extends DialogPreference {
     }
 
     @NonNull
-    private ArrayAdapter<NotationItem> makeNumberFormatAdapter() {
-        final ArrayAdapter<NotationItem> adapter = App.makeSimpleSpinnerAdapter(getContext());
-        for (Engine.Notation format : Engine.Notation.values()) {
-            adapter.add(new NotationItem(format));
+    private ArrayAdapter<Named<Engine.Notation>> makeNotationAdapter() {
+        final Context context = getContext();
+        final ArrayAdapter<Named<Engine.Notation>> adapter = App.makeSimpleSpinnerAdapter(context);
+        for (Engine.Notation notation : Engine.Notation.values()) {
+            adapter.add(Named.create(notation, notation.name, context));
         }
         adapter.sort(NaturalComparator.INSTANCE);
         return adapter;
     }
 
-    private final class NotationItem {
-        @NonNull
-        final Engine.Notation notation;
-        @NonNull
-        final String name;
-
-        private NotationItem(@NonNull Engine.Notation notation) {
-            this.notation = notation;
-            this.name = getContext().getString(notation.name);
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
+    @NonNull
+    private ArrayAdapter<Named<String>> makeSeparatorAdapter() {
+        final Context context = getContext();
+        final ArrayAdapter<Named<String>> adapter = App.makeSimpleSpinnerAdapter(context);
+        adapter.add(Named.create("", R.string.p_grouping_separator_no, context));
+        adapter.add(Named.create("'", R.string.p_grouping_separator_apostrophe, context));
+        adapter.add(Named.create(" ", R.string.p_grouping_separator_space, context));
+        return adapter;
     }
 }

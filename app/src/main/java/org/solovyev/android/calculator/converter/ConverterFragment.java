@@ -36,6 +36,7 @@ import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.Clipboard;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Named;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;

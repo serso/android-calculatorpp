@@ -152,13 +152,17 @@ public class DiscreteSeekBar extends SeekBar {
     /**
      * Set tick value
      *
-     * @param tickValue tick value in range [0, maxTick]
+     * @param tick tick value in range [0, maxTick]
      */
-    public void setTickValue(int tickValue) {
-        Check.isTrue(tickValue >= 0);
-        Check.isTrue(tickValue <= getMaxTick());
-        mCurrentTick = tickValue;
+    public void setCurrentTick(int tick) {
+        Check.isTrue(tick >= 0);
+        Check.isTrue(tick <= getMaxTick());
+        mCurrentTick = tick;
         setProgress(getProgressForTick(mCurrentTick));
+    }
+
+    public int getCurrentTick() {
+        return mCurrentTick;
     }
 
     public void setLabelColor(int color) {

@@ -124,7 +124,7 @@
     <string name="cpp_angles">Angles</string>
     <string name="cpp_radix">Radix</string>
     <string name="cpp_numeral_system">Numeral system</string>
-    <string name="cpp_number_format_simple">Simple</string>
+    <string name="cpp_number_format_dec">Decimal</string>
     <string name="cpp_number_format_eng">Engineering</string>
     <string name="cpp_number_format_sci">Scientific</string>
 </resources>

@@ -238,7 +238,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     public enum Notation {
-        simple(Real.NumberFormat.FSE_NONE, R.string.cpp_number_format_simple),
+        dec(Real.NumberFormat.FSE_NONE, R.string.cpp_number_format_dec),
         eng(Real.NumberFormat.FSE_ENG, R.string.cpp_number_format_eng),
         sci(Real.NumberFormat.FSE_SCI, R.string.cpp_number_format_sci);
 
@@ -260,6 +260,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     public static class Preferences {
+        // todo serso: move to Output
         public static final StringPreference<String> groupingSeparator = StringPreference.of("engine.groupingSeparator", String.valueOf(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT));
         public static final StringPreference<String> multiplicationSign = StringPreference.of("engine.multiplicationSign", "×");
         public static final StringPreference<NumeralBase> numeralBase = StringPreference.ofTypedValue("engine.numeralBase", "dec", EnumMapper.of(NumeralBase.class));
@@ -275,6 +276,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             preferenceKeys.add(Output.precision.getKey());
             preferenceKeys.add(Output.scientificNotation.getKey());
             preferenceKeys.add(Output.round.getKey());
+            preferenceKeys.add(Output.notation.getKey());
         }
 
         @Nonnull
@@ -284,9 +286,10 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
 
         public static class Output {
             public static final StringPreference<Integer> precision = StringPreference.ofTypedValue("engine.output.precision", "5", NumberMapper.of(Integer.class));
+            // todo serso: remove
             public static final BooleanPreference scientificNotation = BooleanPreference.of("engine.output.scientificNotation", false);
             public static final BooleanPreference round = BooleanPreference.of("engine.output.round", true);
-            public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.simple, Notation.class);
+            public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.dec, Notation.class);
         }
     }
 }
