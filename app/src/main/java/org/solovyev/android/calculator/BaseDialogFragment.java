@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +30,8 @@ public abstract class BaseDialogFragment extends DialogFragment implements View.
     protected SharedPreferences preferences;
     @Inject
     Ga ga;
+    @Inject
+    Typeface typeface;
     @Nullable
     private Button positiveButton;
     @Nullable
@@ -57,6 +60,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements View.
         if (view != null) {
             final int spacing = context.getResources().getDimensionPixelSize(R.dimen.cpp_dialog_spacing);
             b.setView(view, spacing, spacing, spacing, spacing);
+            BaseActivity.fixFonts(view, typeface);
         }
         onPrepareDialog(b);
         final AlertDialog dialog = b.create();

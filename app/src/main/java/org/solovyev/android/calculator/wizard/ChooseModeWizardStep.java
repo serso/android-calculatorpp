@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
@@ -73,7 +72,6 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
         spinner.setOnItemSelectedListener(this);
 
         button = (DirectionDragButton) root.findViewById(R.id.wizard_mode_button);
-        BaseActivity.setFont(button, typeface);
         Adjuster.adjustText(button, BaseKeyboardUi.getTextScale(getActivity()));
         description = (TextView) root.findViewById(R.id.wizard_mode_description);
         updateDescription(mode);

@@ -266,6 +266,7 @@ public class FloatingCalculatorView {
         final Preferences.SimpleTheme resolvedTheme = theme.resolveThemeFor(appTheme);
         this.context = new ContextThemeWrapper(context, resolvedTheme.light ? R.style.Cpp_Theme_Light : R.style.Cpp_Theme);
         this.root = View.inflate(this.context, theme.getOnscreenLayout(appTheme), null);
+        BaseActivity.fixFonts(this.root, typeface);
         final State persistedState = State.fromPrefs(myPreferences);
         if (persistedState != null) {
             this.state = persistedState;
@@ -357,7 +358,6 @@ public class FloatingCalculatorView {
             } else {
                 BaseKeyboardUi.adjustButton(button);
             }
-            BaseActivity.setFont(button, typeface);
         }
 
         final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

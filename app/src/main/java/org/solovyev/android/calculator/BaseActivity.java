@@ -87,7 +87,13 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 
     public static void setFont(@Nonnull View view, @Nonnull Typeface newTypeface) {
         if (view instanceof TextView) {
-            setFont((TextView) view, newTypeface);
+            final TextView textView = (TextView) view;
+            final Typeface oldTypeface = textView.getTypeface();
+            if (oldTypeface == newTypeface) {
+                return;
+            }
+            final int style = oldTypeface != null ? oldTypeface.getStyle() : Typeface.NORMAL;
+            textView.setTypeface(newTypeface, style);
         } else if (view instanceof DirectionDragImageButton) {
             ((DirectionDragImageButton) view).setTypeface(newTypeface);
         }
@@ -96,15 +102,6 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
     @Nonnull
     public Preferences.Gui.Mode getActivityMode() {
         return mode;
-    }
-
-    public static void setFont(@Nonnull TextView view, @Nonnull Typeface newTypeface) {
-        final Typeface oldTypeface = view.getTypeface();
-        if (oldTypeface == newTypeface) {
-            return;
-        }
-        final int style = oldTypeface != null ? oldTypeface.getStyle() : Typeface.NORMAL;
-        view.setTypeface(newTypeface, style);
     }
 
     public boolean restartIfModeChanged() {
@@ -162,7 +159,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
         }
         ButterKnife.bind(this, this);
 
-        fixFonts(mainView);
+        fixFonts(mainView, typeface);
         initToolbar();
         populateTabs(tabs);
         tabs.onCreate();
@@ -285,14 +282,15 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
         fab.setOnClickListener(listener);
     }
 
-    protected void fixFonts(@Nonnull View root) {
-        // some devices ship own fonts which causes issues with rendering. Let's use our own font for all text views
-        App.processViewsOfType(root, TextView.class, new App.ViewProcessor<TextView>() {
-            @Override
-            public void process(@Nonnull TextView view) {
-                setFont(view, typeface);
+    public static void fixFonts(@Nonnull View view, @Nonnull Typeface typeface) {
+        if (view instanceof ViewGroup) {
+            final ViewGroup group = (ViewGroup) view;
+            for (int index = 0; index < group.getChildCount(); index++) {
+                fixFonts(group.getChildAt(index), typeface);
             }
-        });
+        } else {
+            setFont(view, typeface);
+        }
     }
 
     @Override

@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
@@ -69,7 +70,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
         spinner.setOnItemSelectedListener(this);
 
         preview = (FrameLayout) root.findViewById(R.id.wizard_theme_preview);
-        updateImage(theme);
+        updatePreview(theme);
     }
 
     private int findPosition(@Nonnull Preferences.Gui.Theme theme) {
@@ -82,7 +83,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
         return 0;
     }
 
-    private void updateImage(@Nonnull Preferences.Gui.Theme theme) {
+    private void updatePreview(@Nonnull Preferences.Gui.Theme theme) {
         preview.removeAllViews();
         final ContextThemeWrapper context = new ContextThemeWrapper(getActivity(), theme.theme);
         LayoutInflater.from(context).inflate(R.layout.cpp_wizard_step_choose_theme_preview, preview);
@@ -90,6 +91,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
             @Override
             public void process(@Nonnull View view) {
                 BaseKeyboardUi.adjustButton(view);
+                BaseActivity.setFont(view, typeface);
             }
         });
     }
@@ -98,7 +100,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final ThemeUi theme = adapter.getItem(position);
         Preferences.Gui.theme.putPreference(preferences, theme.theme);
-        updateImage(theme.theme);
+        updatePreview(theme.theme);
     }
 
     @Override

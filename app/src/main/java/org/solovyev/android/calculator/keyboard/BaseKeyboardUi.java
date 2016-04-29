@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -46,8 +45,6 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
     protected final DirectionDragListener listener;
     @Inject
     SharedPreferences preferences;
-    @Inject
-    Typeface typeface;
     @Inject
     Keyboard keyboard;
     @Inject
@@ -133,7 +130,6 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         // we call android.view.View.performHapticFeedback(int, int) from #onClick
         button.setHapticFeedbackEnabled(false);
         button.setOnClickListener(this);
-        BaseActivity.setFont(button, typeface);
     }
 
     protected final void prepareButton(@Nullable DirectionDragImageButton button) {
