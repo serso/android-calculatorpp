@@ -83,7 +83,6 @@ public class DragButtonWizardStep extends WizardFragment {
                 return false;
             }
         });
-        BaseActivity.setFont(dragButton, typeface);
         Adjuster.adjustText(dragButton, BaseKeyboardUi.getTextScale(getActivity()));
         actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
         if (savedInstanceState != null) {

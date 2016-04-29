@@ -1,31 +1,29 @@
 package org.solovyev.android.calculator;
 
-import static android.view.Menu.NONE;
-import static org.solovyev.android.calculator.App.cast;
-
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
+import android.view.*;
 import org.solovyev.android.calculator.ads.AdUi;
 import org.solovyev.android.plotter.Check;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
+import static android.view.Menu.NONE;
+import static org.solovyev.android.calculator.App.cast;
+
 public abstract class BaseFragment extends Fragment {
 
     private final int layout;
     @Inject
     AdUi adUi;
+    @Inject
+    Typeface typeface;
 
     protected BaseFragment(@LayoutRes int layout) {
         this.layout = layout;
@@ -61,6 +59,7 @@ public abstract class BaseFragment extends Fragment {
         Bundle savedInstanceState) {
         final View view = inflater.inflate(layout, container, false);
         adUi.onCreateView(view);
+        BaseActivity.fixFonts(view, typeface);
         return view;
     }
 

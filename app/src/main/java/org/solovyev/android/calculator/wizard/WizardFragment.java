@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteFragment;
 import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteStep;
@@ -35,6 +37,8 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
     protected TextView prevButton;
     @Inject
     SharedPreferences preferences;
+    @Inject
+    Typeface typeface;
     private WizardStep step;
 
     @Override
@@ -110,6 +114,12 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
         }
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @android.support.annotation.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        BaseActivity.fixFonts(view, typeface);
     }
 
     protected final void setupNextButton(int textResId) {
