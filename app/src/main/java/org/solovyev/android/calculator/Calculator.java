@@ -102,17 +102,12 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
 
     public void evaluate() {
         final EditorState state = editor.getState();
-        evaluate(JsclOperation.numeric, state.getTextString());
+        evaluate(JsclOperation.numeric, state.getTextString(), state.sequence);
     }
 
     public void simplify() {
         final EditorState state = editor.getState();
-        evaluate(JsclOperation.simplify, state.getTextString());
-    }
-
-    public long evaluate(@Nonnull final JsclOperation operation,
-            @Nonnull final String expression) {
-        return evaluate(operation, expression, nextSequence());
+        evaluate(JsclOperation.simplify, state.getTextString(), state.sequence);
     }
 
     public long evaluate(@Nonnull final JsclOperation operation, @Nonnull final String expression,
@@ -343,5 +338,4 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     public static long nextSequence() {
         return SEQUENCER.incrementAndGet();
     }
-
 }
