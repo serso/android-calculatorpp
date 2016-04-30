@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.plot;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,10 +15,7 @@ import android.view.*;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.plotter.BasePlotterListener;
 import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.PlotIconView;
@@ -35,6 +33,8 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
 
     @Inject
     Plotter plotter;
+    @Inject
+    Typeface typeface;
     @NonNull
     private final PlotterListener plotterListener = new PlotterListener();
     private Adapter adapter;
@@ -105,6 +105,7 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
 
         private ViewHolder(@NonNull View itemView) {
             super(itemView);
+            BaseActivity.fixFonts(itemView, typeface);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);

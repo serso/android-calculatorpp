@@ -23,7 +23,7 @@ public abstract class BaseFragment extends Fragment {
     @Inject
     AdUi adUi;
     @Inject
-    Typeface typeface;
+    public Typeface typeface;
 
     protected BaseFragment(@LayoutRes int layout) {
         this.layout = layout;
