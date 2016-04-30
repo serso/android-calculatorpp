@@ -2,7 +2,6 @@ package jscl;
 
 import jscl.math.Expression;
 import jscl.math.Generic;
-import jscl.math.NotIntegerException;
 import jscl.math.function.*;
 import jscl.math.operator.Operator;
 import jscl.math.operator.Percent;
@@ -16,7 +15,6 @@ import org.solovyev.common.msg.Messages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -27,7 +25,6 @@ public class JsclMathEngine implements MathEngine {
     public static final AngleUnit DEFAULT_ANGLE_UNITS = AngleUnit.deg;
     public static final NumeralBase DEFAULT_NUMERAL_BASE = NumeralBase.dec;
     public static final char GROUPING_SEPARATOR_DEFAULT = ' ';
-    public static final int MAX_FRACTION_DIGITS = 20;
     @Nonnull
     private static JsclMathEngine instance = new JsclMathEngine();
     @Nonnull
@@ -57,14 +54,6 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     public static JsclMathEngine getInstance() {
         return instance;
-    }
-
-    private static int integerValue(final double value) throws NotIntegerException {
-        if (Math.floor(value) == value) {
-            return (int) value;
-        } else {
-            throw NotIntegerException.get();
-        }
     }
 
     @Nonnull
@@ -247,21 +236,6 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Nonnull
-    public String convert(@Nonnull Double value, @Nonnull NumeralBase to) {
-        String ungroupedValue;
-        try {
-            // check if double can be converted to integer
-            integerValue(value);
-
-            ungroupedValue = to.toString(new BigDecimal(value).toBigInteger());
-        } catch (NotIntegerException e) {
-            ungroupedValue = to.toString(value, roundResult ? precision : MAX_FRACTION_DIGITS);
-        }
-
-        return addGroupingSeparators(to, ungroupedValue);
-    }
-
-    @Nonnull
     public MessageRegistry getMessageRegistry() {
         return messageRegistry;
     }
@@ -271,32 +245,35 @@ public class JsclMathEngine implements MathEngine {
     }
 
     @Nonnull
-    public String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedDoubleValue) {
-        if (useGroupingSeparator) {
-            final String groupingSeparator = getGroupingSeparator(nb);
-
-            final int dotIndex = ungroupedDoubleValue.indexOf(".");
-
-            String ungroupedValue;
-            if (dotIndex >= 0) {
-                ungroupedValue = ungroupedDoubleValue.substring(0, dotIndex);
-            } else {
-                ungroupedValue = ungroupedDoubleValue;
-            }
-            // inject group separator in the resulted string
-            // NOTE: space symbol is always used!!!
-            StringBuilder result = insertSeparators(nb, groupingSeparator, ungroupedValue, true);
-
-            result = result.reverse();
-
-            if (dotIndex >= 0) {
-                result.append(insertSeparators(nb, groupingSeparator, ungroupedDoubleValue.substring(dotIndex), false));
-            }
-
-            return result.toString();
-        } else {
-            return ungroupedDoubleValue;
+    @Override
+    public String format(@Nonnull String value, @Nonnull NumeralBase nb) {
+        if (!useGroupingSeparator) {
+            return value;
         }
+        final int dot = value.indexOf('.');
+        if (dot >= 0) {
+            final String intPart = dot != 0 ? insertSeparators(value.substring(0, dot), nb) : "";
+            return intPart + value.substring(dot);
+        }
+        final int e = nb == NumeralBase.hex ? -1 : value.indexOf('E');
+        if (e >= 0) {
+            final String intPart = e != 0 ? insertSeparators(value.substring(0, e), nb) : "";
+            return intPart + value.substring(e);
+        }
+        return insertSeparators(value, nb);
+    }
+
+    @Nonnull
+    public String insertSeparators(@Nonnull String value, @Nonnull NumeralBase nb) {
+        final String separator = getGroupingSeparator(nb);
+        final StringBuilder result = new StringBuilder(value.length() + nb.getGroupingSize() * separator.length());
+        for (int i = value.length() - 1; i >= 0; i--) {
+            result.append(value.charAt(i));
+            if (i != 0 && (value.length() - i) % nb.getGroupingSize() == 0) {
+                result.append(separator);
+            }
+        }
+        return result.reverse().toString();
     }
 
     @Nonnull
@@ -306,32 +283,6 @@ public class JsclMathEngine implements MathEngine {
 
     private char getGroupingSeparatorChar(@Nonnull NumeralBase nb) {
         return nb == NumeralBase.dec ? groupingSeparator : ' ';
-    }
-
-    @Nonnull
-    private StringBuilder insertSeparators(@Nonnull NumeralBase nb,
-                                           @Nonnull String groupingSeparator,
-                                           @Nonnull String value,
-                                           boolean reversed) {
-        final StringBuilder result = new StringBuilder(value.length() + nb.getGroupingSize() * groupingSeparator.length());
-
-        if (reversed) {
-            for (int i = value.length() - 1; i >= 0; i--) {
-                result.append(value.charAt(i));
-                if (i != 0 && (value.length() - i) % nb.getGroupingSize() == 0) {
-                    result.append(groupingSeparator);
-                }
-            }
-        } else {
-            for (int i = 0; i < value.length(); i++) {
-                result.append(value.charAt(i));
-                if (i != 0 && i != value.length() - 1 && i % nb.getGroupingSize() == 0) {
-                    result.append(groupingSeparator);
-                }
-            }
-        }
-
-        return result;
     }
 
     public void setRoundResult(boolean roundResult) {

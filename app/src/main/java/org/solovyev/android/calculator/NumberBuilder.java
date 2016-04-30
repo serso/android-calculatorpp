@@ -26,7 +26,6 @@ import android.text.SpannableStringBuilder;
 import jscl.MathContext;
 import jscl.MathEngine;
 import jscl.NumeralBase;
-import jscl.math.numeric.Real;
 import jscl.text.DoubleParser;
 import jscl.text.JsclIntegerParser;
 import jscl.text.ParseException;
@@ -45,58 +44,21 @@ public class NumberBuilder extends BaseNumberBuilder {
     }
 
     private static int replaceNumberInText(@Nonnull SpannableStringBuilder sb,
-                                           @Nullable String number,
+                                           @Nullable String oldNumber,
                                            int trimmedChars,
                                            @Nonnull NumeralBase nb,
                                            @Nonnull final MathEngine engine) {
-        if (number == null) {
+        if (oldNumber == null) {
             return 0;
         }
         // in any case remove old number from text
-        final int oldNumberLength = number.length() + trimmedChars;
+        final int oldNumberLength = oldNumber.length() + trimmedChars;
         sb.delete(sb.length() - oldNumberLength, sb.length());
 
-        final String newNumber = formatNumber(number, nb, engine);
+        final String newNumber = engine.format(oldNumber, nb);
         sb.append(newNumber);
         // offset between old number and new number
         return newNumber.length() - oldNumberLength;
-    }
-
-    @Nonnull
-    private static String formatNumber(@Nonnull String number, @Nonnull NumeralBase nb, @Nonnull MathEngine engine) {
-        String result;
-
-        int indexOfDot = number.indexOf('.');
-
-        if (indexOfDot < 0) {
-            int indexOfE;
-            if (nb == NumeralBase.hex) {
-                indexOfE = -1;
-            } else {
-                indexOfE = number.indexOf(MathType.POWER_10);
-            }
-            if (indexOfE < 0) {
-                result = engine.addGroupingSeparators(nb, number);
-            } else {
-                final String partBeforeE;
-                if (indexOfE != 0) {
-                    partBeforeE = engine.addGroupingSeparators(nb, number.substring(0, indexOfE));
-                } else {
-                    partBeforeE = "";
-                }
-                result = partBeforeE + number.substring(indexOfE);
-            }
-        } else {
-            final String integerPart;
-            if (indexOfDot != 0) {
-                integerPart = engine.addGroupingSeparators(nb, number.substring(0, indexOfDot));
-            } else {
-                integerPart = "";
-            }
-            result = integerPart + number.substring(indexOfDot);
-        }
-
-        return result;
     }
 
     @Nonnull
@@ -112,7 +74,7 @@ public class NumberBuilder extends BaseNumberBuilder {
                 p.exceptionsPool.release(e);
                 try {
                     p.reset();
-                    return ((Real) DoubleParser.parser.parse(p, null).content()).doubleValue();
+                    return DoubleParser.parser.parse(p, null).content().doubleValue();
                 } catch (ParseException e1) {
                     p.exceptionsPool.release(e1);
                     throw new NumberFormatException();
