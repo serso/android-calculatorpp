@@ -254,8 +254,9 @@ public class History {
             // don't add empty states to empty history
             return;
         }
-        recent.add(state);
-        onRecentChanged(new AddedEvent(state, true));
+        if (recent.add(state)) {
+            onRecentChanged(new AddedEvent(state, true));
+        }
     }
 
     public void updateSaved(@Nonnull HistoryState state) {

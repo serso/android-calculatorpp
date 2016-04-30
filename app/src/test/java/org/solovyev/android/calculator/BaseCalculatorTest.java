@@ -32,7 +32,7 @@ public abstract class BaseCalculatorTest {
     }
 
     protected final void assertError(@NonNull String expression) {
-        calculator.evaluate(numeric, expression);
+        calculator.evaluate(numeric, expression, 0);
         verify(calculator.bus, atLeastOnce()).post(argThat(failed()));
     }
 
@@ -55,7 +55,7 @@ public abstract class BaseCalculatorTest {
     }
 
     protected final void assertEval(@NonNull final String expected, @NonNull final String expression, final JsclOperation operation) {
-        calculator.evaluate(operation, expression);
+        calculator.evaluate(operation, expression, 0);
         verify(calculator.bus, atLeastOnce()).post(finishedEvent(expected, expression, operation));
     }
 
