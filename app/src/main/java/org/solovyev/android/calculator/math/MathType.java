@@ -23,23 +23,20 @@
 package org.solovyev.android.calculator.math;
 
 import android.support.annotation.NonNull;
-
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+import jscl.math.function.Constants;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.ParseException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.Constants;
 
 
 public enum MathType {
@@ -224,7 +221,7 @@ public enum MathType {
     };
 
     public static final List<String> groupSymbols = Arrays.asList("()", "[]", "{}");
-    public final static Character POWER_10 = 'E';
+    public final static Character EXPONENT = 'E';
     public static final String E = "e";
     public static final String C = "c";
     public final static String NAN = "NaN";

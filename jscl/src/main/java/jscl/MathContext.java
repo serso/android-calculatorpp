@@ -51,7 +51,7 @@ public interface MathContext {
     String format(double value, @Nonnull NumeralBase nb);
 
     @Nonnull
-    String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedIntValue);
+    String format(@Nonnull String value, @Nonnull NumeralBase nb);
 
     void setNotation(int notation);
 }
