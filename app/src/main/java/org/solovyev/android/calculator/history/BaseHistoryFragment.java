@@ -24,6 +24,7 @@ package org.solovyev.android.calculator.history;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -59,6 +60,8 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     Editor editor;
     @Inject
     Bus bus;
+    @Inject
+    Typeface typeface;
     @Bind(R.id.history_recyclerview)
     RecyclerView recyclerView;
     private HistoryAdapter adapter;
@@ -151,6 +154,7 @@ public abstract class BaseHistoryFragment extends BaseFragment {
 
         public HistoryViewHolder(View view) {
             super(view);
+            BaseActivity.fixFonts(view, typeface);
             ButterKnife.bind(this, view);
             view.setOnCreateContextMenuListener(this);
             view.setOnClickListener(this);
