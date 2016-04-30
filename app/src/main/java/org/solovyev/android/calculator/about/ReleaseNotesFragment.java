@@ -41,7 +41,7 @@ public class ReleaseNotesFragment extends BaseFragment {
     TextView text;
 
     public ReleaseNotesFragment() {
-        super(R.layout.release_notes_fragment);
+        super(R.layout.fragment_release_notes);
     }
 
     @Override

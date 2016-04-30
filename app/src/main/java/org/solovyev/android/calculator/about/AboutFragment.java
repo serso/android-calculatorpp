@@ -50,7 +50,7 @@ public class AboutFragment extends BaseFragment {
     TextView translatorsView;
 
     public AboutFragment() {
-        super(R.layout.about_fragment);
+        super(R.layout.fragment_about);
     }
 
     @Override

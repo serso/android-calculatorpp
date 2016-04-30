@@ -22,16 +22,16 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     a:layout_width="match_parent"
     a:layout_height="match_parent"
-    a:orientation="vertical">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
         a:id="@+id/releasenotes_text"
         style="@style/CppText.About"
         a:layout_width="match_parent"
-        a:layout_height="match_parent"
-        a:scrollbars="vertical" />
+        a:layout_height="wrap_content" />
 
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
