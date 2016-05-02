@@ -6,6 +6,8 @@ import org.solovyev.common.NumberFormatter;
 
 import midpcalc.Real;
 
+import midpcalc.Real;
+
 import static org.junit.Assert.assertEquals;
 
 /**
