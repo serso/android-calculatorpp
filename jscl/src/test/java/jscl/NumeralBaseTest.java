@@ -77,7 +77,7 @@ public class NumeralBaseTest {
             assertEquals("11111110", me.evaluate("111001+11000101"));
             assertEquals("1101100100101111", me.evaluate("11011001001011110/10"));
             assertEquals("1001000011001010", me.evaluate("11011001001011110/11"));
-            assertEquals("0.1010101010101011", me.evaluate("10/11"));
+            assertEquals("0.101010101010101", me.evaluate("10/11"));
 
             me.setNumeralBase(NumeralBase.hex);
             assertEquals("637B", me.evaluate("56CE+CAD"));

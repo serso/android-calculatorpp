@@ -36,11 +36,11 @@ public class NumberFormatterTest {
         numberFormatter.setPrecision(NO_ROUNDING);
 
         assertEquals("1", numberFormatter.format(1d));
-        assertEquals("0.3333333333333333", numberFormatter.format(1d / 3));
+        assertEquals("0.333333333333333", numberFormatter.format(1d / 3));
         assertEquals("3.333333333333333E-19", numberFormatter.format(pow(10, -18) / 3));
         assertEquals("1.23456789E18", numberFormatter.format(123456789 * pow(10, 10)));
         assertEquals("1E-16", numberFormatter.format(pow(10, -16)));
-        assertEquals("5.9999999999999949E18", numberFormatter.format(5999999999999994999d));
+        assertEquals("5.999999999999995E18", numberFormatter.format(5999999999999994999d));
 
         testScientificFormat();
     }
@@ -68,10 +68,10 @@ public class NumberFormatterTest {
 
         assertEquals("1", numberFormatter.format(1d));
         assertEquals("0.000001", numberFormatter.format(pow(10, -6)));
-        assertEquals("0.3333333333333333", numberFormatter.format(1d / 3));
+        assertEquals("0.333333333333333", numberFormatter.format(1d / 3));
         assertEquals("3.333333333333333E-19", numberFormatter.format(pow(10, -18) / 3));
         assertEquals("1234567890000000000", numberFormatter.format(123456789 * pow(10, 10)));
-        assertEquals("0.0000000000000001", numberFormatter.format(pow(10, -16)));
+        assertEquals("1E-16", numberFormatter.format(pow(10, -16)));
         assertEquals("1E-17", numberFormatter.format(pow(10, -17)));
         assertEquals("1E-18", numberFormatter.format(pow(10, -18)));
         assertEquals("1.5E-18", numberFormatter.format(1.5 * pow(10, -18)));
@@ -102,6 +102,7 @@ public class NumberFormatterTest {
     // testing simple format with and without rounding
     private void testSimpleFormat() {
         assertEquals("0.00001", numberFormatter.format(pow(10, -5)));
+        assertEquals("0.01", numberFormatter.format(3.11 - 3.1));
 
         assertEquals("100", numberFormatter.format(pow(10, 2)));
         assertEquals("1", numberFormatter.format(BigInteger.ONE));

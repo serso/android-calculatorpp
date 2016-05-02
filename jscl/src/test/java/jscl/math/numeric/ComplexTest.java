@@ -11,8 +11,8 @@ public class ComplexTest {
 
     @Test
     public void testSmallImag() throws Exception {
-        assertEquals("1+0.0000000000000001*i", Complex.valueOf(1, 0.0000000000000001).toString());
-        assertEquals("1-0.0000000000000001*i", Complex.valueOf(1, -0.0000000000000001).toString());
+        assertEquals("1+0.000000000000001*i", Complex.valueOf(1, 0.000000000000001).toString());
+        assertEquals("1-0.000000000000001*i", Complex.valueOf(1, -0.000000000000001).toString());
     }
 
     @Test
@@ -23,7 +23,7 @@ public class ComplexTest {
             assertEquals("1.175201193643801*i", Expression.valueOf("sin(i)").numeric().toString());
             assertEquals("11013.2328747034*i", Expression.valueOf("sin(10*i)").numeric().toString());
             assertEquals("11013.23292010332", Expression.valueOf("cos(10*i)").numeric().toString());
-            assertEquals("0.4621171572600097*i", Expression.valueOf("tan(i/2)").numeric().toString());
+            assertEquals("0.46211715726001*i", Expression.valueOf("tan(i/2)").numeric().toString());
             assertEquals("-2.163953413738653*i", Expression.valueOf("cot(i/2)").numeric().toString());
         } finally {
             JsclMathEngine.getInstance().setAngleUnits(JsclMathEngine.DEFAULT_ANGLE_UNITS);

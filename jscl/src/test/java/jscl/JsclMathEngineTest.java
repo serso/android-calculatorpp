@@ -90,7 +90,7 @@ public class JsclMathEngineTest {
 
     @Test
     public void testPiComputation() throws Exception {
-        assertEquals("-1+0.0000000000000001*i", me.evaluate("exp(√(-1)*Π)"));
+        assertEquals("-1+0*i", me.evaluate("exp(√(-1)*Π)"));
     }
 
     @Test

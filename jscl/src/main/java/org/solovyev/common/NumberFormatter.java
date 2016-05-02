@@ -1,17 +1,13 @@
 package org.solovyev.common;
 
+import midpcalc.Real;
+
+import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import javax.annotation.Nonnull;
-
-import midpcalc.Real;
-
 import static java.lang.Math.pow;
-import static midpcalc.Real.NumberFormat.FSE_ENG;
-import static midpcalc.Real.NumberFormat.FSE_FIX;
-import static midpcalc.Real.NumberFormat.FSE_NONE;
-import static midpcalc.Real.NumberFormat.FSE_SCI;
+import static midpcalc.Real.NumberFormat.*;
 
 public class NumberFormatter {
 

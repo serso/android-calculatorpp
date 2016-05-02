@@ -1,17 +1,5 @@
 package jscl;
 
-import org.solovyev.common.NumberFormatter;
-import org.solovyev.common.math.MathRegistry;
-import org.solovyev.common.msg.MessageRegistry;
-import org.solovyev.common.msg.Messages;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.NotIntegerException;
@@ -27,6 +15,10 @@ import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
+import org.solovyev.common.NumberFormatter;
+import org.solovyev.common.math.MathRegistry;
+import org.solovyev.common.msg.MessageRegistry;
+import org.solovyev.common.msg.Messages;
 
 import static midpcalc.Real.NumberFormat.FSE_ENG;
 import static midpcalc.Real.NumberFormat.FSE_NONE;
@@ -177,7 +169,7 @@ public class JsclMathEngine implements MathEngine {
 
     private NumberFormatter prepareNumberFormatter(@Nonnull NumeralBase nb) {
         final NumberFormatter nf = numberFormatter.get();
-        nf.setGroupingSeparator(hasGroupingSeparator() ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
+        nf.setGroupingSeparator(hasGroupingSeparator() ? getGroupingSeparator(nb) : NumberFormatter.NO_GROUPING);
         nf.setPrecision(precision);
         switch (notation) {
             case FSE_ENG:
@@ -263,7 +255,7 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     @Override
     public String format(@Nonnull String value, @Nonnull NumeralBase nb) {
-        if (!useGroupingSeparator) {
+        if (!hasGroupingSeparator()) {
             return value;
         }
         final int dot = value.indexOf('.');
@@ -281,8 +273,8 @@ public class JsclMathEngine implements MathEngine {
 
     @Nonnull
     public String insertSeparators(@Nonnull String value, @Nonnull NumeralBase nb) {
-        final String separator = getGroupingSeparator(nb);
-        final StringBuilder result = new StringBuilder(value.length() + nb.getGroupingSize() * separator.length());
+        final char separator = getGroupingSeparator(nb);
+        final StringBuilder result = new StringBuilder(value.length() + nb.getGroupingSize());
         for (int i = value.length() - 1; i >= 0; i--) {
             result.append(value.charAt(i));
             if (i != 0 && (value.length() - i) % nb.getGroupingSize() == 0) {
@@ -296,17 +288,8 @@ public class JsclMathEngine implements MathEngine {
         return groupingSeparator != NumberFormatter.NO_GROUPING;
     }
 
-    @Nonnull
-    private String getGroupingSeparator(@Nonnull NumeralBase nb) {
-        return nb == NumeralBase.dec ? String.valueOf(groupingSeparator) : " ";
-    }
-
-    private char getGroupingSeparatorChar(@Nonnull NumeralBase nb) {
+    private char getGroupingSeparator(@Nonnull NumeralBase nb) {
         return nb == NumeralBase.dec ? groupingSeparator : ' ';
-    }
-
-    public void setRoundResult(boolean roundResult) {
-        this.roundResult = roundResult;
     }
 
     public void setPrecision(int precision) {

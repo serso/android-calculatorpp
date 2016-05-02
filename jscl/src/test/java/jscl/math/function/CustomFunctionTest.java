@@ -37,7 +37,7 @@ public class CustomFunctionTest {
         assertEquals("∞", Expression.valueOf("log(1, 10)").numeric().toString());
         assertEquals("3.321928094887363", Expression.valueOf("log(2, 10)").numeric().toString());
         assertEquals("1.430676558073393", Expression.valueOf("log(5, 10)").numeric().toString());
-        assertEquals("0.9602525677891275", Expression.valueOf("log(11, 10)").numeric().toString());
+        assertEquals("0.960252567789128", Expression.valueOf("log(11, 10)").numeric().toString());
         assertEquals("1/b*1/ln(a)", Expression.valueOf("∂(log(a, b), b)").expand().toString());
         assertEquals("-1/a*(1/ln(a))^2*ln(b)", Expression.valueOf("∂(log(a, b), a)").expand().toString());
 
@@ -133,10 +133,10 @@ public class CustomFunctionTest {
 
         final CustomFunction.Builder jBuilder4 = new CustomFunction.Builder("testFunction5", asList("a", "b"), "testFunction2(a, b/2, 2, 1) - testFunction(a, b!, 4!, 1)");
         mathEngine.getFunctionsRegistry().addOrUpdate(jBuilder4.create());
-        assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
-        assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
-        assertEquals("0.4996954135095478", Expression.valueOf("testFunction5(2*1, 3)").numeric().toString());
-        assertEquals("-0.0000000000000001", Expression.valueOf("testFunction5(2*1, 2^2-1+e^0)").numeric().toString());
+        assertEquals("0.499695413509548", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
+        assertEquals("0.499695413509548", Expression.valueOf("testFunction5(2, 3)").numeric().toString());
+        assertEquals("0.499695413509548", Expression.valueOf("testFunction5(2*1, 3)").numeric().toString());
+        assertEquals("0", Expression.valueOf("testFunction5(2*1, 2^2-1+e^0)").numeric().toString());
 
         try {
             Expression.valueOf("testFunction5(2, 3.5)").numeric();
