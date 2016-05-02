@@ -22,7 +22,9 @@
 
 package org.solovyev.android.calculator;
 
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import jscl.MathContext;
 import jscl.MathEngine;
 import jscl.NumeralBase;
@@ -31,6 +33,7 @@ import jscl.text.JsclIntegerParser;
 import jscl.text.ParseException;
 import jscl.text.Parser;
 import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.text.NumberSpan;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -55,7 +58,10 @@ public class NumberBuilder extends BaseNumberBuilder {
         final int oldNumberLength = oldNumber.length() + trimmedChars;
         sb.delete(sb.length() - oldNumberLength, sb.length());
 
-        final String newNumber = engine.format(oldNumber, nb);
+        final SpannableString newNumber = new SpannableString(engine.format(oldNumber, nb));
+        if (newNumber.length() >= 1) {
+            newNumber.setSpan(new NumberSpan(nb), 0, newNumber.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         sb.append(newNumber);
         // offset between old number and new number
         return newNumber.length() - oldNumberLength;

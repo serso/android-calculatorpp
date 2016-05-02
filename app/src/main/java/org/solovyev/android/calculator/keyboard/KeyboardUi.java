@@ -5,24 +5,22 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.view.View;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+import jscl.NumeralBase;
 import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Keyboard;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.NumeralBase;
-
 import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
-import static org.solovyev.android.views.dragbutton.DragDirection.down;
-import static org.solovyev.android.views.dragbutton.DragDirection.left;
-import static org.solovyev.android.views.dragbutton.DragDirection.up;
+import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
@@ -50,6 +48,8 @@ public class KeyboardUi extends BaseKeyboardUi {
     Engine engine;
     @Inject
     Display display;
+    @Inject
+    Bus bus;
     @Inject
     PartialKeyboardUi partialUi;
     @Bind(R.id.cpp_button_vars)
@@ -88,8 +88,8 @@ public class KeyboardUi extends BaseKeyboardUi {
         super(application);
     }
 
-    public void toggleNumericDigits() {
-        final boolean hex = numeralBase.getPreference(preferences) == NumeralBase.hex;
+    public void updateNumberMode(@Nonnull NumeralBase mode) {
+        final boolean hex = mode == NumeralBase.hex;
         button1.setShowDirectionText(left, hex);
         button2.setShowDirectionText(left, hex);
         button3.setShowDirectionText(left, hex);
@@ -146,11 +146,13 @@ public class KeyboardUi extends BaseKeyboardUi {
             hideText(functionsButton, up, down);
         }
         multiplicationButton.setText(engine.getMultiplicationSign());
-        toggleNumericDigits();
+        updateNumberMode(keyboard.getNumberMode());
+        bus.register(this);
     }
 
     @Override
     public void onDestroyView() {
+        bus.unregister(this);
         partialUi.onDestroyView();
         super.onDestroyView();
     }
@@ -158,11 +160,13 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         super.onSharedPreferenceChanged(preferences, key);
-        if (numeralBase.isSameKey(key)) {
-            toggleNumericDigits();
-        }
         if (multiplicationSign.isSameKey(key)) {
             multiplicationButton.setText(multiplicationSign.getPreference(preferences));
         }
+    }
+
+    @Subscribe
+    public void onNumberModeChanged(@Nonnull Keyboard.NumberModeChangedEvent e) {
+        updateNumberMode(e.mode);
     }
 }
