@@ -18,7 +18,7 @@ public class NumberFormatter {
     public static final char NO_GROUPING = 0;
     public static final int NO_ROUNDING = -1;
     public static final int DEFAULT_MAGNITUDE = 5;
-    public static final int MAX_PRECISION = 16;
+    public static final int MAX_PRECISION = 15;
 
     private final Real.NumberFormat numberFormat = new Real.NumberFormat();
     private final Real real = new Real();

@@ -63,9 +63,8 @@ public class NumberFormatPreference extends DialogPreference {
         ButterKnife.bind(this, view);
 
         final SharedPreferences preferences = getSharedPreferences();
-        final int maxPrecision = precisionSeekBar.getMaxTick();
-        precisionSeekBar.setMax(maxPrecision);
-        precisionSeekBar.setCurrentTick(Math.max(0, Math.min(maxPrecision, Output.precision.getPreference(preferences))));
+        precisionSeekBar.setMax(NumberFormatter.MAX_PRECISION);
+        precisionSeekBar.setCurrentTick(Math.max(0, Math.min(NumberFormatter.MAX_PRECISION, Output.precision.getPreference(preferences))));
         notationAdapter = makeNotationAdapter();
         notationSpinner.setAdapter(notationAdapter);
         notationSpinner.setSelection(indexOf(notationAdapter, Output.notation.getPreference(preferences)));
