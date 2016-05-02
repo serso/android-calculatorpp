@@ -125,15 +125,15 @@ public class History {
 
     private static boolean isIntermediate(@Nonnull String olderText,
                                           @Nonnull String newerText,
-                                          @NonNull String groupingSeparator) {
+                                          char separator) {
         if (TextUtils.isEmpty(olderText)) {
             return true;
         }
         if (TextUtils.isEmpty(newerText)) {
             return false;
         }
-        olderText = trimGroupingSeparators(olderText, groupingSeparator);
-        newerText = trimGroupingSeparators(newerText, groupingSeparator);
+        olderText = trimGroupingSeparators(olderText, separator);
+        newerText = trimGroupingSeparators(newerText, separator);
 
         final int diff = newerText.length() - olderText.length();
         if (diff >= 1) {
@@ -148,11 +148,10 @@ public class History {
     }
 
     @NonNull
-    static String trimGroupingSeparators(@NonNull String text, @NonNull String groupingSeparator) {
-        if (TextUtils.isEmpty(groupingSeparator)) {
+    static String trimGroupingSeparators(@NonNull String text, char separator) {
+        if (separator == 0) {
             return text;
         }
-        Check.isTrue(groupingSeparator.length() == 1);
         final StringBuilder sb = new StringBuilder(text.length());
         for (int i = 0; i < text.length(); i++) {
             if (i == 0 || i == text.length() - 1) {
@@ -160,7 +159,7 @@ public class History {
                 sb.append(text.charAt(i));
                 continue;
             }
-            if (Character.isDigit(text.charAt(i - 1)) && text.charAt(i) == groupingSeparator.charAt(0) && Character.isDigit(text.charAt(i + 1))) {
+            if (Character.isDigit(text.charAt(i - 1)) && text.charAt(i) == separator && Character.isDigit(text.charAt(i + 1))) {
                 // grouping separator => skip
                 continue;
             }
@@ -312,7 +311,7 @@ public class History {
 
         final List<HistoryState> result = new LinkedList<>();
 
-        final String separator = Preferences.Output.separator.getPreference(preferences);
+        final char separator = Preferences.Output.separator.getPreference(preferences);
 
         final List<HistoryState> states = recent.asList();
         final int statesCount = states.size();

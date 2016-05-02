@@ -114,15 +114,15 @@ public final class Preferences {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
                 final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
-                int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
-                final String groupingSeparator;
+                final int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
+                final char separator;
                 if (index >= 0) {
-                    groupingSeparator = MathType.grouping_separator.getTokens().get(index);
+                    separator = MathType.grouping_separator.getTokens().get(index).charAt(0);
                 } else {
-                    groupingSeparator = String.valueOf(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
+                    separator = JsclMathEngine.GROUPING_SEPARATOR_DEFAULT;
                 }
 
-                Engine.Preferences.Output.separator.putPreference(editor, groupingSeparator);
+                Engine.Preferences.Output.separator.putPreference(editor, separator);
             }
         }
 

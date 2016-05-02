@@ -20,6 +20,7 @@ import org.solovyev.android.views.DiscreteSeekBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jscl.JsclMathEngine;
 
 import static org.solovyev.android.calculator.Engine.Preferences.Output;
 
@@ -31,7 +32,7 @@ public class NumberFormatPreference extends DialogPreference {
     DiscreteSeekBar precisionSeekBar;
     @Bind(R.id.nf_separator_spinner)
     Spinner separatorSpinner;
-    ArrayAdapter<Named<String>> separatorAdapter;
+    ArrayAdapter<Named<Character>> separatorAdapter;
 
     {
         setPersistent(false);
@@ -108,12 +109,12 @@ public class NumberFormatPreference extends DialogPreference {
     }
 
     @NonNull
-    private ArrayAdapter<Named<String>> makeSeparatorAdapter() {
+    private ArrayAdapter<Named<Character>> makeSeparatorAdapter() {
         final Context context = getContext();
-        final ArrayAdapter<Named<String>> adapter = App.makeSimpleSpinnerAdapter(context);
-        adapter.add(Named.create("", R.string.p_grouping_separator_no, context));
-        adapter.add(Named.create("'", R.string.p_grouping_separator_apostrophe, context));
-        adapter.add(Named.create(" ", R.string.p_grouping_separator_space, context));
+        final ArrayAdapter<Named<Character>> adapter = App.makeSimpleSpinnerAdapter(context);
+        adapter.add(Named.create(JsclMathEngine.GROUPING_SEPARATOR_NO, R.string.p_grouping_separator_no, context));
+        adapter.add(Named.create('\'', R.string.p_grouping_separator_apostrophe, context));
+        adapter.add(Named.create(' ', R.string.p_grouping_separator_space, context));
         return adapter;
     }
 }

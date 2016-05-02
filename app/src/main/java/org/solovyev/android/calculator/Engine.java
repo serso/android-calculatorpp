@@ -33,6 +33,7 @@ import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.operators.OperatorsRegistry;
 import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
 import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.CharacterPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
@@ -93,7 +94,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         this.mathEngine = mathEngine;
 
         this.mathEngine.setRoundResult(true);
-        this.mathEngine.setUseGroupingSeparator(true);
+        this.mathEngine.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
     }
 
     private static void migratePreference(@Nonnull SharedPreferences preferences, @Nonnull BooleanPreference preference, @Nonnull String oldKey, @Nonnull SharedPreferences.Editor editor) {
@@ -109,6 +110,15 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         }
         editor.putString(preference.getKey(), preferences.getString(oldKey, null));
     }
+
+    private static void migratePreference(@Nonnull SharedPreferences preferences, @Nonnull CharacterPreference preference, @Nonnull String oldKey, @Nonnull SharedPreferences.Editor editor) {
+        if (!preferences.contains(oldKey)) {
+            return;
+        }
+        final String s = preferences.getString(oldKey, null);
+        editor.putInt(preference.getKey(), TextUtils.isEmpty(s) ? 0 : s.charAt(0));
+    }
+
 
     public static boolean isValidName(@Nullable String name) {
         if (!TextUtils.isEmpty(name)) {
@@ -212,14 +222,8 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         mathEngine.setPrecision(Preferences.Output.precision.getPreference(preferences));
         mathEngine.setScienceNotation(Preferences.Output.scientificNotation.getPreference(preferences));
         mathEngine.setRoundResult(Preferences.Output.round.getPreference(preferences));
+        mathEngine.setGroupingSeparator(Preferences.Output.separator.getPreference(preferences));
 
-        final String groupingSeparator = Preferences.Output.separator.getPreference(preferences);
-        if (TextUtils.isEmpty(groupingSeparator)) {
-            mathEngine.setUseGroupingSeparator(false);
-        } else {
-            mathEngine.setUseGroupingSeparator(true);
-            mathEngine.setGroupingSeparator(groupingSeparator.charAt(0));
-        }
         bus.post(ChangedEvent.INSTANCE);
     }
 
@@ -290,7 +294,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             public static final BooleanPreference scientificNotation = BooleanPreference.of("engine.output.scientificNotation", false);
             public static final BooleanPreference round = BooleanPreference.of("engine.output.round", true);
             public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.dec, Notation.class);
-            public static final StringPreference<String> separator = StringPreference.of("engine.output.separator", String.valueOf(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT));
+            public static final CharacterPreference separator = CharacterPreference.of("engine.output.separator", JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
 
         }
     }

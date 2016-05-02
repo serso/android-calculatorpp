@@ -1,32 +1,42 @@
 package jscl;
 
-import jscl.math.Expression;
-import jscl.math.Generic;
-import jscl.math.NotIntegerException;
-import jscl.math.function.*;
-import jscl.math.operator.Operator;
-import jscl.math.operator.Percent;
-import jscl.math.operator.Rand;
-import jscl.math.operator.matrix.OperatorsRegistry;
-import jscl.text.ParseException;
 import org.solovyev.common.NumberFormatter;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.Messages;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
-import static midpcalc.Real.NumberFormat.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.Expression;
+import jscl.math.Generic;
+import jscl.math.NotIntegerException;
+import jscl.math.function.Constants;
+import jscl.math.function.ConstantsRegistry;
+import jscl.math.function.Function;
+import jscl.math.function.FunctionsRegistry;
+import jscl.math.function.IConstant;
+import jscl.math.function.PostfixFunctionsRegistry;
+import jscl.math.operator.Operator;
+import jscl.math.operator.Percent;
+import jscl.math.operator.Rand;
+import jscl.math.operator.matrix.OperatorsRegistry;
+import jscl.text.ParseException;
+
+import static midpcalc.Real.NumberFormat.FSE_ENG;
+import static midpcalc.Real.NumberFormat.FSE_NONE;
+import static midpcalc.Real.NumberFormat.FSE_SCI;
 
 public class JsclMathEngine implements MathEngine {
 
     public static final AngleUnit DEFAULT_ANGLE_UNITS = AngleUnit.deg;
     public static final NumeralBase DEFAULT_NUMERAL_BASE = NumeralBase.dec;
     public static final char GROUPING_SEPARATOR_DEFAULT = ' ';
+    public static final char GROUPING_SEPARATOR_NO = 0;
     public static final int MAX_FRACTION_DIGITS = 20;
     @Nonnull
     private static JsclMathEngine instance = new JsclMathEngine();
@@ -39,11 +49,10 @@ public class JsclMathEngine implements MathEngine {
             return new NumberFormatter();
         }
     };
-    private char groupingSeparator = GROUPING_SEPARATOR_DEFAULT;
+    private char groupingSeparator = GROUPING_SEPARATOR_NO;
     private boolean roundResult = false;
     private int numberFormat = FSE_NONE;
     private int precision = 5;
-    private boolean useGroupingSeparator = false;
     @Nonnull
     private AngleUnit angleUnits = DEFAULT_ANGLE_UNITS;
     @Nonnull
@@ -172,7 +181,7 @@ public class JsclMathEngine implements MathEngine {
 
     private NumberFormatter prepareNumberFormatter(@Nonnull NumeralBase nb) {
         final NumberFormatter nf = numberFormatter.get();
-        nf.setGroupingSeparator(useGroupingSeparator ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
+        nf.setGroupingSeparator(hasGroupingSeparator() ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
         nf.setPrecision(roundResult ? precision : NumberFormatter.NO_ROUNDING);
         switch (numberFormat) {
             case FSE_ENG:
@@ -272,7 +281,7 @@ public class JsclMathEngine implements MathEngine {
 
     @Nonnull
     public String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedDoubleValue) {
-        if (useGroupingSeparator) {
+        if (hasGroupingSeparator()) {
             final String groupingSeparator = getGroupingSeparator(nb);
 
             final int dotIndex = ungroupedDoubleValue.indexOf(".");
@@ -297,6 +306,10 @@ public class JsclMathEngine implements MathEngine {
         } else {
             return ungroupedDoubleValue;
         }
+    }
+
+    private boolean hasGroupingSeparator() {
+        return groupingSeparator != JsclMathEngine.GROUPING_SEPARATOR_NO;
     }
 
     @Nonnull
@@ -342,10 +355,6 @@ public class JsclMathEngine implements MathEngine {
         this.precision = precision;
     }
 
-    public void setUseGroupingSeparator(boolean useGroupingSeparator) {
-        this.useGroupingSeparator = useGroupingSeparator;
-    }
-
     public void setScienceNotation(boolean scienceNotation) {
         setNumberFormat(scienceNotation ? FSE_SCI : FSE_NONE);
     }
@@ -361,7 +370,7 @@ public class JsclMathEngine implements MathEngine {
         return this.groupingSeparator;
     }
 
-    public void setGroupingSeparator(char groupingSeparator) {
-        this.groupingSeparator = groupingSeparator;
+    public void setGroupingSeparator(char separator) {
+        this.groupingSeparator = separator;
     }
 }

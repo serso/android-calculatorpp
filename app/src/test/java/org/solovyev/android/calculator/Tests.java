@@ -23,7 +23,6 @@ public class Tests {
     @NonNull
     public static Engine makeEngine() {
         final JsclMathEngine mathEngine = JsclMathEngine.getInstance();
-        mathEngine.setUseGroupingSeparator(true);
         mathEngine.setGroupingSeparator(' ');
         final Engine engine = new Engine(mathEngine);
         engine.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine);

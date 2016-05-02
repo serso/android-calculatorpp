@@ -1,8 +1,9 @@
 package jscl;
 
-import midpcalc.Real;
 import org.junit.Before;
 import org.junit.Test;
+
+import midpcalc.Real;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,7 +24,7 @@ public class JsclMathEngineTest {
     @Test
     public void testFormat() throws Exception {
         try {
-            me.setUseGroupingSeparator(true);
+            me.setGroupingSeparator(' ');
             assertEquals("1", me.format(1d, NumeralBase.bin));
             assertEquals("10", me.format(2d, NumeralBase.bin));
             assertEquals("11", me.format(3d, NumeralBase.bin));
@@ -60,7 +61,7 @@ public class JsclMathEngineTest {
             assertEquals("6.CCDA6A054226DB6E-19", me.format(0.00000000000000000000009d, NumeralBase.hex));
             assertEquals("A.E15D766ED03E2BEE-20", me.format(0.000000000000000000000009d, NumeralBase.hex));
         } finally {
-            me.setUseGroupingSeparator(false);
+            me.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_NO);
         }
 
         assertEquals("1", me.format(1d, NumeralBase.bin));
@@ -93,7 +94,6 @@ public class JsclMathEngineTest {
     @Test
     public void testBinShouldAlwaysUseSpaceAsGroupingSeparator() throws Exception {
         me.setGroupingSeparator('\'');
-        me.setUseGroupingSeparator(true);
 
         assertEquals("100 0000 0000", me.format(1024d, NumeralBase.bin));
     }
@@ -101,7 +101,6 @@ public class JsclMathEngineTest {
     @Test
     public void testHexShouldAlwaysUseSpaceAsGroupingSeparator() throws Exception {
         me.setGroupingSeparator('\'');
-        me.setUseGroupingSeparator(true);
 
         assertEquals("4 00", me.format(1024d, NumeralBase.hex));
     }

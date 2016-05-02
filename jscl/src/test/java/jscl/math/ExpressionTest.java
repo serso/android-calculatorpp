@@ -1,17 +1,7 @@
 package jscl.math;
 
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.Constant;
-import jscl.math.function.ExtendedConstant;
-import jscl.math.function.IConstant;
-import jscl.text.ParseException;
 import org.junit.Test;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,7 +10,21 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.function.Constant;
+import jscl.math.function.ExtendedConstant;
+import jscl.math.function.IConstant;
+import jscl.text.ParseException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class ExpressionTest {
 
@@ -786,7 +790,7 @@ public class ExpressionTest {
     public void testFormat() throws Exception {
         final JsclMathEngine me = JsclMathEngine.getInstance();
         try {
-            me.setUseGroupingSeparator(true);
+            me.setGroupingSeparator(' ');
             assertEquals("123 456.7891011", Expression.valueOf("123456.7891011").numeric().toString());
             assertEquals("123 456.7891011", Expression.valueOf("123456.7891011").simplify().toString());
             assertEquals("123 456.7891011123", Expression.valueOf("123456.7891011123123123123123").simplify().toString());
@@ -831,7 +835,7 @@ public class ExpressionTest {
             assertEquals("0.3333333333", Expression.valueOf("1/3").numeric().toString());
 
         } finally {
-            me.setUseGroupingSeparator(false);
+            me.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_NO);
             me.setScienceNotation(false);
             me.setRoundResult(false);
         }
