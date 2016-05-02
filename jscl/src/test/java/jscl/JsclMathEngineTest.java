@@ -2,6 +2,7 @@ package jscl;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.solovyev.common.NumberFormatter;
 
 import midpcalc.Real;
 
@@ -39,7 +40,6 @@ public class JsclMathEngineTest {
             assertEquals("1 0100", me.format(20d, NumeralBase.bin));
             assertEquals("1 1111", me.format(31d, NumeralBase.bin));
 
-            me.setRoundResult(true);
             me.setPrecision(10);
 
             assertEquals("111 1111 0011 0110", me.format(32566d, NumeralBase.bin));
@@ -57,11 +57,11 @@ public class JsclMathEngineTest {
             assertEquals("D 25 0F 77 0A.6F7319", me.format(56456345354.43534534523459999d, NumeralBase.hex));
             assertEquals("3 E7.4CCCCCCCCD", me.format(999.3d, NumeralBase.hex));
 
-            me.setRoundResult(false);
+            me.setPrecision(NumberFormatter.MAX_PRECISION);
             assertEquals("6.CCDA6A054226DB6E-19", me.format(0.00000000000000000000009d, NumeralBase.hex));
             assertEquals("A.E15D766ED03E2BEE-20", me.format(0.000000000000000000000009d, NumeralBase.hex));
         } finally {
-            me.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_NO);
+            me.setGroupingSeparator(NumberFormatter.NO_GROUPING);
         }
 
         assertEquals("1", me.format(1d, NumeralBase.bin));
@@ -108,7 +108,6 @@ public class JsclMathEngineTest {
     @Test
     public void testEngineeringNotationWithRounding() throws Exception {
         me.setNotation(Real.NumberFormat.FSE_ENG);
-        me.setRoundResult(true);
         me.setPrecision(5);
 
         assertEquals("10E6", me.format(10000000d));
@@ -164,7 +163,7 @@ public class JsclMathEngineTest {
     @Test
     public void testEngineeringNotationWithoutRounding() throws Exception {
         me.setNotation(Real.NumberFormat.FSE_ENG);
-        me.setRoundResult(false);
+        me.setPrecision(NumberFormatter.MAX_PRECISION);
 
         assertEquals("10E6", me.format(10000000d));
         assertEquals("99E6", me.format(99000000d));

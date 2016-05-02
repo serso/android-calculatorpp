@@ -1,6 +1,7 @@
 package jscl.math;
 
 import org.junit.Test;
+import org.solovyev.common.NumberFormatter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -804,20 +805,17 @@ public class ExpressionTest {
             assertEquals("100", Expression.valueOf("100.0").simplify().toString());
 
             me.setNotation(Real.NumberFormat.FSE_NONE);
-            me.setRoundResult(true);
             me.setPrecision(5);
             assertEquals("0", Expression.valueOf("1222/(10^9)").numeric().toString());
 
             me.setNotation(Real.NumberFormat.FSE_SCI);
-            me.setRoundResult(true);
             me.setPrecision(5);
             assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
 
-            me.setRoundResult(true);
             me.setPrecision(10);
             assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
 
-            me.setRoundResult(false);
+            me.setPrecision(NumberFormatter.MAX_PRECISION);
             assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
 
             me.setNotation(Real.NumberFormat.FSE_NONE);
@@ -826,19 +824,17 @@ public class ExpressionTest {
             me.setNotation(Real.NumberFormat.FSE_SCI);
             assertEquals("0.3333333333333333", Expression.valueOf("1/3").numeric().toString());
 
-            me.setRoundResult(true);
             me.setPrecision(10);
             assertEquals("0.3333333333", Expression.valueOf("1/3").numeric().toString());
 
             me.setNotation(Real.NumberFormat.FSE_NONE);
-            me.setRoundResult(true);
             me.setPrecision(10);
             assertEquals("0.3333333333", Expression.valueOf("1/3").numeric().toString());
 
         } finally {
-            me.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_NO);
+            me.setGroupingSeparator(NumberFormatter.NO_GROUPING);
             me.setNotation(Real.NumberFormat.FSE_NONE);
-            me.setRoundResult(false);
+            me.setPrecision(NumberFormatter.MAX_PRECISION);
         }
     }
 }

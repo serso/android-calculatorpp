@@ -1,17 +1,21 @@
 package org.solovyev.common;
 
-import midpcalc.Real;
-
-import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import javax.annotation.Nonnull;
+
+import midpcalc.Real;
+
 import static java.lang.Math.pow;
-import static midpcalc.Real.NumberFormat.*;
+import static midpcalc.Real.NumberFormat.FSE_ENG;
+import static midpcalc.Real.NumberFormat.FSE_FIX;
+import static midpcalc.Real.NumberFormat.FSE_NONE;
+import static midpcalc.Real.NumberFormat.FSE_SCI;
 
 public class NumberFormatter {
 
-    public static final int NO_GROUPING = 0;
+    public static final char NO_GROUPING = 0;
     public static final int NO_ROUNDING = -1;
     public static final int DEFAULT_MAGNITUDE = 5;
     public static final int MAX_PRECISION = 16;
@@ -94,7 +98,6 @@ public class NumberFormatter {
         final BigInteger absValue = value.abs();
         final boolean simpleFormat = useSimpleFormat(radix, absValue);
 
-        final int effectivePrecision = precision == NO_ROUNDING ? MAX_PRECISION : precision;
         if (simpleFormat) {
             numberFormat.fse = FSE_FIX;
         } else if (format == FSE_NONE) {
@@ -105,7 +108,7 @@ public class NumberFormatter {
             numberFormat.fse = format;
         }
         numberFormat.thousand = groupingSeparator;
-        numberFormat.precision = effectivePrecision;
+        numberFormat.precision = Math.max(0, Math.min(precision, MAX_PRECISION));
         numberFormat.base = radix;
         numberFormat.maxwidth = simpleFormat ? 100 : 30;
 

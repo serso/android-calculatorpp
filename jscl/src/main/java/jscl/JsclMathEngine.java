@@ -36,8 +36,6 @@ public class JsclMathEngine implements MathEngine {
     public static final AngleUnit DEFAULT_ANGLE_UNITS = AngleUnit.deg;
     public static final NumeralBase DEFAULT_NUMERAL_BASE = NumeralBase.dec;
     public static final char GROUPING_SEPARATOR_DEFAULT = ' ';
-    public static final char GROUPING_SEPARATOR_NO = 0;
-    public static final int MAX_FRACTION_DIGITS = 20;
     @Nonnull
     private static JsclMathEngine instance = new JsclMathEngine();
     @Nonnull
@@ -49,10 +47,9 @@ public class JsclMathEngine implements MathEngine {
             return new NumberFormatter();
         }
     };
-    private char groupingSeparator = GROUPING_SEPARATOR_NO;
-    private boolean roundResult = false;
+    private char groupingSeparator = NumberFormatter.NO_GROUPING;
     private int notation = FSE_NONE;
-    private int precision = 5;
+    private int precision = NumberFormatter.MAX_PRECISION;
     @Nonnull
     private AngleUnit angleUnits = DEFAULT_ANGLE_UNITS;
     @Nonnull
@@ -182,7 +179,7 @@ public class JsclMathEngine implements MathEngine {
     private NumberFormatter prepareNumberFormatter(@Nonnull NumeralBase nb) {
         final NumberFormatter nf = numberFormatter.get();
         nf.setGroupingSeparator(hasGroupingSeparator() ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
-        nf.setPrecision(roundResult ? precision : NumberFormatter.NO_ROUNDING);
+        nf.setPrecision(precision);
         switch (notation) {
             case FSE_ENG:
                 nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
@@ -264,7 +261,7 @@ public class JsclMathEngine implements MathEngine {
 
             ungroupedValue = to.toString(new BigDecimal(value).toBigInteger());
         } catch (NotIntegerException e) {
-            ungroupedValue = to.toString(value, roundResult ? precision : MAX_FRACTION_DIGITS);
+            ungroupedValue = to.toString(value, precision);
         }
 
         return addGroupingSeparators(to, ungroupedValue);
@@ -309,7 +306,7 @@ public class JsclMathEngine implements MathEngine {
     }
 
     private boolean hasGroupingSeparator() {
-        return groupingSeparator != JsclMathEngine.GROUPING_SEPARATOR_NO;
+        return groupingSeparator != NumberFormatter.NO_GROUPING;
     }
 
     @Nonnull
@@ -345,10 +342,6 @@ public class JsclMathEngine implements MathEngine {
         }
 
         return result;
-    }
-
-    public void setRoundResult(boolean roundResult) {
-        this.roundResult = roundResult;
     }
 
     public void setPrecision(int precision) {

@@ -37,6 +37,7 @@ import org.solovyev.android.prefs.CharacterPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.common.NumberFormatter;
 import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 
@@ -93,7 +94,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     public Engine(@Nonnull JsclMathEngine mathEngine) {
         this.mathEngine = mathEngine;
 
-        this.mathEngine.setRoundResult(true);
+        this.mathEngine.setPrecision(5);
         this.mathEngine.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
     }
 
@@ -193,12 +194,23 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
                 final boolean scientific = preferences.getBoolean("engine.output.science_notation", false);
                 Preferences.Output.notation.putPreference(editor, scientific ? Notation.sci : Notation.dec);
             }
-            migratePreference(preferences, Preferences.Output.round, "org.solovyev.android.calculator.CalculatorModel_round_result", editor);
+            if (preferences.contains("org.solovyev.android.calculator.CalculatorModel_round_result")) {
+                final boolean round = preferences.getBoolean("org.solovyev.android.calculator.CalculatorModel_round_result", true);
+                if (!round) {
+                    Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
+                }
+            }
         } else if (oldVersion == 1) {
             migratePreference(preferences, Preferences.Output.separator, "engine.groupingSeparator", editor);
             if (preferences.contains("engine.output.scientificNotation")) {
                 final boolean scientific = preferences.getBoolean("engine.output.scientificNotation", false);
                 Preferences.Output.notation.putPreference(editor, scientific ? Notation.sci : Notation.dec);
+            }
+            if (preferences.contains("engine.output.round")) {
+                final boolean round = preferences.getBoolean("engine.output.round", true);
+                if (!round) {
+                    Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
+                }
             }
         }
         Preferences.version.putDefault(editor);
@@ -228,7 +240,6 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
 
         mathEngine.setPrecision(Preferences.Output.precision.getPreference(preferences));
         mathEngine.setNotation(Preferences.Output.notation.getPreference(preferences).id);
-        mathEngine.setRoundResult(Preferences.Output.round.getPreference(preferences));
         mathEngine.setGroupingSeparator(Preferences.Output.separator.getPreference(preferences));
 
         bus.post(ChangedEvent.INSTANCE);
@@ -284,7 +295,6 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             preferenceKeys.add(numeralBase.getKey());
             preferenceKeys.add(angleUnit.getKey());
             preferenceKeys.add(Output.precision.getKey());
-            preferenceKeys.add(Output.round.getKey());
             preferenceKeys.add(Output.notation.getKey());
             preferenceKeys.add(Output.separator.getKey());
         }
@@ -296,7 +306,6 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
 
         public static class Output {
             public static final StringPreference<Integer> precision = StringPreference.ofTypedValue("engine.output.precision", "5", NumberMapper.of(Integer.class));
-            public static final BooleanPreference round = BooleanPreference.of("engine.output.round", true);
             public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.dec, Notation.class);
             public static final CharacterPreference separator = CharacterPreference.of("engine.output.separator", JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
         }

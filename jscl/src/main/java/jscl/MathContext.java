@@ -38,8 +38,6 @@ public interface MathContext {
 
     void setNumeralBase(@Nonnull NumeralBase numeralBase);
 
-    void setRoundResult(boolean roundResult);
-
     void setPrecision(int precision);
 
     void setGroupingSeparator(char separator);
