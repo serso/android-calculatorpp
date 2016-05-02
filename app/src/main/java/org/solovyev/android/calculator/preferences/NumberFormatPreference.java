@@ -21,7 +21,6 @@ import org.solovyev.common.NumberFormatter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jscl.JsclMathEngine;
 
 import static org.solovyev.android.calculator.Engine.Preferences.Output;
 
