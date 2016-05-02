@@ -71,7 +71,7 @@ public class NumberFormatPreference extends DialogPreference {
 
         separatorAdapter = makeSeparatorAdapter();
         separatorSpinner.setAdapter(separatorAdapter);
-        separatorSpinner.setSelection(indexOf(separatorAdapter, Engine.Preferences.groupingSeparator.getPreference(preferences)));
+        separatorSpinner.setSelection(indexOf(separatorAdapter, Output.separator.getPreference(preferences)));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class NumberFormatPreference extends DialogPreference {
         final SharedPreferences.Editor editor = getSharedPreferences().edit();
         Output.precision.putPreference(editor, precisionSeekBar.getCurrentTick());
         Output.notation.putPreference(editor, notationAdapter.getItem(notationSpinner.getSelectedItemPosition()).item);
-        Engine.Preferences.groupingSeparator.putPreference(editor, separatorAdapter.getItem(separatorSpinner.getSelectedItemPosition()).item);
+        Output.separator.putPreference(editor, separatorAdapter.getItem(separatorSpinner.getSelectedItemPosition()).item);
         editor.apply();
     }
 

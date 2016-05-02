@@ -174,13 +174,15 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         }
         final SharedPreferences.Editor editor = preferences.edit();
         if (oldVersion == 0) {
-            migratePreference(preferences, Preferences.groupingSeparator, "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator", editor);
+            migratePreference(preferences, Preferences.Output.separator, "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator", editor);
             migratePreference(preferences, Preferences.multiplicationSign, "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign", editor);
             migratePreference(preferences, Preferences.numeralBase, "org.solovyev.android.calculator.CalculatorActivity_numeral_bases", editor);
             migratePreference(preferences, Preferences.angleUnit, "org.solovyev.android.calculator.CalculatorActivity_angle_units", editor);
             migratePreference(preferences, Preferences.Output.precision, "org.solovyev.android.calculator.CalculatorModel_result_precision", editor);
             migratePreference(preferences, Preferences.Output.scientificNotation, "calculation.output.science_notation", editor);
             migratePreference(preferences, Preferences.Output.round, "org.solovyev.android.calculator.CalculatorModel_round_result", editor);
+        } else if (oldVersion == 1) {
+            migratePreference(preferences, Preferences.Output.separator, "engine.groupingSeparator", editor);
         }
         Preferences.version.putDefault(editor);
         editor.apply();
@@ -211,7 +213,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         mathEngine.setScienceNotation(Preferences.Output.scientificNotation.getPreference(preferences));
         mathEngine.setRoundResult(Preferences.Output.round.getPreference(preferences));
 
-        final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
+        final String groupingSeparator = Preferences.Output.separator.getPreference(preferences);
         if (TextUtils.isEmpty(groupingSeparator)) {
             mathEngine.setUseGroupingSeparator(false);
         } else {
@@ -260,16 +262,13 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     public static class Preferences {
-        // todo serso: move to Output
-        public static final StringPreference<String> groupingSeparator = StringPreference.of("engine.groupingSeparator", String.valueOf(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT));
         public static final StringPreference<String> multiplicationSign = StringPreference.of("engine.multiplicationSign", "×");
         public static final StringPreference<NumeralBase> numeralBase = StringPreference.ofTypedValue("engine.numeralBase", "dec", EnumMapper.of(NumeralBase.class));
         public static final StringPreference<AngleUnit> angleUnit = StringPreference.ofTypedValue("engine.angleUnit", "deg", EnumMapper.of(AngleUnit.class));
-        public static final Preference<Integer> version = IntegerPreference.of("engine.version", 1);
+        public static final Preference<Integer> version = IntegerPreference.of("engine.version", 2);
         private static final List<String> preferenceKeys = new ArrayList<>();
 
         static {
-            preferenceKeys.add(groupingSeparator.getKey());
             preferenceKeys.add(multiplicationSign.getKey());
             preferenceKeys.add(numeralBase.getKey());
             preferenceKeys.add(angleUnit.getKey());
@@ -277,6 +276,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             preferenceKeys.add(Output.scientificNotation.getKey());
             preferenceKeys.add(Output.round.getKey());
             preferenceKeys.add(Output.notation.getKey());
+            preferenceKeys.add(Output.separator.getKey());
         }
 
         @Nonnull
@@ -290,6 +290,8 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             public static final BooleanPreference scientificNotation = BooleanPreference.of("engine.output.scientificNotation", false);
             public static final BooleanPreference round = BooleanPreference.of("engine.output.round", true);
             public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.dec, Notation.class);
+            public static final StringPreference<String> separator = StringPreference.of("engine.output.separator", String.valueOf(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT));
+
         }
     }
 }
