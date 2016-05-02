@@ -21,6 +21,7 @@ import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
 import jscl.text.ParseException;
+import midpcalc.Real;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -797,17 +798,17 @@ public class ExpressionTest {
             assertEquals("0.000001222", Expression.valueOf("1222/(10^9)").numeric().toString());
             assertEquals("12 345", JsclInteger.valueOf(12345L).toString());
 
-            me.setScienceNotation(true);
+            me.setNotation(Real.NumberFormat.FSE_SCI);
             assertEquals("0", Expression.valueOf("0.0").simplify().toString());
             assertEquals("1", Expression.valueOf("1.0").simplify().toString());
             assertEquals("100", Expression.valueOf("100.0").simplify().toString());
 
-            me.setScienceNotation(false);
+            me.setNotation(Real.NumberFormat.FSE_NONE);
             me.setRoundResult(true);
             me.setPrecision(5);
             assertEquals("0", Expression.valueOf("1222/(10^9)").numeric().toString());
 
-            me.setScienceNotation(true);
+            me.setNotation(Real.NumberFormat.FSE_SCI);
             me.setRoundResult(true);
             me.setPrecision(5);
             assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
@@ -819,24 +820,24 @@ public class ExpressionTest {
             me.setRoundResult(false);
             assertEquals("1.222E-6", Expression.valueOf("1222/(10^9)").numeric().toString());
 
-            me.setScienceNotation(false);
+            me.setNotation(Real.NumberFormat.FSE_NONE);
             assertEquals("0.3333333333333333", Expression.valueOf("1/3").numeric().toString());
 
-            me.setScienceNotation(true);
+            me.setNotation(Real.NumberFormat.FSE_SCI);
             assertEquals("0.3333333333333333", Expression.valueOf("1/3").numeric().toString());
 
             me.setRoundResult(true);
             me.setPrecision(10);
             assertEquals("0.3333333333", Expression.valueOf("1/3").numeric().toString());
 
-            me.setScienceNotation(false);
+            me.setNotation(Real.NumberFormat.FSE_NONE);
             me.setRoundResult(true);
             me.setPrecision(10);
             assertEquals("0.3333333333", Expression.valueOf("1/3").numeric().toString());
 
         } finally {
             me.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_NO);
-            me.setScienceNotation(false);
+            me.setNotation(Real.NumberFormat.FSE_NONE);
             me.setRoundResult(false);
         }
     }

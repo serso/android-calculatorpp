@@ -55,5 +55,5 @@ public interface MathContext {
     @Nonnull
     String addGroupingSeparators(@Nonnull NumeralBase nb, @Nonnull String ungroupedIntValue);
 
-    void setScienceNotation(boolean scienceNotation);
+    void setNotation(int notation);
 }

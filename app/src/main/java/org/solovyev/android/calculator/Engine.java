@@ -189,10 +189,17 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             migratePreference(preferences, Preferences.numeralBase, "org.solovyev.android.calculator.CalculatorActivity_numeral_bases", editor);
             migratePreference(preferences, Preferences.angleUnit, "org.solovyev.android.calculator.CalculatorActivity_angle_units", editor);
             migratePreference(preferences, Preferences.Output.precision, "org.solovyev.android.calculator.CalculatorModel_result_precision", editor);
-            migratePreference(preferences, Preferences.Output.scientificNotation, "calculation.output.science_notation", editor);
+            if (preferences.contains("engine.output.science_notation")) {
+                final boolean scientific = preferences.getBoolean("engine.output.science_notation", false);
+                Preferences.Output.notation.putPreference(editor, scientific ? Notation.sci : Notation.dec);
+            }
             migratePreference(preferences, Preferences.Output.round, "org.solovyev.android.calculator.CalculatorModel_round_result", editor);
         } else if (oldVersion == 1) {
             migratePreference(preferences, Preferences.Output.separator, "engine.groupingSeparator", editor);
+            if (preferences.contains("engine.output.scientificNotation")) {
+                final boolean scientific = preferences.getBoolean("engine.output.scientificNotation", false);
+                Preferences.Output.notation.putPreference(editor, scientific ? Notation.sci : Notation.dec);
+            }
         }
         Preferences.version.putDefault(editor);
         editor.apply();
@@ -220,7 +227,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
 
         mathEngine.setPrecision(Preferences.Output.precision.getPreference(preferences));
-        mathEngine.setScienceNotation(Preferences.Output.scientificNotation.getPreference(preferences));
+        mathEngine.setNotation(Preferences.Output.notation.getPreference(preferences).id);
         mathEngine.setRoundResult(Preferences.Output.round.getPreference(preferences));
         mathEngine.setGroupingSeparator(Preferences.Output.separator.getPreference(preferences));
 
@@ -277,7 +284,6 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             preferenceKeys.add(numeralBase.getKey());
             preferenceKeys.add(angleUnit.getKey());
             preferenceKeys.add(Output.precision.getKey());
-            preferenceKeys.add(Output.scientificNotation.getKey());
             preferenceKeys.add(Output.round.getKey());
             preferenceKeys.add(Output.notation.getKey());
             preferenceKeys.add(Output.separator.getKey());
@@ -290,12 +296,9 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
 
         public static class Output {
             public static final StringPreference<Integer> precision = StringPreference.ofTypedValue("engine.output.precision", "5", NumberMapper.of(Integer.class));
-            // todo serso: remove
-            public static final BooleanPreference scientificNotation = BooleanPreference.of("engine.output.scientificNotation", false);
             public static final BooleanPreference round = BooleanPreference.of("engine.output.round", true);
             public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.dec, Notation.class);
             public static final CharacterPreference separator = CharacterPreference.of("engine.output.separator", JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
-
         }
     }
 }

@@ -51,7 +51,7 @@ public class JsclMathEngine implements MathEngine {
     };
     private char groupingSeparator = GROUPING_SEPARATOR_NO;
     private boolean roundResult = false;
-    private int numberFormat = FSE_NONE;
+    private int notation = FSE_NONE;
     private int precision = 5;
     @Nonnull
     private AngleUnit angleUnits = DEFAULT_ANGLE_UNITS;
@@ -183,7 +183,7 @@ public class JsclMathEngine implements MathEngine {
         final NumberFormatter nf = numberFormatter.get();
         nf.setGroupingSeparator(hasGroupingSeparator() ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
         nf.setPrecision(roundResult ? precision : NumberFormatter.NO_ROUNDING);
-        switch (numberFormat) {
+        switch (notation) {
             case FSE_ENG:
                 nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
                 break;
@@ -355,15 +355,11 @@ public class JsclMathEngine implements MathEngine {
         this.precision = precision;
     }
 
-    public void setScienceNotation(boolean scienceNotation) {
-        setNumberFormat(scienceNotation ? FSE_SCI : FSE_NONE);
-    }
-
-    public void setNumberFormat(int numberFormat) {
-        if (numberFormat != FSE_SCI && numberFormat != FSE_ENG && numberFormat != FSE_NONE) {
-            throw new IllegalArgumentException("Unsupported format: " + numberFormat);
+    public void setNotation(int notation) {
+        if (notation != FSE_SCI && notation != FSE_ENG && notation != FSE_NONE) {
+            throw new IllegalArgumentException("Unsupported notation: " + notation);
         }
-        this.numberFormat = numberFormat;
+        this.notation = notation;
     }
 
     public char getGroupingSeparator() {
