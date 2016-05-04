@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ListView;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+import jscl.JsclMathEngine;
 import org.solovyev.android.calculator.AdView;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
@@ -22,7 +25,9 @@ import org.solovyev.android.checkout.BillingRequests;
 import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.RequestListener;
+import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.android.wizard.Wizards;
+import org.solovyev.common.text.CharacterMapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,11 +52,15 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
     Languages languages;
     @Inject
     Wizards wizards;
+    @Inject
+    JsclMathEngine engine;
+    @Inject
+    Bus bus;
 
     @Nonnull
-    public static PreferencesFragment create(int preferencesResId, int layoutResId) {
+    public static PreferencesFragment create(int preferences, int layout) {
         final PreferencesFragment fragment = new PreferencesFragment();
-        fragment.setArguments(createArguments(preferencesResId, layoutResId, NO_THEME));
+        fragment.setArguments(createArguments(preferences, layout, NO_THEME));
         return fragment;
     }
 
@@ -61,6 +70,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         cast(this).getComponent().inject(this);
 
         preferences.registerOnSharedPreferenceChangeListener(this);
+        bus.register(this);
     }
 
     private void setPreferenceIntent(int xml, @Nonnull PreferencesActivity.PrefDef def) {
@@ -107,6 +117,11 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
                     }
                 });
             }
+        } else if (preference == R.xml.preferences_number_format) {
+            prepareListPreference(Engine.Preferences.Output.notation, Engine.Notation.class);
+            preparePrecisionPreference();
+            prepareSeparatorPreference();
+            prepareNumberFormatExamplesPreference();
         }
 
         prepareLanguagePreference(preference);
@@ -133,8 +148,73 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
                 });
             }
         });
+    }
 
-        onSharedPreferenceChanged(preferences, Engine.Preferences.Output.round.getKey());
+    private void prepareNumberFormatExamplesPreference() {
+        final NumberFormatExamplesPreference preference = (NumberFormatExamplesPreference) preferenceManager.findPreference("numberFormat.examples");
+        if (preference == null) {
+            return;
+        }
+        preference.update(engine);
+    }
+
+    private void prepareSeparatorPreference() {
+        final ListPreference preference = (ListPreference) preferenceManager.findPreference(Engine.Preferences.Output.separator.getKey());
+        preference.setSummary(separatorName(Engine.Preferences.Output.separator.getPreference(preferences)));
+        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference p, Object newValue) {
+                preference.setSummary(separatorName(CharacterMapper.INSTANCE.parseValue(String.valueOf(newValue))));
+                return true;
+            }
+        });
+    }
+
+    private int separatorName(char separator) {
+        switch (separator) {
+            case '\'':
+                return R.string.p_grouping_separator_apostrophe;
+            case ' ':
+                return R.string.p_grouping_separator_space;
+            case 0:
+                return R.string.p_grouping_separator_no;
+        }
+        return R.string.p_grouping_separator_no;
+    }
+
+    private void preparePrecisionPreference() {
+        final PrecisionPreference preference = (PrecisionPreference) preferenceManager.findPreference(Engine.Preferences.Output.precision.getKey());
+        preference.setSummary(String.valueOf(Engine.Preferences.Output.precision.getPreference(preferences)));
+        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference p, Object newValue) {
+                preference.setSummary(String.valueOf(newValue));
+                return true;
+            }
+        });
+    }
+
+    private <E extends Enum<E> & PreferenceEntry> void prepareListPreference(@Nonnull final StringPreference<E> p, @Nonnull Class<E> type) {
+        final ListPreference preference = (ListPreference) preferenceManager.findPreference(p.getKey());
+        if (preference == null) {
+            return;
+        }
+        final E[] entries = type.getEnumConstants();
+        final FragmentActivity activity = getActivity();
+        populate(preference, entries);
+        preference.setSummary(p.getPreference(preferences).getName(activity));
+        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference p, Object newValue) {
+                for (E entry : entries) {
+                    if (entry.getId().equals(newValue)) {
+                        preference.setSummary(entry.getName(activity));
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     private void prepareLayoutPreference(int preference) {
@@ -219,12 +299,11 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (Engine.Preferences.Output.round.getKey().equals(key)) {
-            final Preference preference = findPreference(Engine.Preferences.Output.precision.getKey());
-            if (preference != null) {
-                preference.setEnabled(preferences.getBoolean(key, Engine.Preferences.Output.round.getDefaultValue()));
-            }
-        }
+    }
+
+    @Subscribe
+    public void onEngineChanged(Engine.ChangedEvent e) {
+        prepareNumberFormatExamplesPreference();
     }
 
     @Override
@@ -253,6 +332,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
     @Override
     public void onDestroy() {
+        bus.unregister(this);
         preferences.unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }

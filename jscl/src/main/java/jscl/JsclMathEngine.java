@@ -2,6 +2,13 @@ package jscl;
 
 import jscl.math.Expression;
 import jscl.math.Generic;
+import jscl.math.NotIntegerException;
+import jscl.math.function.Constants;
+import jscl.math.function.ConstantsRegistry;
+import jscl.math.function.Function;
+import jscl.math.function.FunctionsRegistry;
+import jscl.math.function.IConstant;
+import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.function.*;
 import jscl.math.operator.Operator;
 import jscl.math.operator.Percent;
@@ -13,6 +20,9 @@ import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.Messages;
 
+import static midpcalc.Real.NumberFormat.FSE_ENG;
+import static midpcalc.Real.NumberFormat.FSE_NONE;
+import static midpcalc.Real.NumberFormat.FSE_SCI;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigInteger;
@@ -36,11 +46,9 @@ public class JsclMathEngine implements MathEngine {
             return new NumberFormatter();
         }
     };
-    private char groupingSeparator = GROUPING_SEPARATOR_DEFAULT;
-    private boolean roundResult = false;
-    private int numberFormat = FSE_NONE;
-    private int precision = 5;
-    private boolean useGroupingSeparator = false;
+    private char groupingSeparator = NumberFormatter.NO_GROUPING;
+    private int notation = FSE_NONE;
+    private int precision = NumberFormatter.MAX_PRECISION;
     @Nonnull
     private AngleUnit angleUnits = DEFAULT_ANGLE_UNITS;
     @Nonnull
@@ -161,9 +169,9 @@ public class JsclMathEngine implements MathEngine {
 
     private NumberFormatter prepareNumberFormatter(@Nonnull NumeralBase nb) {
         final NumberFormatter nf = numberFormatter.get();
-        nf.setGroupingSeparator(useGroupingSeparator ? getGroupingSeparatorChar(nb) : NumberFormatter.NO_GROUPING);
-        nf.setPrecision(roundResult ? precision : NumberFormatter.NO_ROUNDING);
-        switch (numberFormat) {
+        nf.setGroupingSeparator(hasGroupingSeparator() ? getGroupingSeparator(nb) : NumberFormatter.NO_GROUPING);
+        nf.setPrecision(precision);
+        switch (notation) {
             case FSE_ENG:
                 nf.useEngineeringFormat(NumberFormatter.DEFAULT_MAGNITUDE);
                 break;
@@ -247,7 +255,7 @@ public class JsclMathEngine implements MathEngine {
     @Nonnull
     @Override
     public String format(@Nonnull String value, @Nonnull NumeralBase nb) {
-        if (!useGroupingSeparator) {
+        if (!hasGroupingSeparator()) {
             return value;
         }
         final int dot = value.indexOf('.');
@@ -265,8 +273,8 @@ public class JsclMathEngine implements MathEngine {
 
     @Nonnull
     public String insertSeparators(@Nonnull String value, @Nonnull NumeralBase nb) {
-        final String separator = getGroupingSeparator(nb);
-        final StringBuilder result = new StringBuilder(value.length() + nb.getGroupingSize() * separator.length());
+        final char separator = getGroupingSeparator(nb);
+        final StringBuilder result = new StringBuilder(value.length() + nb.getGroupingSize());
         for (int i = value.length() - 1; i >= 0; i--) {
             result.append(value.charAt(i));
             if (i != 0 && (value.length() - i) % nb.getGroupingSize() == 0) {
@@ -276,43 +284,30 @@ public class JsclMathEngine implements MathEngine {
         return result.reverse().toString();
     }
 
-    @Nonnull
-    private String getGroupingSeparator(@Nonnull NumeralBase nb) {
-        return nb == NumeralBase.dec ? String.valueOf(groupingSeparator) : " ";
+    private boolean hasGroupingSeparator() {
+        return groupingSeparator != NumberFormatter.NO_GROUPING;
     }
 
-    private char getGroupingSeparatorChar(@Nonnull NumeralBase nb) {
+    private char getGroupingSeparator(@Nonnull NumeralBase nb) {
         return nb == NumeralBase.dec ? groupingSeparator : ' ';
-    }
-
-    public void setRoundResult(boolean roundResult) {
-        this.roundResult = roundResult;
     }
 
     public void setPrecision(int precision) {
         this.precision = precision;
     }
 
-    public void setUseGroupingSeparator(boolean useGroupingSeparator) {
-        this.useGroupingSeparator = useGroupingSeparator;
-    }
-
-    public void setScienceNotation(boolean scienceNotation) {
-        setNumberFormat(scienceNotation ? FSE_SCI : FSE_NONE);
-    }
-
-    public void setNumberFormat(int numberFormat) {
-        if (numberFormat != FSE_SCI && numberFormat != FSE_ENG && numberFormat != FSE_NONE) {
-            throw new IllegalArgumentException("Unsupported format: " + numberFormat);
+    public void setNotation(int notation) {
+        if (notation != FSE_SCI && notation != FSE_ENG && notation != FSE_NONE) {
+            throw new IllegalArgumentException("Unsupported notation: " + notation);
         }
-        this.numberFormat = numberFormat;
+        this.notation = notation;
     }
 
     public char getGroupingSeparator() {
         return this.groupingSeparator;
     }
 
-    public void setGroupingSeparator(char groupingSeparator) {
-        this.groupingSeparator = groupingSeparator;
+    public void setGroupingSeparator(char separator) {
+        this.groupingSeparator = separator;
     }
 }

@@ -2,6 +2,9 @@ package org.solovyev.android.calculator.converter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
+import org.solovyev.android.calculator.Named;
+
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 

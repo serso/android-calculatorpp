@@ -1,12 +1,14 @@
 package jscl;
 
+import org.solovyev.common.math.MathRegistry;
+
+import java.math.BigInteger;
+
+import javax.annotation.Nonnull;
+
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
-import org.solovyev.common.math.MathRegistry;
-
-import javax.annotation.Nonnull;
-import java.math.BigInteger;
 
 public interface MathContext {
 
@@ -36,13 +38,9 @@ public interface MathContext {
 
     void setNumeralBase(@Nonnull NumeralBase numeralBase);
 
-    void setRoundResult(boolean roundResult);
-
     void setPrecision(int precision);
 
-    void setUseGroupingSeparator(boolean useGroupingSeparator);
-
-    void setGroupingSeparator(char groupingSeparator);
+    void setGroupingSeparator(char separator);
 
     @Nonnull
     String format(double value);
@@ -55,5 +53,5 @@ public interface MathContext {
     @Nonnull
     String format(@Nonnull String value, @Nonnull NumeralBase nb);
 
-    void setScienceNotation(boolean scienceNotation);
+    void setNotation(int notation);
 }

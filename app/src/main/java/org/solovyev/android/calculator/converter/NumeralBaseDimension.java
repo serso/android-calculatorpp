@@ -3,6 +3,8 @@ package org.solovyev.android.calculator.converter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import jscl.NumeralBase;
+
+import org.solovyev.android.calculator.Named;
 import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;

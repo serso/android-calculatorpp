@@ -10,10 +10,10 @@ public class RadTest {
     public void testRad() throws Exception {
         final JsclMathEngine mathEngine = new JsclMathEngine();
 
-        assertEquals("0.0349065850398866", mathEngine.evaluate("rad(2)"));
-        assertEquals("0.0349065850398866", mathEngine.evaluate("rad(1+1)"));
-        assertEquals("-0.0349065850398866", mathEngine.evaluate("rad(-2)"));
-        assertEquals("-0.0349065850398866", mathEngine.evaluate("rad(-1-1)"));
+        assertEquals("0.034906585039887", mathEngine.evaluate("rad(2)"));
+        assertEquals("0.034906585039887", mathEngine.evaluate("rad(1+1)"));
+        assertEquals("-0.034906585039887", mathEngine.evaluate("rad(-2)"));
+        assertEquals("-0.034906585039887", mathEngine.evaluate("rad(-1-1)"));
         assertEquals("π", mathEngine.evaluate("rad(180)"));
         assertEquals(String.valueOf(-Math.PI), mathEngine.evaluate("rad(-180)"));
 

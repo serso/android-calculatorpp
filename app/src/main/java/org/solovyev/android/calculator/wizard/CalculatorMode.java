@@ -23,11 +23,14 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.content.SharedPreferences;
-import jscl.AngleUnit;
+
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
+import org.solovyev.common.NumberFormatter;
 
 import javax.annotation.Nonnull;
+
+import jscl.AngleUnit;
 
 enum CalculatorMode {
 
@@ -38,8 +41,8 @@ enum CalculatorMode {
 
             Preferences.Gui.mode.putPreference(editor, Preferences.Gui.Mode.simple);
             Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.deg);
-            Engine.Preferences.Output.scientificNotation.putPreference(editor, false);
-            Engine.Preferences.Output.round.putPreference(editor, true);
+            Engine.Preferences.Output.notation.putPreference(editor, Engine.Notation.dec);
+            Engine.Preferences.Output.precision.putPreference(editor, 5);
 
             editor.apply();
         }
@@ -52,8 +55,8 @@ enum CalculatorMode {
 
             Preferences.Gui.mode.putPreference(editor, Preferences.Gui.Mode.engineer);
             Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.rad);
-            Engine.Preferences.Output.scientificNotation.putPreference(editor, true);
-            Engine.Preferences.Output.round.putPreference(editor, false);
+            Engine.Preferences.Output.notation.putPreference(editor, Engine.Notation.eng);
+            Engine.Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
 
             editor.apply();
         }

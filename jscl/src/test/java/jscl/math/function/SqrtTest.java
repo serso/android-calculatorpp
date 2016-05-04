@@ -13,13 +13,13 @@ public class SqrtTest {
         final JsclMathEngine me = JsclMathEngine.getInstance();
         final AngleUnit defaultAngleUnits = me.getAngleUnits();
 
-        assertEquals("0.9999060498015505+0.0137073546047075*i", me.evaluate("√(√(-1))"));
-        assertEquals("0.9984971498638638+0.0548036651487895*i", me.evaluate("√(√(-1))^4"));
+        assertEquals("0.999906049801551+0.013707354604707*i", me.evaluate("√(√(-1))"));
+        assertEquals("0.998497149863864+0.05480366514879*i", me.evaluate("√(√(-1))^4"));
 
         try {
             me.setAngleUnits(AngleUnit.rad);
-            assertEquals("0.7071067811865476+0.7071067811865475*i", me.evaluate("√(√(-1))"));
-            assertEquals("-1+0.0000000000000003*i", me.evaluate("√(√(-1))^4"));
+            assertEquals("0.707106781186548+0.707106781186548*i", me.evaluate("√(√(-1))"));
+            assertEquals("-1+0*i", me.evaluate("√(√(-1))^4"));
         } finally {
             me.setAngleUnits(defaultAngleUnits);
         }

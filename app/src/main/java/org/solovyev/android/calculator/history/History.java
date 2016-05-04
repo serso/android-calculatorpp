@@ -27,22 +27,26 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.Engine.Preferences;
+import org.solovyev.android.calculator.ErrorReporter;
+import org.solovyev.android.calculator.Runnables;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.io.FileSystem;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,6 +54,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -115,15 +125,15 @@ public class History {
 
     private static boolean isIntermediate(@Nonnull String olderText,
                                           @Nonnull String newerText,
-                                          @NonNull String groupingSeparator) {
+                                          char separator) {
         if (TextUtils.isEmpty(olderText)) {
             return true;
         }
         if (TextUtils.isEmpty(newerText)) {
             return false;
         }
-        olderText = trimGroupingSeparators(olderText, groupingSeparator);
-        newerText = trimGroupingSeparators(newerText, groupingSeparator);
+        olderText = trimGroupingSeparators(olderText, separator);
+        newerText = trimGroupingSeparators(newerText, separator);
 
         final int diff = newerText.length() - olderText.length();
         if (diff >= 1) {
@@ -138,11 +148,10 @@ public class History {
     }
 
     @NonNull
-    static String trimGroupingSeparators(@NonNull String text, @NonNull String groupingSeparator) {
-        if (TextUtils.isEmpty(groupingSeparator)) {
+    static String trimGroupingSeparators(@NonNull String text, char separator) {
+        if (separator == 0) {
             return text;
         }
-        Check.isTrue(groupingSeparator.length() == 1);
         final StringBuilder sb = new StringBuilder(text.length());
         for (int i = 0; i < text.length(); i++) {
             if (i == 0 || i == text.length() - 1) {
@@ -150,7 +159,7 @@ public class History {
                 sb.append(text.charAt(i));
                 continue;
             }
-            if (Character.isDigit(text.charAt(i - 1)) && text.charAt(i) == groupingSeparator.charAt(0) && Character.isDigit(text.charAt(i + 1))) {
+            if (Character.isDigit(text.charAt(i - 1)) && text.charAt(i) == separator && Character.isDigit(text.charAt(i + 1))) {
                 // grouping separator => skip
                 continue;
             }
@@ -302,7 +311,7 @@ public class History {
 
         final List<HistoryState> result = new LinkedList<>();
 
-        final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
+        final char separator = Preferences.Output.separator.getPreference(preferences);
 
         final List<HistoryState> states = recent.asList();
         final int statesCount = states.size();
@@ -312,7 +321,7 @@ public class History {
             final HistoryState newerState = states.get(i);
             final String olderText = olderState.editor.getTextString();
             final String newerText = newerState.editor.getTextString();
-            if (streak >= MAX_INTERMEDIATE_STREAK || !isIntermediate(olderText, newerText, groupingSeparator)) {
+            if (streak >= MAX_INTERMEDIATE_STREAK || !isIntermediate(olderText, newerText, separator)) {
                 result.add(0, olderState);
                 streak = 0;
             } else {

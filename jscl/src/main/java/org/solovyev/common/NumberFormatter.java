@@ -11,10 +11,11 @@ import static midpcalc.Real.NumberFormat.*;
 
 public class NumberFormatter {
 
-    public static final int NO_GROUPING = 0;
+    public static final char NO_GROUPING = 0;
     public static final int NO_ROUNDING = -1;
     public static final int DEFAULT_MAGNITUDE = 5;
-    public static final int MAX_PRECISION = 16;
+    public static final int MIN_PRECISION = 1;
+    public static final int MAX_PRECISION = 15;
 
     private final Real.NumberFormat numberFormat = new Real.NumberFormat();
     private final Real real = new Real();
@@ -39,7 +40,7 @@ public class NumberFormatter {
     }
 
     public void setPrecision(int precision) {
-        this.precision = precision;
+        this.precision = Math.max(MIN_PRECISION, Math.min(precision, MAX_PRECISION));
     }
 
     public void setGroupingSeparator(char groupingSeparator) {
@@ -94,7 +95,6 @@ public class NumberFormatter {
         final BigInteger absValue = value.abs();
         final boolean simpleFormat = useSimpleFormat(radix, absValue);
 
-        final int effectivePrecision = precision == NO_ROUNDING ? MAX_PRECISION : precision;
         if (simpleFormat) {
             numberFormat.fse = FSE_FIX;
         } else if (format == FSE_NONE) {
@@ -105,7 +105,7 @@ public class NumberFormatter {
             numberFormat.fse = format;
         }
         numberFormat.thousand = groupingSeparator;
-        numberFormat.precision = effectivePrecision;
+        numberFormat.precision = Math.max(0, Math.min(precision, MAX_PRECISION));
         numberFormat.base = radix;
         numberFormat.maxwidth = simpleFormat ? 100 : 30;
 

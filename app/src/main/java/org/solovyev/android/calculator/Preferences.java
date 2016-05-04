@@ -53,6 +53,8 @@ import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 
+import jscl.JsclMathEngine;
+
 import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
 public final class Preferences {
@@ -108,19 +110,19 @@ public final class Preferences {
     }
 
     private static void setInitialDefaultValues(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull SharedPreferences.Editor editor) {
-        if (!Engine.Preferences.groupingSeparator.isSet(preferences)) {
+        if (!Engine.Preferences.Output.separator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
                 final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
-                int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
-                final String groupingSeparator;
+                final int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
+                final char separator;
                 if (index >= 0) {
-                    groupingSeparator = MathType.grouping_separator.getTokens().get(index);
+                    separator = MathType.grouping_separator.getTokens().get(index).charAt(0);
                 } else {
-                    groupingSeparator = " ";
+                    separator = JsclMathEngine.GROUPING_SEPARATOR_DEFAULT;
                 }
 
-                Engine.Preferences.groupingSeparator.putPreference(editor, groupingSeparator);
+                Engine.Preferences.Output.separator.putPreference(editor, separator);
             }
         }
 
