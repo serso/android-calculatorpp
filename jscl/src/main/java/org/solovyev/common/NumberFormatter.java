@@ -14,6 +14,7 @@ public class NumberFormatter {
     public static final char NO_GROUPING = 0;
     public static final int NO_ROUNDING = -1;
     public static final int DEFAULT_MAGNITUDE = 5;
+    public static final int MIN_PRECISION = 1;
     public static final int MAX_PRECISION = 15;
 
     private final Real.NumberFormat numberFormat = new Real.NumberFormat();
@@ -39,7 +40,7 @@ public class NumberFormatter {
     }
 
     public void setPrecision(int precision) {
-        this.precision = precision;
+        this.precision = Math.max(MIN_PRECISION, Math.min(precision, MAX_PRECISION));
     }
 
     public void setGroupingSeparator(char groupingSeparator) {

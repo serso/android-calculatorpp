@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2016 serso aka se.solovyev
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Contact details
+  ~
+  ~ Email: se.solovyev@gmail.com
+  ~ Site:  http://se.solovyev.org
+  -->
+
+<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:m="http://schemas.android.com/apk/res-auto">
+
+    <org.solovyev.android.material.preferences.ListPreference
+        a:key="engine.output.notation"
+        a:title="Notation"
+        m:materialColor="@color/material_text_selector" />
+
+    <org.solovyev.android.calculator.preferences.PrecisionPreference
+        a:key="engine.output.precision"
+        a:title="@string/p_calc_result_precision_title" />
+
+    <org.solovyev.android.material.preferences.ListPreference
+        a:entries="@array/p_grouping_separator_names"
+        a:entryValues="@array/p_grouping_separator_values"
+        a:key="engine.output.separator"
+        a:title="@string/c_calc_grouping_separator"
+        m:materialColor="@color/material_text_selector" />
+
+    <org.solovyev.android.calculator.preferences.NumberFormatExamplesPreference
+        a:key="numberFormat.examples"
+        a:selectable="false"
+        a:title="Examples" />
+
+</PreferenceScreen>

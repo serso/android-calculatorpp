@@ -36,6 +36,10 @@
         a:title="@string/cpp_restart_wizard" />
 
     <Preference
+        a:key="screen-number-format"
+        a:title="Number format" />
+
+    <Preference
         a:key="screen-calculations"
         a:title="@string/c_prefs_calculations_category" />
     <Preference

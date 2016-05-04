@@ -24,30 +24,6 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-    <org.solovyev.android.calculator.preferences.NumberFormatPreference
-        a:key="engine.output.numberFormat"
-        a:title="Number format" />
-
-    <ListPreference
-        a:entries="@array/cpp_prefs_precisions"
-        a:entryValues="@array/cpp_prefs_precisions"
-        a:key="engine.output.precision"
-        a:summary="@string/c_calc_result_precision_summary"
-        a:title="@string/p_calc_result_precision_title" />
-
-    <android.preference.CheckBoxPreference
-        a:defaultValue="false"
-        a:key="engine.output.scientificNotation"
-        a:summary="@string/c_calc_science_notation_summary"
-        a:title="@string/c_calc_science_notation_title" />
-
-    <ListPreference
-        a:entries="@array/p_grouping_separator_names"
-        a:entryValues="@array/p_grouping_separator_values"
-        a:key="engine.groupingSeparator"
-        a:summary="@string/c_calc_grouping_separator_summary"
-        a:title="@string/c_calc_grouping_separator" />
-
     <ListPreference
         a:entries="@array/p_angle_units_names"
         a:entryValues="@array/p_angle_units"

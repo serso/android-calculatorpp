@@ -57,6 +57,11 @@ public final class StringPreference<T> extends AbstractPreference<T> {
     }
 
     @Nonnull
+    public static <T> StringPreference<T> ofTypedValue(@Nonnull String key, @Nullable T defaultValue, @Nonnull Mapper<T> mapper) {
+        return new StringPreference<T>(key, defaultValue, mapper);
+    }
+
+    @Nonnull
     public static <T extends Enum> StringPreference<T> ofEnum(@Nonnull String key, @Nullable T defaultValue, @Nonnull Class<T> enumType) {
         return new StringPreference<T>(key, defaultValue, EnumMapper.of(enumType));
     }

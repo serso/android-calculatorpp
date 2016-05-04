@@ -22,35 +22,12 @@
 
 package org.solovyev.android.calculator;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
-
 import com.squareup.otto.Bus;
-
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.functions.FunctionsRegistry;
-import org.solovyev.android.calculator.operators.OperatorsRegistry;
-import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.CharacterPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
-import org.solovyev.common.NumberFormatter;
-import org.solovyev.common.text.EnumMapper;
-import org.solovyev.common.text.NumberMapper;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -59,6 +36,25 @@ import jscl.math.operator.Operator;
 import jscl.text.Identifier;
 import jscl.text.Parser;
 import midpcalc.Real;
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.functions.FunctionsRegistry;
+import org.solovyev.android.calculator.operators.OperatorsRegistry;
+import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
+import org.solovyev.android.calculator.preferences.PreferenceEntry;
+import org.solovyev.android.prefs.*;
+import org.solovyev.common.text.CharacterMapper;
+import org.solovyev.common.NumberFormatter;
+import org.solovyev.common.text.EnumMapper;
+import org.solovyev.common.text.NumberMapper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Executor;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -98,28 +94,12 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         this.mathEngine.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
     }
 
-    private static void migratePreference(@Nonnull SharedPreferences preferences, @Nonnull BooleanPreference preference, @Nonnull String oldKey, @Nonnull SharedPreferences.Editor editor) {
-        if (!preferences.contains(oldKey)) {
-            return;
-        }
-        editor.putBoolean(preference.getKey(), preferences.getBoolean(oldKey, false));
-    }
-
     private static void migratePreference(@Nonnull SharedPreferences preferences, @Nonnull StringPreference<?> preference, @Nonnull String oldKey, @Nonnull SharedPreferences.Editor editor) {
         if (!preferences.contains(oldKey)) {
             return;
         }
         editor.putString(preference.getKey(), preferences.getString(oldKey, null));
     }
-
-    private static void migratePreference(@Nonnull SharedPreferences preferences, @Nonnull CharacterPreference preference, @Nonnull String oldKey, @Nonnull SharedPreferences.Editor editor) {
-        if (!preferences.contains(oldKey)) {
-            return;
-        }
-        final String s = preferences.getString(oldKey, null);
-        editor.putInt(preference.getKey(), TextUtils.isEmpty(s) ? 0 : s.charAt(0));
-    }
-
 
     public static boolean isValidName(@Nullable String name) {
         if (!TextUtils.isEmpty(name)) {
@@ -261,7 +241,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         }
     }
 
-    public enum Notation {
+    public enum Notation implements PreferenceEntry {
         dec(Real.NumberFormat.FSE_NONE, R.string.cpp_number_format_dec),
         eng(Real.NumberFormat.FSE_ENG, R.string.cpp_number_format_eng),
         sci(Real.NumberFormat.FSE_SCI, R.string.cpp_number_format_sci);
@@ -273,6 +253,18 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         Notation(int id, @StringRes int name) {
             this.id = id;
             this.name = name;
+        }
+
+        @NonNull
+        @Override
+        public CharSequence getName(@NonNull Context context) {
+            return context.getString(name);
+        }
+
+        @NonNull
+        @Override
+        public CharSequence getId() {
+            return name();
         }
     }
 
@@ -307,7 +299,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         public static class Output {
             public static final StringPreference<Integer> precision = StringPreference.ofTypedValue("engine.output.precision", "5", NumberMapper.of(Integer.class));
             public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.dec, Notation.class);
-            public static final CharacterPreference separator = CharacterPreference.of("engine.output.separator", JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
+            public static final StringPreference<Character> separator = StringPreference.ofTypedValue("engine.output.separator", JsclMathEngine.GROUPING_SEPARATOR_DEFAULT, CharacterMapper.INSTANCE);
         }
     }
 }
