@@ -110,25 +110,6 @@ public final class Preferences {
     }
 
     private static void setInitialDefaultValues(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull SharedPreferences.Editor editor) {
-        if (!Engine.Preferences.Output.separator.isSet(preferences)) {
-            final Locale locale = Locale.getDefault();
-            if (locale != null) {
-                final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
-                final int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
-                final char separator;
-                if (index >= 0) {
-                    separator = MathType.grouping_separator.getTokens().get(index).charAt(0);
-                } else {
-                    separator = JsclMathEngine.GROUPING_SEPARATOR_DEFAULT;
-                }
-
-                Engine.Preferences.Output.separator.putPreference(editor, separator);
-            }
-        }
-
-        Engine.Preferences.angleUnit.tryPutDefault(preferences, editor);
-        Engine.Preferences.numeralBase.tryPutDefault(preferences, editor);
-
         Gui.theme.tryPutDefault(preferences, editor);
         Gui.mode.tryPutDefault(preferences, editor);
         Gui.showReleaseNotes.tryPutDefault(preferences, editor);

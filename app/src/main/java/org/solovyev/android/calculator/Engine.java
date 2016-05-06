@@ -27,7 +27,35 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
+
 import com.squareup.otto.Bus;
+
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.functions.FunctionsRegistry;
+import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.operators.OperatorsRegistry;
+import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
+import org.solovyev.android.calculator.preferences.PreferenceEntry;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.common.NumberFormatter;
+import org.solovyev.common.text.CharacterMapper;
+import org.solovyev.common.text.EnumMapper;
+import org.solovyev.common.text.NumberMapper;
+
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -36,25 +64,6 @@ import jscl.math.operator.Operator;
 import jscl.text.Identifier;
 import jscl.text.Parser;
 import midpcalc.Real;
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.functions.FunctionsRegistry;
-import org.solovyev.android.calculator.operators.OperatorsRegistry;
-import org.solovyev.android.calculator.operators.PostfixFunctionsRegistry;
-import org.solovyev.android.calculator.preferences.PreferenceEntry;
-import org.solovyev.android.prefs.*;
-import org.solovyev.common.text.CharacterMapper;
-import org.solovyev.common.NumberFormatter;
-import org.solovyev.common.text.EnumMapper;
-import org.solovyev.common.text.NumberMapper;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Executor;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -152,6 +161,31 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         });
     }
 
+    private void initPreferences(SharedPreferences.Editor editor) {
+        if (!Engine.Preferences.Output.separator.isSet(preferences)) {
+            final Locale locale = Locale.getDefault();
+            if (locale != null) {
+                final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
+                final int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
+                final char separator;
+                if (index >= 0) {
+                    separator = MathType.grouping_separator.getTokens().get(index).charAt(0);
+                } else {
+                    separator = JsclMathEngine.GROUPING_SEPARATOR_DEFAULT;
+                }
+
+                Engine.Preferences.Output.separator.putPreference(editor, separator);
+            }
+        }
+
+        Engine.Preferences.angleUnit.tryPutDefault(preferences, editor);
+        Engine.Preferences.numeralBase.tryPutDefault(preferences, editor);
+        Preferences.Output.notation.tryPutDefault(preferences, editor);
+        Preferences.Output.separator.tryPutDefault(preferences, editor);
+        Preferences.Output.precision.tryPutDefault(preferences, editor);
+
+    }
+
     private void checkPreferences() {
         final int oldVersion;
         if (Preferences.version.isSet(preferences)) {
@@ -180,6 +214,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
                     Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
                 }
             }
+            initPreferences(editor);
         } else if (oldVersion == 1) {
             migratePreference(preferences, Preferences.Output.separator, "engine.groupingSeparator", editor);
             if (preferences.contains("engine.output.scientificNotation")) {
@@ -192,6 +227,10 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
                     Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
                 }
             }
+            // preferences should be initialized again as:
+            // 1. It was forgotten for 0 version
+            // 2. There is a bunch of new preferences
+            initPreferences(editor);
         }
         Preferences.version.putDefault(editor);
         editor.apply();
