@@ -335,6 +335,36 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             return Collections.unmodifiableList(preferenceKeys);
         }
 
+        @StringRes
+        public static int angleUnitName(AngleUnit angleUnit) {
+            switch (angleUnit) {
+                case deg:
+                    return R.string.p_deg;
+                case rad:
+                    return R.string.p_rad;
+                case grad:
+                    return R.string.p_grad;
+                case turns:
+                    return R.string.p_turns;
+            }
+            return 0;
+        }
+
+        @StringRes
+        public static int numeralBaseName(NumeralBase numeralBase) {
+            switch (numeralBase) {
+                case bin:
+                    return R.string.p_bin;
+                case oct:
+                    return R.string.p_oct;
+                case dec:
+                    return R.string.p_dec;
+                case hex:
+                    return R.string.p_hex;
+            }
+            return 0;
+        }
+
         public static class Output {
             public static final StringPreference<Integer> precision = StringPreference.ofTypedValue("engine.output.precision", "5", NumberMapper.of(Integer.class));
             public static final StringPreference<Notation> notation = StringPreference.ofEnum("engine.output.notation", Notation.dec, Notation.class);

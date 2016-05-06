@@ -38,12 +38,6 @@
         a:key="gui.theme"
         a:title="@string/cpp_theme" />
 
-    <ListPreference
-        a:entries="@array/p_layout_names"
-        a:entryValues="@array/p_layout_values"
-        a:key="gui.mode"
-        a:title="@string/cpp_mode" />
-
     <android.preference.CheckBoxPreference
         a:defaultValue="true"
         a:key="gui.rotateScreen"

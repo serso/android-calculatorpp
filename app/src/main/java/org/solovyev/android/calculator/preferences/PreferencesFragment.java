@@ -11,9 +11,10 @@ import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ListView;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import jscl.JsclMathEngine;
+
 import org.solovyev.android.calculator.AdView;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
@@ -29,13 +30,20 @@ import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.text.CharacterMapper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+
 import static org.solovyev.android.calculator.App.cast;
+import static org.solovyev.android.calculator.Engine.Preferences.angleUnitName;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBaseName;
 import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
@@ -117,6 +125,9 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
                     }
                 });
             }
+            prepareModePreference();
+            prepareAnglesPreference();
+            prepareRadixPreference();
         } else if (preference == R.xml.preferences_number_format) {
             prepareListPreference(Engine.Preferences.Output.notation, Engine.Notation.class);
             preparePrecisionPreference();
@@ -125,7 +136,6 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         }
 
         prepareLanguagePreference(preference);
-        prepareLayoutPreference(preference);
         prepareThemePreference(preference);
 
         getCheckout().whenReady(new Checkout.ListenerAdapter() {
@@ -217,16 +227,37 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         });
     }
 
-    private void prepareLayoutPreference(int preference) {
-        if (preference != R.xml.preferences_appearance) {
-            return;
-        }
-        final ListPreference layout = (ListPreference) preferenceManager.findPreference(Preferences.Gui.mode.getKey());
-        layout.setSummary(Preferences.Gui.getMode(preferences).name);
-        layout.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+    private void prepareModePreference() {
+        final ListPreference mode = (ListPreference) preferenceManager.findPreference(Preferences.Gui.mode.getKey());
+        mode.setSummary(Preferences.Gui.getMode(preferences).name);
+        mode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                layout.setSummary(Preferences.Gui.Mode.valueOf((String) newValue).name);
+                mode.setSummary(Preferences.Gui.Mode.valueOf((String) newValue).name);
+                return true;
+            }
+        });
+    }
+
+    private void prepareAnglesPreference() {
+        final ListPreference angles = (ListPreference) preferenceManager.findPreference(Engine.Preferences.angleUnit.getKey());
+        angles.setSummary(angleUnitName(Engine.Preferences.angleUnit.getPreference(preferences)));
+        angles.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                angles.setSummary(angleUnitName(AngleUnit.valueOf((String) newValue)));
+                return true;
+            }
+        });
+    }
+
+    private void prepareRadixPreference() {
+        final ListPreference radix = (ListPreference) preferenceManager.findPreference(Engine.Preferences.numeralBase.getKey());
+        radix.setSummary(numeralBaseName(Engine.Preferences.numeralBase.getPreference(preferences)));
+        radix.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                radix.setSummary(numeralBaseName(NumeralBase.valueOf((String) newValue)));
                 return true;
             }
         });

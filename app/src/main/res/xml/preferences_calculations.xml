@@ -24,20 +24,6 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-    <ListPreference
-        a:entries="@array/p_angle_units_names"
-        a:entryValues="@array/p_angle_units"
-        a:key="engine.angleUnit"
-        a:summary="@string/c_angle_units_summary"
-        a:title="@string/c_calc_angle_units" />
-
-    <ListPreference
-        a:entries="@array/p_numeral_bases_names"
-        a:entryValues="@array/p_numeral_bases"
-        a:key="engine.numeralBase"
-        a:summary="@string/c_numeral_bases_summary"
-        a:title="@string/c_calc_numeral_bases" />
-
     <android.preference.CheckBoxPreference
         a:key="calculations_calculate_on_fly"
         a:summary="@string/p_calculations_calculate_on_fly_summary"

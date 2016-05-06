@@ -38,9 +38,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import butterknife.Bind;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.calculator.converter.ConverterFragment;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
@@ -49,6 +47,10 @@ import org.solovyev.android.widget.menu.CustomPopupMenu;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
 public class CalculatorActivity extends BaseActivity implements View.OnClickListener {
 
@@ -212,7 +214,7 @@ public class CalculatorActivity extends BaseActivity implements View.OnClickList
             final Menu menu = popup.getMenu();
             final MenuItem menuItem = menu.findItem(R.id.menu_angle_units);
             final AngleUnit angles = Engine.Preferences.angleUnit.getPreference(preferences);
-            menuItem.setTitle(makeTitle(R.string.cpp_angles, getAngleUnitsName(angles)));
+            menuItem.setTitle(makeTitle(R.string.cpp_angles, Engine.Preferences.angleUnitName(angles)));
         }
 
         private void updateNumeralBase() {
@@ -222,37 +224,7 @@ public class CalculatorActivity extends BaseActivity implements View.OnClickList
             final Menu menu = popup.getMenu();
             final MenuItem menuItem = menu.findItem(R.id.menu_numeral_base);
             final NumeralBase numeralBase = Engine.Preferences.numeralBase.getPreference(preferences);
-            menuItem.setTitle(makeTitle(R.string.cpp_radix, getNumeralBaseName(numeralBase)));
-        }
-
-        @StringRes
-        private int getAngleUnitsName(AngleUnit angleUnit) {
-            switch (angleUnit) {
-                case deg:
-                    return R.string.p_deg;
-                case rad:
-                    return R.string.p_rad;
-                case grad:
-                    return R.string.p_grad;
-                case turns:
-                    return R.string.p_turns;
-            }
-            return 0;
-        }
-
-        @StringRes
-        private int getNumeralBaseName(NumeralBase numeralBase) {
-            switch (numeralBase) {
-                case bin:
-                    return R.string.p_bin;
-                case oct:
-                    return R.string.p_oct;
-                case dec:
-                    return R.string.p_dec;
-                case hex:
-                    return R.string.p_hex;
-            }
-            return 0;
+            menuItem.setTitle(makeTitle(R.string.cpp_radix, Engine.Preferences.numeralBaseName(numeralBase)));
         }
 
         @Override
