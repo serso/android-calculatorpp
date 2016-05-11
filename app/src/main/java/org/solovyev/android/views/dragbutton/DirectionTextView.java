@@ -3,20 +3,20 @@ package org.solovyev.android.views.dragbutton;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.common.base.Strings;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.R;
 
@@ -111,6 +111,7 @@ public class DirectionTextView {
         private String value = "";
         private float scale;
         private int color;
+        private int contrastColor;
         private float alpha;
         private boolean visible = true;
         private boolean highContrast;
@@ -136,7 +137,13 @@ public class DirectionTextView {
             }
             alpha = defAlpha;
             color = defColor;
+            contrastColor = makeContrastColor(color);
             initPaint(base);
+        }
+
+        private int makeContrastColor(int color) {
+            final int colorRes = isLightColor(color) ? R.color.cpp_button_text : R.color.cpp_text_inverse;
+            return ContextCompat.getColor(view.getContext(), colorRes);
         }
 
         public void initPaint(@NonNull TextPaint base) {
@@ -161,7 +168,7 @@ public class DirectionTextView {
         }
 
         private void initPaintShadow() {
-            if (highContrast) {
+            if (highContrast && needsShadow(color)) {
                 paint.setShadowLayer(applyDimension(COMPLEX_UNIT_DIP, SHADOW_RADIUS_DPS, view.getResources().getDisplayMetrics()), 0, 0, BLACK);
             } else {
                 paint.setShadowLayer(0, 0, 0, BLACK);
@@ -202,9 +209,11 @@ public class DirectionTextView {
                 return;
             }
             this.color = color;
+            this.contrastColor = makeContrastColor(color);
             this.alpha = alpha;
             paint.setColor(color);
             paint.setAlpha(intAlpha());
+            initPaintShadow();
             invalidate(false);
         }
 
@@ -224,7 +233,7 @@ public class DirectionTextView {
                 calculatePosition();
             }
             if (highContrast) {
-                paint.setColor(Color.WHITE);
+                paint.setColor(contrastColor);
                 paint.setAlpha(255);
             }
             final int width = view.getWidth();
@@ -295,5 +304,13 @@ public class DirectionTextView {
         public boolean hasValue() {
             return visible && !TextUtils.isEmpty(value);
         }
+    }
+
+    private static boolean isLightColor(@ColorInt int color) {
+        return ColorUtils.calculateLuminance(color) > 0.5f;
+    }
+
+    public static boolean needsShadow(@ColorInt int color) {
+        return isLightColor(color);
     }
 }

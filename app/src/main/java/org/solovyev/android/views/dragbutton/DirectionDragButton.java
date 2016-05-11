@@ -100,7 +100,7 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
         }
         this.highContrast = highContrast;
         this.textView.setHighContrast(highContrast);
-        if (highContrast) {
+        if (highContrast && DirectionTextView.needsShadow(getCurrentTextColor())) {
             setShadowLayer(applyDimension(COMPLEX_UNIT_DIP, SHADOW_RADIUS_DPS, getResources().getDisplayMetrics()), 0, 0, BLACK);
         } else {
             setShadowLayer(0, 0, 0, BLACK);
