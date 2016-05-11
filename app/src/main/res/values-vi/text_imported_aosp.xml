@@ -17,6 +17,7 @@
    <string name="cpp_mode">Chế độ</string>
    <string name="cpp_enable">Bật</string>
    <string name="cpp_other">Dữ liệu khác</string>
+   <string name="cpp_high_contrast_text">Văn bản có độ tương phản cao</string>
    <string name="cpp_edit">Chỉnh sửa</string>
    <string name="cpp_delete">Xóa</string>
    <string name="cpp_done">Xong</string>

@@ -17,6 +17,7 @@
    <string name="cpp_mode">Режим</string>
    <string name="cpp_enable">Включить</string>
    <string name="cpp_other">Другое</string>
+   <string name="cpp_high_contrast_text">Высококонтрастный текст</string>
    <string name="cpp_edit">Изменить</string>
    <string name="cpp_delete">Удалить</string>
    <string name="cpp_done">Готово</string>

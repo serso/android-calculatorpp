@@ -17,6 +17,7 @@
    <string name="cpp_mode">モード</string>
    <string name="cpp_enable">有効にする</string>
    <string name="cpp_other">その他</string>
+   <string name="cpp_high_contrast_text">高コントラストテキスト</string>
    <string name="cpp_edit">編集</string>
    <string name="cpp_delete">削除</string>
    <string name="cpp_done">完了</string>

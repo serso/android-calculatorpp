@@ -40,7 +40,7 @@
 
     <android.preference.CheckBoxPreference
         a:key="gui.highContrast"
-        a:title="High contrast" />
+        a:title="@string/cpp_high_contrast_text" />
 
     <android.preference.CheckBoxPreference
         a:defaultValue="true"

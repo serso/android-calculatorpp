@@ -17,6 +17,7 @@
    <string name="cpp_mode">Mod</string>
    <string name="cpp_enable">Etkinleştir</string>
    <string name="cpp_other">Diğer</string>
+   <string name="cpp_high_contrast_text">Yüksek kontrastlı metin</string>
    <string name="cpp_edit">Düzenle</string>
    <string name="cpp_delete">Sil</string>
    <string name="cpp_done">Bitti</string>

@@ -33,6 +33,7 @@ public class Android {
         settingsLinks.add(new TranslationLink("location_mode_title", "cpp_mode"));
         settingsLinks.add(new TranslationLink("enable_text", "cpp_enable"));
         settingsLinks.add(new TranslationLink("storage_detail_other", "cpp_other"));
+        settingsLinks.add(new TranslationLink("accessibility_toggle_high_text_contrast_preference_title", "cpp_high_contrast_text"));
 
         calendarLinks.add(new TranslationLink("edit_label", "cpp_edit"));
         calendarLinks.add(new TranslationLink("delete_label", "cpp_delete"));

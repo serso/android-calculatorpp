@@ -17,6 +17,7 @@
    <string name="cpp_mode">Modus</string>
    <string name="cpp_enable">Inschakelen</string>
    <string name="cpp_other">Overige</string>
+   <string name="cpp_high_contrast_text">Tekst met hoog contrast</string>
    <string name="cpp_edit">Bewerken</string>
    <string name="cpp_delete">Verwijderen</string>
    <string name="cpp_done">Gereed</string>

@@ -17,6 +17,7 @@
    <string name="cpp_mode">模式</string>
    <string name="cpp_enable">啟用</string>
    <string name="cpp_other">其他</string>
+   <string name="cpp_high_contrast_text">高對比文字</string>
    <string name="cpp_edit">編輯</string>
    <string name="cpp_delete">刪除</string>
    <string name="cpp_done">完成</string>

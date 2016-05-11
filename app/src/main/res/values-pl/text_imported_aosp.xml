@@ -17,6 +17,7 @@
    <string name="cpp_mode">Tryb lokalizacji</string>
    <string name="cpp_enable">Włącz</string>
    <string name="cpp_other">Inne</string>
+   <string name="cpp_high_contrast_text">Tekst o dużym kontraście</string>
    <string name="cpp_edit">Edytuj</string>
    <string name="cpp_delete">Usuń</string>
    <string name="cpp_done">Gotowe</string>

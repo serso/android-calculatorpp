@@ -17,6 +17,7 @@
    <string name="cpp_mode">Režim určování polohy</string>
    <string name="cpp_enable">Aktivovat</string>
    <string name="cpp_other">Jiné</string>
+   <string name="cpp_high_contrast_text">Text s vysokým kontrastem</string>
    <string name="cpp_edit">Upravit</string>
    <string name="cpp_delete">Smazat</string>
    <string name="cpp_done">Hotovo</string>

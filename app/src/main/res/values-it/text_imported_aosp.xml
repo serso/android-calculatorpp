@@ -17,6 +17,7 @@
    <string name="cpp_mode">Modalità</string>
    <string name="cpp_enable">Attiva</string>
    <string name="cpp_other">Altro</string>
+   <string name="cpp_high_contrast_text">Testo alto contrasto</string>
    <string name="cpp_edit">Modifica</string>
    <string name="cpp_delete">Elimina</string>
    <string name="cpp_done">Salva</string>

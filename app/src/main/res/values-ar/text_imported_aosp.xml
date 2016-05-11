@@ -17,6 +17,7 @@
    <string name="cpp_mode">الوضع</string>
    <string name="cpp_enable">تمكين</string>
    <string name="cpp_other">غير ذلك</string>
+   <string name="cpp_high_contrast_text">نص ذو درجة تباين عالية</string>
    <string name="cpp_edit">تعديل</string>
    <string name="cpp_delete">حذف</string>
    <string name="cpp_done">تم</string>

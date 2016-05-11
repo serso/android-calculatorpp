@@ -17,6 +17,7 @@
    <string name="cpp_mode">Tila</string>
    <string name="cpp_enable">Ota käyttöön</string>
    <string name="cpp_other">Muu</string>
+   <string name="cpp_high_contrast_text">Suurikontrastinen teksti</string>
    <string name="cpp_edit">Muokkaa</string>
    <string name="cpp_delete">Poista</string>
    <string name="cpp_done">Valmis</string>
