@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
 
-public class DragImageButton extends ImageButton implements DragView {
+public abstract class DragImageButton extends ImageButton implements DragView {
     @NonNull
     private final DragGestureDetector dragDetector = new DragGestureDetector(this);
 

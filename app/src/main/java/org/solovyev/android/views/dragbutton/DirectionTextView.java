@@ -2,7 +2,11 @@ package org.solovyev.android.views.dragbutton;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
@@ -10,17 +14,24 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
+
 import com.google.common.base.Strings;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.R;
 
 import java.util.EnumMap;
 import java.util.Map;
 
+import static android.graphics.Color.BLACK;
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+import static android.util.TypedValue.applyDimension;
+
 public class DirectionTextView {
 
     public static final float DEF_ALPHA = 0.4f;
     public static final float DEF_SCALE = 0.4f;
+    public static final float SHADOW_RADIUS_DPS = 2;
 
     @NonNull
     private final Map<DragDirection, Text> texts = new EnumMap<>(DragDirection.class);
@@ -78,6 +89,12 @@ public class DirectionTextView {
         return texts.get(direction);
     }
 
+    public void setHighContrast(boolean highContrast) {
+        for (Text text : texts.values()) {
+            text.setHighContrast(highContrast);
+        }
+    }
+
     public static class Text {
         public final Rect bounds = new Rect();
         @NonNull
@@ -96,6 +113,7 @@ public class DirectionTextView {
         private int color;
         private float alpha;
         private boolean visible = true;
+        private boolean highContrast;
         private int padding;
 
         public Text(@NonNull DragDirection direction, @NonNull View view, float minTextSize) {
@@ -138,7 +156,16 @@ public class DirectionTextView {
             // set real text size value
             paint.setTextSize(Math.max(base.getTextSize() * scale, minTextSize));
 
+            initPaintShadow();
             invalidate(true);
+        }
+
+        private void initPaintShadow() {
+            if (highContrast) {
+                paint.setShadowLayer(applyDimension(COMPLEX_UNIT_DIP, SHADOW_RADIUS_DPS, view.getResources().getDisplayMetrics()), 0, 0, BLACK);
+            } else {
+                paint.setShadowLayer(0, 0, 0, BLACK);
+            }
         }
 
         private int intAlpha() {
@@ -159,6 +186,15 @@ public class DirectionTextView {
 
         public void setAlpha(float alpha) {
             setColor(color, alpha);
+        }
+
+        public void setHighContrast(boolean highContrast) {
+            if (this.highContrast == highContrast) {
+                return;
+            }
+            this.highContrast = highContrast;
+            initPaintShadow();
+            invalidate(false);
         }
 
         public void setColor(int color, float alpha) {
@@ -187,6 +223,10 @@ public class DirectionTextView {
             if (offset.x == 0 && offset.y == 0) {
                 calculatePosition();
             }
+            if (highContrast) {
+                paint.setColor(Color.WHITE);
+                paint.setAlpha(255);
+            }
             final int width = view.getWidth();
             final int height = view.getHeight();
             switch (direction) {
@@ -202,6 +242,10 @@ public class DirectionTextView {
                 case right:
                     canvas.drawText(value, width + offset.x, height / 2 + offset.y, paint);
                     break;
+            }
+            if (highContrast) {
+                paint.setColor(color);
+                paint.setAlpha(intAlpha());
             }
         }
 

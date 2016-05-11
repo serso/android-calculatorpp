@@ -26,10 +26,9 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.squareup.otto.Bus;
-import dagger.Lazy;
-import jscl.math.Expression;
-import jscl.math.Generic;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.ga.Ga;
@@ -41,6 +40,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import dagger.Lazy;
+import jscl.math.Expression;
+import jscl.math.Generic;
 
 @Singleton
 public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -69,15 +72,21 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
     @Inject
     ActivityLauncher launcher;
     private boolean vibrateOnKeypress;
+    private boolean highContrast;
 
     @Inject
     public Keyboard(@Nonnull SharedPreferences preferences) {
         preferences.registerOnSharedPreferenceChangeListener(this);
         vibrateOnKeypress = Preferences.Gui.vibrateOnKeypress.getPreference(preferences);
+        highContrast = Preferences.Gui.highContrast.getPreference(preferences);
     }
 
     public boolean isVibrateOnKeypress() {
         return vibrateOnKeypress;
+    }
+
+    public boolean isHighContrast() {
+        return highContrast;
     }
 
     public boolean buttonPressed(@Nullable String text) {
@@ -292,6 +301,8 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         if (Preferences.Gui.vibrateOnKeypress.isSameKey(key)) {
             vibrateOnKeypress = Preferences.Gui.vibrateOnKeypress.getPreference(preferences);
+        } else if (Preferences.Gui.highContrast.isSameKey(key)) {
+            highContrast = Preferences.Gui.highContrast.getPreference(preferences);
         }
     }
 }

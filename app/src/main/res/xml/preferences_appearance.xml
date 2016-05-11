@@ -39,6 +39,10 @@
         a:title="@string/cpp_theme" />
 
     <android.preference.CheckBoxPreference
+        a:key="gui.highContrast"
+        a:title="High contrast" />
+
+    <android.preference.CheckBoxPreference
         a:defaultValue="true"
         a:key="gui.rotateScreen"
         a:title="@string/cpp_prefs_auto_rotate_screen" />

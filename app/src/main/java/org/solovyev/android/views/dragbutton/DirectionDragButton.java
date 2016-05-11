@@ -10,10 +10,16 @@ import android.util.AttributeSet;
 
 import javax.annotation.Nonnull;
 
+import static android.graphics.Color.BLACK;
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+import static android.util.TypedValue.applyDimension;
+import static org.solovyev.android.views.dragbutton.DirectionTextView.SHADOW_RADIUS_DPS;
+
 public class DirectionDragButton extends DragButton implements DirectionDragView {
     private final DirectionTextView textView = new DirectionTextView();
     @NonNull
     private final TextPaint baseTextPaint = new TextPaint();
+    private boolean highContrast;
 
     public DirectionDragButton(Context context) {
         super(context);
@@ -84,6 +90,20 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
     public void setDirectionTextAlpha(float alpha) {
         for (DragDirection direction : DragDirection.values()) {
             getText(direction).setAlpha(alpha);
+        }
+    }
+
+    @Override
+    public void setHighContrast(boolean highContrast) {
+        if(this.highContrast == highContrast) {
+            return;
+        }
+        this.highContrast = highContrast;
+        this.textView.setHighContrast(highContrast);
+        if (highContrast) {
+            setShadowLayer(applyDimension(COMPLEX_UNIT_DIP, SHADOW_RADIUS_DPS, getResources().getDisplayMetrics()), 0, 0, BLACK);
+        } else {
+            setShadowLayer(0, 0, 0, BLACK);
         }
     }
 }

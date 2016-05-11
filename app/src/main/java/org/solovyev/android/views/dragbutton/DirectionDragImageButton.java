@@ -69,4 +69,8 @@ public class DirectionDragImageButton extends DragImageButton implements Directi
     public float getTextSize() {
         return baseTextPaint.getTextSize();
     }
+
+    @Override
+    public void setHighContrast(boolean highContrast) {
+    }
 }

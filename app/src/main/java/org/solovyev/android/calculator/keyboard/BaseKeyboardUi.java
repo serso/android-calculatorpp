@@ -143,6 +143,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         }
         dragButtons.add(button);
         button.setVibrateOnDrag(keyboard.isVibrateOnKeypress());
+        button.setHighContrast(keyboard.isHighContrast());
         prepareButton((View) button);
         button.setOnDragListener(listener);
         button.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
@@ -186,6 +187,11 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
             final boolean vibrate = Preferences.Gui.vibrateOnKeypress.getPreference(preferences);
             for (DragView dragButton : dragButtons) {
                 dragButton.setVibrateOnDrag(vibrate);
+            }
+        } else if (Preferences.Gui.highContrast.isSameKey(key)) {
+            final boolean highContrast = Preferences.Gui.highContrast.getPreference(preferences);
+            for (DragView dragButton : dragButtons) {
+                dragButton.setHighContrast(highContrast);
             }
         }
     }

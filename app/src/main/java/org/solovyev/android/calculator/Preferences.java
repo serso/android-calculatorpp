@@ -47,6 +47,7 @@ import org.solovyev.android.prefs.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
 public final class Preferences {
 
-    private static final Preference<Integer> version = IntegerPreference.of("version", 2);
+    private static final Preference<Integer> version = IntegerPreference.of("version", 3);
 
     private Preferences() {
         throw new AssertionError();
@@ -86,6 +87,11 @@ public final class Preferences {
             }
             version.putDefault(editor);
             editor.apply();
+        } else if (currentVersion == 2) {
+            final SharedPreferences.Editor editor = preferences.edit();
+            Gui.highContrast.tryPutDefault(preferences, editor);
+            version.putDefault(editor);
+            editor.apply();
         }
     }
 
@@ -112,6 +118,7 @@ public final class Preferences {
         Gui.rotateScreen.tryPutDefault(preferences, editor);
         Gui.keepScreenOn.tryPutDefault(preferences, editor);
         Gui.language.tryPutDefault(preferences, editor);
+        Gui.highContrast.tryPutDefault(preferences, editor);
 
         Calculations.calculateOnFly.tryPutDefault(preferences, editor);
 
@@ -250,6 +257,7 @@ public final class Preferences {
         public static final Preference<Boolean> useBackAsPrevious = BooleanPreference.of("gui.useBackAsPrevious", false);
         public static final Preference<Boolean> rotateScreen = BooleanPreference.of("gui.rotateScreen", true);
         public static final Preference<Boolean> keepScreenOn = BooleanPreference.of("gui.keepScreenOn", true);
+        public static final Preference<Boolean> highContrast = BooleanPreference.of("gui.highContrast", false);
         public static final Preference<Boolean> vibrateOnKeypress = BooleanPreference.of("gui.vibrateOnKeypress", true);
 
         @Nonnull
