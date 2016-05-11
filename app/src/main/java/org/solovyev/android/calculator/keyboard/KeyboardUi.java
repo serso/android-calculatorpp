@@ -5,22 +5,24 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ImageButton;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.NumeralBase;
+
 import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.NumeralBase;
+
 import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
 import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
-import static org.solovyev.android.views.dragbutton.DragDirection.*;
+import static org.solovyev.android.views.dragbutton.DragDirection.down;
+import static org.solovyev.android.views.dragbutton.DragDirection.left;
+import static org.solovyev.android.views.dragbutton.DragDirection.up;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
@@ -58,7 +60,7 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Bind(R.id.cpp_button_functions)
     DirectionDragButton functionsButton;
     @Bind(R.id.cpp_button_history)
-    DirectionDragImageButton historyButton;
+    DirectionDragButton historyButton;
     @Bind(R.id.cpp_button_multiplication)
     DirectionDragButton multiplicationButton;
     @Bind(R.id.cpp_button_plus)
@@ -72,14 +74,8 @@ public class KeyboardUi extends BaseKeyboardUi {
     @Bind(R.id.cpp_button_round_brackets)
     DirectionDragButton bracketsButton;
     @Nullable
-    @Bind(R.id.cpp_button_copy)
-    DirectionDragImageButton copyButton;
-    @Nullable
-    @Bind(R.id.cpp_button_paste)
-    DirectionDragImageButton pasteButton;
-    @Nullable
     @Bind(R.id.cpp_button_like)
-    ImageButton likeButton;
+    DirectionDragButton likeButton;
     @Nullable
     @Bind(R.id.cpp_button_percent)
     DirectionDragButton percentButton;
@@ -132,12 +128,6 @@ public class KeyboardUi extends BaseKeyboardUi {
         prepareButton(button8);
         prepareButton(button9);
 
-        if (copyButton != null) {
-            prepareButton(copyButton);
-        }
-        if (pasteButton != null) {
-            prepareButton(pasteButton);
-        }
         prepareButton(likeButton);
         prepareButton(memoryButton);
 

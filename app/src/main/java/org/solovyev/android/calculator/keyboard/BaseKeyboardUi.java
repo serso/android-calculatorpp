@@ -12,21 +12,38 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import dagger.Lazy;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.ActivityLauncher;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.buttons.CppButton;
 import org.solovyev.android.calculator.memory.Memory;
 import org.solovyev.android.views.Adjuster;
-import org.solovyev.android.views.dragbutton.*;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
+import org.solovyev.android.views.dragbutton.DirectionDragListener;
+import org.solovyev.android.views.dragbutton.DirectionDragView;
+import org.solovyev.android.views.dragbutton.Drag;
+import org.solovyev.android.views.dragbutton.DragDirection;
+import org.solovyev.android.views.dragbutton.DragEvent;
+import org.solovyev.android.views.dragbutton.DragView;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+
+import dagger.Lazy;
+
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-import static android.view.HapticFeedbackConstants.*;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
+import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Preferences.Gui.Mode.simple;
 
@@ -111,18 +128,6 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         textSize = calculateTextSize(activity);
     }
 
-    protected final void prepareButton(@Nullable ImageView button) {
-        prepareButton(button, IMAGE_SCALE);
-    }
-
-    protected final void prepareButton(@Nullable ImageView button, float scale) {
-        if (button == null) {
-            return;
-        }
-        prepareButton((View) button);
-        Adjuster.adjustImage(button, scale);
-    }
-
     protected final void prepareButton(@Nullable View button) {
         if (button == null) {
             return;
@@ -130,18 +135,6 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
         // we call android.view.View.performHapticFeedback(int, int) from #onClick
         button.setHapticFeedbackEnabled(false);
         button.setOnClickListener(this);
-    }
-
-    protected final void prepareButton(@Nullable DirectionDragImageButton button) {
-        if (button == null) {
-            return;
-        }
-        dragButtons.add(button);
-        button.setVibrateOnDrag(keyboard.isVibrateOnKeypress());
-        prepareButton((ImageView) button);
-        button.setOnDragListener(listener);
-        button.setTextSize(textSize);
-        Adjuster.adjustText(button, AdjusterHelper.instance, textScale, 0);
     }
 
     protected final void prepareButton(@Nullable DirectionDragButton button) {

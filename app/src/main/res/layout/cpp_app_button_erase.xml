@@ -22,8 +22,8 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ImageButton
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_erase"
+<org.solovyev.android.views.dragbutton.DirectionDragButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/cpp_button_erase"
     style="?attr/cpp_button_style_operation_highlighted"
-    a:src="@drawable/ic_backspace_white_48dp" />
+    android:text="@string/cpp_glyph_backspace"/>

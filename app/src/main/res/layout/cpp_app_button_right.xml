@@ -22,12 +22,12 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.views.dragbutton.DirectionDragImageButton a:id="@id/cpp_button_right"
+<org.solovyev.android.views.dragbutton.DirectionDragButton android:id="@id/cpp_button_right"
     style="?attr/cpp_button_style_control"
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    xmlns:c="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    a:src="@drawable/ic_keyboard_arrow_right_white_48dp"
-    c:directionTextUp="&gt;&gt;"
-    c:directionTextDown="@string/cpp_glyph_paste"
+    android:text="@string/cpp_glyph_right"
+    app:directionTextUp="&gt;&gt;"
+    app:directionTextDown="@string/cpp_glyph_paste"
     tools:ignore="HardcodedText" />

@@ -24,29 +24,30 @@ package org.solovyev.android.calculator.buttons;
 
 import org.solovyev.android.Check;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 // see values/text_glyphs.xml for glyph constants
 public enum CppSpecialButton {
 
-    history("history"),
+    history("history", '\ue005'),
     history_undo("↶", '\ue007'),
     history_redo("↷", '\ue008'),
-    cursor_right("▷"),
+    cursor_right("▷", '\ue003'),
     cursor_to_end(">>"),
-    cursor_left("◁"),
+    cursor_left("◁", '\ue002'),
     cursor_to_start("<<"),
     settings("settings"),
     settings_widget("settings_widget"),
-    like("like"),
+    like("like", '\ue006'),
     memory("memory"),
     memory_plus("M+"),
     memory_minus("M-"),
     memory_clear("MC"),
-    erase("erase"),
+    erase("erase", '\ue004'),
     paste("paste", '\uE000'),
     copy("copy", '\uE001'),
     brackets_wrap("(…)"),

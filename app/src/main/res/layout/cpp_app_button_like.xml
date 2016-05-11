@@ -22,8 +22,8 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.views.dragbutton.DirectionDragImageButton
+<org.solovyev.android.views.dragbutton.DirectionDragButton
     android:id="@id/cpp_button_like"
     style="?attr/cpp_button_style_control"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/ic_favorite_border_white_48dp" />
+    android:text="@string/cpp_glyph_heart"/>
