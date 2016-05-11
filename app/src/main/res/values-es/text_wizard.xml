@@ -4,10 +4,10 @@
     <string name="cpp_wizard_back">Atrás</string>
     <string name="cpp_wizard_start">Iniciar el asistente</string>
     <string name="cpp_wizard_finish">Terminado</string>
-    <string name="cpp_wizard_mode_simple">Sencillo</string>
+    <string name="cpp_mode_simple">Sencillo</string>
   <string name="cpp_wizard_mode_simple_description">En el modo sencillo sólo estará disponible la funcionalidad básica desde la pantalla principal.
 El resultado se redondea hasta 5 dígitos, y los grados son la unidad de ángulo predeterminada.</string>
-    <string name="cpp_wizard_mode_engineer">Científico</string>
+    <string name="cpp_mode_engineer">Científico</string>
   <string name="cpp_wizard_mode_engineer_description">En el modo científico todas las funcionalidades especiales están disponibles desde la pantalla principal.
 El resultado no se redondea, y los radianes son la unidad de ángulo predeterminada.</string>
     <string name="cpp_restart_wizard">Iniciar el asistente</string>

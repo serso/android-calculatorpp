@@ -4,10 +4,10 @@
     <string name="cpp_wizard_back">رجوع</string>
     <string name="cpp_wizard_start">بدء الدليل</string>
     <string name="cpp_wizard_finish">إنتهى</string>
-    <string name="cpp_wizard_mode_simple">بسيطة</string>
+    <string name="cpp_mode_simple">بسيطة</string>
   <string name="cpp_wizard_mode_simple_description">في النمط البسيط ستتوفر الوظائف الأساسية فقط في الشاشة الرئيسية.
 يتم تقريب النتيجة الى 5 أرقام كحد أقصى, وتستخدم الدرجات كوحدات إفتراضية للزاوية.</string>
-    <string name="cpp_wizard_mode_engineer">هندسية</string>
+    <string name="cpp_mode_engineer">هندسية</string>
   <string name="cpp_wizard_mode_engineer_description">في النمط الهندسي ستتوفر وظائف خاصة على الشاشة الرئيسية.
 النتيجة لا يتم تقريبها و تظهر بصيغة هندسية، يستخدم الراديان كواحدة إفتراضية للزاوية.</string>
     <string name="cpp_restart_wizard">بدء جولة الدليل</string>

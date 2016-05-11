@@ -4,10 +4,10 @@
     <string name="cpp_wizard_back">戻る</string>
     <string name="cpp_wizard_start">ウィザードを開始</string>
     <string name="cpp_wizard_finish">完了</string>
-    <string name="cpp_wizard_mode_simple">シンプル</string>
+    <string name="cpp_mode_simple">シンプル</string>
   <string name="cpp_wizard_mode_simple_description">シンプルモードでは基本的な関数のみが利用可能です。
 結果は5桁でまるめられ、角度の単位は初期設定のものが用いられます。</string>
-    <string name="cpp_wizard_mode_engineer">技術者</string>
+    <string name="cpp_mode_engineer">技術者</string>
   <string name="cpp_wizard_mode_engineer_description">技術者モードでは、特別な関数がメイン画面に表示されるようになります。
 		計算結果は丸めず、技術者表記で表示され、デフォルトの角度の単位としてラジアンが使用されます。
 	</string>

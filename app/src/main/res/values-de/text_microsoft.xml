@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Darstellung</string>
+   <string name="cpp_number_format">Zahlenformat</string>
+   <string name="cpp_system_language">Systemsprache</string>
+   <string name="cpp_format">Format</string>
+   <string name="cpp_angles">Winkel</string>
+   <string name="cpp_thousands_separator">Tausender-Trennzeichen</string>
+   <string name="cpp_examples">Beispiele</string>
+</resources>

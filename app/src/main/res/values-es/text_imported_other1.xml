@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_introduction">Introducción</string>
+   <string name="cpp_prefs_basic">Básico</string>
+   <string name="cpp_prefs_advanced">Avanzado</string>
+   <string name="cpp_report_problem">Reporta un problema</string>
+   <string name="cpp_help">Ayuda</string>
+</resources>

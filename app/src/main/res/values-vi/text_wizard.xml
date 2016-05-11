@@ -4,9 +4,9 @@
     <string name="cpp_wizard_back">Trở lại</string>
     <string name="cpp_wizard_start">Khởi động thuật sĩ</string>
     <string name="cpp_wizard_finish">Hoàn thành</string>
-    <string name="cpp_wizard_mode_simple">Đơn giản</string>
+    <string name="cpp_mode_simple">Đơn giản</string>
     <string name="cpp_wizard_mode_simple_description">Trong chế độ đơn giản chỉ chức năng cơ bản sẽ có sẵn từ màn hình chính. Kết quả làm tròn lên đến 5 chữ số, độ được sử dụng như là các đơn vị góc mặc định.</string>
-    <string name="cpp_wizard_mode_engineer">Kỹ sư</string>
+    <string name="cpp_mode_engineer">Kỹ sư</string>
     <string name="cpp_wizard_mode_engineer_description">Trong chế độ Engineer chức năng đặc biệt sẽ được sử dụng trên màn hình chính.   Kết quả là không làm tròn và được trình bày theo cách ghi kỹ sư, radian được sử dụng như là các đơn vị góc mặc định.</string>
     <string name="cpp_restart_wizard">Khởi động thuật sĩ</string>
     <string name="cpp_wizard_dragbutton_action_end">Tuyệt vời! Bấm vào nút một lần nữa để thử lại</string>

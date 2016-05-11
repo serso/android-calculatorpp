@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Aspeto</string>
+   <string name="cpp_number_format">Formato do Número</string>
+   <string name="cpp_system_language">Idioma do Sistema Operativo</string>
+   <string name="cpp_format">Formato de dados não suportado.</string>
+   <string name="cpp_angles">Ângulos</string>
+   <string name="cpp_examples">Exemplos</string>
+</resources>

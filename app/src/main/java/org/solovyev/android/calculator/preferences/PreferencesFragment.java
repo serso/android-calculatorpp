@@ -11,15 +11,14 @@ import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ListView;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
-import org.solovyev.android.calculator.AdView;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.Preferences;
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.Preferences.Gui.Theme;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.feedback.FeedbackReporter;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.BillingRequests;
@@ -30,16 +29,11 @@ import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.text.CharacterMapper;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Engine.Preferences.angleUnitName;
@@ -51,8 +45,6 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
     private static boolean SUPPORT_HEADERS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     @Nullable
-    private Preference buyPremiumPreference;
-    @Nullable
     private AdView adView;
     @Inject
     SharedPreferences preferences;
@@ -62,6 +54,10 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
     Wizards wizards;
     @Inject
     JsclMathEngine engine;
+    @Inject
+    FeedbackReporter feedbackReporter;
+    @Inject
+    ActivityLauncher launcher;
     @Inject
     Bus bus;
 
@@ -98,41 +94,21 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
         final int preference = getPreferencesResId();
         if (preference == R.xml.preferences) {
-            final SparseArray<PreferencesActivity.PrefDef> preferences = PreferencesActivity.getPreferenceDefs();
-            for (int i = 0; i < preferences.size(); i++) {
-                final int xml = preferences.keyAt(i);
-                final PreferencesActivity.PrefDef def = preferences.valueAt(i);
-                setPreferenceIntent(xml, def);
-            }
-            final Preference restartWizardPreference = findPreference("restart_wizard");
-            restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startWizard(wizards, DEFAULT_WIZARD_FLOW, getActivity());
-                    return true;
-                }
-            });
-
-            buyPremiumPreference = findPreference("buy_premium");
-            if (buyPremiumPreference != null) {
-                buyPremiumPreference.setEnabled(false);
-                buyPremiumPreference.setSelectable(false);
-                buyPremiumPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        startActivity(new Intent(getActivity(), PurchaseDialogActivity.class));
-                        return true;
-                    }
-                });
-            }
-            prepareModePreference();
-            prepareAnglesPreference();
-            prepareRadixPreference();
+            prepareScreens();
+            prepareIntroduction();
+            prepareReportBug();
+            prepareAbout();
+            prepareSupportProject();
+            prepareMode();
+            prepareAngles();
+            prepareRadix();
         } else if (preference == R.xml.preferences_number_format) {
             prepareListPreference(Engine.Preferences.Output.notation, Engine.Notation.class);
             preparePrecisionPreference();
             prepareSeparatorPreference();
             prepareNumberFormatExamplesPreference();
+        } else if (preference == R.xml.preferences_onscreen) {
+            updateFloatingCalculatorPreferences();
         }
 
         prepareLanguagePreference(preference);
@@ -144,9 +120,10 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
                 requests.isPurchased(ProductTypes.IN_APP, "ad_free", new RequestListener<Boolean>() {
                     @Override
                     public void onSuccess(@Nonnull Boolean purchased) {
-                        if (buyPremiumPreference != null) {
-                            buyPremiumPreference.setEnabled(!purchased);
-                            buyPremiumPreference.setSelectable(!purchased);
+                        final Preference supportProject = findPreference("prefs.supportProject");
+                        if (supportProject != null) {
+                            supportProject.setEnabled(!purchased);
+                            supportProject.setSelectable(!purchased);
                         }
                         onShowAd(!purchased);
                     }
@@ -156,6 +133,63 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
                         onShowAd(false);
                     }
                 });
+            }
+        });
+    }
+
+    private void prepareFloatingCalculatorPreferences() {
+    }
+
+    private void prepareReportBug() {
+        final Preference reportBug = findPreference("prefs.reportBug");
+        reportBug.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                feedbackReporter.report();
+                return true;
+            }
+        });
+
+    }
+
+    private void prepareSupportProject() {
+        final Preference supportProject = findPreference("prefs.supportProject");
+        supportProject.setEnabled(false);
+        supportProject.setSelectable(false);
+        supportProject.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(getActivity(), PurchaseDialogActivity.class));
+                return true;
+            }
+        });
+    }
+
+    private void prepareScreens() {
+        final SparseArray<PreferencesActivity.PrefDef> preferences = PreferencesActivity.getPreferenceDefs();
+        for (int i = 0; i < preferences.size(); i++) {
+            setPreferenceIntent(preferences.keyAt(i), preferences.valueAt(i));
+        }
+    }
+
+    private void prepareIntroduction() {
+        final Preference introduction = findPreference("prefs.introduction");
+        introduction.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startWizard(wizards, DEFAULT_WIZARD_FLOW, getActivity());
+                return true;
+            }
+        });
+    }
+
+    private void prepareAbout() {
+        final Preference about = findPreference("prefs.about");
+        about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                launcher.showAbout();
+                return true;
             }
         });
     }
@@ -183,13 +217,13 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
     private int separatorName(char separator) {
         switch (separator) {
             case '\'':
-                return R.string.p_grouping_separator_apostrophe;
+                return R.string.cpp_thousands_separator_apostrophe;
             case ' ':
-                return R.string.p_grouping_separator_space;
+                return R.string.cpp_thousands_separator_space;
             case 0:
-                return R.string.p_grouping_separator_no;
+                return R.string.cpp_thousands_separator_no;
         }
-        return R.string.p_grouping_separator_no;
+        return R.string.cpp_thousands_separator_no;
     }
 
     private void preparePrecisionPreference() {
@@ -227,7 +261,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         });
     }
 
-    private void prepareModePreference() {
+    private void prepareMode() {
         final ListPreference mode = (ListPreference) preferenceManager.findPreference(Preferences.Gui.mode.getKey());
         mode.setSummary(Preferences.Gui.getMode(preferences).name);
         mode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -239,7 +273,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         });
     }
 
-    private void prepareAnglesPreference() {
+    private void prepareAngles() {
         final ListPreference angles = (ListPreference) preferenceManager.findPreference(Engine.Preferences.angleUnit.getKey());
         angles.setSummary(angleUnitName(Engine.Preferences.angleUnit.getPreference(preferences)));
         angles.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -251,7 +285,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         });
     }
 
-    private void prepareRadixPreference() {
+    private void prepareRadix() {
         final ListPreference radix = (ListPreference) preferenceManager.findPreference(Engine.Preferences.numeralBase.getKey());
         radix.setSummary(numeralBaseName(Engine.Preferences.numeralBase.getPreference(preferences)));
         radix.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -330,6 +364,16 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (Preferences.Onscreen.showAppIcon.isSameKey(key)) {
+            updateFloatingCalculatorPreferences();
+        }
+    }
+
+    private void updateFloatingCalculatorPreferences() {
+        final Preference theme = findPreference(Preferences.Onscreen.theme.getKey());
+        if (theme != null) {
+            theme.setEnabled(Preferences.Onscreen.showAppIcon.getPreference(preferences));
+        }
     }
 
     @Subscribe

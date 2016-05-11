@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Внешний вид</string>
+   <string name="cpp_number_format">Формат чисел</string>
+   <string name="cpp_system_language">Системный язык</string>
+   <string name="cpp_format">Формат</string>
+   <string name="cpp_angles">Углы</string>
+   <string name="cpp_thousands_separator">Разделитель разрядов тысяч</string>
+   <string name="cpp_examples">Примеры</string>
+</resources>

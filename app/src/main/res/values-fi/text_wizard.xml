@@ -4,10 +4,10 @@
     <string name="cpp_wizard_back">Takaisin</string>
     <string name="cpp_wizard_start">Aloita ohjattu asennus</string>
     <string name="cpp_wizard_finish">Valmis</string>
-    <string name="cpp_wizard_mode_simple">Yksinkertaistettu</string>
+    <string name="cpp_mode_simple">Yksinkertaistettu</string>
   <string name="cpp_wizard_mode_simple_description">Yksinkertaistetussa tilassa vain olennainen toiminnallisuus on saatavilla aloitusnäkymässä.
 Tulokset pyöristetään ylöspäin viiteen desimaaliin ja kulmienn oletusyksikkönä käytetään asteita.</string>
-    <string name="cpp_wizard_mode_engineer">Insinööri</string>
+    <string name="cpp_mode_engineer">Insinööri</string>
   <string name="cpp_wizard_mode_engineer_description">Insinööritilassa erikoisfunktiot ovat käytettävissä päänäkymästä.
 Vastauksia ei pyöristetä ja ne näytetään 10-potenssimuodossa, kulman oletusyksikkö on radiaani.</string>
     <string name="cpp_restart_wizard">Aloita ohjattu asennus</string>

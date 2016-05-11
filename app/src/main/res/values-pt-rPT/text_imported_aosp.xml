@@ -15,6 +15,8 @@
    <string name="cpp_switch">Alternar</string>
    <string name="cpp_add">Adicionar</string>
    <string name="cpp_mode">Modo</string>
+   <string name="cpp_enable">Ativar</string>
+   <string name="cpp_other">Outros</string>
    <string name="cpp_edit">Editar</string>
    <string name="cpp_delete">Eliminar</string>
    <string name="cpp_done">Concluído</string>

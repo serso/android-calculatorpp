@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_introduction">Giriş</string>
+   <string name="cpp_prefs_basic">Basit</string>
+   <string name="cpp_prefs_advanced">Gelişmiş</string>
+   <string name="cpp_report_problem">Bir sorun bildir</string>
+   <string name="cpp_help">Yardım</string>
+</resources>

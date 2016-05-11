@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_introduction">初めに</string>
+   <string name="cpp_prefs_basic">基本設定</string>
+   <string name="cpp_prefs_advanced">詳細ツール</string>
+   <string name="cpp_report_problem">問題を報告</string>
+   <string name="cpp_help">ヘルプ</string>
+</resources>

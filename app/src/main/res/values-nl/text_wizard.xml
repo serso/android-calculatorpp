@@ -4,9 +4,9 @@
     <string name="cpp_wizard_back">Terug</string>
     <string name="cpp_wizard_start">Wizard starten</string>
     <string name="cpp_wizard_finish">Voltooid</string>
-    <string name="cpp_wizard_mode_simple">Eenvoudig</string>
+    <string name="cpp_mode_simple">Eenvoudig</string>
     <string name="cpp_wizard_mode_simple_description">In de simple mode zal alleen basis functionaliteit beschikbaar zijn van het belangrijkste scherm.   Resultaat is afgerond tot op maximaal 5 cijfers, graden worden gebruikt als de standaardeenheden voor hoeken. </string>
-    <string name="cpp_wizard_mode_engineer">Ingenieur</string>
+    <string name="cpp_mode_engineer">Ingenieur</string>
   <string name="cpp_wizard_mode_engineer_description">In ingenieur modus worden speciale functies gebruikt op het hoofdscherm.
 Resultaat is niet afgerond en wordt gepresenteerd in de ingenieursnotatie, radialen worden gebruikt als de standaardeenheden voor hoeken. </string>
     <string name="cpp_restart_wizard">Wizard starten</string>

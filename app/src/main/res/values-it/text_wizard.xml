@@ -4,9 +4,9 @@
     <string name="cpp_wizard_back">Indietro</string>
     <string name="cpp_wizard_start">Avvia la procedura guidata</string>
     <string name="cpp_wizard_finish">Fatto</string>
-    <string name="cpp_wizard_mode_simple">Semplice</string>
+    <string name="cpp_mode_simple">Semplice</string>
     <string name="cpp_wizard_mode_simple_description">Nella modaltà semplificata solo le funzionalità di base saranno disponibili dalla schermata principale. I risultati sono arrotondati fino a 5 cifre, i gradi sono utilizzati come unità di misura predefinita per gli angoli.</string>
-    <string name="cpp_wizard_mode_engineer">Ingegnere</string>
+    <string name="cpp_mode_engineer">Ingegnere</string>
   <string name="cpp_wizard_mode_engineer_description">Nella modalità ingegnere funzioni speciali saranno utilizzate sulla schermata principale.
 Il risultato non è arrotondato, ed è presentato in notazione scientifica, i radianti sono utilizzati come unità di misura per gli angoli predefinita.</string>
     <string name="cpp_restart_wizard">Avvia la procedura guidata</string>

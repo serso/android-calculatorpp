@@ -4,11 +4,11 @@
     <string name="cpp_wizard_back">返回</string>
     <string name="cpp_wizard_start">啟動精靈</string>
     <string name="cpp_wizard_finish">完成</string>
-    <string name="cpp_wizard_mode_simple">簡單模式</string>
+    <string name="cpp_mode_simple">簡單模式</string>
   <string name="cpp_wizard_mode_simple_description">在簡單模式下，主畫面上只有基本功能可以使用。
 計算結果四捨五入，角度單位預設為 度(Degrees)。
 	</string>
-    <string name="cpp_wizard_mode_engineer">工程模式</string>
+    <string name="cpp_mode_engineer">工程模式</string>
   <string name="cpp_wizard_mode_engineer_description">在工程模式下，主畫面上可以使用特別的功能。
 計算結果不四捨五入並以工程符號表示，角度單位預設為 弧度(Radians)。
 	</string>

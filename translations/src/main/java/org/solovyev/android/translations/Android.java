@@ -31,6 +31,8 @@ public class Android {
         settingsLinks.add(new TranslationLink("dlg_switch", "cpp_switch"));
         settingsLinks.add(new TranslationLink("user_dict_settings_add_menu_title", "cpp_add"));
         settingsLinks.add(new TranslationLink("location_mode_title", "cpp_mode"));
+        settingsLinks.add(new TranslationLink("enable_text", "cpp_enable"));
+        settingsLinks.add(new TranslationLink("storage_detail_other", "cpp_other"));
 
         calendarLinks.add(new TranslationLink("edit_label", "cpp_edit"));
         calendarLinks.add(new TranslationLink("delete_label", "cpp_delete"));
@@ -71,22 +73,34 @@ public class Android {
         }
         final File androidPlatform = makeInputDirectory(androidHome + "/platforms/android-23/data");
 
-        final File project;
+        final File[] projects;
         if (commandLine.hasOption("project")) {
-            project = makeInputDirectory(commandLine.getOptionValue("project"));
+            final String[] projectPaths = commandLine.getOptionValues("project");
+            projects = new File[projectPaths.length];
+            for (int i = 0; i < projectPaths.length; i++) {
+                projects[i] = makeInputDirectory(projectPaths[i]);
+            }
         } else {
-            project = null;
+            projects = null;
         }
-        final List<TranslationLink> projectLinks = new ArrayList<>();
+        final List<TranslationLink>[] projectsLinks;
         if (commandLine.hasOption("resources")) {
-            for (String resource : commandLine.getOptionValue("resources").split(",")) {
-                final int i = resource.indexOf("-");
-                if (i >= 0) {
-                    projectLinks.add(new TranslationLink(resource.substring(0, i), "cpp_" + resource.substring(i + 1, resource.length())));
-                } else {
-                    projectLinks.add(new TranslationLink(resource, "cpp_" + resource));
+            final String[] projectResources = commandLine.getOptionValues("resources");
+            projectsLinks = new List[projectResources.length];
+            for (int j = 0; j < projectResources.length; j++) {
+                final String resources = projectResources[j];
+                projectsLinks[j] = new ArrayList<>();
+                for (String resource : resources.split(",")) {
+                    final int i = resource.indexOf("-");
+                    if (i >= 0) {
+                        projectsLinks[j].add(new TranslationLink(resource.substring(0, i), "cpp_" + resource.substring(i + 1, resource.length())));
+                    } else {
+                        projectsLinks[j].add(new TranslationLink(resource, "cpp_" + resource));
+                    }
                 }
             }
+        } else {
+            projectsLinks = null;
         }
 
         final File outDir = new File("build/translations/res");
@@ -94,8 +108,15 @@ public class Android {
         outDir.mkdirs();
 
         translate(outDir, "aosp", new TranslationDef(aospSettings, settingsLinks), new TranslationDef(aospCalendar, calendarLinks), new TranslationDef(aospContacts, contactsLinks), new TranslationDef(aospCalculator, calculatorLinks), new TranslationDef(androidPlatform, platformLinks));
-        if (project != null) {
-            translate(outDir, "other", new TranslationDef(project, projectLinks));
+        if (projects != null && projects.length != 0) {
+            if (projectsLinks == null || projectsLinks.length != projects.length) {
+                throw new IllegalArgumentException("Projects=" + projects.length + ", resources=" + (projectsLinks == null ? 0 : projectsLinks.length));
+            }
+            for (int i = 0; i < projects.length; i++) {
+                final File project = projects[i];
+                final List<TranslationLink> projectLinks = projectsLinks[i];
+                translate(outDir, "other" + (i == 0 ? "" : i), new TranslationDef(project, projectLinks));
+            }
         }
     }
 

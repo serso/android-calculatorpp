@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Оформлення</string>
+   <string name="cpp_number_format">Формат числа</string>
+   <string name="cpp_system_language">Його мова відповідає мові системи.</string>
+   <string name="cpp_format">Формат даних не підтримується.</string>
+   <string name="cpp_angles">Кути</string>
+</resources>

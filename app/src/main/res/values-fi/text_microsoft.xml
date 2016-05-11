@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Ulkoasu</string>
+   <string name="cpp_number_format">Numeromuoto</string>
+   <string name="cpp_system_language">Sen kieli vastaa järjestelmän kieltä.</string>
+   <string name="cpp_format">Tietomuotoa ei tueta.</string>
+   <string name="cpp_angles">Kulmat</string>
+   <string name="cpp_thousands_separator">Tuhaterotin</string>
+   <string name="cpp_examples">Esimerkkejä</string>
+</resources>

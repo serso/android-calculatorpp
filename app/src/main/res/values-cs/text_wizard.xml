@@ -4,9 +4,9 @@
     <string name="cpp_wizard_back">Zpět</string>
     <string name="cpp_wizard_start">Spustit průvodce</string>
     <string name="cpp_wizard_finish">Dokončeno</string>
-    <string name="cpp_wizard_mode_simple">Jednoduché</string>
+    <string name="cpp_mode_simple">Jednoduché</string>
     <string name="cpp_wizard_mode_simple_description">V jednoduchém režimu budou z hlavní obrazovky k dispozici pouze základní funkce.   Výsledek se zaokrouhlí na 5 číslic, stupně se používají jako výchozí jednotka úhle.</string>
-    <string name="cpp_wizard_mode_engineer">Vědec</string>
+    <string name="cpp_mode_engineer">Vědec</string>
     <string name="cpp_wizard_mode_engineer_description">V inženýrském režimu se v hlavním okně objeví speciální funkce. Výsledek není zaokrouhlen a je uveden v inženýrskym zápisu, radiány se používají jako výchozí jednotka úhlu.</string>
     <string name="cpp_restart_wizard">Spustit průvodce</string>
     <string name="cpp_wizard_dragbutton_action_end">Vynikající! Klepnutím na tlačítko můžete zopakovat ještě jednou</string>

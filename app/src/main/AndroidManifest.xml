@@ -23,7 +23,7 @@
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/c_app_name"
+        android:label="@string/cpp_app_name"
         android:theme="@style/Cpp.Theme.Material"
         tools:ignore="UnusedAttribute">
 
@@ -34,7 +34,7 @@
         <activity
             android:name=".CalculatorActivity"
             android:clearTaskOnLaunch="true"
-            android:label="@string/c_app_name"
+            android:label="@string/cpp_app_name"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustPan"
             android:theme="@style/Cpp.Theme.Material.Calculator">
@@ -178,7 +178,7 @@
         <receiver
             android:name=".widget.CalculatorWidget"
             android:icon="@drawable/ic_launcher"
-            android:label="@string/c_app_name">
+            android:label="@string/cpp_app_name">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

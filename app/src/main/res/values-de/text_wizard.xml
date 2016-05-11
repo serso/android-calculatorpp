@@ -4,10 +4,10 @@
     <string name="cpp_wizard_back">Zurück</string>
     <string name="cpp_wizard_start">Wizard starten</string>
     <string name="cpp_wizard_finish">Fertig</string>
-    <string name="cpp_wizard_mode_simple">Einfach</string>
+    <string name="cpp_mode_simple">Einfach</string>
   <string name="cpp_wizard_mode_simple_description">Im einfachen Modus werden nur grundlegende Funktionen vom Hauptbildschirm verfügbar sein.
 Das Ergebnis wird auf 5 Nachkommastellen gerundet. Grad wird als Winkeleinheit verwendet.</string>
-    <string name="cpp_wizard_mode_engineer">Ingenieur</string>
+    <string name="cpp_mode_engineer">Ingenieur</string>
   <string name="cpp_wizard_mode_engineer_description">In Ingenieur-Modus werden spezielle Funktionen auf dem Hauptbildschirm verwendet.
 Ergebnisse werden nicht gerundet und es wird die wissenschaftliche Notation verwendet. Bogenmaß wird als Standardwinkeleinheit verwendet.</string>
     <string name="cpp_restart_wizard">Assistenten starten</string>

@@ -4,9 +4,9 @@
     <string name="cpp_wizard_back">Назад</string>
     <string name="cpp_wizard_start">Начать визард</string>
     <string name="cpp_wizard_finish">Готово</string>
-    <string name="cpp_wizard_mode_simple">Простой</string>
+    <string name="cpp_mode_simple">Простой</string>
     <string name="cpp_wizard_mode_simple_description">В простом режиме только базовая функциональность доступна на главном экране. Результат округляется до 5 знаков, градусы установлены единицами измерения углов по умолчанию.</string>
-    <string name="cpp_wizard_mode_engineer">Инженерный</string>
+    <string name="cpp_mode_engineer">Инженерный</string>
     <string name="cpp_wizard_mode_engineer_description">В инженерном режиме дополнительные функции доступны на главном экране. Результат не округляется и представлен в инженерной нотации, радианы установлены единицами измерения углов по умолчанию.</string>
     <string name="cpp_restart_wizard">Начать визард</string>
     <string name="cpp_wizard_dragbutton_action_end">Замечательно! Нажмите на кнопку ещё раз, чтобы повторить сначала</string>

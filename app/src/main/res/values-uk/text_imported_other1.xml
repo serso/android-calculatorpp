@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_introduction">Вступ</string>
+   <string name="cpp_prefs_basic">Основні</string>
+   <string name="cpp_prefs_advanced">Додатково</string>
+   <string name="cpp_report_problem">Повідомити про ваду</string>
+   <string name="cpp_help">Довідка</string>
+</resources>

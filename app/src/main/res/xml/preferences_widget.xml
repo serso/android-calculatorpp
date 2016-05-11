@@ -25,9 +25,9 @@
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        a:entries="@array/p_simple_theme_names"
-        a:entryValues="@array/p_simple_theme_values"
+        a:entries="@array/cpp_simple_theme_names"
+        a:entryValues="@array/cpp_simple_themes"
         a:key="widget.theme"
-        a:title="@string/c_calc_theme" />
+        a:title="@string/cpp_theme" />
 
 </PreferenceScreen>

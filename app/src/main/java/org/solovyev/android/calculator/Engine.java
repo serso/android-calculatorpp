@@ -27,9 +27,15 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
-
 import com.squareup.otto.Bus;
-
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.operator.Operator;
+import jscl.text.Identifier;
+import jscl.text.Parser;
+import midpcalc.Real;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.math.MathType;
@@ -44,26 +50,16 @@ import org.solovyev.common.text.CharacterMapper;
 import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.operator.Operator;
-import jscl.text.Identifier;
-import jscl.text.Parser;
-import midpcalc.Real;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -339,13 +335,13 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         public static int angleUnitName(AngleUnit angleUnit) {
             switch (angleUnit) {
                 case deg:
-                    return R.string.p_deg;
+                    return R.string.cpp_deg;
                 case rad:
-                    return R.string.p_rad;
+                    return R.string.cpp_rad;
                 case grad:
-                    return R.string.p_grad;
+                    return R.string.cpp_grad;
                 case turns:
-                    return R.string.p_turns;
+                    return R.string.cpp_turns;
             }
             return 0;
         }
@@ -354,13 +350,13 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         public static int numeralBaseName(NumeralBase numeralBase) {
             switch (numeralBase) {
                 case bin:
-                    return R.string.p_bin;
+                    return R.string.cpp_bin;
                 case oct:
-                    return R.string.p_oct;
+                    return R.string.cpp_oct;
                 case dec:
-                    return R.string.p_dec;
+                    return R.string.cpp_dec;
                 case hex:
-                    return R.string.p_hex;
+                    return R.string.cpp_hex;
             }
             return 0;
         }

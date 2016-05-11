@@ -24,14 +24,17 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
+
+    <android.preference.CheckBoxPreference
+        a:key="calculations_calculate_on_fly"
+        a:title="@string/p_calculations_calculate_on_fly_title" />
+
     <android.preference.CheckBoxPreference
         a:key="gui.showReleaseNotes"
-        a:summary="@string/c_calc_show_release_notes_summary"
         a:title="@string/c_calc_show_release_notes_title" />
 
     <android.preference.CheckBoxPreference
         a:key="gui.useBackAsPrevious"
-        a:summary="@string/c_calc_use_back_button_as_prev_summary"
         a:title="@string/c_calc_use_back_button_as_prev_title" />
 
 </PreferenceScreen>

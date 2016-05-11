@@ -9,6 +9,8 @@ import org.simpleframework.xml.Text;
 public class ResourceString {
     @Attribute
     public String name;
+    @Attribute(required = false)
+    public String comment;
     @Text(required = false)
     public String value;
 

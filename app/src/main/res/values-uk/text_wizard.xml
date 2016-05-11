@@ -4,9 +4,9 @@
     <string name="cpp_wizard_back">Назад</string>
     <string name="cpp_wizard_start">Запустити майстер</string>
     <string name="cpp_wizard_finish">Зроблено</string>
-    <string name="cpp_wizard_mode_simple">Простий</string>
+    <string name="cpp_mode_simple">Простий</string>
     <string name="cpp_wizard_mode_simple_description">У простому режимі лише базові функціональні можливості будуть доступні з головного екрана.   Результат округлюється до 5 цифр, одиниці вимірювання кутів - градуси.</string>
-    <string name="cpp_wizard_mode_engineer">Інженерний</string>
+    <string name="cpp_mode_engineer">Інженерний</string>
     <string name="cpp_wizard_mode_engineer_description">У інженерному режимі додаткові функції будуть доступні на головному екрані.   Результат не округлюється і записується у науковій нотації, кути вимірюються в радіанах.</string>
     <string name="cpp_restart_wizard">Запустити майстер</string>
     <string name="cpp_wizard_dragbutton_action_end">Відмінно! Натисніть кнопку ще раз, щоб спробувати знову</string>

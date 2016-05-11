@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Giao diện</string>
+   <string name="cpp_number_format">Định dạng &amp;amp;số</string>
+   <string name="cpp_format">Định dạng dữ liệu không được hỗ trợ.</string>
+</resources>

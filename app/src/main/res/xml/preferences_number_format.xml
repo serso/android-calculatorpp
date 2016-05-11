@@ -27,23 +27,23 @@
 
     <org.solovyev.android.material.preferences.ListPreference
         a:key="engine.output.notation"
-        a:title="Notation"
+        a:title="@string/cpp_format"
         m:materialColor="@color/material_text_selector" />
 
     <org.solovyev.android.calculator.preferences.PrecisionPreference
         a:key="engine.output.precision"
-        a:title="@string/p_calc_result_precision_title" />
+        a:title="@string/cpp_precision" />
 
     <org.solovyev.android.material.preferences.ListPreference
-        a:entries="@array/p_grouping_separator_names"
-        a:entryValues="@array/p_grouping_separator_values"
+        a:entries="@array/cpp_thousands_separator_names"
+        a:entryValues="@array/cpp_thousands_separators"
         a:key="engine.output.separator"
-        a:title="@string/c_calc_grouping_separator"
+        a:title="@string/cpp_thousands_separator"
         m:materialColor="@color/material_text_selector" />
 
     <org.solovyev.android.calculator.preferences.NumberFormatExamplesPreference
         a:key="numberFormat.examples"
         a:selectable="false"
-        a:title="Examples" />
+        a:title="@string/cpp_examples" />
 
 </PreferenceScreen>

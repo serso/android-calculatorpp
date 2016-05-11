@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">外觀</string>
+   <string name="cpp_number_format">數字格式</string>
+   <string name="cpp_system_language">系統語言</string>
+   <string name="cpp_format">格式</string>
+   <string name="cpp_angles">角度</string>
+   <string name="cpp_examples">範例</string>
+</resources>

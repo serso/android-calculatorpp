@@ -29,7 +29,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
+import dagger.Lazy;
+import jscl.math.Generic;
+import jscl.math.function.Constant;
+import jscl.math.function.CustomFunction;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.CppFunction;
@@ -47,18 +50,12 @@ import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.Plotter;
 import org.solovyev.common.msg.MessageType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import dagger.Lazy;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.math.function.CustomFunction;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public final class ActivityLauncher {
@@ -111,8 +108,7 @@ public final class ActivityLauncher {
 
     public void showWidgetSettings() {
         final Context context = getContext();
-        show(context, PreferencesActivity.makeIntent(context, R.xml.preferences_widget,
-                R.string.prefs_widget_title));
+        show(context, PreferencesActivity.makeIntent(context, R.xml.preferences_widget, R.string.cpp_widget));
     }
 
     public void showOperators() {

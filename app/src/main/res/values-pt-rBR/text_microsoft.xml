@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Aparência</string>
+   <string name="cpp_number_format">Formato do Número</string>
+   <string name="cpp_system_language">Idioma do Sistema</string>
+   <string name="cpp_format">Formato</string>
+   <string name="cpp_angles">Ângulos</string>
+   <string name="cpp_thousands_separator">Separador de milhares</string>
+   <string name="cpp_examples">Exemplos</string>
+</resources>

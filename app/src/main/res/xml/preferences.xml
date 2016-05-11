@@ -27,70 +27,71 @@
 
     <Preference
         a:defaultValue="false"
-        a:key="buy_premium"
+        a:key="prefs.supportProject"
         a:summary="@string/c_calc_ad_free_summary"
         a:title="@string/c_calc_ad_free_title" />
 
     <PreferenceCategory
         a:key="category-basic"
-        a:title="Basic">
+        a:title="@string/cpp_prefs_basic">
 
         <ListPreference
-            a:entries="@array/p_layout_names"
-            a:entryValues="@array/p_layout_values"
+            a:entries="@array/cpp_layout_names"
+            a:entryValues="@array/cpp_layouts"
             a:key="gui.mode"
             a:title="@string/cpp_mode" />
 
         <ListPreference
-            a:entries="@array/p_angle_units_names"
-            a:entryValues="@array/p_angle_units"
+            a:entries="@array/cpp_angle_unit_names"
+            a:entryValues="@array/cpp_angle_units"
             a:key="engine.angleUnit"
             a:title="@string/cpp_angles" />
 
         <ListPreference
-            a:entries="@array/p_numeral_bases_names"
-            a:entryValues="@array/p_numeral_bases"
+            a:entries="@array/cpp_numeral_base_names"
+            a:entryValues="@array/cpp_numeral_bases"
             a:key="engine.numeralBase"
             a:title="@string/cpp_radix" />
 
         <Preference
             a:key="screen-number-format"
-            a:title="Number format" />
+            a:title="@string/cpp_number_format" />
     </PreferenceCategory>
 
     <PreferenceCategory
         a:key="category-advanced"
-        a:title="Advanced">
+        a:title="@string/cpp_prefs_advanced">
 
         <Preference
-            a:key="screen-calculations"
-            a:title="@string/c_prefs_calculations_category" />
-        <Preference
             a:key="screen-appearance"
-            a:title="@string/c_prefs_appearance_category" />
-        <Preference
-            a:key="screen-other"
-            a:title="@string/c_prefs_other_category" />
+            a:title="@string/cpp_appearance" />
         <Preference
             a:key="screen-onscreen"
-            a:title="@string/prefs_onscreen_title" />
+            a:title="@string/cpp_floating_calculator" />
         <Preference
             a:key="screen-widget"
-            a:title="@string/prefs_widget_title" />
+            a:title="@string/cpp_widget" />
+        <Preference
+            a:key="screen-other"
+            a:title="@string/cpp_other" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         a:key="category-help"
-        a:title="Help">
+        a:title="@string/cpp_help">
 
         <Preference
-            a:key="restart_wizard"
-            a:title="@string/cpp_restart_wizard" />
+            a:key="prefs.introduction"
+            a:title="@string/cpp_introduction" />
 
         <Preference
             a:key="prefs.reportBug"
-            a:title="Report a problem" />
+            a:title="@string/cpp_report_problem" />
+
+        <Preference
+            a:key="prefs.about"
+            a:title="@string/cpp_about" />
 
     </PreferenceCategory>
 

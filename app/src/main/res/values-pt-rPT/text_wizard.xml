@@ -4,10 +4,10 @@
     <string name="cpp_wizard_back">Voltar</string>
     <string name="cpp_wizard_start">Inicie o wizard</string>
     <string name="cpp_wizard_finish">Concluído</string>
-    <string name="cpp_wizard_mode_simple">Simples</string>
+    <string name="cpp_mode_simple">Simples</string>
   <string name="cpp_wizard_mode_simple_description">No modo simples apenas as funcionalidades básicas estarão disponíveis a partir do ecrã principal.
 O resultado é arredondado para 5 dígitos, graus são usados por defeito como unidades de ângulo.</string>
-    <string name="cpp_wizard_mode_engineer">Engenheiro</string>
+    <string name="cpp_mode_engineer">Engenheiro</string>
   <string name="cpp_wizard_mode_engineer_description">No modo de engenharia funções especiais serão utilizadas no ecrã principal.
 O resultado não é arredondado e é apresentado em notação de engenheiro, radianos serão utilizados como unidade padrão de graus.</string>
     <string name="cpp_restart_wizard">Inicie o wizard</string>

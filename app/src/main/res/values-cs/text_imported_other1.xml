@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_introduction">Úvodem</string>
+   <string name="cpp_prefs_basic">Základní</string>
+   <string name="cpp_prefs_advanced">Rozšířené</string>
+   <string name="cpp_report_problem">Nahlásit problém</string>
+   <string name="cpp_help">Nápověda</string>
+</resources>

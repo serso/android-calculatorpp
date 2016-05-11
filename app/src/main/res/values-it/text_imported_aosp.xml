@@ -15,6 +15,8 @@
    <string name="cpp_switch">Cambia</string>
    <string name="cpp_add">Aggiungi</string>
    <string name="cpp_mode">Modalità</string>
+   <string name="cpp_enable">Attiva</string>
+   <string name="cpp_other">Altro</string>
    <string name="cpp_edit">Modifica</string>
    <string name="cpp_delete">Elimina</string>
    <string name="cpp_done">Salva</string>
@@ -25,7 +27,7 @@
    <string name="cpp_text_copied">Testo copiato</string>
    <string name="cpp_name">Nome</string>
    <string name="cpp_settings">Impostazioni</string>
-   <string name="cpp_nan">Non è un numero</string>
+   <string name="cpp_nan">Non un numero</string>
    <string name="cpp_error">Errore</string>
    <string name="cpp_copy">Copia</string>
 </resources>

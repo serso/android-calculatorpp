@@ -82,8 +82,8 @@ public class StartupHelper {
                 }
             });
             builder.setNegativeButton(R.string.cpp_rateus_cancel, null);
-            builder.setMessage(activity.getString(R.string.cpp_rateus_message, activity.getString(R.string.c_app_name)));
-            builder.setTitle(activity.getString(R.string.cpp_rateus_title, activity.getString(R.string.c_app_name)));
+            builder.setMessage(activity.getString(R.string.cpp_rateus_message, activity.getString(R.string.cpp_app_name)));
+            builder.setTitle(activity.getString(R.string.cpp_rateus_title, activity.getString(R.string.cpp_app_name)));
             builder.create().show();
             UiPreferences.rateUsShown.putPreference(editor, true);
         }

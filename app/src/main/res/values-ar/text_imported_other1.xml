@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_introduction">مقدّمة</string>
+   <string name="cpp_prefs_basic">أساسي</string>
+   <string name="cpp_prefs_advanced">خيارات متقدمة</string>
+   <string name="cpp_report_problem">الإبلاغ عن خطأ</string>
+   <string name="cpp_help">تعليمات</string>
+</resources>

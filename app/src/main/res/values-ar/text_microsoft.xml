@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">المظهر</string>
+   <string name="cpp_number_format">تنسيق الأرقام</string>
+   <string name="cpp_system_language">طابقت لغته لغة النظام.</string>
+   <string name="cpp_format">تنسيق بيانات غير معتمد.</string>
+   <string name="cpp_angles">زوايا</string>
+   <string name="cpp_thousands_separator">فاصل اللآلاف</string>
+   <string name="cpp_examples">أمثلة</string>
+</resources>

@@ -15,6 +15,8 @@
    <string name="cpp_switch">Змінити користувача</string>
    <string name="cpp_add">Додати</string>
    <string name="cpp_mode">Режим</string>
+   <string name="cpp_enable">Увімкнути</string>
+   <string name="cpp_other">Інше</string>
    <string name="cpp_edit">Редагувати</string>
    <string name="cpp_delete">Видалити</string>
    <string name="cpp_done">Готово</string>

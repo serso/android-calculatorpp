@@ -172,7 +172,7 @@ public class FloatingCalculatorService extends Service implements FloatingViewLi
     private void showNotification() {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.kb_logo);
-        builder.setContentTitle(getText(R.string.c_app_name));
+        builder.setContentTitle(getText(R.string.cpp_app_name));
         builder.setContentText(getString(R.string.open_onscreen_calculator));
         builder.setOngoing(true);
 

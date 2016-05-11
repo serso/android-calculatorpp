@@ -21,59 +21,59 @@
   -->
 
 <resources>
-    <string-array name="p_simple_theme_names">
-        <item>@string/p_use_app_theme</item>
+    <string-array name="cpp_simple_theme_names">
+        <item>@string/cpp_theme_app</item>
         <item>@string/cpp_theme_dark</item>
         <item>@string/cpp_theme_light</item>
-        <item>@string/p_metro_blue_theme</item>
+        <item>@string/cpp_theme_metro_blue</item>
     </string-array>
-    <string-array name="p_simple_theme_values" translatable="false">
+    <string-array name="cpp_simple_themes" translatable="false">
         <item>default_theme</item>
         <item>material_theme</item>
         <item>material_light_theme</item>
         <item>metro_blue_theme</item>
     </string-array>
 
-    <string-array name="p_grouping_separator_names">
-        <item>@string/p_grouping_separator_no</item>
-        <item>@string/p_grouping_separator_apostrophe</item>
-        <item>@string/p_grouping_separator_space</item>
+    <string-array name="cpp_thousands_separator_names">
+        <item>@string/cpp_thousands_separator_no</item>
+        <item>@string/cpp_thousands_separator_apostrophe</item>
+        <item>@string/cpp_thousands_separator_space</item>
     </string-array>
-    <string-array name="p_grouping_separator_values" translatable="false">
+    <string-array name="cpp_thousands_separators" translatable="false">
         <item>""</item>
         <item>\'</item>
         <item>" "</item>
     </string-array>
 
-    <string-array name="p_layout_names">
-        <item>@string/cpp_wizard_mode_engineer</item>
-        <item>@string/cpp_wizard_mode_simple</item>
+    <string-array name="cpp_layout_names">
+        <item>@string/cpp_mode_engineer</item>
+        <item>@string/cpp_mode_simple</item>
     </string-array>
-    <string-array name="p_layout_values" translatable="false">
+    <string-array name="cpp_layouts" translatable="false">
         <item>engineer</item>
         <item>simple</item>
     </string-array>
 
-    <string-array name="p_angle_units_names">
-        <item>@string/p_deg</item>
-        <item>@string/p_rad</item>
-        <item>@string/p_grad</item>
-        <item>@string/p_turns</item>
+    <string-array name="cpp_angle_unit_names">
+        <item>@string/cpp_deg</item>
+        <item>@string/cpp_rad</item>
+        <item>@string/cpp_grad</item>
+        <item>@string/cpp_turns</item>
     </string-array>
-    <string-array name="p_angle_units" translatable="false">
+    <string-array name="cpp_angle_units" translatable="false">
         <item>deg</item>
         <item>rad</item>
         <item>grad</item>
         <item>turns</item>
     </string-array>
 
-    <string-array name="p_numeral_bases_names">
-        <item>@string/p_dec</item>
-        <item>@string/p_hex</item>
-        <item>@string/p_oct</item>
-        <item>@string/p_bin</item>
+    <string-array name="cpp_numeral_base_names">
+        <item>@string/cpp_dec</item>
+        <item>@string/cpp_hex</item>
+        <item>@string/cpp_oct</item>
+        <item>@string/cpp_bin</item>
     </string-array>
-    <string-array name="p_numeral_bases" translatable="false">
+    <string-array name="cpp_numeral_bases" translatable="false">
         <item>dec</item>
         <item>hex</item>
         <item>oct</item>
@@ -81,7 +81,7 @@
     </string-array>
 
     <string-array name="cpp_modes">
-        <item>@string/cpp_wizard_mode_simple</item>
-        <item>@string/cpp_wizard_mode_engineer</item>
+        <item>@string/cpp_mode_simple</item>
+        <item>@string/cpp_mode_engineer</item>
     </string-array>
 </resources>

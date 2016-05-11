@@ -4,10 +4,10 @@
     <string name="cpp_wizard_back">Wstecz</string>
     <string name="cpp_wizard_start">Rozpocznij konfigurację</string>
     <string name="cpp_wizard_finish">Gotowe</string>
-    <string name="cpp_wizard_mode_simple">Prosty</string>
+    <string name="cpp_mode_simple">Prosty</string>
   <string name="cpp_wizard_mode_simple_description">W trybie prostym tylko podstawowe funkcje będą dostępne na ekranie głównym.
 Wynik jest zaokrąglony do 5 cyfr, a domyślną jednostką wielkości kąta są stopnie.</string>
-    <string name="cpp_wizard_mode_engineer">Inżynierski</string>
+    <string name="cpp_mode_engineer">Inżynierski</string>
   <string name="cpp_wizard_mode_engineer_description">W trybie inżynierskim specjalne funkcje będą dostępne na ekranie głównym.
 Wynik nie jest zaokrąglony i jest przedstawiony w postaci inżynierskiej, a domyślną jednostką wielkości kąta są radiany.</string>
     <string name="cpp_restart_wizard">Zacznij konfigurację</string>

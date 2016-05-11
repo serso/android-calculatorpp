@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Görünüm</string>
+   <string name="cpp_number_format">Sayı Biçimi</string>
+   <string name="cpp_system_language">İşletim Sistemi Dili</string>
+   <string name="cpp_format">Biçim</string>
+   <string name="cpp_angles">Açılar</string>
+   <string name="cpp_thousands_separator">Binler ayırıcısı</string>
+   <string name="cpp_examples">Örnekler</string>
+</resources>

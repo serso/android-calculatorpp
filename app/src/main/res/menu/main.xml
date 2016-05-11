@@ -17,10 +17,10 @@
                 app:showAsAction="never" />
             <item
                 android:id="@+id/menu_mode_engineer"
-                android:title="@string/cpp_wizard_mode_engineer" />
+                android:title="@string/cpp_mode_engineer" />
             <item
                 android:id="@+id/menu_mode_simple"
-                android:title="@string/cpp_wizard_mode_simple" />
+                android:title="@string/cpp_mode_simple" />
         </menu>
     </item>
 
@@ -39,10 +39,10 @@
                 app:showAsAction="never" />
             <item
                 android:id="@+id/menu_au_deg"
-                android:title="@string/p_deg" />
+                android:title="@string/cpp_deg" />
             <item
                 android:id="@+id/menu_au_rad"
-                android:title="@string/p_rad" />
+                android:title="@string/cpp_rad" />
         </menu>
     </item>
 
@@ -61,13 +61,13 @@
                 app:showAsAction="never" />
             <item
                 android:id="@+id/menu_nb_bin"
-                android:title="@string/p_bin" />
+                android:title="@string/cpp_bin" />
             <item
                 android:id="@+id/menu_nb_dec"
-                android:title="@string/p_dec" />
+                android:title="@string/cpp_dec" />
             <item
                 android:id="@+id/menu_nb_hex"
-                android:title="@string/p_hex" />
+                android:title="@string/cpp_hex" />
         </menu>
     </item>
 

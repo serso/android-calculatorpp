@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_introduction">Giới thiệu</string>
+   <string name="cpp_prefs_basic">Cơ bản</string>
+   <string name="cpp_prefs_advanced">Nâng cao</string>
+   <string name="cpp_report_problem">Báo cáo lỗi</string>
+   <string name="cpp_help">Trợ giúp</string>
+</resources>

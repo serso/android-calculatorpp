@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+<resources>
    <string name="cpp_prefs_vibrate_on_keypress">Vibrate on touch</string>
    <string name="cpp_prefs_auto_rotate_screen">Auto-rotate screen</string>
    <string name="cpp_language">Language</string>
@@ -15,6 +15,8 @@
    <string name="cpp_switch">Switch</string>
    <string name="cpp_add">Add</string>
    <string name="cpp_mode">Mode</string>
+   <string name="cpp_enable">Enable</string>
+   <string name="cpp_other">Other</string>
    <string name="cpp_edit">Edit</string>
    <string name="cpp_delete">Delete</string>
    <string name="cpp_done">Done</string>

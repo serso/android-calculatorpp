@@ -38,7 +38,6 @@ import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
 import org.solovyev.android.calculator.history.HistoryActivity;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.operators.OperatorsActivity;
 import org.solovyev.android.calculator.preferences.PreferenceEntry;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
@@ -48,12 +47,8 @@ import org.solovyev.android.prefs.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
-import java.util.Locale;
 import java.util.Map;
-
-import jscl.JsclMathEngine;
 
 import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
 
@@ -272,7 +267,7 @@ public final class Preferences {
             default_theme(R.style.Cpp_Theme_Gray),
             violet_theme(R.style.Cpp_Theme_Violet),
             light_blue_theme(R.style.Cpp_Theme_Blue),
-            metro_blue_theme(R.string.p_metro_blue_theme, R.style.Cpp_Theme_Metro_Blue, R.style.Cpp_Theme_Metro_Blue_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Blue_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
+            metro_blue_theme(R.string.cpp_theme_metro_blue, R.style.Cpp_Theme_Metro_Blue, R.style.Cpp_Theme_Metro_Blue_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Blue_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
             metro_purple_theme(R.string.p_metro_purple_theme, R.style.Cpp_Theme_Metro_Purple, R.style.Cpp_Theme_Metro_Purple_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Purple_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
             metro_green_theme(R.string.p_metro_green_theme, R.style.Cpp_Theme_Metro_Green, R.style.Cpp_Theme_Metro_Green_Calculator, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Metro_Green_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert),
             material_theme(R.string.cpp_theme_dark, R.style.Cpp_Theme_Material, R.style.Cpp_Theme_Material_Calculator),
@@ -377,8 +372,8 @@ public final class Preferences {
         }
 
         public enum Mode {
-            engineer(R.string.cpp_wizard_mode_engineer),
-            simple(R.string.cpp_wizard_mode_simple);
+            engineer(R.string.cpp_mode_engineer),
+            simple(R.string.cpp_mode_simple);
 
             @StringRes
             public final int name;

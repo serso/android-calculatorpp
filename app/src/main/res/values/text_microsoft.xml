@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cpp_appearance" comment="Visual Studio-2013">Appearance</string>
+    <string name="cpp_number_format" comment="Excel-2016">Number format</string>
+    <string name="cpp_system_language" comment="Windows-8">System language</string>
+    <string name="cpp_format" comment="Visual Studio-2013">Format</string>
+    <string name="cpp_angles" comment="Visio-2016">Angles</string>
+    <string name="cpp_thousands_separator" comment="Dynamics AX">Thousands separator</string>
+    <string name="cpp_examples" comment=".NET Framework-4.5">Examples</string>
+</resources>

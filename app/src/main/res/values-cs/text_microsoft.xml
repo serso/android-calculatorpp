@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">Vzhled</string>
+   <string name="cpp_number_format">Formát čísla</string>
+   <string name="cpp_system_language">Jazyk operačního systému</string>
+   <string name="cpp_format">Formát</string>
+   <string name="cpp_angles">Úhly</string>
+   <string name="cpp_thousands_separator">Oddělovač tisíců</string>
+   <string name="cpp_examples">Příklady</string>
+</resources>

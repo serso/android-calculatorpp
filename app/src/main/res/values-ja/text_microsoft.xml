@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="cpp_appearance">外観</string>
+   <string name="cpp_number_format">表示形式</string>
+   <string name="cpp_system_language">システム言語</string>
+   <string name="cpp_format">書式</string>
+   <string name="cpp_angles">アングル</string>
+   <string name="cpp_thousands_separator">3 桁の区切り文字</string>
+   <string name="cpp_examples">使用例</string>
+</resources>
