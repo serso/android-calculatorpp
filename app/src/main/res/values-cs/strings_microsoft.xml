@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">Vzhled</string>
-   <string name="cpp_number_format">Formát čísla</string>
-   <string name="cpp_system_language">Jazyk operačního systému</string>
-   <string name="cpp_format">Formát</string>
-   <string name="cpp_angles">Úhly</string>
-   <string name="cpp_thousands_separator">Oddělovač tisíců</string>
-   <string name="cpp_examples">Příklady</string>
+   <string name="cpp_appearance">&quot;Vzhled&quot;</string>
+   <string name="cpp_number_format">&quot;Formát čísla&quot;</string>
+   <string name="cpp_system_language">&quot;Jazyk operačního systému&quot;</string>
+   <string name="cpp_format">&quot;Formát&quot;</string>
+   <string name="cpp_angles">&quot;Úhly&quot;</string>
+   <string name="cpp_thousands_separator">&quot;Oddělovač tisíců&quot;</string>
+   <string name="cpp_examples">&quot;Příklady&quot;</string>
+   <string name="cpp_parameter">&quot;Parametr&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;Duplicitní parametr: %1$s&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;Název obsahuje neplatné znaky.&quot;</string>
+   <string name="cpp_field_cannot_be_empty">&quot;Pole nesmí být prázdné.&quot;</string>
 </resources>

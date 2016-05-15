@@ -11,7 +11,6 @@
   <string name="cpp_wizard_mode_engineer_description">技術者モードでは、特別な関数がメイン画面に表示されるようになります。
 		計算結果は丸めず、技術者表記で表示され、デフォルトの角度の単位としてラジアンが使用されます。
 	</string>
-    <string name="cpp_restart_wizard">簡単セットアップ</string>
     <string name="cpp_wizard_dragbutton_action_end">お見事！まだ試したい場合は、ボタンをもう一度押してください。</string>
     <string name="cpp_wizard_dragbutton_action_center">9を入力するにはボタンを一度タップします</string>
     <string name="cpp_wizard_dragbutton_action_up">ボタンの中心から上にスワイプすると%を使用できます</string>

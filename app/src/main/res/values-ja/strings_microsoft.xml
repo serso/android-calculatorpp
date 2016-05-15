@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">外観</string>
-   <string name="cpp_number_format">表示形式</string>
-   <string name="cpp_system_language">システム言語</string>
-   <string name="cpp_format">書式</string>
-   <string name="cpp_angles">アングル</string>
-   <string name="cpp_thousands_separator">3 桁の区切り文字</string>
-   <string name="cpp_examples">使用例</string>
+   <string name="cpp_appearance">&quot;外観&quot;</string>
+   <string name="cpp_number_format">&quot;表示形式&quot;</string>
+   <string name="cpp_system_language">&quot;システム言語&quot;</string>
+   <string name="cpp_format">&quot;書式&quot;</string>
+   <string name="cpp_angles">&quot;アングル&quot;</string>
+   <string name="cpp_thousands_separator">&quot;3 桁の区切り文字&quot;</string>
+   <string name="cpp_examples">&quot;使用例&quot;</string>
+   <string name="cpp_parameter">&quot;パラメーター&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;重複パラメーター: &apos;%1$s&apos;&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;名前に無効な文字が含まれています。&quot;</string>
+   <string name="cpp_field_cannot_be_empty">&quot;フィールドは空にできません&quot;</string>
 </resources>

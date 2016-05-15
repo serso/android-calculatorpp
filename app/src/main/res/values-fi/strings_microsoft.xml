@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">Ulkoasu</string>
-   <string name="cpp_number_format">Numeromuoto</string>
-   <string name="cpp_system_language">Sen kieli vastaa järjestelmän kieltä.</string>
-   <string name="cpp_format">Tietomuotoa ei tueta.</string>
-   <string name="cpp_angles">Kulmat</string>
-   <string name="cpp_thousands_separator">Tuhaterotin</string>
-   <string name="cpp_examples">Esimerkkejä</string>
+   <string name="cpp_appearance">&quot;Ulkoasu&quot;</string>
+   <string name="cpp_number_format">&quot;Numeromuoto&quot;</string>
+   <string name="cpp_system_language">&quot;Sen kieli vastaa järjestelmän kieltä.&quot;</string>
+   <string name="cpp_format">&quot;Tietomuotoa ei tueta.&quot;</string>
+   <string name="cpp_angles">&quot;Kulmat&quot;</string>
+   <string name="cpp_thousands_separator">&quot;Tuhaterotin&quot;</string>
+   <string name="cpp_examples">&quot;Esimerkkejä&quot;</string>
+   <string name="cpp_parameter">&quot;Parametri&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;Parametrin kahdentuma: %1$s.&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;Nimi sisältää virheellisiä merkkejä.&quot;</string>
 </resources>

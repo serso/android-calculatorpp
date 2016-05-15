@@ -3,8 +3,6 @@
     <string name="cpp_kb_variables" translatable="false">π</string>
     <string name="cpp_kb_functions" translatable="false">ƒ</string>
     <string name="cpp_kb_operators" translatable="false">∂</string>
-    <string name="cpp_kb_undo" translatable="false">↶</string>
-    <string name="cpp_kb_redo" translatable="false">↷</string>
     <string name="cpp_kb_memory_recall" translatable="false">M</string>
     <string name="cpp_kb_memory_plus" translatable="false">M+</string>
     <string name="cpp_kb_memory_minus" translatable="false">M-</string>

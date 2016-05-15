@@ -7,4 +7,8 @@
     <string name="cpp_angles" comment="Visio-2016">Angles</string>
     <string name="cpp_thousands_separator" comment="Dynamics AX">Thousands separator</string>
     <string name="cpp_examples" comment=".NET Framework-4.5">Examples</string>
+    <string name="cpp_parameter" comment=".NET Framework-4.5">Parameter</string>
+    <string name="cpp_duplicate_parameter" comment=".NET Framework-4.5">Duplicate parameter: \'%1$s\'.</string>
+    <string name="cpp_name_contains_invalid_characters" comment="SharePoint Server-2016">The name contains invalid characters.</string>
+    <string name="cpp_field_cannot_be_empty" comment="System Center Operations Manager">Field can not be empty</string>
 </resources>

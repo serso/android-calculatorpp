@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">外觀</string>
-   <string name="cpp_number_format">數字格式</string>
-   <string name="cpp_system_language">系統語言</string>
-   <string name="cpp_format">格式</string>
-   <string name="cpp_angles">角度</string>
-   <string name="cpp_examples">範例</string>
+   <string name="cpp_appearance">&quot;外觀&quot;</string>
+   <string name="cpp_number_format">&quot;數字格式&quot;</string>
+   <string name="cpp_system_language">&quot;系統語言&quot;</string>
+   <string name="cpp_format">&quot;格式&quot;</string>
+   <string name="cpp_angles">&quot;角度&quot;</string>
+   <string name="cpp_examples">&quot;範例&quot;</string>
+   <string name="cpp_parameter">&quot;參數&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;重複的參數: &apos;%1$s&apos;。&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;名稱包含無效字元。&quot;</string>
+   <string name="cpp_field_cannot_be_empty">&quot;欄位不可空白&quot;</string>
 </resources>

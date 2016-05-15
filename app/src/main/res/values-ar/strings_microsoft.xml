@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">المظهر</string>
-   <string name="cpp_number_format">تنسيق الأرقام</string>
-   <string name="cpp_system_language">طابقت لغته لغة النظام.</string>
-   <string name="cpp_format">تنسيق بيانات غير معتمد.</string>
-   <string name="cpp_angles">زوايا</string>
-   <string name="cpp_thousands_separator">فاصل اللآلاف</string>
-   <string name="cpp_examples">أمثلة</string>
+   <string name="cpp_appearance">&quot;المظهر&quot;</string>
+   <string name="cpp_number_format">&quot;تنسيق الأرقام&quot;</string>
+   <string name="cpp_system_language">&quot;طابقت لغته لغة النظام.&quot;</string>
+   <string name="cpp_format">&quot;تنسيق بيانات غير معتمد.&quot;</string>
+   <string name="cpp_angles">&quot;زوايا&quot;</string>
+   <string name="cpp_thousands_separator">&quot;فاصل اللآلاف&quot;</string>
+   <string name="cpp_examples">&quot;أمثلة&quot;</string>
+   <string name="cpp_parameter">&quot;المعلمة&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;معلمة مكررة: &apos;%1$s&apos;.&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;The name contains invalid characters.&quot;</string>
 </resources>

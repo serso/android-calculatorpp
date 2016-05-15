@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">Aparência</string>
-   <string name="cpp_number_format">Formato do Número</string>
-   <string name="cpp_system_language">Idioma do Sistema</string>
-   <string name="cpp_format">Formato</string>
-   <string name="cpp_angles">Ângulos</string>
-   <string name="cpp_thousands_separator">Separador de milhares</string>
-   <string name="cpp_examples">Exemplos</string>
+   <string name="cpp_appearance">&quot;Aparência&quot;</string>
+   <string name="cpp_number_format">&quot;Formato do Número&quot;</string>
+   <string name="cpp_system_language">&quot;Idioma do Sistema&quot;</string>
+   <string name="cpp_format">&quot;Formato&quot;</string>
+   <string name="cpp_angles">&quot;Ângulos&quot;</string>
+   <string name="cpp_thousands_separator">&quot;Separador de milhares&quot;</string>
+   <string name="cpp_examples">&quot;Exemplos&quot;</string>
+   <string name="cpp_parameter">&quot;Parâmetro&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;Parâmetro duplicado: &apos;%1$s&apos;.&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;O nome contém caracteres inválidos.&quot;</string>
+   <string name="cpp_field_cannot_be_empty">&quot;O campo não pode ficar vazio&quot;</string>
 </resources>

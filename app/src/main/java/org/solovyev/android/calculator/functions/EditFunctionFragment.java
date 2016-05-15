@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import jscl.math.function.Function;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
@@ -68,8 +69,12 @@ public class EditFunctionFragment extends BaseFunctionFragment {
     @Override
     protected boolean validateName() {
         final String name = nameView.getText().toString();
+        if (TextUtils.isEmpty(name)) {
+            setError(nameLabel, getString(R.string.cpp_field_cannot_be_empty));
+            return false;
+        }
         if (!Engine.isValidName(name)) {
-            setError(nameLabel, getString(R.string.function_name_is_not_valid));
+            setError(nameLabel, getString(R.string.cpp_name_contains_invalid_characters));
             return false;
         }
         final Function existingFunction = functionsRegistry.get(name);

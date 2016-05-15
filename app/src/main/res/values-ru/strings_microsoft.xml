@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">Внешний вид</string>
-   <string name="cpp_number_format">Формат чисел</string>
-   <string name="cpp_system_language">Системный язык</string>
-   <string name="cpp_format">Формат</string>
-   <string name="cpp_angles">Углы</string>
-   <string name="cpp_thousands_separator">Разделитель разрядов тысяч</string>
-   <string name="cpp_examples">Примеры</string>
+   <string name="cpp_appearance">&quot;Внешний вид&quot;</string>
+   <string name="cpp_number_format">&quot;Формат чисел&quot;</string>
+   <string name="cpp_system_language">&quot;Системный язык&quot;</string>
+   <string name="cpp_format">&quot;Формат&quot;</string>
+   <string name="cpp_angles">&quot;Углы&quot;</string>
+   <string name="cpp_thousands_separator">&quot;Разделитель разрядов тысяч&quot;</string>
+   <string name="cpp_examples">&quot;Примеры&quot;</string>
+   <string name="cpp_parameter">&quot;Параметр&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;Повторяющийся параметр: &quot;%1$s&quot;.&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;Имя содержит недопустимые символы.&quot;</string>
+   <string name="cpp_field_cannot_be_empty">&quot;Поле не может быть пустым&quot;</string>
 </resources>

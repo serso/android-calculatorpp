@@ -12,7 +12,6 @@
   <string name="cpp_wizard_mode_engineer_description">在工程模式下，主畫面上可以使用特別的功能。
 計算結果不四捨五入並以工程符號表示，角度單位預設為 弧度(Radians)。
 	</string>
-    <string name="cpp_restart_wizard">啟動精靈</string>
     <string name="cpp_wizard_dragbutton_action_end">非常好！再點擊一次按鍵來重試</string>
     <string name="cpp_wizard_dragbutton_action_center">點擊一次下面的按鍵來使用 9</string>
     <string name="cpp_wizard_dragbutton_action_up">從按鍵中央向上滑動來使用 %</string>

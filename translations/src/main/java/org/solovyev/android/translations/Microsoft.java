@@ -103,6 +103,7 @@ public class Microsoft {
         } else {
             xml = Microsoft.xml.replace("${version}", version);
         }
+        word = word.replace("%1$s", "{0}").replace("%2$s", "{1}").replace("\\\'", "\'");
         final String body = xml.replace("${text}", word).replace("${to}", language).replace("${product}", product);
         request.setEntity(new StringEntity(body, Charsets.UTF_8));
         CloseableHttpResponse response = null;
@@ -118,7 +119,7 @@ public class Microsoft {
                 System.err.println("No translation for " + word + " in " + language);
                 return null;
             }
-           return matcher.group(1);
+           return "\"" + matcher.group(1).replace("{0}", "%1$s").replace("{1}", "%2$s") + "\"";
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         } finally {

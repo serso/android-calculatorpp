@@ -10,7 +10,6 @@ Tulokset pyöristetään ylöspäin viiteen desimaaliin ja kulmienn oletusyksikk
     <string name="cpp_mode_engineer">Insinööri</string>
   <string name="cpp_wizard_mode_engineer_description">Insinööritilassa erikoisfunktiot ovat käytettävissä päänäkymästä.
 Vastauksia ei pyöristetä ja ne näytetään 10-potenssimuodossa, kulman oletusyksikkö on radiaani.</string>
-    <string name="cpp_restart_wizard">Aloita ohjattu asennus</string>
     <string name="cpp_wizard_dragbutton_action_end">Loistavaa! Paina painiketta vielä kerran kokeillaksesi uudelleen</string>
     <string name="cpp_wizard_dragbutton_action_center">Paina alla olevaa painiketta kerran käyttääksesi 9:ä</string>
     <string name="cpp_wizard_dragbutton_action_up">Pyyhkäise painikkeen keskeltä käyttääksesi %</string>

@@ -9,7 +9,6 @@
     <string name="cpp_mode_engineer">Ingenieur</string>
   <string name="cpp_wizard_mode_engineer_description">In ingenieur modus worden speciale functies gebruikt op het hoofdscherm.
 Resultaat is niet afgerond en wordt gepresenteerd in de ingenieursnotatie, radialen worden gebruikt als de standaardeenheden voor hoeken. </string>
-    <string name="cpp_restart_wizard">Wizard starten</string>
     <string name="cpp_wizard_dragbutton_action_end">Uitstekend! Tik nog eens op de knop om opnieuw te proberen</string>
     <string name="cpp_wizard_dragbutton_action_center">Tik eenmaal op de knop hieronder voor 9</string>
     <string name="cpp_wizard_dragbutton_action_up">Swipe vanaf het midden van de knop naar boven om % te gebruiken</string>

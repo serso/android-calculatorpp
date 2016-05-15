@@ -10,7 +10,6 @@
     <string name="cpp_mode_engineer">هندسية</string>
   <string name="cpp_wizard_mode_engineer_description">في النمط الهندسي ستتوفر وظائف خاصة على الشاشة الرئيسية.
 النتيجة لا يتم تقريبها و تظهر بصيغة هندسية، يستخدم الراديان كواحدة إفتراضية للزاوية.</string>
-    <string name="cpp_restart_wizard">بدء جولة الدليل</string>
     <string name="cpp_wizard_dragbutton_action_end">ممتاز! إضغط على الزر مرة أخرى لإعادة المحاولة</string>
     <string name="cpp_wizard_dragbutton_action_center">إضغط على الزر أدناه مرة واحدة لإستخدام الرقم 9</string>
     <string name="cpp_wizard_dragbutton_action_up">امسح من مركز الزر الى الاعلى لاستخدام %</string>

@@ -38,7 +38,6 @@ import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -87,9 +86,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
     @Inject
     ErrorReporter errorReporter;
-
-    @Inject
-    Notifier notifier;
 
     @Inject
     ActivityLauncher launcher;
@@ -190,7 +186,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
         if (Preferences.Onscreen.showAppIcon.getKey().equals(key)) {
             boolean showAppIcon = Preferences.Onscreen.showAppIcon.getPreference(prefs);
             App.enableComponent(this, FloatingCalculatorActivity.class, showAppIcon);
-            notifier.showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
     }
 

@@ -8,7 +8,6 @@
     <string name="cpp_wizard_mode_simple_description">在简单模式下主屏幕上只有基本功能可用。计算结果保留5位小数，角度单位默认为度。</string>
     <string name="cpp_mode_engineer">工程模式</string>
     <string name="cpp_wizard_mode_engineer_description">在工程模式下，主屏幕上可以使用特殊功能。计算结果不四舍五入并以工程表示法表示，角度单位默认为弧度。</string>
-    <string name="cpp_restart_wizard">启动向导</string>
     <string name="cpp_wizard_dragbutton_action_end">就是这样！点击按钮来重启向导</string>
     <string name="cpp_wizard_dragbutton_action_center">点击下面的按钮输入9</string>
     <string name="cpp_wizard_dragbutton_action_up">向上滑动输入%</string>

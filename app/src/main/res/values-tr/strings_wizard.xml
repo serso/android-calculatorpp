@@ -9,7 +9,6 @@
 Sonuç 5 basamağa kadar yuvarlandı, varsayılan açı birimi olarak derece kullanıldı.</string>
     <string name="cpp_mode_engineer">Mühendislik</string>
     <string name="cpp_wizard_mode_engineer_description">Mühendislik modunda ana ekranda özel fonksiyonlar kullanılır. Sonuç yuvarlanmaz ve mühendislik gösterimi ile sunulur, varsayılan açı birimi olarak radyan kullanılır.</string>
-    <string name="cpp_restart_wizard">Sihirbazı Başlat</string>
     <string name="cpp_wizard_dragbutton_action_end">Mükemmel! Yeniden denemek için bir kez daha dokunun</string>
     <string name="cpp_wizard_dragbutton_action_center">9 için bir kez dokunun</string>
     <string name="cpp_wizard_dragbutton_action_up">%\'yi kullanmak için butonun merkezinden yukarı sürükleyin</string>

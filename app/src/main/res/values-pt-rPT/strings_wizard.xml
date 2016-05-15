@@ -10,7 +10,6 @@ O resultado é arredondado para 5 dígitos, graus são usados por defeito como u
     <string name="cpp_mode_engineer">Engenheiro</string>
   <string name="cpp_wizard_mode_engineer_description">No modo de engenharia funções especiais serão utilizadas no ecrã principal.
 O resultado não é arredondado e é apresentado em notação de engenheiro, radianos serão utilizados como unidade padrão de graus.</string>
-    <string name="cpp_restart_wizard">Inicie o wizard</string>
     <string name="cpp_wizard_dragbutton_action_end">Excelente! Toque no botão novamente para voltar a tentar</string>
     <string name="cpp_wizard_dragbutton_action_center">Toque no botão uma vez para utilizar o 9</string>
     <string name="cpp_wizard_dragbutton_action_up">Arraste do centro para cima para usar %</string>

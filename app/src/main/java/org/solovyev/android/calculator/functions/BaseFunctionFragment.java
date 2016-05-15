@@ -274,7 +274,7 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
     private boolean validateBody() {
         final String body = bodyView.getText().toString();
         if (TextUtils.isEmpty(body)) {
-            setError(bodyLabel, getString(R.string.function_is_empty));
+            setError(bodyLabel, getString(R.string.cpp_field_cannot_be_empty));
             return false;
         }
         try {
@@ -308,10 +308,10 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
                 clearError(paramLabel);
             } else if (!Engine.isValidName(parameter)) {
                 valid = false;
-                setError(paramLabel, getString(R.string.cpp_invalid_name));
+                setError(paramLabel, getString(R.string.cpp_name_contains_invalid_characters));
             } else if (usedParameters.contains(parameter)) {
                 valid = false;
-                setError(paramLabel, getString(R.string.cpp_fn_duplicate_parameter));
+                setError(paramLabel, getString(R.string.cpp_duplicate_parameter, parameter));
             } else {
                 usedParameters.add(parameter);
                 clearError(paramLabel);

@@ -10,7 +10,6 @@ El resultado se redondea hasta 5 dígitos, y los grados son la unidad de ángulo
     <string name="cpp_mode_engineer">Científico</string>
   <string name="cpp_wizard_mode_engineer_description">En el modo científico todas las funcionalidades especiales están disponibles desde la pantalla principal.
 El resultado no se redondea, y los radianes son la unidad de ángulo predeterminada.</string>
-    <string name="cpp_restart_wizard">Iniciar el asistente</string>
     <string name="cpp_wizard_dragbutton_action_end">¡Excelente! Pulse el botón una vez más para intentarlo de nuevo</string>
     <string name="cpp_wizard_dragbutton_action_center">Para utilizar 9, pulse una vez el botón situado abajo</string>
     <string name="cpp_wizard_dragbutton_action_up">Deslice desde el centro del botón hacia arriba para usar %</string>

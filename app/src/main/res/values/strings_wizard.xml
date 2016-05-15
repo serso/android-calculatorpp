@@ -14,7 +14,6 @@
 		screen.
 		Result is not rounded and is presented in engineer notation, radians are used as the default angle units.
 	</string>
-    <string name="cpp_restart_wizard">Start wizard</string>
     <string name="cpp_wizard_dragbutton_action_end">Excellent! Tap the button one more time to try again</string>
     <string name="cpp_wizard_dragbutton_action_center">Tap the button below once to use 9</string>
     <string name="cpp_wizard_dragbutton_action_up">Swipe from the center of the button up to use %</string>

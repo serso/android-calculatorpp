@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">Görünüm</string>
-   <string name="cpp_number_format">Sayı Biçimi</string>
-   <string name="cpp_system_language">İşletim Sistemi Dili</string>
-   <string name="cpp_format">Biçim</string>
-   <string name="cpp_angles">Açılar</string>
-   <string name="cpp_thousands_separator">Binler ayırıcısı</string>
-   <string name="cpp_examples">Örnekler</string>
+   <string name="cpp_appearance">&quot;Görünüm&quot;</string>
+   <string name="cpp_number_format">&quot;Sayı Biçimi&quot;</string>
+   <string name="cpp_system_language">&quot;İşletim Sistemi Dili&quot;</string>
+   <string name="cpp_format">&quot;Biçim&quot;</string>
+   <string name="cpp_angles">&quot;Açılar&quot;</string>
+   <string name="cpp_thousands_separator">&quot;Binler ayırıcısı&quot;</string>
+   <string name="cpp_examples">&quot;Örnekler&quot;</string>
+   <string name="cpp_parameter">&quot;Parametre&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;Yinelenen parametre: &apos;%1$s&apos;.&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;Ad geçersiz karakterler içeriyor.&quot;</string>
+   <string name="cpp_field_cannot_be_empty">&quot;Alan boş olamaz&quot;</string>
 </resources>

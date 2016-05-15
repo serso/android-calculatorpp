@@ -4,18 +4,9 @@
     <string name="c_app_name_on_screen">Калькулятор++ (В отдельном окне)</string>
     <string name="c_result_copied">Результат был скопирован в буфер обмена!</string>
     <string name="c_vars_and_constants">Переменные и константы</string>
-    <string name="c_prefs_calculations_category">Настройки вычислений</string>
-    <string name="c_prefs_appearance_category">Настройки внешнего вида</string>
-    <string name="c_prefs_other_category">Другие настройки</string>
     <string name="c_clear">C</string>
     <string name="c_vars">переменные</string>
     <string name="c_plot">Построить график</string>
-    <string name="c_calc_round_result_title">Округление результата</string>
-    <string name="c_calc_round_result_summary">Включает/выключает округление результата</string>
-    <string name="c_calc_science_notation_title">Результат в научной форме</string>
-  <string name="c_calc_science_notation_summary">Если включено - результат будет всегда записан в научной форме
-		(12.34E-12)
-	</string>
     <string name="cpp_precision">Точность</string>
     <string name="c_save">Сохранить</string>
     <string name="removal_confirmation">Подтверждение удаления</string>
@@ -35,33 +26,21 @@
 	</string>
     <string name="c_history">История</string>
     <string name="c_char_is_not_accepted">Символ \'%s\' не допустим в названии переменной!</string>
-    <string name="c_calc_angle_units">Текущие единицы измерения углов</string>
     <string name="cpp_deg">Градусы</string>
     <string name="cpp_rad">Радианы</string>
     <string name="cpp_grad">Грады</string>
     <string name="cpp_turns">Обороты</string>
-  <string name="c_angle_units_summary">Устанавливает единицы измерения углов которые будут использованы при
-		вычислениях
-	</string>
-    <string name="c_calc_numeral_bases">Текущая система счисления</string>
-  <string name="c_numeral_bases_summary">Устанавливает систему счисления которая будет использована при вычислениях
-	</string>
     <string name="cpp_dec">Десятичная</string>
     <string name="cpp_hex">Шестнадцатеричная</string>
     <string name="cpp_oct">Восьмеричная</string>
     <string name="cpp_bin">Бинарная</string>
-    <string name="c_calc_theme">Тема оформления</string>
     <string name="cpp_theme_metro_blue">Метро Синяя</string>
     <string name="p_metro_green_theme">Метро Зелёная</string>
     <string name="p_metro_purple_theme">Метро Фиолетовая</string>
     <string name="cpp_theme_app">Тема приложения</string>
-  <string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)
-	</string>
     <string name="cpp_thousands_separator_no">Не использовать разделитель разрядов</string>
     <string name="cpp_thousands_separator_apostrophe">Апостроф (\')</string>
     <string name="cpp_thousands_separator_space">Пробел ( )</string>
-    <string name="c_calc_grouping_separator">Разделитель разрядов</string>
-    <string name="c_calc_grouping_separator_summary">Устанавливает разделитель разрядов числа</string>
     <string name="not_valid_result">Результат не допустим!</string>
     <string name="c_use">Использовать</string>
     <string name="c_copy_expression">Копировать выражение</string>
@@ -72,16 +51,10 @@
     <string name="cpp_history_tab_recent">Недавняя</string>
     <string name="c_first_start_text">Спасибо за выбор Калькулятора++!\n\nКалькулятор++ - это мощный инструмент для проведения ежедневных расчётов.</string>
     <string name="c_calc_show_release_notes_title">Показывать примечания к выпуску</string>
-  <string name="c_calc_show_release_notes_summary">Определяет показывать или нет всплывающее окно с примечаниями к
-		выпуску после обновления новой версии
-	</string>
-    <string name="c_calc_use_back_button_as_prev_summary">Устанавливает поведение по нажатию на кнопку Назад</string>
     <string name="c_calc_use_back_button_as_prev_title">Использовать кнопку назад как назад по истории</string>
     <string name="c_error">Ошибка</string>
     <string name="c_calc_ad_free_title">Поддержать проект</string>
     <string name="c_calc_ad_free_summary">И убрать рекламу</string>
-    <string name="c_angle_units_changed_to">Единицы измерения углов изменены на \'%s\'!</string>
-    <string name="c_numeral_base_changed_to">Система счисления изменена на \'%s\'!</string>
     <string name="c_conversion_tool">Перевод величин</string>
     <string name="c_convert">Перевести в&#8230;</string>
     <string name="convert_to_hex">Перевести в hex</string>
@@ -92,37 +65,16 @@
     <string name="c_function_name">Имя</string>
     <string name="function_create_function">Создать функцию</string>
     <string name="function_edit_function">Редактировать функцию</string>
-  <string name="function_name_is_not_valid">Не правильное имя функции: имя должно начинаться с буквы, должно содержать
-		буквы, цифры и знаки подчёркивания.
-	</string>
     <string name="function_already_exists">Функция с таким именем уже существует!</string>
-    <string name="function_is_empty">Тело функции не должно быть пустым!</string>
     <string name="function_removal_confirmation_question">Вы действительно хотите удалить функцию \'%s\'?</string>
     <string name="fix">Исправить</string>
-    <string name="p_preferred_numeral_base_title">Система счисления по умолчанию</string>
-    <string name="p_preferred_numeral_base_summary">Устанавливает систему счисления по умолчанию</string>
-  <string name="preferred_numeral_base_message">Система счисления по умолчанию \'%1$s\' отличается от текущей
-		\'%2$s\'. Забыли её вернуть?
-	</string>
-    <string name="p_preferred_angle_units_title">Единицы измерения углов по умолчанию</string>
-    <string name="p_preferred_angle_units_summary">Устанавливает единицы измерения углов по умолчанию</string>
-  <string name="preferred_angle_units_message">Единицы измерения углов по умолчанию \'%1$s\' отличаются от текущих
-		\'%2$s\'. Забыли их вернуть?
-	</string>
     <string name="close">Закрыть</string>
     <string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор в отдельном окне</string>
     <string name="cpp_floating_calculator">Калькулятор в отдельном окне</string>
     <string name="cpp_widget">Виджет</string>
-  <string name="prefs_onscreen_show_app_icon_title">Показывать отдельную иконку (может потребовать перезагрузки)
-	</string>
-  <string name="prefs_onscreen_show_app_icon_summary">Если включено, то вторая иконка будет добавлена в список
-		приложений
-	</string>
-    <string name="cpp_this_change_may_require_reboot">Это изменение может потребовать перезагрузки</string>
     <string name="cpp_plotter">Графопостроитель</string>
     <string name="cpp_plot_function_line_color">Цвет линии</string>
     <string name="cpp_plot_function_line_width">Толщина линии</string>
-    <string name="cpp_plot_button_text">+граф</string>
     <string name="cpp_plot_empty_function_error">Невозможно построить пустую функцию!</string>
     <string name="cpp_plot_too_many_variables">Невозможно построить функцию: слишком много переменных!</string>
     <string name="cpp_plot_range">Интервал построения</string>
@@ -139,9 +91,9 @@
     <string name="cpp_clear_history">Очистить</string>
     <string name="cpp_new_in_version">Новое в версии %1$s</string>
     <string name="cpp_release_notes_choose_theme">Хотите попробовать новые темы в стиле Матириал? Выберите их из списка:</string>
-  <string name="cpp_fn_parameter">Параметр</string>
-  <string name="cpp_fn_duplicate_parameter">Параметр с таким именем уже существует</string>
-  <string name="cpp_invalid_name">Имя содержит недопустимые символы</string>
   <string name="cpp_radix">Система</string>
   <string name="cpp_numeral_system">Система счисления</string>
+  <string name="cpp_number_format_dec">Десятичный</string>
+  <string name="cpp_number_format_eng">Инженерный</string>
+  <string name="cpp_number_format_sci">Научный</string>
 </resources>

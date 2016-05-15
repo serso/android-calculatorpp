@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">外观</string>
-   <string name="cpp_number_format">数字格式</string>
-   <string name="cpp_system_language">系统语言</string>
-   <string name="cpp_format">格式</string>
-   <string name="cpp_angles">角度</string>
-   <string name="cpp_thousands_separator">千分位分隔符</string>
-   <string name="cpp_examples">示例</string>
+   <string name="cpp_appearance">&quot;外观&quot;</string>
+   <string name="cpp_number_format">&quot;数字格式&quot;</string>
+   <string name="cpp_system_language">&quot;系统语言&quot;</string>
+   <string name="cpp_format">&quot;格式&quot;</string>
+   <string name="cpp_angles">&quot;角度&quot;</string>
+   <string name="cpp_thousands_separator">&quot;千分位分隔符&quot;</string>
+   <string name="cpp_examples">&quot;示例&quot;</string>
+   <string name="cpp_parameter">&quot;参数&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;重复的参数:“%1$s”。&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;名称包含无效字符。&quot;</string>
+   <string name="cpp_field_cannot_be_empty">&quot;字段不能为空&quot;</string>
 </resources>

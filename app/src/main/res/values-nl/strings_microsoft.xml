@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_appearance">Vormgeving</string>
-   <string name="cpp_number_format">Getalnotatie</string>
-   <string name="cpp_system_language">Taal van besturingssysteem</string>
-   <string name="cpp_format">Niet-ondersteunde gegevensindeling.</string>
-   <string name="cpp_angles">Hoeken</string>
-   <string name="cpp_thousands_separator">Scheidingsteken voor duizendtallen</string>
-   <string name="cpp_examples">Voorbeelden</string>
+   <string name="cpp_appearance">&quot;Vormgeving&quot;</string>
+   <string name="cpp_number_format">&quot;Getalnotatie&quot;</string>
+   <string name="cpp_system_language">&quot;Taal van besturingssysteem&quot;</string>
+   <string name="cpp_format">&quot;Niet-ondersteunde gegevensindeling.&quot;</string>
+   <string name="cpp_angles">&quot;Hoeken&quot;</string>
+   <string name="cpp_thousands_separator">&quot;Scheidingsteken voor duizendtallen&quot;</string>
+   <string name="cpp_examples">&quot;Voorbeelden&quot;</string>
+   <string name="cpp_parameter">&quot;Parameter&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;Dubbele parameter: %1$s.&quot;</string>
+   <string name="cpp_name_contains_invalid_characters">&quot;De naam bevat ongeldige tekens.&quot;</string>
+   <string name="cpp_field_cannot_be_empty">&quot;Veld mag niet leeg zijn&quot;</string>
 </resources>

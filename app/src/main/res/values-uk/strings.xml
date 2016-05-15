@@ -4,18 +4,9 @@
     <string name="c_app_name_on_screen">Калькулятор + + (віконний режим)</string>
     <string name="c_result_copied">Результат був скопійований до буферу обміну!</string>
     <string name="c_vars_and_constants">Змінні та константи</string>
-    <string name="c_prefs_calculations_category">Налаштування обчислень</string>
-    <string name="c_prefs_appearance_category">Налаштування вигляду</string>
-    <string name="c_prefs_other_category">Інші налаштування</string>
     <string name="c_clear">C</string>
     <string name="c_vars">змінні</string>
     <string name="c_plot">Побудувати графік</string>
-    <string name="c_calc_round_result_title">Округлювати результат</string>
-    <string name="c_calc_round_result_summary">Увімкнути/вимкнути округлення результату</string>
-    <string name="c_calc_science_notation_title">Завжди експоненціальна форма</string>
-  <string name="c_calc_science_notation_summary">Якщо увімкнено, то результат буде записано лише у експоненціальній
-		формі (12.34E-12)
-	</string>
     <string name="cpp_precision">Точність результату</string>
     <string name="c_save">Зберегти</string>
     <string name="removal_confirmation">Підтвердження вилучення</string>
@@ -31,30 +22,21 @@
     <string name="c_name_is_not_valid">Неприпустиме ім\'я змінної: ім\'я має починатися з літери, може містити літери, цифри та знак підкреслення(_).</string>
     <string name="c_history">Історія</string>
     <string name="c_char_is_not_accepted">Символ \'%s\' не допустимий у імені змінної!</string>
-    <string name="c_calc_angle_units">Поточні одиниці виміру кутів</string>
     <string name="cpp_deg">Градуси</string>
     <string name="cpp_rad">Радіани</string>
     <string name="cpp_grad">Гради</string>
     <string name="cpp_turns">Обороти</string>
-    <string name="c_angle_units_summary">Визначає поточну одиницю виміру кутів, яка буде використана у обчисленнях</string>
-    <string name="c_calc_numeral_bases">Системи числення</string>
-    <string name="c_numeral_bases_summary">Визначає типову систему числення для усіх введених чисел.</string>
     <string name="cpp_dec">Десяткова</string>
     <string name="cpp_hex">Шістнадцяткова</string>
     <string name="cpp_oct">Вісімкова</string>
     <string name="cpp_bin">Двійкова</string>
-    <string name="c_calc_theme">Тема</string>
     <string name="cpp_theme_metro_blue">Метро Синя</string>
     <string name="p_metro_green_theme">Метро Зелена</string>
     <string name="p_metro_purple_theme">Метро Пурпурова</string>
     <string name="cpp_theme_app">App theme</string>
-  <string name="c_calc_result_precision_summary">Точність відображення результату (усі обчислення проводяться максимально точно, незалежно від цього параметру)
-	</string>
     <string name="cpp_thousands_separator_no">Не використовувати роздільник розрядів</string>
     <string name="cpp_thousands_separator_apostrophe">Апостроф (\')</string>
     <string name="cpp_thousands_separator_space">Пробіл ( )</string>
-    <string name="c_calc_grouping_separator">Роздільник розрядів</string>
-    <string name="c_calc_grouping_separator_summary">Задає роздільник розрядів</string>
     <string name="not_valid_result">Поточний результат не допустимий!</string>
     <string name="c_use">Використовувати</string>
     <string name="c_copy_expression">Копіювати вираз</string>
@@ -65,16 +47,10 @@
   <string name="c_first_start_text">Дякуємо вам за вибір Калькулятор++!\n\nКалькулятор++ - це потужний інструмент для
 		проведення щоденних розрахунків.</string>
     <string name="c_calc_show_release_notes_title">Показувати замітки до випуску</string>
-  <string name="c_calc_show_release_notes_summary">Визначає, чи показувати спливне вікно із замітками до випуску
-		після оновлення до нової версії
-	</string>
-    <string name="c_calc_use_back_button_as_prev_summary">Визначити поведінку кнопку Назад</string>
     <string name="c_calc_use_back_button_as_prev_title">Кнопка Назад як крок назад по історії</string>
     <string name="c_error">Помилка</string>
     <string name="c_calc_ad_free_title">Підтримайте проект</string>
     <string name="c_calc_ad_free_summary">і позбудьтеся реклами!</string>
-    <string name="c_angle_units_changed_to">Одиниці виміру кутів змінено на \'%s\'!</string>
-    <string name="c_numeral_base_changed_to">Система числення змінена на \'%s\'!</string>
     <string name="c_conversion_tool">Перетворення чисел</string>
     <string name="c_convert">Перетворити в&#8230;</string>
     <string name="convert_to_hex">Перетворити в hex</string>
@@ -85,28 +61,16 @@
     <string name="c_function_name">Ім’я</string>
     <string name="function_create_function">Визначити функцію</string>
     <string name="function_edit_function">Змінити функцію</string>
-    <string name="function_name_is_not_valid">Неприпустиме ім\'я функції: ім\'я має починатися з літери, може містити літери, цифри та знак підкреслення (_).</string>
     <string name="function_already_exists">Функція з таким ім\'ям вже існує!</string>
-    <string name="function_is_empty">Тіло функції не може бути відсутнім!</string>
     <string name="function_removal_confirmation_question">Ви дійсно хочете видалити функцію \'%s\'?</string>
     <string name="fix">Виправити</string>
-    <string name="p_preferred_numeral_base_title">Типова система числення</string>
-    <string name="p_preferred_numeral_base_summary">Визначає типову систему числення</string>
-    <string name="preferred_numeral_base_message">Типова система числення (\'%1$s\') відрізняється від поточної - \'%2$s\'. Забули змінити?</string>
-    <string name="p_preferred_angle_units_title">Типові одиниці виміру кутів</string>
-    <string name="p_preferred_angle_units_summary">Визначає типові одиниці вимірювання кутів</string>
-    <string name="preferred_angle_units_message">Типові одиниці виміру кутів - \'%1$s\' відрізняються від поточних - \'%2$s\'. Забули змінити?</string>
     <string name="close">Закрити</string>
     <string name="open_onscreen_calculator">Клацніть, щоб відкрити калькулятор у віконному режимі</string>
     <string name="cpp_floating_calculator">Параметри Калькулятор++ (в окремому вікні)</string>
     <string name="cpp_widget">Widget settings</string>
-    <string name="prefs_onscreen_show_app_icon_title">Показувати окрему піктограму (потрібне перевантаження)</string>
-    <string name="prefs_onscreen_show_app_icon_summary">Якщо увімкнено, то окрема піктограма появиться у списку програм</string>
-    <string name="cpp_this_change_may_require_reboot">Ця зміна може вимагати перезавантаження</string>
     <string name="cpp_plotter">Графобудівник функцій</string>
     <string name="cpp_plot_function_line_color">Колір лінії</string>
     <string name="cpp_plot_function_line_width">Ширина лінії</string>
-    <string name="cpp_plot_button_text">+графік</string>
     <string name="cpp_plot_empty_function_error">Не вдалося відобразити пусту функцію!</string>
     <string name="cpp_plot_too_many_variables">Не вдалося відобразити: занадто багато змінних!</string>
     <string name="cpp_plot_range">Діапазон графіка</string>

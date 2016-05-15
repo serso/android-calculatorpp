@@ -10,7 +10,6 @@ Das Ergebnis wird auf 5 Nachkommastellen gerundet. Grad wird als Winkeleinheit v
     <string name="cpp_mode_engineer">Ingenieur</string>
   <string name="cpp_wizard_mode_engineer_description">In Ingenieur-Modus werden spezielle Funktionen auf dem Hauptbildschirm verwendet.
 Ergebnisse werden nicht gerundet und es wird die wissenschaftliche Notation verwendet. Bogenmaß wird als Standardwinkeleinheit verwendet.</string>
-    <string name="cpp_restart_wizard">Assistenten starten</string>
     <string name="cpp_wizard_dragbutton_action_end">Ausgezeichnet! Tippen Sie auf die Schaltfläche um es noch einmal zu versuchen</string>
     <string name="cpp_wizard_dragbutton_action_center">Tippen Sie einmal auf die Schaltfläche unten, um die 9 zu verwenden</string>
     <string name="cpp_wizard_dragbutton_action_up">Wische von der Mitte des Buttons nach oben um % (Prozent) zu benutzen</string>

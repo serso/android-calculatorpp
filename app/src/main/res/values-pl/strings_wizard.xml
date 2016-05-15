@@ -10,7 +10,6 @@ Wynik jest zaokrąglony do 5 cyfr, a domyślną jednostką wielkości kąta są 
     <string name="cpp_mode_engineer">Inżynierski</string>
   <string name="cpp_wizard_mode_engineer_description">W trybie inżynierskim specjalne funkcje będą dostępne na ekranie głównym.
 Wynik nie jest zaokrąglony i jest przedstawiony w postaci inżynierskiej, a domyślną jednostką wielkości kąta są radiany.</string>
-    <string name="cpp_restart_wizard">Zacznij konfigurację</string>
     <string name="cpp_wizard_dragbutton_action_end">Świetnie! Stuknij w przycisk jeszcze raz, aby spróbować ponownie</string>
     <string name="cpp_wizard_dragbutton_action_center">Stuknij raz w przycisk poniżej, aby użyć 9</string>
     <string name="cpp_wizard_dragbutton_action_up">Przesuń palcem z centrum przycisku w górę, aby użyć %</string>
