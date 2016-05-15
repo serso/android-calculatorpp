@@ -129,7 +129,7 @@ public class Android {
             for (TranslationDef def : translationDefs) {
                 translate(readResources(def.project, languageLocale), translations, def.links);
             }
-            Utils.saveTranslations(translations, languageLocale, outDir, "text_imported_" + outPostfix + ".xml");
+            Utils.saveTranslations(translations, languageLocale, outDir, "strings_imported_" + outPostfix + ".xml");
         }
     }
 

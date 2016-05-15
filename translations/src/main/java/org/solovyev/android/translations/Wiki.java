@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class Wiki {
     public static void main(String... args) throws Exception {
-        final String inFileName = "app/src/main/res/values/text_converter.xml";
+        final String inFileName = "app/src/main/res/values/strings_converter.xml";
         final File inFile = new File(inFileName);
 
         final File outDir = new File("build/translations/res");

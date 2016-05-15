@@ -54,7 +54,7 @@ public class Microsoft {
     private static final String xmlNoVersion = xmlPre + xmlPost;
 
     public static void main(String... args) throws Exception {
-        final String inFileName = "app/src/main/res/values/text_microsoft.xml";
+        final String inFileName = "app/src/main/res/values/strings_microsoft.xml";
         final File inFile = new File(inFileName);
 
         final File outDir = new File("build/translations/res");

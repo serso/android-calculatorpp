@@ -137,9 +137,6 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         });
     }
 
-    private void prepareFloatingCalculatorPreferences() {
-    }
-
     private void prepareReportBug() {
         final Preference reportBug = findPreference("prefs.reportBug");
         reportBug.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

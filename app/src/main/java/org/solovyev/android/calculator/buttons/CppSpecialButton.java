@@ -24,13 +24,12 @@ package org.solovyev.android.calculator.buttons;
 
 import org.solovyev.android.Check;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-// see values/text_glyphs.xml for glyph constants
+// see values/strings_glyphs.xml for glyph constants
 public enum CppSpecialButton {
 
     history("history", '\ue005'),
