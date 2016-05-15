@@ -109,8 +109,8 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     public static boolean isValidName(@Nullable String name) {
         if (!TextUtils.isEmpty(name)) {
             try {
-                Identifier.parser.parse(Parser.Parameters.get(name), null);
-                return true;
+                final String parsed = Identifier.parser.parse(Parser.Parameters.get(name), null);
+                return TextUtils.equals(parsed, name);
             } catch (jscl.text.ParseException e) {
                 // not valid name;
             }
