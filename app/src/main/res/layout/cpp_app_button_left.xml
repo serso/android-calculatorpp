@@ -28,6 +28,6 @@
     xmlns:c="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     a:text="@string/cpp_glyph_left"
-    c:directionTextUp="&lt;&lt;"
+    c:directionTextUp="@string/cpp_glyph_fast_back"
     c:directionTextDown="@string/cpp_glyph_copy"
     tools:ignore="HardcodedText" />

@@ -36,9 +36,9 @@ public enum CppSpecialButton {
     history_undo("↶", '\ue007'),
     history_redo("↷", '\ue008'),
     cursor_right("▷", '\ue003'),
-    cursor_to_end(">>"),
+    cursor_to_end(">>", '\ue00b'),
     cursor_left("◁", '\ue002'),
-    cursor_to_start("<<"),
+    cursor_to_start("<<", '\ue00a'),
     settings("settings"),
     settings_widget("settings_widget"),
     like("like", '\ue006'),
@@ -116,7 +116,7 @@ public enum CppSpecialButton {
             return;
         }
         for (CppSpecialButton button : values()) {
-            if(button.glyph == 0) {
+            if (button.glyph == 0) {
                 continue;
             }
             final int position = glyphToPosition(button.glyph);

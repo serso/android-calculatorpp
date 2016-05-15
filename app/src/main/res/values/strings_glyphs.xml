@@ -10,4 +10,6 @@
     <string name="cpp_glyph_undo" translatable="false">"\ue007"</string>
     <string name="cpp_glyph_redo" translatable="false">"\ue008"</string>
     <string name="cpp_glyph_graph" translatable="false">"\ue009"</string>
+    <string name="cpp_glyph_fast_back" translatable="false">"\ue00a"</string>
+    <string name="cpp_glyph_fast_forward" translatable="false">"\ue00b"</string>
 </resources>
