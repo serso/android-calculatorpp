@@ -49,45 +49,46 @@ public abstract class BaseNumberBuilder {
     /**
      * Method determines if we can continue to process current number
      *
-     * @param mathTypeResult current math type result
+     * @param result current math type result
      * @return true if we can continue of processing of current number, if false - new number should be constructed
      */
-    protected boolean canContinue(@Nonnull MathType.Result mathTypeResult) {
-        return mathTypeResult.type.getGroupType() == MathType.MathGroupType.number &&
-                !spaceBefore(mathTypeResult) &&
-                numeralBaseCheck(mathTypeResult) &&
-                numeralBaseInTheStart(mathTypeResult.type) || isSignAfterE(mathTypeResult);
+    protected boolean canContinue(@Nonnull MathType.Result result) {
+        final boolean number = result.type.getGroupType() == MathType.MathGroupType.number;
+        return number && !spaceBefore(result) &&
+                numeralBaseCheck(result) &&
+                numeralBaseInTheStart(result.type)
+                || isSignAfterE(result);
     }
 
     private boolean spaceBefore(@Nonnull MathType.Result mathTypeResult) {
         return numberBuilder == null && Strings.isNullOrEmpty(mathTypeResult.match.trim());
     }
 
-    private boolean numeralBaseInTheStart(@Nonnull MathType mathType) {
-        return mathType != MathType.numeral_base || numberBuilder == null;
+    private boolean numeralBaseInTheStart(@Nonnull MathType result) {
+        return result != MathType.numeral_base || numberBuilder == null;
     }
 
-    private boolean numeralBaseCheck(@Nonnull MathType.Result mathType) {
-        return mathType.type != MathType.digit || getNumeralBase().getAcceptableCharacters().contains(mathType.match.charAt(0));
+    private boolean numeralBaseCheck(@Nonnull MathType.Result result) {
+        return result.type != MathType.digit || getNumeralBase().getAcceptableCharacters().contains(result.match.charAt(0));
     }
 
     private boolean isSignAfterE(@Nonnull MathType.Result mathTypeResult) {
-        if (!isHexMode()) {
-            final String match = mathTypeResult.match;
-            if ("−".equals(match) || "-".equals(match) || "+".equals(match)) {
-                final StringBuilder localNb = numberBuilder;
-                if (localNb != null && localNb.length() > 0) {
-                    if (localNb.charAt(localNb.length() - 1) == MathType.EXPONENT) {
-                        return true;
-                    }
-                }
-            }
+        if (isHexMode()) {
+            return false;
         }
-        return false;
+        final String match = mathTypeResult.match;
+        if (!"−".equals(match) && !"-".equals(match) && !"+".equals(match)) {
+            return false;
+        }
+        final StringBuilder nb = numberBuilder;
+        if (nb == null || nb.length() == 0) {
+            return false;
+        }
+        return nb.charAt(nb.length() - 1) == MathType.EXPONENT;
     }
 
     public boolean isHexMode() {
-        return nb == NumeralBase.hex || (nb == null && engine.getMathEngine().getNumeralBase() == NumeralBase.hex);
+        return getNumeralBase() == NumeralBase.hex;
     }
 
     @Nonnull
