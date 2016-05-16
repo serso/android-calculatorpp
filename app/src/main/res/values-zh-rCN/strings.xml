@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++（悬浮）</string>
-    <string name="c_result_copied">结果已复制到剪贴板！</string>
     <string name="c_vars_and_constants">变量与常数</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">变量</string>
     <string name="c_plot">作图</string>
     <string name="cpp_precision">保留小数点后位数</string>
     <string name="c_save">保存</string>
     <string name="removal_confirmation">确认移除</string>
     <string name="c_var_removal_confirmation_question">您真的要移除变量 \'%s\' 吗?</string>
-    <string name="c_var_name">名称</string>
     <string name="c_var_value">值</string>
     <string name="c_var_description">描述</string>
     <string name="c_var_create_var">创建变量</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">值必须是一个数字或留空：如果有参数 - 请创建一个函数来代替！</string>
     <string name="c_var_name_clashes">变量名称与函数名称冲突!</string>
     <string name="c_var_already_exists">已存在相同名称的变量！</string>
-    <string name="c_name_is_not_valid">常数名称不正确：名称必须由英文字母开始，可以包含字母、数字和下划线。</string>
     <string name="c_history">历史</string>
     <string name="c_char_is_not_accepted">不能使用字符 \'%s\' 作为变量名称！</string>
     <string name="cpp_deg">度</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">转换为十进制</string>
     <string name="other">其他</string>
     <string name="derivatives">衍生工具/积分</string>
-    <string name="c_function_name">名称</string>
     <string name="function_create_function">创建函数</string>
     <string name="function_edit_function">编辑函数</string>
     <string name="function_already_exists">已经存在相同名称的函数！</string>

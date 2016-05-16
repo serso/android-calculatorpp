@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Máy tính ++</string>
     <string name="c_app_name_on_screen">Máy tính ++ (chế độ cửa sổ)</string>
-    <string name="c_result_copied">Kết quả đã được sao chép vào clipboard!</string>
     <string name="c_vars_and_constants">Biến và hằng</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">Các biến</string>
     <string name="c_plot">Vẽ đồ thị</string>
     <string name="cpp_precision">Độ chính xác của kết quả</string>
     <string name="c_save">Lưu</string>
     <string name="removal_confirmation">Xác nhận xoá</string>
     <string name="c_var_removal_confirmation_question">Bạn có thực sự muốn xóa \'%s\' biến?</string>
-    <string name="c_var_name">Tên</string>
     <string name="c_var_value">Giá trị</string>
     <string name="c_var_description">Mô tả</string>
     <string name="c_var_create_var">Tạo biến</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Giá trị phải là một số hoặc để trống: nếu bạn có tham số - tạo ra một hàm để thay thế!</string>
     <string name="c_var_name_clashes">Tên biến xung đột với tên hàm!</string>
     <string name="c_var_already_exists">Biến có cùng tên đã tồn tại!</string>
-    <string name="c_name_is_not_valid">Tên của hằng số là không hợp lệ: tên phải bắt đầu với chữ cái, có thể chứa chữ cái, chữ số và gạch dưới.</string>
     <string name="c_history">Nhật ký</string>
     <string name="c_char_is_not_accepted">Ký tự \'%s\' không được chấp nhận trong tên biến!</string>
     <string name="cpp_deg">Độ</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Chuyển đổi sang DEC</string>
     <string name="other">Khác</string>
     <string name="derivatives">Vi phân/tích phân</string>
-    <string name="c_function_name">Tên</string>
     <string name="function_create_function">Tạo hàm</string>
     <string name="function_edit_function">Chỉnh sửa hàm</string>
     <string name="function_already_exists">Hàm cùng tên đã tồn tại!</string>

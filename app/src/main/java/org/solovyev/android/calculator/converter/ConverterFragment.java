@@ -389,7 +389,7 @@ public class ConverterFragment extends BaseDialogFragment
                     break;
                 case DialogInterface.BUTTON_NEUTRAL:
                     clipboard.setText(text);
-                    Toast.makeText(getActivity(), getString(R.string.c_result_copied),
+                    Toast.makeText(getActivity(), getString(R.string.cpp_text_copied),
                             Toast.LENGTH_SHORT).show();
                     break;
             }

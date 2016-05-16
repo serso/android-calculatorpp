@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Калькулятор++</string>
     <string name="c_app_name_on_screen">Калькулятор + + (віконний режим)</string>
-    <string name="c_result_copied">Результат був скопійований до буферу обміну!</string>
     <string name="c_vars_and_constants">Змінні та константи</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">змінні</string>
     <string name="c_plot">Побудувати графік</string>
     <string name="cpp_precision">Точність результату</string>
     <string name="c_save">Зберегти</string>
     <string name="removal_confirmation">Підтвердження вилучення</string>
     <string name="c_var_removal_confirmation_question">Ви дійсно хочете вилучити змінну \'%s\'?</string>
-    <string name="c_var_name">Ім’я</string>
     <string name="c_var_value">Значення</string>
     <string name="c_var_description">Опис</string>
     <string name="c_var_create_var">Створити змінну</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Значення має бути відсутнім або числом: якщо ви використовуєте параметри - визначте функцію замість цього!</string>
     <string name="c_var_name_clashes">Ім’я змінної не може бути зарезервованим системним ім’ям!</string>
     <string name="c_var_already_exists">Змінна з таким іменем вже існує!</string>
-    <string name="c_name_is_not_valid">Неприпустиме ім\'я змінної: ім\'я має починатися з літери, може містити літери, цифри та знак підкреслення(_).</string>
     <string name="c_history">Історія</string>
     <string name="c_char_is_not_accepted">Символ \'%s\' не допустимий у імені змінної!</string>
     <string name="cpp_deg">Градуси</string>
@@ -58,7 +53,6 @@
     <string name="convert_to_dec">Перетворити в dec</string>
     <string name="other">Інші</string>
     <string name="derivatives">Похідні/Інтеграли</string>
-    <string name="c_function_name">Ім’я</string>
     <string name="function_create_function">Визначити функцію</string>
     <string name="function_edit_function">Змінити функцію</string>
     <string name="function_already_exists">Функція з таким ім\'ям вже існує!</string>

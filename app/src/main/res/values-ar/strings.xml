@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">الآلة الحاسبة++</string>
     <string name="c_app_name_on_screen">الآلة الحاسبة++ (نمط النافذة)</string>
-    <string name="c_result_copied">تم نسخ النتيجة الى الحافظة!</string>
     <string name="c_vars_and_constants">المتغيرات والثوابت</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">المتغيرات</string>
     <string name="c_plot">رسم الدالّة</string>
     <string name="cpp_precision">دقة النتيجة</string>
     <string name="c_save">حفظ</string>
     <string name="removal_confirmation">تأكيد الإزالة</string>
     <string name="c_var_removal_confirmation_question">هل تريد حقاً حذف المتغير \'%s\'؟</string>
-    <string name="c_var_name">الاسم</string>
     <string name="c_var_value">القيمة</string>
     <string name="c_var_description">الوصف</string>
     <string name="c_var_create_var">إنشاء متغير</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">يجب أن تكون القيمة رقماً أو تترك فارغة: إذا كان لديك عوامل متغيرة - قم بإنشاء دالة بدلاً من ذلك!</string>
     <string name="c_var_name_clashes">اسم المتغير يتشابك مع اسم الدالة!</string>
     <string name="c_var_already_exists">متغير يحمل نفس الاسم موجود مسبقاً!</string>
-    <string name="c_name_is_not_valid">اسم الثابت غير صحيح: الاسم يجب أن يبدأ بحرف, ويمكن أن يحتوي على أحرف وأرقام و إشارة _ .</string>
     <string name="c_history">السجل</string>
     <string name="c_char_is_not_accepted">المحرف \'%s\' غير مقبول في اسم المتغير!</string>
     <string name="cpp_deg">درجات</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">تحويل الى عشري</string>
     <string name="other">الأخرى</string>
     <string name="derivatives">المشتقات/التكاملات</string>
-    <string name="c_function_name">الاسم</string>
     <string name="function_create_function">قم بإنشاء دالّة</string>
     <string name="function_edit_function">تعديل الدالّة</string>
     <string name="function_already_exists">هناك دالّة بنفس الاسم موجود مسبقاً!</string>

@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Laskin++</string>
     <string name="c_app_name_on_screen">Laskin++ (ikkuna-tilassa)</string>
-    <string name="c_result_copied">Tulos on kopioitu Leikepöydälle!</string>
     <string name="c_vars_and_constants">Muuttujien ja vakioiden</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">Vars</string>
     <string name="c_plot">Kaavion tulostamisessa</string>
     <string name="cpp_precision">Tarkka tulos</string>
     <string name="c_save">Tallenna</string>
     <string name="removal_confirmation">Poistamisvahvistus</string>
     <string name="c_var_removal_confirmation_question">Haluatko todella poistaa %s muuttujan?</string>
-    <string name="c_var_name">Nimi</string>
     <string name="c_var_value">Arvo</string>
     <string name="c_var_description">Kuvaus</string>
     <string name="c_var_create_var">Muuttuja luodaan</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Arvon on oltava joko numero tai jätetty tyhjäksi: Jos sinulla on parametrit - funktion luominen sen sijaan!</string>
     <string name="c_var_name_clashes">Muuttujan nimi törmää funktionimi!</string>
     <string name="c_var_already_exists">Muuttuja, jolla on sama nimi on jo olemassa!</string>
-    <string name="c_name_is_not_valid">Vakion nimi ei kelpaa: nimen on alettava kirjaimella, voi sisältää kirjaimia, numeroita ja alaviivoja.  </string>
     <string name="c_history">Historia</string>
     <string name="c_char_is_not_accepted">Merkki \'%s\' ei ole hyväksytty muuttujan nimi!</string>
     <string name="cpp_deg">Astetta</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Muuntaa dec</string>
     <string name="other">Muut</string>
     <string name="derivatives">Johdannaisten ja integraalit</string>
-    <string name="c_function_name">Nimi</string>
     <string name="function_create_function">Funktion luominen</string>
     <string name="function_edit_function">Muokkaa funktiota</string>
     <string name="function_already_exists">Saman niminen toiminto on jo olemassa!</string>

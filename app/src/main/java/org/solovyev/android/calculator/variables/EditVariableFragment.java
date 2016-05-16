@@ -44,12 +44,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import dagger.Lazy;
-import jscl.math.function.IConstant;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.PreparedExpression;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.RemovalConfirmationDialog;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
+import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
@@ -58,11 +65,17 @@ import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.android.text.method.NumberInputFilter;
 import org.solovyev.common.text.Strings;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import dagger.Lazy;
+import jscl.math.function.IConstant;
 
 import static org.solovyev.android.calculator.variables.CppVariable.NO_ID;
 
@@ -253,7 +266,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     private boolean validateName() {
         final String name = nameView.getText().toString();
         if (!Engine.isValidName(name)) {
-            setError(nameLabel, getString(R.string.c_name_is_not_valid));
+            setError(nameLabel, getString(R.string.cpp_name_contains_invalid_characters));
             return false;
         }
         for (int i = 0; i < name.length(); i++) {

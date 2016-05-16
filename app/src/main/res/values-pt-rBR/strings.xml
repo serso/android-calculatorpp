@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++ (Modo Janela)</string>
-    <string name="c_result_copied">Resultado foi copiado para a área de transferência!</string>
     <string name="c_vars_and_constants">Variáveis e constantes</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">vars</string>
     <string name="c_plot">Desenhar o gráfico</string>
     <string name="cpp_precision">Precisão do resultado</string>
     <string name="c_save">Salvar</string>
     <string name="removal_confirmation">Confirmação de remoção</string>
     <string name="c_var_removal_confirmation_question">Você quer realmente excluir a variável \'%s\'?</string>
-    <string name="c_var_name">Nome</string>
     <string name="c_var_value">Valor</string>
     <string name="c_var_description">Descrição</string>
     <string name="c_var_create_var">Criar a variável</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">O valor à esquerda deve ser um número ou ficar vazio: se você tiver parâmetros - crie uma função em vez disso!</string>
     <string name="c_var_name_clashes">Conflito: existe uma função com mesmo nome da variável!</string>
     <string name="c_var_already_exists">Já existe uma variável com mesmo nome!</string>
-    <string name="c_name_is_not_valid">O nome da constante não é válido: o nome deve iniciar com uma letra, pode conter letras, dígitos e sublinhado.  </string>
     <string name="c_history">Histórico</string>
     <string name="c_char_is_not_accepted">Caractere \'%s\' não é aceito em nome de variável!</string>
     <string name="cpp_deg">Graus</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Converter para decimal</string>
     <string name="other">Outros</string>
     <string name="derivatives">Derivadas/Integrais</string>
-    <string name="c_function_name">Nome</string>
     <string name="function_create_function">Criar função</string>
     <string name="function_edit_function">Editar função</string>
     <string name="function_already_exists">Já existe uma função com o mesmo nome!</string>

@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calcolatrice++</string>
     <string name="c_app_name_on_screen">Calcolatrice++ (Modalità finestra)</string>
-    <string name="c_result_copied">Il risultato è stato copiato negli appunti!</string>
     <string name="c_vars_and_constants">Variabili e costanti</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">variabili</string>
     <string name="c_plot">Plot grafico</string>
     <string name="cpp_precision">Precisione del risultato</string>
     <string name="c_save">Salva</string>
     <string name="removal_confirmation">Conferma rimozione</string>
     <string name="c_var_removal_confirmation_question">Vuoi davvero cancellare la variabile \'%s\'?</string>
-    <string name="c_var_name">Nome</string>
     <string name="c_var_value">Valore</string>
     <string name="c_var_description">Descrizione</string>
     <string name="c_var_create_var">Crea variabile</string>
@@ -19,9 +15,6 @@
     <string name="c_value_is_not_a_number">Il valore deve essere un numero o lasciato vuoto: se disponi di parametri, crea invece una funzione!</string>
     <string name="c_var_name_clashes">Il nome della variabile entra in conflitto col nome della funzione!</string>
     <string name="c_var_already_exists">Esiste già una variabile con lo stesso nome!</string>
-  <string name="c_name_is_not_valid">Il nome della costante non è valido: il nome deve iniziare con una lettera, può
-		contenere lettere, cifre e underscore.
-	</string>
     <string name="c_history">Cronologia</string>
     <string name="c_char_is_not_accepted">Il carattere \'%s\' non è accettato come nome di variabile!</string>
     <string name="cpp_deg">Gradi</string>
@@ -59,7 +52,6 @@
     <string name="convert_to_dec">Converti in decimale (dec)</string>
     <string name="other">Altri</string>
     <string name="derivatives">Derivate/Integrali</string>
-    <string name="c_function_name">Nome</string>
     <string name="function_create_function">Crea la funzione</string>
     <string name="function_edit_function">Modifica funzione</string>
     <string name="function_already_exists">Funzione con lo stesso nome esiste già!</string>

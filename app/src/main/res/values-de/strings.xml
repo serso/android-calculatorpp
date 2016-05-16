@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++ (Fenstermodus)</string>
-    <string name="c_result_copied">Ergebnis wurde in die Zwischenablage kopiert!</string>
     <string name="c_vars_and_constants">Variablen und Konstanten</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">Variablen</string>
     <string name="c_plot">Graph zeichnen</string>
     <string name="cpp_precision">Genauigkeit des Ergebnisses</string>
     <string name="c_save">Speichern</string>
     <string name="removal_confirmation">Löschbestätigung</string>
     <string name="c_var_removal_confirmation_question">Möchten Sie die Variable \'%s\' wirklich löschen?</string>
-    <string name="c_var_name">Name</string>
     <string name="c_var_value">Wert</string>
     <string name="c_var_description">Beschreibung</string>
     <string name="c_var_create_var">Erstelle Variable</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Wert muss entweder eine Zahl oder leer sein. Wenn Sie Parameter benötigen, erstellen Sie stattdessen eine Funktion!</string>
     <string name="c_var_name_clashes">Variablenname überschneidet sich mit Funktionsnamen!</string>
     <string name="c_var_already_exists">Variable mit gleichen Namen existiert bereits!</string>
-    <string name="c_name_is_not_valid">Name der Konstante ist ungültig: Name muss mit einem Buchstaben beginnen und darf nur Buchstaben, Ziffern und Unterstriche enthalten.</string>
     <string name="c_history">Verlauf</string>
     <string name="c_char_is_not_accepted">Zeichen \'%s\' kann in den Variablennamen nicht akzeptiert werden!</string>
     <string name="cpp_deg">Grad</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Umrechnen in Dez</string>
     <string name="other">Andere</string>
     <string name="derivatives">Ableitungen/Integrale</string>
-    <string name="c_function_name">Name</string>
     <string name="function_create_function">Funktion erstellen</string>
     <string name="function_edit_function">Funktion bearbeiten</string>
     <string name="function_already_exists">Funktion mit demselben Namen existiert bereits!</string>

@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++ (tryb okna)</string>
-    <string name="c_result_copied">Wynik został skopiowany do schowka!</string>
     <string name="c_vars_and_constants">Zmienne i stałe</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">zmienne</string>
     <string name="c_plot">Stwórz wykres</string>
     <string name="cpp_precision">Dokładność wyniku</string>
     <string name="c_save">Zapisz</string>
     <string name="removal_confirmation">Potwierdzenie usunięcia</string>
     <string name="c_var_removal_confirmation_question">Czy na pewno chcesz usunąć zmienną \'%s\'?</string>
-    <string name="c_var_name">Nazwa</string>
     <string name="c_var_value">Wartość</string>
     <string name="c_var_description">Opis</string>
     <string name="c_var_create_var">Stwórz zmienną</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Wartość musi być liczbą lub być pusta: jeśli masz parametry - stwórz funkcję zamiast tego!</string>
     <string name="c_var_name_clashes">Nazwa zmiennej pokrywa się z nazwą funkcji!</string>
     <string name="c_var_already_exists">Zmienna o tej samej nazwie już istnieje!</string>
-    <string name="c_name_is_not_valid">Nazwa stałej jest nieprawidłowa: nazwa musi zaczynać się od litery, może zawierać litery, cyfry lub znak podkreślenia.</string>
     <string name="c_history">Historia</string>
     <string name="c_char_is_not_accepted">Znak \'%s\' nie może być użyty w nazwie zmiennej!</string>
     <string name="cpp_deg">Stopnie</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Zamień na dec</string>
     <string name="other">Inne</string>
     <string name="derivatives">Pochodne/Całki</string>
-    <string name="c_function_name">Nazwa</string>
     <string name="function_create_function">Stwórz funkcję</string>
     <string name="function_edit_function">Edytuj funkcję</string>
     <string name="function_already_exists">Funkcja o takiej samej nazwie już istnieje!</string>

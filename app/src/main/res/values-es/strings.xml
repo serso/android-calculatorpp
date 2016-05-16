@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculadora++</string>
     <string name="c_app_name_on_screen">Calculadora++ (Modo ventana)</string>
-    <string name="c_result_copied">¡El resultado se ha copiado en el portapapeles!</string>
     <string name="c_vars_and_constants">Variables y Constantes</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">variables</string>
     <string name="c_plot">Trazar gráfico</string>
     <string name="cpp_precision">Precisión del resultado</string>
     <string name="c_save">Grabar</string>
     <string name="removal_confirmation">Confirmación de Borrado</string>
     <string name="c_var_removal_confirmation_question">¿Realmente desea borrar la variable \'%s\'?</string>
-    <string name="c_var_name">Nombre</string>
     <string name="c_var_value">Valor</string>
     <string name="c_var_description">Descripción</string>
     <string name="c_var_create_var">Crear variable</string>
@@ -19,8 +15,6 @@
     <string name="c_value_is_not_a_number">¡El valor debe ser numérico o estar vacío: Si tienes parámetros - crea un a función en su lugar!</string>
     <string name="c_var_name_clashes">La variable name entra en conflicto con la función name!</string>
     <string name="c_var_already_exists">¡Ya existe una variable con el mismo nombre!</string>
-  <string name="c_name_is_not_valid">El nombre de la constante no es válido: el nombre debe comenzar con una letra, y puede contener letras, dígitos y líneas.
-	</string>
     <string name="c_history">Historial</string>
     <string name="c_char_is_not_accepted">El carácter \'%s\' no es aceptado como variable!</string>
     <string name="cpp_deg">Grados</string>
@@ -58,7 +52,6 @@
     <string name="convert_to_dec">Convertir a numero decimal</string>
     <string name="other">Otro</string>
     <string name="derivatives">Derivadas/Integrales</string>
-    <string name="c_function_name">Nombre</string>
     <string name="function_create_function">Crear función</string>
     <string name="function_edit_function">Editar función</string>
     <string name="function_already_exists">¡Ya existe una función con el mismo nombre!</string>

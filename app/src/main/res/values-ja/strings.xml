@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++ (ウィンドウモード)</string>
-    <string name="c_result_copied">計算結果をクリップボードにコピーしました！</string>
     <string name="c_vars_and_constants">変数と定数</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">変数</string>
     <string name="c_plot">グラフをプロット</string>
     <string name="cpp_precision">計算結果の有効桁数</string>
     <string name="c_save">保存</string>
     <string name="removal_confirmation">削除の確認</string>
     <string name="c_var_removal_confirmation_question">本当に変数 \'%s\' を削除しますか？</string>
-    <string name="c_var_name">名前</string>
     <string name="c_var_value">値</string>
     <string name="c_var_description">説明</string>
     <string name="c_var_create_var">変数を作成</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">値は数値、もしくは空のままである必要があります。パラメータを入力したい場合は、代わりに関数を作成してください。</string>
     <string name="c_var_name_clashes">変数名が関数名とかぶっています</string>
     <string name="c_var_already_exists">同じ名前の変数がすでに存在しています!</string>
-    <string name="c_name_is_not_valid">定数の名前が正しくありません: 名前は文字で始める必要があり、文字、数字、アンダースコアを含めることができます。</string>
     <string name="c_history">履歴</string>
     <string name="c_char_is_not_accepted">文字\'%s\'は変数名として利用できません!</string>
     <string name="cpp_deg">度</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">10進数に変換</string>
     <string name="other">その他</string>
     <string name="derivatives">微分・積分</string>
-    <string name="c_function_name">名前</string>
     <string name="function_create_function">関数の作成</string>
     <string name="function_edit_function">関数の編集</string>
     <string name="function_already_exists">同じ名前を持つ関数が既に存在します!</string>

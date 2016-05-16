@@ -37,12 +37,12 @@ import org.solovyev.android.calculator.calculations.ConversionFailedEvent;
 import org.solovyev.android.calculator.calculations.ConversionFinishedEvent;
 import org.solovyev.android.calculator.errors.FixableErrorsActivity;
 
-import dagger.Lazy;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import dagger.Lazy;
 
 @Singleton
 public class Display {
@@ -80,8 +80,7 @@ public class Display {
             return;
         }
         clipboard.get().setText(state.text);
-        notifier.get().showMessage(
-                CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
+        notifier.get().showMessage(R.string.cpp_text_copied);
     }
 
     @Subscribe

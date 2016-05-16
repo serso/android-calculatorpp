@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++（視窗模式）</string>
-    <string name="c_result_copied">計算結果已複製至剪貼簿！</string>
     <string name="c_vars_and_constants">變數與常數</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">變數</string>
     <string name="c_plot">繪圖</string>
     <string name="cpp_precision">計算結果精確度</string>
     <string name="c_save">儲存</string>
     <string name="removal_confirmation">刪除確認</string>
     <string name="c_var_removal_confirmation_question">你確定要刪除變數 \'%s\' 嗎？</string>
-    <string name="c_var_name">名稱</string>
     <string name="c_var_value">數值</string>
     <string name="c_var_description">描述</string>
     <string name="c_var_create_var">新增變數</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">數值必須是一個數目或留白：如果你有多個參數 - 新增一個函數來代替！</string>
     <string name="c_var_name_clashes">變數名稱與函數名稱衝突！</string>
     <string name="c_var_already_exists">已經有相同名稱的變數存在！</string>
-    <string name="c_name_is_not_valid">常數名稱無效：名稱必須以英文字母開頭，可以包含字母，數字及底線。</string>
     <string name="c_history">歷史紀錄</string>
     <string name="c_char_is_not_accepted">變數名稱不可使用字元 \'%s\' !</string>
     <string name="cpp_deg">度 (Degrees)</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">轉換為十進位 (dec)</string>
     <string name="other">其他</string>
     <string name="derivatives">微分/積分</string>
-    <string name="c_function_name">名稱</string>
     <string name="function_create_function">新增函數</string>
     <string name="function_edit_function">編輯函數</string>
     <string name="function_already_exists">相同名稱的函數已經存在！</string>

@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++ (Modo de Janela)</string>
-    <string name="c_result_copied">O resultado foi copiado para a área de transferência!</string>
     <string name="c_vars_and_constants">Variáveis e Constantes</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">variáveis</string>
     <string name="c_plot">Desenhar gráfico</string>
     <string name="cpp_precision">Precisão do resultado</string>
     <string name="c_save">Guardar</string>
     <string name="removal_confirmation">Confirmação de remoção</string>
     <string name="c_var_removal_confirmation_question">Deseja realmente apagar a variável \'%s\'?</string>
-    <string name="c_var_name">Nome</string>
     <string name="c_var_value">Valor</string>
     <string name="c_var_description">Descrição</string>
     <string name="c_var_create_var">Criar variável</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">O valor deve ser um número ou deve ser deixado vazio: se tiver parâmetros - crie em vez disso uma função!</string>
     <string name="c_var_name_clashes">Nome da variável colide com o nome da função!</string>
     <string name="c_var_already_exists">Já existe uma variável com o mesmo nome!</string>
-    <string name="c_name_is_not_valid">O nome da constante não é válido: o nome deve começar por uma letra, pode conter letras, dígitos e underscore.</string>
     <string name="c_history">Histórico</string>
     <string name="c_char_is_not_accepted">O caracter \'%s\' não é aceite como nome de variável!</string>
     <string name="cpp_deg">Graus</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Converter para dec</string>
     <string name="other">Outro</string>
     <string name="derivatives">Derivadas/Integrais</string>
-    <string name="c_function_name">Nome</string>
     <string name="function_create_function">Criar função</string>
     <string name="function_edit_function">Editar função</string>
     <string name="function_already_exists">Já existe uma função com o mesmo nome !</string>

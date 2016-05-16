@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++ (Window mode)</string>
-    <string name="c_result_copied">Resultaat is gekopieerd naar het klembord!</string>
     <string name="c_vars_and_constants">Variabelen en constanten</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">vars</string>
     <string name="c_plot">Uitzetten van grafiek</string>
     <string name="cpp_precision">Nauwkeurigheid van resultaat</string>
     <string name="c_save">Opslaan</string>
     <string name="removal_confirmation">Verwijderen bevestigen</string>
     <string name="c_var_removal_confirmation_question">Wilt u echt \'%s\' variabele verwijderen?</string>
-    <string name="c_var_name">Naam</string>
     <string name="c_var_value">Waarde</string>
     <string name="c_var_description">Beschrijving</string>
     <string name="c_var_create_var">Variabele maken</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Waarde moet een getal zijn ofwel leeg gelaten worden: als u parameters hebt - maak dan een functie aan!</string>
     <string name="c_var_name_clashes">Naam van de variabele is in conflict met de naam van de functie!</string>
     <string name="c_var_already_exists">Variabele met dezelfde naam bestaat al!</string>
-    <string name="c_name_is_not_valid">Naam van de constante is niet geldig: naam moet beginnen met een letter, kan letters, cijfers en underscores bevatten. </string>
     <string name="c_history">Geschiedenis</string>
     <string name="c_char_is_not_accepted">Teken \'%s\' is niet geaccepteerd in naam van de variabele!</string>
     <string name="cpp_deg">Graden</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Converteren naar dec</string>
     <string name="other">Andere</string>
     <string name="derivatives">Afgeleiden/integralen</string>
-    <string name="c_function_name">Naam</string>
     <string name="function_create_function">Functie maken</string>
     <string name="function_edit_function">Functie bewerken</string>
     <string name="function_already_exists">Functienaam is al gebruikt!</string>

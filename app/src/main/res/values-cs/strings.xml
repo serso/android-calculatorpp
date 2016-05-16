@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Kalkulačka ++ (Režim okna)</string>
-    <string name="c_result_copied">Výsledek byl zkopírován do schránky!</string>
     <string name="c_vars_and_constants">Proměnné a Konstanty</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">proměnné</string>
     <string name="c_plot">Vykreslit graf</string>
     <string name="cpp_precision">Přesnost výsledku</string>
     <string name="c_save">Uložit</string>
     <string name="removal_confirmation">Potvrzení odebrání</string>
     <string name="c_var_removal_confirmation_question">Opravdu chcete odstranit proměnnou \'%s\'?</string>
-    <string name="c_var_name">Jméno</string>
     <string name="c_var_value">Hodnota</string>
     <string name="c_var_description">Popis</string>
     <string name="c_var_create_var">Vytvořit proměnnou</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Hodnota musí být číslo nebo zůstat prázdná: Pokud máte parametry - vytvořte místo toho funkci!</string>
     <string name="c_var_name_clashes">Název proměnné se rovná názvu funkce!</string>
     <string name="c_var_already_exists">Proměnná se stejným názvem již existuje!</string>
-    <string name="c_name_is_not_valid">Název konstanty není platný: jméno musí začínat písmenem, může obsahovat písmena, číslice a podtržítka.</string>
     <string name="c_history">Historie</string>
     <string name="c_char_is_not_accepted">Znak \'%s\' není povolen v názvu proměnné!</string>
     <string name="cpp_deg">Stupňů</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Převést do dec</string>
     <string name="other">Ostatní</string>
     <string name="derivatives">Derivace/Integrály</string>
-    <string name="c_function_name">Jméno</string>
     <string name="function_create_function">Vytvořit funkci</string>
     <string name="function_edit_function">Upravit funkci</string>
     <string name="function_already_exists">Funkce se stejným názvem již existuje!</string>

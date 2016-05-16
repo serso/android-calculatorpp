@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++ (Pencere modu)</string>
-    <string name="c_result_copied">Sonuç panoya kopyalandı!</string>
     <string name="c_vars_and_constants">Değişkenler ve sabitler</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">Değişkenler</string>
     <string name="c_plot">Grafik Çiz</string>
     <string name="cpp_precision">Sonuç hassasiyeti</string>
     <string name="c_save">Kaydet</string>
     <string name="removal_confirmation">Silme onayı</string>
     <string name="c_var_removal_confirmation_question">%s değişkenini silmek istiyor musunuz?</string>
-    <string name="c_var_name">İsim</string>
     <string name="c_var_value">Değer</string>
     <string name="c_var_description">Açıklama</string>
     <string name="c_var_create_var">Değişken oluştur</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Atadığınız değer bir sayı olmalı veya değer atamamalısınız. Parametreleriniz varsa fonksiyon oluşturmayı deneyin.</string>
     <string name="c_var_name_clashes">Değişken adı fonksiyon adıyla aynı olamaz! </string>
     <string name="c_var_already_exists">Aynı isimde bir değişken zaten var!</string>
-    <string name="c_name_is_not_valid">Sabitinizin ismi geçerli değil: İsim, harfle başlamalıdır; alt çizgi(_) ve sayı içerebilir. </string>
     <string name="c_history">Geçmiş</string>
     <string name="c_char_is_not_accepted"> \'%s\' karakteri geçerli bir değişken ismi değil!</string>
     <string name="cpp_deg">Derece</string>
@@ -57,7 +52,6 @@
     <string name="convert_to_dec">Dec\' e dönüştür</string>
     <string name="other">Diğer</string>
     <string name="derivatives">Türev/Integral</string>
-    <string name="c_function_name">İsim</string>
     <string name="function_create_function">Fonksiyon oluştur</string>
     <string name="function_edit_function">Fonksiyobu düzenle</string>
     <string name="function_already_exists">Aynı isimi bir fonksiyon zaten var!</string>

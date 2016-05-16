@@ -2,16 +2,12 @@
 <resources>
     <string name="cpp_app_name">Calculator++</string>
     <string name="c_app_name_on_screen">Calculator++ (Window mode)</string>
-    <string name="c_result_copied">Result has been copied to the clipboard!</string>
     <string name="c_vars_and_constants">Variables And Constants</string>
-    <string name="c_clear">C</string>
-    <string name="c_vars">vars</string>
     <string name="c_plot">Plot graph</string>
     <string name="cpp_precision">Precision</string>
     <string name="c_save">Save</string>
     <string name="removal_confirmation">Removal confirmation</string>
     <string name="c_var_removal_confirmation_question">Do you really want to delete \'%s\' variable?</string>
-    <string name="c_var_name">Name</string>
     <string name="c_var_value">Value</string>
     <string name="c_var_description">Description</string>
     <string name="c_var_create_var">Create variable</string>
@@ -19,7 +15,6 @@
     <string name="c_value_is_not_a_number">Value must be either a number or left empty: if you have parameters - create a function instead!</string>
     <string name="c_var_name_clashes">Variable name clashes with function name!</string>
     <string name="c_var_already_exists">Variable with the same name already exists!</string>
-    <string name="c_name_is_not_valid">Name of the constant is not valid: name must start with letter, can contain letters, digits and underscore.</string>
     <string name="c_history">History</string>
     <string name="c_char_is_not_accepted">Character \'%s\' is not accepted in variable name!</string>
     <string name="cpp_deg">Degrees</string>
@@ -58,7 +53,6 @@
     <string name="convert_to_dec">Convert to dec</string>
     <string name="other">Other</string>
     <string name="derivatives">Derivatives/Integrals</string>
-    <string name="c_function_name">Name</string>
     <string name="function_create_function">Create function</string>
     <string name="function_edit_function">Edit function</string>
     <string name="function_already_exists">Function with the same name already exists!</string>

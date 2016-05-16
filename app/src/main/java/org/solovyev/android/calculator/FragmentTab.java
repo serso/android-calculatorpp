@@ -38,7 +38,7 @@ public enum FragmentTab {
 
     history(RecentHistoryFragment.class, R.string.cpp_history_tab_recent),
     saved_history(SavedHistoryFragment.class, R.string.cpp_history_tab_saved),
-    variables(VariablesFragment.class, R.string.c_vars),
+    variables(VariablesFragment.class, R.string.c_vars_and_constants),
     functions(FunctionsFragment.class, R.string.c_functions),
     operators(OperatorsFragment.class, R.string.c_operators),
     about(AboutFragment.class, R.string.cpp_about),

@@ -33,7 +33,7 @@
             a:id="@+id/function_name"
             a:layout_width="match_parent"
             a:layout_height="wrap_content"
-            a:hint="@string/c_function_name"
+            a:hint="@string/cpp_name"
             a:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
