@@ -52,6 +52,7 @@ public class NumberBuilder extends BaseNumberBuilder {
                                            @Nonnull NumeralBase nb,
                                            @Nonnull final MathEngine engine) {
         if (oldNumber == null) {
+            sb.setSpan(new NumberSpan(nb), sb.length(), sb.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             return 0;
         }
         // in any case remove old number from text
@@ -59,9 +60,7 @@ public class NumberBuilder extends BaseNumberBuilder {
         sb.delete(sb.length() - oldNumberLength, sb.length());
 
         final SpannableString newNumber = new SpannableString(engine.format(oldNumber, nb));
-        if (newNumber.length() >= 1) {
-            newNumber.setSpan(new NumberSpan(nb), 0, newNumber.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+        newNumber.setSpan(new NumberSpan(nb), 0, newNumber.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         sb.append(newNumber);
         // offset between old number and new number
         return newNumber.length() - oldNumberLength;
