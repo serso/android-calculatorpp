@@ -33,22 +33,45 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.function.IConstant;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.FloatingCalculatorKeyboard;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.ParseException;
+import org.solovyev.android.calculator.PreparedExpression;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.*;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.IConstant;
 
 import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
 
@@ -457,7 +480,7 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
                     if (id == R.id.function_body) {
                         menu.clear();
                         // can't use sub-menus as AlertDialog doesn't support them
-                        menu.add(MENU_CATEGORY, MENU_CONSTANT, Menu.NONE, R.string.c_vars_and_constants).setOnMenuItemClickListener(KeyboardUser.this);
+                        menu.add(MENU_CATEGORY, MENU_CONSTANT, Menu.NONE, R.string.cpp_vars_and_constants).setOnMenuItemClickListener(KeyboardUser.this);
                         menu.add(MENU_CATEGORY, MENU_FUNCTION, Menu.NONE, R.string.c_functions).setOnMenuItemClickListener(KeyboardUser.this);
                         unregisterForContextMenu(bodyView);
                     }

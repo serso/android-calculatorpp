@@ -26,22 +26,24 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.view.Tabs;
 
+import java.util.Arrays;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 public class VariablesActivity extends BaseActivity {
 
     public static final String EXTRA_VARIABLE = "variable";
 
     public VariablesActivity() {
-        super(R.string.c_vars_and_constants);
+        super(R.string.cpp_vars_and_constants);
     }
 
     @Nonnull

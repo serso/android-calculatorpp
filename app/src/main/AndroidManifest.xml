@@ -112,11 +112,11 @@
 
         <activity
             android:name=".variables.VariablesActivity"
-            android:label="@string/c_vars_and_constants" />
+            android:label="@string/cpp_vars_and_constants" />
 
         <activity
             android:name=".variables.VariablesActivity$Dialog"
-            android:label="@string/c_vars_and_constants"
+            android:label="@string/cpp_vars_and_constants"
             android:theme="@style/Cpp.Theme.Dialog" />
 
         <activity
@@ -146,7 +146,7 @@
         <activity
             android:name=".floating.FloatingCalculatorActivity"
             android:icon="@drawable/ic_launcher_window"
-            android:label="@string/c_app_name_on_screen"
+            android:label="@string/cpp_app_name_on_screen"
             android:launchMode="singleInstance"
             android:theme="@style/Cpp.Theme.Translucent">
 
