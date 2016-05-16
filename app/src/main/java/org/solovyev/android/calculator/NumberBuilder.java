@@ -117,7 +117,12 @@ public class NumberBuilder extends BaseNumberBuilder {
             return 0;
         } else {
             // process current number (and go to the next one)
-            return processNumber(sb);
+            final int offset = processNumber(sb);
+            if (result.type == MathType.numeral_base) {
+                // if current token is numeral base - update current numeral base
+                nb = NumeralBase.getByPrefix(result.match);
+            }
+            return offset;
         }
     }
 
