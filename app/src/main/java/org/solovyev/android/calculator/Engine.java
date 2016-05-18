@@ -27,15 +27,9 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
+
 import com.squareup.otto.Bus;
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.operator.Operator;
-import jscl.text.Identifier;
-import jscl.text.Parser;
-import midpcalc.Real;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.math.MathType;
@@ -50,16 +44,26 @@ import org.solovyev.common.text.CharacterMapper;
 import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.operator.Operator;
+import jscl.text.Identifier;
+import jscl.text.Parser;
+import midpcalc.Real;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -210,6 +214,8 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
                     Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
                 }
             }
+            // #initPreferences rely on all changes to be committed
+            editor.apply();
             initPreferences(editor);
         } else if (oldVersion == 1) {
             migratePreference(preferences, Preferences.Output.separator, "engine.groupingSeparator", editor);
@@ -223,6 +229,8 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
                     Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
                 }
             }
+            // #initPreferences rely on all changes to be committed
+            editor.apply();
             // preferences should be initialized again as:
             // 1. It was forgotten for 0 version
             // 2. There is a bunch of new preferences
