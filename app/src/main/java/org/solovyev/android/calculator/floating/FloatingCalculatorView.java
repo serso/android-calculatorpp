@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.floating;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -80,6 +81,7 @@ public class FloatingCalculatorView {
             dd.getMetrics(dm);
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             //noinspection deprecation

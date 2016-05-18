@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.solovyev.android.calculator"
-    android:installLocation="auto">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.solovyev.android.calculator"
+          android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -25,7 +25,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/cpp_app_name"
         android:theme="@style/Cpp.Theme.Material"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -212,6 +212,7 @@
 
         <!-- Google Analytics -->
         <receiver
+            tools:ignore="ExportedReceiver"
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
             android:enabled="true">
             <intent-filter>
@@ -220,6 +221,7 @@
         </receiver>
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
         <receiver
+            tools:ignore="ExportedReceiver"
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
             android:enabled="true">
             <intent-filter>

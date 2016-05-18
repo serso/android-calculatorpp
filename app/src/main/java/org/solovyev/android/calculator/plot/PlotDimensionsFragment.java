@@ -19,15 +19,23 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.BaseFragment;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.plotter.Check;
 import org.solovyev.android.plotter.Plot;
 import org.solovyev.android.plotter.Plotter;
 
+import java.util.Locale;
+
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class PlotDimensionsFragment extends BaseDialogFragment
     implements TextView.OnEditorActionListener {
@@ -184,7 +192,7 @@ public class PlotDimensionsFragment extends BaseDialogFragment
 
     private void setDimension(@NonNull EditText view, float value) {
         view.setOnEditorActionListener(this);
-        view.setText(String.format("%.2f", value));
+        view.setText(String.format(Locale.getDefault(), "%.2f", value));
     }
 
     private void tryClose() {
