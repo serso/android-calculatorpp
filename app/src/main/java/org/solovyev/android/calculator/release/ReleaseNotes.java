@@ -2,22 +2,24 @@ package org.solovyev.android.calculator.release;
 
 import android.content.Context;
 import android.util.SparseArray;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public final class ReleaseNotes {
 
     private static final SparseArray<ReleaseNote> map = new SparseArray<>();
     static {
-        map.put(141, ReleaseNote.make("2.1.2", R.string.cpp_release_notes_141));
         map.put(143, ReleaseNote.make("2.1.4", R.string.cpp_release_notes_143));
         map.put(148, ReleaseNote.make("2.2.1", R.string.cpp_release_notes_148));
         map.put(150, ReleaseNote.make("2.2.2", R.string.cpp_release_notes_150));
+        map.put(152, ReleaseNote.make("2.2.3", R.string.cpp_release_notes_152));
     }
 
     @Nonnull

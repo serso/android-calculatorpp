@@ -22,13 +22,6 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <string name="cpp_release_notes_141">
-        ★ Improved button gesture detection\n
-        ★ Fast text removal by long pressing "Erase" button\n
-        ★ "Equals" button now copies result to the editor\n
-        ★ Various bugfixes, stability and usability improvements
-    </string>
-
     <string name="cpp_release_notes_143">
         ★ App language can be changed in settings\n
         ★ Floating calculator themes\n
@@ -53,6 +46,14 @@
         ★ Faster graph plotter\n
         ★ Numeral base conversion\n
         ★ E button in Variables Editor
+    </string>
+
+    <string name="cpp_release_notes_152">
+        ★ High contrast text option\n
+        ★ Redesigned settings\n
+        ★ More number format options: scientific and engineering notations\n
+        ★ Small UI tweaks\n
+        ★ Bugs fixes
     </string>
 
 </resources>
