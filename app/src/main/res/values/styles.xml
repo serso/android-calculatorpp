@@ -65,7 +65,9 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">@dimen/cpp_min_editor_text_size</item>
         <item name="android:textColor">?attr/cpp_text_color</item>
-        <item name="android:inputType">textMultiLine|textNoSuggestions</item>
+        <!-- textVisiblePassword is to avoid composing mode (underlined words) for some keyboards,
+         like Swiftkey-->
+        <item name="android:inputType">textMultiLine|textNoSuggestions|textVisiblePassword</item>
         <item name="android:scrollbars">vertical</item>
         <item name="android:paddingRight">3dp</item>
         <item name="android:paddingLeft">3dp</item>
