@@ -23,7 +23,11 @@
 package org.solovyev.android.calculator;
 
 import android.util.Log;
+import jscl.CustomFunctionCalculationException;
+import jscl.text.msg.JsclMessage;
+import jscl.text.msg.Messages;
 import org.acra.ACRA;
+import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
 
@@ -36,6 +40,10 @@ public class AcraErrorReporter implements ErrorReporter {
         if (!ENABLED) {
             Log.e("Acra", e.getMessage(), e);
             return;
+        }
+        if (e instanceof CustomFunctionCalculationException) {
+            final CustomFunctionCalculationException e1 = (CustomFunctionCalculationException) e;
+            e1.setMessage(new JsclMessage(Messages.msg_19, MessageType.error, "XXX", e1.getCauseMessage().getMessageCode()));
         }
         ACRA.getErrorReporter().reportBuilder().forceSilent().exception(e).send();
     }

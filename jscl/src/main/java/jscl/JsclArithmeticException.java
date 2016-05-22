@@ -12,7 +12,7 @@ import java.util.Locale;
 public abstract class JsclArithmeticException extends ArithmeticException implements Message {
 
     @Nonnull
-    private final Message message;
+    private Message message;
 
     public JsclArithmeticException(@Nonnull String messageCode, Object... parameters) {
         this.message = new JsclMessage(messageCode, MessageType.error, parameters);
@@ -57,5 +57,9 @@ public abstract class JsclArithmeticException extends ArithmeticException implem
     @Override
     public int hashCode() {
         return message.hashCode();
+    }
+
+    public void setMessage(@Nonnull Message message) {
+        this.message = message;
     }
 }

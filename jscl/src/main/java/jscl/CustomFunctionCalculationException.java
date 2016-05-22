@@ -8,7 +8,16 @@ import javax.annotation.Nonnull;
 
 public class CustomFunctionCalculationException extends JsclArithmeticException {
 
-    public CustomFunctionCalculationException(@Nonnull CustomFunction function, @Nonnull Message message) {
-        super(Messages.msg_19, function.getName(), message);
+    @Nonnull
+    private final Message causeMessage;
+
+    public CustomFunctionCalculationException(@Nonnull CustomFunction function, @Nonnull Message causeMessage) {
+        super(Messages.msg_19, function.getName(), causeMessage);
+        this.causeMessage = causeMessage;
+    }
+
+    @Nonnull
+    public Message getCauseMessage() {
+        return causeMessage;
     }
 }
