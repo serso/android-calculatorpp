@@ -27,7 +27,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
@@ -61,9 +61,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
     compile('ch.acra:acra:4.7.0') {
         exclude group: 'org.json'
     }
@@ -76,9 +76,9 @@ dependencies {
     }
     compile 'org.solovyev.android:checkout:0.7.5@aar'
     compile 'org.solovyev.android:material:0.1.4@aar'
-    compile 'com.google.android.gms:play-services-ads:8.4.0'
-    compile 'com.google.android.gms:play-services-base:8.4.0'
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
+    compile 'com.google.android.gms:play-services-ads:9.0.2'
+    compile 'com.google.android.gms:play-services-base:9.0.2'
+    compile 'com.google.android.gms:play-services-analytics:9.0.2'
     compile(name: 'plotter', ext: 'aar')
     compile 'com.google.guava:guava:19.0'
     compile('org.simpleframework:simple-xml:2.6.1') {
@@ -100,7 +100,7 @@ dependencies {
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
     testCompile(name: 'org.apache.http.legacy', ext: 'jar')
 
-    androidTestCompile 'com.android.support:support-annotations:23.3.0'
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
     androidTestCompile 'com.android.support.test:runner:0.4.1'
     androidTestCompile 'com.android.support.test:rules:0.4.1'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
