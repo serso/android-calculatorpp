@@ -5,6 +5,7 @@ import org.apache.http.util.TextUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Android {
@@ -15,6 +16,7 @@ public class Android {
         options.addOption(Option.builder("project").hasArg().desc("Local location of Android project").build());
         options.addOption(Option.builder("resources").hasArg().desc("String identifiers to be copied").build());
         options.addOption(Option.builder("output").hasArg().desc("Output folder").required().build());
+        options.addOption(Option.builder("languages").hasArg().desc("Comma-separated list of languages for translation").required().build());
 
         final CommandLineParser parser = new DefaultParser();
         final CommandLine commandLine = parser.parse(options, args);
@@ -50,6 +52,10 @@ public class Android {
             projectsLinks = null;
         }
 
+        final List<String> languageLocales = new ArrayList<>();
+        languageLocales.addAll(Arrays.asList(commandLine.getOptionValue("languages").split(",")));
+        languageLocales.add("");
+
         final File outDir = new File(commandLine.getOptionValue("output"));
         Utils.delete(outDir);
         final File outResDir = new File(outDir, "res");
@@ -62,7 +68,7 @@ public class Android {
             for (int i = 0; i < projects.length; i++) {
                 final File project = projects[i];
                 final List<TranslationLink> projectLinks = projectsLinks[i];
-                translate(outResDir, "other" + (i == 0 ? "" : i), new TranslationDef(project, projectLinks));
+                translate(outResDir, languageLocales, "other" + (i == 0 ? "" : i), new TranslationDef(project, projectLinks));
             }
         }
     }
@@ -74,9 +80,7 @@ public class Android {
         return prefix + "_";
     }
 
-    private static void translate(File outDir, String outPostfix, TranslationDef... translationDefs) throws Exception {
-        List<String> languageLocales = new ArrayList<>(Utils.languageLocales);
-        languageLocales.add("");
+    private static void translate(File outDir, List<String> languageLocales, String outPostfix, TranslationDef... translationDefs) throws Exception {
         for (String languageLocale : languageLocales) {
             Resources translations = new Resources();
             for (TranslationDef def : translationDefs) {
