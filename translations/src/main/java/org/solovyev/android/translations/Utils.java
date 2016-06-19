@@ -16,13 +16,16 @@ public class Utils {
     static final Persister persister = new Persister();
 
     static void saveTranslations(Resources translations, String language, File outDir,
-            String fileName) {
+                                 String fileName) {
         final File dir = new File(outDir, valuesFolderName(language));
         dir.mkdirs();
         FileWriter out = null;
         try {
             out = new FileWriter(new File(dir, fileName));
             out.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+            if (translations.comment != null && translations.comment.length() != 0) {
+                out.write("<!-- " + translations.comment + " -->\n");
+            }
             persister.write(translations, out);
         } catch (Exception e) {
             e.printStackTrace();

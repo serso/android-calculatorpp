@@ -98,7 +98,11 @@ public class Android {
                 inFile = makeStringsFile(from, languageLocale.substring(0, i));
             }
         }
-        return Utils.persister.read(Resources.class, inFile);
+        final Resources resources = Utils.persister.read(Resources.class, inFile);
+        if (resources != null) {
+            resources.comment = "Copied from " + from;
+        }
+        return resources;
     }
 
     private static File makeStringsFile(File from, String languageLocale) {
@@ -115,6 +119,7 @@ public class Android {
     }
 
     private static void translate(Resources from, Resources to, List<TranslationLink> links) {
+        to.comment = from.comment;
         for (TranslationLink translationLink : links) {
             String translation = translate(from, translationLink);
             if (!TextUtils.isBlank(translation)) {
