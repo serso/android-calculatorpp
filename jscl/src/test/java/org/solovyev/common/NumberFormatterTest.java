@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import static java.lang.Math.pow;
 import static java.math.BigInteger.TEN;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.solovyev.common.NumberFormatter.DEFAULT_MAGNITUDE;
 import static org.solovyev.common.NumberFormatter.NO_ROUNDING;
 
@@ -174,5 +175,31 @@ public class NumberFormatterTest {
         assertEquals("5E18", numberFormatter.format(5000000000000000001d));
         assertEquals("5E19", numberFormatter.format(50000000000000000000d));
         assertEquals("5E40", numberFormatter.format(50000000000000000000000000000000000000000d));
+    }
+
+    @Test
+    public void testMaximumPrecision() throws Exception {
+        numberFormatter.useSimpleFormat();
+        numberFormatter.setPrecision(10);
+
+        for (int i = 0; i < 1000; i++) {
+            for (int j = 2; j < 1000; j += j - 1) {
+                for (int k = 2; k < 1000; k += k - 1) {
+                    final double first = makeDouble(i, j);
+                    final double second = makeDouble(i, 1000 - k);
+                    checkMaximumPrecision(first + "-" + second, numberFormatter.format(first - second));
+                    checkMaximumPrecision(second + "-" + first, numberFormatter.format(second - first));
+                    checkMaximumPrecision(second + "+" + first, numberFormatter.format(first + second));
+                }
+            }
+        }
+    }
+
+    private void checkMaximumPrecision(String expression, CharSequence value) {
+        assertTrue(expression + "=" + value, value.length() <= 8);
+    }
+
+    private static double makeDouble(int integerPart, int fractionalPart) {
+        return Double.parseDouble(integerPart + "." + fractionalPart);
     }
 }

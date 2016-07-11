@@ -1,5 +1,19 @@
 package jscl.math;
 
+import org.junit.Test;
+import org.solovyev.common.NumberFormatter;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -9,20 +23,10 @@ import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
 import jscl.text.ParseException;
 import midpcalc.Real;
-import org.junit.Test;
-import org.solovyev.common.NumberFormatter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Set;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class ExpressionTest {
 
@@ -438,10 +442,10 @@ public class ExpressionTest {
         try {
             me.setNumeralBase(NumeralBase.hex);
 
-            assertEquals("0.EEEEEEEEEEEEEC9", me.evaluate("0x:E/0x:F"));
+            assertEquals("0.EEEEEEEEEEEEEC88", me.evaluate("0x:E/0x:F"));
             assertEquals("E/F", me.simplify("0x:E/0x:F"));
 
-            assertEquals("0.EEEEEEEEEEEEEC9", me.evaluate("E/F"));
+            assertEquals("0.EEEEEEEEEEEEEC88", me.evaluate("E/F"));
             assertEquals("E/F", me.simplify("E/F"));
 
         } finally {

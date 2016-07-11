@@ -1,13 +1,17 @@
 package org.solovyev.common;
 
-import midpcalc.Real;
-
-import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import javax.annotation.Nonnull;
+
+import midpcalc.Real;
+
 import static java.lang.Math.pow;
-import static midpcalc.Real.NumberFormat.*;
+import static midpcalc.Real.NumberFormat.FSE_ENG;
+import static midpcalc.Real.NumberFormat.FSE_FIX;
+import static midpcalc.Real.NumberFormat.FSE_NONE;
+import static midpcalc.Real.NumberFormat.FSE_SCI;
 
 public class NumberFormatter {
 
@@ -40,6 +44,10 @@ public class NumberFormatter {
     }
 
     public void setPrecision(int precision) {
+        if (precision == NO_ROUNDING) {
+            this.precision = NO_ROUNDING;
+            return;
+        }
         this.precision = Math.max(MIN_PRECISION, Math.min(precision, MAX_PRECISION));
     }
 
@@ -63,9 +71,10 @@ public class NumberFormatter {
         double absValue = Math.abs(value);
         final boolean simpleFormat = useSimpleFormat(radix, absValue);
 
-        final int effectivePrecision = precision == NO_ROUNDING ? MAX_PRECISION : precision;
+        int precision = getPrecision();
         if (simpleFormat) {
-            final int newScale = (int) (effectivePrecision * Math.max(1, radix / 10f));
+            precision += 1;
+            final int newScale = Math.max(1, (int) (precision * Math.max(1, radix / 10f)) - 1);
             value = BigDecimal.valueOf(value).setScale(newScale, BigDecimal.ROUND_HALF_UP).doubleValue();
             absValue = Math.abs(value);
         }
@@ -79,7 +88,7 @@ public class NumberFormatter {
             numberFormat.fse = format;
         }
         numberFormat.thousand = groupingSeparator;
-        numberFormat.precision = effectivePrecision;
+        numberFormat.precision = precision;
         numberFormat.base = radix;
         numberFormat.maxwidth = simpleFormat ? 100 : 30;
 
@@ -87,6 +96,10 @@ public class NumberFormatter {
             return "-" + prepare(absValue);
         }
         return prepare(value);
+    }
+
+    private int getPrecision() {
+        return precision == NO_ROUNDING ? MAX_PRECISION : precision;
     }
 
     @Nonnull

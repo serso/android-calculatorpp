@@ -6,8 +6,6 @@ import org.solovyev.common.NumberFormatter;
 
 import midpcalc.Real;
 
-import midpcalc.Real;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -46,18 +44,18 @@ public class JsclMathEngineTest {
 
             assertEquals("111 1111 0011 0110", me.format(32566d, NumeralBase.bin));
             assertEquals("100.0100110011", me.format(4.3d, NumeralBase.bin));
-            assertEquals("1 0001 0101 0011.010101011", me.format(4435.33423d, NumeralBase.bin));
-            assertEquals("1100.0101010101", me.format(12.3333d, NumeralBase.bin));
+            assertEquals("1 0001 0101 0011.01010101101", me.format(4435.33423d, NumeralBase.bin));
+            assertEquals("1100.01010101011", me.format(12.3333d, NumeralBase.bin));
             assertEquals("1 0011 1101 1110 0100 0011 0101 0101.00011111", me.format(333333333.1212213321d, NumeralBase.bin));
 
-            assertEquals("0.EEEEEEEEEF", me.format(14d / 15d, NumeralBase.hex));
+            assertEquals("0.EEEEEEEEEEF", me.format(14d / 15d, NumeralBase.hex));
             assertEquals("7F 36", me.format(32566d, NumeralBase.hex));
             assertEquals("24", me.format(36d, NumeralBase.hex));
             assertEquals("8", me.format(8d, NumeralBase.hex));
             assertEquals("1 3D", me.format(317d, NumeralBase.hex));
             assertEquals("13 DE 43 55.1F085BEF", me.format(333333333.1212213321d, NumeralBase.hex));
             assertEquals("D 25 0F 77 0A.6F7319", me.format(56456345354.43534534523459999d, NumeralBase.hex));
-            assertEquals("3 E7.4CCCCCCCCD", me.format(999.3d, NumeralBase.hex));
+            assertEquals("3 E7.4CCCCCCCCCD", me.format(999.3d, NumeralBase.hex));
 
             me.setPrecision(NumberFormatter.MAX_PRECISION);
             assertEquals("6.CCDA6A054226DB6E-19", me.format(0.00000000000000000000009d, NumeralBase.hex));
