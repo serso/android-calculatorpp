@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="drag_text_inverse">#424242</color>
+    <color name="drag_button_text">#ffffffff</color>
+</resources>

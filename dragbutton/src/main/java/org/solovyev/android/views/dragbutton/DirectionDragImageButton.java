@@ -9,8 +9,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import javax.annotation.Nonnull;
-
 public class DirectionDragImageButton extends DragImageButton implements DirectionDragView {
     private final DirectionTextView textView = new DirectionTextView();
     private final TextPaint baseTextPaint = new TextPaint();
@@ -47,12 +45,12 @@ public class DirectionDragImageButton extends DragImageButton implements Directi
         textView.draw(canvas);
     }
 
-    @Nonnull
+    @NonNull
     public DirectionTextView.Text getText(@NonNull DragDirection direction) {
         return textView.getText(direction);
     }
 
-    public void setTypeface(@Nonnull Typeface newTypeface) {
+    public void setTypeface(@NonNull Typeface newTypeface) {
         final Typeface oldTypeface = baseTextPaint.getTypeface();
         if (oldTypeface == newTypeface) {
             return;

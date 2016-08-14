@@ -1,1 +1,1 @@
-include ':app', ':jscl', ':translations'
+include ':app', ':jscl', ':translations', ':dragbutton'

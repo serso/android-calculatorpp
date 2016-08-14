@@ -6,6 +6,11 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
+
+    ext {
+        versions = [supportLib: "23.4.0",
+                    sdk       : [compile: 23, buildTools: "23.0.3", min: 9, target: 23]]
+    }
 }
 
 allprojects {

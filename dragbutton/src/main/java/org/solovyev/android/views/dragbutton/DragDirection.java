@@ -2,8 +2,6 @@ package org.solovyev.android.views.dragbutton;
 
 import android.support.annotation.StyleableRes;
 
-import org.solovyev.android.calculator.R;
-
 public enum DragDirection {
 
     up(180f - 45f, 180f - 0f, R.styleable.DirectionText_directionTextUp, R.styleable.DirectionText_directionTextScaleUp, R.styleable.DirectionText_directionTextPaddingUp),

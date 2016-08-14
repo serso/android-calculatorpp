@@ -65,4 +65,6 @@
     <color name="pink_900">#880e4f</color>
     <color name="yellow_100">#ffff8d</color>
 
+    <color name="drag_text_inverse">@color/cpp_text_inverse</color>
+    <color name="drag_button_text">@color/cpp_button_text</color>
 </resources>

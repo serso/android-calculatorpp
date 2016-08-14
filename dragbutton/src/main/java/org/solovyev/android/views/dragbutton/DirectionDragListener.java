@@ -7,12 +7,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import org.solovyev.android.calculator.R;
-
 import static java.lang.Math.toDegrees;
-import static org.solovyev.android.views.dragbutton.Drag.distance;
-import static org.solovyev.android.views.dragbutton.Drag.getAngle;
-import static org.solovyev.android.views.dragbutton.Drag.sum;
+import static org.solovyev.android.views.dragbutton.Drag.*;
 
 
 public abstract class DirectionDragListener implements DragListener {

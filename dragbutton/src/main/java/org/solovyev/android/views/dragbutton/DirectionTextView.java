@@ -16,9 +16,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
-import com.google.common.base.Strings;
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.R;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -50,11 +47,10 @@ public class DirectionTextView {
     }
 
     public void init(@NonNull View view, @Nullable AttributeSet attrs, @NonNull TextPaint baseTextPaint) {
-        Check.isTrue(texts.isEmpty());
         final Context context = view.getContext();
         final int defColor = baseTextPaint.getColor();
-        final int defPadding = context.getResources().getDimensionPixelSize(R.dimen.cpp_direction_text_default_padding);
-        final float minTextSize = context.getResources().getDimensionPixelSize(R.dimen.cpp_direction_text_min_size);
+        final int defPadding = context.getResources().getDimensionPixelSize(R.dimen.drag_direction_text_default_padding);
+        final float minTextSize = context.getResources().getDimensionPixelSize(R.dimen.drag_direction_text_min_size);
 
 
         if (attrs == null) {
@@ -126,7 +122,7 @@ public class DirectionTextView {
         public void init(@NonNull TextPaint base, @Nullable TypedArray array, float defScale, int defColor, float defAlpha, int defPadding) {
             if (array != null) {
                 if (array.hasValue(direction.textAttr)) {
-                    value = Strings.nullToEmpty(array.getString(direction.textAttr));
+                    value = nullToEmpty(array.getString(direction.textAttr));
                 }
                 padding = array.getDimensionPixelSize(direction.paddingAttr, defPadding);
                 scale = array.getFloat(direction.scaleAttr, defScale);
@@ -141,8 +137,13 @@ public class DirectionTextView {
             initPaint(base);
         }
 
+        @NonNull
+        private String nullToEmpty(@Nullable String s) {
+            return s == null ? "" : s;
+        }
+
         private int makeContrastColor(int color) {
-            final int colorRes = isLightColor(color) ? R.color.cpp_button_text : R.color.cpp_text_inverse;
+            final int colorRes = isLightColor(color) ? R.color.drag_button_text : R.color.drag_text_inverse;
             return ContextCompat.getColor(view.getContext(), colorRes);
         }
 
@@ -218,7 +219,6 @@ public class DirectionTextView {
         }
 
         private void invalidate(boolean remeasure) {
-            Check.isNotNull(view);
             view.invalidate();
             if (remeasure) {
                 offset.set(0, 0);

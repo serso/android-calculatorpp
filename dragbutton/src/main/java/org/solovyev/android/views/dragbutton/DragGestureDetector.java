@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.solovyev.android.Check;
-
 import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
 import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
 import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
@@ -67,7 +65,6 @@ public class DragGestureDetector {
     }
 
     private void startTracking(@NonNull MotionEvent event) {
-        Check.isNull(start);
         start = new PointF(event.getX(), event.getY());
     }
 

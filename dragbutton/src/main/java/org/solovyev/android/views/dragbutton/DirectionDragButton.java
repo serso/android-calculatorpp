@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
-import javax.annotation.Nonnull;
-
 import static android.graphics.Color.BLACK;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static android.util.TypedValue.applyDimension;
@@ -72,7 +70,7 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public DirectionTextView.Text getText(@NonNull DragDirection direction) {
         return textView.getText(direction);
     }
