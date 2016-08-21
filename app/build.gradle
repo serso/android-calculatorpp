@@ -45,6 +45,9 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-debug.cfg'
+            // multidex is enabled only in debug builds as in release builds proguard should
+            // strip all unused methods
+            multiDexEnabled true
         }
     }
     lintOptions {
@@ -78,9 +81,9 @@ dependencies {
     }
     compile 'org.solovyev.android:checkout:0.7.5@aar'
     compile 'org.solovyev.android:material:0.1.4@aar'
-    compile 'com.google.android.gms:play-services-ads:9.0.2'
-    compile 'com.google.android.gms:play-services-base:9.0.2'
-    compile 'com.google.android.gms:play-services-analytics:9.0.2'
+    compile "com.google.android.gms:play-services-ads:${versions.gpsLib}"
+    compile "com.google.android.gms:play-services-base:${versions.gpsLib}"
+    compile "com.google.android.gms:play-services-analytics:${versions.gpsLib}"
     compile(name: 'plotter', ext: 'aar')
     compile 'com.google.guava:guava:19.0'
     compile('org.simpleframework:simple-xml:2.6.1') {
@@ -102,11 +105,11 @@ dependencies {
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
     testCompile(name: 'org.apache.http.legacy', ext: 'jar')
 
-    androidTestCompile 'com.android.support:support-annotations:23.4.0'
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
-    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    androidTestCompile "com.android.support:support-annotations:${versions.supportLib}"
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
 }
 
 apt {

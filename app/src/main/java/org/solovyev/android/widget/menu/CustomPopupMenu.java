@@ -23,9 +23,14 @@ import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPresenter;
 import android.support.v7.view.menu.SubMenuBuilder;
+import android.support.v7.widget.ForwardingListener;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.PopupMenu;
-import android.view.*;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 /**
  * Static library support version of the framework's {@link android.widget.PopupMenu}.
@@ -141,7 +146,7 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
      */
     public View.OnTouchListener getDragToOpenListener() {
         if (mDragListener == null) {
-            mDragListener = new ListPopupWindow.ForwardingListener(mAnchor) {
+            mDragListener = new ForwardingListener(mAnchor) {
                 @Override
                 protected boolean onForwardingStarted() {
                     show();
