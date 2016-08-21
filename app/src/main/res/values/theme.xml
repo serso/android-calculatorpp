@@ -31,6 +31,7 @@
         <item name="colorPrimary">@color/grey_900</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
+        <item name="textColorError">@color/red_300</item>
 
         <item name="android:windowBackground">@color/cpp_bg</item>
 
@@ -55,6 +56,7 @@
         <item name="colorPrimary">@color/grey_900</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
+        <item name="textColorError">@color/red_300</item>
 
         <item name="windowNoTitle">true</item>
         <item name="android:windowNoTitle">true</item>
@@ -74,6 +76,7 @@
         <item name="colorPrimary">@color/grey_900</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/cpp_material_accent</item>
+        <item name="textColorError">@color/red_300</item>
 
         <item name="cpp_editor_bg">@color/cpp_bg</item>
         <item name="cpp_fab_bg">@color/blue_900</item>
@@ -90,6 +93,7 @@
         <item name="colorPrimary">@color/teal_400</item>
         <item name="colorPrimaryDark">@color/teal_400</item>
         <item name="colorAccent">@color/teal_400</item>
+        <item name="textColorError">@color/red_a700</item>
 
         <item name="cpp_editor_bg">@color/cpp_bg_light</item>
         <item name="cpp_fab_bg">@color/teal_400</item>
@@ -105,6 +109,7 @@
         <item name="colorPrimary">@color/teal_400</item>
         <item name="colorPrimaryDark">@color/teal_400</item>
         <item name="colorAccent">@color/teal_400</item>
+        <item name="textColorError">@color/red_a700</item>
 
         <item name="windowNoTitle">true</item>
         <item name="android:windowNoTitle">true</item>
@@ -124,6 +129,7 @@
         <item name="colorPrimary">@color/teal_400</item>
         <item name="colorPrimaryDark">@color/teal_400</item>
         <item name="colorAccent">@color/teal_400</item>
+        <item name="textColorError">@color/red_a700</item>
 
         <item name="cpp_editor_bg">@color/cpp_bg_light</item>
         <item name="cpp_fab_bg">@color/teal_400</item>
