@@ -22,6 +22,9 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.floating.FloatingCalculatorService;
+
 import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
@@ -53,9 +56,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -281,6 +281,33 @@ public final class App {
 
     public static <T> void processViewsOfType(@Nonnull View view, @Nonnull Class<T> viewClass, @Nonnull ViewProcessor<T> viewProcessor) {
         processViewsOfType0(view, viewClass, viewProcessor);
+    }
+
+    @Nullable
+    public static <T> T find(@Nonnull View view, @Nonnull Class<T> viewClass) {
+        return find0(view, viewClass);
+    }
+
+    private static <T> T find0(View view, Class<T> viewClass) {
+        if (view instanceof ViewGroup) {
+            final ViewGroup viewGroup = (ViewGroup) view;
+
+            if (viewClass.isAssignableFrom(ViewGroup.class)) {
+                //noinspection unchecked
+                return (T) view;
+            }
+
+            for (int index = 0; index < viewGroup.getChildCount(); index++) {
+                final T child = find0(viewGroup.getChildAt(index), viewClass);
+                if (child != null) {
+                    return child;
+                }
+            }
+        } else if (viewClass.isAssignableFrom(view.getClass())) {
+            //noinspection unchecked
+            return (T) view;
+        }
+        return null;
     }
 
     @Nonnull

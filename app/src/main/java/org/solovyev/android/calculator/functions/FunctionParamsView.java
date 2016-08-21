@@ -22,6 +22,11 @@
 
 package org.solovyev.android.calculator.functions;
 
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
@@ -36,17 +41,18 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -278,11 +284,9 @@ public class FunctionParamsView extends LinearLayout {
     @Nonnull
     private EditText getParamView(@Nonnull ViewGroup row) {
         final TextInputLayout paramLabel = getParamLabel(row);
-        for (int i = 0; i < paramLabel.getChildCount(); i++) {
-            final View child = paramLabel.getChildAt(i);
-            if (child instanceof EditText) {
-                return (EditText) child;
-            }
+        final EditText paramView = App.find(paramLabel, EditText.class);
+        if (paramView != null) {
+            return paramView;
         }
         Check.shouldNotHappen();
         return null;
