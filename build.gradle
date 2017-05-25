@@ -16,18 +16,13 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
+        jcenter()
         def androidHome = System.getenv("ANDROID_HOME")
         maven {
             url "$androidHome/extras/android/m2repository/"
         }
         maven {
             url "$androidHome/extras/google/m2repository/"
-        }
-
-        def userHome = System.getenv("HOME")
-        maven {
-            url "$userHome/.m2/repository/"
         }
 
         flatDir {
