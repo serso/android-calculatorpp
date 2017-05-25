@@ -1,5 +1,11 @@
 package org.solovyev.android.calculator;
 
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static org.solovyev.android.calculator.App.cast;
+import static org.solovyev.android.calculator.Preferences.Gui.keepScreenOn;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -12,10 +18,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Language;
@@ -27,11 +36,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import static org.solovyev.android.calculator.App.cast;
-import static org.solovyev.android.calculator.Preferences.Gui.keepScreenOn;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import dagger.Lazy;
 
 public abstract class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -48,7 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
     @Inject
     Calculator calculator;
     @Inject
-    Ga ga;
+    Lazy<Ga> ga;
     @Inject
     Typeface typeface;
     @Bind(R.id.main)
@@ -78,11 +85,11 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
     }
 
     public void reportActivityStop(@Nonnull Activity activity) {
-        ga.getAnalytics().reportActivityStop(activity);
+        ga.get().getAnalytics().reportActivityStop(activity);
     }
 
     public void reportActivityStart(@Nonnull Activity activity) {
-        ga.getAnalytics().reportActivityStart(activity);
+        ga.get().getAnalytics().reportActivityStart(activity);
     }
 
     public static void setFont(@Nonnull View view, @Nonnull Typeface newTypeface) {

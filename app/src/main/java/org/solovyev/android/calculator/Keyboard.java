@@ -22,17 +22,17 @@
 
 package org.solovyev.android.calculator;
 
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
+
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import dagger.Lazy;
-import jscl.NumeralBase;
-import jscl.math.Expression;
-import jscl.math.Generic;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.buttons.CppSpecialButton;
 import org.solovyev.android.calculator.ga.Ga;
@@ -46,7 +46,10 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
+import dagger.Lazy;
+import jscl.NumeralBase;
+import jscl.math.Expression;
+import jscl.math.Generic;
 
 @Singleton
 public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -67,7 +70,7 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
     @Inject
     Engine engine;
     @Inject
-    Ga ga;
+    Lazy<Ga> ga;
     @Inject
     Lazy<Clipboard> clipboard;
     @Inject
@@ -109,13 +112,13 @@ public class Keyboard implements SharedPreferences.OnSharedPreferenceChangeListe
             final char glyph = text.charAt(0);
             final CppSpecialButton button = CppSpecialButton.getByGlyph(glyph);
             if (button != null) {
-                ga.onButtonPressed(button.action);
+                ga.get().onButtonPressed(button.action);
                 handleSpecialAction(button);
                 return true;
             }
         }
 
-        ga.onButtonPressed(text);
+        ga.get().onButtonPressed(text);
         if (!processSpecialAction(text)) {
             processText(prepareText(text));
         }

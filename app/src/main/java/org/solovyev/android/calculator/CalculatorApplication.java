@@ -28,8 +28,9 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.TimingLogger;
+
 import com.squareup.otto.Bus;
-import jscl.MathEngine;
+
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
@@ -39,11 +40,15 @@ import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 
+import java.util.Locale;
+import java.util.concurrent.Executor;
+
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Locale;
-import java.util.concurrent.Executor;
+
+import dagger.Lazy;
+import jscl.MathEngine;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -91,7 +96,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     ActivityLauncher launcher;
 
     @Inject
-    Ga ga;
+    Lazy<Ga> ga;
 
     @Nonnull
     private final TimingLogger timer = new TimingLogger("App", "onCreate");
@@ -127,13 +132,12 @@ public class CalculatorApplication extends android.app.Application implements Sh
         history.init(initThread);
     }
 
-    private void onPostCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
+    private void onPostCreate(@Nonnull final SharedPreferences preferences, @Nonnull Languages languages) {
         App.init(this);
         languages.init();
 
         preferences.registerOnSharedPreferenceChangeListener(this);
         languages.updateContextLocale(this, true);
-        ga.reportInitially(preferences);
 
         calculator.init(initThread);
 
@@ -141,6 +145,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
             @Override
             public void run() {
                 warmUpEngine();
+                // delayed GA reporting in order to avoid initialization of GA on the main
+                // application thread and to postpone it as much as possible
+                ga.get().reportInitially(preferences);
             }
         });
     }
