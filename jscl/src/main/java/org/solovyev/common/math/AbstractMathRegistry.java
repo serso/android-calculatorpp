@@ -52,9 +52,26 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
     @GuardedBy("this")
     @Nonnull
     protected final SortedList<T> systemEntities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
+    private volatile boolean initialized;
 
     protected AbstractMathRegistry() {
     }
+
+    @Override
+    public final void init() {
+        if (initialized) {
+            return;
+        }
+        synchronized (this) {
+            if (initialized) {
+                return;
+            }
+            onInit();
+            initialized = true;
+        }
+    }
+
+    protected abstract void onInit();
 
     @Nonnull
     private static synchronized Integer count() {

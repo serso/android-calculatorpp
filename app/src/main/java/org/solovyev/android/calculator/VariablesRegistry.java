@@ -23,9 +23,9 @@
 package org.solovyev.android.calculator;
 
 import android.support.annotation.NonNull;
+
 import com.google.common.base.Strings;
-import jscl.JsclMathEngine;
-import jscl.math.function.IConstant;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
@@ -39,12 +39,16 @@ import org.solovyev.android.calculator.variables.OldVars;
 import org.solovyev.android.calculator.variables.VariableCategory;
 import org.solovyev.android.io.FileSaver;
 
+import java.io.File;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
-import java.util.List;
+
+import jscl.JsclMathEngine;
+import jscl.math.function.IConstant;
 
 @Singleton
 public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
@@ -82,23 +86,20 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
         bus.post(new RemovedEvent(variable));
     }
 
-    public void init() {
+    @Override
+    protected void onInit() {
         Check.isNotMainThread();
 
-        try {
-            migrateOldVariables();
+        migrateOldVariables();
 
-            for (CppVariable variable : loadEntities(CppVariable.JSON_CREATOR)) {
-                addSafely(variable.toJsclConstant());
-            }
-
-            addSafely("x");
-            addSafely("y");
-            addSafely("t");
-            addSafely("j");
-        } finally {
-            setInitialized();
+        for (CppVariable variable : loadEntities(CppVariable.JSON_CREATOR)) {
+            addSafely(variable.toJsclConstant());
         }
+
+        addSafely("x");
+        addSafely("y");
+        addSafely("t");
+        addSafely("j");
     }
 
     private void migrateOldVariables() {

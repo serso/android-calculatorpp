@@ -1,16 +1,21 @@
 package jscl.math;
 
-import jscl.JsclMathEngine;
-import jscl.math.function.Constant;
-import jscl.math.function.Constants;
-import jscl.math.function.IConstant;
-import jscl.math.numeric.*;
-import jscl.mathml.MathML;
-
-import javax.annotation.Nonnull;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
+
+import jscl.math.function.Constant;
+import jscl.math.function.Constants;
+import jscl.math.function.ConstantsRegistry;
+import jscl.math.function.IConstant;
+import jscl.math.numeric.Complex;
+import jscl.math.numeric.INumeric;
+import jscl.math.numeric.Numeric;
+import jscl.math.numeric.Real;
+import jscl.math.numeric.Vector;
+import jscl.mathml.MathML;
 
 public final class NumericWrapper extends Generic implements INumeric<NumericWrapper> {
 
@@ -48,7 +53,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
     }
 
     public NumericWrapper(@Nonnull Constant constant) {
-        final IConstant constantFromRegistry = JsclMathEngine.getInstance().getConstantsRegistry().get(constant.getName());
+        final IConstant constantFromRegistry = ConstantsRegistry.getInstance().get(constant.getName());
 
         if (constantFromRegistry != null) {
             if (constantFromRegistry.getName().equals(Constants.I.getName())) {

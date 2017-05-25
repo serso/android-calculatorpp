@@ -1,14 +1,18 @@
 package jscl.math.function;
 
-import jscl.JsclMathEngine;
-import jscl.math.*;
-import jscl.mathml.MathML;
-import jscl.util.ArrayComparator;
-
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
+
+import jscl.math.Generic;
+import jscl.math.JsclInteger;
+import jscl.math.NotIntegrableException;
+import jscl.math.NumericWrapper;
+import jscl.math.Variable;
+import jscl.mathml.MathML;
+import jscl.util.ArrayComparator;
 
 public class Constant extends Variable {
 
@@ -182,7 +186,7 @@ public class Constant extends Variable {
     }
 
     public String toJava() {
-        final IConstant constantFromRegistry = JsclMathEngine.getInstance().getConstantsRegistry().get(getName());
+        final IConstant constantFromRegistry = ConstantsRegistry.getInstance().get(getName());
 
         if (constantFromRegistry != null) {
             return constantFromRegistry.toJava();

@@ -27,7 +27,9 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+
 import com.squareup.otto.Bus;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
@@ -41,14 +43,19 @@ import org.solovyev.android.io.FileSystem;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executor;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.Executor;
 
 public abstract class BaseEntitiesRegistry<T extends MathEntity> implements EntitiesRegistry<T> {
 
@@ -103,8 +110,16 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     }
 
     @Override
-    public void init() {
-        setInitialized();
+    public final void init() {
+        try {
+            mathRegistry.init();
+            onInit();
+        } finally {
+            setInitialized();
+        }
+    }
+
+    protected void onInit() {
     }
 
     @NonNull
@@ -121,7 +136,7 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
         return Collections.emptyList();
     }
 
-    protected final void setInitialized() {
+    private final void setInitialized() {
         synchronized (lock) {
             Check.isTrue(!initialized);
             initialized = true;

@@ -1,11 +1,26 @@
 package jscl.math.function;
 
-import jscl.math.Variable;
-import jscl.math.function.hyperbolic.*;
-import jscl.math.function.trigonometric.*;
 import org.solovyev.common.math.AbstractMathRegistry;
 
 import javax.annotation.Nonnull;
+
+import jscl.math.Variable;
+import jscl.math.function.hyperbolic.Acosh;
+import jscl.math.function.hyperbolic.Acoth;
+import jscl.math.function.hyperbolic.Asinh;
+import jscl.math.function.hyperbolic.Atanh;
+import jscl.math.function.hyperbolic.Cosh;
+import jscl.math.function.hyperbolic.Coth;
+import jscl.math.function.hyperbolic.Sinh;
+import jscl.math.function.hyperbolic.Tanh;
+import jscl.math.function.trigonometric.Acos;
+import jscl.math.function.trigonometric.Acot;
+import jscl.math.function.trigonometric.Asin;
+import jscl.math.function.trigonometric.Atan;
+import jscl.math.function.trigonometric.Cos;
+import jscl.math.function.trigonometric.Cot;
+import jscl.math.function.trigonometric.Sin;
+import jscl.math.function.trigonometric.Tan;
 
 /**
  * User: serso
@@ -16,50 +31,14 @@ public class FunctionsRegistry extends AbstractMathRegistry<Function> {
 
     private final static FunctionsRegistry instance = new FunctionsRegistry();
 
-    static {
-        instance.add(new Deg(null));
-        instance.add(new Rad(null, null, null));
-        instance.add(new Dms(null, null, null));
-
-        instance.add(new Sin(null));
-        instance.add(new Cos(null));
-        instance.add(new Tan(null));
-        instance.add(new Cot(null));
-
-        instance.add(new Asin(null));
-        instance.add(new Acos(null));
-        instance.add(new Atan(null));
-        instance.add(new Acot(null));
-
-        instance.add(new Ln(null));
-        instance.add(new Lg(null));
-        instance.add(new Exp(null));
-        instance.add(new Sqrt(null));
-        instance.add(new Cubic(null));
-
-        instance.add(new Sinh(null));
-        instance.add(new Cosh(null));
-        instance.add(new Tanh(null));
-        instance.add(new Coth(null));
-
-        instance.add(new Asinh(null));
-        instance.add(new Acosh(null));
-        instance.add(new Atanh(null));
-        instance.add(new Acoth(null));
-
-        instance.add(new Abs(null));
-        instance.add(new Sgn(null));
-
-        instance.add(new Conjugate(null));
-
-        for (String name : Comparison.names) {
-            instance.add(new Comparison(name, null, null));
-        }
-    }
-
-
     @Nonnull
     public static FunctionsRegistry getInstance() {
+        instance.init();
+        return instance;
+    }
+
+    @Nonnull
+    public static FunctionsRegistry lazyInstance() {
         return instance;
     }
 
@@ -77,5 +56,47 @@ public class FunctionsRegistry extends AbstractMathRegistry<Function> {
     public Function get(@Nonnull String name) {
         final Function function = super.get(name);
         return function == null ? null : copy(function);
+    }
+
+    @Override
+    public void onInit() {
+        add(new Deg(null));
+        add(new Rad(null, null, null));
+        add(new Dms(null, null, null));
+
+        add(new Sin(null));
+        add(new Cos(null));
+        add(new Tan(null));
+        add(new Cot(null));
+
+        add(new Asin(null));
+        add(new Acos(null));
+        add(new Atan(null));
+        add(new Acot(null));
+
+        add(new Ln(null));
+        add(new Lg(null));
+        add(new Exp(null));
+        add(new Sqrt(null));
+        add(new Cubic(null));
+
+        add(new Sinh(null));
+        add(new Cosh(null));
+        add(new Tanh(null));
+        add(new Coth(null));
+
+        add(new Asinh(null));
+        add(new Acosh(null));
+        add(new Atanh(null));
+        add(new Acoth(null));
+
+        add(new Abs(null));
+        add(new Sgn(null));
+
+        add(new Conjugate(null));
+
+        for (String name : Comparison.names) {
+            add(new Comparison(name, null, null));
+        }
     }
 }

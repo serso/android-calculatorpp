@@ -22,9 +22,10 @@
 
 package org.solovyev.common.math;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public interface MathRegistry<T extends MathEntity> {
 
@@ -48,4 +49,6 @@ public interface MathRegistry<T extends MathEntity> {
 
     @Nullable
     T getById(@Nonnull Integer id);
+
+    void init();
 }

@@ -1,34 +1,33 @@
 package jscl;
 
+import static midpcalc.Real.NumberFormat.FSE_ENG;
+import static midpcalc.Real.NumberFormat.FSE_NONE;
+import static midpcalc.Real.NumberFormat.FSE_SCI;
+
+import org.solovyev.common.NumberFormatter;
+import org.solovyev.common.math.MathRegistry;
+import org.solovyev.common.msg.MessageRegistry;
+import org.solovyev.common.msg.Messages;
+
+import java.math.BigInteger;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.math.Expression;
 import jscl.math.Generic;
-import jscl.math.NotIntegerException;
 import jscl.math.function.Constants;
 import jscl.math.function.ConstantsRegistry;
 import jscl.math.function.Function;
 import jscl.math.function.FunctionsRegistry;
 import jscl.math.function.IConstant;
 import jscl.math.function.PostfixFunctionsRegistry;
-import jscl.math.function.*;
 import jscl.math.operator.Operator;
 import jscl.math.operator.Percent;
 import jscl.math.operator.Rand;
 import jscl.math.operator.matrix.OperatorsRegistry;
 import jscl.text.ParseException;
-import org.solovyev.common.NumberFormatter;
-import org.solovyev.common.math.MathRegistry;
-import org.solovyev.common.msg.MessageRegistry;
-import org.solovyev.common.msg.Messages;
-
-import static midpcalc.Real.NumberFormat.FSE_ENG;
-import static midpcalc.Real.NumberFormat.FSE_NONE;
-import static midpcalc.Real.NumberFormat.FSE_SCI;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.math.BigInteger;
-import java.util.List;
-
-import static midpcalc.Real.NumberFormat.*;
 
 public class JsclMathEngine implements MathEngine {
 
@@ -37,8 +36,6 @@ public class JsclMathEngine implements MathEngine {
     public static final char GROUPING_SEPARATOR_DEFAULT = ' ';
     @Nonnull
     private static JsclMathEngine instance = new JsclMathEngine();
-    @Nonnull
-    private final ConstantsRegistry constantsRegistry = new ConstantsRegistry();
     @Nonnull
     private final ThreadLocal<NumberFormatter> numberFormatter = new ThreadLocal<NumberFormatter>() {
         @Override
@@ -104,17 +101,17 @@ public class JsclMathEngine implements MathEngine {
 
     @Nonnull
     public MathRegistry<Function> getFunctionsRegistry() {
-        return FunctionsRegistry.getInstance();
+        return FunctionsRegistry.lazyInstance();
     }
 
     @Nonnull
     public MathRegistry<Operator> getOperatorsRegistry() {
-        return OperatorsRegistry.getInstance();
+        return OperatorsRegistry.lazyInstance();
     }
 
     @Nonnull
     public MathRegistry<Operator> getPostfixFunctionsRegistry() {
-        return PostfixFunctionsRegistry.getInstance();
+        return PostfixFunctionsRegistry.lazyInstance();
     }
 
     @Nonnull
@@ -137,7 +134,7 @@ public class JsclMathEngine implements MathEngine {
 
     @Nonnull
     public MathRegistry<IConstant> getConstantsRegistry() {
-        return constantsRegistry;
+        return ConstantsRegistry.lazyInstance();
     }
 
     @Nonnull
@@ -202,11 +199,12 @@ public class JsclMathEngine implements MathEngine {
 
     @Nullable
     private IConstant findConstant(double value) {
-        final IConstant constant = findConstant(constantsRegistry.getSystemEntities(), value);
+        final MathRegistry<IConstant> constants = ConstantsRegistry.getInstance();
+        final IConstant constant = findConstant(constants.getSystemEntities(), value);
         if (constant != null) {
             return constant;
         }
-        final IConstant piInv = constantsRegistry.get(Constants.PI_INV.getName());
+        final IConstant piInv = constants.get(Constants.PI_INV.getName());
         if (piInv != null) {
             final Double piInvValue = piInv.getDoubleValue();
             if (piInvValue != null && piInvValue == value) {

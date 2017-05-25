@@ -22,11 +22,10 @@
 
 package org.solovyev.android.calculator.functions;
 
+import static android.text.TextUtils.isEmpty;
+
 import android.support.annotation.NonNull;
-import jscl.JsclMathEngine;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
@@ -39,14 +38,22 @@ import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.text.Strings;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
-import java.util.*;
 
-import static android.text.TextUtils.isEmpty;
+import jscl.JsclMathEngine;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 
 @Singleton
 public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
@@ -95,26 +102,27 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
     }
 
     @Override
-    public void init() {
+    protected void onInit() {
         Check.isNotMainThread();
-        try {
-            migrateOldFunctions();
+        migrateOldFunctions();
 
-            final List<CustomFunction.Builder> functions = new ArrayList<>();
-            functions.add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
-            functions.add(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"), "x^(1/3)"));
-            functions.add(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"), "x^(1/4)"));
-            functions.add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
-            functions.add(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
-            functions.add(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
+        final List<CustomFunction.Builder> functions = new ArrayList<>();
+        functions.add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"),
+                "ln(x)/ln(base)"));
+        functions.add(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"),
+                "x^(1/3)"));
+        functions.add(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"),
+                "x^(1/4)"));
+        functions.add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
+        functions.add(new CustomFunction.Builder(true, "re", Collections.singletonList("x"),
+                "(x+conjugate(x))/2"));
+        functions.add(new CustomFunction.Builder(true, "im", Collections.singletonList("x"),
+                "(x-conjugate(x))/(2*i)"));
 
-            for (CppFunction function : loadEntities(CppFunction.JSON_CREATOR)) {
-                functions.add(function.toJsclBuilder());
-            }
-            addSafely(functions);
-        } finally {
-            setInitialized();
+        for (CppFunction function : loadEntities(CppFunction.JSON_CREATOR)) {
+            functions.add(function.toJsclBuilder());
         }
+        addSafely(functions);
     }
 
     /**

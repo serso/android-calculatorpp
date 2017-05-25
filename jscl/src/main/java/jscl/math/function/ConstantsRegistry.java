@@ -1,8 +1,10 @@
 package jscl.math.function;
 
 import org.solovyev.common.math.AbstractMathRegistry;
+import org.solovyev.common.math.MathRegistry;
 
 public class ConstantsRegistry extends AbstractMathRegistry<IConstant> {
+    private static final ConstantsRegistry INSTANCE = new ConstantsRegistry();
 
     public static final String E = "e";
     public static final String C = "c";
@@ -14,15 +16,28 @@ public class ConstantsRegistry extends AbstractMathRegistry<IConstant> {
     public final static String NAN = "NaN";
 
     public ConstantsRegistry() {
-        this.add(new PiConstant());
-        this.add(new ExtendedConstant(Constants.PI_INV, Math.PI, null));
-        this.add(new ExtendedConstant(Constants.INF, Double.POSITIVE_INFINITY, "JsclDouble.valueOf(Double.POSITIVE_INFINITY)"));
-        this.add(new ExtendedConstant(Constants.INF_2, Double.POSITIVE_INFINITY, "JsclDouble.valueOf(Double.POSITIVE_INFINITY)"));
-        this.add(new ExtendedConstant(Constants.I, "√(-1)", null));
-        this.add(new ExtendedConstant(new Constant(E), Math.E, null));
-        this.add(new ExtendedConstant(new Constant(C), C_VALUE, null));
-        this.add(new ExtendedConstant(new Constant(G), G_VALUE, null));
-        this.add(new ExtendedConstant(new Constant(H_REDUCED), H_REDUCED_VALUE, null));
-        this.add(new ExtendedConstant(new Constant(NAN), Double.NaN, null));
+    }
+
+    @Override
+    public void onInit() {
+        add(new PiConstant());
+        add(new ExtendedConstant(Constants.PI_INV, Math.PI, null));
+        add(new ExtendedConstant(Constants.INF, Double.POSITIVE_INFINITY, "JsclDouble.valueOf(Double.POSITIVE_INFINITY)"));
+        add(new ExtendedConstant(Constants.INF_2, Double.POSITIVE_INFINITY, "JsclDouble.valueOf(Double.POSITIVE_INFINITY)"));
+        add(new ExtendedConstant(Constants.I, "√(-1)", null));
+        add(new ExtendedConstant(new Constant(E), Math.E, null));
+        add(new ExtendedConstant(new Constant(C), C_VALUE, null));
+        add(new ExtendedConstant(new Constant(G), G_VALUE, null));
+        add(new ExtendedConstant(new Constant(H_REDUCED), H_REDUCED_VALUE, null));
+        add(new ExtendedConstant(new Constant(NAN), Double.NaN, null));
+    }
+
+    public static MathRegistry<IConstant> getInstance() {
+        INSTANCE.init();
+        return INSTANCE;
+    }
+
+    public static MathRegistry<IConstant> lazyInstance() {
+        return INSTANCE;
     }
 }
