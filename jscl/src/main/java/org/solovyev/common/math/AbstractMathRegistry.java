@@ -24,12 +24,13 @@ package org.solovyev.common.math;
 
 import org.solovyev.common.collections.SortedList;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.GuardedBy;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * User: serso
@@ -204,9 +205,11 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
         }
 
         public int compare(T l, T r) {
-            int result = r.getName().length() - l.getName().length();
+            final String rName = r.getName();
+            final String lName = l.getName();
+            int result = rName.length() - lName.length();
             if (result == 0) {
-                result = l.getName().compareTo(r.getName());
+                result = lName.compareTo(rName);
             }
             return result;
         }

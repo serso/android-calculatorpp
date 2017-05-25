@@ -22,8 +22,15 @@
 
 package org.solovyev.common.collections;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 import javax.annotation.Nonnull;
-import java.util.*;
 
 public class SortedList<T> implements List<T> {
 
@@ -105,14 +112,14 @@ public class SortedList<T> implements List<T> {
     @Override
     public boolean add(T t) {
         boolean result = list.add(t);
-        sort();
+        insertionSort();
         return result;
     }
 
     @Override
     public boolean remove(Object o) {
         boolean result = list.remove(o);
-        sort();
+        insertionSort();
         return result;
     }
 
@@ -169,13 +176,13 @@ public class SortedList<T> implements List<T> {
     @Override
     public void add(int index, T element) {
         this.list.add(index, element);
-        sort();
+        insertionSort();
     }
 
     @Override
     public T remove(int index) {
         T result = this.list.remove(index);
-        sort();
+        insertionSort();
         return result;
     }
 
@@ -252,6 +259,19 @@ public class SortedList<T> implements List<T> {
 
     public void sort() {
         Collections.sort(list, comparator);
+    }
+
+    private void insertionSort() {
+        for (int i = 1; i < list.size(); i++) {
+            final T t = list.get(i);
+
+            int j = i - 1;
+            while (j >= 0 && comparator.compare(list.get(j), t) > 0) {
+                list.set(j + 1, list.get(j));
+                j--;
+            }
+            list.set(j + 1, t);
+        }
     }
 
     @Nonnull
