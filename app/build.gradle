@@ -61,7 +61,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-    buildToolsVersion '25.0.0'
 }
 
 dependencies {
@@ -86,7 +85,7 @@ dependencies {
     compile "com.google.android.gms:play-services-base:${versions.gpsLib}"
     compile "com.google.android.gms:play-services-analytics:${versions.gpsLib}"
     compile(name: 'plotter', ext: 'aar')
-    compile 'com.google.guava:guava:19.0'
+    compile 'com.google.guava:guava:20.0'
     compile('org.simpleframework:simple-xml:2.6.1') {
         exclude(module: 'stax')
         exclude(module: 'stax-api')
