@@ -10,7 +10,7 @@ buildscript {
     ext {
         versions = [supportLib: "24.2.0",
                     gpsLib    : "9.4.0",
-                    sdk       : [compile: 24, buildTools: "24.0.1", min: 9, target: 24]]
+                    sdk       : [compile: 25, buildTools: "24.0.1", min: 9, target: 25]]
     }
 }
 
