@@ -4,22 +4,31 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.squareup.otto.Bus;
-import jscl.math.Expression;
-import jscl.math.Generic;
-import jscl.math.JsclInteger;
-import jscl.text.ParseException;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.Notifier;
+import org.solovyev.android.calculator.Runnables;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.io.FileSystem;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.Executor;
+
+import dagger.Lazy;
+import jscl.math.Expression;
+import jscl.math.Generic;
+import jscl.math.JsclInteger;
+import jscl.text.ParseException;
 
 @Singleton
 public class Memory {
@@ -29,7 +38,7 @@ public class Memory {
     @NonNull
     private final FileSystem fileSystem;
     @NonNull
-    private final File filesDir;
+    private final Lazy<File> filesDir;
     @NonNull
     private final WriteTask writeTask = new WriteTask();
     @NonNull
@@ -50,7 +59,8 @@ public class Memory {
     private boolean loaded;
 
     @Inject
-    public Memory(@NonNull @Named(AppModule.THREAD_INIT) Executor initThread, @NonNull FileSystem fileSystem, @NonNull @Named(AppModule.DIR_FILES) File filesDir, @NonNull Handler handler) {
+    public Memory(@NonNull @Named(AppModule.THREAD_INIT) Executor initThread, @NonNull FileSystem fileSystem, @NonNull @Named(AppModule.DIR_FILES)
+            Lazy<File> filesDir, @NonNull Handler handler) {
         this.fileSystem = fileSystem;
         this.filesDir = filesDir;
         this.handler = handler;
@@ -187,7 +197,7 @@ public class Memory {
 
     @Nonnull
     private File getFile() {
-        return new File(filesDir, "memory.txt");
+        return new File(filesDir.get(), "memory.txt");
     }
 
     public void requestValue() {

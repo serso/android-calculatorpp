@@ -57,6 +57,8 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import dagger.Lazy;
+
 public abstract class BaseEntitiesRegistry<T extends MathEntity> implements EntitiesRegistry<T> {
 
     @Nonnull
@@ -82,7 +84,7 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     public Executor backgroundThread;
     @Inject
     @Named(AppModule.DIR_FILES)
-    public File filesDir;
+    public Lazy<File> filesDir;
 
     @Nonnull
     private final Map<String, Integer> descriptions = new HashMap<>();

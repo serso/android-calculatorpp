@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator.history;
 
+import static android.text.TextUtils.isEmpty;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -61,7 +63,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import static android.text.TextUtils.isEmpty;
+import dagger.Lazy;
 
 @Singleton
 public class History {
@@ -102,7 +104,7 @@ public class History {
     Executor backgroundThread;
     @Inject
     @Named(AppModule.DIR_FILES)
-    File filesDir;
+    Lazy<File> filesDir;
 
     @Nullable
     static List<HistoryState> convertOldHistory(@NonNull String xml) throws Exception {
@@ -190,12 +192,12 @@ public class History {
 
     @NonNull
     File getSavedHistoryFile() {
-        return new File(filesDir, "history-saved.json");
+        return new File(filesDir.get(), "history-saved.json");
     }
 
     @NonNull
     File getRecentHistoryFile() {
-        return new File(filesDir, "history-recent.json");
+        return new File(filesDir.get(), "history-recent.json");
     }
 
     private void migrateOldHistory() {

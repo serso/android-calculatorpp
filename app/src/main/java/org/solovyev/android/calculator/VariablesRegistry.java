@@ -123,7 +123,7 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
     @Override
     @NonNull
     protected File getEntitiesFile() {
-        return new File(filesDir, "variables.json");
+        return new File(filesDir.get(), "variables.json");
     }
 
     @Nullable

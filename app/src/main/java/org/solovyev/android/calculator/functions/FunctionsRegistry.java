@@ -199,7 +199,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
     @Override
     @NonNull
     protected File getEntitiesFile() {
-        return new File(filesDir, "functions.json");
+        return new File(filesDir.get(), "functions.json");
     }
 
     @Override
