@@ -22,10 +22,11 @@
 
 package org.solovyev.common.text;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EnumMapper<T extends Enum> implements Mapper<T> {
 

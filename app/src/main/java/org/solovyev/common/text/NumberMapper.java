@@ -23,12 +23,14 @@
 package org.solovyev.common.text;
 
 import org.solovyev.android.Check;
+import org.solovyev.android.prefs.CachingMapper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class NumberMapper<N extends Number> implements Mapper<N> {
 
@@ -38,7 +40,7 @@ public class NumberMapper<N extends Number> implements Mapper<N> {
 
     static {
         for (Class<? extends Number> supportedClass : supportedClasses) {
-            mappers.put(supportedClass, newInstance(supportedClass));
+            mappers.put(supportedClass, CachingMapper.of(newInstance(supportedClass)));
         }
     }
 

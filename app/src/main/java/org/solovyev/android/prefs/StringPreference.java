@@ -43,7 +43,7 @@ public final class StringPreference<T> extends AbstractPreference<T> {
 
     public StringPreference(@Nonnull String key, @Nullable T defaultValue, @Nonnull Mapper<T> mapper) {
         super(key, defaultValue);
-        this.mapper = mapper;
+        this.mapper = CachingMapper.of(mapper);
     }
 
     @Nonnull
