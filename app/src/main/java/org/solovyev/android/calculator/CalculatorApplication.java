@@ -137,7 +137,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     }
 
     private void onPostCreate(@Nonnull final SharedPreferences prefs, @Nonnull Languages languages) {
-        App.init(this);
+        App.init(this, prefs);
         languages.init();
 
         prefs.registerOnSharedPreferenceChangeListener(this);

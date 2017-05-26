@@ -22,9 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.floating.FloatingCalculatorService;
-
 import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
@@ -39,7 +36,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -56,6 +52,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -75,9 +74,9 @@ public final class App {
         throw new AssertionError();
     }
 
-    public static void init(@Nonnull CalculatorApplication application) {
+    public static void init(@Nonnull CalculatorApplication application, @NonNull SharedPreferences prefs) {
         App.application = application;
-        App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
+        App.preferences = prefs;
     }
 
     @Nonnull
