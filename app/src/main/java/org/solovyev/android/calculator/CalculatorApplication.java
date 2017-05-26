@@ -105,11 +105,15 @@ public class CalculatorApplication extends android.app.Application implements Sh
     public void onCreate() {
         timer.reset();
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        final Languages languages = new Languages(this, preferences);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        // start loading UI preferences as soon as possible in order for them to be loaded by the
+        // time they are queried
+        final SharedPreferences uiPrefs = AppModule.provideUiPreferences(this);
+
+        final Languages languages = new Languages(this, prefs);
         timer.addSplit("languages");
 
-        onPreCreate(preferences, languages);
+        onPreCreate(prefs, uiPrefs, languages);
         timer.addSplit("onPreCreate");
 
         super.onCreate();
@@ -118,7 +122,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         initDagger(languages);
         timer.addSplit("initDagger");
 
-        onPostCreate(preferences, languages);
+        onPostCreate(prefs, languages);
         timer.addSplit("onPostCreate");
         timer.dumpToLog();
     }
@@ -132,11 +136,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
         history.init(initThread);
     }
 
-    private void onPostCreate(@Nonnull final SharedPreferences preferences, @Nonnull Languages languages) {
+    private void onPostCreate(@Nonnull final SharedPreferences prefs, @Nonnull Languages languages) {
         App.init(this);
         languages.init();
 
-        preferences.registerOnSharedPreferenceChangeListener(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
         languages.updateContextLocale(this, true);
 
         calculator.init(initThread);
@@ -147,7 +151,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 warmUpEngine();
                 // delayed GA reporting in order to avoid initialization of GA on the main
                 // application thread and to postpone it as much as possible
-                ga.get().reportInitially(preferences);
+                ga.get().reportInitially(prefs);
             }
         });
     }
@@ -163,7 +167,8 @@ public class CalculatorApplication extends android.app.Application implements Sh
         }
     }
 
-    private void onPreCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
+    private void onPreCreate(@Nonnull SharedPreferences prefs, @NonNull SharedPreferences uiPrefs,
+            @Nonnull Languages languages) {
         // first we need to setup crash handler and memory leak analyzer
         if (AcraErrorReporter.ENABLED) {
             ACRA.init(this, new ACRAConfiguration()
@@ -175,11 +180,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
         }
 
         // then we should set default preferences
-        Preferences.init(this, preferences);
-        UiPreferences.init(preferences, AppModule.provideUiPreferences(this));
+        Preferences.init(this, prefs);
+        UiPreferences.init(prefs, uiPrefs);
 
         // and change application's theme/language is needed
-        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
+        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(prefs);
         setTheme(theme.theme);
 
         final Language language = languages.getCurrent();
