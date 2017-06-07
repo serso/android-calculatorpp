@@ -24,9 +24,5 @@
 
 <ripple xmlns:a="http://schemas.android.com/apk/res/android"
     a:color="@color/cpp_ripple_material_dark">
-    <item>
-        <shape>
-            <solid a:color="@color/blue_850" />
-        </shape>
-    </item>
+    <item a:drawable="@color/blue_850"/>
 </ripple>
