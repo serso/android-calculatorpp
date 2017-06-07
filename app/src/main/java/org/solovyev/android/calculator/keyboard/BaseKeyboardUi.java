@@ -1,5 +1,12 @@
 package org.solovyev.android.calculator.keyboard;
 
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
+import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
+import static org.solovyev.android.calculator.App.cast;
+import static org.solovyev.android.calculator.Preferences.Gui.Mode.simple;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -39,13 +46,6 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import dagger.Lazy;
-
-import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
-import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
-import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
-import static org.solovyev.android.calculator.App.cast;
-import static org.solovyev.android.calculator.Preferences.Gui.Mode.simple;
 
 public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
@@ -212,7 +212,7 @@ public abstract class BaseKeyboardUi implements SharedPreferences.OnSharedPrefer
 
     private static class AdjusterHelper implements Adjuster.Helper<DirectionDragImageButton> {
 
-        public static AdjusterHelper instance = new AdjusterHelper();
+        public static final AdjusterHelper instance = new AdjusterHelper();
 
         @Override
         public void apply(@NonNull DirectionDragImageButton view, float textSize) {

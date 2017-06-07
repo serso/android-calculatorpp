@@ -1,18 +1,13 @@
 package org.solovyev.android.views.dragbutton;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -20,297 +15,84 @@ import android.widget.TextView;
 import java.util.EnumMap;
 import java.util.Map;
 
-import static android.graphics.Color.BLACK;
-import static android.util.TypedValue.COMPLEX_UNIT_DIP;
-import static android.util.TypedValue.applyDimension;
+class DirectionTextView {
 
-public class DirectionTextView {
-
-    public static final float DEF_ALPHA = 0.4f;
-    public static final float DEF_SCALE = 0.4f;
-    public static final float SHADOW_RADIUS_DPS = 2;
+    static final float SHADOW_RADIUS_DPS = 2;
+    private static final float DEF_ALPHA = 0.4f;
 
     @NonNull
-    private final Map<DragDirection, Text> texts = new EnumMap<>(DragDirection.class);
+    private final Map<DragDirection, DirectionText> texts = new EnumMap<>(DragDirection.class);
+    private float textSize;
+    private Typeface typeface;
 
-    public DirectionTextView() {
+    DirectionTextView() {
     }
 
     public void init(@NonNull TextView view, @Nullable AttributeSet attrs) {
         init(view, attrs, view.getPaint());
     }
 
-    public void setBaseTextPaint(@NonNull TextPaint baseTextPaint) {
-        for (Text text : texts.values()) {
-            text.initPaint(baseTextPaint);
-        }
-    }
+    public void init(@NonNull View view, @Nullable AttributeSet attrs, @NonNull TextPaint base) {
+        textSize = base.getTextSize();
+        typeface = base.getTypeface() == null ? Typeface.DEFAULT : base.getTypeface();
 
-    public void init(@NonNull View view, @Nullable AttributeSet attrs, @NonNull TextPaint baseTextPaint) {
         final Context context = view.getContext();
-        final int defColor = baseTextPaint.getColor();
-        final int defPadding = context.getResources().getDimensionPixelSize(R.dimen.drag_direction_text_default_padding);
-        final float minTextSize = context.getResources().getDimensionPixelSize(R.dimen.drag_direction_text_min_size);
+        final Resources res = context.getResources();
 
-
-        if (attrs == null) {
-            for (DragDirection direction : DragDirection.values()) {
-                final Text text = new Text(direction, view, minTextSize);
-                text.init(baseTextPaint, null, DEF_SCALE, defColor, DEF_ALPHA, defPadding);
-                texts.put(direction, text);
-            }
-            return;
-        }
-        final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.DirectionText);
-        final float scale = array.getFloat(R.styleable.DirectionText_directionTextScale, DEF_SCALE);
-        final float alpha = array.getFloat(R.styleable.DirectionText_directionTextAlpha, DEF_ALPHA);
-        final int color = array.getColor(R.styleable.DirectionText_directionTextColor, defColor);
-        final int padding = array.getDimensionPixelSize(R.styleable.DirectionText_directionTextPadding, defPadding);
+        final float minTextSize =
+                res.getDimensionPixelSize(R.dimen.drag_direction_text_min_size);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DirectionText);
+        final float scale =
+                a.getFloat(R.styleable.DirectionText_directionTextScale, DirectionText.DEF_SCALE);
+        final float alpha = a.getFloat(R.styleable.DirectionText_directionTextAlpha, DEF_ALPHA);
+        final int color = a.getColor(R.styleable.DirectionText_directionTextColor, base.getColor());
+        final int padding = a.getDimensionPixelSize(R.styleable.DirectionText_directionTextPadding,
+                res.getDimensionPixelSize(R.dimen.drag_direction_text_default_padding));
         for (DragDirection direction : DragDirection.values()) {
-            final Text text = new Text(direction, view, minTextSize);
-            text.init(baseTextPaint, array, scale, color, alpha, padding);
+            final DirectionText text = new DirectionText(direction, view, minTextSize);
+            text.init(a, scale, color, alpha, padding, typeface, textSize);
             texts.put(direction, text);
         }
-        array.recycle();
+        a.recycle();
     }
 
-    public void draw(@NonNull Canvas canvas) {
-        for (Text text : texts.values()) {
+    void draw(@NonNull Canvas canvas) {
+        for (DirectionText text : texts.values()) {
             text.draw(canvas);
         }
     }
 
     @NonNull
-    public Text getText(@NonNull DragDirection direction) {
+    public DirectionText getText(@NonNull DragDirection direction) {
         return texts.get(direction);
     }
 
-    public void setHighContrast(boolean highContrast) {
-        for (Text text : texts.values()) {
+    void setHighContrast(boolean highContrast) {
+        for (DirectionText text : texts.values()) {
             text.setHighContrast(highContrast);
         }
     }
 
-    public static class Text {
-        public final Rect bounds = new Rect();
-        @NonNull
-        private final TextPaint paint = new TextPaint();
-        @NonNull
-        private final DragDirection direction;
-        @NonNull
-        private final View view;
-        private final float minTextSize;
-        @NonNull
-        private final PointF offset = new PointF(0, 0);
-        private float fixedTextHeight = 0;
-        @NonNull
-        private String value = "";
-        private float scale;
-        private int color;
-        private int contrastColor;
-        private float alpha;
-        private boolean visible = true;
-        private boolean highContrast;
-        private int padding;
-
-        public Text(@NonNull DragDirection direction, @NonNull View view, float minTextSize) {
-            this.direction = direction;
-            this.view = view;
-            this.minTextSize = minTextSize;
+    public void setTypeface(@NonNull Typeface typeface) {
+        if(this.typeface == typeface) {
+            return;
         }
-
-        public void init(@NonNull TextPaint base, @Nullable TypedArray array, float defScale, int defColor, float defAlpha, int defPadding) {
-            if (array != null) {
-                if (array.hasValue(direction.textAttr)) {
-                    value = nullToEmpty(array.getString(direction.textAttr));
-                }
-                padding = array.getDimensionPixelSize(direction.paddingAttr, defPadding);
-                scale = array.getFloat(direction.scaleAttr, defScale);
-            } else {
-                value = "";
-                scale = defScale;
-                padding = defPadding;
-            }
-            alpha = defAlpha;
-            color = defColor;
-            contrastColor = makeContrastColor(color);
-            initPaint(base);
-        }
-
-        @NonNull
-        private String nullToEmpty(@Nullable String s) {
-            return s == null ? "" : s;
-        }
-
-        private int makeContrastColor(int color) {
-            final int colorRes = isLightColor(color) ? R.color.drag_button_text : R.color.drag_text_inverse;
-            return ContextCompat.getColor(view.getContext(), colorRes);
-        }
-
-        public void initPaint(@NonNull TextPaint base) {
-            paint.set(base);
-            paint.setColor(color);
-            paint.setAlpha(intAlpha());
-            final Typeface typeface = base.getTypeface();
-            if (typeface != null && typeface.getStyle() != Typeface.NORMAL) {
-                paint.setTypeface(Typeface.create(typeface, Typeface.NORMAL));
-            }
-
-            // pre-calculate fixed height
-            paint.setTextSize(Math.max(base.getTextSize() * DEF_SCALE, minTextSize));
-            paint.getTextBounds("|", 0, 1, bounds);
-            fixedTextHeight = bounds.height();
-
-            // set real text size value
-            paint.setTextSize(Math.max(base.getTextSize() * scale, minTextSize));
-
-            initPaintShadow();
-            invalidate(true);
-        }
-
-        private void initPaintShadow() {
-            if (highContrast && needsShadow(color)) {
-                paint.setShadowLayer(applyDimension(COMPLEX_UNIT_DIP, SHADOW_RADIUS_DPS, view.getResources().getDisplayMetrics()), 0, 0, BLACK);
-            } else {
-                paint.setShadowLayer(0, 0, 0, BLACK);
-            }
-        }
-
-        private int intAlpha() {
-            return (int) (255 * alpha);
-        }
-
-        public void setVisible(boolean visible) {
-            if (this.visible == visible) {
-                return;
-            }
-            this.visible = visible;
-            invalidate(false);
-        }
-
-        public void setColor(int color) {
-            setColor(color, alpha);
-        }
-
-        public void setAlpha(float alpha) {
-            setColor(color, alpha);
-        }
-
-        public void setHighContrast(boolean highContrast) {
-            if (this.highContrast == highContrast) {
-                return;
-            }
-            this.highContrast = highContrast;
-            initPaintShadow();
-            invalidate(false);
-        }
-
-        public void setColor(int color, float alpha) {
-            if (this.color == color && this.alpha == alpha) {
-                return;
-            }
-            this.color = color;
-            this.contrastColor = makeContrastColor(color);
-            this.alpha = alpha;
-            paint.setColor(color);
-            paint.setAlpha(intAlpha());
-            initPaintShadow();
-            invalidate(false);
-        }
-
-        private void invalidate(boolean remeasure) {
-            view.invalidate();
-            if (remeasure) {
-                offset.set(0, 0);
-            }
-        }
-
-        public void draw(@NonNull Canvas canvas) {
-            if (!hasValue()) {
-                return;
-            }
-            if (offset.x == 0 && offset.y == 0) {
-                calculatePosition();
-            }
-            if (highContrast) {
-                paint.setColor(contrastColor);
-                paint.setAlpha(255);
-            }
-            final int width = view.getWidth();
-            final int height = view.getHeight();
-            switch (direction) {
-                case up:
-                    canvas.drawText(value, width + offset.x, offset.y, paint);
-                    break;
-                case down:
-                    canvas.drawText(value, width + offset.x, height + offset.y, paint);
-                    break;
-                case left:
-                    canvas.drawText(value, offset.x, height / 2 + offset.y, paint);
-                    break;
-                case right:
-                    canvas.drawText(value, width + offset.x, height / 2 + offset.y, paint);
-                    break;
-            }
-            if (highContrast) {
-                paint.setColor(color);
-                paint.setAlpha(intAlpha());
-            }
-        }
-
-        private void calculatePosition() {
-            paint.getTextBounds(value, 0, value.length(), bounds);
-
-            final int paddingLeft = padding;
-            final int paddingRight = padding;
-            final int paddingTop = padding;
-            final int paddingBottom = padding;
-
-            switch (direction) {
-                case up:
-                case down:
-                    offset.x = -paddingLeft - bounds.width() - bounds.left;
-                    if (direction == DragDirection.up) {
-                        offset.y = paddingTop + fixedTextHeight;
-                    } else {
-                        offset.y = -paddingBottom;
-                    }
-                    break;
-                case left:
-                case right:
-                    if (direction == DragDirection.left) {
-                        offset.x = paddingLeft;
-                    } else {
-                        offset.x = -paddingRight - bounds.width();
-                    }
-                    offset.y = (paddingTop - paddingBottom) / 2 + fixedTextHeight / 2;
-                    break;
-            }
-        }
-
-        @NonNull
-        public String getValue() {
-            return visible ? value : "";
-        }
-
-        public void setValue(@NonNull String value) {
-            if (TextUtils.equals(this.value, value)) {
-                return;
-            }
-            this.value = value;
-            invalidate(true);
-        }
-
-        public boolean hasValue() {
-            return visible && !TextUtils.isEmpty(value);
+        for (DirectionText text : texts.values()) {
+            text.setTypeface(typeface);
         }
     }
 
-    private static boolean isLightColor(@ColorInt int color) {
-        return ColorUtils.calculateLuminance(color) > 0.5f;
+    public float getTextSize() {
+        return textSize;
     }
 
-    public static boolean needsShadow(@ColorInt int color) {
-        return isLightColor(color);
+    public void setTextSize(float textSize) {
+        if (this.textSize == textSize) {
+            return;
+        }
+        this.textSize = textSize;
+        for (DirectionText text : texts.values()) {
+            text.setBaseTextSize(textSize);
+        }
     }
 }

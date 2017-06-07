@@ -5,13 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 public class DirectionDragImageButton extends DragImageButton implements DirectionDragView {
     private final DirectionTextView textView = new DirectionTextView();
-    private final TextPaint baseTextPaint = new TextPaint();
 
     public DirectionDragImageButton(Context context) {
         super(context);
@@ -35,8 +33,7 @@ public class DirectionDragImageButton extends DragImageButton implements Directi
 
     private void init(@Nullable AttributeSet attrs) {
         final TextView view = new TextView(getContext(), attrs);
-        baseTextPaint.set(view.getPaint());
-        textView.init(this, attrs, baseTextPaint);
+        textView.init(this, attrs, view.getPaint());
     }
 
     @Override
@@ -46,29 +43,24 @@ public class DirectionDragImageButton extends DragImageButton implements Directi
     }
 
     @NonNull
-    public DirectionTextView.Text getText(@NonNull DragDirection direction) {
+    public DirectionText getText(@NonNull DragDirection direction) {
         return textView.getText(direction);
     }
 
-    public void setTypeface(@NonNull Typeface newTypeface) {
-        final Typeface oldTypeface = baseTextPaint.getTypeface();
-        if (oldTypeface == newTypeface) {
-            return;
-        }
-        baseTextPaint.setTypeface(newTypeface);
-        textView.setBaseTextPaint(baseTextPaint);
+    public void setTypeface(@NonNull Typeface typeface) {
+        textView.setTypeface(typeface);
     }
 
-    public void setTextSize(float textSizePxs) {
-        baseTextPaint.setTextSize(textSizePxs);
-        textView.setBaseTextPaint(baseTextPaint);
+    public void setTextSize(float textSize) {
+        textView.setTextSize(textSize);
     }
 
     public float getTextSize() {
-        return baseTextPaint.getTextSize();
+        return textView.getTextSize();
     }
 
     @Override
     public void setHighContrast(boolean highContrast) {
+        textView.setHighContrast(highContrast);
     }
 }

@@ -96,7 +96,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
         if (view instanceof TextView) {
             final TextView textView = (TextView) view;
             final Typeface oldTypeface = textView.getTypeface();
-            if (oldTypeface == newTypeface) {
+            if (oldTypeface != null && oldTypeface.equals(newTypeface)) {
                 return;
             }
             final int style = oldTypeface != null ? oldTypeface.getStyle() : Typeface.NORMAL;

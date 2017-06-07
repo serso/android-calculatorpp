@@ -4,5 +4,5 @@ import android.support.annotation.NonNull;
 
 public interface DirectionDragView extends DragView {
     @NonNull
-    DirectionTextView.Text getText(@NonNull DragDirection direction);
+    DirectionText getText(@NonNull DragDirection direction);
 }

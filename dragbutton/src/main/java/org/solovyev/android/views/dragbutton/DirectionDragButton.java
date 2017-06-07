@@ -2,22 +2,14 @@ package org.solovyev.android.views.dragbutton;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
-
-import static android.graphics.Color.BLACK;
-import static android.util.TypedValue.COMPLEX_UNIT_DIP;
-import static android.util.TypedValue.applyDimension;
-import static org.solovyev.android.views.dragbutton.DirectionTextView.SHADOW_RADIUS_DPS;
 
 public class DirectionDragButton extends DragButton implements DirectionDragView {
     private final DirectionTextView textView = new DirectionTextView();
-    @NonNull
-    private final TextPaint baseTextPaint = new TextPaint();
-    private boolean highContrast;
 
     public DirectionDragButton(Context context) {
         super(context);
@@ -41,20 +33,11 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
 
     private void init(@Nullable AttributeSet attrs) {
         textView.init(this, attrs);
-        baseTextPaint.set(getPaint());
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        final TextPaint paint = getPaint();
-        if (baseTextPaint.getTextSize() != paint.getTextSize() ||
-                baseTextPaint.getTypeface() != paint.getTypeface() ||
-                baseTextPaint.getColor() != paint.getColor() ||
-                baseTextPaint.getAlpha() != paint.getAlpha()) {
-            baseTextPaint.set(paint);
-            textView.setBaseTextPaint(paint);
-        }
         textView.draw(canvas);
     }
 
@@ -70,8 +53,20 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
     }
 
     @Override
+    public void setTypeface(Typeface tf, int style) {
+        super.setTypeface(tf, style);
+        textView.setTypeface(getPaint().getTypeface());
+    }
+
+    @Override
+    public void setTextSize(int unit, float size) {
+        super.setTextSize(unit, size);
+        textView.setTextSize(getPaint().getTextSize());
+    }
+
+    @Override
     @NonNull
-    public DirectionTextView.Text getText(@NonNull DragDirection direction) {
+    public DirectionText getText(@NonNull DragDirection direction) {
         return textView.getText(direction);
     }
 
@@ -93,15 +88,6 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
 
     @Override
     public void setHighContrast(boolean highContrast) {
-        if(this.highContrast == highContrast) {
-            return;
-        }
-        this.highContrast = highContrast;
-        this.textView.setHighContrast(highContrast);
-        if (highContrast && DirectionTextView.needsShadow(getCurrentTextColor())) {
-            setShadowLayer(applyDimension(COMPLEX_UNIT_DIP, SHADOW_RADIUS_DPS, getResources().getDisplayMetrics()), 0, 0, BLACK);
-        } else {
-            setShadowLayer(0, 0, 0, BLACK);
-        }
+        textView.setHighContrast(highContrast);
     }
 }
