@@ -156,22 +156,6 @@ signing {
     sign configurations.archives
 }
 
-gradle.taskGraph.afterTask { Task task ->
-    if (task.project.name == 'app') {
-        if (task.name == 'mergeReleaseResources') {
-            cleanGoogleServicesResources('release')
-        } else if (task.name == 'mergeDebugResources') {
-            cleanGoogleServicesResources('debug')
-        }
-    }
-}
-
-private void cleanGoogleServicesResources(buildType) {
-    ant.delete(includeEmptyDirs: 'true') {
-        fileset(dir: file('./build/intermediates/res/merged/' + buildType), includes: '**/common_*')
-    }
-}
-
 group = "org.solovyev.android"
 version = android.defaultConfig.versionName
 
