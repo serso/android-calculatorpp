@@ -143,17 +143,6 @@ class PaintCache {
         public Spec textSize(float textSize) {
             return new Spec(color, alpha, typeface, textSize, highContrast);
         }
-
-        @Override
-        public String toString() {
-            return "Spec{" +
-                    "color=" + color +
-                    ", alpha=" + alpha +
-                    ", typeface=" + System.identityHashCode(typeface) +
-                    ", textSize=" + textSize +
-                    ", highContrast=" + highContrast +
-                    '}';
-        }
     }
 
     private float shadowRadius;
@@ -181,15 +170,12 @@ class PaintCache {
         if (entry == null) {
             entry = new Entry(spec, makePaint(context, spec));
             map.put(spec, entry);
-        } else {
-            Log.d(TAG, "Reusing paint for spec: " + spec);
         }
         return entry;
     }
 
     @NonNull
     private Paint makePaint(@NonNull Context context, @NonNull Spec spec) {
-        Log.d(TAG, "Creating new paint for spec: " + spec);
         final Paint paint = new Paint();
         paint.setAntiAlias(true);
         if (spec.highContrast) {
