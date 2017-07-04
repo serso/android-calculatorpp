@@ -23,6 +23,7 @@
 package org.solovyev.common.math;
 
 import org.solovyev.common.collections.SortedList;
+import org.solovyev.common.text.Strings;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -168,9 +169,13 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
     @Nonnull
     public List<String> getNames() {
         synchronized (this) {
-            if (entityNames.isEmpty()) {
-                for (T entity : entities) {
-                    entityNames.add(entity.getName());
+            if (!entityNames.isEmpty()) {
+                return entityNames;
+            }
+            for (T entity : entities) {
+                final String name = entity.getName();
+                if (!Strings.isEmpty(name)) {
+                    entityNames.add(name);
                 }
             }
             return entityNames;
