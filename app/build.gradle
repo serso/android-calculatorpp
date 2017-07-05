@@ -79,7 +79,7 @@ dependencies {
     compile(project(':jscl')) {
         exclude(module: 'xercesImpl')
     }
-    compile 'org.solovyev.android:checkout:0.7.5@aar'
+    compile 'org.solovyev.android:checkout:1.0.1'
     compile 'org.solovyev.android:material:0.1.4@aar'
     compile "com.google.android.gms:play-services-ads:${versions.gpsLib}"
     compile "com.google.android.gms:play-services-base:${versions.gpsLib}"
@@ -109,8 +109,10 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-}
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        // use version of jsr305 provided by Checkout
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    })}
 
 apt {
     arguments {

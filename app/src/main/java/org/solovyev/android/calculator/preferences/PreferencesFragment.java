@@ -1,5 +1,11 @@
 package org.solovyev.android.calculator.preferences;
 
+import static org.solovyev.android.calculator.App.cast;
+import static org.solovyev.android.calculator.Engine.Preferences.angleUnitName;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBaseName;
+import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,13 +17,16 @@ import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ListView;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.ActivityLauncher;
+import org.solovyev.android.calculator.AdView;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.Preferences.Gui.Theme;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.feedback.FeedbackReporter;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
@@ -29,17 +38,16 @@ import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.text.CharacterMapper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.solovyev.android.calculator.App.cast;
-import static org.solovyev.android.calculator.Engine.Preferences.angleUnitName;
-import static org.solovyev.android.calculator.Engine.Preferences.numeralBaseName;
-import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
 
 public class PreferencesFragment extends org.solovyev.android.material.preferences.PreferencesFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -114,7 +122,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         prepareLanguagePreference(preference);
         prepareThemePreference(preference);
 
-        getCheckout().whenReady(new Checkout.ListenerAdapter() {
+        getCheckout().whenReady(new Checkout.EmptyListener() {
             @Override
             public void onReady(@Nonnull BillingRequests requests) {
                 requests.isPurchased(ProductTypes.IN_APP, "ad_free", new RequestListener<Boolean>() {

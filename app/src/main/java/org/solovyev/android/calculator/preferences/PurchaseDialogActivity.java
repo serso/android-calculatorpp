@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator.preferences;
 
+import static org.solovyev.android.calculator.App.cast;
+
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,24 +32,27 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.ga.Ga;
-import org.solovyev.android.checkout.*;
+import org.solovyev.android.checkout.ActivityCheckout;
+import org.solovyev.android.checkout.Billing;
+import org.solovyev.android.checkout.BillingRequests;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.ProductTypes;
+import org.solovyev.android.checkout.Purchase;
+import org.solovyev.android.checkout.RequestListener;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import static org.solovyev.android.calculator.App.cast;
-
 public class PurchaseDialogActivity extends AppCompatActivity implements RequestListener<Purchase> {
 
     @Inject
     Billing billing;
-    @Inject
-    Products products;
     @Inject
     Ga ga;
     ActivityCheckout checkout;
@@ -62,7 +67,7 @@ public class PurchaseDialogActivity extends AppCompatActivity implements Request
             App.showDialog(new PurchaseDialogFragment(), PurchaseDialogFragment.FRAGMENT_TAG, getSupportFragmentManager());
         }
 
-        checkout = Checkout.forActivity(this, billing, products);
+        checkout = Checkout.forActivity(this, billing);
         checkout.start();
         checkout.createPurchaseFlow(this);
     }
@@ -80,7 +85,7 @@ public class PurchaseDialogActivity extends AppCompatActivity implements Request
     }
 
     private void purchase() {
-        checkout.whenReady(new Checkout.ListenerAdapter() {
+        checkout.whenReady(new Checkout.EmptyListener() {
             @Override
             public void onReady(@Nonnull BillingRequests requests) {
                 requests.purchase(ProductTypes.IN_APP, "ad_free", null, checkout.getPurchaseFlow());

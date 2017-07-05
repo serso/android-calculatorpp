@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
 import android.util.SparseArray;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseActivity;
@@ -16,7 +17,6 @@ import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Billing;
 import org.solovyev.android.checkout.Checkout;
-import org.solovyev.android.checkout.Products;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -46,8 +46,6 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
 
     @Inject
     Billing billing;
-    @Inject
-    Products products;
     @Inject
     Languages languages;
 
@@ -87,7 +85,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
                     .commit();
         }
 
-        checkout = Checkout.forActivity(this, billing, products);
+        checkout = Checkout.forActivity(this, billing);
         checkout.start();
     }
 

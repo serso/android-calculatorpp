@@ -13,8 +13,8 @@ public class CppCheckout extends Checkout {
     private int started = 0;
 
     @Inject
-    public CppCheckout(@NonNull Billing billing, @NonNull Products products) {
-        super(null, billing, products);
+    public CppCheckout(@NonNull Billing billing) {
+        super(null, billing);
     }
 
     @Override
