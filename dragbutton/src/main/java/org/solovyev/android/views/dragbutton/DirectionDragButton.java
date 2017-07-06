@@ -55,13 +55,19 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
     @Override
     public void setTypeface(Typeface tf, int style) {
         super.setTypeface(tf, style);
-        textView.setTypeface(getPaint().getTypeface());
+        // might be called from constructor
+        if (textView != null) {
+            textView.setTypeface(getPaint().getTypeface());
+        }
     }
 
     @Override
     public void setTextSize(int unit, float size) {
         super.setTextSize(unit, size);
-        textView.setTextSize(getPaint().getTextSize());
+        // might be called from constructor
+        if (textView != null) {
+            textView.setTextSize(getPaint().getTextSize());
+        }
     }
 
     @Override
