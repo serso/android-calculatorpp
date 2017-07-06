@@ -32,8 +32,8 @@ android {
         applicationId "org.solovyev.android.calculator"
         minSdkVersion versions.sdk.min
         targetSdkVersion versions.sdk.target
-        versionCode 154
-        versionName '2.2.4'
+        versionCode 155
+        versionName '2.2.5'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
