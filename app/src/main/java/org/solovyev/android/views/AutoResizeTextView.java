@@ -1,4 +1,6 @@
-package org.solovyev.android.views; /**
+package org.solovyev.android.views;
+
+/*
  * DO WHAT YOU WANT TO PUBLIC LICENSE
  * Version 2, December 2004
  * <p/>
@@ -14,8 +16,12 @@ package org.solovyev.android.views; /**
  * 0. You just DO WHAT YOU WANT TO.
  */
 
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
+import static android.util.TypedValue.applyDimension;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -23,9 +29,6 @@ import android.util.AttributeSet;
 import android.util.TimingLogger;
 import android.util.TypedValue;
 import android.widget.TextView;
-
-import static android.util.TypedValue.COMPLEX_UNIT_SP;
-import static android.util.TypedValue.applyDimension;
 
 /**
  * Text view that auto adjusts text size to fit within the view.
@@ -36,7 +39,7 @@ import static android.util.TypedValue.applyDimension;
  * @since Apr 4, 2011
  */
 @SuppressWarnings("unused")
-public class AutoResizeTextView extends TextView {
+public class AutoResizeTextView extends AppCompatTextView {
 
     // Minimum text size for this text view
     public static final float MIN_TEXT_SIZE = 20;

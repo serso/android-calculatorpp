@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
@@ -19,7 +20,7 @@ import org.solovyev.android.calculator.R;
 /**
  * SeekBar for discrete values with a label displayed underneath the active tick
  */
-public class DiscreteSeekBar extends SeekBar {
+public class DiscreteSeekBar extends AppCompatSeekBar {
     // Duration of how quick the SeekBar thumb should snap to its destination value
     private static final int THUMB_SNAP_DURATION_TIME = 100;
     private final Paint mPaint = new Paint();
