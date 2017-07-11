@@ -39,7 +39,7 @@ import android.view.View;
  * to switch to the framework's implementation. See the framework SDK
  * documentation for a class overview.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "RestrictedApi"})
 public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Callback {
     private Context mContext;
     private MenuBuilder mMenu;
