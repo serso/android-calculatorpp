@@ -27,22 +27,42 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ActionProvider;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.appcompat.R;
-import android.support.v7.view.menu.*;
+import android.support.v7.view.menu.ListMenuItemView;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuItemImpl;
+import android.support.v7.view.menu.MenuPresenter;
+import android.support.v7.view.menu.MenuView;
+import android.support.v7.view.menu.SubMenuBuilder;
 import android.support.v7.widget.ListPopupWindow;
-import android.view.*;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
 import android.view.View.MeasureSpec;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
+import android.widget.ListAdapter;
+import android.widget.PopupWindow;
+
 import org.solovyev.android.Check;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Presents a menu as a small, simple popup anchored to another view.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "RestrictedApi"})
 @SuppressLint("PrivateResource")
 public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, View.OnKeyListener,
         ViewTreeObserver.OnGlobalLayoutListener, PopupWindow.OnDismissListener,
