@@ -23,21 +23,23 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
-import android.support.v7.view.ContextThemeWrapper;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class ChooseThemeWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
