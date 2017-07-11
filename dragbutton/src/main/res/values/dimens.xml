@@ -3,5 +3,4 @@
     <dimen name="drag_min_distance">15dp</dimen>
     <dimen name="drag_direction_text_default_padding">2dp</dimen>
     <dimen name="drag_direction_text_min_size">9dp</dimen>
-    <item name="drag_direction_text_scale" format="float" type="dimen">0.35</item>
 </resources>
