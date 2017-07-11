@@ -26,11 +26,6 @@ public class DirectionDragImageButton extends DragImageButton implements Directi
         init(attrs);
     }
 
-    public DirectionDragImageButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
-    }
-
     private void init(@Nullable AttributeSet attrs) {
         final TextView view = new TextView(getContext(), attrs);
         textView.init(this, attrs, view.getPaint());

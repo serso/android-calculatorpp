@@ -26,11 +26,6 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
         init(attrs);
     }
 
-    public DirectionDragButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
-    }
-
     private void init(@Nullable AttributeSet attrs) {
         textView.init(this, attrs);
     }
