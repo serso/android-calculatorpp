@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
+
 import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -29,10 +31,15 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.provider.Settings;
-import android.support.annotation.*;
-import android.support.v7.view.ContextThemeWrapper;
+import android.support.annotation.ColorRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.text.TextUtils;
 import android.util.SparseArray;
+import android.view.ContextThemeWrapper;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.about.AboutActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
@@ -43,15 +50,17 @@ import org.solovyev.android.calculator.preferences.PreferenceEntry;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.*;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.NumberToStringPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import static org.solovyev.android.prefs.IntegerPreference.DEF_VALUE;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public final class Preferences {
 
