@@ -24,19 +24,19 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import jscl.JsclArithmeticException;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.Generic;
-import jscl.math.function.Constants;
-import jscl.math.function.IConstant;
-import jscl.text.ParseInterruptedException;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.calculations.*;
+import org.solovyev.android.calculator.calculations.CalculationCancelledEvent;
+import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
+import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
+import org.solovyev.android.calculator.calculations.ConversionFailedEvent;
+import org.solovyev.android.calculator.calculations.ConversionFinishedEvent;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.variables.CppVariable;
@@ -45,18 +45,26 @@ import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.measure.converter.ConversionException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.measure.converter.ConversionException;
+
+import jscl.JsclArithmeticException;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.Generic;
+import jscl.math.function.Constants;
+import jscl.math.function.IConstant;
+import jscl.text.ParseInterruptedException;
 
 @Singleton
 public class Calculator implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -70,7 +78,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     @Nonnull
     final Bus bus;
     @Nonnull
-    private final Executor background;
+    private final TaskExecutor executor = new TaskExecutor();
 
     private volatile boolean calculateOnFly = true;
 
@@ -82,14 +90,17 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
     ToJsclTextProcessor preprocessor;
 
     @Inject
-    public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Named(AppModule.THREAD_BACKGROUND) @Nonnull Executor background) {
+    public Calculator(@Nonnull SharedPreferences preferences, @Nonnull Bus bus) {
         this.preferences = preferences;
         this.bus = bus;
-        this.background = background;
         bus.register(this);
         preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
+    @VisibleForTesting
+    void setSynchronous() {
+        executor.setSynchronous();
+    }
 
     @Nonnull
     private static String convert(@Nonnull Generic generic, @Nonnull NumeralBase to) throws ConversionException {
@@ -112,12 +123,12 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
 
     public long evaluate(@Nonnull final JsclOperation operation, @Nonnull final String expression,
             final long sequence) {
-        background.execute(new Runnable() {
+        executor.execute(new Runnable() {
             @Override
             public void run() {
                 evaluateAsync(sequence, operation, expression);
             }
-        });
+        }, true);
 
         return sequence;
     }
@@ -235,7 +246,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
             return;
         }
 
-        background.execute(new Runnable() {
+        executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -245,7 +256,7 @@ public class Calculator implements SharedPreferences.OnSharedPreferenceChangeLis
                     bus.post(new ConversionFailedEvent(state));
                 }
             }
-        });
+        }, false);
     }
 
     public boolean canConvert(@Nonnull Generic generic, @NonNull NumeralBase from, @Nonnull NumeralBase to) {

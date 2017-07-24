@@ -1,18 +1,22 @@
 package org.solovyev.android.calculator;
 
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.solovyev.android.calculator.jscl.JsclOperation.numeric;
+
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+
 import com.squareup.otto.Bus;
+
 import org.hamcrest.Description;
 import org.junit.Before;
 import org.mockito.ArgumentMatcher;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Mockito.*;
-import static org.solovyev.android.calculator.jscl.JsclOperation.numeric;
 
 public abstract class BaseCalculatorTest {
     protected Calculator calculator;
@@ -22,7 +26,8 @@ public abstract class BaseCalculatorTest {
     @Before
     public void setUp() throws Exception {
         bus = mock(Bus.class);
-        calculator = new Calculator(mock(SharedPreferences.class), bus, Tests.sameThreadExecutor());
+        calculator = new Calculator(mock(SharedPreferences.class), bus);
+        calculator.setSynchronous();
         engine = Tests.makeEngine();
         engine.variablesRegistry.bus = bus;
         calculator.engine = engine;
