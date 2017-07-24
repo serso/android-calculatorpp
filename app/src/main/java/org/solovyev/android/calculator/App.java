@@ -36,6 +36,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -124,7 +125,7 @@ public final class App {
     }
 
     @NonNull
-    public static SpannableString colorString(@Nonnull String s, int color) {
+    public static SpannableString colorString(@Nonnull String s, @ColorInt int color) {
         final SpannableString spannable = new SpannableString(s);
         spannable.setSpan(new ForegroundColorSpan(color), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
