@@ -22,35 +22,48 @@
 
 package org.solovyev.android.calculator.history;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.format.DateUtils;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.BaseFragment;
+import org.solovyev.android.calculator.CalculatorActivity;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.views.DividerItemDecoration;
 import org.solovyev.common.text.Strings;
+
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.List;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public abstract class BaseHistoryFragment extends BaseFragment {
     private final boolean recentHistory;
@@ -104,7 +117,7 @@ public abstract class BaseHistoryFragment extends BaseFragment {
         bus.register(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, null));
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         return view;
     }
 

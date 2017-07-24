@@ -1,5 +1,8 @@
 package org.solovyev.android.calculator.plot;
 
+import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
+import static android.view.Menu.NONE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,25 +12,33 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.plotter.BasePlotterListener;
 import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.PlotIconView;
 import org.solovyev.android.plotter.Plotter;
-import org.solovyev.android.views.DividerItemDecoration;
+
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.util.List;
 
-import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
-import static android.view.Menu.NONE;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class PlotFunctionsFragment extends BaseDialogFragment {
 
@@ -65,7 +76,7 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
         @SuppressLint("InflateParams") final RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_plot_functions, null);
 
         view.setLayoutManager(new LinearLayoutManager(context, VERTICAL, false));
-        view.addItemDecoration(new DividerItemDecoration(context, null));
+        view.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         adapter = new Adapter(plotter.getPlotData().functions);
         view.setAdapter(adapter);
         return view;

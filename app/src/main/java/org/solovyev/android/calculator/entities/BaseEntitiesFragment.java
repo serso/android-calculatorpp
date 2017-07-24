@@ -27,27 +27,38 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.views.DividerItemDecoration;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.BaseFragment;
+import org.solovyev.android.calculator.CalculatorActivity;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.R;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFragment {
@@ -90,7 +101,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         adapter = new EntitiesAdapter(context, TextUtils.isEmpty(category) ? getEntities() : getEntities(category));
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, null));
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         return view;
     }
 
