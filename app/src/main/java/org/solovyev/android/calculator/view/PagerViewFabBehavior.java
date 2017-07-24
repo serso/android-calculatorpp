@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.view;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
@@ -10,6 +11,18 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class PagerViewFabBehavior extends FloatingActionButton.Behavior {
+
+    @NonNull
+    private final FloatingActionButton.OnVisibilityChangedListener
+            visibilityListener = new FloatingActionButton.OnVisibilityChangedListener() {
+                @Override
+                public void onHidden(FloatingActionButton fab) {
+                    // by default, FloatingActionButton#hide causes FAB to be GONE which blocks any
+                    // consequent scroll updates in CoordinatorLayout#onNestedScroll. Let's make the
+                    // FAB invisible instead
+                    fab.setVisibility(View.INVISIBLE);
+                }
+            };
 
     public PagerViewFabBehavior() {
         super();
@@ -49,13 +62,13 @@ public class PagerViewFabBehavior extends FloatingActionButton.Behavior {
 
     private boolean onScroll(FloatingActionButton child, float scrollX, float scrollY) {
         if (scrollY > 0 && child.getVisibility() == View.VISIBLE) {
-            child.hide();
+            child.hide(visibilityListener);
             return true;
         } else if (scrollY < 0 && child.getVisibility() != View.VISIBLE) {
-            child.show();
+            child.show(visibilityListener);
             return true;
         } else if (scrollX != 0 && child.getVisibility() != View.VISIBLE) {
-            child.show();
+            child.show(visibilityListener);
             return true;
         }
         return false;
