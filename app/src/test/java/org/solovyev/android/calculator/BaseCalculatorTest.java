@@ -17,6 +17,9 @@ import org.mockito.ArgumentMatcher;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.common.msg.Message;
+
+import java.util.Collections;
 
 public abstract class BaseCalculatorTest {
     protected Calculator calculator;
@@ -91,7 +94,8 @@ public abstract class BaseCalculatorTest {
 
             @Override
             public void describeTo(Description description) {
-                description.appendText(expected);
+                description.appendText(new CalculationFinishedEvent(operation, expression, 0, null, expected,
+                        Collections.<Message>emptyList()).toString());
             }
         };
     }

@@ -1,10 +1,19 @@
 package org.solovyev.android.calculator.wizard;
 
-import android.os.Build;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose_mode;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.last;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.welcome;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.BuildConfig;
@@ -14,11 +23,8 @@ import org.solovyev.android.wizard.Wizards;
 
 import javax.annotation.Nonnull;
 
-import static org.junit.Assert.*;
-import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.*;
-
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(value = RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, manifest = Config.NONE)
+@RunWith(value = RobolectricTestRunner.class)
 public class CalculatorWizardTest {
 
     @Nonnull

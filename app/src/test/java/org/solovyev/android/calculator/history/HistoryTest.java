@@ -22,36 +22,6 @@
 
 package org.solovyev.android.calculator.history;
 
-import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
-
-import com.squareup.otto.Bus;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
-import org.solovyev.android.CalculatorTestRunner;
-import org.solovyev.android.calculator.BuildConfig;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.ErrorReporter;
-import org.solovyev.android.calculator.json.Json;
-import org.solovyev.android.io.FileSystem;
-
-import java.io.File;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -67,8 +37,39 @@ import static org.mockito.Mockito.when;
 import static org.solovyev.android.calculator.Tests.sameThreadExecutor;
 import static org.solovyev.android.calculator.jscl.JsclOperation.numeric;
 
-@Config(constants = BuildConfig.class, sdk = CalculatorTestRunner.SUPPORTED_SDK)
-@RunWith(RobolectricGradleTestRunner.class)
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
+
+import com.squareup.otto.Bus;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+import org.solovyev.android.calculator.BuildConfig;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.ErrorReporter;
+import org.solovyev.android.calculator.json.Json;
+import org.solovyev.android.io.FileSystem;
+
+import java.io.File;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import dagger.Lazy;
+
+@Config(constants = BuildConfig.class, manifest = Config.NONE)
+@RunWith(value = RobolectricTestRunner.class)
 public class HistoryTest {
 
     private History history;
@@ -77,6 +78,12 @@ public class HistoryTest {
     public void setUp() throws Exception {
         history = new History();
         history.backgroundThread = sameThreadExecutor();
+        history.filesDir = new Lazy<File>() {
+            @Override
+            public File get() {
+                return new File(".");
+            }
+        };
         history.application = RuntimeEnvironment.application;
         history.bus = mock(Bus.class);
         history.errorReporter = mock(ErrorReporter.class);

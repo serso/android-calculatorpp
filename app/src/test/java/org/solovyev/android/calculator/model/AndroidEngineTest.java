@@ -22,6 +22,20 @@
 
 package org.solovyev.android.calculator.model;
 
+import static org.junit.Assert.fail;
+
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+import org.solovyev.android.calculator.BaseCalculatorTest;
+import org.solovyev.android.calculator.BuildConfig;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.variables.CppVariable;
+
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -29,15 +43,9 @@ import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.function.CustomFunction;
 import jscl.text.ParseException;
-import junit.framework.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.solovyev.android.calculator.BaseCalculatorTest;
-import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.variables.CppVariable;
 
-import static org.junit.Assert.fail;
-
+@Config(constants = BuildConfig.class, manifest = Config.NONE)
+@RunWith(value = RobolectricTestRunner.class)
 public class AndroidEngineTest extends BaseCalculatorTest {
 
     @Before
@@ -154,7 +162,7 @@ public class AndroidEngineTest extends BaseCalculatorTest {
         assertEval("e", "e*0x:ABCDEF/0x:ABCDEF");
         assertEval("30 606 154.462", "0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF");
         assertEval("30 606 154.462", "c+0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF-c+0x:C-0x:C");
-        assertEval("1 446 257 064 651.832", "28*28 * sin(28) - 0b:1101 + √(28) + exp ( 28) ");
+        assertEval("1 446 257 064 651.832", "28*28 * sin(28) - 0b:1101 + √(28) + exp (28)");
         assertEval("13", "0b:1101");
 
         assertError("0b:π");
@@ -163,7 +171,7 @@ public class AndroidEngineTest extends BaseCalculatorTest {
         try {
             me.setNumeralBase(NumeralBase.bin);
             assertEval("101", "10+11");
-            assertEval("0.101", "10/11");
+            assertEval("0.1011", "10/11");
 
             me.setNumeralBase(NumeralBase.hex);
             assertEval("63 7B", "56CE+CAD");
