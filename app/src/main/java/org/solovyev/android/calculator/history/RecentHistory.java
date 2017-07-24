@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RecentHistory {
 
-    private static final int MAX_HISTORY = 40;
+    private static final int MAX_HISTORY = 100;
 
     @NonNull
     private final List<HistoryState> list = new LinkedList<>();
