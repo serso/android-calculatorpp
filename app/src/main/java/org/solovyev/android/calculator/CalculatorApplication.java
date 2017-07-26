@@ -23,6 +23,7 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -51,6 +52,27 @@ import dagger.Lazy;
 import jscl.MathEngine;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    // delayed GA reporting in order to avoid initialization of GA on the main
+    // application thread and to postpone it as much as possible
+    private class GaInitializer extends AsyncTask<Void, Void, Ga> {
+        @NonNull
+        private final SharedPreferences prefs;
+
+        GaInitializer(@NonNull SharedPreferences prefs) {
+            this.prefs = prefs;
+        }
+
+        @Override
+        protected Ga doInBackground(Void... params) {
+            return ga.get();
+        }
+
+        @Override
+        protected void onPostExecute(@NonNull Ga ga) {
+            ga.reportInitially(prefs);
+        }
+    }
 
     @Inject
     @Named(AppModule.THREAD_INIT)
@@ -149,11 +171,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
             @Override
             public void run() {
                 warmUpEngine();
-                // delayed GA reporting in order to avoid initialization of GA on the main
-                // application thread and to postpone it as much as possible
-                ga.get().reportInitially(prefs);
             }
         });
+        new GaInitializer(prefs).executeOnExecutor(initThread);
     }
 
     private void warmUpEngine() {
