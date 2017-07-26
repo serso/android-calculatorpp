@@ -31,6 +31,7 @@ import android.text.TextUtils;
 import com.squareup.otto.Bus;
 
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.Preferences.Gui;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.operators.OperatorsRegistry;
@@ -211,7 +212,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             if (preferences.contains("org.solovyev.android.calculator.CalculatorModel_round_result")) {
                 final boolean round = preferences.getBoolean("org.solovyev.android.calculator.CalculatorModel_round_result", true);
                 if (!round) {
-                    Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
+                    Preferences.Output.precision.putPreference(editor, NumberFormatter.ENG_PRECISION);
                 }
             }
             // #initPreferences rely on all changes to be committed
@@ -226,7 +227,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             if (preferences.contains("engine.output.round")) {
                 final boolean round = preferences.getBoolean("engine.output.round", true);
                 if (!round) {
-                    Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
+                    Preferences.Output.precision.putPreference(editor, NumberFormatter.ENG_PRECISION);
                 }
             }
             // #initPreferences rely on all changes to be committed
@@ -235,6 +236,16 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
             // 1. It was forgotten for 0 version
             // 2. There is a bunch of new preferences
             initPreferences(editor);
+        } else if (oldVersion == 2) {
+            final Integer precision = Preferences.Output.precision.getPreference(preferences);
+            final Gui.Mode mode = Gui.mode.getPreference(preferences);
+            if (precision == NumberFormatter.MAX_PRECISION && mode == Gui.Mode.engineer) {
+                // this might reset a user set value but:
+                // 1. It's done only once
+                // 2. Most of the people will be happy with this change (worst case scenario -
+                // precision is set back to MAX_PRECISION again)
+                Preferences.Output.precision.putPreference(editor, NumberFormatter.ENG_PRECISION);
+            }
         }
         Preferences.version.putDefault(editor);
         editor.apply();
@@ -322,7 +333,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         public static final StringPreference<String> multiplicationSign = StringPreference.of("engine.multiplicationSign", "×");
         public static final StringPreference<NumeralBase> numeralBase = StringPreference.ofTypedValue("engine.numeralBase", "dec", EnumMapper.of(NumeralBase.class));
         public static final StringPreference<AngleUnit> angleUnit = StringPreference.ofTypedValue("engine.angleUnit", "deg", EnumMapper.of(AngleUnit.class));
-        public static final Preference<Integer> version = IntegerPreference.of("engine.version", 2);
+        public static final Preference<Integer> version = IntegerPreference.of("engine.version", 3);
         private static final List<String> preferenceKeys = new ArrayList<>();
 
         static {

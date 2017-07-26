@@ -1,17 +1,18 @@
 package org.solovyev.common;
 
+import static java.lang.Math.pow;
+
+import static midpcalc.Real.NumberFormat.FSE_ENG;
+import static midpcalc.Real.NumberFormat.FSE_FIX;
+import static midpcalc.Real.NumberFormat.FSE_NONE;
+import static midpcalc.Real.NumberFormat.FSE_SCI;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import javax.annotation.Nonnull;
 
 import midpcalc.Real;
-
-import static java.lang.Math.pow;
-import static midpcalc.Real.NumberFormat.FSE_ENG;
-import static midpcalc.Real.NumberFormat.FSE_FIX;
-import static midpcalc.Real.NumberFormat.FSE_NONE;
-import static midpcalc.Real.NumberFormat.FSE_SCI;
 
 public class NumberFormatter {
 
@@ -20,6 +21,7 @@ public class NumberFormatter {
     public static final int DEFAULT_MAGNITUDE = 5;
     public static final int MIN_PRECISION = 1;
     public static final int MAX_PRECISION = 15;
+    public static final int ENG_PRECISION = 10;
 
     private final Real.NumberFormat numberFormat = new Real.NumberFormat();
     private final Real real = new Real();

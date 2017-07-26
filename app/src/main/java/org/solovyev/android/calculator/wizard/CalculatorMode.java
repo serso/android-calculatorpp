@@ -56,7 +56,7 @@ enum CalculatorMode {
             Preferences.Gui.mode.putPreference(editor, Preferences.Gui.Mode.engineer);
             Engine.Preferences.angleUnit.putPreference(editor, AngleUnit.rad);
             Engine.Preferences.Output.notation.putPreference(editor, Engine.Notation.eng);
-            Engine.Preferences.Output.precision.putPreference(editor, NumberFormatter.MAX_PRECISION);
+            Engine.Preferences.Output.precision.putPreference(editor, NumberFormatter.ENG_PRECISION);
 
             editor.apply();
         }
