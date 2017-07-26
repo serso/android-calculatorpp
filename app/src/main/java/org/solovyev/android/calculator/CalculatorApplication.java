@@ -159,7 +159,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
     }
 
     private void onPostCreate(@Nonnull final SharedPreferences prefs, @Nonnull Languages languages) {
-        App.init(this, prefs);
         languages.init();
 
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -198,6 +197,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
                     .setFormUriBasicAuthLogin("timbeenterumisideffecird")
                     .setFormUriBasicAuthPassword("ECL65PO2TH5quIFNAK4hQ5Ng"));
         }
+        // initializing App before #onCreate as FloatingCalculatorService might be created in
+        // #onCreate
+        App.init(this, prefs);
 
         // then we should set default preferences
         Preferences.init(this, prefs);
