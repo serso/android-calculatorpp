@@ -170,7 +170,9 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
     public List<String> getNames() {
         synchronized (this) {
             if (!entityNames.isEmpty()) {
-                return entityNames;
+                // if the registry is not initialized yet we expect entityNames to be updated on a
+                // background thread => return its copy
+                return !initialized ? new ArrayList<>(entityNames) : entityNames;
             }
             for (T entity : entities) {
                 final String name = entity.getName();
@@ -178,7 +180,9 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
                     entityNames.add(name);
                 }
             }
-            return entityNames;
+            // if the registry is not initialized yet we expect entityNames to be updated on a
+            // background thread => return its copy
+            return !initialized ? new ArrayList<>(entityNames) : entityNames;
         }
     }
 
