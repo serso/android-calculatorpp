@@ -22,11 +22,15 @@
 
 package org.solovyev.android.calculator;
 
+import static java.lang.Math.min;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.history.RecentHistory;
@@ -39,8 +43,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import static java.lang.Math.min;
 
 @Singleton
 public class Editor {
@@ -93,13 +95,11 @@ public class Editor {
         return state;
     }
 
-    @Nonnull
-    public EditorState onTextChanged(@Nonnull EditorState newState) {
-        return onTextChanged(newState, false);
+    private void onTextChanged(@Nonnull EditorState newState) {
+        onTextChanged(newState, false);
     }
 
-    @Nonnull
-    public EditorState onTextChanged(@Nonnull EditorState newState, boolean force) {
+    private void onTextChanged(@Nonnull EditorState newState, boolean force) {
         Check.isMainThread();
         if (textProcessor != null) {
             final TextProcessorEditorResult result = textProcessor.process(newState.getTextString());
@@ -111,7 +111,6 @@ public class Editor {
             view.setState(newState);
         }
         bus.post(new ChangedEvent(oldState, newState, force));
-        return state;
     }
 
     @Nonnull
@@ -125,10 +124,9 @@ public class Editor {
         return state;
     }
 
-    @Nonnull
-    public EditorState setState(@Nonnull EditorState state) {
+    public void setState(@Nonnull EditorState state) {
         Check.isMainThread();
-        return onTextChanged(state);
+        onTextChanged(state);
     }
 
     @Nonnull
@@ -170,13 +168,12 @@ public class Editor {
         return newSelectionViewState(state.selection + 1);
     }
 
-    @Nonnull
-    public EditorState erase() {
+    public boolean erase() {
         Check.isMainThread();
         final int selection = state.selection;
         final String text = state.getTextString();
         if (selection <= 0 || text.length() <= 0 || selection > text.length()) {
-            return state;
+            return false;
         }
         int removeStart = selection - 1;
         if (MathType.getType(text, selection - 1, false, engine).type == MathType.grouping_separator) {
@@ -186,45 +183,41 @@ public class Editor {
         }
 
         final String newText = text.substring(0, removeStart) + text.substring(selection, text.length());
-        return onTextChanged(EditorState.create(newText, removeStart));
+        onTextChanged(EditorState.create(newText, removeStart));
+        return !newText.isEmpty();
     }
 
-    @Nonnull
-    public EditorState clear() {
+    public void clear() {
         Check.isMainThread();
-        return setText("");
+        setText("");
     }
 
-    @Nonnull
-    public EditorState setText(@Nonnull String text) {
+    public void setText(@Nonnull String text) {
         Check.isMainThread();
-        return onTextChanged(EditorState.create(text, text.length()));
+        onTextChanged(EditorState.create(text, text.length()));
     }
 
-    @Nonnull
-    public EditorState setText(@Nonnull String text, int selection) {
+    public void setText(@Nonnull String text, int selection) {
         Check.isMainThread();
-        return onTextChanged(EditorState.create(text, clamp(selection, text)));
+        onTextChanged(EditorState.create(text, clamp(selection, text)));
     }
 
-    @Nonnull
-    public EditorState insert(@Nonnull String text) {
+    public void insert(@Nonnull String text) {
         Check.isMainThread();
-        return insert(text, 0);
+        insert(text, 0);
     }
 
-    @Nonnull
-    public EditorState insert(@Nonnull String text, int selectionOffset) {
+    public void insert(@Nonnull String text, int selectionOffset) {
         Check.isMainThread();
         if (TextUtils.isEmpty(text) && selectionOffset == 0) {
-            return state;
+            return;
         }
         final String oldText = state.getTextString();
         final int selection = clamp(state.selection, oldText);
         final int newTextLength = text.length() + oldText.length();
         final int newSelection = clamp(text.length() + selection + selectionOffset, newTextLength);
         final String newText = oldText.substring(0, selection) + text + oldText.substring(selection);
-        return onTextChanged(EditorState.create(newText, newSelection));
+        onTextChanged(EditorState.create(newText, newSelection));
     }
 
     @Nonnull

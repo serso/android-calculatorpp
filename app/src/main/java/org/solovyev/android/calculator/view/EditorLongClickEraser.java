@@ -1,11 +1,11 @@
 package org.solovyev.android.calculator.view;
 
 import android.view.View;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.Editor;
 
 import javax.annotation.Nonnull;
-
-import static android.text.TextUtils.isEmpty;
 
 public class EditorLongClickEraser extends BaseLongClickEraser {
 
@@ -29,8 +29,7 @@ public class EditorLongClickEraser extends BaseLongClickEraser {
     }
 
     protected boolean erase() {
-        final EditorState state = editor.erase();
-        return !isEmpty(state.text);
+        return editor.erase();
     }
 
     @Override
