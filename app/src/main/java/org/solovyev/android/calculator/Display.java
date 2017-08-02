@@ -133,6 +133,7 @@ public class Display {
         if (this.view != view) {
             return;
         }
+        this.view.onDestroy();
         this.view = null;
     }
 

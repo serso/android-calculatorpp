@@ -22,23 +22,65 @@
 
 package org.solovyev.android.calculator;
 
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
+import static android.util.TypedValue.applyDimension;
+
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.views.AutoResizeTextView;
 
 import javax.annotation.Nonnull;
 
-import static android.util.TypedValue.COMPLEX_UNIT_SP;
-import static android.util.TypedValue.applyDimension;
-
 public class DisplayView extends AutoResizeTextView {
+
+    private class AsyncHighlighter extends AsyncTask<Void, Void, CharSequence> {
+
+        @NonNull
+        private final String text;
+        @Nullable
+        private final TextHighlighter highlighter;
+
+        AsyncHighlighter(@NonNull String text) {
+            this.text = text;
+            this.highlighter = getTextHighlighter();
+        }
+
+        boolean shouldAsync() {
+            return !TextUtils.isEmpty(text) && highlighter != null;
+        }
+
+        @NonNull
+        @Override
+        protected CharSequence doInBackground(Void... params) {
+            if (highlighter == null) {
+                return text;
+            }
+            try {
+                return highlighter.process(text).getCharSequence();
+            } catch (ParseException e) {
+                return text;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(@NonNull CharSequence text) {
+            if (highlighterTask != this) {
+                return;
+            }
+            setText(text);
+            setTextColor(getTextColor().normal);
+            highlighterTask = null;
+        }
+    }
 
     @Nullable
     private Engine engine;
@@ -46,6 +88,8 @@ public class DisplayView extends AutoResizeTextView {
     private TextHighlighter textHighlighter;
     @Nonnull
     private DisplayState state = DisplayState.empty();
+    @Nullable
+    private AsyncHighlighter highlighterTask;
 
     public DisplayView(Context context) {
         super(context);
@@ -95,32 +139,41 @@ public class DisplayView extends AutoResizeTextView {
 
         state = newState;
         if (state.valid) {
-            setText(highlightText(state));
-            setTextColor(getTextColor().normal);
+            asyncHighlightText(newState);
         } else {
+            cancelAsyncHighlightText(false);
             setText(App.unspan(getText()));
             setTextColor(getTextColor().error);
         }
+    }
+
+    private void cancelAsyncHighlightText(boolean applyLastState) {
+        if (highlighterTask == null) {
+            return;
+        }
+        highlighterTask.cancel(false);
+        if (applyLastState) {
+            highlighterTask.onPostExecute(highlighterTask.text);
+        }
+        highlighterTask = null;
+    }
+
+    private void asyncHighlightText(@NonNull DisplayState state) {
+        cancelAsyncHighlightText(false);
+        highlighterTask = new AsyncHighlighter(state.text);
+        if (highlighterTask.shouldAsync()) {
+            highlighterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            return;
+        }
+        highlighterTask.onPostExecute(state.text);
+        Check.isNull(highlighterTask);
     }
 
     public void setEngine(@Nullable Engine engine) {
         this.engine = engine;
     }
 
-    @NonNull
-    private CharSequence highlightText(@Nonnull DisplayState state) {
-        final String text = state.text;
-        if (TextUtils.isEmpty(text)) {
-            return "";
-        }
-        final TextHighlighter textHighlighter = getTextHighlighter();
-        if (textHighlighter == null) {
-            return text;
-        }
-        try {
-            return textHighlighter.process(text).getCharSequence();
-        } catch (ParseException e) {
-            return text;
-        }
+    public void onDestroy() {
+        cancelAsyncHighlightText(true);
     }
 }
