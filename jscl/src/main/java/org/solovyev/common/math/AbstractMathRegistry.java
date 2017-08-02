@@ -48,8 +48,8 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
     @Nonnull
     protected final SortedList<T> entities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
     @GuardedBy("this")
-    @Nonnull
-    protected final List<String> entityNames = new ArrayList<>();
+    @Nullable
+    private List<String> entityNames;
     @GuardedBy("this")
     @Nonnull
     protected final SortedList<T> systemEntities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
@@ -123,7 +123,7 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
 
             if (!contains(entity.getName(), this.entities)) {
                 addEntity(entity, this.entities);
-                this.entityNames.clear();
+                this.entityNames = null;
             }
         }
     }
@@ -140,7 +140,7 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
             final T existingEntity = entity.isIdDefined() ? getById(entity.getId()) : get(entity.getName());
             if (existingEntity == null) {
                 addEntity(entity, entities);
-                entityNames.clear();
+                this.entityNames = null;
                 if (entity.isSystem()) {
                     systemEntities.add(entity);
                 }
@@ -148,7 +148,7 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
             } else {
                 existingEntity.copy(entity);
                 this.entities.sort();
-                this.entityNames.clear();
+                this.entityNames = null;
                 this.systemEntities.sort();
                 return existingEntity;
             }
@@ -160,7 +160,7 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
             if (!entity.isSystem()) {
                 final T removed = removeByName(entities, entity.getName());
                 if (removed != null) {
-                    this.entityNames.clear();
+                    this.entityNames = null;
                 }
             }
         }
@@ -169,20 +169,17 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
     @Nonnull
     public List<String> getNames() {
         synchronized (this) {
-            if (!entityNames.isEmpty()) {
-                // if the registry is not initialized yet we expect entityNames to be updated on a
-                // background thread => return its copy
-                return !initialized ? new ArrayList<>(entityNames) : entityNames;
+            if (entityNames != null) {
+                return entityNames;
             }
+            entityNames = new ArrayList<>(entities.size());
             for (T entity : entities) {
                 final String name = entity.getName();
                 if (!Strings.isEmpty(name)) {
                     entityNames.add(name);
                 }
             }
-            // if the registry is not initialized yet we expect entityNames to be updated on a
-            // background thread => return its copy
-            return !initialized ? new ArrayList<>(entityNames) : entityNames;
+            return entityNames;
         }
     }
 
