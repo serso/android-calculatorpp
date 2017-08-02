@@ -26,6 +26,8 @@ import static java.lang.Math.min;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.squareup.otto.Bus;
@@ -47,8 +49,58 @@ import javax.inject.Singleton;
 @Singleton
 public class Editor {
 
+    private class AsyncHighlighter extends AsyncTask<Void, Void, EditorState> {
+        @NonNull
+        private final EditorState oldState;
+        @Nonnull
+        private final EditorState newState;
+        private final boolean force;
+        @Nullable
+        private final EditorTextProcessor processor;
+        @Nonnull
+        private final String text;
+
+        AsyncHighlighter(@NonNull EditorState oldState, @Nonnull EditorState newState, boolean force,
+                @Nullable EditorTextProcessor processor) {
+            this.oldState = oldState;
+            this.newState = newState;
+            this.text = newState.getTextString();
+            this.force = force;
+            this.processor = processor;
+        }
+
+        boolean shouldAsync() {
+            return !TextUtils.isEmpty(text) && processor != null;
+        }
+
+        @Nonnull
+        @Override
+        protected EditorState doInBackground(Void... params) {
+            if (processor == null) {
+                return newState;
+            }
+            final TextProcessorEditorResult res = processor.process(newState.getTextString());
+            return EditorState.create(res.getCharSequence(), newState.selection + res.getOffset());
+        }
+
+        @Override
+        protected void onPostExecute(@Nonnull EditorState state) {
+            if (highlighterTask != this) {
+                return;
+            }
+            Editor.this.state = state;
+            if (view != null) {
+                view.setState(state);
+            }
+            bus.post(new ChangedEvent(oldState, state, force));
+            highlighterTask = null;
+        }
+    }
+
     @Nullable
     private final EditorTextProcessor textProcessor;
+    @Nullable
+    private AsyncHighlighter highlighterTask;
     @Nullable
     private EditorView view;
     @Nonnull
@@ -101,16 +153,30 @@ public class Editor {
 
     private void onTextChanged(@Nonnull EditorState newState, boolean force) {
         Check.isMainThread();
-        if (textProcessor != null) {
-            final TextProcessorEditorResult result = textProcessor.process(newState.getTextString());
-            newState = EditorState.create(result.getCharSequence(), newState.selection + result.getOffset());
+        asyncHighlightText(newState, force);
+    }
+
+    private void cancelAsyncHighlightText() {
+        if (highlighterTask == null) {
+            return;
         }
+        highlighterTask.cancel(false);
+        highlighterTask = null;
+    }
+
+    private void asyncHighlightText(@NonNull EditorState newState, boolean force) {
+        // synchronous operation should continue working regardless of the highlighter
         final EditorState oldState = state;
         state = newState;
-        if (view != null) {
-            view.setState(newState);
+
+        cancelAsyncHighlightText();
+        highlighterTask = new AsyncHighlighter(oldState, newState, force, textProcessor);
+        if (highlighterTask.shouldAsync()) {
+            highlighterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            return;
         }
-        bus.post(new ChangedEvent(oldState, newState, force));
+        highlighterTask.onPostExecute(newState);
+        Check.isNull(highlighterTask);
     }
 
     @Nonnull
