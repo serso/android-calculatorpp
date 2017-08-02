@@ -1,19 +1,20 @@
 package org.solovyev.android.calculator;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class AdView extends FrameLayout {
 
@@ -92,7 +93,7 @@ public class AdView extends FrameLayout {
     private com.google.android.gms.ads.AdView addAdmobView() {
         final com.google.android.gms.ads.AdView v = new com.google.android.gms.ads.AdView(getContext());
         v.setVisibility(GONE);
-        v.setAdSize(AdSize.BANNER);
+        v.setAdSize(AdSize.SMART_BANNER);
         v.setAdUnitId(getResources().getString(R.string.admob));
         final LayoutParams lp = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         lp.gravity = Gravity.CENTER;
