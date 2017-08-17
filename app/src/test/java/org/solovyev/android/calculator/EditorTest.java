@@ -22,9 +22,14 @@
 
 package org.solovyev.android.calculator;
 
+import static org.mockito.Mockito.mock;
+
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.annotation.NonNull;
+
 import com.squareup.otto.Bus;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,8 +37,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-
-import static org.mockito.Mockito.mock;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(value = RobolectricGradleTestRunner.class)
@@ -54,59 +57,65 @@ public class EditorTest {
         Assert.assertEquals("", viewState.getTextString());
         Assert.assertEquals(0, viewState.selection);
 
-        viewState = editor.insert("");
+        viewState = insertAndGet("");
 
         Assert.assertEquals("", viewState.getTextString());
         Assert.assertEquals(0, viewState.selection);
 
-        viewState = editor.insert("test");
+        viewState = insertAndGet("test");
 
         Assert.assertEquals("test", viewState.getTextString());
         Assert.assertEquals(4, viewState.selection);
 
-        viewState = editor.insert("test");
+        viewState = insertAndGet("test");
         Assert.assertEquals("testtest", viewState.getTextString());
         Assert.assertEquals(8, viewState.selection);
 
-        viewState = editor.insert("");
+        viewState = insertAndGet("");
         Assert.assertEquals("testtest", viewState.getTextString());
         Assert.assertEquals(8, viewState.selection);
 
-        viewState = editor.insert("1234567890");
+        viewState = insertAndGet("1234567890");
         Assert.assertEquals("testtest1234567890", viewState.getTextString());
         Assert.assertEquals(18, viewState.selection);
 
         editor.moveCursorLeft();
-        viewState = editor.insert("9");
+        viewState = insertAndGet("9");
         Assert.assertEquals("testtest12345678990", viewState.getTextString());
         Assert.assertEquals(18, viewState.selection);
 
         editor.setCursorOnStart();
-        viewState = editor.insert("9");
+        viewState = insertAndGet("9");
         Assert.assertEquals("9testtest12345678990", viewState.getTextString());
         Assert.assertEquals(1, viewState.selection);
 
         editor.erase();
-        viewState = editor.insert("9");
+        viewState = insertAndGet("9");
         Assert.assertEquals("9testtest12345678990", viewState.getTextString());
         Assert.assertEquals(1, viewState.selection);
 
-        viewState = editor.insert("öäü");
+        viewState = insertAndGet("öäü");
         Assert.assertEquals("9öäütesttest12345678990", viewState.getTextString());
 
         editor.setCursorOnEnd();
-        viewState = editor.insert("öäü");
+        viewState = insertAndGet("öäü");
         Assert.assertEquals("9öäütesttest12345678990öäü", viewState.getTextString());
+    }
+
+    @NonNull
+    private EditorState insertAndGet(@NonNull String text) {
+        editor.insert(text);
+        return editor.getState();
     }
 
     @Test
     public void testErase() throws Exception {
-        editor.setText("");
+        setTextAndGet("");
         editor.erase();
 
         Assert.assertEquals("", editor.getState().getTextString());
 
-        editor.setText("test");
+        setTextAndGet("test");
         editor.erase();
         Assert.assertEquals("tes", editor.getState().getTextString());
 
@@ -122,7 +131,7 @@ public class EditorTest {
         editor.erase();
         Assert.assertEquals("", editor.getState().getTextString());
 
-        editor.setText("1234");
+        setTextAndGet("1234");
         editor.moveCursorLeft();
         editor.erase();
         Assert.assertEquals("124", editor.getState().getTextString());
@@ -133,7 +142,7 @@ public class EditorTest {
         editor.erase();
         Assert.assertEquals("4", editor.getState().getTextString());
 
-        editor.setText("1");
+        setTextAndGet("1");
         editor.moveCursorLeft();
         editor.erase();
         Assert.assertEquals("1", editor.getState().getTextString());
@@ -141,7 +150,7 @@ public class EditorTest {
 
     @Test
     public void testMoveSelection() throws Exception {
-        editor.setText("");
+        setTextAndGet("");
 
         EditorState viewState = editor.moveSelection(0);
         Assert.assertEquals(0, viewState.selection);
@@ -158,7 +167,7 @@ public class EditorTest {
         viewState = editor.moveSelection(-100);
         Assert.assertEquals(0, viewState.selection);
 
-        editor.setText("0123456789");
+        setTextAndGet("0123456789");
 
         viewState = editor.moveSelection(0);
         Assert.assertEquals(10, viewState.selection);
@@ -190,45 +199,57 @@ public class EditorTest {
 
     @Test
     public void testSetText() throws Exception {
-        EditorState viewState = editor.setText("test");
+        EditorState viewState = setTextAndGet("test");
 
         Assert.assertEquals("test", viewState.getTextString());
         Assert.assertEquals(4, viewState.selection);
 
-        viewState = editor.setText("testtest");
+        viewState = setTextAndGet("testtest");
         Assert.assertEquals("testtest", viewState.getTextString());
         Assert.assertEquals(8, viewState.selection);
 
-        viewState = editor.setText("");
+        viewState = setTextAndGet("");
         Assert.assertEquals("", viewState.getTextString());
         Assert.assertEquals(0, viewState.selection);
 
-        viewState = editor.setText("testtest", 0);
+        viewState = setTextAndGet("testtest", 0);
         Assert.assertEquals("testtest", viewState.getTextString());
         Assert.assertEquals(0, viewState.selection);
 
-        viewState = editor.setText("testtest", 2);
+        viewState = setTextAndGet("testtest", 2);
         Assert.assertEquals("testtest", viewState.getTextString());
         Assert.assertEquals(2, viewState.selection);
 
-        viewState = editor.setText("", 0);
+        viewState = setTextAndGet("", 0);
         Assert.assertEquals("", viewState.getTextString());
         Assert.assertEquals(0, viewState.selection);
 
-        viewState = editor.setText("", 3);
+        viewState = setTextAndGet("", 3);
         Assert.assertEquals("", viewState.getTextString());
         Assert.assertEquals(0, viewState.selection);
 
-        viewState = editor.setText("", -3);
+        viewState = setTextAndGet("", -3);
         Assert.assertEquals("", viewState.getTextString());
         Assert.assertEquals(0, viewState.selection);
 
-        viewState = editor.setText("test");
+        viewState = setTextAndGet("test");
         Assert.assertEquals("test", viewState.getTextString());
         Assert.assertEquals(4, viewState.selection);
 
-        viewState = editor.setText("", 2);
+        viewState = setTextAndGet("", 2);
         Assert.assertEquals("", viewState.getTextString());
         Assert.assertEquals(0, viewState.selection);
+    }
+
+    @NonNull
+    private EditorState setTextAndGet(@NonNull String text, int selection) {
+        editor.setText(text, selection);
+        return editor.getState();
+    }
+
+    @NonNull
+    private EditorState setTextAndGet(@NonNull String text) {
+        editor.setText(text);
+        return editor.getState();
     }
 }
