@@ -28,6 +28,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.squareup.otto.Bus;
@@ -97,8 +98,11 @@ public class Editor {
         }
     }
 
+    @VisibleForTesting
     @Nullable
-    private final EditorTextProcessor textProcessor;
+    EditorTextProcessor textProcessor;
+    @Nonnull
+    private final Engine engine;
     @Nullable
     private AsyncHighlighter highlighterTask;
     @Nullable
@@ -107,12 +111,11 @@ public class Editor {
     private EditorState state = EditorState.empty();
     @Inject
     Bus bus;
-    @Inject
-    Engine engine;
 
     @Inject
     public Editor(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull Engine engine) {
-        textProcessor = new EditorTextProcessor(application, preferences, engine);
+        this.engine = engine;
+        this.textProcessor = new EditorTextProcessor(application, preferences, engine);
     }
 
     public void init() {

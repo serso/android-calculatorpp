@@ -22,19 +22,26 @@
 
 package org.solovyev.android.calculator.model;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+import org.solovyev.android.calculator.BaseCalculatorTest;
+import org.solovyev.android.calculator.BuildConfig;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.variables.CppVariable;
+
 import jscl.AngleUnit;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
-import org.junit.Before;
-import org.junit.Test;
-import org.solovyev.android.calculator.BaseCalculatorTest;
-import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.variables.CppVariable;
 
 
+@Config(constants = BuildConfig.class)
+@RunWith(RobolectricTestRunner.class)
 public class EvaluateTest extends BaseCalculatorTest {
 
     @Before

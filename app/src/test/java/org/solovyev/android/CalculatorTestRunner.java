@@ -2,12 +2,12 @@ package org.solovyev.android;
 
 import android.os.Build;
 import org.junit.runners.model.InitializationError;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
 
-public class CalculatorTestRunner extends RobolectricGradleTestRunner {
+public class CalculatorTestRunner extends RobolectricTestRunner {
     public static final int SUPPORTED_SDK = Build.VERSION_CODES.LOLLIPOP;
 
     public CalculatorTestRunner(Class<?> testClass) throws InitializationError {

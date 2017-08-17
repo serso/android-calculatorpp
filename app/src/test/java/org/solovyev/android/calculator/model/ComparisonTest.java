@@ -24,8 +24,14 @@ package org.solovyev.android.calculator.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.BaseCalculatorTest;
+import org.solovyev.android.calculator.BuildConfig;
 
+@Config(constants = BuildConfig.class)
+@RunWith(RobolectricTestRunner.class)
 public class ComparisonTest extends BaseCalculatorTest {
 
     @Before

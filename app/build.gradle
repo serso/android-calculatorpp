@@ -100,7 +100,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'net.sf.opencsv:opencsv:2.0'
     testCompile 'org.mockito:mockito-core:1.9.0'
-    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile 'org.robolectric:robolectric:3.4.2'
     testCompile 'org.mockito:mockito-all:1.9.5'
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
     testCompile(name: 'org.apache.http.legacy', ext: 'jar')

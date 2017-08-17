@@ -22,14 +22,17 @@
 
 package org.solovyev.android.calculator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import android.graphics.Color;
 import android.os.Build;
-import jscl.MathEngine;
-import jscl.NumeralBase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
@@ -37,10 +40,11 @@ import org.solovyev.android.calculator.view.TextHighlighter;
 import java.util.Date;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import jscl.MathEngine;
+import jscl.NumeralBase;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(value = RobolectricGradleTestRunner.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class TextHighlighterTest {
 
     private Engine engine;

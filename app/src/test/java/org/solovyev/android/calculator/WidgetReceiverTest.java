@@ -1,22 +1,24 @@
 package org.solovyev.android.calculator;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.robolectric.RuntimeEnvironment.application;
+import static org.solovyev.android.calculator.WidgetReceiver.ACTION_BUTTON_ID_EXTRA;
+import static org.solovyev.android.calculator.WidgetReceiver.ACTION_BUTTON_PRESSED;
+import static org.solovyev.android.calculator.WidgetReceiver.newButtonClickedIntent;
+import static org.solovyev.android.calculator.buttons.CppButton.four;
+
 import android.content.Intent;
-import android.os.Build;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.robolectric.RuntimeEnvironment.application;
-import static org.solovyev.android.calculator.buttons.CppButton.four;
-import static org.solovyev.android.calculator.WidgetReceiver.*;
-
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
+@RunWith(RobolectricTestRunner.class)
 public class WidgetReceiverTest {
 
     private WidgetReceiver widgetReceiver;

@@ -22,12 +22,14 @@
 
 package org.solovyev.android.calculator;
 
+import static org.mockito.Mockito.mock;
+
 import android.content.SharedPreferences;
-import android.os.Build;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.solovyev.common.text.Strings;
@@ -38,10 +40,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.mockito.Mockito.mock;
-
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(value = RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class AndroidEditorViewTest {
 
     @Test

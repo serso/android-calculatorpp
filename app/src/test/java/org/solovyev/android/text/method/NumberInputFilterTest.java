@@ -1,20 +1,21 @@
 package org.solovyev.android.text.method;
 
+import static org.junit.Assert.assertEquals;
+
 import android.os.Build;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.BuildConfig;
 
-import static org.junit.Assert.assertEquals;
-
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class NumberInputFilterTest {
 
     private Editable editable;

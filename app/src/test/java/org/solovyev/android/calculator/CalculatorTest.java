@@ -22,14 +22,19 @@
 
 package org.solovyev.android.calculator;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
-
 import static org.mockito.Mockito.doAnswer;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
+
+@Config(constants = BuildConfig.class)
+@RunWith(RobolectricTestRunner.class)
 public class CalculatorTest extends BaseCalculatorTest {
 
     @Override

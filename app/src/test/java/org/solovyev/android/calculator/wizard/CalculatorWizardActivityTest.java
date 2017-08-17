@@ -22,34 +22,40 @@
 
 package org.solovyev.android.calculator.wizard;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose_mode;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.util.ActivityController;
 import org.solovyev.android.calculator.BuildConfig;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardUi;
 import org.solovyev.android.wizard.Wizards;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.*;
-import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose_mode;
+import javax.annotation.Nonnull;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(value = RobolectricGradleTestRunner.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class CalculatorWizardActivityTest {
 
     private ActivityController<WizardActivity> controller;
@@ -63,7 +69,6 @@ public class CalculatorWizardActivityTest {
         activity = controller.get();
         wizards = new CalculatorWizards(RuntimeEnvironment.application);
         activity.setWizards(wizards);
-        controller.attach();
         controller.create();
 
         uiField = WizardActivity.class.getDeclaredField("wizardUi");
@@ -156,7 +161,7 @@ public class CalculatorWizardActivityTest {
     @Test
     public void testShouldStartWizardActivityAfterStart() throws Exception {
         final ShadowActivity shadowActivity = Shadows.shadowOf(controller.get());
-        WizardUi.startWizard(activity.getWizards(), CalculatorWizards.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
+        WizardUi.startWizard(activity.getWizards(), CalculatorWizards.DEFAULT_WIZARD_FLOW, RuntimeEnvironment.application);
         assertNotNull(shadowActivity.getNextStartedActivity());
     }
 

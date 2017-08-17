@@ -25,7 +25,6 @@ package org.solovyev.android.calculator;
 import static org.mockito.Mockito.mock;
 
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.squareup.otto.Bus;
@@ -34,12 +33,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(value = RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class EditorTest {
 
     private Editor editor;
@@ -48,6 +47,9 @@ public class EditorTest {
     public void setUp() throws Exception {
         editor = new Editor(RuntimeEnvironment.application, mock(SharedPreferences.class), Tests.makeEngine());
         editor.bus = mock(Bus.class);
+        // real text processor causes Robolectric to crash: NullPointerException at
+        // org.robolectric.res.ThemeStyleSet$OverlayedStyle.equals
+        editor.textProcessor = null;
     }
 
     @Test
