@@ -1,6 +1,12 @@
 package org.solovyev.android.calculator;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 import org.solovyev.common.msg.MessageType;
 
 import java.util.Arrays;
@@ -10,9 +16,8 @@ import java.util.Locale;
 
 import javax.annotation.Nonnull;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+@Config(constants = BuildConfig.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class CalculatorMessagesTest {
 
     private static final Locale[] LOCALES = new Locale[]{

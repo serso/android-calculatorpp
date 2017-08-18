@@ -22,32 +22,27 @@
 
 package org.solovyev.android.calculator;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 import org.solovyev.android.calculator.variables.CppVariable;
 
-import static org.junit.Assert.assertEquals;
-
+@Config(constants = BuildConfig.class, manifest = Config.NONE)
+@RunWith(RobolectricTestRunner.class)
 public class FromJsclSimplifyTextProcessorTest {
 
     @Test
     public void testProcess() throws Exception {
         final Engine engine = Tests.makeEngine();
         FromJsclSimplifyTextProcessor tp = new FromJsclSimplifyTextProcessor(engine);
-        //Assert.assertEquals("(e)", tp.process("(2.718281828459045)"));
-        //Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
-        //Assert.assertEquals("((e)(e))", tp.process("((2.718281828459045)*(2.718281828459045))"));
         engine.getMathEngine().setGroupingSeparator(' ');
-        //Assert.assertEquals("123 456 789e", tp.process("123456789*2.718281828459045"));
-        //Assert.assertEquals("123 456 789e", tp.process("123 456 789 * 2.718281828459045"));
-        //Assert.assertEquals("t11e", tp.process("t11*2.718281828459045"));
-        //Assert.assertEquals("e", tp.process("2.718281828459045"));
-        //Assert.assertEquals("tee", tp.process("t2.718281828459045*2.718281828459045"));
 
         engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t2.718281828459045", 2).build().toJsclConstant());
         engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t").build().toJsclConstant());
-        //Assert.assertEquals("t2.718281828459045e", tp.process("t2.718281828459045*2.718281828459045"));
-        //Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
         assertEquals("t×", tp.process("t*"));
         assertEquals("×t", tp.process("*t"));
         assertEquals("t2", tp.process("t*2"));

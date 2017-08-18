@@ -22,14 +22,20 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+
+@Config(constants = BuildConfig.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class ToJsclTextProcessorTest {
 
     private ToJsclTextProcessor preprocessor;

@@ -22,17 +22,19 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.common.msg.MessageType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
+
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
 
 @Singleton
 public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {

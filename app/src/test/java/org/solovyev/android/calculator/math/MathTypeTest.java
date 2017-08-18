@@ -22,15 +22,21 @@
 
 package org.solovyev.android.calculator.math;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.solovyev.android.calculator.Engine;
-import org.solovyev.android.calculator.Tests;
-
 import static org.junit.Assert.assertEquals;
 import static org.solovyev.android.calculator.math.MathType.postfix_function;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+import org.solovyev.android.calculator.BuildConfig;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Tests;
+
+@Config(constants = BuildConfig.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class MathTypeTest {
 
     Engine engine;

@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.squareup.otto.Bus;
@@ -251,7 +252,8 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         editor.apply();
     }
 
-    private void initAsync() {
+    @VisibleForTesting
+    void initAsync() {
         init(variablesRegistry);
         init(functionsRegistry);
         init(operatorsRegistry);

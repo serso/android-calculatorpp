@@ -136,12 +136,12 @@ public class EvaluateTest extends BaseCalculatorTest {
         assertEval("4", "k11");
 
         engine.getVariablesRegistry().addOrUpdate(CppVariable.builder("t").build().toJsclConstant());
-        assertEval("11t", "t11");
-        assertEval("11et", "t11e");
+        assertEval("11t", "t11", JsclOperation.simplify);
+        assertEval("11et", "t11e", JsclOperation.simplify);
         assertEval("∞", "∞");
         assertEval("∞", "Infinity");
-        assertEval("11∞t", "t11∞");
-        assertEval("-t+t^3", "t(t-1)(t+1)");
+        assertEval("11∞t", "t11∞", JsclOperation.simplify);
+        assertEval("-t+t^3", "t(t-1)(t+1)", JsclOperation.simplify);
 
         assertEval("100", "0.1E3");
         assertEval("3.957", "ln(8)lg(8)+ln(8)");

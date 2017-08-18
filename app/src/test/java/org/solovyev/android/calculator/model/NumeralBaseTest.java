@@ -22,23 +22,32 @@
 
 package org.solovyev.android.calculator.model;
 
-import au.com.bytecode.opencsv.CSVReader;
 import com.google.common.base.Function;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.math.Expression;
-import jscl.util.ExpressionGeneratorWithInput;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.BaseCalculatorTest;
+import org.solovyev.android.calculator.BuildConfig;
 import org.solovyev.android.calculator.ParseException;
 
-import javax.annotation.Nonnull;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import au.com.bytecode.opencsv.CSVReader;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.math.Expression;
+import jscl.util.ExpressionGeneratorWithInput;
+
+@Config(constants = BuildConfig.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class NumeralBaseTest extends BaseCalculatorTest {
 
     @Before

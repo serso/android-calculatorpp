@@ -162,7 +162,7 @@ public class AndroidEngineTest extends BaseCalculatorTest {
         assertEval("e", "e*0x:ABCDEF/0x:ABCDEF");
         assertEval("30 606 154.462", "0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF");
         assertEval("30 606 154.462", "c+0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF-c+0x:C-0x:C");
-        assertEval("1 446 257 064 651.832", "28*28 * sin(28) - 0b:1101 + √(28) + exp (28)");
+        assertEval("1 446 257 064 651.832", "28*28 * sin(28) - 0b:1101 + √(28) + exp(28)");
         assertEval("13", "0b:1101");
 
         assertError("0b:π");
@@ -189,7 +189,7 @@ public class AndroidEngineTest extends BaseCalculatorTest {
         assertEval("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
 
         // logarithm
-        assertEval("ln(x)/ln(base)", ((CustomFunction) me.getFunctionsRegistry().get("log")).getContent());
+        assertEval("ln(x)/ln(base)", ((CustomFunction) me.getFunctionsRegistry().get("log")).getContent(), JsclOperation.simplify);
         assertEval("∞", "log(1, 10)");
         assertEval("3.322", "log(2, 10)");
         assertEval("1.431", "log(5, 10)");

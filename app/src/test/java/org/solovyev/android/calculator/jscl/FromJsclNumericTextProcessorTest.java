@@ -22,14 +22,21 @@
 
 package org.solovyev.android.calculator.jscl;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+import org.solovyev.android.calculator.BuildConfig;
+
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.math.Expression;
 import jscl.math.Generic;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
+@Config(constants = BuildConfig.class)
+@RunWith(value = RobolectricTestRunner.class)
 public class FromJsclNumericTextProcessorTest {
 
     @Test

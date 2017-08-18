@@ -22,11 +22,12 @@
 
 package org.solovyev.common.msg;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public final class Messages {
 
@@ -40,24 +41,22 @@ public final class Messages {
     }
 
     /**
-     * @param locale         locale for which default formatting will be applied
-     * @param messagePattern message pattern which will be used for {@link MessageFormat}
-     * @param parameters     message parameters which will be used for {@link MessageFormat}
-     * @return formatted message string according to default locale formatting, nested messages are processed properly
-     * (for each message from parameter method {@link Message#getLocalizedMessage(Locale)} is called)
+     * @param locale     locale for which default formatting will be applied
+     * @param pattern    message pattern which will be used for {@link MessageFormat}
+     * @param parameters message parameters which will be used for {@link MessageFormat}
+     * @return formatted message string according to default locale formatting, nested messages are
+     * processed properly
+     * (for each message from parameter method {@link Message#getLocalizedMessage(Locale)} is
+     * called)
      */
     @Nonnull
-    public static String prepareMessage(@Nonnull Locale locale, @Nonnull String messagePattern, @Nonnull List<?> parameters) {
+    public static String prepareMessage(@Nonnull Locale locale, @Nonnull String pattern, @Nonnull List<?> parameters) {
         String result;
 
         if (parameters.isEmpty()) {
-            result = messagePattern;
+            result = pattern;
         } else {
-            final MessageFormat format = new MessageFormat(messagePattern);
-
-            format.setLocale(locale);
-            format.applyPattern(messagePattern);
-
+            final MessageFormat format = new MessageFormat(pattern, locale);
             result = format.format(prepareParameters(parameters, locale));
         }
 
