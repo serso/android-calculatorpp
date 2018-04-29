@@ -9,8 +9,7 @@ import android.os.Handler;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.solovyev.android.calculator.widget.CalculatorWidget;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -25,8 +24,6 @@ public class Broadcaster implements SharedPreferences.OnSharedPreferenceChangeLi
     public static final String ACTION_THEME_CHANGED = "org.solovyev.android.calculator.THEME_CHANGED";
     @Nonnull
     private final Context context;
-    @Nonnull
-    private final Intents intents = new Intents();
 
     @Inject
     public Broadcaster(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Nonnull Handler handler) {
@@ -62,29 +59,15 @@ public class Broadcaster implements SharedPreferences.OnSharedPreferenceChangeLi
     }
 
     public void sendBroadcastIntent(@Nonnull String action) {
-        context.sendBroadcast(intents.get(action));
+        final Intent intent = new Intent(action);
+        intent.setClass(context, CalculatorWidget.class);
+        context.sendBroadcast(intent);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Preferences.Gui.theme.isSameKey(key) || Preferences.Widget.theme.isSameKey(key)) {
             sendBroadcastIntent(ACTION_THEME_CHANGED);
-        }
-    }
-
-    private static final class Intents {
-        @Nonnull
-        private Map<String, Intent> map = new HashMap<>();
-
-        @Nonnull
-        Intent get(@Nonnull String action) {
-            Intent intent = map.get(action);
-            if (intent != null) {
-                return intent;
-            }
-            intent = new Intent(action);
-            map.put(action, intent);
-            return intent;
         }
     }
 }

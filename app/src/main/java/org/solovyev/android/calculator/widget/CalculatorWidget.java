@@ -22,17 +22,6 @@
 
 package org.solovyev.android.calculator.widget;
 
-import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-
-import static org.solovyev.android.calculator.App.cast;
-import static org.solovyev.android.calculator.Broadcaster.ACTION_DISPLAY_STATE_CHANGED;
-import static org.solovyev.android.calculator.Broadcaster.ACTION_EDITOR_STATE_CHANGED;
-import static org.solovyev.android.calculator.Broadcaster.ACTION_INIT;
-import static org.solovyev.android.calculator.Broadcaster.ACTION_THEME_CHANGED;
-import static org.solovyev.android.calculator.WidgetReceiver.newButtonClickedIntent;
-
-import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -41,7 +30,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
@@ -52,7 +40,6 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 
-import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.DisplayState;
@@ -63,18 +50,22 @@ import org.solovyev.android.calculator.Preferences.SimpleTheme;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppButton;
 
-import java.util.EnumMap;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+
+import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
+import static org.solovyev.android.calculator.App.cast;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_DISPLAY_STATE_CHANGED;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_EDITOR_STATE_CHANGED;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_INIT;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_THEME_CHANGED;
+import static org.solovyev.android.calculator.WidgetReceiver.newButtonClickedIntent;
 
 public class CalculatorWidget extends AppWidgetProvider {
 
     private static final int WIDGET_CATEGORY_KEYGUARD = 2;
     private static final String OPTION_APPWIDGET_HOST_CATEGORY = "appWidgetCategory";
-    @Nonnull
-    private static final Intents intents = new Intents();
     @Nullable
     private static SpannedString cursorString;
     @Inject
@@ -146,9 +137,9 @@ public class CalculatorWidget extends AppWidgetProvider {
         for (int widgetId : widgetIds) {
             final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(manager, widgetId, resources, theme));
 
-            if (!partially || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            if (!partially) {
                 for (CppButton button : CppButton.values()) {
-                    final PendingIntent intent = intents.get(context, button);
+                    final PendingIntent intent = PendingIntent.getBroadcast(context, button.id, newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
                     if (intent != null) {
                         final int buttonId;
                         if (button == CppButton.settings_widget) {
@@ -167,7 +158,7 @@ public class CalculatorWidget extends AppWidgetProvider {
 
             views.setTextViewText(R.id.cpp_button_multiplication, engine.getMultiplicationSign());
 
-            if (partially && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (partially) {
                 manager.partiallyUpdateAppWidget(widgetId, views);
             } else {
                 manager.updateAppWidget(widgetId, views);
@@ -175,19 +166,11 @@ public class CalculatorWidget extends AppWidgetProvider {
         }
     }
 
-    private int getLayout(@Nonnull AppWidgetManager manager, int widgetId, @Nonnull Resources resources, @Nonnull SimpleTheme theme) {
-        if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
-            return getLayoutJellyBean(manager, widgetId, resources, theme);
-        }
-        return getDefaultLayout(theme);
-    }
-
     private int getDefaultLayout(@Nonnull SimpleTheme theme) {
         return theme.getWidgetLayout(App.getTheme());
     }
 
-    @TargetApi(JELLY_BEAN)
-    private int getLayoutJellyBean(@Nonnull AppWidgetManager manager, int widgetId, Resources resources, @Nonnull SimpleTheme theme) {
+    private int getLayout(@Nonnull AppWidgetManager manager, int widgetId, @Nonnull Resources resources, @Nonnull SimpleTheme theme) {
         final Bundle options = manager.getAppWidgetOptions(widgetId);
         if (options == null) {
             return getDefaultLayout(theme);
@@ -271,26 +254,5 @@ public class CalculatorWidget extends AppWidgetProvider {
             result.insert(selection, getCursorString(context));
         }
         views.setTextViewText(R.id.calculator_editor, result);
-    }
-
-    private static class Intents {
-        @Nonnull
-        private final EnumMap<CppButton, PendingIntent> map = new EnumMap<>(CppButton.class);
-
-        @Nullable
-        PendingIntent get(@Nonnull Context context, @Nonnull CppButton button) {
-            Check.isMainThread();
-
-            PendingIntent intent = map.get(button);
-            if (intent != null) {
-                return intent;
-            }
-            intent = PendingIntent.getBroadcast(context, button.id, newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
-            if (intent == null) {
-                return null;
-            }
-            map.put(button, intent);
-            return intent;
-        }
     }
 }
