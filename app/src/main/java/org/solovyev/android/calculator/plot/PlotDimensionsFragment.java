@@ -34,7 +34,7 @@ import java.util.Locale;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PlotDimensionsFragment extends BaseDialogFragment
@@ -77,23 +77,23 @@ public class PlotDimensionsFragment extends BaseDialogFragment
 
     @Inject
     Plotter plotter;
-    @Bind(R.id.plot_x_min)
+    @BindView(R.id.plot_x_min)
     EditText xMin;
-    @Bind(R.id.plot_x_min_label)
+    @BindView(R.id.plot_x_min_label)
     TextInputLayout xMinLabel;
-    @Bind(R.id.plot_x_max)
+    @BindView(R.id.plot_x_max)
     EditText xMax;
-    @Bind(R.id.plot_x_max_label)
+    @BindView(R.id.plot_x_max_label)
     TextInputLayout xMaxLabel;
-    @Bind(R.id.plot_y_min)
+    @BindView(R.id.plot_y_min)
     EditText yMin;
-    @Bind(R.id.plot_y_min_label)
+    @BindView(R.id.plot_y_min_label)
     TextInputLayout yMinLabel;
-    @Bind(R.id.plot_y_max)
+    @BindView(R.id.plot_y_max)
     EditText yMax;
-    @Bind(R.id.plot_y_max_label)
+    @BindView(R.id.plot_y_max_label)
     TextInputLayout yMaxLabel;
-    @Bind(R.id.y_bounds)
+    @BindView(R.id.y_bounds)
     View yBounds;
     @NonNull
     private RectF bounds = new RectF();

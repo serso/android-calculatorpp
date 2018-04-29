@@ -36,7 +36,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.Lazy;
 
@@ -58,13 +58,13 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
     Lazy<Ga> ga;
     @Inject
     Typeface typeface;
-    @Bind(R.id.main)
+    @BindView(R.id.main)
     ViewGroup mainView;
     @Nullable
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
     @Nullable
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton fab;
     @Nonnull
     private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;

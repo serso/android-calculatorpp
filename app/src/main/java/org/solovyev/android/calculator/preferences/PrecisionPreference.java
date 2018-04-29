@@ -7,7 +7,7 @@ import android.os.Build;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.R;
@@ -19,7 +19,7 @@ import static org.solovyev.common.NumberFormatter.MIN_PRECISION;
 @SuppressWarnings("unused")
 public class PrecisionPreference extends DialogPreference {
 
-    @Bind(R.id.precision_seekbar)
+    @BindView(R.id.precision_seekbar)
     DiscreteSeekBar seekBar;
 
     {

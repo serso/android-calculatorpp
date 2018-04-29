@@ -38,7 +38,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import butterknife.Bind;
+import butterknife.BindView;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.converter.ConverterFragment;
@@ -65,11 +65,11 @@ public class CalculatorActivity extends BaseActivity implements View.OnClickList
     @Inject
     StartupHelper startupHelper;
     @Nullable
-    @Bind(R.id.partial_keyboard)
+    @BindView(R.id.partial_keyboard)
     View partialKeyboard;
-    @Bind(R.id.editor)
+    @BindView(R.id.editor)
     FrameLayout editor;
-    @Bind(R.id.main_menu)
+    @BindView(R.id.main_menu)
     View mainMenuButton;
     private boolean useBackAsPrevious;
 

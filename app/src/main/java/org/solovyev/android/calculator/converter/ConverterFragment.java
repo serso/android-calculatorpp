@@ -48,7 +48,7 @@ import org.solovyev.android.calculator.view.EditTextCompat;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static org.solovyev.android.calculator.UiPreferences.Converter.lastDimension;
@@ -77,21 +77,21 @@ public class ConverterFragment extends BaseDialogFragment
     SharedPreferences uiPreferences;
     @Inject
     Editor editor;
-    @Bind(R.id.converter_dimensions_spinner)
+    @BindView(R.id.converter_dimensions_spinner)
     Spinner dimensionsSpinner;
-    @Bind(R.id.converter_spinner_from)
+    @BindView(R.id.converter_spinner_from)
     Spinner spinnerFrom;
-    @Bind(R.id.converter_label_from)
+    @BindView(R.id.converter_label_from)
     TextInputLayout labelFrom;
-    @Bind(R.id.converter_edittext_from)
+    @BindView(R.id.converter_edittext_from)
     EditTextCompat editTextFrom;
-    @Bind(R.id.converter_spinner_to)
+    @BindView(R.id.converter_spinner_to)
     Spinner spinnerTo;
-    @Bind(R.id.converter_label_to)
+    @BindView(R.id.converter_label_to)
     TextInputLayout labelTo;
-    @Bind(R.id.converter_edittext_to)
+    @BindView(R.id.converter_edittext_to)
     EditText editTextTo;
-    @Bind(R.id.converter_swap_button)
+    @BindView(R.id.converter_swap_button)
     ImageButton swapButton;
     private ArrayAdapter<Named<ConvertibleDimension>> dimensionsAdapter;
     private ArrayAdapter<Named<Convertible>> adapterFrom;

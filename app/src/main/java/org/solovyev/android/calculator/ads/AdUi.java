@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AdUi {
@@ -26,7 +26,7 @@ public class AdUi {
     @NonNull
     private final Handler handler;
     @Nullable
-    @Bind(R.id.cpp_ad)
+    @BindView(R.id.cpp_ad)
     AdView adView;
     @Nullable
     private Boolean adFree = null;

@@ -29,7 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseFragment;
@@ -40,13 +40,13 @@ import static org.solovyev.common.text.Strings.isEmpty;
 
 public class AboutFragment extends BaseFragment {
 
-    @Bind(R.id.about_image)
+    @BindView(R.id.about_image)
     ImageView imageView;
-    @Bind(R.id.about_text)
+    @BindView(R.id.about_text)
     TextView textView;
-    @Bind(R.id.about_translators_label)
+    @BindView(R.id.about_translators_label)
     TextView translatorsLabel;
-    @Bind(R.id.about_translators)
+    @BindView(R.id.about_translators)
     TextView translatorsView;
 
     public AboutFragment() {

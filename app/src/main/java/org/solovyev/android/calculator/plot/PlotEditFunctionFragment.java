@@ -30,7 +30,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import jscl.math.function.CustomFunction;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -39,17 +39,17 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
     implements SeekBar.OnSeekBarChangeListener {
     @Inject
     Plotter plotter;
-    @Bind(R.id.fn_meshspec_views)
+    @BindView(R.id.fn_meshspec_views)
     View meshSpecViews;
-    @Bind(R.id.fn_color_label)
+    @BindView(R.id.fn_color_label)
     TextView colorLabel;
-    @Bind(R.id.fn_color_picker)
+    @BindView(R.id.fn_color_picker)
     LineColorPicker colorPicker;
-    @Bind(R.id.fn_linewidth_label)
+    @BindView(R.id.fn_linewidth_label)
     TextView lineWidthLabel;
-    @Bind(R.id.fn_linewidth_seekbar)
+    @BindView(R.id.fn_linewidth_seekbar)
     SeekBar lineWidthSeekBar;
-    @Bind(R.id.fn_iconview)
+    @BindView(R.id.fn_iconview)
     PlotIconView iconView;
     private PlotFunction plotFunction;
 

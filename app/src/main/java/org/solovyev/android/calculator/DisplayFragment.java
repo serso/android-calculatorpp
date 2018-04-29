@@ -30,7 +30,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.view.*;
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.squareup.otto.Bus;
 import jscl.NumeralBase;
@@ -74,7 +75,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    @Bind(R.id.calculator_display)
+    @BindView(R.id.calculator_display)
     DisplayView displayView;
     @Inject
     SharedPreferences preferences;

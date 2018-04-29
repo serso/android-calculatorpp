@@ -72,7 +72,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.Lazy;
 import jscl.math.function.IConstant;
@@ -85,9 +85,9 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     private final static List<Character> ACCEPTABLE_CHARACTERS = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + GreekFloatingKeyboard.ALPHABET).toCharArray()));
     @NonNull
     private final KeyboardUser keyboardUser = new KeyboardUser();
-    @Bind(R.id.variable_name_label)
+    @BindView(R.id.variable_name_label)
     TextInputLayout nameLabel;
-    @Bind(R.id.variable_name)
+    @BindView(R.id.variable_name)
     EditTextCompat nameView;
     @NonNull
     private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(new PopupWindow.OnDismissListener() {
@@ -96,15 +96,15 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
             nameView.setShowSoftInputOnFocusCompat(true);
         }
     });
-    @Bind(R.id.variable_keyboard_button)
+    @BindView(R.id.variable_keyboard_button)
     Button keyboardButton;
-    @Bind(R.id.variable_value_label)
+    @BindView(R.id.variable_value_label)
     TextInputLayout valueLabel;
-    @Bind(R.id.variable_value)
+    @BindView(R.id.variable_value)
     EditText valueView;
-    @Bind(R.id.variable_exponent_button)
+    @BindView(R.id.variable_exponent_button)
     Button exponentButton;
-    @Bind(R.id.variable_description)
+    @BindView(R.id.variable_description)
     EditText descriptionView;
     @Inject
     Calculator calculator;

@@ -1,29 +1,23 @@
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.android.tools.build:gradle:3.1.2'
     }
 
     ext {
-        versions = [supportLib: "25.3.1",
+        versions = [supportLib: "27.1.1",
                     gpsLib    : "11.0.2",
-                    sdk       : [compile: 25, buildTools: "25.0.3", min: 19, target: 25]]
+                    sdk       : [compile: 27, buildTools: "27.0.3", min: 19, target: 27]]
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
-        def androidHome = System.getenv("ANDROID_HOME")
-        maven {
-            url "$androidHome/extras/android/m2repository/"
-        }
-        maven {
-            url "$androidHome/extras/google/m2repository/"
-        }
 
         flatDir {
             dirs 'misc/libs'

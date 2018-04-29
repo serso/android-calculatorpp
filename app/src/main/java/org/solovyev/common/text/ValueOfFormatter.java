@@ -52,7 +52,6 @@ public class ValueOfFormatter<T> implements Formatter<T> {
         return (ValueOfFormatter<T>) nullableFormatter;
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = {"NP_LOAD_OF_KNOWN_NULL_VALUE"}, justification = "If 'processNulls' is true => must result 'null'")
     @Override
     public String formatValue(@Nullable T t) throws IllegalArgumentException {
         if (t == null) {

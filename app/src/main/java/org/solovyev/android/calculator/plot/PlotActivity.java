@@ -21,7 +21,7 @@ import org.solovyev.android.plotter.Plotter;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PlotActivity extends BaseActivity {
@@ -32,7 +32,7 @@ public class PlotActivity extends BaseActivity {
 
         @Inject
         Plotter plotter;
-        @Bind(R.id.plot_view_frame)
+        @BindView(R.id.plot_view_frame)
         PlotViewFrame plotView;
 
         public MyFragment() {

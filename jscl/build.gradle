@@ -23,13 +23,12 @@
 apply plugin: 'java'
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.google.code.findbugs:annotations:2.0.1'
-    compile 'xerces:xercesImpl:2.8.0'
-    compile 'com.google.guava:guava:20.0'
+    implementation 'com.google.code.findbugs:jsr305:2.0.3'
+    implementation 'xerces:xercesImpl:2.8.0'
+    implementation 'com.google.guava:guava:20.0'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'net.sf.opencsv:opencsv:2.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'net.sf.opencsv:opencsv:2.0'
 }
 
 sourceSets {

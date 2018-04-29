@@ -18,7 +18,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${versions.supportLib}"
-    compile "com.android.support:support-annotations:${versions.supportLib}"
+    implementation "com.android.support:appcompat-v7:${versions.supportLib}"
+    implementation "com.android.support:support-annotations:${versions.supportLib}"
 }

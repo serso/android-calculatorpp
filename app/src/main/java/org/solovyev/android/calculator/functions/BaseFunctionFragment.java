@@ -69,7 +69,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import jscl.math.function.IConstant;
 
@@ -86,20 +86,20 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
     private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(null);
     @NonNull
     private final KeyboardUser keyboardUser = new KeyboardUser();
-    @Bind(R.id.function_params)
+    @BindView(R.id.function_params)
     public
     FunctionParamsView paramsView;
-    @Bind(R.id.function_name_label)
+    @BindView(R.id.function_name_label)
     TextInputLayout nameLabel;
-    @Bind(R.id.function_name)
+    @BindView(R.id.function_name)
     public EditText nameView;
-    @Bind(R.id.function_body_label)
+    @BindView(R.id.function_body_label)
     public TextInputLayout bodyLabel;
-    @Bind(R.id.function_body)
+    @BindView(R.id.function_body)
     public EditTextCompat bodyView;
-    @Bind(R.id.function_description_label)
+    @BindView(R.id.function_description_label)
     public TextInputLayout descriptionLabel;
-    @Bind(R.id.function_description)
+    @BindView(R.id.function_description)
     public EditText descriptionView;
     @Inject
     Calculator calculator;

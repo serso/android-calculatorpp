@@ -37,7 +37,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PlotFunctionsFragment extends BaseDialogFragment {
@@ -107,10 +107,10 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
-        @Bind(R.id.function_icon)
+        @BindView(R.id.function_icon)
         PlotIconView icon;
 
-        @Bind(R.id.function_name)
+        @BindView(R.id.function_name)
         TextView name;
         private PlotFunction function;
 

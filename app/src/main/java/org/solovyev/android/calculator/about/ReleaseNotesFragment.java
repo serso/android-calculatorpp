@@ -29,7 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.R;
@@ -37,7 +37,7 @@ import org.solovyev.android.calculator.release.ReleaseNotes;
 
 public class ReleaseNotesFragment extends BaseFragment {
 
-    @Bind(R.id.releasenotes_text)
+    @BindView(R.id.releasenotes_text)
     TextView text;
 
     public ReleaseNotesFragment() {

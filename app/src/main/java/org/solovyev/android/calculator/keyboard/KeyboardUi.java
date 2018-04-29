@@ -5,7 +5,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.view.View;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -24,25 +24,25 @@ import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
-    @Bind(R.id.cpp_button_0)
+    @BindView(R.id.cpp_button_0)
     public DirectionDragButton button0;
-    @Bind(R.id.cpp_button_1)
+    @BindView(R.id.cpp_button_1)
     public DirectionDragButton button1;
-    @Bind(R.id.cpp_button_2)
+    @BindView(R.id.cpp_button_2)
     public DirectionDragButton button2;
-    @Bind(R.id.cpp_button_3)
+    @BindView(R.id.cpp_button_3)
     public DirectionDragButton button3;
-    @Bind(R.id.cpp_button_4)
+    @BindView(R.id.cpp_button_4)
     public DirectionDragButton button4;
-    @Bind(R.id.cpp_button_5)
+    @BindView(R.id.cpp_button_5)
     public DirectionDragButton button5;
-    @Bind(R.id.cpp_button_6)
+    @BindView(R.id.cpp_button_6)
     public DirectionDragButton button6;
-    @Bind(R.id.cpp_button_7)
+    @BindView(R.id.cpp_button_7)
     public DirectionDragButton button7;
-    @Bind(R.id.cpp_button_8)
+    @BindView(R.id.cpp_button_8)
     public DirectionDragButton button8;
-    @Bind(R.id.cpp_button_9)
+    @BindView(R.id.cpp_button_9)
     public DirectionDragButton button9;
     @Inject
     Engine engine;
@@ -52,35 +52,35 @@ public class KeyboardUi extends BaseKeyboardUi {
     Bus bus;
     @Inject
     PartialKeyboardUi partialUi;
-    @Bind(R.id.cpp_button_vars)
+    @BindView(R.id.cpp_button_vars)
     DirectionDragButton variablesButton;
     @Nullable
-    @Bind(R.id.cpp_button_operators)
+    @BindView(R.id.cpp_button_operators)
     DirectionDragButton operatorsButton;
-    @Bind(R.id.cpp_button_functions)
+    @BindView(R.id.cpp_button_functions)
     DirectionDragButton functionsButton;
-    @Bind(R.id.cpp_button_history)
+    @BindView(R.id.cpp_button_history)
     DirectionDragButton historyButton;
-    @Bind(R.id.cpp_button_multiplication)
+    @BindView(R.id.cpp_button_multiplication)
     DirectionDragButton multiplicationButton;
-    @Bind(R.id.cpp_button_plus)
+    @BindView(R.id.cpp_button_plus)
     DirectionDragButton plusButton;
-    @Bind(R.id.cpp_button_subtraction)
+    @BindView(R.id.cpp_button_subtraction)
     DirectionDragButton subtractionButton;
-    @Bind(R.id.cpp_button_division)
+    @BindView(R.id.cpp_button_division)
     DirectionDragButton divisionButton;
-    @Bind(R.id.cpp_button_period)
+    @BindView(R.id.cpp_button_period)
     DirectionDragButton periodButton;
-    @Bind(R.id.cpp_button_round_brackets)
+    @BindView(R.id.cpp_button_round_brackets)
     DirectionDragButton bracketsButton;
     @Nullable
-    @Bind(R.id.cpp_button_like)
+    @BindView(R.id.cpp_button_like)
     DirectionDragButton likeButton;
     @Nullable
-    @Bind(R.id.cpp_button_percent)
+    @BindView(R.id.cpp_button_percent)
     DirectionDragButton percentButton;
     @Nullable
-    @Bind(R.id.cpp_button_memory)
+    @BindView(R.id.cpp_button_memory)
     DirectionDragButton memoryButton;
 
     @Inject

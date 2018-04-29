@@ -62,7 +62,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public abstract class BaseHistoryFragment extends BaseFragment {
@@ -75,7 +75,7 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     Bus bus;
     @Inject
     Typeface typeface;
-    @Bind(R.id.history_recyclerview)
+    @BindView(R.id.history_recyclerview)
     RecyclerView recyclerView;
     private HistoryAdapter adapter;
 
@@ -156,11 +156,11 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener, MenuItem.OnMenuItemClickListener {
 
         private static final int DATETIME_FORMAT = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_TIME;
-        @Bind(R.id.history_item_value)
+        @BindView(R.id.history_item_value)
         TextView valueView;
-        @Bind(R.id.history_item_comment)
+        @BindView(R.id.history_item_comment)
         TextView commentView;
-        @Bind(R.id.history_item_time)
+        @BindView(R.id.history_item_time)
         TextView timeView;
         @Nullable
         private HistoryState state;

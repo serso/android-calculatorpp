@@ -57,7 +57,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -71,7 +71,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         }
     };
 
-    @Bind(R.id.entities_recyclerview)
+    @BindView(R.id.entities_recyclerview)
     public RecyclerView recyclerView;
     @Inject
     Keyboard keyboard;
@@ -204,9 +204,9 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     protected abstract boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull E entity);
 
     public class EntityViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
-        @Bind(R.id.entity_text)
+        @BindView(R.id.entity_text)
         TextView textView;
-        @Bind(R.id.entity_description)
+        @BindView(R.id.entity_description)
         TextView descriptionView;
         @Nullable
         private E entity;

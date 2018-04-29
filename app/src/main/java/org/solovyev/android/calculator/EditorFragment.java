@@ -26,7 +26,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import javax.annotation.Nonnull;
@@ -36,7 +36,7 @@ public class EditorFragment extends BaseFragment {
 
     @Inject
     Editor editor;
-    @Bind(R.id.calculator_editor)
+    @BindView(R.id.calculator_editor)
     EditorView editorView;
 
     public EditorFragment() {

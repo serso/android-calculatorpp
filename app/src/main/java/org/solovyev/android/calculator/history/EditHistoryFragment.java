@@ -12,7 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
@@ -32,10 +33,10 @@ public class EditHistoryFragment extends BaseDialogFragment {
 
     boolean newState;
 
-    @Bind(R.id.history_expression)
+    @BindView(R.id.history_expression)
     TextView expressionView;
 
-    @Bind(R.id.history_comment)
+    @BindView(R.id.history_comment)
     EditText commentView;
 
     public static void show(@NonNull HistoryState state, boolean newState, @NonNull FragmentManager fm) {

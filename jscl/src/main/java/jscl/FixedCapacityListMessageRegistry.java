@@ -24,7 +24,6 @@ public class FixedCapacityListMessageRegistry implements MessageRegistry {
         this.messages = new ArrayList<Message>(capacity);
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = {"VO_VOLATILE_INCREMENT"}, justification = "NotThreadSafe - outer synchronization")
     public void addMessage(@Nonnull Message message) {
         if (!this.messages.contains(message)) {
             if (this.size <= this.capacity) {
@@ -37,7 +36,6 @@ public class FixedCapacityListMessageRegistry implements MessageRegistry {
         }
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = {"VO_VOLATILE_INCREMENT"}, justification = "NotThreadSafe - outer synchronization")
     @Nonnull
     public Message getMessage() {
         if (hasMessage()) {

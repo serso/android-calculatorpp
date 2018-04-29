@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import org.solovyev.android.calculator.AppModule;
 import org.solovyev.android.calculator.FragmentTab;
@@ -37,10 +37,10 @@ public class Tabs {
     @Named(AppModule.PREFS_TABS)
     SharedPreferences preferences;
     @Nullable
-    @Bind(R.id.tabs)
+    @BindView(R.id.tabs)
     TabLayout tabLayout;
     @Nullable
-    @Bind(R.id.viewPager)
+    @BindView(R.id.viewPager)
     ViewPager viewPager;
     private int defaultSelectedTab = -1;
 
