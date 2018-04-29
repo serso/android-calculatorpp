@@ -113,6 +113,11 @@ public class EditorView extends EditTextCompat {
         editor.setSelection(start);
     }
 
+    @Override
+    public int getAutofillType() {
+        return AUTOFILL_TYPE_NONE;
+    }
+
     private class MyTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
