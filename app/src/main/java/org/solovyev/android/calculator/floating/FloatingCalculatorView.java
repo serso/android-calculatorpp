@@ -29,14 +29,29 @@ import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
+import android.view.ContextThemeWrapper;
 import android.view.Display;
-import android.view.*;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.DisplayView;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.EditorView;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.buttons.CppButton;
 import org.solovyev.android.calculator.keyboard.BaseKeyboardUi;
 import org.solovyev.android.views.Adjuster;
@@ -45,8 +60,15 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static android.view.HapticFeedbackConstants.*;
-import static android.view.WindowManager.LayoutParams.*;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING;
+import static android.view.HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING;
+import static android.view.HapticFeedbackConstants.KEYBOARD_TAP;
+import static android.view.HapticFeedbackConstants.LONG_PRESS;
+import static android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+import static android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+import static android.view.WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
+import static android.view.WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
 import static org.solovyev.android.calculator.App.cast;
 
 public class FloatingCalculatorView {
@@ -437,7 +459,7 @@ public class FloatingCalculatorView {
     @Nonnull
     private static WindowManager.LayoutParams makeLayoutParams() {
         return new WindowManager.LayoutParams(
-                TYPE_SYSTEM_ALERT,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? TYPE_APPLICATION_OVERLAY : TYPE_SYSTEM_ALERT,
                 FLAG_NOT_FOCUSABLE | FLAG_NOT_TOUCH_MODAL | FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
     }
