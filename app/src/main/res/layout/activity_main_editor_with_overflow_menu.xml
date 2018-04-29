@@ -12,25 +12,24 @@
         a:layout_height="match_parent" />
 
     <!-- make clickable area bigger -->
-    <FrameLayout
+    <View
         a:id="@+id/main_menu"
         style="?attr/actionOverflowButtonStyle"
-        a:background="@null"
         a:layout_width="40dp"
-        a:paddingLeft="0dp"
-        a:paddingRight="0dp"
         a:layout_height="?attr/actionBarSize"
-        a:layout_gravity="top|end">
+        a:layout_gravity="top|end"
+        a:background="@null"
+        a:paddingLeft="0dp"
+        a:paddingRight="0dp" />
 
-        <ImageButton
-            style="?attr/actionOverflowButtonStyle"
-            a:paddingLeft="0dp"
-            a:paddingRight="0dp"
-            a:layout_width="20dp"
-            a:layout_height="36dp"
-            a:clickable="false"
-            a:focusable="false"
-            a:focusableInTouchMode="false"
-            a:layout_gravity="top|end" />
-    </FrameLayout>
+    <ImageView
+        style="?attr/actionOverflowButtonStyle"
+        a:layout_width="20dp"
+        a:layout_height="36dp"
+        a:layout_gravity="top|end"
+        a:clickable="false"
+        a:focusable="false"
+        a:focusableInTouchMode="false"
+        a:paddingLeft="0dp"
+        a:paddingRight="0dp" />
 </FrameLayout>
