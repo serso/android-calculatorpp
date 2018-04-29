@@ -90,5 +90,6 @@ public class DirectionDragButton extends DragButton implements DirectionDragView
     @Override
     public void setHighContrast(boolean highContrast) {
         textView.setHighContrast(highContrast);
+        PaintCache.setHighContrast(getPaint(), highContrast, getTextColors().getDefaultColor());
     }
 }

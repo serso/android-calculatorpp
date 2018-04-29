@@ -191,11 +191,15 @@ class PaintCache {
             paint.setTypeface(spec.typeface);
         }
         paint.setTextSize(spec.textSize);
-        if (spec.highContrast && spec.needsShadow()) {
-            paint.setShadowLayer(shadowRadius, 0, 0, BLACK);
-        } else {
-            paint.setShadowLayer(0, 0, 0, BLACK);
-        }
+        setHighContrast(paint, spec.highContrast, spec.color);
         return paint;
+    }
+
+    public static void setHighContrast(@NonNull Paint paint, boolean highContrast, @ColorInt int color) {
+        if (highContrast && Spec.needsShadow(color)) {
+            paint.setShadowLayer(get().shadowRadius, 0, 0, BLACK);
+        } else {
+            paint.clearShadowLayer();
+        }
     }
 }
