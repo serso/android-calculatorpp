@@ -27,6 +27,7 @@
         a:layout_width="20dp"
         a:layout_height="36dp"
         a:layout_gravity="top|end"
+        a:tooltipText="@null"
         a:clickable="false"
         a:focusable="false"
         a:focusableInTouchMode="false"
