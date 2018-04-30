@@ -78,12 +78,12 @@ dependencies {
     implementation ':square-otto:1.3.9-SNAPSHOT'
     annotationProcessor ':square-otto:1.3.9-SNAPSHOT'
     annotationProcessor ':square-otto-compiler:1.3.9-SNAPSHOT'
-    annotationProcessor 'com.squareup:javapoet:1.5.1'
+    annotationProcessor 'com.squareup:javapoet:1.9.0'
     implementation project(':dragbutton')
     implementation(project(':jscl')) {
         exclude(module: 'xercesImpl')
     }
-    implementation 'org.solovyev.android:checkout:1.0.1'
+    implementation 'org.solovyev.android:checkout:1.2.1'
     implementation 'org.solovyev.android:material:0.1.4@aar'
     implementation "com.google.android.gms:play-services-ads:${versions.gpsLib}"
     implementation "com.google.android.gms:play-services-base:${versions.gpsLib}"
@@ -104,15 +104,15 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'net.sf.opencsv:opencsv:2.0'
-    testImplementation 'org.mockito:mockito-core:1.9.0'
-    testImplementation 'org.robolectric:robolectric:3.4.2'
+    testImplementation 'org.mockito:mockito-core:2.7.6'
+    testImplementation 'org.robolectric:robolectric:3.5.1'
     testImplementation 'org.mockito:mockito-all:1.9.5'
     testImplementation 'org.skyscreamer:jsonassert:1.2.3'
     testImplementation(name: 'org.apache.http.legacy', ext: 'jar')
 
     androidTestImplementation "com.android.support:support-annotations:${versions.supportLib}"
-    androidTestImplementation'com.android.support.test:runner:0.5'
-    androidTestImplementation'com.android.support.test:rules:0.5'
+    androidTestImplementation'com.android.support.test:runner:1.0.2'
+    androidTestImplementation'com.android.support.test:rules:1.0.2'
     androidTestImplementation'org.hamcrest:hamcrest-library:1.3'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         // use version of jsr305 provided by Checkout
