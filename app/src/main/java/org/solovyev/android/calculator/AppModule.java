@@ -143,7 +143,15 @@ public class AppModule {
     @Provides
     @Singleton
     ErrorReporter provideErrorReporter() {
-        return new AcraErrorReporter();
+        return new ErrorReporter() {
+            @Override
+            public void onException(@Nonnull Throwable e) {
+            }
+
+            @Override
+            public void onError(@Nonnull String message) {
+            }
+        };
     }
 
     @Provides

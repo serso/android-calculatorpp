@@ -32,9 +32,6 @@ import android.util.TimingLogger;
 
 import com.squareup.otto.Bus;
 
-import org.acra.ACRA;
-import org.acra.ACRAConfiguration;
-import org.acra.sender.HttpSender;
 import org.solovyev.android.calculator.floating.FloatingCalculatorActivity;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.history.History;
@@ -188,15 +185,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
     private void onPreCreate(@Nonnull SharedPreferences prefs, @NonNull SharedPreferences uiPrefs,
             @Nonnull Languages languages) {
-        // first we need to setup crash handler and memory leak analyzer
-        if (AcraErrorReporter.ENABLED) {
-            ACRA.init(this, new ACRAConfiguration()
-                    .setFormUri("https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report")
-                    .setReportType(HttpSender.Type.JSON)
-                    .setHttpMethod(HttpSender.Method.PUT)
-                    .setFormUriBasicAuthLogin("timbeenterumisideffecird")
-                    .setFormUriBasicAuthPassword("ECL65PO2TH5quIFNAK4hQ5Ng"));
-        }
         // initializing App before #onCreate as FloatingCalculatorService might be created in
         // #onCreate
         App.init(this, prefs);
