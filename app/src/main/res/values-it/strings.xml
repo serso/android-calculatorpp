@@ -68,7 +68,7 @@
     <string name="cpp_plot_too_many_variables">Impassibile rappresentare: troppe variabili!</string>
     <string name="cpp_plot_range">Intervallo del grafico</string>
     <string name="cpp_continue">Continua</string>
-  <string name="cpp_purchase_text">Sostenere il progetto è facile e sicuro: il processo di pagamento è fornito da Google, e tutto ciò di cui hai bisogno è un account correttamente configurato. 
+  <string name="cpp_purchase_text">Sostenere il progetto è facile e sicuro: il processo di pagamento è fornito da Google, e tutto ciò di cui hai bisogno è un account correttamente configurato.
 Le informazioni di pagamento sono memorizzate nei server di Google nel tuo account e puoi utilizzare facilmente  quest\'applicazione su svariati apparecchi.
 premendo \'continua\' sarai indirizzato all\'applicazione Google play per effettuare il pagamento. </string>
     <string name="cpp_purchase_title">Acquista</string>
@@ -76,5 +76,5 @@ premendo \'continua\' sarai indirizzato all\'applicazione Google play per effett
     <string name="cpp_clear_history_message">L\'intera cronologia verrà cancellata.</string>
     <string name="cpp_clear_history">Svuota</string>
     <string name="cpp_new_in_version">Novità nella versione %1$s</string>
-    <string name="cpp_release_notes_choose_theme">Vuoi provare nuove temi Material design? Selezionali dalla lista:</string>
+    <string name="cpp_release_notes_choose_theme">Vuoi provare nuove temi Material design? Selezionali dalla listandroid:</string>
 </resources>

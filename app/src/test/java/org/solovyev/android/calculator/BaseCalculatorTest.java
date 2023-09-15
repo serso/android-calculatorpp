@@ -1,25 +1,20 @@
 package org.solovyev.android.calculator;
 
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.solovyev.android.calculator.jscl.JsclOperation.numeric;
-
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import com.squareup.otto.Bus;
-
-import org.hamcrest.Description;
+import java.util.Collections;
 import org.junit.Before;
 import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import org.solovyev.android.calculator.calculations.CalculationFailedEvent;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.msg.Message;
-
-import java.util.Collections;
 
 public abstract class BaseCalculatorTest {
     protected Calculator calculator;
@@ -41,19 +36,15 @@ public abstract class BaseCalculatorTest {
 
     protected final void assertError(@NonNull String expression) {
         calculator.evaluate(numeric, expression, 0);
-        verify(calculator.bus, atLeastOnce()).post(argThat(failed()));
+        verify(calculator.bus, atLeastOnce()).post(ArgumentMatchers.argThat(failed()));
     }
 
     @NonNull
     private static ArgumentMatcher<CalculationFailedEvent> failed() {
         return new ArgumentMatcher<CalculationFailedEvent>() {
             @Override
-            public boolean matches(Object o) {
-                if (!(o instanceof CalculationFailedEvent)) {
-                    return false;
-                }
-                final CalculationFailedEvent e = (CalculationFailedEvent) o;
-                return e.operation == numeric;
+            public boolean matches(CalculationFailedEvent o) {
+                return o.operation == numeric;
             }
         };
     }
@@ -68,14 +59,14 @@ public abstract class BaseCalculatorTest {
     }
 
     protected static CalculationFinishedEvent finishedEvent(@NonNull String expected, @NonNull String expression, JsclOperation operation) {
-        return argThat(finished(expected, expression, operation));
+        return ArgumentMatchers.argThat(finished(expected, expression, operation));
     }
 
     protected static CalculationFinishedEvent anyFinishedEvent() {
-        return argThat(new ArgumentMatcher<CalculationFinishedEvent>() {
+        return ArgumentMatchers.argThat(new ArgumentMatcher<CalculationFinishedEvent>() {
             @Override
-            public boolean matches(Object o) {
-                return o instanceof CalculationFinishedEvent;
+            public boolean matches(CalculationFinishedEvent o) {
+                return true;
             }
         });
     }
@@ -84,18 +75,14 @@ public abstract class BaseCalculatorTest {
     protected static ArgumentMatcher<CalculationFinishedEvent> finished(@NonNull final String expected, @NonNull final String expression, final JsclOperation operation) {
         return new ArgumentMatcher<CalculationFinishedEvent>() {
             @Override
-            public boolean matches(Object o) {
-                if (!(o instanceof CalculationFinishedEvent)) {
-                    return false;
-                }
-                final CalculationFinishedEvent e = (CalculationFinishedEvent) o;
-                return e.operation == operation && e.expression.equals(expression) && e.stringResult.equals(expected);
+            public boolean matches(CalculationFinishedEvent e) {
+                return e.expression.equals(expression) && e.stringResult.equals(expected);
             }
 
             @Override
-            public void describeTo(Description description) {
-                description.appendText(new CalculationFinishedEvent(operation, expression, 0, null, expected,
-                        Collections.<Message>emptyList()).toString());
+            public String toString() {
+                return new CalculationFinishedEvent(operation, expression, 0, null, expected,
+                        Collections.<Message>emptyList()).toString();
             }
         };
     }

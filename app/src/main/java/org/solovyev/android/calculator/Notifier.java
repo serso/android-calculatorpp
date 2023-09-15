@@ -24,7 +24,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Application;
 import android.os.Handler;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.widget.Toast;
 import org.solovyev.common.msg.Message;
 

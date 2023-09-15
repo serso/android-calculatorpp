@@ -25,7 +25,7 @@ apply plugin: 'java'
 dependencies {
     implementation 'com.google.code.findbugs:jsr305:2.0.3'
     implementation 'xerces:xercesImpl:2.8.0'
-    implementation 'com.google.guava:guava:20.0'
+    implementation 'com.google.guava:guava:32.1.2-android'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'net.sf.opencsv:opencsv:2.0'
@@ -37,5 +37,5 @@ sourceSets {
     }
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17

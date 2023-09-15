@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import org.solovyev.android.Check;
 
 import java.util.ArrayList;

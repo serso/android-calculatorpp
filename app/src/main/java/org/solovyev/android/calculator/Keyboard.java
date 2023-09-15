@@ -25,7 +25,7 @@ package org.solovyev.android.calculator;
 import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Log;

@@ -22,92 +22,94 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    a:layout_width="wrap_content"
-    a:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <FrameLayout
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputLayout
-                a:id="@+id/variable_name_label"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_gravity="start|center_vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/variable_name_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical">
 
                 <org.solovyev.android.calculator.view.EditTextCompat
-                    a:id="@+id/variable_name"
-                    a:layout_width="match_parent"
-                    a:layout_height="wrap_content"
-                    a:hint="@string/cpp_name"
-                    a:inputType="text" />
+                    android:id="@+id/variable_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/cpp_name"
+                    android:inputType="text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                a:id="@+id/variable_keyboard_button"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_gravity="end|top"
-                a:background="?attr/selectableItemBackgroundBorderless"
-                a:minWidth="0dp"
-                a:padding="@dimen/cpp_image_button_padding"
-                a:text="@string/cpp_show_greek_keyboard"
-                a:textAllCaps="false"
-                a:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/variable_keyboard_button"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:minWidth="00dp"
+                android:paddingHorizontal="12dp"
+                android:text="@string/cpp_show_greek_keyboard"
+                android:textAllCaps="false"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 tools:ignore="UnusedAttribute" />
         </FrameLayout>
 
         <FrameLayout
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputLayout
-                a:id="@+id/variable_value_label"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/variable_value_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <EditText
-                    a:id="@+id/variable_value"
-                    a:layout_width="match_parent"
-                    a:layout_height="wrap_content"
-                    a:hint="@string/c_var_value"
-                    a:inputType="numberDecimal|numberSigned" />
-            </android.support.design.widget.TextInputLayout>
+                    android:id="@+id/variable_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/c_var_value"
+                    android:inputType="numberDecimal|numberSigned" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                a:id="@+id/variable_exponent_button"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_gravity="end|top"
-                a:background="?attr/selectableItemBackgroundBorderless"
-                a:minWidth="0dp"
-                a:padding="@dimen/cpp_image_button_padding"
-                a:text="@string/cpp_exponent"
-                a:textAllCaps="false"
-                a:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/variable_exponent_button"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:minWidth="00dp"
+                android:paddingHorizontal="12dp"
+                android:text="@string/cpp_exponent"
+                android:textAllCaps="false"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 tools:ignore="UnusedAttribute" />
         </FrameLayout>
 
-        <android.support.design.widget.TextInputLayout
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <EditText
-                a:id="@+id/variable_description"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:hint="@string/c_var_description"
-                a:inputType="textMultiLine"
-                a:maxLines="4" />
-        </android.support.design.widget.TextInputLayout>
+                android:id="@+id/variable_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/c_var_description"
+                android:inputType="textMultiLine"
+                android:maxLines="4" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 </ScrollView>

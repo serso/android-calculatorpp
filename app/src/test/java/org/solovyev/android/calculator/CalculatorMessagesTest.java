@@ -16,7 +16,6 @@ import java.util.Locale;
 
 import javax.annotation.Nonnull;
 
-@Config(constants = BuildConfig.class)
 @RunWith(value = RobolectricTestRunner.class)
 public class CalculatorMessagesTest {
 
@@ -46,7 +45,7 @@ public class CalculatorMessagesTest {
             for (Locale locale : LOCALES) {
                 final String text = message.getLocalizedMessage(locale);
                 assertFalse(text.isEmpty());
-                final String errorMessage = "Message=" + id + ", locale=" + locale;
+                final String errorMessage = "Message=" + id + ", locale=" + locale + ", message=" + text;
                 if (arguments.size() == 1) {
                     assertTrue(errorMessage, text.contains("param0"));
                 } else if (arguments.size() == 2) {

@@ -3,11 +3,11 @@ package org.solovyev.android.calculator;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import android.view.*;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 import org.solovyev.android.calculator.ads.AdUi;
 import org.solovyev.android.plotter.Check;
 

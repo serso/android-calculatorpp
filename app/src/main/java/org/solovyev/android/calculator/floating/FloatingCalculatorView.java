@@ -32,7 +32,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.ContextThemeWrapper;
 import android.view.Display;
@@ -209,7 +209,7 @@ public class FloatingCalculatorView {
             y = in.readInt();
         }
 
-        @android.support.annotation.Nullable
+        @androidx.annotation.Nullable
         public static State fromPrefs(@NonNull SharedPreferences prefs) {
             if(!prefs.contains("width")) {
                 return null;

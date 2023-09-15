@@ -23,8 +23,9 @@
 package org.solovyev.android.calculator;
 
 import android.app.Application;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.text.ClipboardManager;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -32,31 +33,30 @@ import javax.inject.Singleton;
 
 @Singleton
 public class Clipboard {
-    @SuppressWarnings("deprecation")
     @Nonnull
     private final ClipboardManager clipboard;
 
-    @SuppressWarnings("deprecation")
     @Inject
     public Clipboard(@Nonnull Application application) {
         clipboard = (ClipboardManager) application.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
-    @SuppressWarnings("deprecation")
     @Nonnull
     public String getText() {
-        if (clipboard.hasText()) {
-            return String.valueOf(clipboard.getText());
+        ClipData primaryClip = clipboard.getPrimaryClip();
+        if (primaryClip != null && primaryClip.getItemCount() > 0) {
+            final CharSequence text = primaryClip.getItemAt(0).getText();
+            return text != null ? text.toString() : "";
         }
 
         return "";
     }
 
     public void setText(@Nonnull CharSequence text) {
-        clipboard.setText(text);
+        clipboard.setPrimaryClip(ClipData.newPlainText("", text));
     }
 
     public void setText(@Nonnull String text) {
-        clipboard.setText(text);
+        setText((CharSequence) text);
     }
 }

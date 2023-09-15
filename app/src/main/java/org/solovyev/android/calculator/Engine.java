@@ -24,9 +24,9 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.squareup.otto.Bus;

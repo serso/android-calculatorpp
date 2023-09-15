@@ -40,7 +40,6 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 
 
-@Config(constants = BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class EvaluateTest extends BaseCalculatorTest {
 
@@ -150,10 +149,10 @@ public class EvaluateTest extends BaseCalculatorTest {
 
         try {
             cm.setNumeralBase(NumeralBase.hex);
-            assertEval("0.EE E", "0x:E/0x:F");
-            assertEval("0.EE E", cm.simplify("0x:E/0x:F"));
-            assertEval("0.EE E", "E/F");
-            assertEval("0.EE E", cm.simplify("E/F"));
+            assertEval("0.EEEF", "0x:E/0x:F");
+            assertEval("0.EEEF", cm.simplify("0x:E/0x:F"));
+            assertEval("0.EEEF", "E/F");
+            assertEval("0.EEEF", cm.simplify("E/F"));
         } finally {
             cm.setNumeralBase(NumeralBase.dec);
         }

@@ -22,76 +22,76 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
-    a:key="screen-main">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="screen-main">
 
     <Preference
-        a:defaultValue="false"
-        a:key="prefs.supportProject"
-        a:summary="@string/c_calc_ad_free_summary"
-        a:title="@string/c_calc_ad_free_title" />
+        android:defaultValue="false"
+        android:key="prefs.supportProject"
+        android:summary="@string/c_calc_ad_free_summary"
+        android:title="@string/c_calc_ad_free_title" />
 
     <PreferenceCategory
-        a:key="category-basic"
-        a:title="@string/cpp_prefs_basic">
+        android:key="category-basic"
+        android:title="@string/cpp_prefs_basic">
 
         <ListPreference
-            a:entries="@array/cpp_layout_names"
-            a:entryValues="@array/cpp_layouts"
-            a:key="gui.mode"
-            a:title="@string/cpp_mode" />
+            android:entries="@array/cpp_layout_names"
+            android:entryValues="@array/cpp_layouts"
+            android:key="gui.mode"
+            android:title="@string/cpp_mode" />
 
         <ListPreference
-            a:entries="@array/cpp_angle_unit_names"
-            a:entryValues="@array/cpp_angle_units"
-            a:key="engine.angleUnit"
-            a:title="@string/cpp_angles" />
+            android:entries="@array/cpp_angle_unit_names"
+            android:entryValues="@array/cpp_angle_units"
+            android:key="engine.angleUnit"
+            android:title="@string/cpp_angles" />
 
         <ListPreference
-            a:entries="@array/cpp_numeral_base_names"
-            a:entryValues="@array/cpp_numeral_bases"
-            a:key="engine.numeralBase"
-            a:title="@string/cpp_radix" />
+            android:entries="@array/cpp_numeral_base_names"
+            android:entryValues="@array/cpp_numeral_bases"
+            android:key="engine.numeralBase"
+            android:title="@string/cpp_radix" />
 
         <Preference
-            a:key="screen-number-format"
-            a:title="@string/cpp_number_format" />
+            android:key="screen-number-format"
+            android:title="@string/cpp_number_format" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        a:key="category-advanced"
-        a:title="@string/cpp_prefs_advanced">
+        android:key="category-advanced"
+        android:title="@string/cpp_prefs_advanced">
 
         <Preference
-            a:key="screen-appearance"
-            a:title="@string/cpp_appearance" />
+            android:key="screen-appearance"
+            android:title="@string/cpp_appearance" />
         <Preference
-            a:key="screen-onscreen"
-            a:title="@string/cpp_floating_calculator" />
+            android:key="screen-onscreen"
+            android:title="@string/cpp_floating_calculator" />
         <Preference
-            a:key="screen-widget"
-            a:title="@string/cpp_widget" />
+            android:key="screen-widget"
+            android:title="@string/cpp_widget" />
         <Preference
-            a:key="screen-other"
-            a:title="@string/cpp_other" />
+            android:key="screen-other"
+            android:title="@string/cpp_other" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        a:key="category-help"
-        a:title="@string/cpp_help">
+        android:key="category-help"
+        android:title="@string/cpp_help">
 
         <Preference
-            a:key="prefs.introduction"
-            a:title="@string/cpp_introduction" />
+            android:key="prefs.introduction"
+            android:title="@string/cpp_introduction" />
 
         <Preference
-            a:key="prefs.reportBug"
-            a:title="@string/cpp_report_problem" />
+            android:key="prefs.reportBug"
+            android:title="@string/cpp_report_problem" />
 
         <Preference
-            a:key="prefs.about"
-            a:title="@string/cpp_about" />
+            android:key="prefs.about"
+            android:title="@string/cpp_about" />
 
     </PreferenceCategory>
 

@@ -6,7 +6,7 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<org.solovyev.android.calculator.EditorView xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/calculator_editor"
+<org.solovyev.android.calculator.EditorView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/calculator_editor"
     style="@style/CppText.Editor.Onscreen"
-    a:textIsSelectable="true" />
+    android:textIsSelectable="true" />

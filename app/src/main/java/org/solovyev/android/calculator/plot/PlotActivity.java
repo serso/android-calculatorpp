@@ -1,18 +1,19 @@
 package org.solovyev.android.calculator.plot;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.databinding.FragmentPlotBinding;
 import org.solovyev.android.plotter.Dimensions;
 import org.solovyev.android.plotter.PlotData;
 import org.solovyev.android.plotter.PlotViewFrame;
@@ -21,8 +22,6 @@ import org.solovyev.android.plotter.Plotter;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PlotActivity extends BaseActivity {
 
@@ -32,7 +31,6 @@ public class PlotActivity extends BaseActivity {
 
         @Inject
         Plotter plotter;
-        @BindView(R.id.plot_view_frame)
         PlotViewFrame plotView;
 
         public MyFragment() {
@@ -49,7 +47,8 @@ public class PlotActivity extends BaseActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
             final View view = super.onCreateView(inflater, container, savedInstanceState);
-            ButterKnife.bind(this, view);
+            final FragmentPlotBinding binding = FragmentPlotBinding.bind(view);
+            plotView = binding.plotViewFrame;
 
             final PlotData pd = plotter.getPlotData();
             pd.axisStyle.backgroundColor = ContextCompat.getColor(getActivity(), R.color.cpp_bg);

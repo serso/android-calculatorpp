@@ -12,7 +12,7 @@
     <string name="c_var_description">Opis</string>
     <string name="c_var_create_var">Stwórz zmienną</string>
     <string name="c_var_edit_var">Edytuj zmienną</string>
-    <string name="c_value_is_not_a_number">Wartość musi być liczbą lub być pusta: jeśli masz parametry - stwórz funkcję zamiast tego!</string>
+    <string name="c_value_is_not_a_number">Wartość musi być liczbą lub być pustandroid: jeśli masz parametry - stwórz funkcję zamiast tego!</string>
     <string name="c_var_name_clashes">Nazwa zmiennej pokrywa się z nazwą funkcji!</string>
     <string name="c_var_already_exists">Zmienna o tej samej nazwie już istnieje!</string>
     <string name="c_history">Historia</string>

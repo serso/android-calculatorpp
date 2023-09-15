@@ -23,10 +23,10 @@
   -->
 
 <org.solovyev.android.views.dragbutton.DirectionDragButton
-    a:id="@id/cpp_button_clear"
+    android:id="@id/cpp_button_clear"
     style="?attr/cpp_button_style_control_highlighted"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:text="@string/cpp_kb_clear"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:text="@string/cpp_kb_clear"
     app:directionTextUp="@string/cpp_kb_memory_clear"
-    a:textStyle="bold"/>
+    android:textStyle="bold"/>

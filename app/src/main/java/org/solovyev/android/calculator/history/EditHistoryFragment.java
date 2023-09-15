@@ -4,22 +4,21 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
 
 import javax.inject.Inject;
+import org.solovyev.android.calculator.databinding.FragmentHistoryEditBinding;
 
 public class EditHistoryFragment extends BaseDialogFragment {
 
@@ -33,10 +32,7 @@ public class EditHistoryFragment extends BaseDialogFragment {
 
     boolean newState;
 
-    @BindView(R.id.history_expression)
     TextView expressionView;
-
-    @BindView(R.id.history_comment)
     EditText commentView;
 
     public static void show(@NonNull HistoryState state, boolean newState, @NonNull FragmentManager fm) {
@@ -95,12 +91,13 @@ public class EditHistoryFragment extends BaseDialogFragment {
     @NonNull
     @Override
     protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_history_edit, null);
-        ButterKnife.bind(this, view);
+        final FragmentHistoryEditBinding binding = FragmentHistoryEditBinding.inflate(inflater, null, false);
+        expressionView = binding.historyExpression;
+        commentView = binding.historyComment;
         if (savedInstanceState == null) {
             expressionView.setText(BaseHistoryFragment.getHistoryText(state));
             commentView.setText(state.getComment());
         }
-        return view;
+        return binding.getRoot();
     }
 }

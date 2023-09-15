@@ -29,15 +29,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.databinding.FragmentReleaseNotesBinding;
 import org.solovyev.android.calculator.release.ReleaseNotes;
 
 public class ReleaseNotesFragment extends BaseFragment {
 
-    @BindView(R.id.releasenotes_text)
     TextView text;
 
     public ReleaseNotesFragment() {
@@ -47,7 +45,8 @@ public class ReleaseNotesFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, view);
+        final FragmentReleaseNotesBinding binding = FragmentReleaseNotesBinding.bind(view);
+        text = binding.releasenotesText;
         text.setMovementMethod(LinkMovementMethod.getInstance());
         text.setText(Html.fromHtml(ReleaseNotes.getReleaseNotes(getActivity())));
         return view;

@@ -24,7 +24,7 @@ package org.solovyev.android.calculator.functions;
 
 import static android.text.TextUtils.isEmpty;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;

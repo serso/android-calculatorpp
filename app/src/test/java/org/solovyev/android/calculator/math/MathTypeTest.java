@@ -35,7 +35,6 @@ import org.solovyev.android.calculator.BuildConfig;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Tests;
 
-@Config(constants = BuildConfig.class)
 @RunWith(value = RobolectricTestRunner.class)
 public class MathTypeTest {
 

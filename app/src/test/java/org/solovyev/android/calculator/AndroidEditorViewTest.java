@@ -40,7 +40,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@Config(constants = BuildConfig.class)
 @RunWith(value = RobolectricTestRunner.class)
 public class AndroidEditorViewTest {
 
@@ -55,7 +54,7 @@ public class AndroidEditorViewTest {
         final int count = 10;
         final int maxTextLength = 100;
 
-        final Editor editor = new Editor(RuntimeEnvironment.application, mock(SharedPreferences.class), Tests.makeEngine());
+        final Editor editor = new Editor(RuntimeEnvironment.getApplication(), mock(SharedPreferences.class), Tests.makeEngine());
         final Random random = new Random(new Date().getTime());
         final CountDownLatch startLatchLatch = new CountDownLatch(threadNum);
         final CountDownLatch finishLatch = new CountDownLatch(threadNum * count);

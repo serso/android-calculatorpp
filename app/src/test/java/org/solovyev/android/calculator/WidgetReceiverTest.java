@@ -1,7 +1,9 @@
 package org.solovyev.android.calculator;
 
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.robolectric.RuntimeEnvironment.application;
 import static org.solovyev.android.calculator.WidgetReceiver.ACTION_BUTTON_ID_EXTRA;
 import static org.solovyev.android.calculator.WidgetReceiver.ACTION_BUTTON_PRESSED;
@@ -15,28 +17,30 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+import org.solovyev.android.calculator.history.History;
 
-@Config(constants = BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class WidgetReceiverTest {
 
+    private Keyboard keyboard;
+    private History history;
     private WidgetReceiver widgetReceiver;
 
     @Before
     public void setUp() throws Exception {
-        widgetReceiver.keyboard = Mockito.mock(Keyboard.class);
-
+        widgetReceiver = new WidgetReceiver();
+        widgetReceiver.keyboard = keyboard = mock(Keyboard.class);
+        widgetReceiver.history = history = mock(History.class);
+        when(history.isLoaded()).thenReturn(true);
     }
 
     @Test
     public void testShouldPressButtonOnIntent() throws Exception {
         final Intent intent = newButtonClickedIntent(application, four);
-        widgetReceiver = new WidgetReceiver();
         widgetReceiver.onReceive(application, intent);
 
-        verify(widgetReceiver.keyboard, times(1)).buttonPressed(Mockito.anyString());
-        verify(widgetReceiver.keyboard, times(1)).buttonPressed("4");
+        verify(keyboard).buttonPressed(Mockito.anyString());
+        verify(keyboard).buttonPressed("4");
     }
 
     @Test
@@ -46,6 +50,6 @@ public class WidgetReceiverTest {
         intent.putExtra(ACTION_BUTTON_ID_EXTRA, "test!@");
         widgetReceiver.onReceive(application, intent);
 
-        verify(widgetReceiver.keyboard, times(0)).buttonPressed(Mockito.anyString());
+        verify(keyboard, never()).buttonPressed(Mockito.anyString());
     }
 }

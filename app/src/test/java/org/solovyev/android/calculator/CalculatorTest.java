@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 
 import org.junit.Before;
@@ -33,7 +34,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.calculations.CalculationFinishedEvent;
 
-@Config(constants = BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class CalculatorTest extends BaseCalculatorTest {
 

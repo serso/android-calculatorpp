@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.calculations;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.solovyev.android.calculator.DisplayState;
 

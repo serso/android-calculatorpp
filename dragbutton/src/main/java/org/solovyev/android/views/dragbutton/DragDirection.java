@@ -1,6 +1,7 @@
 package org.solovyev.android.views.dragbutton;
 
-import android.support.annotation.StyleableRes;
+
+import androidx.annotation.StyleableRes;
 
 public enum DragDirection {
 

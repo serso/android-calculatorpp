@@ -7,6 +7,6 @@
   -->
 
 <TextView
-    a:id="@+id/calculator_editor"
+    android:id="@+id/calculator_editor"
     style="@style/CppText.Editor.Widget"
-    xmlns:a="http://schemas.android.com/apk/res/android"/>
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

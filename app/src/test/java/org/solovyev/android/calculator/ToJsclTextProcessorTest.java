@@ -34,7 +34,6 @@ import org.robolectric.annotation.Config;
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 
-@Config(constants = BuildConfig.class)
 @RunWith(value = RobolectricTestRunner.class)
 public class ToJsclTextProcessorTest {
 
@@ -97,8 +96,6 @@ public class ToJsclTextProcessorTest {
         assertEquals("0b:1101", preprocessor.process("0b:1101").toString());
         assertEquals("0x:1C", preprocessor.process("0x:1C").toString());
         assertEquals("0x:1C", preprocessor.process(" 0x:1C").toString());
-        assertEquals("0x:1C*0x:1C*sin(0x:1C)-0b:1101+√(0x:1C)+exp(0x:1C)", preprocessor.process("0x:1C*0x:1C * sin(0x:1C) - 0b:1101 + √(0x:1C) + exp ( 0x:1C)").toString());
-        assertEquals("0x:1C*0x:1C*sin(0x:1C)-0b:1101+√(0x:1C)+exp(0x:1C)", preprocessor.process("0x:1C*0x:1C * sin(0x:1C) - 0b:1101 + √(0x:1C) + exp ( 0x:1C)").toString());
 
         try {
             preprocessor.process("ln()");
@@ -128,6 +125,8 @@ public class ToJsclTextProcessorTest {
             fail();
         } catch (ParseException ignored) {
         }
+
+        assertEquals("0x:1C*0x:1C*sin(0x:1C)-0b:1101+√(0x:1C)+exp(0x:1C)", preprocessor.process("0x:1C*0x:1C * sin(0x:1C) - 0b:1101 + √(0x:1C) + exp ( 0x:1C)").toString());
     }
 
     @Test

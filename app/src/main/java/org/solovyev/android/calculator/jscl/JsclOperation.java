@@ -23,7 +23,7 @@
 package org.solovyev.android.calculator.jscl;
 
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import jscl.MathEngine;
 import jscl.math.Generic;
 import jscl.text.ParseException;

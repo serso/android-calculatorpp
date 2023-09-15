@@ -23,9 +23,9 @@
   -->
 
 <Button
-    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    a:id="@id/cpp_button_percent"
+    android:id="@id/cpp_button_percent"
     style="@style/CppKeyboardButton.Material.Simple.Digit"
-    a:text="%"
+    android:text="%"
     tools:ignore="HardcodedText" />

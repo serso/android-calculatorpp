@@ -35,7 +35,6 @@ import jscl.JsclMathEngine;
 import jscl.math.Expression;
 import jscl.math.Generic;
 
-@Config(constants = BuildConfig.class)
 @RunWith(value = RobolectricTestRunner.class)
 public class FromJsclNumericTextProcessorTest {
 

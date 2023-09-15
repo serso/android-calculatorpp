@@ -7,6 +7,6 @@
   -->
 
 <org.solovyev.android.calculator.DisplayView
-    a:id="@+id/calculator_display"
+    android:id="@+id/calculator_display"
     style="@style/CppText.Display.Onscreen.Light"
-    xmlns:a="http://schemas.android.com/apk/res/android" />
+    xmlns:android="http://schemas.android.com/apk/res/android" />

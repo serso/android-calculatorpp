@@ -3,19 +3,20 @@ package org.solovyev.android.calculator.plot;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.RemovalConfirmationDialog;
+import org.solovyev.android.calculator.databinding.FragmentPlotFunctionEditBinding;
 import org.solovyev.android.calculator.functions.BaseFunctionFragment;
 import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.plotter.Color;
@@ -30,7 +31,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import jscl.math.function.CustomFunction;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -39,17 +39,11 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
     implements SeekBar.OnSeekBarChangeListener {
     @Inject
     Plotter plotter;
-    @BindView(R.id.fn_meshspec_views)
     View meshSpecViews;
-    @BindView(R.id.fn_color_label)
     TextView colorLabel;
-    @BindView(R.id.fn_color_picker)
     LineColorPicker colorPicker;
-    @BindView(R.id.fn_linewidth_label)
     TextView lineWidthLabel;
-    @BindView(R.id.fn_linewidth_seekbar)
     SeekBar lineWidthSeekBar;
-    @BindView(R.id.fn_iconview)
     PlotIconView iconView;
     private PlotFunction plotFunction;
 
@@ -101,6 +95,13 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
     protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater,
         @Nullable Bundle savedInstanceState) {
         final View view = super.onCreateDialogView(context, inflater, savedInstanceState);
+        FragmentPlotFunctionEditBinding binding = FragmentPlotFunctionEditBinding.bind(view);
+        meshSpecViews = binding.fnMeshspecViews;
+        colorLabel = binding.fnColorLabel;
+        colorPicker = binding.fnColorPicker;
+        lineWidthLabel = binding.fnLinewidthLabel;
+        lineWidthSeekBar = binding.fnLinewidthSeekbar;
+        iconView = binding.fnIconview;
         colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
             @Override
             public void onColorChanged(int c) {

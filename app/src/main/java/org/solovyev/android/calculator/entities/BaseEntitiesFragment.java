@@ -25,11 +25,11 @@ package org.solovyev.android.calculator.entities;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.view.ContextMenu;
@@ -45,6 +45,8 @@ import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.CalculatorActivity;
 import org.solovyev.android.calculator.Keyboard;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.databinding.FragmentEntitiesBinding;
+import org.solovyev.android.calculator.databinding.FragmentEntitiesItemBinding;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
@@ -57,8 +59,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFragment {
@@ -71,7 +71,6 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         }
     };
 
-    @BindView(R.id.entities_recyclerview)
     public RecyclerView recyclerView;
     @Inject
     Keyboard keyboard;
@@ -96,7 +95,8 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, view);
+        final FragmentEntitiesBinding binding = FragmentEntitiesBinding.bind(view);
+        recyclerView = binding.entitiesRecyclerview;
         final Context context = inflater.getContext();
         adapter = new EntitiesAdapter(context, TextUtils.isEmpty(category) ? getEntities() : getEntities(category));
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -204,19 +204,18 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     protected abstract boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull E entity);
 
     public class EntityViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
-        @BindView(R.id.entity_text)
         TextView textView;
-        @BindView(R.id.entity_description)
         TextView descriptionView;
         @Nullable
         private E entity;
 
-        public EntityViewHolder(@Nonnull View view) {
-            super(view);
+        public EntityViewHolder(@Nonnull FragmentEntitiesItemBinding binding) {
+            super(binding.getRoot());
             BaseActivity.fixFonts(itemView, typeface);
-            ButterKnife.bind(this, view);
-            view.setOnClickListener(this);
-            view.setOnCreateContextMenuListener(this);
+            textView = binding.entityText;
+            descriptionView = binding.entityDescription;
+            itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         public void bind(@Nonnull E entity) {
@@ -266,7 +265,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
 
         @Override
         public EntityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new EntityViewHolder(inflater.inflate(R.layout.fragment_entities_item, parent, false));
+            return new EntityViewHolder(FragmentEntitiesItemBinding.inflate(inflater, parent, false));
         }
 
         @Override

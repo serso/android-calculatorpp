@@ -3,16 +3,14 @@ package org.solovyev.android.calculator.view;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import android.view.View;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.tabs.TabLayout;
 import org.solovyev.android.calculator.AppModule;
 import org.solovyev.android.calculator.FragmentTab;
 import org.solovyev.android.calculator.R;
@@ -37,10 +35,8 @@ public class Tabs {
     @Named(AppModule.PREFS_TABS)
     SharedPreferences preferences;
     @Nullable
-    @BindView(R.id.tabs)
     TabLayout tabLayout;
     @Nullable
-    @BindView(R.id.viewPager)
     ViewPager viewPager;
     private int defaultSelectedTab = -1;
 
@@ -56,7 +52,8 @@ public class Tabs {
 
     public void onCreate() {
         cast(activity.getApplicationContext()).getComponent().inject(this);
-        ButterKnife.bind(this, activity);
+        tabLayout = activity.findViewById(R.id.tabs);
+        viewPager = activity.findViewById(R.id.viewPager);
 
         if (tabLayout == null || viewPager == null) {
             return;

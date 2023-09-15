@@ -21,11 +21,11 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<org.solovyev.android.views.dragbutton.DirectionDragButton a:id="@id/cpp_button_memory"
+<org.solovyev.android.views.dragbutton.DirectionDragButton android:id="@id/cpp_button_memory"
     style="?attr/cpp_button_style_control"
-    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    a:text="@string/cpp_kb_memory_recall"
+    android:text="@string/cpp_kb_memory_recall"
     app:directionTextDown="@string/cpp_kb_memory_minus"
     app:directionTextUp="@string/cpp_kb_memory_plus"
-    a:textStyle="bold"/>
+    android:textStyle="bold"/>

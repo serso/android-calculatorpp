@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator.plot;
 
-import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static android.view.Menu.NONE;
 
 import android.annotation.SuppressLint;
@@ -8,13 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,11 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.databinding.FragmentFunctionsFunctionBinding;
 import org.solovyev.android.plotter.BasePlotterListener;
 import org.solovyev.android.plotter.PlotFunction;
 import org.solovyev.android.plotter.PlotIconView;
@@ -37,8 +37,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PlotFunctionsFragment extends BaseDialogFragment {
 
@@ -75,7 +73,7 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
     protected RecyclerView onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, Bundle savedInstanceState) {
         @SuppressLint("InflateParams") final RecyclerView view = (RecyclerView) inflater.inflate(R.layout.fragment_plot_functions, null);
 
-        view.setLayoutManager(new LinearLayoutManager(context, VERTICAL, false));
+        view.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         view.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         adapter = new Adapter(plotter.getPlotData().functions);
         view.setAdapter(adapter);
@@ -107,17 +105,16 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
-        @BindView(R.id.function_icon)
         PlotIconView icon;
 
-        @BindView(R.id.function_name)
         TextView name;
         private PlotFunction function;
 
-        private ViewHolder(@NonNull View itemView) {
-            super(itemView);
+        private ViewHolder(@NonNull FragmentFunctionsFunctionBinding binding) {
+            super(binding.getRoot());
             BaseActivity.fixFonts(itemView, typeface);
-            ButterKnife.bind(this, itemView);
+            icon = binding.functionIcon;
+            name = binding.functionName;
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
         }
@@ -159,7 +156,7 @@ public class PlotFunctionsFragment extends BaseDialogFragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            return new ViewHolder(inflater.inflate(R.layout.fragment_functions_function, parent, false));
+            return new ViewHolder(FragmentFunctionsFunctionBinding.inflate(inflater, parent, false));
         }
 
         @Override

@@ -22,33 +22,32 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:m="http://schemas.android.com/apk/res-auto">
 
-    <org.solovyev.android.material.preferences.ListPreference
-        a:key="gui.language"
-        a:title="@string/cpp_language"
-        m:materialColor="@color/material_text_selector" />
+    <androidx.preference.ListPreference
+        android:key="gui.language"
+        android:title="@string/cpp_language" />
 
-    <android.preference.CheckBoxPreference
-        a:key="gui.vibrateOnKeypress"
-        a:title="@string/cpp_prefs_vibrate_on_keypress" />
+    <androidx.preference.CheckBoxPreference
+        android:key="gui.vibrateOnKeypress"
+        android:title="@string/cpp_prefs_vibrate_on_keypress" />
 
-    <ListPreference
-        a:key="gui.theme"
-        a:title="@string/cpp_theme" />
+    <androidx.preference.ListPreference
+        android:key="gui.theme"
+        android:title="@string/cpp_theme" />
 
-    <android.preference.CheckBoxPreference
-        a:key="gui.highContrast"
-        a:title="@string/cpp_high_contrast_text" />
+    <androidx.preference.CheckBoxPreference
+        android:key="gui.highContrast"
+        android:title="@string/cpp_high_contrast_text" />
 
-    <android.preference.CheckBoxPreference
-        a:defaultValue="true"
-        a:key="gui.rotateScreen"
-        a:title="@string/cpp_prefs_auto_rotate_screen" />
+    <androidx.preference.CheckBoxPreference
+        android:defaultValue="true"
+        android:key="gui.rotateScreen"
+        android:title="@string/cpp_prefs_auto_rotate_screen" />
 
-    <android.preference.CheckBoxPreference
-        a:key="gui.keepScreenOn"
-        a:title="@string/cpp_prefs_keep_screen_on" />
+    <androidx.preference.CheckBoxPreference
+        android:key="gui.keepScreenOn"
+        android:title="@string/cpp_prefs_keep_screen_on" />
 
 </PreferenceScreen>

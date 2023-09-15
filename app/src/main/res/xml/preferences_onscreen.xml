@@ -22,16 +22,16 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.preference.CheckBoxPreference
-        a:key="onscreen_show_app_icon"
-        a:title="@string/cpp_enable"/>
+    <CheckBoxPreference
+        android:key="onscreen_show_app_icon"
+        android:title="@string/cpp_enable"/>
 
     <ListPreference
-        a:entries="@array/cpp_simple_theme_names"
-        a:entryValues="@array/cpp_simple_themes"
-        a:key="onscreen.theme"
-        a:title="@string/cpp_theme" />
+        android:entries="@array/cpp_simple_theme_names"
+        android:entryValues="@array/cpp_simple_themes"
+        android:key="onscreen.theme"
+        android:title="@string/cpp_theme" />
 
 </PreferenceScreen>

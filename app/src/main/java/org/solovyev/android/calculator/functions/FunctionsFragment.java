@@ -24,9 +24,9 @@ package org.solovyev.android.calculator.functions;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
 import android.view.*;
+import androidx.fragment.app.FragmentActivity;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import jscl.math.function.Function;
@@ -79,25 +79,25 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     @Override
     protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull final Function function) {
         final FragmentActivity activity = getActivity();
-        switch (item.getItemId()) {
-            case R.string.c_use:
-                onClick(function);
-                return true;
-            case R.string.cpp_edit:
-                if (function instanceof IFunction) {
-                    EditFunctionFragment.show(CppFunction.builder((IFunction) function).build(),
+        int itemId = item.getItemId();
+        if (itemId == R.string.c_use) {
+            onClick(function);
+            return true;
+        } else if (itemId == R.string.cpp_edit) {
+            if (function instanceof IFunction) {
+                EditFunctionFragment.show(CppFunction.builder((IFunction) function).build(),
                         activity.getSupportFragmentManager());
+            }
+            return true;
+        } else if (itemId == R.string.cpp_delete) {
+            RemovalConfirmationDialog.showForFunction(getActivity(), function.getName(), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                    registry.remove(function);
                 }
-                return true;
-            case R.string.cpp_delete:
-                RemovalConfirmationDialog.showForFunction(getActivity(), function.getName(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
-                        registry.remove(function);
-                    }
-                });
-                return true;
+            });
+            return true;
         }
         return false;
     }

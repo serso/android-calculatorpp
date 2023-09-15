@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.keyboard;
 
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -93,13 +93,13 @@ public class FloatingNumberKeyboard extends BaseFloatingKeyboard {
         @Override
         public void onClick(View v) {
             final EditText editor = getUser().getEditor();
-            switch (v.getId()) {
-                case R.id.cpp_kb_button_clear:
-                    editor.setText("");
-                    return;
-                case R.id.cpp_kb_button_close:
-                    getUser().done();
-                    return;
+            int id = v.getId();
+            if (id == R.id.cpp_kb_button_clear) {
+                editor.setText("");
+                return;
+            } else if (id == R.id.cpp_kb_button_close) {
+                getUser().done();
+                return;
             }
             if (v instanceof TextView) {
                 insertText(((TextView) v).getText());

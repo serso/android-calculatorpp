@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="match_parent"
-    a:layout_height="30dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp">
 
     <LinearLayout
-        a:id="@+id/onscreen_header_buttons"
-        a:layout_width="wrap_content"
-        a:layout_height="match_parent"
-        a:layout_alignParentRight="true">
+        android:id="@+id/onscreen_header_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true">
 
         <ImageButton
-            a:id="@+id/onscreen_fold_button"
+            android:id="@+id/onscreen_fold_button"
             style="@style/CppHeaderButton.Metro.Blue"
-            a:src="@drawable/ic_vertical_align_center_white_24dp" />
+            android:src="@drawable/ic_vertical_align_center_white_24dp" />
 
         <ImageButton
-            a:id="@+id/onscreen_minimize_button"
+            android:id="@+id/onscreen_minimize_button"
             style="@style/CppHeaderButton.Metro.Blue"
-            a:src="@drawable/ic_vertical_align_top_white_24dp" />
+            android:src="@drawable/ic_vertical_align_top_white_24dp" />
 
         <ImageButton
-            a:id="@+id/onscreen_close_button"
+            android:id="@+id/onscreen_close_button"
             style="@style/CppHeaderButton.Metro.Blue"
-            a:src="@drawable/ic_close_white_24dp" />
+            android:src="@drawable/ic_close_white_24dp" />
 
     </LinearLayout>
 
     <ImageView
-        a:id="@+id/onscreen_title"
-        a:layout_width="match_parent"
-        a:layout_height="match_parent"
-        a:layout_toLeftOf="@id/onscreen_header_buttons"
-        a:paddingBottom="2dp"
-        a:paddingLeft="6dp"
-        a:paddingTop="2dp"
-        a:scaleType="fitStart"
-        a:src="@drawable/cpp_onscreen_header_logo" />
+        android:id="@+id/onscreen_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/onscreen_header_buttons"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingTop="2dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/cpp_onscreen_header_logo" />
 
 </RelativeLayout>

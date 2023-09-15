@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:a="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    a:layout_width="match_parent"
-    a:layout_height="0dp"
-    a:layout_weight="2"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="2"
     tools:ignore="MergeRootFrame">
 
     <FrameLayout
-        a:id="@+id/editor"
-        a:layout_width="match_parent"
-        a:layout_height="match_parent" />
+        android:id="@+id/editor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <!-- make clickable area bigger -->
     <View
-        a:id="@+id/main_menu"
+        android:id="@+id/main_menu"
         style="?attr/actionOverflowButtonStyle"
-        a:layout_width="40dp"
-        a:layout_height="?attr/actionBarSize"
-        a:layout_gravity="top|end"
-        a:background="@null"
-        a:paddingLeft="0dp"
-        a:paddingRight="0dp" />
+        android:layout_width="40dp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="top|end"
+        android:background="@null"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp" />
 
     <ImageView
         style="?attr/actionOverflowButtonStyle"
-        a:layout_width="20dp"
-        a:layout_height="36dp"
-        a:layout_gravity="top|end"
-        a:tooltipText="@null"
-        a:clickable="false"
-        a:focusable="false"
-        a:focusableInTouchMode="false"
-        a:paddingLeft="0dp"
-        a:paddingRight="0dp" />
+        android:layout_width="20dp"
+        android:layout_height="36dp"
+        android:layout_gravity="top|end"
+        android:tooltipText="@null"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp" />
 </FrameLayout>

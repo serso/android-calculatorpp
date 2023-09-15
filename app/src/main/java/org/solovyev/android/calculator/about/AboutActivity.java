@@ -23,7 +23,7 @@
 package org.solovyev.android.calculator.about;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.BaseActivity;

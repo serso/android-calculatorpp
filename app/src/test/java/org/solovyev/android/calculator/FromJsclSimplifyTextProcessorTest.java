@@ -31,7 +31,6 @@ import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 import org.solovyev.android.calculator.variables.CppVariable;
 
-@Config(constants = BuildConfig.class, manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class FromJsclSimplifyTextProcessorTest {
 

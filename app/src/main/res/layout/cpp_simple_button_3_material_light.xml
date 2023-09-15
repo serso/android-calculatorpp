@@ -23,9 +23,9 @@
   -->
 
 <Button
-    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    a:id="@id/cpp_button_3"
+    android:id="@id/cpp_button_3"
     style="@style/CppKeyboardButton.Material.Light.Simple.Digit"
-    a:text="3"
+    android:text="3"
     tools:ignore="HardcodedText" />

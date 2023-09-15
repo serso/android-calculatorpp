@@ -22,8 +22,8 @@
   ~ Site:  http://se.solovyev.org
   -->
 <org.solovyev.android.calculator.EditorView
-    a:id="@+id/calculator_editor"
+    android:id="@+id/calculator_editor"
     style="@style/CppText.Editor"
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_marginEnd="16dp"
-    a:layout_marginRight="16dp" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginEnd="16dp"
+    android:layout_marginRight="16dp" />

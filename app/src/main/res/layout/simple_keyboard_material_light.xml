@@ -23,15 +23,15 @@ e for the specific language governing permissions and
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent"
-    a:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <include layout="@layout/cpp_simple_button_percent_material_light" />
 
@@ -48,9 +48,9 @@ e for the specific language governing permissions and
     </LinearLayout>
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <include layout="@layout/cpp_simple_button_functions_material_light" />
 
@@ -67,9 +67,9 @@ e for the specific language governing permissions and
     </LinearLayout>
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <include layout="@layout/cpp_simple_button_vars_material_light" />
 
@@ -86,9 +86,9 @@ e for the specific language governing permissions and
     </LinearLayout>
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <include layout="@layout/cpp_simple_button_operators_material_light" />
 
@@ -105,9 +105,9 @@ e for the specific language governing permissions and
     </LinearLayout>
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <include layout="@layout/cpp_simple_button_power_material_light" />
 

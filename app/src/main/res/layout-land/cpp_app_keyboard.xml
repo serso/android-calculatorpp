@@ -22,17 +22,17 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent"
-    a:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1"
-        a:baselineAligned="false"
-        a:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <include layout="@layout/cpp_app_button_left" />
 
@@ -53,11 +53,11 @@
     </LinearLayout>
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1"
-        a:baselineAligned="false"
-        a:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <include layout="@layout/cpp_app_button_vars" />
 
@@ -78,11 +78,11 @@
     </LinearLayout>
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1"
-        a:baselineAligned="false"
-        a:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <include layout="@layout/cpp_app_button_like" />
 

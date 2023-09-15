@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.functions;
 
+import com.google.android.material.textfield.TextInputLayout;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
@@ -33,8 +34,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
+import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -132,7 +132,7 @@ public class FunctionParamsView extends LinearLayout {
         addButton.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         addButton.setPadding(imageButtonPadding, imageButtonPadding, imageButtonPadding, imageButtonPadding);
         final TypedValue value = new TypedValue();
-        if (getContext().getTheme().resolveAttribute(R.attr.selectableItemBackgroundBorderless, value, true)) {
+        if (getContext().getTheme().resolveAttribute(androidx.appcompat.R.attr.selectableItemBackgroundBorderless, value, true)) {
             addButton.setBackgroundResource(value.resourceId);
         }
         return addButton;

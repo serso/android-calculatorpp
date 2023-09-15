@@ -36,13 +36,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.view.ContextThemeWrapper;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -54,6 +49,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.floating.FloatingCalculatorService;
 
@@ -312,7 +312,7 @@ public final class App {
 
     @Nonnull
     public static <T> ArrayAdapter<T> makeSimpleSpinnerAdapter(@NonNull Context context) {
-        return new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item);
+        return new ArrayAdapter<>(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
     }
 
     public interface ViewProcessor<V> {

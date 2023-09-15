@@ -450,7 +450,7 @@ public final class NumericWrapper extends Generic implements INumeric<NumericWra
 
     void bodyToMathML(MathML element) {
         MathML e1 = element.element("mn");
-        e1.appendChild(element.text(String.valueOf(new Double(((Real) content).doubleValue()))));
+        e1.appendChild(element.text(String.valueOf(Double.valueOf(((Real) content).doubleValue()))));
         element.appendChild(e1);
     }
 

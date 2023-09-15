@@ -6,11 +6,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -29,6 +26,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
+import com.google.android.material.textfield.TextInputLayout;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.AppModule;
@@ -38,6 +38,7 @@ import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.Keyboard;
 import org.solovyev.android.calculator.Named;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.databinding.CppUnitConverterBinding;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.keyboard.FloatingNumberKeyboard;
@@ -47,9 +48,6 @@ import org.solovyev.android.calculator.view.EditTextCompat;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static org.solovyev.android.calculator.UiPreferences.Converter.lastDimension;
 import static org.solovyev.android.calculator.UiPreferences.Converter.lastUnitsFrom;
@@ -77,21 +75,13 @@ public class ConverterFragment extends BaseDialogFragment
     SharedPreferences uiPreferences;
     @Inject
     Editor editor;
-    @BindView(R.id.converter_dimensions_spinner)
     Spinner dimensionsSpinner;
-    @BindView(R.id.converter_spinner_from)
     Spinner spinnerFrom;
-    @BindView(R.id.converter_label_from)
     TextInputLayout labelFrom;
-    @BindView(R.id.converter_edittext_from)
     EditTextCompat editTextFrom;
-    @BindView(R.id.converter_spinner_to)
     Spinner spinnerTo;
-    @BindView(R.id.converter_label_to)
     TextInputLayout labelTo;
-    @BindView(R.id.converter_edittext_to)
     EditText editTextTo;
-    @BindView(R.id.converter_swap_button)
     ImageButton swapButton;
     private ArrayAdapter<Named<ConvertibleDimension>> dimensionsAdapter;
     private ArrayAdapter<Named<Convertible>> adapterFrom;
@@ -139,9 +129,15 @@ public class ConverterFragment extends BaseDialogFragment
     @Override
     protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater,
                                       @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.cpp_unit_converter, null);
-        ButterKnife.bind(this, view);
-
+        final CppUnitConverterBinding binding = CppUnitConverterBinding.inflate(inflater, null, false);
+        dimensionsSpinner = binding.converterDimensionsSpinner;
+        spinnerFrom = binding.converterSpinnerFrom;
+        labelFrom = binding.converterLabelFrom;
+        editTextFrom = binding.converterEdittextFrom;
+        spinnerTo = binding.converterSpinnerTo;
+        labelTo = binding.converterLabelTo;
+        editTextTo = binding.converterEdittextTo;
+        swapButton = binding.converterSwapButton;
         dimensionsAdapter = App.makeSimpleSpinnerAdapter(context);
         for (ConvertibleDimension dimension : UnitDimension.values()) {
             dimensionsAdapter.add(dimension.named(context));
@@ -177,7 +173,7 @@ public class ConverterFragment extends BaseDialogFragment
             pendingToSelection = savedInstanceState.getInt(STATE_SELECTION_TO, NONE);
         }
 
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -203,16 +199,13 @@ public class ConverterFragment extends BaseDialogFragment
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
-            case R.id.converter_dimensions_spinner:
-                onDimensionChanged(dimensionsAdapter.getItem(position).item);
-                break;
-            case R.id.converter_spinner_from:
-                onUnitFromChanged(adapterFrom.getItem(position).item);
-                break;
-            case R.id.converter_spinner_to:
-                convert();
-                break;
+        int parentId = parent.getId();
+        if (parentId == R.id.converter_dimensions_spinner) {
+            onDimensionChanged(dimensionsAdapter.getItem(position).item);
+        } else if (parentId == R.id.converter_spinner_from) {
+            onUnitFromChanged(adapterFrom.getItem(position).item);
+        } else if (parentId == R.id.converter_spinner_to) {
+            convert();
         }
     }
 
@@ -299,15 +292,13 @@ public class ConverterFragment extends BaseDialogFragment
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        switch (v.getId()) {
-            case R.id.converter_edittext_from:
-                if (!hasFocus) {
-                    convert();
-                } else {
-                    clearError(labelFrom);
-                    showKeyboard();
-                }
-                break;
+        if (v.getId() == R.id.converter_edittext_from) {
+            if (!hasFocus) {
+                convert();
+            } else {
+                clearError(labelFrom);
+                showKeyboard();
+            }
         }
     }
 
@@ -346,31 +337,26 @@ public class ConverterFragment extends BaseDialogFragment
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        switch (v.getId()) {
-            case R.id.converter_edittext_from:
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    App.hideIme(editTextFrom);
-                    convert();
-                    return true;
-                }
-                break;
+        if (v.getId() == R.id.converter_edittext_from) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                App.hideIme(editTextFrom);
+                convert();
+                return true;
+            }
         }
         return false;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.converter_swap_button:
-                keyboardWindow.hide();
-                swap();
-                break;
-            case R.id.converter_edittext_from:
-                showKeyboard();
-                break;
-            default:
-                super.onClick(v);
-                break;
+        int id = v.getId();
+        if (id == R.id.converter_swap_button) {
+            keyboardWindow.hide();
+            swap();
+        } else if (id == R.id.converter_edittext_from) {
+            showKeyboard();
+        } else {
+            super.onClick(v);
         }
     }
 

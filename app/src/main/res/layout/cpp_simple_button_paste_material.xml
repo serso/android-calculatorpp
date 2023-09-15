@@ -23,7 +23,7 @@
   -->
 
 <ImageButton
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_paste"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/cpp_button_paste"
     style="@style/CppKeyboardButton.Material.Simple.Control.Image"
-    a:src="@drawable/ic_content_paste_white_48dp" />
+    android:src="@drawable/ic_content_paste_white_48dp" />

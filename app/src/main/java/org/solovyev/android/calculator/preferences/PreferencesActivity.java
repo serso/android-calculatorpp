@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.annotation.XmlRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.annotation.XmlRes;
 import android.util.SparseArray;
 
 import org.solovyev.android.calculator.App;
@@ -81,7 +81,7 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
         if (savedInstanceState == null) {
             final int preference = intent.getIntExtra(EXTRA_PREFERENCE, R.xml.preferences);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.main, PreferencesFragment.create(preference, R.layout.fragment_preferences))
+                    .add(R.id.main, PreferencesFragment.create(preference))
                     .commit();
         }
 

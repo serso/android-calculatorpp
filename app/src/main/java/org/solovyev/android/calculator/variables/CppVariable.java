@@ -2,7 +2,7 @@ package org.solovyev.android.calculator.variables;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import jscl.math.function.IConstant;
 import org.json.JSONException;

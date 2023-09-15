@@ -2,7 +2,7 @@ package org.solovyev.android.calculator.json;
 
 import static android.text.TextUtils.isEmpty;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;

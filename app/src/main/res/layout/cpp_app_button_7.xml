@@ -23,12 +23,12 @@
   -->
 
 <org.solovyev.android.views.dragbutton.DirectionDragButton
-    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:c="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    a:id="@id/cpp_button_7"
+    android:id="@id/cpp_button_7"
     style="?attr/cpp_button_style_digit"
-    a:text="7"
+    android:text="7"
     c:directionTextDown="!"
     c:directionTextLeft="0b:"
     c:directionTextUp="i"

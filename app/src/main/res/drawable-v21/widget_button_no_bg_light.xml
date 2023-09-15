@@ -22,7 +22,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ripple xmlns:a="http://schemas.android.com/apk/res/android"
-    a:color="@color/cpp_ripple_material_light">
-    <item a:drawable="@color/cpp_bg_light"/>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/cpp_ripple_material_light">
+    <item android:drawable="@color/cpp_bg_light"/>
 </ripple>

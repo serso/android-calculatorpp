@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator.release;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
+import androidx.fragment.app.Fragment;
 import org.solovyev.android.wizard.WizardStep;
 
 import javax.annotation.Nonnull;

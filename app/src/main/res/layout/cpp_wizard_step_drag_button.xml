@@ -22,36 +22,36 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:c="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent"
-    a:gravity="center"
-    a:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
-        a:id="@+id/wizard_dragbutton_description_textview"
+        android:id="@+id/wizard_dragbutton_description_textview"
         style="@style/WizardLabel"
-        a:text="@string/cpp_wizard_dragbutton_description" />
+        android:text="@string/cpp_wizard_dragbutton_description" />
 
     <TextView
-        a:id="@+id/wizard_dragbutton_action_textview"
+        android:id="@+id/wizard_dragbutton_action_textview"
         style="@style/WizardLabel"
-        a:maxLines="3"
-        a:minLines="3"
-        a:text="@string/cpp_wizard_dragbutton_action_center"
-        a:textStyle="bold" />
+        android:maxLines="3"
+        android:minLines="3"
+        android:text="@string/cpp_wizard_dragbutton_action_center"
+        android:textStyle="bold" />
 
     <org.solovyev.android.views.dragbutton.DirectionDragButton
-        a:id="@+id/wizard_dragbutton"
+        android:id="@+id/wizard_dragbutton"
         style="?attr/cpp_button_style_operation"
-        a:layout_width="@dimen/cpp_wizard_preview_button_size"
-        a:layout_height="@dimen/cpp_wizard_preview_button_size"
-        a:layout_weight="0"
-        a:layout_gravity="center"
-        a:layout_margin="0dp"
-        a:text="9"
+        android:layout_width="@dimen/cpp_wizard_preview_button_size"
+        android:layout_height="@dimen/cpp_wizard_preview_button_size"
+        android:layout_weight="0"
+        android:layout_gravity="center"
+        android:layout_margin="0dp"
+        android:text="9"
         c:directionTextDown="^2"
         c:directionTextUp="%"
         tools:ignore="HardcodedText,InefficientWeight" />

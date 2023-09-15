@@ -2,12 +2,12 @@ package org.solovyev.android.calculator.view;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.design.widget.TextInputEditText;
 import android.text.Editable;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
+import com.google.android.material.textfield.TextInputEditText;
 import org.solovyev.android.Check;
 
 import javax.annotation.Nullable;

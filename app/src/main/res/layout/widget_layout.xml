@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CppMain.Widget"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent"
-    a:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
         layout="@layout/widget_editor"
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="2" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1"
-        a:baselineAligned="false">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false">
 
         <include
             layout="@layout/cpp_simple_button_equals"
-            a:layout_width="0dp"
-            a:layout_height="match_parent"
-            a:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             tools:ignore="NestedWeights" />
 
         <include
             layout="@layout/widget_display"
-            a:layout_width="0dp"
-            a:layout_height="match_parent"
-            a:layout_weight="5" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5" />
 
     </LinearLayout>
 
     <include
         layout="@layout/simple_keyboard"
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="5" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5" />
 
 </LinearLayout>

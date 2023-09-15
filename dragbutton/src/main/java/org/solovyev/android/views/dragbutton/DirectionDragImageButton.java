@@ -3,11 +3,10 @@ package org.solovyev.android.views.dragbutton;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class DirectionDragImageButton extends DragImageButton implements DirectionDragView {
     private final DirectionTextView textView = new DirectionTextView();

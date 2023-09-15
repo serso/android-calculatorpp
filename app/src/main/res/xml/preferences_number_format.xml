@@ -22,28 +22,25 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
-    xmlns:m="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <org.solovyev.android.material.preferences.ListPreference
-        a:key="engine.output.notation"
-        a:title="@string/cpp_format"
-        m:materialColor="@color/material_text_selector" />
+    <androidx.preference.ListPreference
+        android:key="engine.output.notation"
+        android:title="@string/cpp_format"/>
 
     <org.solovyev.android.calculator.preferences.PrecisionPreference
-        a:key="engine.output.precision"
-        a:title="@string/cpp_precision" />
+        android:key="engine.output.precision"
+        android:title="@string/cpp_precision" />
 
-    <org.solovyev.android.material.preferences.ListPreference
-        a:entries="@array/cpp_thousands_separator_names"
-        a:entryValues="@array/cpp_thousands_separators"
-        a:key="engine.output.separator"
-        a:title="@string/cpp_thousands_separator"
-        m:materialColor="@color/material_text_selector" />
+    <androidx.preference.ListPreference
+        android:entries="@array/cpp_thousands_separator_names"
+        android:entryValues="@array/cpp_thousands_separators"
+        android:key="engine.output.separator"
+        android:title="@string/cpp_thousands_separator" />
 
     <org.solovyev.android.calculator.preferences.NumberFormatExamplesPreference
-        a:key="numberFormat.examples"
-        a:selectable="false"
-        a:title="@string/cpp_examples" />
+        android:key="numberFormat.examples"
+        android:selectable="false"
+        android:title="@string/cpp_examples" />
 
 </PreferenceScreen>

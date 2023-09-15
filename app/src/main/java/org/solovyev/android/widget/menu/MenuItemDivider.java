@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v7.view.menu.MenuItemImpl;
-import android.support.v7.view.menu.MenuView;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import androidx.appcompat.view.menu.MenuItemImpl;
+import androidx.appcompat.view.menu.MenuView;
 
 @SuppressWarnings("unused")
 public class MenuItemDivider extends View implements MenuView.ItemView {

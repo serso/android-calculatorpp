@@ -20,6 +20,6 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<shape xmlns:a="http://schemas.android.com/apk/res/android">
-    <solid a:color="#664d4d4d" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#664d4d4d" />
 </shape>

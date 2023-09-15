@@ -2,14 +2,15 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="?cpp_toolbar_style"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:layout_scrollFlags="snap">
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
+            style="?cpp_toolbar_style"
             android:id="@+id/tabs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,6 +18,6 @@
             app:tabGravity="fill"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed" />
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 </merge>

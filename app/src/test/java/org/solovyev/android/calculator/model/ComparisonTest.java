@@ -30,7 +30,6 @@ import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.BaseCalculatorTest;
 import org.solovyev.android.calculator.BuildConfig;
 
-@Config(constants = BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
 public class ComparisonTest extends BaseCalculatorTest {
 

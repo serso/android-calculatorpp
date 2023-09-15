@@ -9,10 +9,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 
+import com.google.android.gms.ads.LoadAdError;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -81,11 +83,6 @@ public class AdView extends FrameLayout {
         admobView.setAdListener(admobListener);
 
         final AdRequest.Builder b = new AdRequest.Builder();
-        b.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
-        if (BuildConfig.DEBUG) {
-            // LG Nexus 5
-            b.addTestDevice("B80E676D60CE6FDBE1B84A55464E3FE1");
-        }
         admobView.loadAd(b.build());
     }
 
@@ -127,7 +124,7 @@ public class AdView extends FrameLayout {
         }
 
         @Override
-        public void onAdFailedToLoad(int errorCode) {
+        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
             if (adView != null) {
                 adView.hide();
                 adView = null;

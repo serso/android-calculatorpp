@@ -22,17 +22,17 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<selector xmlns:a="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item a:state_pressed="true">
+    <item android:state_pressed="true">
         <shape>
-            <solid a:color="@color/deep_blue_800" />
+            <solid android:color="@color/deep_blue_800" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid a:color="@color/deep_blue_850" />
+            <solid android:color="@color/deep_blue_850" />
         </shape>
     </item>
 

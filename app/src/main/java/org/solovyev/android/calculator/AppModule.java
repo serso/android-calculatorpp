@@ -7,12 +7,12 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.squareup.otto.Bus;
-import com.squareup.otto.GeneratedHandlerFinder;
 
+import com.squareup.otto.GeneratedHandlerFinder;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.checkout.Billing;

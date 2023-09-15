@@ -36,6 +36,10 @@
 
         <include layout="@layout/fragment_function_edit_base_controls"/>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="12dp"/>
+
         <LinearLayout
             android:id="@+id/fn_meshspec_views"
             android:layout_width="match_parent"

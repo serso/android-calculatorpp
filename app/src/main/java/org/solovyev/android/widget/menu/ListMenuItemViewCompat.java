@@ -1,10 +1,10 @@
 package org.solovyev.android.widget.menu;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.view.menu.ListMenuItemView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
+import androidx.appcompat.view.menu.ListMenuItemView;
 import java.lang.reflect.Field;
 
 final class ListMenuItemViewCompat {

@@ -10,14 +10,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +17,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Language;
@@ -36,8 +36,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import dagger.Lazy;
 
 public abstract class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -58,13 +56,10 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
     Lazy<Ga> ga;
     @Inject
     Typeface typeface;
-    @BindView(R.id.main)
     ViewGroup mainView;
     @Nullable
-    @BindView(R.id.toolbar)
     Toolbar toolbar;
     @Nullable
-    @BindView(R.id.fab)
     FloatingActionButton fab;
     @Nonnull
     private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;
@@ -159,18 +154,24 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
 
     private void createView() {
         setContentView(layoutId);
+        View contentView = findViewById(android.R.id.content);
+        mainView = contentView.findViewById(R.id.main);
+        toolbar = contentView.findViewById(R.id.toolbar);
+        fab = contentView.findViewById(R.id.fab);
+        bindViews(contentView);
         // title must be updated as if a non-system language is used the value from AndroidManifest
         // might be cached
         if (titleId != 0) {
             setTitle(titleId);
         }
-        ButterKnife.bind(this, this);
 
         fixFonts(mainView, typeface);
         initToolbar();
         populateTabs(tabs);
         tabs.onCreate();
     }
+
+    protected void bindViews(@Nonnull View contentView) {}
 
     private void initToolbar() {
         if (toolbar == null) {

@@ -1,14 +1,10 @@
 package org.solovyev.android.calculator.plot;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -19,23 +15,21 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
+import com.google.android.material.textfield.TextInputLayout;
+import java.util.Locale;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.databinding.FragmentPlotDimensionsBinding;
 import org.solovyev.android.plotter.Check;
 import org.solovyev.android.plotter.Plot;
 import org.solovyev.android.plotter.Plotter;
-
-import java.util.Locale;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PlotDimensionsFragment extends BaseDialogFragment
     implements TextView.OnEditorActionListener {
@@ -77,23 +71,14 @@ public class PlotDimensionsFragment extends BaseDialogFragment
 
     @Inject
     Plotter plotter;
-    @BindView(R.id.plot_x_min)
     EditText xMin;
-    @BindView(R.id.plot_x_min_label)
     TextInputLayout xMinLabel;
-    @BindView(R.id.plot_x_max)
     EditText xMax;
-    @BindView(R.id.plot_x_max_label)
     TextInputLayout xMaxLabel;
-    @BindView(R.id.plot_y_min)
     EditText yMin;
-    @BindView(R.id.plot_y_min_label)
     TextInputLayout yMinLabel;
-    @BindView(R.id.plot_y_max)
     EditText yMax;
-    @BindView(R.id.plot_y_max_label)
     TextInputLayout yMaxLabel;
-    @BindView(R.id.y_bounds)
     View yBounds;
     @NonNull
     private RectF bounds = new RectF();
@@ -160,9 +145,17 @@ public class PlotDimensionsFragment extends BaseDialogFragment
     @Override
     protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater,
         Bundle savedInstanceState) {
-        @SuppressLint("InflateParams") final View view =
-            LayoutInflater.from(context).inflate(R.layout.fragment_plot_dimensions, null);
-        ButterKnife.bind(this, view);
+        final FragmentPlotDimensionsBinding binding = FragmentPlotDimensionsBinding.inflate(inflater, null, false);
+
+        xMin = binding.plotXMin;
+        xMinLabel = binding.plotXMinLabel;
+        xMax = binding.plotXMax;
+        xMaxLabel = binding.plotXMaxLabel;
+        yMin = binding.plotYMin;
+        yMinLabel = binding.plotYMinLabel;
+        yMax = binding.plotYMax;
+        yMaxLabel = binding.plotYMaxLabel;
+        yBounds = binding.yBounds;
 
         setDimension(xMin, bounds.left);
         setDimension(xMax, bounds.right);
@@ -175,7 +168,7 @@ public class PlotDimensionsFragment extends BaseDialogFragment
         if (d3) {
             yBounds.setVisibility(View.GONE);
         }
-        return view;
+        return binding.getRoot();
     }
 
     @Override

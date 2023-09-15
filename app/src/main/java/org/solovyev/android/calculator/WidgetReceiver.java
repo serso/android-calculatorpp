@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import org.solovyev.android.calculator.buttons.CppButton;
@@ -40,7 +40,9 @@ public final class WidgetReceiver extends BroadcastReceiver {
             return;
         }
 
-        cast(context).getComponent().inject(this);
+        if (keyboard == null || history == null) {
+            cast(context).getComponent().inject(this);
+        }
 
         final int buttonId = intent.getIntExtra(ACTION_BUTTON_ID_EXTRA, 0);
         final CppButton button = CppButton.getById(buttonId);

@@ -44,7 +44,6 @@ import jscl.math.Expression;
 import jscl.math.function.CustomFunction;
 import jscl.text.ParseException;
 
-@Config(constants = BuildConfig.class, manifest = Config.NONE)
 @RunWith(value = RobolectricTestRunner.class)
 public class AndroidEngineTest extends BaseCalculatorTest {
 

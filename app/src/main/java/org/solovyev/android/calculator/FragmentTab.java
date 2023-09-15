@@ -22,8 +22,8 @@
 
 package org.solovyev.android.calculator;
 
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 import org.solovyev.android.calculator.about.AboutFragment;
 import org.solovyev.android.calculator.about.ReleaseNotesFragment;
 import org.solovyev.android.calculator.functions.FunctionsFragment;

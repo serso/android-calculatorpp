@@ -22,42 +22,42 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    a:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     style="@style/CppMain"
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent"
-    a:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/activity_main_editor_with_overflow_menu" />
+    <include android:id="@+id/editor_container" layout="@layout/activity_main_editor_with_overflow_menu" />
 
     <LinearLayout
-        a:id="@+id/partial_keyboard"
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="1"
-        a:baselineAligned="false">
+        android:id="@+id/partial_keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false">
 
         <include
             layout="@layout/cpp_app_button_equals_no_bg"
-            a:layout_width="0dp"
-            a:layout_height="match_parent"
-            a:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             tools:ignore="NestedWeights" />
 
         <FrameLayout
-            a:id="@+id/display"
-            a:layout_width="0dp"
-            a:layout_height="match_parent"
-            a:layout_weight="4" />
+            android:id="@+id/display"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4" />
 
     </LinearLayout>
 
     <FrameLayout
-        a:id="@+id/keyboard"
-        a:layout_width="match_parent"
-        a:layout_height="0dp"
-        a:layout_weight="5" />
+        android:id="@+id/keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5" />
 
 </LinearLayout>

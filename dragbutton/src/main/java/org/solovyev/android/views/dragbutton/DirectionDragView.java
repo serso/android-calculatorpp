@@ -1,6 +1,7 @@
 package org.solovyev.android.views.dragbutton;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 public interface DirectionDragView extends DragView {
     @NonNull

@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.converter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.solovyev.android.calculator.Named;
 

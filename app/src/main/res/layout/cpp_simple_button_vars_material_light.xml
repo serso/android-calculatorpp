@@ -23,8 +23,8 @@
   -->
 
 <Button
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_vars"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/cpp_button_vars"
     style="@style/CppKeyboardButton.Material.Light.Simple.Control"
-    a:text="@string/cpp_kb_variables"
-    a:textStyle="italic" />
+    android:text="@string/cpp_kb_variables"
+    android:textStyle="italic" />

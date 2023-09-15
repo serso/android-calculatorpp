@@ -118,7 +118,7 @@ public abstract class AbstractMessage implements Message {
      */
     @Nonnull
     public String getLocalizedMessage(@Nonnull Locale locale) {
-        return makeMessage(locale, getMessagePattern(locale), parameters, messageLevel);
+        return makeMessage(locale, getMessagePattern(locale).replace("'", "''"), parameters, messageLevel);
     }
 
     @Nonnull

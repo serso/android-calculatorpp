@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.release;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 public class ReleaseNote {
     @NonNull

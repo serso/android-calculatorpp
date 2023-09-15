@@ -22,24 +22,24 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent"
-    a:gravity="center"
-    a:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
-        a:id="@+id/release_note_title"
+        android:id="@+id/release_note_title"
         style="@style/WizardLabel"
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:textAppearance="@android:style/TextAppearance.Large" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Large" />
 
     <TextView
-        a:id="@+id/release_note_message"
+        android:id="@+id/release_note_message"
         style="@style/WizardLabel.Last"
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:textAppearance="@android:style/TextAppearance.Medium" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
 
 </LinearLayout>

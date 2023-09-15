@@ -29,7 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import com.squareup.otto.Bus;
@@ -177,7 +177,7 @@ public class FloatingCalculatorService extends Service implements FloatingViewLi
         builder.setOngoing(true);
 
         final Intent intent = createShowWindowIntent(this);
-        builder.setContentIntent(PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+        builder.setContentIntent(PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
 
         final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID, builder.build());

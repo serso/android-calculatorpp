@@ -3,8 +3,8 @@ package org.solovyev.android.calculator.keyboard;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import org.solovyev.android.calculator.R;
@@ -14,28 +14,20 @@ import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static org.solovyev.android.calculator.Preferences.Gui.vibrateOnKeypress;
 import static org.solovyev.android.views.dragbutton.DragDirection.down;
 
 public class PartialKeyboardUi extends BaseKeyboardUi {
 
     @Nullable
-    @BindView(R.id.cpp_button_right)
     DirectionDragButton rightButton;
     @Nullable
-    @BindView(R.id.cpp_button_left)
     DirectionDragButton leftButton;
     @Nullable
-    @BindView(R.id.cpp_button_clear)
     DirectionDragButton clearButton;
     @Nullable
-    @BindView(R.id.cpp_button_erase)
     DirectionDragButton eraseButton;
     @Nullable
-    @BindView(R.id.cpp_button_equals)
     DirectionDragButton equalsButton;
     @Nullable
     EditorLongClickEraser longClickEraser;
@@ -48,7 +40,11 @@ public class PartialKeyboardUi extends BaseKeyboardUi {
     @Override
     public void onCreateView(@Nonnull Activity activity, @Nonnull View view) {
         super.onCreateView(activity, view);
-        ButterKnife.bind(this, view);
+        rightButton = view.findViewById(R.id.cpp_button_right);
+        leftButton = view.findViewById(R.id.cpp_button_left);
+        clearButton = view.findViewById(R.id.cpp_button_clear);
+        eraseButton = view.findViewById(R.id.cpp_button_erase);
+        equalsButton = view.findViewById(R.id.cpp_button_equals);
         prepareButton(rightButton);
         prepareButton(leftButton);
         prepareButton(equalsButton);

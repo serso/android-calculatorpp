@@ -6,8 +6,8 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<TextView a:id="@+id/calculator_display"
+<TextView android:id="@+id/calculator_display"
     style="@style/CppText.Display.Widget.Light"
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:scrollbars="vertical"
-    a:textIsSelectable="true" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="vertical"
+    android:textIsSelectable="true" />

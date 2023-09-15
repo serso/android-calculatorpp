@@ -4,7 +4,7 @@ import static org.solovyev.android.checkout.ProductTypes.IN_APP;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import org.solovyev.android.calculator.AdView;
@@ -16,8 +16,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AdUi {
 
@@ -26,7 +24,6 @@ public class AdUi {
     @NonNull
     private final Handler handler;
     @Nullable
-    @BindView(R.id.cpp_ad)
     AdView adView;
     @Nullable
     private Boolean adFree = null;
@@ -92,7 +89,7 @@ public class AdUi {
     }
 
     public void onCreateView(@NonNull View view) {
-        ButterKnife.bind(this, view);
+        adView = view.findViewById(R.id.cpp_ad);
     }
 
     public void onPause() {

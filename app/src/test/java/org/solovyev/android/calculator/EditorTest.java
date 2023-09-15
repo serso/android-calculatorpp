@@ -25,7 +25,7 @@ package org.solovyev.android.calculator;
 import static org.mockito.Mockito.mock;
 
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.squareup.otto.Bus;
 
@@ -37,7 +37,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-@Config(constants = BuildConfig.class)
 @RunWith(value = RobolectricTestRunner.class)
 public class EditorTest {
 

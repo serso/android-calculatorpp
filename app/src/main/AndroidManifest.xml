@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="org.solovyev.android.calculator"
-          android:installLocation="auto">
+    android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -31,7 +30,12 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9736972200639245~6870320906"/>
+
         <activity
+            android:exported="true"
             android:name=".CalculatorActivity"
             android:clearTaskOnLaunch="true"
             android:label="@string/cpp_app_name"
@@ -55,6 +59,7 @@
         </receiver>
 
         <activity
+            android:exported="false"
             android:name=".preferences.PreferencesActivity"
             android:label="@string/cpp_settings">
             <intent-filter>
@@ -120,6 +125,7 @@
             android:theme="@style/Cpp.Theme.Dialog" />
 
         <activity
+            android:exported="false"
             android:name=".plot.PlotActivity"
             android:label="@string/cpp_plotter">
             <intent-filter>
@@ -128,6 +134,7 @@
         </activity>
 
         <activity
+            android:exported="false"
             android:name=".wizard.WizardActivity"
             android:launchMode="singleTop"
             android:theme="@style/Cpp.Theme.Wizard">
@@ -144,6 +151,7 @@
         <!-- ONSCREEN CONFIG -->
 
         <activity
+            android:exported="true"
             android:name=".floating.FloatingCalculatorActivity"
             android:icon="@drawable/ic_launcher_window"
             android:label="@string/cpp_app_name_on_screen"
@@ -176,6 +184,7 @@
         <!-- WIDGET CONFIG -->
 
         <receiver
+            android:exported="true"
             android:name=".widget.CalculatorWidget"
             android:icon="@drawable/ic_launcher"
             android:label="@string/cpp_app_name">
@@ -201,17 +210,9 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
 
-        <!-- ACRA CONFIG -->
-
-        <activity
-            android:name="org.acra.CrashReportDialog"
-            android:excludeFromRecents="true"
-            android:finishOnTaskLaunch="true"
-            android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Dialog" />
-
         <!-- Google Analytics -->
         <receiver
+            android:exported="true"
             tools:ignore="ExportedReceiver"
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
             android:enabled="true">
@@ -220,14 +221,6 @@
             </intent-filter>
         </receiver>
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-        <receiver
-            tools:ignore="ExportedReceiver"
-            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
-            </intent-filter>
-        </receiver>
         <service
             android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"

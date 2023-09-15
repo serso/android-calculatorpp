@@ -22,48 +22,48 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<android.support.v4.widget.NestedScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
-            a:id="@+id/about_image"
-            a:layout_width="150dp"
-            a:layout_height="150dp"
-            a:layout_gravity="center"
-            a:padding="15dp"
-            a:scaleType="fitCenter"
-            a:src="@drawable/logo_wizard" />
+            android:id="@+id/about_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_wizard" />
 
         <TextView
-            a:id="@+id/about_text"
+            android:id="@+id/about_text"
             style="@style/CppText.About"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:text="@string/c_about_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/c_about_content" />
 
         <TextView
-            a:id="@+id/about_translators_label"
+            android:id="@+id/about_translators_label"
             style="@style/CppText.About"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:paddingBottom="0dp"
-            a:text="@string/cpp_translators_text" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="0dp"
+            android:text="@string/cpp_translators_text" />
 
         <TextView
-            a:id="@+id/about_translators"
+            android:id="@+id/about_translators"
             style="@style/CppText.About"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:paddingTop="0dp"
-            a:text="@string/cpp_translators_list" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="0dp"
+            android:text="@string/cpp_translators_list" />
 
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

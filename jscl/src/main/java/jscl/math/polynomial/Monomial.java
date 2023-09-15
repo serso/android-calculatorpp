@@ -223,7 +223,7 @@ public class Monomial implements Comparable {
         for (int i = 0; i < unknown.length; i++) {
             int c = element(i);
             if (c > 0) {
-                unknown[i].toMathML(element, new Integer(c));
+                unknown[i].toMathML(element, Integer.valueOf(c));
             }
         }
     }

@@ -26,17 +26,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import org.solovyev.android.calculator.databinding.CppAppEditorBinding;
 
 public class EditorFragment extends BaseFragment {
 
     @Inject
     Editor editor;
-    @BindView(R.id.calculator_editor)
     EditorView editorView;
 
     public EditorFragment() {
@@ -52,7 +50,8 @@ public class EditorFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, view);
+        CppAppEditorBinding binding = CppAppEditorBinding.bind(view);
+        editorView = binding.calculatorEditor;
         editor.setView(editorView);
         return view;
     }

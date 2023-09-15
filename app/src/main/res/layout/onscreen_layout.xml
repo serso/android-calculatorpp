@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CppMain.Onscreen"
-    a:orientation="vertical">
+    android:orientation="vertical">
 
     <include
-        a:id="@+id/onscreen_header"
+        android:id="@+id/onscreen_header"
         layout="@layout/onscreen_header" />
 
     <LinearLayout
-        a:id="@+id/onscreen_content"
-        a:layout_width="match_parent"
-        a:layout_height="match_parent"
-        a:orientation="vertical">
+        android:id="@+id/onscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include
             layout="@layout/onscreen_editor"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
-            a:layout_width="match_parent"
-            a:layout_height="0dp"
-            a:layout_weight="1"
-            a:baselineAligned="false">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:baselineAligned="false">
 
             <include
                 layout="@layout/cpp_simple_button_equals"
-                a:layout_width="0dp"
-                a:layout_height="match_parent"
-                a:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 tools:ignore="NestedWeights" />
 
             <include
                 layout="@layout/onscreen_display"
-                a:layout_width="0dp"
-                a:layout_height="match_parent"
-                a:layout_weight="5" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5" />
 
         </LinearLayout>
 
         <include
             layout="@layout/simple_keyboard"
-            a:layout_width="match_parent"
-            a:layout_height="0dp"
-            a:layout_weight="5" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5" />
     </LinearLayout>
 
 </LinearLayout>

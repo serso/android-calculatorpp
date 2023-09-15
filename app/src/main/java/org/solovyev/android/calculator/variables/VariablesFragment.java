@@ -24,10 +24,10 @@ package org.solovyev.android.calculator.variables;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.*;
+import androidx.fragment.app.FragmentActivity;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import jscl.math.function.IConstant;
@@ -110,25 +110,25 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> {
     @Override
     protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull final IConstant variable) {
         FragmentActivity activity = getActivity();
-        switch (item.getItemId()) {
-            case R.string.c_use:
-                onClick(variable);
-                return true;
-            case R.string.cpp_edit:
-                EditVariableFragment.showDialog(CppVariable.builder(variable).build(), activity);
-                return true;
-            case R.string.cpp_delete:
-                RemovalConfirmationDialog.showForVariable(getActivity(), variable.getName(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
-                        registry.remove(variable);
-                    }
-                });
-                return true;
-            case R.string.cpp_copy:
-                copyText(variable.getValue());
-                return true;
+        int itemId = item.getItemId();
+        if (itemId == R.string.c_use) {
+            onClick(variable);
+            return true;
+        } else if (itemId == R.string.cpp_edit) {
+            EditVariableFragment.showDialog(CppVariable.builder(variable).build(), activity);
+            return true;
+        } else if (itemId == R.string.cpp_delete) {
+            RemovalConfirmationDialog.showForVariable(getActivity(), variable.getName(), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                    registry.remove(variable);
+                }
+            });
+            return true;
+        } else if (itemId == R.string.cpp_copy) {
+            copyText(variable.getValue());
+            return true;
         }
         return false;
     }

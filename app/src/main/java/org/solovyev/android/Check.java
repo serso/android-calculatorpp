@@ -42,7 +42,8 @@ public final class Check {
     private static boolean isJunit() {
         final StackTraceElement[] stackTrace = currentThread().getStackTrace();
         for (StackTraceElement element : stackTrace) {
-            if (element.getClassName().startsWith("org.junit.")) {
+            String className = element.getClassName();
+            if (className.startsWith("org.junit.") || className.startsWith("org.robolectric.")) {
                 return true;
             }
         }

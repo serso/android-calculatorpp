@@ -4,10 +4,11 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 import jscl.JsclMathEngine;
-import org.solovyev.android.material.preferences.Preference;
 
 @SuppressWarnings("unused")
 public class NumberFormatExamplesPreference extends Preference {
@@ -45,15 +46,14 @@ public class NumberFormatExamplesPreference extends Preference {
     }
 
     @Override
-    protected View onCreateView(ViewGroup parent) {
-        final View view = super.onCreateView(parent);
-        final View summary = view.findViewById(android.R.id.summary);
+    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+        final View summary = holder.findViewById(android.R.id.summary);
         if (summary instanceof TextView) {
             final TextView textView = (TextView) summary;
             textView.setMaxLines(12);
             textView.setLines(12);
             textView.setTypeface(Typeface.MONOSPACE);
         }
-        return view;
     }
 }

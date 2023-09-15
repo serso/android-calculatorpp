@@ -22,16 +22,16 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<appwidget-provider xmlns:a="http://schemas.android.com/apk/res/android"
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
-                    a:initialKeyguardLayout="@layout/widget_layout_lockscreen"
-                    a:initialLayout="@layout/widget_layout_material"
-                    a:minHeight="250dp"
-                    a:minResizeHeight="180dp"
-                    a:minResizeWidth="180dp"
-                    a:minWidth="250dp"
-                    a:previewImage="@drawable/widget_preview"
-                    a:resizeMode="horizontal|vertical"
-                    a:updatePeriodMillis="0"
-                    a:widgetCategory="home_screen|keyguard"
+                    android:initialKeyguardLayout="@layout/widget_layout_lockscreen"
+                    android:initialLayout="@layout/widget_layout_material"
+                    android:minHeight="250dp"
+                    android:minResizeHeight="180dp"
+                    android:minResizeWidth="180dp"
+                    android:minWidth="250dp"
+                    android:previewImage="@drawable/widget_preview"
+                    android:resizeMode="horizontal|vertical"
+                    android:updatePeriodMillis="0"
+                    android:widgetCategory="home_screen|keyguard"
                     tools:ignore="UnusedAttribute"/>

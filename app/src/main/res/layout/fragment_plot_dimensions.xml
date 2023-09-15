@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/plot_x_min_label"
             style="@style/DimensionTextInput">
 
@@ -19,9 +19,9 @@
                 style="@style/DimensionEditText"
                 android:hint="@string/cpp_dimensions_x_min"
                 android:nextFocusRight="@+id/plot_x_max" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/plot_x_max_label"
             style="@style/DimensionTextInput"
             android:layout_marginLeft="@dimen/form_input_margin_hor"
@@ -33,7 +33,7 @@
                 android:hint="@string/dimensions_x_max"
                 android:nextFocusDown="@+id/plot_y_min"
                 android:nextFocusRight="@+id/plot_y_min" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/plot_y_min_label"
             style="@style/DimensionTextInput">
 
@@ -50,9 +50,9 @@
                 style="@style/DimensionEditText"
                 android:hint="@string/dimensions_y_min"
                 android:nextFocusRight="@+id/plot_y_max" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/plot_y_max_label"
             style="@style/DimensionTextInput"
             android:layout_marginLeft="@dimen/form_input_margin_hor"
@@ -62,7 +62,7 @@
                 android:id="@+id/plot_y_max"
                 style="@style/DimensionEditText.Last"
                 android:hint="@string/dimensions_y_max" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 </LinearLayout>

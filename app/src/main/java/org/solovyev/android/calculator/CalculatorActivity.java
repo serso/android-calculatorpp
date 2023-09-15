@@ -25,11 +25,9 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.widget.PopupMenu;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.GravityCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -38,10 +36,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import butterknife.BindView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.converter.ConverterFragment;
+import org.solovyev.android.calculator.databinding.ActivityMainBinding;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
 import org.solovyev.android.widget.menu.CustomPopupMenu;
@@ -65,16 +65,21 @@ public class CalculatorActivity extends BaseActivity implements View.OnClickList
     @Inject
     StartupHelper startupHelper;
     @Nullable
-    @BindView(R.id.partial_keyboard)
     View partialKeyboard;
-    @BindView(R.id.editor)
     FrameLayout editor;
-    @BindView(R.id.main_menu)
     View mainMenuButton;
     private boolean useBackAsPrevious;
 
     public CalculatorActivity() {
         super(R.layout.activity_main, R.string.cpp_app_name);
+    }
+
+    @Override
+    protected void bindViews(@Nonnull View contentView) {
+        ActivityMainBinding binding = ActivityMainBinding.bind(contentView.findViewById(R.id.main));
+        partialKeyboard = binding.partialKeyboard;
+        editor = binding.editorContainer.editor;
+        mainMenuButton = binding.editorContainer.mainMenu;
     }
 
     @Override
@@ -149,10 +154,8 @@ public class CalculatorActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.main_menu:
-                mainMenu.toggle();
-                break;
+        if (v.getId() == R.id.main_menu) {
+            mainMenu.toggle();
         }
     }
 
@@ -171,7 +174,7 @@ public class CalculatorActivity extends BaseActivity implements View.OnClickList
 
         public void toggle() {
             if (popup == null) {
-                popup = new CustomPopupMenu(CalculatorActivity.this, mainMenuButton, GravityCompat.END, R.attr.actionOverflowMenuStyle, 0);
+                popup = new CustomPopupMenu(CalculatorActivity.this, mainMenuButton, GravityCompat.END, android.R.attr.actionOverflowMenuStyle, 0);
                 popup.inflate(R.menu.main);
                 popup.setOnMenuItemClickListener(this);
                 popup.setKeepOnSubMenu(true);
@@ -227,45 +230,45 @@ public class CalculatorActivity extends BaseActivity implements View.OnClickList
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.menu_settings:
-                    launcher.showSettings();
-                    return true;
-                case R.id.menu_history:
-                    launcher.showHistory();
-                    return true;
-                case R.id.menu_plotter:
-                    launcher.showPlotter();
-                    return true;
-                case R.id.menu_conversion_tool:
-                    ConverterFragment.show(CalculatorActivity.this);
-                    return true;
-                case R.id.menu_about:
-                    launcher.showAbout();
-                    return true;
-                case R.id.menu_mode_engineer:
-                    Preferences.Gui.mode.putPreference(preferences, Preferences.Gui.Mode.engineer);
-                    restartIfModeChanged();
-                    return true;
-                case R.id.menu_mode_simple:
-                    Preferences.Gui.mode.putPreference(preferences, Preferences.Gui.Mode.simple);
-                    restartIfModeChanged();
-                    return true;
-                case R.id.menu_au_deg:
-                    Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
-                    return true;
-                case R.id.menu_au_rad:
-                    Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
-                    return true;
-                case R.id.menu_nb_bin:
-                    Engine.Preferences.numeralBase.putPreference(preferences, NumeralBase.bin);
-                    return true;
-                case R.id.menu_nb_dec:
-                    Engine.Preferences.numeralBase.putPreference(preferences, NumeralBase.dec);
-                    return true;
-                case R.id.menu_nb_hex:
-                    Engine.Preferences.numeralBase.putPreference(preferences, NumeralBase.hex);
-                    return true;
+            int itemId = item.getItemId();
+            if (itemId == R.id.menu_settings) {
+                launcher.showSettings();
+                return true;
+            } else if (itemId == R.id.menu_history) {
+                launcher.showHistory();
+                return true;
+            } else if (itemId == R.id.menu_plotter) {
+                launcher.showPlotter();
+                return true;
+            } else if (itemId == R.id.menu_conversion_tool) {
+                ConverterFragment.show(CalculatorActivity.this);
+                return true;
+            } else if (itemId == R.id.menu_about) {
+                launcher.showAbout();
+                return true;
+            } else if (itemId == R.id.menu_mode_engineer) {
+                Preferences.Gui.mode.putPreference(preferences, Preferences.Gui.Mode.engineer);
+                restartIfModeChanged();
+                return true;
+            } else if (itemId == R.id.menu_mode_simple) {
+                Preferences.Gui.mode.putPreference(preferences, Preferences.Gui.Mode.simple);
+                restartIfModeChanged();
+                return true;
+            } else if (itemId == R.id.menu_au_deg) {
+                Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
+                return true;
+            } else if (itemId == R.id.menu_au_rad) {
+                Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
+                return true;
+            } else if (itemId == R.id.menu_nb_bin) {
+                Engine.Preferences.numeralBase.putPreference(preferences, NumeralBase.bin);
+                return true;
+            } else if (itemId == R.id.menu_nb_dec) {
+                Engine.Preferences.numeralBase.putPreference(preferences, NumeralBase.dec);
+                return true;
+            } else if (itemId == R.id.menu_nb_hex) {
+                Engine.Preferences.numeralBase.putPreference(preferences, NumeralBase.hex);
+                return true;
             }
             return false;
         }

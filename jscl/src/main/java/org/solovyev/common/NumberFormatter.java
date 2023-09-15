@@ -10,6 +10,7 @@ import static midpcalc.Real.NumberFormat.FSE_SCI;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import java.math.RoundingMode;
 import javax.annotation.Nonnull;
 
 import midpcalc.Real;
@@ -77,7 +78,7 @@ public class NumberFormatter {
         if (simpleFormat) {
             precision += 1;
             final int newScale = Math.max(1, (int) (precision * Math.max(1, radix / 10f)) - 1);
-            value = BigDecimal.valueOf(value).setScale(newScale, BigDecimal.ROUND_HALF_UP).doubleValue();
+            value = BigDecimal.valueOf(value).setScale(newScale, RoundingMode.HALF_UP).doubleValue();
             absValue = Math.abs(value);
         }
         if (simpleFormat) {

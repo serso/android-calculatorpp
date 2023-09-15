@@ -23,7 +23,7 @@ import org.solovyev.android.wizard.Wizards;
 
 import javax.annotation.Nonnull;
 
-@Config(constants = BuildConfig.class, manifest = Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(value = RobolectricTestRunner.class)
 public class CalculatorWizardTest {
 

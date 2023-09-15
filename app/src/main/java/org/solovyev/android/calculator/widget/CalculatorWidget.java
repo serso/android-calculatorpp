@@ -31,8 +31,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.SpannedString;
@@ -139,7 +139,7 @@ public class CalculatorWidget extends AppWidgetProvider {
 
             if (!partially) {
                 for (CppButton button : CppButton.values()) {
-                    final PendingIntent intent = PendingIntent.getBroadcast(context, button.id, newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
+                    final PendingIntent intent = PendingIntent.getBroadcast(context, button.id, newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                     if (intent != null) {
                         final int buttonId;
                         if (button == CppButton.settings_widget) {

@@ -9,11 +9,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
 
+import androidx.appcompat.widget.AppCompatSeekBar;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.R;
 

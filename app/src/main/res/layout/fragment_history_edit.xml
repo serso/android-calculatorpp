@@ -22,36 +22,36 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    a:layout_width="wrap_content"
-    a:layout_height="wrap_content"
-    a:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <EditText
-            a:id="@+id/history_expression"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:editable="false"
-            a:hint="@string/c_history_expression"
-            a:inputType="none"
+            android:id="@+id/history_expression"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="@string/c_history_expression"
+            android:inputType="none"
             tools:ignore="Deprecated" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <EditText
-            a:id="@+id/history_comment"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:hint="@string/c_history_comment"
-            a:inputType="text" />
+            android:id="@+id/history_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/c_history_comment"
+            android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

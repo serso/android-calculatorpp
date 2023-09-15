@@ -23,8 +23,8 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
+import androidx.fragment.app.Fragment;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;

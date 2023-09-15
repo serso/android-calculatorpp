@@ -2,10 +2,10 @@ package org.solovyev.android.views.dragbutton;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static java.lang.Math.toDegrees;
 import static org.solovyev.android.views.dragbutton.Drag.*;

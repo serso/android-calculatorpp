@@ -3,13 +3,13 @@ package org.solovyev.android.calculator.wizard;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.LayoutRes;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.fragment.app.Fragment;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.R;
@@ -117,7 +117,7 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
     }
 
     @Override
-    public void onViewCreated(View view, @android.support.annotation.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @androidx.annotation.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         BaseActivity.fixFonts(view, typeface);
     }
@@ -141,21 +141,18 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         final int id = v.getId();
         final WizardActivity activity = getWizardActivity();
-        switch (id) {
-            case R.id.wizard_next:
-                if (activity.canGoNext()) {
-                    activity.goNext();
-                } else {
-                    activity.finishWizard();
-                }
-                break;
-            case R.id.wizard_prev:
-                if (activity.canGoPrev()) {
-                    activity.goPrev();
-                } else {
-                    activity.finishWizardAbruptly();
-                }
-                break;
+        if (id == R.id.wizard_next) {
+            if (activity.canGoNext()) {
+                activity.goNext();
+            } else {
+                activity.finishWizard();
+            }
+        } else if (id == R.id.wizard_prev) {
+            if (activity.canGoPrev()) {
+                activity.goPrev();
+            } else {
+                activity.finishWizardAbruptly();
+            }
         }
     }
 

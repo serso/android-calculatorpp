@@ -3,10 +3,8 @@ package org.solovyev.android.calculator.keyboard;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import jscl.NumeralBase;
@@ -24,25 +22,15 @@ import static org.solovyev.android.views.dragbutton.DragDirection.*;
 
 public class KeyboardUi extends BaseKeyboardUi {
 
-    @BindView(R.id.cpp_button_0)
     public DirectionDragButton button0;
-    @BindView(R.id.cpp_button_1)
     public DirectionDragButton button1;
-    @BindView(R.id.cpp_button_2)
     public DirectionDragButton button2;
-    @BindView(R.id.cpp_button_3)
     public DirectionDragButton button3;
-    @BindView(R.id.cpp_button_4)
     public DirectionDragButton button4;
-    @BindView(R.id.cpp_button_5)
     public DirectionDragButton button5;
-    @BindView(R.id.cpp_button_6)
     public DirectionDragButton button6;
-    @BindView(R.id.cpp_button_7)
     public DirectionDragButton button7;
-    @BindView(R.id.cpp_button_8)
     public DirectionDragButton button8;
-    @BindView(R.id.cpp_button_9)
     public DirectionDragButton button9;
     @Inject
     Engine engine;
@@ -52,35 +40,22 @@ public class KeyboardUi extends BaseKeyboardUi {
     Bus bus;
     @Inject
     PartialKeyboardUi partialUi;
-    @BindView(R.id.cpp_button_vars)
     DirectionDragButton variablesButton;
     @Nullable
-    @BindView(R.id.cpp_button_operators)
     DirectionDragButton operatorsButton;
-    @BindView(R.id.cpp_button_functions)
     DirectionDragButton functionsButton;
-    @BindView(R.id.cpp_button_history)
     DirectionDragButton historyButton;
-    @BindView(R.id.cpp_button_multiplication)
     DirectionDragButton multiplicationButton;
-    @BindView(R.id.cpp_button_plus)
     DirectionDragButton plusButton;
-    @BindView(R.id.cpp_button_subtraction)
     DirectionDragButton subtractionButton;
-    @BindView(R.id.cpp_button_division)
     DirectionDragButton divisionButton;
-    @BindView(R.id.cpp_button_period)
     DirectionDragButton periodButton;
-    @BindView(R.id.cpp_button_round_brackets)
     DirectionDragButton bracketsButton;
     @Nullable
-    @BindView(R.id.cpp_button_like)
     DirectionDragButton likeButton;
     @Nullable
-    @BindView(R.id.cpp_button_percent)
     DirectionDragButton percentButton;
     @Nullable
-    @BindView(R.id.cpp_button_memory)
     DirectionDragButton memoryButton;
 
     @Inject
@@ -101,7 +76,30 @@ public class KeyboardUi extends BaseKeyboardUi {
     public void onCreateView(@Nonnull Activity activity, @Nonnull View view) {
         super.onCreateView(activity, view);
         partialUi.onCreateView(activity, view);
-        ButterKnife.bind(this, view);
+        button0 = view.findViewById(R.id.cpp_button_0);
+        button1 = view.findViewById(R.id.cpp_button_1);
+        button2 = view.findViewById(R.id.cpp_button_2);
+        button3 = view.findViewById(R.id.cpp_button_3);
+        button4 = view.findViewById(R.id.cpp_button_4);
+        button5 = view.findViewById(R.id.cpp_button_5);
+        button6 = view.findViewById(R.id.cpp_button_6);
+        button7 = view.findViewById(R.id.cpp_button_7);
+        button8 = view.findViewById(R.id.cpp_button_8);
+        button9 = view.findViewById(R.id.cpp_button_9);
+
+        variablesButton = view.findViewById(R.id.cpp_button_vars);
+        operatorsButton = view.findViewById(R.id.cpp_button_operators);
+        functionsButton = view.findViewById(R.id.cpp_button_functions);
+        historyButton = view.findViewById(R.id.cpp_button_history);
+        multiplicationButton = view.findViewById(R.id.cpp_button_multiplication);
+        plusButton = view.findViewById(R.id.cpp_button_plus);
+        subtractionButton = view.findViewById(R.id.cpp_button_subtraction);
+        divisionButton = view.findViewById(R.id.cpp_button_division);
+        periodButton = view.findViewById(R.id.cpp_button_period);
+        bracketsButton = view.findViewById(R.id.cpp_button_round_brackets);
+        likeButton = view.findViewById(R.id.cpp_button_like);
+        percentButton = view.findViewById(R.id.cpp_button_percent);
+        memoryButton = view.findViewById(R.id.cpp_button_memory);
 
         prepareButton(variablesButton);
         prepareButton(operatorsButton);

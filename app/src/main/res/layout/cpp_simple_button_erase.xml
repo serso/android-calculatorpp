@@ -23,7 +23,7 @@
   -->
 
 <ImageButton
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@id/cpp_button_erase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/cpp_button_erase"
     style="@style/CppKeyboardButton.Metro.Simple.Operation.Image"
-    a:src="@drawable/ic_backspace_white_48dp" />
+    android:src="@drawable/ic_backspace_white_48dp" />

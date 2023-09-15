@@ -68,11 +68,11 @@
     <string name="cpp_plot_too_many_variables">Ei voi piirtää: liian monta muuttujaa!</string>
     <string name="cpp_plot_range">Kuva-alue</string>
     <string name="cpp_continue">Jatka</string>
-    <string name="cpp_purchase_text">Menossa mukana on helppoa ja turvallista: ostoprosessi on Googlen tarjoama ja kaikki mitä tarvitset on määritetty oikein Google account.\n\n maksun tiedot tallennetaan Googlen palvelimille Google-tilisi ja voit helposti käyttää tämän sovelluksen useita devices.\n\n klikkaamalla \'Jatka\' painiketta sinut ohjataan Google Play App maksamiseen.  </string>
+    <string name="cpp_purchase_text">Menossa mukana on helppoa ja turvallistandroid: ostoprosessi on Googlen tarjoama ja kaikki mitä tarvitset on määritetty oikein Google account.\n\n maksun tiedot tallennetaan Googlen palvelimille Google-tilisi ja voit helposti käyttää tämän sovelluksen useita devices.\n\n klikkaamalla \'Jatka\' painiketta sinut ohjataan Google Play App maksamiseen.  </string>
     <string name="cpp_purchase_title">Osta</string>
     <string name="cpp_clear_history_title">Tyhjennä historia?</string>
     <string name="cpp_clear_history_message">Kaikki historia tyhjennetään.</string>
     <string name="cpp_clear_history">Tyhjennä</string>
     <string name="cpp_new_in_version">Uutta versiossa %1$s</string>
-    <string name="cpp_release_notes_choose_theme">Haluatko kokeilla uusia materiaaliteemoja? Valitse luettelosta:</string>
+    <string name="cpp_release_notes_choose_theme">Haluatko kokeilla uusia materiaaliteemoja? Valitse luettelostandroid:</string>
 </resources>

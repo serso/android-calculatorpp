@@ -41,7 +41,7 @@ import java.lang.reflect.Field;
 
 import javax.annotation.Nonnull;
 
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricTestRunner.class)
 public class OnScreenCalculatorWizardStepTest {
 

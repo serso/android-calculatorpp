@@ -2,12 +2,9 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion versions.sdk.compile
-    buildToolsVersion versions.sdk.buildTools
     defaultConfig {
         minSdkVersion versions.sdk.min
         targetSdkVersion versions.sdk.target
-        versionCode 1
-        versionName "1.0"
     }
     buildTypes {
         release {
@@ -15,9 +12,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'org.solovyev.android.views.dragbutton'
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:${versions.supportLib}"
-    implementation "com.android.support:support-annotations:${versions.supportLib}"
+    implementation "androidx.annotation:annotation:1.6.0"
+    implementation 'com.google.android.material:material:1.9.0'
 }

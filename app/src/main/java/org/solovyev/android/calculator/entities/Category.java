@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.entities;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import org.solovyev.common.math.MathEntity;
 

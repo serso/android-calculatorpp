@@ -27,8 +27,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -36,13 +36,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.solovyev.android.calculator.Tests.sameThreadExecutor;
 import static org.solovyev.android.calculator.jscl.JsclOperation.numeric;
-
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
-
 import com.squareup.otto.Bus;
-
+import dagger.Lazy;
+import java.io.File;
+import java.util.List;
+import javax.annotation.Nonnull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,8 +51,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
-import org.solovyev.android.calculator.BuildConfig;
 import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.Editor;
@@ -61,14 +60,6 @@ import org.solovyev.android.calculator.ErrorReporter;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.io.FileSystem;
 
-import java.io.File;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import dagger.Lazy;
-
-@Config(constants = BuildConfig.class, manifest = Config.NONE)
 @RunWith(value = RobolectricTestRunner.class)
 public class HistoryTest {
 
@@ -138,8 +129,10 @@ public class HistoryTest {
         addState("12 345");
 
         List<HistoryState> states = history.getRecent();
-        assertEquals(1, states.size());
+        assertEquals(3, states.size());
         assertEquals("12 345", states.get(0).editor.getTextString());
+        assertEquals("1 234", states.get(1).editor.getTextString());
+        assertEquals("123", states.get(2).editor.getTextString());
         history.clearRecent();
 
         when(history.preferences.getString(eq(Engine.Preferences.Output.separator.getKey()), anyString())).thenReturn("'");
@@ -151,7 +144,7 @@ public class HistoryTest {
         addState("12 345");
 
         states = history.getRecent();
-        assertEquals(2, states.size());
+        assertEquals(4, states.size());
         assertEquals("12 345", states.get(0).editor.getTextString());
         assertEquals("12'345", states.get(1).editor.getTextString());
     }
@@ -302,7 +295,7 @@ public class HistoryTest {
     @Test
     public void testShouldMigrateOldHistory() throws Exception {
         history.fileSystem = new FileSystem();
-        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), anyString())).thenReturn(oldXml2);
+        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), any())).thenReturn(oldXml2);
         history.init(sameThreadExecutor());
         Robolectric.flushForegroundThreadScheduler();
         checkOldXml2States(history.getSaved());
@@ -311,7 +304,7 @@ public class HistoryTest {
     @Test
     public void testShouldWriteNewHistoryFile() throws Exception {
         history.fileSystem = mock(FileSystem.class);
-        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), anyString()))
+        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), any()))
             .thenReturn(oldXml1);
         history.init(sameThreadExecutor());
         Robolectric.flushForegroundThreadScheduler();
@@ -347,7 +340,7 @@ public class HistoryTest {
 
     @Test
     public void testShouldReportOnMigrateException() throws Exception {
-        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), anyString())).thenReturn(
+        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), any())).thenReturn(
             "boom");
         history.init(sameThreadExecutor());
 
@@ -356,7 +349,7 @@ public class HistoryTest {
 
     @Test
     public void testShouldNotRemoveOldHistoryOnError() throws Exception {
-        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), anyString())).thenReturn("boom");
+        when(history.preferences.getString(eq(History.OLD_HISTORY_PREFS_KEY), any())).thenReturn("boom");
         history.init(sameThreadExecutor());
 
         verify(history.preferences, never()).edit();

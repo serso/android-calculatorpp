@@ -1,6 +1,6 @@
 package org.solovyev.android.views.dragbutton;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public interface DragView {
     int getId();

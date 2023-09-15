@@ -27,7 +27,7 @@ import static android.text.TextUtils.isEmpty;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.common.base.Strings;

@@ -28,11 +28,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
@@ -45,6 +41,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import com.google.android.material.textfield.TextInputLayout;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
@@ -57,6 +57,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.RemovalConfirmationDialog;
 import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.calculator.VariablesRegistry;
+import org.solovyev.android.calculator.databinding.FragmentVariableEditBinding;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboard;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
@@ -72,8 +73,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import dagger.Lazy;
 import jscl.math.function.IConstant;
 
@@ -85,10 +84,13 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     private final static List<Character> ACCEPTABLE_CHARACTERS = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + GreekFloatingKeyboard.ALPHABET).toCharArray()));
     @NonNull
     private final KeyboardUser keyboardUser = new KeyboardUser();
-    @BindView(R.id.variable_name_label)
     TextInputLayout nameLabel;
-    @BindView(R.id.variable_name)
     EditTextCompat nameView;
+    Button keyboardButton;
+    TextInputLayout valueLabel;
+    EditText valueView;
+    Button exponentButton;
+    EditText descriptionView;
     @NonNull
     private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(new PopupWindow.OnDismissListener() {
         @Override
@@ -96,16 +98,6 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
             nameView.setShowSoftInputOnFocusCompat(true);
         }
     });
-    @BindView(R.id.variable_keyboard_button)
-    Button keyboardButton;
-    @BindView(R.id.variable_value_label)
-    TextInputLayout valueLabel;
-    @BindView(R.id.variable_value)
-    EditText valueView;
-    @BindView(R.id.variable_exponent_button)
-    Button exponentButton;
-    @BindView(R.id.variable_description)
-    EditText descriptionView;
     @Inject
     Calculator calculator;
     @Inject
@@ -167,7 +159,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     }
 
     @Override
-    public void onCreate(@android.support.annotation.Nullable Bundle savedInstanceState) {
+    public void onCreate(@androidx.annotation.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Bundle arguments = getArguments();
         if (arguments != null) {
@@ -309,9 +301,15 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
     @SuppressLint("InflateParams")
     @NonNull
     @Override
-    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @android.support.annotation.Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_variable_edit, null);
-        ButterKnife.bind(this, view);
+    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @androidx.annotation.Nullable Bundle savedInstanceState) {
+        final FragmentVariableEditBinding binding = FragmentVariableEditBinding.inflate(inflater, null, false);
+        nameLabel = binding.variableNameLabel;
+        nameView = binding.variableName;
+        keyboardButton = binding.variableKeyboardButton;
+        valueLabel = binding.variableValueLabel;
+        valueView = binding.variableValue;
+        exponentButton = binding.variableExponentButton;
+        descriptionView = binding.variableDescription;
 
         if (savedInstanceState == null && variable != null) {
             nameView.setText(variable.name);
@@ -331,26 +329,24 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
         descriptionView.setOnFocusChangeListener(this);
         keyboardButton.setOnClickListener(this);
 
-        return view;
+        return binding.getRoot();
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        switch (v.getId()) {
-            case R.id.variable_name:
-                if (hasFocus) {
-                    clearError(nameLabel);
-                } else {
-                    keyboardUser.done();
-                }
-                break;
-            case R.id.variable_value:
-                if (hasFocus) {
-                    clearError(valueLabel);
-                } else {
-                    validateValue();
-                }
-                break;
+        int id = v.getId();
+        if (id == R.id.variable_name) {
+            if (hasFocus) {
+                clearError(nameLabel);
+            } else {
+                keyboardUser.done();
+            }
+        } else if (id == R.id.variable_value) {
+            if (hasFocus) {
+                clearError(valueLabel);
+            } else {
+                validateValue();
+            }
         }
     }
 
@@ -368,22 +364,19 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.variable_keyboard_button:
-                if (keyboardWindow.isShown()) {
-                    keyboardUser.showIme();
-                } else {
-                    showKeyboard();
-                }
-                break;
-            case R.id.variable_exponent_button:
-                final int start = Math.max(valueView.getSelectionStart(), 0);
-                final int end = Math.max(valueView.getSelectionEnd(), 0);
-                valueView.getText().replace(Math.min(start, end), Math.max(start, end), "E", 0, 1);
-                break;
-            default:
-                super.onClick(v);
-                break;
+        int id = v.getId();
+        if (id == R.id.variable_keyboard_button) {
+            if (keyboardWindow.isShown()) {
+                keyboardUser.showIme();
+            } else {
+                showKeyboard();
+            }
+        } else if (id == R.id.variable_exponent_button) {
+            final int start = Math.max(valueView.getSelectionStart(), 0);
+            final int end = Math.max(valueView.getSelectionEnd(), 0);
+            valueView.getText().replace(Math.min(start, end), Math.max(start, end), "E", 0, 1);
+        } else {
+            super.onClick(v);
         }
     }
 

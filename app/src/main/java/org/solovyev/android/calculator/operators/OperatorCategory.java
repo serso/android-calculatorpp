@@ -22,7 +22,7 @@
 
 package org.solovyev.android.calculator.operators;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import jscl.math.operator.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.Category;

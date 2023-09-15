@@ -46,7 +46,6 @@ import jscl.MathEngine;
 import jscl.math.Expression;
 import jscl.util.ExpressionGeneratorWithInput;
 
-@Config(constants = BuildConfig.class)
 @RunWith(value = RobolectricTestRunner.class)
 public class NumeralBaseTest extends BaseCalculatorTest {
 

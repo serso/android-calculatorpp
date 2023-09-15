@@ -22,12 +22,12 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        a:entries="@array/cpp_simple_theme_names"
-        a:entryValues="@array/cpp_simple_themes"
-        a:key="widget.theme"
-        a:title="@string/cpp_theme" />
+        android:entries="@array/cpp_simple_theme_names"
+        android:entryValues="@array/cpp_simple_themes"
+        android:key="widget.theme"
+        android:title="@string/cpp_theme" />
 
 </PreferenceScreen>

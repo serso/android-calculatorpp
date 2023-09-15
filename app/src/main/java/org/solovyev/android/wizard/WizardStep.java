@@ -1,8 +1,8 @@
 package org.solovyev.android.wizard;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
+import androidx.fragment.app.Fragment;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

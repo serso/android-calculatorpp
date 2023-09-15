@@ -22,7 +22,7 @@
 
 package org.solovyev.android.calculator.functions;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.Category;

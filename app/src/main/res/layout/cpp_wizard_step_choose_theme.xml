@@ -22,31 +22,31 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent"
-    a:gravity="center"
-    a:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
-        a:id="@+id/wizard_theme_title"
+        android:id="@+id/wizard_theme_title"
         style="@style/WizardLabel"
-        a:layout_width="wrap_content"
-        a:layout_height="wrap_content"
-        a:text="@string/cpp_wizard_theme_title"
-        a:textAppearance="@android:style/TextAppearance.Large" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cpp_wizard_theme_title"
+        android:textAppearance="@android:style/TextAppearance.Large" />
 
     <Spinner
-        a:id="@+id/wizard_theme_spinner"
+        android:id="@+id/wizard_theme_spinner"
         style="@style/WizardLabel"
-        a:layout_width="wrap_content"
-        a:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <FrameLayout
-        a:id="@+id/wizard_theme_preview"
+        android:id="@+id/wizard_theme_preview"
         style="@style/WizardLabel.Last"
-        a:layout_width="wrap_content"
-        a:layout_height="wrap_content"
-        a:orientation="vertical" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 
 </LinearLayout>

@@ -1,14 +1,14 @@
 package org.solovyev.android.calculator.view;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class PagerViewFabBehavior extends FloatingActionButton.Behavior {
 
@@ -34,7 +34,7 @@ public class PagerViewFabBehavior extends FloatingActionButton.Behavior {
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout,
-            FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
+                                       FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
         if (!child.isClickable()) {
             return false;
         }

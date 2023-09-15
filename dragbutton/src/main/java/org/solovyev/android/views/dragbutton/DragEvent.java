@@ -1,7 +1,7 @@
 package org.solovyev.android.views.dragbutton;
 
 import android.graphics.PointF;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.MotionEvent;
 
 public class DragEvent {

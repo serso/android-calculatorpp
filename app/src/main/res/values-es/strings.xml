@@ -75,5 +75,5 @@
     <string name="cpp_clear_history">Limpiar</string>
     <string name="cpp_new_in_version">Nuevo en versión %1$s</string>
   <string name="cpp_release_notes_choose_theme">¿Desea probar nuevos temas Material?
-Escojalos de la lista:</string>
+Escojalos de la listandroid:</string>
 </resources>

@@ -21,7 +21,6 @@ import static android.util.TypedValue.applyDimension;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -29,6 +28,7 @@ import android.util.AttributeSet;
 import android.util.TimingLogger;
 import android.util.TypedValue;
 import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Text view that auto adjusts text size to fit within the view.

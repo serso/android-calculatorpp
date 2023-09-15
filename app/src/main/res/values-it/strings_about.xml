@@ -5,7 +5,7 @@ Se ti piace la applizione\n valutala con 5 stelle su\n<a href="https://market.an
 Questa applicazione utilizza le seguenti libreria open source:\n
 <a href="http://simple.sourceforge.net">Simple (serializzazione XML)</a>\n
 <a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a></string>
-    <string name="cpp_translators_text">Questa app è stata tradotta in Italiano da: </string>
+    <string name="cpp_translators_text">Questa app è stata tradotta in Italiano dandroid: </string>
     <string name="cpp_translators_list"> </string>
     <string name="c_release_notes">Note di versione</string>
     <string name="c_release_notes_for_title">"Novità nella versione "</string>

@@ -25,14 +25,12 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import android.view.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.appcompat.app.AlertDialog;
 import com.squareup.otto.Bus;
 import jscl.NumeralBase;
 import jscl.math.Generic;
@@ -63,19 +61,17 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
 
         @Nullable
         public static ConversionMenuItem getByTitle(int title) {
-            switch (title) {
-                case R.string.convert_to_bin:
-                    return to_bin;
-                case R.string.convert_to_dec:
-                    return to_dec;
-                case R.string.convert_to_hex:
-                    return to_hex;
+            if (title == R.string.convert_to_bin) {
+                return to_bin;
+            } else if (title == R.string.convert_to_dec) {
+                return to_dec;
+            } else if (title == R.string.convert_to_hex) {
+                return to_hex;
             }
             return null;
         }
     }
 
-    @BindView(R.id.calculator_display)
     DisplayView displayView;
     @Inject
     SharedPreferences preferences;
@@ -106,7 +102,7 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, view);
+        displayView = view.findViewById(R.id.calculator_display);
         display.setView(displayView);
         displayView.setOnClickListener(this);
         return view;
@@ -181,30 +177,27 @@ public class DisplayFragment extends BaseFragment implements View.OnClickListene
     public boolean onMenuItemClick(MenuItem item) {
         final DisplayState state = display.getState();
         final Generic result = state.getResult();
-        switch (item.getItemId()) {
-            case R.string.cpp_copy:
-                display.copy();
-                return true;
-            case R.string.convert_to_bin:
-            case R.string.convert_to_dec:
-            case R.string.convert_to_hex:
-                final ConversionMenuItem menuItem = ConversionMenuItem.getByTitle(item.getItemId());
-                if (menuItem == null) {
-                    return false;
-                }
-                if (result != null) {
-                    calculator.convert(state, menuItem.toNumeralBase);
-                }
-                return true;
-            case R.string.c_convert:
-                ConverterFragment.show(getActivity(), getValue(result));
-                return true;
-            case R.string.c_plot:
-                launcher.plot(result);
-                return true;
-            default:
+        int itemId = item.getItemId();
+        if (itemId == R.string.cpp_copy) {
+            display.copy();
+            return true;
+        } else if (itemId == R.string.convert_to_bin || itemId == R.string.convert_to_dec || itemId == R.string.convert_to_hex) {
+            final ConversionMenuItem menuItem = ConversionMenuItem.getByTitle(item.getItemId());
+            if (menuItem == null) {
                 return false;
+            }
+            if (result != null) {
+                calculator.convert(state, menuItem.toNumeralBase);
+            }
+            return true;
+        } else if (itemId == R.string.c_convert) {
+            ConverterFragment.show(getActivity(), getValue(result));
+            return true;
+        } else if (itemId == R.string.c_plot) {
+            launcher.plot(result);
+            return true;
         }
+        return false;
     }
 
     private static double getValue(@Nullable Generic result) {

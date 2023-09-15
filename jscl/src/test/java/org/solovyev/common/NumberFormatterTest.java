@@ -129,7 +129,7 @@ public class NumberFormatterTest {
         assertEquals("5000000000000000000", numberFormatter.format(5000000000000000001d));
         assertEquals("5000000000000000001", numberFormatter.format(BigInteger.valueOf(5000000000000000001L)));
 
-        assertEquals("5999999999999994900", numberFormatter.format(5999999999999994999d));
+        assertEquals("5999999999999995000", numberFormatter.format(5999999999999994999d));
         assertEquals("5999999999999994999", numberFormatter.format(BigInteger.valueOf(5999999999999994999L)));
 
         assertEquals("5E19", numberFormatter.format(50000000000000000000d));

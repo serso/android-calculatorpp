@@ -41,7 +41,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
     @Nonnull
     private static final Integer MAX_DEPTH = 20;
-    
+
     @Inject
     Engine engine;
 
@@ -50,7 +50,17 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
     }
 
     private static PreparedExpression processWithDepth(@Nonnull String s, int depth, @Nonnull List<IConstant> undefinedVars, @Nonnull Engine engine) throws ParseException {
-        return replaceVariables(processExpression(s, engine).toString(), depth, undefinedVars, engine);
+        return replaceVariables(processExpression(removeWhitespaces(s), engine).toString(), depth, undefinedVars, engine);
+    }
+
+    private static String removeWhitespaces(String s) {
+        final StringBuilder res = new StringBuilder(s.length());
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isWhitespace(c)) continue;
+            res.append(c);
+        }
+        return res.toString();
     }
 
     @Nonnull

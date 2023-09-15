@@ -179,11 +179,13 @@
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
     </style>
 
-    <style name="PrimaryButton" parent="MaterialButton"/>
+    <style name="PrimaryButton" parent="Widget.Material3.Button.ElevatedButton"/>
 
-    <style name="MaterialButton.Wizard" parent="MaterialButton">
+    <style name="MaterialButton.Wizard" parent="Widget.Material3.Button">
+        <item name="android:singleLine">true</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.M3.Sys.Shape.Corner.Small</item>
         <item name="android:textColor">@color/cpp_button_text</item>
-        <item name="materialColor">?attr/cpp_wizard_button_bg</item>
+        <item name="backgroundTint">?attr/cpp_wizard_button_bg</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
     </style>
 
@@ -191,7 +193,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/cpp_button_text</item>
-        <item name="materialColor">@color/cpp_wizard_button_selector</item>
+        <item name="backgroundTint">@color/cpp_wizard_button_selector</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
         <item name="android:minWidth">40dp</item>
         <item name="android:minHeight">40dp</item>
@@ -246,7 +248,7 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="CppFab">
+    <style name="CppFab" parent="@style/Widget.Material3.FloatingActionButton.Surface">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">bottom|end</item>
@@ -254,6 +256,7 @@
         <item name="android:visibility">gone</item>
         <item name="android:clickable">false</item>
         <item name="backgroundTint">?attr/cpp_fab_bg</item>
+        <item name="tint">@color/cpp_button_text</item>
     </style>
 
     <style name="CppListItemText">
@@ -290,15 +293,15 @@
         <item name="android:padding">0dp</item>
     </style>
 
-    <style name="CppToolbar" parent="@style/Widget.AppCompat.Toolbar">
+    <style name="CppToolbar" parent="@style/Widget.Material3.Toolbar.Surface">
         <item name="android:background">@color/grey_900</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
-        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.Material3.Dark</item>
+        <item name="theme">@style/ThemeOverlay.Material3.Dark</item>
     </style>
 
     <style name="CppToolbar.Light" parent="CppToolbar">
         <item name="android:background">@color/grey_800</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="popupTheme">@style/ThemeOverlay.Material3.Light</item>
     </style>
 
     <style name="CppAd">

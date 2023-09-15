@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.language;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.preferences.PreferenceEntry;

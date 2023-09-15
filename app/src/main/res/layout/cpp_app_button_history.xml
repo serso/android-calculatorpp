@@ -22,11 +22,11 @@
   ~ Site:  http://se.solovyev.org
   -->
 <org.solovyev.android.views.dragbutton.DirectionDragButton
-    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    a:id="@id/cpp_button_history"
+    android:id="@id/cpp_button_history"
     style="?attr/cpp_button_style_control"
-    a:text="@string/cpp_glyph_history"
+    android:text="@string/cpp_glyph_history"
     app:directionTextScale="0.5"
     app:directionTextDown="@string/cpp_glyph_redo"
     app:directionTextUp="@string/cpp_glyph_undo" />

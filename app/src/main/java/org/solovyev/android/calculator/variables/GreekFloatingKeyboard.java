@@ -2,8 +2,8 @@ package org.solovyev.android.calculator.variables;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -122,23 +122,18 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
         if (user.isVibrateOnKeypress()) {
             v.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
         }
-        switch (v.getId()) {
-            case R.id.cpp_kb_button_close:
-                user.done();
-                break;
-            case R.id.cpp_kb_button_change_case:
-                changeCase((Button) v);
-                break;
-            case R.id.cpp_kb_button_keyboard:
-                user.showIme();
-                break;
-            case R.id.cpp_kb_button_clear:
-                user.getEditor().setText("");
-                user.getEditor().setSelection(0);
-                break;
-            default:
-                user.getEditor().append(((TextView) v).getText());
-                break;
+        int id = v.getId();
+        if (id == R.id.cpp_kb_button_close) {
+            user.done();
+        } else if (id == R.id.cpp_kb_button_change_case) {
+            changeCase((Button) v);
+        } else if (id == R.id.cpp_kb_button_keyboard) {
+            user.showIme();
+        } else if (id == R.id.cpp_kb_button_clear) {
+            user.getEditor().setText("");
+            user.getEditor().setSelection(0);
+        } else {
+            user.getEditor().append(((TextView) v).getText());
         }
         user.getEditor().requestFocus();
     }

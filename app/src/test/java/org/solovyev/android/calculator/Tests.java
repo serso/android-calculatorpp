@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.mockito.Mockito;
 import org.robolectric.RuntimeEnvironment;

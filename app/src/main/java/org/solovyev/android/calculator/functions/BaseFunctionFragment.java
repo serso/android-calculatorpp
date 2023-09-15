@@ -27,10 +27,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.ContextMenu;
@@ -44,6 +42,8 @@ import android.view.ViewParent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.textfield.TextInputLayout;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
@@ -69,8 +69,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import jscl.math.function.IConstant;
 
 import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
@@ -86,20 +84,12 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
     private final FloatingKeyboardWindow keyboardWindow = new FloatingKeyboardWindow(null);
     @NonNull
     private final KeyboardUser keyboardUser = new KeyboardUser();
-    @BindView(R.id.function_params)
-    public
-    FunctionParamsView paramsView;
-    @BindView(R.id.function_name_label)
-    TextInputLayout nameLabel;
-    @BindView(R.id.function_name)
+    public FunctionParamsView paramsView;
+    public TextInputLayout nameLabel;
     public EditText nameView;
-    @BindView(R.id.function_body_label)
     public TextInputLayout bodyLabel;
-    @BindView(R.id.function_body)
     public EditTextCompat bodyView;
-    @BindView(R.id.function_description_label)
     public TextInputLayout descriptionLabel;
-    @BindView(R.id.function_description)
     public EditText descriptionView;
     @Inject
     Calculator calculator;
@@ -181,23 +171,20 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
         }
 
         final int id = v.getId();
-        switch (id) {
-            case R.id.function_name:
-                if (hasFocus) {
-                    clearError(nameLabel);
-                } else {
-                    validateName();
-                }
-                break;
-            case R.id.function_body:
-                if (hasFocus) {
-                    clearError(bodyLabel);
-                    showKeyboard();
-                } else {
-                    keyboardWindow.hide();
-                    validateBody();
-                }
-                break;
+        if (id == R.id.function_name) {
+            if (hasFocus) {
+                clearError(nameLabel);
+            } else {
+                validateName();
+            }
+        } else if (id == R.id.function_body) {
+            if (hasFocus) {
+                clearError(bodyLabel);
+                showKeyboard();
+            } else {
+                keyboardWindow.hide();
+                validateBody();
+            }
         }
     }
 
@@ -219,13 +206,10 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.function_body:
-                showKeyboard();
-                break;
-            default:
-                super.onClick(v);
-                break;
+        if (v.getId() == R.id.function_body) {
+            showKeyboard();
+        } else {
+            super.onClick(v);
         }
     }
 
@@ -348,7 +332,13 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
     @Override
     protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(layout, null);
-        ButterKnife.bind(this, view);
+        paramsView = view.findViewById(R.id.function_params);
+        nameLabel = view.findViewById(R.id.function_name_label);
+        nameView = view.findViewById(R.id.function_name);
+        bodyLabel = view.findViewById(R.id.function_body_label);
+        bodyView = view.findViewById(R.id.function_body);
+        descriptionLabel = view.findViewById(R.id.function_description_label);
+        descriptionView = view.findViewById(R.id.function_description);
 
         if (savedInstanceState == null && function != null) {
             paramsView.addParams(function.getParameters());

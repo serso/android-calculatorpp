@@ -2,9 +2,9 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.support.annotation.StringRes;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.StringRes;
 
+import androidx.appcompat.app.AlertDialog;
 import javax.annotation.Nonnull;
 
 public class RemovalConfirmationDialog {

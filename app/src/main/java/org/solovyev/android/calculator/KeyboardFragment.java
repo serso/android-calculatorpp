@@ -22,12 +22,10 @@
 
 package org.solovyev.android.calculator;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.ButterKnife;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.keyboard.KeyboardUi;
 
@@ -36,8 +34,6 @@ import javax.inject.Inject;
 
 public class KeyboardFragment extends BaseFragment {
 
-    @Inject
-    SharedPreferences preferences;
     @Inject
     KeyboardUi keyboardUi;
 
@@ -54,7 +50,6 @@ public class KeyboardFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, view);
         Check.isNotNull(view);
         keyboardUi.onCreateView(getActivity(), view);
         return view;

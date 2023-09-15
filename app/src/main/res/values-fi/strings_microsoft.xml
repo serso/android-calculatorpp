@@ -8,6 +8,6 @@
    <string name="cpp_thousands_separator">&quot;Tuhaterotin&quot;</string>
    <string name="cpp_examples">&quot;Esimerkkejä&quot;</string>
    <string name="cpp_parameter">&quot;Parametri&quot;</string>
-   <string name="cpp_duplicate_parameter">&quot;Parametrin kahdentuma: %1$s.&quot;</string>
+   <string name="cpp_duplicate_parameter">&quot;Parametrin kahdentumandroid: %1$s.&quot;</string>
    <string name="cpp_name_contains_invalid_characters">&quot;Nimi sisältää virheellisiä merkkejä.&quot;</string>
 </resources>

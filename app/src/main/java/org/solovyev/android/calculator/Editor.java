@@ -27,8 +27,8 @@ import static java.lang.Math.min;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.squareup.otto.Bus;
@@ -173,12 +173,13 @@ public class Editor {
         state = newState;
 
         cancelAsyncHighlightText();
-        highlighterTask = new AsyncHighlighter(oldState, newState, force, textProcessor);
-        if (highlighterTask.shouldAsync()) {
-            highlighterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        AsyncHighlighter newHighlighterTask = new AsyncHighlighter(oldState, newState, force, textProcessor);
+        highlighterTask = newHighlighterTask;
+        if (newHighlighterTask.shouldAsync()) {
+            newHighlighterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             return;
         }
-        highlighterTask.onPostExecute(newState);
+        newHighlighterTask.onPostExecute(newState);
         Check.isNull(highlighterTask);
     }
 

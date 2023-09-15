@@ -29,11 +29,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
 import android.text.ClipboardManager;
 import android.text.format.DateUtils;
 import android.view.ContextMenu;
@@ -43,6 +39,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -53,6 +53,8 @@ import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.CalculatorActivity;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.databinding.FragmentHistoryBinding;
+import org.solovyev.android.calculator.databinding.FragmentHistoryItemBinding;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
 
@@ -62,8 +64,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public abstract class BaseHistoryFragment extends BaseFragment {
     private final boolean recentHistory;
@@ -75,7 +75,6 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     Bus bus;
     @Inject
     Typeface typeface;
-    @BindView(R.id.history_recyclerview)
     RecyclerView recyclerView;
     private HistoryAdapter adapter;
 
@@ -111,7 +110,8 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, view);
+        FragmentHistoryBinding binding = FragmentHistoryBinding.bind(view);
+        recyclerView = binding.historyRecyclerview;
         final Context context = inflater.getContext();
         adapter = new HistoryAdapter(context);
         bus.register(adapter);
@@ -156,21 +156,20 @@ public abstract class BaseHistoryFragment extends BaseFragment {
     public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener, MenuItem.OnMenuItemClickListener {
 
         private static final int DATETIME_FORMAT = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_TIME;
-        @BindView(R.id.history_item_value)
         TextView valueView;
-        @BindView(R.id.history_item_comment)
         TextView commentView;
-        @BindView(R.id.history_item_time)
         TextView timeView;
         @Nullable
         private HistoryState state;
 
-        public HistoryViewHolder(View view) {
-            super(view);
-            BaseActivity.fixFonts(view, typeface);
-            ButterKnife.bind(this, view);
-            view.setOnCreateContextMenuListener(this);
-            view.setOnClickListener(this);
+        public HistoryViewHolder(@NonNull FragmentHistoryItemBinding binding) {
+            super(binding.getRoot());
+            BaseActivity.fixFonts(binding.getRoot(), typeface);
+            valueView = binding.historyItemValue;
+            commentView = binding.historyItemComment;
+            timeView = binding.historyItemTime;
+            itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnClickListener(this);
         }
 
         void bind(@Nonnull HistoryState state) {
@@ -217,25 +216,25 @@ public abstract class BaseHistoryFragment extends BaseFragment {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             Check.isNotNull(state);
-            switch (item.getItemId()) {
-                case R.string.c_use:
-                    useState(state);
-                    return true;
-                case R.string.c_copy_expression:
-                    copyExpression(state);
-                    return true;
-                case R.string.c_copy_result:
-                    copyResult(state);
-                    return true;
-                case R.string.cpp_edit:
-                    EditHistoryFragment.show(state, false, getFragmentManager());
-                    return true;
-                case R.string.c_save:
-                    EditHistoryFragment.show(state, true, getFragmentManager());
-                    return true;
-                case R.string.cpp_delete:
-                    history.removeSaved(state);
-                    return true;
+            int itemId = item.getItemId();
+            if (itemId == R.string.c_use) {
+                useState(state);
+                return true;
+            } else if (itemId == R.string.c_copy_expression) {
+                copyExpression(state);
+                return true;
+            } else if (itemId == R.string.c_copy_result) {
+                copyResult(state);
+                return true;
+            } else if (itemId == R.string.cpp_edit) {
+                EditHistoryFragment.show(state, false, getParentFragmentManager());
+                return true;
+            } else if (itemId == R.string.c_save) {
+                EditHistoryFragment.show(state, true, getParentFragmentManager());
+                return true;
+            } else if (itemId == R.string.cpp_delete) {
+                history.removeSaved(state);
+                return true;
             }
             return false;
         }
@@ -262,7 +261,7 @@ public abstract class BaseHistoryFragment extends BaseFragment {
 
         @Override
         public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new HistoryViewHolder(inflater.inflate(R.layout.fragment_history_item, parent, false));
+            return new HistoryViewHolder(FragmentHistoryItemBinding.inflate(inflater, parent, false));
         }
 
         @Override

@@ -23,17 +23,17 @@
   -->
 
 <LinearLayout
-    a:id="@+id/main_fragment_layout"
+    android:id="@+id/main_fragment_layout"
     style="@style/CppFragment"
-    xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <org.solovyev.android.calculator.AdView style="@style/CppAd" />
 
-    <android.support.v7.widget.RecyclerView
-        a:id="@+id/entities_recyclerview"
-        a:layout_width="match_parent"
-        a:layout_height="match_parent"
-        a:scrollbars="vertical" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/entities_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 </LinearLayout>

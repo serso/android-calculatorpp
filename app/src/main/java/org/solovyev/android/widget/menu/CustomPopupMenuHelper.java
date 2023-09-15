@@ -23,17 +23,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.ActionProvider;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.appcompat.R;
-import android.support.v7.view.menu.ListMenuItemView;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.view.menu.MenuItemImpl;
-import android.support.v7.view.menu.MenuPresenter;
-import android.support.v7.view.menu.MenuView;
-import android.support.v7.view.menu.SubMenuBuilder;
-import android.support.v7.widget.ListPopupWindow;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -51,6 +40,16 @@ import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 
+import androidx.appcompat.view.menu.ListMenuItemView;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuItemImpl;
+import androidx.appcompat.view.menu.MenuPresenter;
+import androidx.appcompat.view.menu.MenuView;
+import androidx.appcompat.view.menu.SubMenuBuilder;
+import androidx.appcompat.widget.ListPopupWindow;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.ActionProvider;
+import androidx.core.view.MenuItemCompat;
 import org.solovyev.android.Check;
 
 import java.util.ArrayList;
@@ -69,7 +68,7 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         MenuPresenter {
 
     private static final int DEFAULT_VIEW_TAG_KEY = org.solovyev.android.calculator.R.id.cpm_default_view_tag_key;
-    private static final int[] COLOR_ATTRS = new int[]{R.attr.colorControlNormal};
+    private static final int[] COLOR_ATTRS = new int[]{androidx.appcompat.R.attr.colorControlNormal};
     private static final Object DEFAULT_VIEW_TAG = new Object();
 
     private final Context mContext;
@@ -101,11 +100,11 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
     private int mGravity = Gravity.NO_GRAVITY;
 
     public CustomPopupMenuHelper(Context context, MenuBuilder menu) {
-        this(context, menu, null, false, R.attr.popupMenuStyle);
+        this(context, menu, null, false, androidx.appcompat.R.attr.popupMenuStyle);
     }
 
     public CustomPopupMenuHelper(Context context, MenuBuilder menu, View anchorView) {
-        this(context, menu, anchorView, false, R.attr.popupMenuStyle);
+        this(context, menu, anchorView, false, androidx.appcompat.R.attr.popupMenuStyle);
     }
 
     public CustomPopupMenuHelper(Context context, MenuBuilder menu, View anchorView,
@@ -125,7 +124,7 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
 
         final Resources res = context.getResources();
         mPopupMaxWidth = Math.max(res.getDisplayMetrics().widthPixels / 2,
-                res.getDimensionPixelSize(R.dimen.abc_config_prefDialogWidth));
+                res.getDimensionPixelSize(androidx.appcompat.R.dimen.abc_config_prefDialogWidth));
 
         mAnchorView = anchorView;
 
@@ -482,7 +481,7 @@ public class CustomPopupMenuHelper implements AdapterView.OnItemClickListener, V
         @Nonnull
         private View getDefaultView(MenuItemImpl item, View convertView, ViewGroup parent) {
             if (convertView == null || convertView.getTag(DEFAULT_VIEW_TAG_KEY) != DEFAULT_VIEW_TAG) {
-                convertView = mInflater.inflate(R.layout.abc_popup_menu_item_layout, parent, false);
+                convertView = mInflater.inflate(androidx.appcompat.R.layout.abc_popup_menu_item_layout, parent, false);
                 convertView.setTag(DEFAULT_VIEW_TAG_KEY, DEFAULT_VIEW_TAG);
             }
 

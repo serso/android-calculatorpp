@@ -1,1 +1,6 @@
-include ':app', ':jscl', ':translations', ':dragbutton'
+include ':app'
+include ':dragbutton'
+include ':jscl'
+include ':plotter:app'
+include ':plotter:lib'
+include ':translations'

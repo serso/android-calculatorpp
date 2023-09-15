@@ -1,14 +1,14 @@
 package org.solovyev.android.calculator.converter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import com.google.common.base.Strings;
+import javax.measure.unit.Unit;
 import jscl.JsclMathEngine;
 import midpcalc.Real;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
-import javax.measure.unit.Unit;
 
 final class Converter {
     static int unitName(@Nonnull Unit unit, @Nonnull UnitDimension dimension) {

@@ -32,9 +32,9 @@ import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +45,6 @@ import org.robolectric.Shadows;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
-import org.solovyev.android.calculator.BuildConfig;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardUi;
 import org.solovyev.android.wizard.Wizards;
@@ -54,7 +53,6 @@ import java.lang.reflect.Field;
 
 import javax.annotation.Nonnull;
 
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(value = RobolectricTestRunner.class)
 public class CalculatorWizardActivityTest {
 
@@ -113,7 +111,7 @@ public class CalculatorWizardActivityTest {
         final Intent intent = new Intent();
         intent.setClass(activity, WizardActivity.class);
         intent.putExtra("flow", CalculatorWizards.DEFAULT_WIZARD_FLOW);
-        controller = Robolectric.buildActivity(WizardActivity.class).withIntent(intent);
+        controller = Robolectric.buildActivity(WizardActivity.class, intent);
         controller.create();
         activity = controller.get();
         assertEquals(CalculatorWizards.DEFAULT_WIZARD_FLOW, getWizardUi().getWizard().getName());

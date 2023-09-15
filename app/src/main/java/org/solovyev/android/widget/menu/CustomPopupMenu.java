@@ -17,20 +17,19 @@ package org.solovyev.android.widget.menu;
  */
 
 import android.content.Context;
-import android.support.annotation.MenuRes;
-import android.support.v7.appcompat.R;
-import android.support.v7.view.SupportMenuInflater;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.view.menu.MenuPresenter;
-import android.support.v7.view.menu.SubMenuBuilder;
-import android.support.v7.widget.ForwardingListener;
-import android.support.v7.widget.ListPopupWindow;
-import android.support.v7.widget.PopupMenu;
+import androidx.annotation.MenuRes;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import androidx.appcompat.view.SupportMenuInflater;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPresenter;
+import androidx.appcompat.view.menu.SubMenuBuilder;
+import androidx.appcompat.widget.ForwardingListener;
+import androidx.appcompat.widget.ListPopupWindow;
+import androidx.appcompat.widget.PopupMenu;
 
 /**
  * Static library support version of the framework's {@link android.widget.PopupMenu}.
@@ -72,7 +71,7 @@ public class CustomPopupMenu implements MenuBuilder.Callback, MenuPresenter.Call
      *                anchor.
      */
     public CustomPopupMenu(Context context, View anchor, int gravity) {
-        this(context, anchor, gravity, R.attr.popupMenuStyle, 0);
+        this(context, anchor, gravity, androidx.appcompat.R.attr.popupMenuStyle, 0);
     }
 
     /**

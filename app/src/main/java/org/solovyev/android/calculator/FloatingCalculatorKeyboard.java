@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -174,47 +174,34 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
             if (user.isVibrateOnKeypress()) {
                 v.performHapticFeedback(KEYBOARD_TAP, FLAG_IGNORE_GLOBAL_SETTING | FLAG_IGNORE_VIEW_SETTING);
             }
-            switch (v.getId()) {
-                case R.id.cpp_kb_button_divide:
-                    user.insertOperator('/');
-                    break;
-                case R.id.cpp_kb_button_plus:
-                    user.insertOperator('+');
-                    break;
-                case R.id.cpp_kb_button_minus:
-                    user.insertOperator('-');
-                    break;
-                case R.id.cpp_kb_button_multiply:
-                    user.insertOperator("×");
-                    break;
-                case R.id.cpp_kb_button_functions_constants:
-                    user.showFunctionsConstants(v);
-                    break;
-                case R.id.cpp_kb_button_functions:
-                    user.showFunctions(v);
-                    break;
-                case R.id.cpp_kb_button_constants:
-                    user.showConstants(v);
-                    break;
-                case R.id.cpp_kb_button_space:
-                    user.insertText(" ", 0);
-                    break;
-                case R.id.cpp_kb_button_keyboard:
-                    user.showIme();
-                    break;
-                case R.id.cpp_kb_button_clear:
-                    user.getEditor().setText("");
-                    user.getEditor().setSelection(0);
-                    break;
-                case R.id.cpp_kb_button_brackets:
-                    user.insertText("()", -1);
-                    break;
-                case R.id.cpp_kb_button_close:
-                    user.done();
-                    break;
-                default:
-                    onDefaultClick(v);
-                    break;
+            int id = v.getId();
+            if (id == R.id.cpp_kb_button_divide) {
+                user.insertOperator('/');
+            } else if (id == R.id.cpp_kb_button_plus) {
+                user.insertOperator('+');
+            } else if (id == R.id.cpp_kb_button_minus) {
+                user.insertOperator('-');
+            } else if (id == R.id.cpp_kb_button_multiply) {
+                user.insertOperator("×");
+            } else if (id == R.id.cpp_kb_button_functions_constants) {
+                user.showFunctionsConstants(v);
+            } else if (id == R.id.cpp_kb_button_functions) {
+                user.showFunctions(v);
+            } else if (id == R.id.cpp_kb_button_constants) {
+                user.showConstants(v);
+            } else if (id == R.id.cpp_kb_button_space) {
+                user.insertText(" ", 0);
+            } else if (id == R.id.cpp_kb_button_keyboard) {
+                user.showIme();
+            } else if (id == R.id.cpp_kb_button_clear) {
+                user.getEditor().setText("");
+                user.getEditor().setSelection(0);
+            } else if (id == R.id.cpp_kb_button_brackets) {
+                user.insertText("()", -1);
+            } else if (id == R.id.cpp_kb_button_close) {
+                user.done();
+            } else {
+                onDefaultClick(v);
             }
             user.getEditor().requestFocus();
         }

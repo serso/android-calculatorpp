@@ -79,7 +79,7 @@ public class MutableInt extends Number implements Comparable {
      * @return the value as a Integer
      */
     public Object getValue() {
-        return new Integer(this.value);
+        return Integer.valueOf(this.value);
     }
 
     /**
@@ -213,7 +213,7 @@ public class MutableInt extends Number implements Comparable {
      * @return a Integer instance containing the value from this mutable
      */
     public Integer toInteger() {
-        return new Integer(intValue());
+        return Integer.valueOf(intValue());
     }
 
     //-----------------------------------------------------------------------

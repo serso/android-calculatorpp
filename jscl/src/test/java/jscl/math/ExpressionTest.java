@@ -680,7 +680,7 @@ public class ExpressionTest {
 
     private void testSinEqualsToSinh(@Nonnull MathEngine mathEngine, @Nonnull Double x, @Nullable String expected) throws ParseException {
         if (expected == null) {
-            assertEquals(mathEngine.evaluate("sinh(i*" + x + ")/i"), mathEngine.evaluate("sin(" + x + ")"));
+            assertEquals(mathEngine.simplify(mathEngine.evaluate("sinh(i*" + x + ")/i")), mathEngine.evaluate("sin(" + x + ")"));
 //			Assert.assertEquals(mathEngine.evaluate("exp("+x+")-sinh(" + x + ")"), mathEngine.evaluate("cosh(" + x + ")"));
         } else {
             assertEquals(expected, mathEngine.evaluate("sin(" + x + ")"));

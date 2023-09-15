@@ -22,7 +22,7 @@
 
 package org.solovyev.android.calculator.operators;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import jscl.math.operator.Operator;
@@ -78,10 +78,9 @@ public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
 
     @Override
     protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull Operator operator) {
-        switch (item.getItemId()) {
-            case R.string.c_use:
-                onClick(operator);
-                return true;
+        if (item.getItemId() == R.string.c_use) {
+            onClick(operator);
+            return true;
         }
 
         return false;

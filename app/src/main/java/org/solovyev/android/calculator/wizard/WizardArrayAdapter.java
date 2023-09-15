@@ -13,11 +13,11 @@ import java.util.List;
 final class WizardArrayAdapter<T> extends ArrayAdapter<T> {
 
     public WizardArrayAdapter(@Nonnull Context context, @Nonnull T[] items) {
-        super(context, R.layout.support_simple_spinner_dropdown_item, items);
+        super(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, items);
     }
 
     public WizardArrayAdapter(@Nonnull Context context, @Nonnull List<T> items) {
-        super(context, R.layout.support_simple_spinner_dropdown_item, items);
+        super(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, items);
     }
 
     @Nonnull
