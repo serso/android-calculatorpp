@@ -203,28 +203,5 @@
                 android:resource="@xml/calculator_widget" />
         </receiver>
 
-        <!-- ADMOB -->
-
-        <activity
-            android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@android:style/Theme.Translucent" />
-
-        <!-- Google Analytics -->
-        <receiver
-            android:exported="true"
-            tools:ignore="ExportedReceiver"
-            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-        <service
-            android:name="com.google.android.gms.analytics.AnalyticsService"
-            android:enabled="true"
-            android:exported="false" />
-
     </application>
 </manifest>
