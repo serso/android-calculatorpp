@@ -72,18 +72,6 @@ public class PurchaseDialogActivity extends AppCompatActivity implements Request
         checkout.createPurchaseFlow(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        ga.getAnalytics().reportActivityStart(this);
-    }
-
-    @Override
-    protected void onStop() {
-        ga.getAnalytics().reportActivityStop(this);
-        super.onStop();
-    }
-
     private void purchase() {
         checkout.whenReady(new Checkout.EmptyListener() {
             @Override

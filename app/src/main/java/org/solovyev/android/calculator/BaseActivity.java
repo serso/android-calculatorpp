@@ -5,8 +5,6 @@ import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.App.cast;
 import static org.solovyev.android.calculator.Preferences.Gui.keepScreenOn;
-
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.StringRes;
@@ -25,18 +22,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import dagger.Lazy;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.view.Tabs;
 import org.solovyev.android.views.dragbutton.DirectionDragImageButton;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-
-import dagger.Lazy;
 
 public abstract class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -77,14 +72,6 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
         this.layoutId = layoutId;
         this.titleId = titleId;
         this.tabs = new Tabs(this);
-    }
-
-    public void reportActivityStop(@Nonnull Activity activity) {
-        ga.get().getAnalytics().reportActivityStop(activity);
-    }
-
-    public void reportActivityStart(@Nonnull Activity activity) {
-        ga.get().getAnalytics().reportActivityStart(activity);
     }
 
     public static void setFont(@Nonnull View view, @Nonnull Typeface newTypeface) {
@@ -208,18 +195,6 @@ public abstract class BaseActivity extends AppCompatActivity implements SharedPr
     }
 
     protected void inject(@Nonnull AppComponent component) {
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        reportActivityStart(this);
-    }
-
-    @Override
-    protected void onStop() {
-        reportActivityStop(this);
-        super.onStop();
     }
 
     @Override

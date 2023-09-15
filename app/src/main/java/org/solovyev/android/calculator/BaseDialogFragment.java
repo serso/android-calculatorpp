@@ -15,8 +15,6 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.google.android.material.textfield.TextInputLayout;
 import org.solovyev.android.calculator.ga.Ga;
 
@@ -74,14 +72,6 @@ public abstract class BaseDialogFragment extends DialogFragment implements View.
             }
         });
         return dialog;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        final Tracker tracker = ga.getTracker();
-        tracker.setScreenName(getClass().getSimpleName());
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     protected void onShowDialog(@NonNull AlertDialog dialog, boolean firstTime) {

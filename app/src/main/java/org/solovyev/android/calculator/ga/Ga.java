@@ -2,53 +2,37 @@ package org.solovyev.android.calculator.ga;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.text.TextUtils;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
-
+import com.google.firebase.analytics.FirebaseAnalytics;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import org.solovyev.android.calculator.Preferences;
 
 @Singleton
 public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final int LAYOUT = 1;
-    private static final int THEME = 2;
-
     @Nonnull
-    private final GoogleAnalytics analytics;
-
-    @Nonnull
-    private final Tracker tracker;
+    private final FirebaseAnalytics analytics;
 
     @Inject
     public Ga(@Nonnull Application application, @Nonnull SharedPreferences preferences) {
-        analytics = GoogleAnalytics.getInstance(application);
-        tracker = analytics.newTracker(R.xml.ga);
+        analytics = FirebaseAnalytics.getInstance(application);
         preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private void reportLayout(@Nonnull Preferences.Gui.Mode mode) {
-        tracker.send(new HitBuilders.EventBuilder().setCustomDimension(LAYOUT, mode.name()).build());
+        final Bundle params = new Bundle();
+        params.putString("name", mode.name());
+        analytics.logEvent("layout", params);
     }
 
     private void reportTheme(@Nonnull Preferences.Gui.Theme theme) {
-        tracker.send(new HitBuilders.EventBuilder().setCustomDimension(THEME, theme.name()).build());
-    }
-
-    @Nonnull
-    public GoogleAnalytics getAnalytics() {
-        return analytics;
-    }
-
-    @Nonnull
-    public Tracker getTracker() {
-        return tracker;
+        final Bundle params = new Bundle();
+        params.putString("name", theme.name());
+        analytics.logEvent("theme", params);
     }
 
     public void onButtonPressed(@Nullable String text) {
@@ -56,11 +40,9 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
             return;
         }
 
-        final HitBuilders.EventBuilder b = new HitBuilders.EventBuilder();
-        b.setCategory("ui");
-        b.setAction("click");
-        b.setLabel(text);
-        tracker.send(b.build());
+        final Bundle params = new Bundle();
+        params.putString("text", text);
+        analytics.logEvent("click", params);
     }
 
     @Override
@@ -78,10 +60,6 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
     }
 
     public void onFloatingCalculatorOpened() {
-        final HitBuilders.EventBuilder b = new HitBuilders.EventBuilder();
-        b.setCategory("lifecycle");
-        b.setAction("floating_calculator");
-        b.setLabel("start");
-        tracker.send(b.build());
+        analytics.logEvent("floating_calculator_open", null);
     }
 }

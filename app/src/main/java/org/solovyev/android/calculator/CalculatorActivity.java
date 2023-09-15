@@ -25,9 +25,6 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.annotation.StringRes;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.core.view.GravityCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -36,8 +33,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.converter.ConverterFragment;
@@ -45,10 +48,6 @@ import org.solovyev.android.calculator.databinding.ActivityMainBinding;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.keyboard.PartialKeyboardUi;
 import org.solovyev.android.widget.menu.CustomPopupMenu;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
 
 public class CalculatorActivity extends BaseActivity implements View.OnClickListener {
 
