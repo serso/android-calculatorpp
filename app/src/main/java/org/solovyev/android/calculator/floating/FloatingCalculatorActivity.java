@@ -22,17 +22,15 @@
 
 package org.solovyev.android.calculator.floating;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
@@ -40,8 +38,6 @@ import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
 
 public class FloatingCalculatorActivity extends AppCompatActivity {
-
-    private static int PERMISSION_REQUEST_CODE = 1;
 
     @TargetApi(Build.VERSION_CODES.M)
     public static final class MyFragment extends BaseDialogFragment {
@@ -84,44 +80,17 @@ public class FloatingCalculatorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!FloatingCalculatorView.isOverlayPermissionGranted(this)) {
-            Check.isTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
-            if (savedInstanceState == null) {
-                App.showDialog(new MyFragment(), "no-overlay-permission-dialog",
-                        getSupportFragmentManager());
-            }
+        if (FloatingCalculatorView.isOverlayPermissionGranted(this)) {
+            FloatingCalculatorService.show(this);
+            finish();
             return;
         }
-        tryStartingService(true);
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            tryStartingService(false);
+        Check.isTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
+        if (savedInstanceState == null) {
+            App.showDialog(new MyFragment(), "no-overlay-permission-dialog",
+                    getSupportFragmentManager());
         }
     }
 
-    private void tryStartingService(boolean requirePermission) {
-        if (requirePermission && !requestNotificationPermission()) return;
-
-        FloatingCalculatorService.show(this);
-        finish();
-    }
-
-    private boolean requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true;
-        final String permission = Manifest.permission.POST_NOTIFICATIONS;
-        if (ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED)
-            return true;
-
-        // Notification permission is not essential and if the user hasn't granted it, let's show the floating calculator
-        // anyway.
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission))
-            return true;
-
-        requestPermissions(new String[]{permission}, PERMISSION_REQUEST_CODE);
-        return false;
-    }
 }
