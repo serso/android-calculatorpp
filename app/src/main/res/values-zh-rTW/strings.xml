@@ -28,7 +28,7 @@
     <string name="cpp_theme_metro_blue">現代藍</string>
     <string name="p_metro_green_theme">現代綠</string>
     <string name="p_metro_purple_theme">現代紫</string>
-    <string name="cpp_theme_app">App theme</string>
+    <string name="cpp_theme_app">應用程式主題</string>
     <string name="cpp_thousands_separator_no">沒有撇節符號</string>
     <string name="cpp_thousands_separator_apostrophe">撇號 (\')</string>
     <string name="cpp_thousands_separator_space">空格 ( )</string>
