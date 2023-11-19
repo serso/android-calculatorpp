@@ -5,6 +5,7 @@
    <string name="cpp_system_language">&quot;系統語言&quot;</string>
    <string name="cpp_format">&quot;格式&quot;</string>
    <string name="cpp_angles">&quot;角度&quot;</string>
+   <string name="cpp_thousands_separator">&quot;千分位分隔符號&quot;</string>
    <string name="cpp_examples">&quot;範例&quot;</string>
    <string name="cpp_parameter">&quot;參數&quot;</string>
    <string name="cpp_duplicate_parameter">&quot;重複的參數: &apos;%1$s&apos;。&quot;</string>
