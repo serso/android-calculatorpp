@@ -28,7 +28,7 @@
     <string name="cpp_theme_metro_blue">現代藍</string>
     <string name="p_metro_green_theme">現代綠</string>
     <string name="p_metro_purple_theme">現代紫</string>
-    <string name="cpp_theme_app">App theme</string>
+    <string name="cpp_theme_app">應用程式主題</string>
     <string name="cpp_thousands_separator_no">沒有撇節符號</string>
     <string name="cpp_thousands_separator_apostrophe">撇號 (\')</string>
     <string name="cpp_thousands_separator_space">空格 ( )</string>
@@ -39,6 +39,7 @@
     <string name="c_history_expression">數值</string>
     <string name="c_history_comment">備註</string>
     <string name="cpp_history_tab_saved">已儲存的歷史紀錄</string>
+    <string name="cpp_history_tab_recent">最近的</string>
     <string name="c_first_start_text">感謝你選擇 Calculator++！\n\nCalculator++ 是強大的日常計算工具。</string>
     <string name="c_calc_show_release_notes_title">顯示發行紀錄</string>
     <string name="c_calc_use_back_button_as_prev_title">使用返回鍵回到先前歷史紀錄</string>
@@ -60,7 +61,7 @@
     <string name="close">關閉</string>
     <string name="open_onscreen_calculator">點擊以視窗模式開啟計算機</string>
     <string name="cpp_floating_calculator">計算機（獨立視窗）設定</string>
-    <string name="cpp_widget">Widget settings</string>
+    <string name="cpp_widget">小工具設定</string>
     <string name="cpp_plotter">函數繪圖工具</string>
     <string name="cpp_plot_function_line_color">線條顏色</string>
     <string name="cpp_plot_function_line_width">線條寬度</string>
@@ -77,4 +78,9 @@
     <string name="cpp_clear_history">清除</string>
     <string name="cpp_new_in_version">%1$s 版本的新功能</string>
     <string name="cpp_release_notes_choose_theme">你想要嘗試新的 Material 主題風格嗎？ 從清單中選擇：</string>
+    <string name="cpp_radix">底數</string>
+    <string name="cpp_numeral_system">記數系統</string>
+    <string name="cpp_number_format_dec">十進位</string>
+    <string name="cpp_number_format_eng">工程</string>
+    <string name="cpp_number_format_sci">科學</string>
 </resources>
