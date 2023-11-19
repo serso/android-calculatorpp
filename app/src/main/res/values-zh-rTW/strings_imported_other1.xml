@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources/>
+<resources>
+   <string name="cpp_introduction">簡介</string>
+   <string name="cpp_prefs_basic">基本</string>
+   <string name="cpp_prefs_advanced">進階</string>
+   <string name="cpp_report_problem">回報問題</string>
+   <string name="cpp_help">說明</string>
+</resources>
