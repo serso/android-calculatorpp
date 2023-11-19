@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="cpp_converter_time">时间</string>
-   <string name="cpp_converter_amount_of_substance">物质的量</string>
-   <string name="cpp_converter_electric_current">电流</string>
-   <string name="cpp_converter_length">长度</string>
-   <string name="cpp_converter_mass">质量</string>
-   <string name="cpp_converter_temperature">温度</string>
+   <string name="cpp_converter_time">時間</string>
+   <string name="cpp_converter_amount_of_substance">物質的量</string>
+   <string name="cpp_converter_electric_current">電流</string>
+   <string name="cpp_converter_length">長度</string>
+   <string name="cpp_converter_mass">質量</string>
+   <string name="cpp_converter_temperature">溫度</string>
 </resources>
