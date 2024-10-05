@@ -6,15 +6,15 @@ buildscript {
 
     ext {
         versions = [supportLib: "28.0.0",
-                    kotlin    : "1.8.20",
-                    sdk       : [compile: 33, min: 21, target: 33]]
+                    kotlin    : "1.8.22",
+                    sdk       : [compile: 35, min: 21, target: 35]]
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath 'com.android.tools.build:gradle:8.6.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath 'com.google.gms:google-services:4.3.15'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.2'
     }
 }
 

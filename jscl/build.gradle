@@ -27,7 +27,7 @@ dependencies {
     implementation 'xerces:xercesImpl:2.8.0'
     implementation 'com.google.guava:guava:32.1.2-android'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'net.sf.opencsv:opencsv:2.0'
 }
 

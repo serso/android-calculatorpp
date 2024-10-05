@@ -1,6 +1,5 @@
 include ':app'
 include ':dragbutton'
 include ':jscl'
-include ':plotter:app'
 include ':plotter:lib'
 include ':translations'
