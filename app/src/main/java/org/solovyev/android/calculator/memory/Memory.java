@@ -119,7 +119,7 @@ public class Memory {
         try {
             setValue(value.add(that));
         } catch (RuntimeException e) {
-            notifier.showMessage(e.getLocalizedMessage());
+            notifier.showMessage(e);
         }
     }
 
@@ -141,7 +141,7 @@ public class Memory {
         try {
             setValue(value.subtract(that));
         } catch (RuntimeException e) {
-            notifier.showMessage(e.getLocalizedMessage());
+            notifier.showMessage(e);
         }
     }
 

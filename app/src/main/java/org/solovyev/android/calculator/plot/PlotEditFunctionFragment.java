@@ -16,6 +16,7 @@ import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.RemovalConfirmationDialog;
+import org.solovyev.android.calculator.Utils;
 import org.solovyev.android.calculator.databinding.FragmentPlotFunctionEditBinding;
 import org.solovyev.android.calculator.functions.BaseFunctionFragment;
 import org.solovyev.android.calculator.functions.CppFunction;
@@ -173,7 +174,7 @@ public class PlotEditFunctionFragment extends BaseFunctionFragment
             }
             return true;
         } catch (RuntimeException e) {
-            setError(bodyLabel, e.getLocalizedMessage());
+            setError(bodyLabel, Utils.getErrorMessage(e));
         }
         return false;
     }

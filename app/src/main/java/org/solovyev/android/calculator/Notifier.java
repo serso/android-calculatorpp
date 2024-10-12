@@ -24,8 +24,11 @@ package org.solovyev.android.calculator;
 
 import android.app.Application;
 import android.os.Handler;
+
 import androidx.annotation.StringRes;
+
 import android.widget.Toast;
+
 import org.solovyev.common.msg.Message;
 
 import javax.annotation.Nonnull;
@@ -53,6 +56,10 @@ public class Notifier {
 
     public void showMessage(@StringRes int message) {
         showMessage(application.getString(message));
+    }
+
+    public void showMessage(@Nonnull final Throwable error) {
+        showMessage(Utils.getErrorMessage(error));
     }
 
     public void showMessage(@Nonnull final String message) {

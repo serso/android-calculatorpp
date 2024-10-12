@@ -193,7 +193,7 @@ public final class ActivityLauncher {
             showPlotter();
         } catch (RuntimeException e) {
             errorReporter.get().onException(e);
-            notifier.showMessage(e.getLocalizedMessage());
+            notifier.showMessage(e);
         }
     }
 

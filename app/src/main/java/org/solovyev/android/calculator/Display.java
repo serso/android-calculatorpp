@@ -105,7 +105,7 @@ public class Display {
         if (e.sequence < state.sequence) return;
         final String error;
         if (e.exception instanceof ParseException) {
-            error = e.exception.getLocalizedMessage();
+            error = Utils.getErrorMessage(e.exception);
         } else {
             error = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
         }

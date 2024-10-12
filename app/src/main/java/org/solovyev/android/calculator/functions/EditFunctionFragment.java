@@ -14,6 +14,7 @@ import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.RemovalConfirmationDialog;
+import org.solovyev.android.calculator.Utils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -61,7 +62,7 @@ public class EditFunctionFragment extends BaseFunctionFragment {
             functionsRegistry.addOrUpdate(function.toJsclBuilder().create(), oldFunction);
             return true;
         } catch (RuntimeException e) {
-            setError(bodyLabel, e.getLocalizedMessage());
+            setError(bodyLabel, Utils.getErrorMessage(e));
         }
         return false;
     }

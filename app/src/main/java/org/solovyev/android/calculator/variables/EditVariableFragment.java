@@ -56,6 +56,7 @@ import org.solovyev.android.calculator.PreparedExpression;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.RemovalConfirmationDialog;
 import org.solovyev.android.calculator.ToJsclTextProcessor;
+import org.solovyev.android.calculator.Utils;
 import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.databinding.FragmentVariableEditBinding;
 import org.solovyev.android.calculator.functions.FunctionsRegistry;
@@ -232,7 +233,7 @@ public class EditVariableFragment extends BaseDialogFragment implements View.OnF
             variablesRegistry.addOrUpdate(newVariable.toJsclConstant(), oldVariable);
             return true;
         } catch (RuntimeException e) {
-            setError(valueLabel, e.getLocalizedMessage());
+            setError(valueLabel, Utils.getErrorMessage(e));
         }
         return false;
     }

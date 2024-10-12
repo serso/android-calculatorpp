@@ -54,6 +54,7 @@ import org.solovyev.android.calculator.Keyboard;
 import org.solovyev.android.calculator.ParseException;
 import org.solovyev.android.calculator.PreparedExpression;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.Utils;
 import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.keyboard.FloatingKeyboardWindow;
 import org.solovyev.android.calculator.view.EditTextCompat;
@@ -265,7 +266,7 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
                 .withParameters(collectParameters())
                 .withDescription(descriptionView.getText().toString()).build();
         } catch (RuntimeException e) {
-            setError(bodyLabel, e.getLocalizedMessage());
+            setError(bodyLabel, Utils.getErrorMessage(e));
         }
         return null;
     }
@@ -299,7 +300,7 @@ public abstract class BaseFunctionFragment extends BaseDialogFragment implements
             clearError(bodyLabel);
             return true;
         } catch (ParseException e) {
-            setError(bodyLabel, e.getLocalizedMessage());
+            setError(bodyLabel, Utils.getErrorMessage(e));
             return false;
         }
     }
