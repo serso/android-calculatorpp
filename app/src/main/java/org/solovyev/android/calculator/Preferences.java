@@ -31,11 +31,14 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.provider.Settings;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.annotation.StyleRes;
+
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
@@ -108,7 +111,7 @@ public final class Preferences {
         if (version.isSet(preferences)) {
             return version.getPreference(preferences);
         } else if (Deleted.appVersion.isSet(preferences)) {
-            return  1;
+            return 1;
         }
         return 0;
     }
@@ -373,6 +376,16 @@ public final class Preferences {
                     textColors.append(themeId, textColor);
                 }
                 return textColor;
+            }
+
+            @ColorInt
+            public int getScrimColorFor(@Nonnull Context context) {
+                final int themeId = getThemeFor(context);
+                final ContextThemeWrapper themeContext = new ContextThemeWrapper(context, themeId);
+                final TypedArray a = themeContext.obtainStyledAttributes(themeId, new int[]{android.R.attr.background});
+                final int color = a.getColor(0, Color.BLACK);
+                a.recycle();
+                return color;
             }
 
             @Override
