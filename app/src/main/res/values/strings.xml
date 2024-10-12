@@ -61,6 +61,10 @@
     <string name="close">Close</string>
     <string name="open_onscreen_calculator">Click to open calculator in window mode</string>
     <string name="cpp_floating_calculator">Floating calculator</string>
+    <string name="cpp_floating_calculator_notification_name">@string/cpp_floating_calculator</string>
+    <string name="cpp_floating_calculator_notification_description">A notification displayed when a floating window is minimized</string>
+    <string name="cpp_permission_post_notifications">Post notifications</string>
+    <string name="cpp_continue_without_permissions">Continue without permission</string>
     <string name="cpp_widget">Widget</string>
     <string name="cpp_plotter">Function plotter</string>
     <string name="cpp_plot_function_line_color">Line color</string>

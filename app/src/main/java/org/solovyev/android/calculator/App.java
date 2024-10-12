@@ -38,6 +38,8 @@ import android.os.IBinder;
 import android.os.Looper;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+
+import android.provider.Settings;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;

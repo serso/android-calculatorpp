@@ -22,18 +22,24 @@
 
 package org.solovyev.android.calculator.floating;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.IBinder;
+
 import androidx.core.app.NotificationCompat;
+
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.ga.Ga;
@@ -48,6 +54,7 @@ public class FloatingCalculatorService extends Service implements FloatingViewLi
 
     private static final String SHOW_WINDOW_ACTION = "org.solovyev.android.calculator.floating.SHOW_WINDOW";
     private static final String SHOW_NOTIFICATION_ACTION = "org.solovyev.android.calculator.floating.SHOW_NOTIFICATION";
+    private static final String NOTIFICATION_CHANNEL_ID = "floating_window";
     private static final int NOTIFICATION_ID = 9031988; // my birthday =)
 
     private FloatingCalculatorView view;
@@ -170,10 +177,22 @@ public class FloatingCalculatorService extends Service implements FloatingViewLi
     }
 
     private void showNotification() {
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final CharSequence name = getString(R.string.cpp_floating_calculator_notification_name);
+            final String description = getString(R.string.cpp_floating_calculator_notification_description);
+            final int importance = NotificationManager.IMPORTANCE_LOW;
+            final NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            channel.setShowBadge(false);
+            channel.setSound(null, null);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         builder.setSmallIcon(R.drawable.kb_logo);
         builder.setContentTitle(getText(R.string.cpp_app_name));
         builder.setContentText(getString(R.string.open_onscreen_calculator));
+        builder.setSilent(true);
         builder.setOngoing(true);
 
         final Intent intent = createShowWindowIntent(this);
@@ -182,6 +201,7 @@ public class FloatingCalculatorService extends Service implements FloatingViewLi
         final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID, builder.build());
     }
+
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
