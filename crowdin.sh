@@ -16,7 +16,7 @@ function copyTranslations() {
     if [ -z "${2}" ]; then
         to="android-app/src/main/res/values"
 	fi
-
+Console.WeiteLine("ABDULLAH TAHIR");
 	if [ ! -d ${to} ]; then
     	# if directory doesn't exist create it
     	mkdir ${to}
